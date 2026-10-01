@@ -1,6 +1,6 @@
 {
-  "batch": "G03",
-  "cumulativeNewContracts": 109,
+  "batch": "G04",
+  "cumulativeNewContracts": 138,
   "target": 400,
   "success": true,
   "numFailedTests": 0,
@@ -8,7 +8,8 @@
   "commands": [
     "pnpm --filter @type-pal/game exec vitest run src/assets/load-all-assemble.grok-r1.test.ts src/assets/load-all-bounds.grok-r1.test.ts src/assets/load-all-recover.grok-r1.test.ts src/assets/scene-cache.grok-r1.test.ts src/assets/loader.test.ts --reporter=json --outputFile=/tmp/g01-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/assets/png-decode.grok-r1.test.ts src/assets/tileset-gzip.grok-r1.test.ts src/assets/tileset-load.grok-r1.test.ts src/assets/dialog-icons.grok-r1.test.ts src/assets/png.test.ts src/assets/png.glm-phase1-leaves.test.ts src/assets/tileset-blob.test.ts src/assets/dialog-assets.glm-phase1-leaves.test.ts src/assets/rle-decode.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g02-directed.json",
-    "pnpm --filter @type-pal/game exec vitest run src/present/draw-tilemap-pixels.grok-r1.test.ts src/present/draw-sprite-clip.grok-r1.test.ts src/present/follower-pos-axis.grok-r1.test.ts src/present/follower-render-gap.grok-r1.test.ts src/present/draw-tilemap.test.ts src/present/draw-sprite.test.ts src/present/follower-pos.test.ts src/present/follower-render.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g03-directed.json"
+    "pnpm --filter @type-pal/game exec vitest run src/present/draw-tilemap-pixels.grok-r1.test.ts src/present/draw-sprite-clip.grok-r1.test.ts src/present/follower-pos-axis.grok-r1.test.ts src/present/follower-render-gap.grok-r1.test.ts src/present/draw-tilemap.test.ts src/present/draw-sprite.test.ts src/present/follower-pos.test.ts src/present/follower-render.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g03-directed.json",
+    "pnpm --filter @type-pal/game exec vitest run src/present/screen-wave-mirror.grok-r1.test.ts src/present/screen-shake-bounds.grok-r1.test.ts src/present/dither-fade-nibble.grok-r1.test.ts src/present/present-hold.grok-r1.test.ts src/present/screen-wave.test.ts src/present/screen-wave.glm-phase1-leaves.test.ts src/present/screen-shake.test.ts src/present/dither-fade.test.ts src/present/framebuffer.test.ts src/present/framebuffer.glm-phase1-leaves.test.ts src/present/present.test.ts src/present/__tests__/grok-composition/p12-overlays.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g04-directed.json"
   ],
   "tests": [
     {
@@ -555,6 +556,151 @@
       "file": "src/present/follower-render-gap.grok-r1.test.ts",
       "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
       "status": "passed"
+    },
+    {
+      "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C06 fromStep 等于 toStep 时不改 backup",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B05 level=1 的奇数帧上移一行，底行填黑",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+      "status": "passed"
     }
   ],
   "adjacent": [
@@ -871,6 +1017,439 @@
         {
           "file": "src/present/follower-render.test.ts",
           "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/role/index",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "batch": "G04",
+      "status": "passed",
+      "numPassedTests": 85,
+      "numFailedTests": 0,
+      "tests": [
+        {
+          "file": "src/present/dither-fade.test.ts",
+          "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dither-fade.test.ts",
+          "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dither-fade.test.ts",
+          "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) 跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/framebuffer.glm-phase1-leaves.test.ts",
+          "fullName": "L16 framebuffer 剩余合同 writePixel 越界（负值/超宽高）静默不写不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/framebuffer.glm-phase1-leaves.test.ts",
+          "fullName": "L16 framebuffer 剩余合同 自定义尺寸离屏缓冲（dev panel 缩略图路径）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/framebuffer.glm-phase1-leaves.test.ts",
+          "fullName": "L16 framebuffer 剩余合同 toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/framebuffer.test.ts",
+          "fullName": "Framebuffer 320×200,初始全 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/framebuffer.test.ts",
+          "fullName": "Framebuffer writePixel + clear",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/framebuffer.test.ts",
+          "fullName": "Framebuffer toImageData(palette) —— 索引 → RGBA",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (undefined) restores all target colors",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (dialog) restores all target colors",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (frame-wait) restores all target colors",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "cursorless fade completion preserves the actual restored palette palette-fade remains owned by the event system",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "cursorless fade completion preserves the actual restored palette scene-fade remains owned by the event system",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "cursorless fade completion preserves the actual restored palette cursorless SceneFade still keeps its documented 63/64 endpoint",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame 无 dialogBox → 不画对话框,不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame 有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "presentFrame dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) 4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) M2:跟随队员按自己的 runtime walkFrames 取帧",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) 演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) fade 未到时 → 不清(进行中)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 屏内 NPC 正常绘制(基准)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 上方完全屏外(vy < -height)→ 跳过",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile 3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile 非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "P0.b Y-sort + cover-tile cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 非等键 phase(typing)→ 原样返回 base 同引用",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present.test.ts",
+          "fullName": "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake.test.ts",
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake.test.ts",
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake.test.ts",
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake.test.ts",
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 level=0:无可见偏移(整幅不变),但 shakeTime 仍递减",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake.test.ts",
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧上移搬运无残留:被搬走的源行被新内容覆盖(连续性自洽)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake.test.ts",
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧下移搬运无残留:第 10 行 = 旧第 0 行,第 199 行 = 旧第 189 行,顶部 0..9 全 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.glm-phase1-leaves.test.ts",
+          "fullName": "L16 applyScreenWave 剩余合同 advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.glm-phase1-leaves.test.ts",
+          "fullName": "L16 applyScreenWave 剩余合同 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.glm-phase1-leaves.test.ts",
+          "fullName": "L16 applyScreenWave 剩余合同 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.test.ts",
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.test.ts",
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) 每帧 wScreenWave += sWaveProgression(渐弱)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.test.ts",
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.test.ts",
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave>=256 → 越界清零关闭",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave.test.ts",
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) 活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "fullName": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "fullName": "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
           "status": "passed"
         }
       ]

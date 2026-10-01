@@ -1,8 +1,8 @@
 {
-  "batch": "G03",
-  "count": 109,
-  "batchCount": 33,
-  "cumulativeNewContracts": 109,
+  "batch": "G04",
+  "count": 138,
+  "batchCount": 29,
+  "cumulativeNewContracts": 138,
   "target": 400,
   "contracts": [
     {
@@ -6108,6 +6108,1575 @@
         "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
         "status": "passed"
       }
+    },
+    {
+      "id": "G04-A01",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 53,
+        "condition": "wave[i+16] = 320 - wave[i]（screen-wave.ts:53）。相位 0、波幅 128 时第 16 行 shift 为 290"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "resetScreenWavePhase 后，320×200 每行像素为 x&0xff，wScreenWave=128，sWaveProgression=0，advance=true。",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+        "assertionLine": 46,
+        "matcher": "toBe",
+        "checked": "行 0 左移 30",
+        "distinct": "旧断言只锁行 0 的 wave[0]，不锁第 16 行镜像 290"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+      "assertions": [
+        {
+          "line": 34,
+          "endLine": 34,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 35,
+          "endLine": 35,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "第 16 行每个 x、wScreenWave",
+        "matcher": "toBe",
+        "exact": "((x+290)%320)&0xff，波幅仍为 128"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-A02",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 52,
+        "condition": "wave[i] = trunc(a * wScreenWave / 256)（screen-wave.ts:52）。255 仍小于 256，行 0 的 a=60"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "相位 0，行图案 x&0xff，wScreenWave=255，sWaveProgression=0，advance=true。",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) 活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)",
+        "assertionLine": 58,
+        "matcher": "not.toEqual",
+        "checked": "波幅 255 时整帧有变化且每行多重集守恒",
+        "distinct": "旧断言不给出行 0 的精确位移 59"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+      "assertions": [
+        {
+          "line": 42,
+          "endLine": 42,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 43,
+          "endLine": 43,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "行 0 的 x、wScreenWave",
+        "matcher": "toBe",
+        "exact": "((x+59)%320)&0xff，波幅仍为 255"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-A03",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 61,
+        "condition": "shift>0 且 shift<320 才卷动（screen-wave.ts:61）。波幅 4 时 wave[0]=0、wave[7]=4"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "相位 0，行图案 x&0xff，wScreenWave=4，sWaveProgression=0，advance=true。",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+        "assertionLine": 46,
+        "matcher": "toBe",
+        "checked": "波幅 128 时行 0 必卷 30",
+        "distinct": "旧样本的行 0 shift 不是 0，也不比较同一帧里 shift 为 0 的行和 shift 为 4 的行"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+      "assertions": [
+        {
+          "line": 50,
+          "endLine": 50,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 51,
+          "endLine": 51,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "行 0 与行 7",
+        "matcher": "toBe",
+        "exact": "行 0 仍是 x&0xff，行 7 是 ((x+4)%320)&0xff"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-A04",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 37,
+        "condition": "advance 为 false 时，波幅 >=256 的早退不清零（screen-wave.ts:36-40）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "相位 0，整帧图案，wScreenWave=256，sWaveProgression=7，advance=false。",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+        "assertionLine": 27,
+        "matcher": "toBe",
+        "checked": "波幅 64 时 advance=false 仍卷动且计数保持 64/8",
+        "distinct": "旧断言的波幅在活跃区间，不覆盖已经 >=256 时的不卷、不清零"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+      "assertions": [
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 61,
+          "endLine": 61,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "整帧像素、wScreenWave、sWaveProgression",
+        "matcher": "toEqual / toBe",
+        "exact": "像素不变，波幅 256，progression 7"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-A05",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 38,
+        "condition": "advance 为 true 且波幅 >=256 时把波幅和 progression 都写成 0 并返回（screen-wave.ts:38-40）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "相位 0，整帧图案，wScreenWave=256，sWaveProgression=4，advance=true。",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave>=256 → 越界清零关闭",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "起始波幅 300、progression 0 时只断言波幅变成 0",
+        "distinct": "旧断言的 progression 本来就是 0，也不比较像素；本组从恰好 256 且 progression 4 出发"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+      "assertions": [
+        {
+          "line": 69,
+          "endLine": 69,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 70,
+          "endLine": 70,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 71,
+          "endLine": 71,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "整帧像素、wScreenWave、sWaveProgression",
+        "matcher": "toEqual / toBe",
+        "exact": "像素不变，两者都是 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-A06",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 70,
+        "condition": "advance 为 false 时不执行 s_waveIndex 加一（screen-wave.ts:70）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "先 advance=true 把相位从 0 推到 1，再对一张新的恒等行连续两次 advance=false。波幅 128，progression 0。",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动",
+        "assertionLine": 60,
+        "matcher": "toBe",
+        "checked": "两次 advance=true 后行 0 累计左移 86",
+        "distinct": "旧断言每次都推进相位；本组第二次 false 仍用 wave[1]=56，累计 112 而不是 wave[2] 的 78"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+      "assertions": [
+        {
+          "line": 79,
+          "endLine": 79,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 82,
+          "endLine": 82,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 83,
+          "endLine": 83,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "行 0、wScreenWave、sWaveProgression",
+        "matcher": "toBe",
+        "exact": "先 56 再 112，波幅 128，progression 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-A07",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 35,
+        "condition": "先把 progression 加进波幅，再判断是否 >=256（screen-wave.ts:35-36）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "相位 0，整帧图案，wScreenWave=250，sWaveProgression=10，advance=true。",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave>=256 → 越界清零关闭",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "调用前波幅已经是 300",
+        "distinct": "旧断言不经过 250+10 的加法，不能区分先判断还是先累加"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+      "assertions": [
+        {
+          "line": 91,
+          "endLine": 91,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 92,
+          "endLine": 92,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "整帧像素、wScreenWave、sWaveProgression",
+        "matcher": "toEqual / toBe",
+        "exact": "像素不变，两者都是 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-A08",
+      "batch": "G04",
+      "group": "G04-A",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "conditionLine": 52,
+        "condition": "活跃波在 advance=false 时仍按当前波幅卷行 0（screen-wave.ts:52,61）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 316,
+        "expr": "applyScreenWave(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "相位 0，行图案 x&0xff，wScreenWave=200，sWaveProgression=8，advance=false。",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+        "assertionLine": 27,
+        "matcher": "toBe",
+        "checked": "波幅 64 只断言有像素离开恒等图案，计数保持",
+        "distinct": "旧断言没有锁波幅 200 的精确左移 46"
+      },
+      "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+      "assertions": [
+        {
+          "line": 100,
+          "endLine": 100,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 101,
+          "endLine": 101,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "行 0、wScreenWave、sWaveProgression",
+        "matcher": "toBe",
+        "exact": "((x+46)%320)&0xff，波幅 200，progression 8"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-B01",
+      "batch": "G04",
+      "group": "G04-B",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-shake.ts",
+        "conditionLine": 36,
+        "condition": "level < 200 才搬移（screen-shake.ts:36）。level=200 落在守卫外，末尾仍递减"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 714,
+        "expr": "applyScreenShake(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "每行像素等于行号，shakeTime=5，shakeLevel=200，advance=true。",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 level=0:无可见偏移(整幅不变),但 shakeTime 仍递减",
+        "assertionLine": 77,
+        "matcher": "toEqual",
+        "checked": "level 0 时整幅不变且 shakeTime 3 变成 2",
+        "distinct": "level 0 走的是 level>0 的假分支；200 走的是 level<200 的假分支"
+      },
+      "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
+      "assertions": [
+        {
+          "line": 27,
+          "endLine": 27,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 28,
+          "endLine": 28,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 29,
+          "endLine": 29,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "第 10 行、第 199 行、shakeTime",
+        "matcher": "toBe",
+        "exact": "10、199、4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-B02",
+      "batch": "G04",
+      "group": "G04-B",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-shake.ts",
+        "conditionLine": 37,
+        "condition": "奇数帧上移 level 行，底部填黑（screen-shake.ts:37-42）。199 是仍能搬移的最大 level"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 714,
+        "expr": "applyScreenShake(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "每行像素等于行号，shakeTime=1，shakeLevel=199，advance=true。",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧上移搬运无残留:被搬走的源行被新内容覆盖(连续性自洽)",
+        "assertionLine": 86,
+        "matcher": "toBe",
+        "checked": "level 10 时第 0 行等于 10、第 189 行等于 199",
+        "distinct": "旧样本不是贴着屏幕高度的 199 行"
+      },
+      "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
+      "assertions": [
+        {
+          "line": 36,
+          "endLine": 36,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 37,
+          "endLine": 37,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 38,
+          "endLine": 38,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 39,
+          "endLine": 39,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "第 0、1、199 行和 shakeTime",
+        "matcher": "toBe",
+        "exact": "199、0、0、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-B03",
+      "batch": "G04",
+      "group": "G04-B",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-shake.ts",
+        "conditionLine": 53,
+        "condition": "advance=false 时不执行 shakeTime--（screen-shake.ts:53），奇数帧仍上移"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 714,
+        "expr": "applyScreenShake(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "每行像素等于行号，shakeTime=3，shakeLevel=4，advance=false。",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2",
+        "assertionLine": 37,
+        "matcher": "toBe",
+        "checked": "同样的奇数帧 level 4 在默认 advance=true 下 shakeTime 变成 2",
+        "distinct": "旧断言没有 advance=false，计数一定会减"
+      },
+      "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
+      "assertions": [
+        {
+          "line": 46,
+          "endLine": 46,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 47,
+          "endLine": 47,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 48,
+          "endLine": 48,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 49,
+          "endLine": 49,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "第 0 行、第 195 行、第 196 行、shakeTime",
+        "matcher": "toBe",
+        "exact": "4、199、0、3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-B04",
+      "batch": "G04",
+      "group": "G04-B",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-shake.ts",
+        "conditionLine": 46,
+        "condition": "偶数帧下移 level 行（screen-shake.ts:46-48）。level=199 时只有底行留下源图"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 714,
+        "expr": "applyScreenShake(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "行标记缓冲把第 0 行改成 8，shakeTime=2，shakeLevel=199，advance=true。",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧下移搬运无残留:第 10 行 = 旧第 0 行,第 199 行 = 旧第 189 行,顶部 0..9 全 0",
+        "assertionLine": 101,
+        "matcher": "toBe",
+        "checked": "level 10 时第 10 行等于旧第 0 行",
+        "distinct": "旧样本的底行不是唯一保留行，也没有把第 0 行改成非 0 值来和填黑区分"
+      },
+      "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
+      "assertions": [
+        {
+          "line": 57,
+          "endLine": 57,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 58,
+          "endLine": 58,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "第 0 行、第 198 行、第 199 行、shakeTime",
+        "matcher": "toBe",
+        "exact": "0、0、8、1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-B05",
+      "batch": "G04",
+      "group": "G04-B",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-shake.ts",
+        "conditionLine": 36,
+        "condition": "level>0 的最小可见值是 1（screen-shake.ts:36）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 714,
+        "expr": "applyScreenShake(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "每行像素等于行号，shakeTime=7，shakeLevel=1，advance=true。",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2",
+        "assertionLine": 37,
+        "matcher": "toBe",
+        "checked": "最小旧样本是 level 4",
+        "distinct": "旧断言没有 level 1 的上移一行"
+      },
+      "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B05 level=1 的奇数帧上移一行，底行填黑",
+      "assertions": [
+        {
+          "line": 67,
+          "endLine": 67,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 68,
+          "endLine": 68,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 69,
+          "endLine": 69,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 70,
+          "endLine": 70,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "第 0 行、第 198 行、第 199 行、shakeTime",
+        "matcher": "toBe",
+        "exact": "1、199、0、6"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B05 level=1 的奇数帧上移一行，底行填黑",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-B06",
+      "batch": "G04",
+      "group": "G04-B",
+      "primarySource": {
+        "file": "packages/game/src/present/screen-shake.ts",
+        "conditionLine": 36,
+        "condition": "level=256 同时落在搬移守卫外，advance=false 时连递减也不做（screen-shake.ts:36,53）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 714,
+        "expr": "applyScreenShake(fb.indices, gs, advanceEffects)"
+      },
+      "legalInput": "每行像素等于行号，shakeTime=9，shakeLevel=256，advance=false。",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 level=0:无可见偏移(整幅不变),但 shakeTime 仍递减",
+        "assertionLine": 77,
+        "matcher": "toBe",
+        "checked": "level 0 仍会把 shakeTime 减 1",
+        "distinct": "旧断言 advance 默认为 true，level 也不是 256"
+      },
+      "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "fullName": "G04-B screen-shake 边界与补帧 G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",
+      "assertions": [
+        {
+          "line": 77,
+          "endLine": 77,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 78,
+          "endLine": 78,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 79,
+          "endLine": 79,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "第 10 行、第 199 行、shakeTime",
+        "matcher": "toBe",
+        "exact": "10、199、9"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-C01",
+      "batch": "G04",
+      "group": "G04-C",
+      "primarySource": {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "conditionLine": 31,
+        "condition": "RG_INDEX 的后五项是 3,1,5,2,4（dither-fade.ts:14,31）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 668,
+        "expr": "applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)"
+      },
+      "legalInput": "6 字节 target 全是 0xA5，backup 全是 0x32。依次只跑 step 1、2、3、4、5。",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+        "assertionLine": 11,
+        "matcher": "toBe",
+        "checked": "step 0 只把下标 0 变成 0xA2，下标 1 仍是 0x32",
+        "distinct": "旧断言不跑 step 1 到 5，下标 0 在本组保持 0x32"
+      },
+      "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+      "assertions": [
+        {
+          "line": 16,
+          "endLine": 16,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 18,
+          "endLine": 18,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "六个 backup 字节",
+        "matcher": "toBe / toEqual",
+        "exact": "最终 [0x32, 0xA2, 0xA2, 0xA2, 0xA2, 0xA2]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-C02",
+      "batch": "G04",
+      "group": "G04-C",
+      "primarySource": {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "conditionLine": 39,
+        "condition": "a 的低位小于 b 的低位时 b--（dither-fade.ts:39）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 668,
+        "expr": "applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)"
+      },
+      "legalInput": "target 全是 0xA1，backup 全是 0x39。只跑 step 6，outerI=1，相位下标 0。",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)",
+        "assertionLine": 20,
+        "matcher": "toBe",
+        "checked": "低位 2 朝低位 5 加一，0xA2 变成 0xA3",
+        "distinct": "旧断言只走 b++，不走 b--"
+      },
+      "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+      "assertions": [
+        {
+          "line": 25,
+          "endLine": 25,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 26,
+          "endLine": 26,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "backup[0]、backup[1]",
+        "matcher": "toBe",
+        "exact": "0xA8 与 0x39"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-C03",
+      "batch": "G04",
+      "group": "G04-C",
+      "primarySource": {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "conditionLine": 38,
+        "condition": "低位相等时两个加减分支都不进，高位仍换成 target（dither-fade.ts:38-41）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 668,
+        "expr": "applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)"
+      },
+      "legalInput": "target 全是 0xA5，backup 全是 0x35。只跑 step 6。",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)",
+        "assertionLine": 20,
+        "matcher": "toBe",
+        "checked": "低位不等，结果比 backup 低位大 1",
+        "distinct": "旧样本低位 2 和 5 不相等"
+      },
+      "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+      "assertions": [
+        {
+          "line": 33,
+          "endLine": 33,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 34,
+          "endLine": 34,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "backup[0]、backup[1]",
+        "matcher": "toBe",
+        "exact": "0xA5 与 0x35"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-C04",
+      "batch": "G04",
+      "group": "G04-C",
+      "primarySource": {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "conditionLine": 41,
+        "condition": "高位按 target 替换，不保留 backup 里更高的高位（dither-fade.ts:41）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 668,
+        "expr": "applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)"
+      },
+      "legalInput": "target 全是 0x15，backup 全是 0xA9。只跑 step 0。",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+        "assertionLine": 11,
+        "matcher": "toBe",
+        "checked": "0x32 的高位从 3 升到 A，得到 0xA2",
+        "distinct": "旧样本高位是往上换；本组 backup 高位 A 被换成 target 的 1"
+      },
+      "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+      "assertions": [
+        {
+          "line": 41,
+          "endLine": 41,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 42,
+          "endLine": 42,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "backup[0]、backup[1]",
+        "matcher": "toBe",
+        "exact": "0x19 与 0xA9"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-C05",
+      "batch": "G04",
+      "group": "G04-C",
+      "primarySource": {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "conditionLine": 32,
+        "condition": "k 从相位偏移开始每次加 6（dither-fade.ts:32）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 668,
+        "expr": "applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)"
+      },
+      "legalInput": "8 字节 target 全是 0xA5，backup 全是 0x32。只跑 step 0。",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+        "assertionLine": 11,
+        "matcher": "toBe",
+        "checked": "长度 6，下标 6 不存在",
+        "distinct": "旧缓冲到不了 k+6"
+      },
+      "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+      "assertions": [
+        {
+          "line": 49,
+          "endLine": 49,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 50,
+          "endLine": 50,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 51,
+          "endLine": 51,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 52,
+          "endLine": 52,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "下标 0、6、1、7",
+        "matcher": "toBe",
+        "exact": "0xA2、0xA2、0x32、0x32"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-C06",
+      "batch": "G04",
+      "group": "G04-C",
+      "primarySource": {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "conditionLine": 29,
+        "condition": "循环条件是 stepIdx < toStep（dither-fade.ts:29）。fromStep==toStep 时一次都不进"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 668,
+        "expr": "applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)"
+      },
+      "legalInput": "target 6 字节 0xAA，backup 为 [1,2,3,4,5,6]，fromStep=4，toStep=4。",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+        "assertionLine": 11,
+        "matcher": "toBe",
+        "checked": "fromStep 0、toStep 1，至少改一个字节",
+        "distinct": "旧调用区间非空"
+      },
+      "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "fullName": "G04-C dither 相位与低位回退 G04-C06 fromStep 等于 toStep 时不改 backup",
+      "assertions": [
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "backup 六个字节",
+        "matcher": "toEqual",
+        "exact": "[1,2,3,4,5,6]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C06 fromStep 等于 toStep 时不改 backup",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D01",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 195,
+        "condition": "suspendRaf 在 blackScreenHold 的 clear 之前返回（present.ts:195-197,251）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 510,
+        "expr": "presentFrame(fb, gs, presentCtx, ticked)"
+      },
+      "legalInput": "createInitialGameState 后同时置 suspendRaf 与 blackScreenHold。indices[0] 预写成 173。1×1 空瓦片地图。",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+        "assertionLine": 308,
+        "matcher": "toBe",
+        "checked": "只有 blackScreenHold 时背景被清成黑",
+        "distinct": "旧断言没有同时置 suspendRaf，清屏一定发生"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+      "assertions": [
+        {
+          "line": 76,
+          "endLine": 76,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "indices[0]",
+        "matcher": "toBe",
+        "exact": "173"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D02",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 272,
+        "condition": "sceneLoading 在波幅累加之前返回（present.ts:272-274,315）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 510,
+        "expr": "presentFrame(fb, gs, presentCtx, ticked)"
+      },
+      "legalInput": "sceneLoading=true，wScreenWave=40，sWaveProgression=-8，indices[0]=173。没有 suspend、黑屏或 freeze。",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+        "assertionLine": 273,
+        "matcher": "toBe",
+        "checked": "死亡 hold 保留哨兵 173",
+        "distinct": "旧哨兵不是 sceneLoading，也不读波幅计数"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+      "assertions": [
+        {
+          "line": 87,
+          "endLine": 87,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 88,
+          "endLine": 88,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 89,
+          "endLine": 89,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "indices[0]、wScreenWave、sWaveProgression",
+        "matcher": "toBe",
+        "exact": "173、40、-8"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D03",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 279,
+        "condition": "paletteFadeState.freeze 在 shake 之前返回（present.ts:279-281,713）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 510,
+        "expr": "presentFrame(fb, gs, presentCtx, ticked)"
+      },
+      "legalInput": "legalPalette 配 buildFadeOut，总时长 10000000ms。shakeTime=5，shakeLevel=4，indices[0]=173。",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+        "assertionLine": 1515,
+        "matcher": "toBe",
+        "checked": "fade 快照的是 clear 前的 0x35，随后继续重绘",
+        "distinct": "旧 SceneFade 不设 freeze，画面会进入 dither；本组哨兵保持 173 且 shakeTime 仍是 5"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+      "assertions": [
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 103,
+          "endLine": 103,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 104,
+          "endLine": 104,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "indices[0]、shakeTime、freeze",
+        "matcher": "toBe",
+        "exact": "173、5、true"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D04",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 801,
+        "condition": "mode 不是 battle 时 presentBattleFrame 返回 false，且不 clear（present.ts:801）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 509,
+        "expr": "if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained, ticked))"
+      },
+      "legalInput": "初始 mode 为 explore，battleState 不存在。indices[0]=173。BattlePresent 与空资源只为满足参数，早退不调用 draw。",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+        "assertionLine": 294,
+        "matcher": "toBe",
+        "checked": "普通 presentFrame 会清掉哨兵",
+        "distinct": "旧路径是 presentFrame；本组函数在画战斗之前就返回 false"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+      "assertions": [
+        {
+          "line": 111,
+          "endLine": 111,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 112,
+          "endLine": 112,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "返回值、indices[0]",
+        "matcher": "toBe",
+        "exact": "false、173"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D05",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 801,
+        "condition": "mode 已是 battle 但 battleState 缺失时同样返回 false（present.ts:801 的第二个条件）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 509,
+        "expr": "if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained, ticked))"
+      },
+      "legalInput": "mode='battle'，battleState 保持 undefined，indices[0]=173。",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+        "assertionLine": 294,
+        "matcher": "toBe",
+        "checked": "普通重绘会清哨兵",
+        "distinct": "旧测试不把 mode 设成 battle，也不调用 presentBattleFrame"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+      "assertions": [
+        {
+          "line": 120,
+          "endLine": 120,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 121,
+          "endLine": 121,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "返回值、indices[0]",
+        "matcher": "toBe",
+        "exact": "false、173"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D06",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 769,
+        "condition": "center 等键不做 0xF9-0xFE 轮转，直接返回当前调色板（present.ts:769）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 514,
+        "expr": "flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))"
+      },
+      "legalInput": "performance.now 固定 100，对话 style=center 且 phase=waiting-end-key。调色板是 legalPalette。没有黑屏。",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+        "assertionLine": 1477,
+        "matcher": "toEqual",
+        "checked": "bottom 等键在 t=100 时 0xF9 换成 base 的 0xFA",
+        "distinct": "旧样式是 bottom，会得到新对象；center 必须是同一引用"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+      "assertions": [
+        {
+          "line": 130,
+          "endLine": 130,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "返回的调色板引用",
+        "matcher": "toBe",
+        "exact": "传入的 base"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D07",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 749,
+        "condition": "黑屏先恢复文字色槽，center 再跳过轮转（present.ts:749,769）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 514,
+        "expr": "flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))"
+      },
+      "legalInput": "blackScreenHold，basePalette 的第 i 色是 [i,0,0]，传入调色板第 i 色是 [0,i,0]。center、waiting-end-key，now=100。",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+        "assertionLine": 1443,
+        "matcher": "toEqual",
+        "checked": "center 对话处于 typing，文字色被恢复",
+        "distinct": "旧对话不是等键，now 也不是 100，轮转分支进不去"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+      "assertions": [
+        {
+          "line": 141,
+          "endLine": 141,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 142,
+          "endLine": 142,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 143,
+          "endLine": 143,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "0x2D、0xF9、0xFE",
+        "matcher": "toEqual",
+        "exact": "[0x2D,0,0]、[0,0xF9,0]、[0,0xFE,0]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D08",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 723,
+        "condition": "flushToCanvas 把 toImageData 的结果 putImageData 到 (0,0)（present.ts:723-724）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 514,
+        "expr": "flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))"
+      },
+      "legalInput": "writePixel(4,6,9)，调色板 9 号色是 [10,20,30]。document 上 320×200 canvas 的真实 2D 上下文。",
+      "oldTest": {
+        "sha": "07cb6e144bae18e62c64846be8e4e81e40f93cf4",
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer toImageData(palette) —— 索引 → RGBA",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "toImageData 本身的 data[0] 是 100、alpha 是 255",
+        "distinct": "旧断言不经过 putImageData，也不从画布 getImageData 读回"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+      "assertions": [
+        {
+          "line": 158,
+          "endLine": 158,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 159,
+          "endLine": 159,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "画布 (4,6) 的 RGBA、indices[6*320+4]",
+        "matcher": "toEqual / toBe",
+        "exact": "[10,20,30,255]、9"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G04-D09",
+      "batch": "G04",
+      "group": "G04-D",
+      "primarySource": {
+        "file": "packages/game/src/present/framebuffer.ts",
+        "conditionLine": 29,
+        "condition": "writePixel 写入 Uint8Array，300 截成 44（framebuffer.ts:29）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "line": 46,
+        "expr": "fb.writePixel(dstX + x, dstY + y, sprite.indices[srcOff]!)"
+      },
+      "legalInput": "createFramebuffer 后 writePixel(2,1,300)。调色板 44 号色改成 [7,8,9]，再 toImageData。",
+      "oldTest": {
+        "sha": "07cb6e144bae18e62c64846be8e4e81e40f93cf4",
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer writePixel + clear",
+        "assertionLine": 17,
+        "matcher": "toBe",
+        "checked": "写入 42 再读回 42",
+        "distinct": "旧索引 42 不跨过 255，看不出 8 位截断"
+      },
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+      "assertions": [
+        {
+          "line": 165,
+          "endLine": 165,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 170,
+          "endLine": 170,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[322]、该像素 RGBA",
+        "matcher": "toBe / toEqual",
+        "exact": "44、[7,8,9,255]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/present-hold.grok-r1.test.ts",
+        "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -6706,6 +8275,370 @@
         "assertionLine": 1408,
         "matcher": "toBe",
         "checked": "画面上没有颜色 7"
+      }
+    },
+    {
+      "id": "G04-EP-wave-zero",
+      "classification": "existing-proof",
+      "reason": "0 态已经证明，不再写同输入合同",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素",
+        "assertionLine": 24,
+        "matcher": "toEqual",
+        "checked": "波幅和 progression 都是 0 时像素不变"
+      }
+    },
+    {
+      "id": "G04-EP-wave-add",
+      "classification": "existing-proof",
+      "reason": "渐弱加法的非越界结果已证明",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) 每帧 wScreenWave += sWaveProgression(渐弱)",
+        "assertionLine": 32,
+        "matcher": "toBe",
+        "checked": "40 加 -8 得到 32"
+      }
+    },
+    {
+      "id": "G04-EP-wave-to0",
+      "classification": "existing-proof",
+      "reason": "加法落到 0 的清零已证明",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "8 加 -8 后波幅和 progression 都是 0，像素不变"
+      }
+    },
+    {
+      "id": "G04-EP-wave-300",
+      "classification": "existing-proof",
+      "reason": "已越界的清波幅已证明；本组只补恰好 256 与 progression",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave>=256 → 越界清零关闭",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "起始 300 时波幅变成 0"
+      }
+    },
+    {
+      "id": "G04-EP-wave-conserved",
+      "classification": "existing-proof",
+      "reason": "守恒已证明；精确位移另见 G04-A02",
+      "oldTest": {
+        "sha": "6474d92903f63afad0f7e713c4e171a8849a8191",
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) 活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)",
+        "assertionLine": 58,
+        "matcher": "not.toEqual",
+        "checked": "波幅 255 的每行多重集守恒"
+      }
+    },
+    {
+      "id": "G04-EP-wave-false64",
+      "classification": "existing-proof",
+      "reason": "布尔卷动已证明",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+        "assertionLine": 27,
+        "matcher": "toBe",
+        "checked": "波幅 64、progression 8 时计数不变且有像素离开恒等"
+      }
+    },
+    {
+      "id": "G04-EP-wave-row0",
+      "classification": "existing-proof",
+      "reason": "wave[0] 已证明",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+        "assertionLine": 46,
+        "matcher": "toBe",
+        "checked": "波幅 128 行 0 左移 30"
+      }
+    },
+    {
+      "id": "G04-EP-wave-phase",
+      "classification": "existing-proof",
+      "reason": "相位加一已证明",
+      "oldTest": {
+        "sha": "53bcdcd71caba92ce429c303b082e0d90cedbfe1",
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动",
+        "assertionLine": 60,
+        "matcher": "toBe",
+        "checked": "两次推进后行 0 累计 86"
+      }
+    },
+    {
+      "id": "G04-EP-shake-odd4",
+      "classification": "existing-proof",
+      "reason": "默认 advance 的奇数帧已证明",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2",
+        "assertionLine": 37,
+        "matcher": "toBe",
+        "checked": "上移 4 行且 shakeTime 变成 2"
+      }
+    },
+    {
+      "id": "G04-EP-shake-even4",
+      "classification": "existing-proof",
+      "reason": "默认 advance 的偶数帧已证明",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1",
+        "assertionLine": 57,
+        "matcher": "toBe",
+        "checked": "下移 4 行且 shakeTime 变成 1"
+      }
+    },
+    {
+      "id": "G04-EP-shake-n",
+      "classification": "existing-proof",
+      "reason": "递减到 0 已证明",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)",
+        "assertionLine": 69,
+        "matcher": "toBe",
+        "checked": "连调 5 次后 shakeTime 为 0"
+      }
+    },
+    {
+      "id": "G04-EP-shake-level0",
+      "classification": "existing-proof",
+      "reason": "level>0 的假分支已证明",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 level=0:无可见偏移(整幅不变),但 shakeTime 仍递减",
+        "assertionLine": 77,
+        "matcher": "toEqual",
+        "checked": "level 0 像素不变且时间仍减"
+      }
+    },
+    {
+      "id": "G04-EP-shake-odd10",
+      "classification": "existing-proof",
+      "reason": "中等 level 的上移已证明",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧上移搬运无残留:被搬走的源行被新内容覆盖(连续性自洽)",
+        "assertionLine": 86,
+        "matcher": "toBe",
+        "checked": "level 10 第 0 行等于 10"
+      }
+    },
+    {
+      "id": "G04-EP-shake-even10",
+      "classification": "existing-proof",
+      "reason": "中等 level 的下移已证明",
+      "oldTest": {
+        "sha": "35543ad7e991ceb638987c98c9bc4b1ce1e41c00",
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧下移搬运无残留:第 10 行 = 旧第 0 行,第 199 行 = 旧第 189 行,顶部 0..9 全 0",
+        "assertionLine": 101,
+        "matcher": "toBe",
+        "checked": "level 10 第 199 行等于 189"
+      }
+    },
+    {
+      "id": "G04-EP-dither-step0",
+      "classification": "existing-proof",
+      "reason": "RG_INDEX[0] 与外层 0 已证明",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+        "assertionLine": 11,
+        "matcher": "toBe",
+        "checked": "下标 0 变成 0xA2，下标 1 仍是 0x32"
+      }
+    },
+    {
+      "id": "G04-EP-dither-plus",
+      "classification": "existing-proof",
+      "reason": "b++ 已证明",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)",
+        "assertionLine": 20,
+        "matcher": "toBe",
+        "checked": "0xA2 再加一成为 0xA3"
+      }
+    },
+    {
+      "id": "G04-EP-dither-72",
+      "classification": "existing-proof",
+      "reason": "满步收敛已证明",
+      "oldTest": {
+        "sha": "a18c1e7417eac0f5a926bc21083e6b91db0f2499",
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) 跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target",
+        "assertionLine": 30,
+        "matcher": "toEqual",
+        "checked": "低位差不超过 11 时收敛到 target"
+      }
+    },
+    {
+      "id": "G04-EP-death",
+      "classification": "existing-proof",
+      "reason": "死亡 hold 的早退已证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+        "assertionLine": 273,
+        "matcher": "toBe",
+        "checked": "哨兵 173 保留"
+      }
+    },
+    {
+      "id": "G04-EP-gameover",
+      "classification": "existing-proof",
+      "reason": "战败早退已证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+        "assertionLine": 284,
+        "matcher": "toBe",
+        "checked": "上一帧保留并叠死亡对话"
+      }
+    },
+    {
+      "id": "G04-EP-black",
+      "classification": "existing-proof",
+      "reason": "单独黑屏会清屏，已证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+        "assertionLine": 308,
+        "matcher": "toBe",
+        "checked": "背景清黑并叠居中文字"
+      }
+    },
+    {
+      "id": "G04-EP-rng",
+      "classification": "existing-proof",
+      "reason": "RNG 备份早退已证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "presentFrame dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+        "assertionLine": 324,
+        "matcher": "toBe",
+        "checked": "用备份画面替换，不重绘世界"
+      }
+    },
+    {
+      "id": "G04-EP-fade-snap",
+      "classification": "existing-proof",
+      "reason": "场景 dither 驱动已证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+        "assertionLine": 1515,
+        "matcher": "toBe",
+        "checked": "clear 前的 0x35 被快照，appliedSteps 走到 72"
+      }
+    },
+    {
+      "id": "G04-EP-rot1",
+      "classification": "existing-proof",
+      "reason": "非 center 的轮转已证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+        "assertionLine": 1477,
+        "matcher": "toEqual",
+        "checked": "bottom 在 t=100 左轮转一格"
+      }
+    },
+    {
+      "id": "G04-EP-rot0",
+      "classification": "existing-proof",
+      "reason": "step 0 早退已证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+        "assertionLine": 1493,
+        "matcher": "toBe",
+        "checked": "t=600 时返回同一引用"
+      }
+    },
+    {
+      "id": "G04-EP-p12-wave",
+      "classification": "existing-proof",
+      "reason": "presentFrame 的波幅 advance 旗标已证明",
+      "oldTest": {
+        "sha": "31da625feddc1afbfb30d8e8129fe3ed51a98623",
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "assertionLine": 41,
+        "matcher": "toBe",
+        "checked": "补帧时波幅保持 128，推进后变成 120，并给出卷动后的瓦片坐标"
+      }
+    },
+    {
+      "id": "G04-EP-p12-shake",
+      "classification": "existing-proof",
+      "reason": "presentFrame 的偶数震屏 advance 旗标已证明",
+      "oldTest": {
+        "sha": "31da625feddc1afbfb30d8e8129fe3ed51a98623",
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "assertionLine": 86,
+        "matcher": "toBe",
+        "checked": "偶数补帧 shakeTime 保持 2，两次推进后上移"
+      }
+    },
+    {
+      "id": "G04-EP-fb-rgba",
+      "classification": "existing-proof",
+      "reason": "索引到 RGBA 的基本换算已证明",
+      "oldTest": {
+        "sha": "07cb6e144bae18e62c64846be8e4e81e40f93cf4",
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer toImageData(palette) —— 索引 → RGBA",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "索引 1 的 R 是 100，alpha 是 255"
+      }
+    },
+    {
+      "id": "G04-EP-fb-missing",
+      "classification": "existing-proof",
+      "reason": "缺色回落已证明",
+      "oldTest": {
+        "sha": "0c5032803a48af689fa3de3abf56a0978abb5e9c",
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "fullName": "L16 framebuffer 剩余合同 toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255",
+        "assertionLine": 40,
+        "matcher": "toEqual",
+        "checked": "缺色得到 [0,0,0,255]，下标 1 得到 [40,50,60,255]"
       }
     }
   ]

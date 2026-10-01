@@ -26,6 +26,14 @@
 
 本批新合同 33，不是 40。目标 400/40/40 没有改小。
 
+## G04
+
+没有停组的产品缺陷。
+
+`screen-wave.ts` 在 shift 恰好为 0 或恰好为 320 时，去掉 `shift>0 && shift<320` 之后像素仍然不变，所以这条守卫本身不能靠这两个端点单独打红。G04-A03 改用波幅 4：行 0 的表值是 0 故不卷，行 7 左移 4。镜像行的可观察结果是 G04-A01 的第 16 行左移 290。
+
+本批新合同 29，不是 40。行 0 左移 30、第二帧累计 86、level 0/4/10、dither 的 0xA2 与加一、deathHold、黑屏、RNG 备份、P12 的 advanceEffects 都已经有旧断言，记在 existing-proof。目标 400/40/40 没有改小。
+
 ## 未跑
 
-G04–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
+G05–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。

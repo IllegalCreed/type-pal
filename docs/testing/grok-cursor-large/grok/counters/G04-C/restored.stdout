@@ -1,0 +1,16 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-C-oh9tYa/packages/game
+
+ ✓ src/present/dither-fade-nibble.grok-r1.test.ts > G04-C dither 相位与低位回退 > G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4 1ms
+ ✓ src/present/dither-fade-nibble.grok-r1.test.ts > G04-C dither 相位与低位回退 > G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动 0ms
+ ✓ src/present/dither-fade-nibble.grok-r1.test.ts > G04-C dither 相位与低位回退 > G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位 0ms
+ ✓ src/present/dither-fade-nibble.grok-r1.test.ts > G04-C dither 相位与低位回退 > G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位 0ms
+ ✓ src/present/dither-fade-nibble.grok-r1.test.ts > G04-C dither 相位与低位回退 > G04-C05 长度超过 6 时同一 step 继续处理 k+6 0ms
+ ✓ src/present/dither-fade-nibble.grok-r1.test.ts > G04-C dither 相位与低位回退 > G04-C06 fromStep 等于 toStep 时不改 backup 0ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  00:28:19
+   Duration  668ms (transform 38ms, setup 33ms, import 22ms, tests 3ms, environment 514ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-C-oh9tYa/restored.json

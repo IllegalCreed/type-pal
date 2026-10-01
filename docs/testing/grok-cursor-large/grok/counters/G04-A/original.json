@@ -1,0 +1,136 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868488236,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+          "status": "passed",
+          "title": "G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+          "duration": 10.438666000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+          "status": "passed",
+          "title": "G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+          "duration": 14.918040999999903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+          "status": "passed",
+          "title": "G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+          "duration": 16.958000000000084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+          "status": "passed",
+          "title": "G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+          "duration": 209.33412499999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+          "status": "passed",
+          "title": "G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+          "duration": 135.3750829999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+          "status": "passed",
+          "title": "G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+          "duration": 11.459207999999762,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+          "status": "passed",
+          "title": "G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+          "duration": 168.5424170000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-A screen-wave 镜像与关断"
+          ],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+          "status": "passed",
+          "title": "G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+          "duration": 5.969625000000178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868491140,
+      "endTime": 1790868491713.9697,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-A-TKzF9C/packages/game/src/present/screen-wave-mirror.grok-r1.test.ts"
+    }
+  ]
+}

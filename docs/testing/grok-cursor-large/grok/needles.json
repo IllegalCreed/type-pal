@@ -118,5 +118,45 @@
     "testFile": "src/present/follower-render-gap.grok-r1.test.ts",
     "target": "G03-D02",
     "axis": "跟随者缺 trail 槽时从跳过该槽改成终止后续槽"
+  },
+  {
+    "id": "G04-A",
+    "batch": "G04",
+    "source": "packages/game/src/present/screen-wave.ts",
+    "from": "wave[i + 16] = SCREEN_W - wave[i]!",
+    "to": "wave[i + 16] = wave[i]!",
+    "testFile": "src/present/screen-wave-mirror.grok-r1.test.ts",
+    "target": "G04-A01",
+    "axis": "32 相位镜像从 320 减偏移改成复制前 16 相"
+  },
+  {
+    "id": "G04-B",
+    "batch": "G04",
+    "source": "packages/game/src/present/screen-shake.ts",
+    "from": "if (level > 0 && level < SCREEN_H)",
+    "to": "if (level > 0 && level < SCREEN_H + 1)",
+    "testFile": "src/present/screen-shake-bounds.grok-r1.test.ts",
+    "target": "G04-B01",
+    "axis": "摇晃高度上限从小于 200 放宽到小于 201"
+  },
+  {
+    "id": "G04-C",
+    "batch": "G04",
+    "source": "packages/game/src/present/dither-fade.ts",
+    "from": "else if (aLow < bLow) b--",
+    "to": "else if (aLow < bLow) b++",
+    "testFile": "src/present/dither-fade-nibble.grok-r1.test.ts",
+    "target": "G04-C02",
+    "axis": "低位大于目标时从减一改成加一"
+  },
+  {
+    "id": "G04-D",
+    "batch": "G04",
+    "source": "packages/game/src/present/present.ts",
+    "from": "  if (gs.suspendRaf) {\n    return\n  }",
+    "to": "  if (gs.suspendRaf && !gs.blackScreenHold) {\n    return\n  }",
+    "testFile": "src/present/present-hold.grok-r1.test.ts",
+    "target": "G04-D01",
+    "axis": "suspendRaf 不再压过 blackScreenHold 的清屏"
   }
 ]

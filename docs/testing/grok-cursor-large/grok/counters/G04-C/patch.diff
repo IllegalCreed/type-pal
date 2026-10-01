@@ -1,0 +1,11 @@
+--- a/packages/game/src/present/dither-fade.ts
++++ b/packages/game/src/present/dither-fade.ts
+@@ -36,7 +36,7 @@
+         const aLow = a & 0x0f
+         const bLow = b & 0x0f
+         if (aLow > bLow) b++
+-        else if (aLow < bLow) b--
++        else if (aLow < bLow) b++
+       }
+       backup[k] = ((a & 0xf0) | (b & 0x0f)) & 0xff
+     }

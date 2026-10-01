@@ -1,0 +1,148 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868503649,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+          "status": "passed",
+          "title": "G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+          "duration": 1.4327500000001692,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+          "status": "passed",
+          "title": "G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+          "duration": 0.34533299999998235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+          "status": "passed",
+          "title": "G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+          "duration": 0.4178340000000844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+          "status": "passed",
+          "title": "G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+          "duration": 0.28170799999998053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+          "status": "passed",
+          "title": "G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+          "duration": 0.18691600000011022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+          "status": "passed",
+          "title": "G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+          "duration": 0.6860000000001492,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+          "status": "passed",
+          "title": "G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+          "duration": 0.4448330000000169,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+          "status": "passed",
+          "title": "G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+          "duration": 151.80100000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+          "status": "passed",
+          "title": "G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+          "duration": 1.5075410000001739,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868504779,
+      "endTime": 1790868504935.5076,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-D-zLy0C6/packages/game/src/present/present-hold.grok-r1.test.ts"
+    }
+  ]
+}

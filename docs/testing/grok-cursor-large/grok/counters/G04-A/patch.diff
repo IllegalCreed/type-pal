@@ -1,0 +1,10 @@
+--- a/packages/game/src/present/screen-wave.ts
++++ b/packages/game/src/present/screen-wave.ts
+@@ -50,6 +50,6 @@
+     b -= 8
+     a += b
+     wave[i] = Math.trunc((a * gs.wScreenWave) / 256)
+-    wave[i + 16] = SCREEN_W - wave[i]!
++    wave[i + 16] = wave[i]!
+   }
+   // scene.c:423-449 逐行(200 行)左移卷动;每行相位 = (index + row) % 32,index 每帧 +1。

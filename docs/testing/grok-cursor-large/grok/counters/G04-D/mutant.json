@@ -1,0 +1,150 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 8,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868502044,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+          "status": "failed",
+          "title": "G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+          "duration": 4.901541000000179,
+          "failureMessages": [
+            "AssertionError: expected +0 to be 173 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-D-zLy0C6/packages/game/src/present/present-hold.grok-r1.test.ts:76:27\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+          "status": "passed",
+          "title": "G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+          "duration": 0.5034170000001268,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+          "status": "passed",
+          "title": "G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+          "duration": 1.2435829999999441,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+          "status": "passed",
+          "title": "G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+          "duration": 0.63737500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+          "status": "passed",
+          "title": "G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+          "duration": 0.24662499999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+          "status": "passed",
+          "title": "G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+          "duration": 0.7554579999998623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+          "status": "passed",
+          "title": "G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+          "duration": 0.2931670000000395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+          "status": "passed",
+          "title": "G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+          "duration": 165.91233399999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G04-D present 冻屏归属与调色板"
+          ],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+          "status": "passed",
+          "title": "G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+          "duration": 2.5476670000000468,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868503254,
+      "endTime": 1790868503430.5476,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-D-zLy0C6/packages/game/src/present/present-hold.grok-r1.test.ts"
+    }
+  ]
+}

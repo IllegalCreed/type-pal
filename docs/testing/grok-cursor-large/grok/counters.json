@@ -1,6 +1,6 @@
 {
-  "batch": "G03",
-  "acceptedCounters": 12,
+  "batch": "G04",
+  "acceptedCounters": 16,
   "probeRejected": true,
   "counters": [
     {
@@ -2078,6 +2078,355 @@
         "docs/testing/grok-cursor-large/grok/counters/G03-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G03-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G03-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G04-A",
+      "batch": "G04",
+      "accepted": true,
+      "reasons": [],
+      "axis": "32 相位镜像从 320 减偏移改成复制前 16 相",
+      "source": "packages/game/src/present/screen-wave.ts",
+      "testFile": "src/present/screen-wave-mirror.grok-r1.test.ts",
+      "target": "G04-A01",
+      "targetFullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+      "assertionError": "AssertionError: expected 30 to be 34 // Object.is equality",
+      "sha256": {
+        "original": "ba2c5dca2d385de8696c55467331090d9621edbca8e8a9f0b79a386f398eaa7e",
+        "mutant": "f0b566797559fd4ce97d5595bcf4e2c67f8678be07840eedf4896c223101db3b",
+        "restored": "ba2c5dca2d385de8696c55467331090d9621edbca8e8a9f0b79a386f398eaa7e"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 8,
+        "mutantFailed": 1,
+        "restored": 8
+      },
+      "executionCount": 8,
+      "executions": [
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-wave-mirror.grok-r1.test.ts",
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G04-A/patch.diff",
+        "sha256": "78318b66f9d96693eca5466402bf07e7148266802dc596dee62c61e28908a4d1",
+        "bytes": 367
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G04-B",
+      "batch": "G04",
+      "accepted": true,
+      "reasons": [],
+      "axis": "摇晃高度上限从小于 200 放宽到小于 201",
+      "source": "packages/game/src/present/screen-shake.ts",
+      "testFile": "src/present/screen-shake-bounds.grok-r1.test.ts",
+      "target": "G04-B01",
+      "targetFullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
+      "assertionError": "AssertionError: expected +0 to be 10 // Object.is equality",
+      "sha256": {
+        "original": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755",
+        "mutant": "b2dc7191dde46675012c52fe17ad9ea8fabfc6e2561aef03d74da499faa1a16e",
+        "restored": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 6,
+        "mutantFailed": 1,
+        "restored": 6
+      },
+      "executionCount": 6,
+      "executions": [
+        {
+          "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B05 level=1 的奇数帧上移一行，底行填黑",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/screen-shake-bounds.grok-r1.test.ts",
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G04-B/patch.diff",
+        "sha256": "6d016ce059b8fd04e858fdccf353ec1cfa1254353d054f7fb7467df998de4142",
+        "bytes": 570
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G04-C",
+      "batch": "G04",
+      "accepted": true,
+      "reasons": [],
+      "axis": "低位大于目标时从减一改成加一",
+      "source": "packages/game/src/present/dither-fade.ts",
+      "testFile": "src/present/dither-fade-nibble.grok-r1.test.ts",
+      "target": "G04-C02",
+      "targetFullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+      "assertionError": "AssertionError: expected 170 to be 168 // Object.is equality",
+      "sha256": {
+        "original": "42009a8ec5c5d53b2b0fae61d37a985395fa787eafde86fae1ef96afa87fbb12",
+        "mutant": "99b151b750957953574c31d69e469b2e99d35306e6f01177c6035a9d6a986070",
+        "restored": "42009a8ec5c5d53b2b0fae61d37a985395fa787eafde86fae1ef96afa87fbb12"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 6,
+        "mutantFailed": 1,
+        "restored": 6
+      },
+      "executionCount": 6,
+      "executions": [
+        {
+          "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+          "fullName": "G04-C dither 相位与低位回退 G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+          "fullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+          "fullName": "G04-C dither 相位与低位回退 G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+          "fullName": "G04-C dither 相位与低位回退 G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+          "fullName": "G04-C dither 相位与低位回退 G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dither-fade-nibble.grok-r1.test.ts",
+          "fullName": "G04-C dither 相位与低位回退 G04-C06 fromStep 等于 toStep 时不改 backup",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G04-C/patch.diff",
+        "sha256": "c597fb3c053ea165c03e75d098741f40a0cb69a748103a6946c69465f058296f",
+        "bytes": 342
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G04-D",
+      "batch": "G04",
+      "accepted": true,
+      "reasons": [],
+      "axis": "suspendRaf 不再压过 blackScreenHold 的清屏",
+      "source": "packages/game/src/present/present.ts",
+      "testFile": "src/present/present-hold.grok-r1.test.ts",
+      "target": "G04-D01",
+      "targetFullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+      "assertionError": "AssertionError: expected +0 to be 173 // Object.is equality",
+      "sha256": {
+        "original": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+        "mutant": "22fd33ae22742394a5825b5b6bac13ece7dcdd2c0fb0e4f1953c55ed710518ab",
+        "restored": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 9,
+        "mutantFailed": 1,
+        "restored": 9
+      },
+      "executionCount": 9,
+      "executions": [
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/present-hold.grok-r1.test.ts",
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G04-D/patch.diff",
+        "sha256": "bd7051d8ce9123a5e08a6bb00540d2b20c0298e4e330c0aaa7a94b512f303b2c",
+        "bytes": 347
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G04-D/restored.stderr"
       ]
     }
   ]
