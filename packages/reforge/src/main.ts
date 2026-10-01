@@ -1526,7 +1526,12 @@ export async function bootGame(
     })
   }
 
-  function scheduleAutoStep(id: string, dir: Facing, signal: AbortSignal): Promise<AutoStepAck> {
+  function scheduleAutoStep(
+    id: string,
+    dir: Facing,
+    signal: AbortSignal,
+    checkpoint?: ScriptRuntimeContext['autoMotionCheckpoint'],
+  ): Promise<AutoStepAck> {
     try {
       signal.throwIfAborted()
     } catch (error) {
@@ -1547,6 +1552,9 @@ export async function bootGame(
       sceneId: activeScene.scene.id,
       signal,
       activation: { ownerId: activation.entityId, epoch: activation.epoch },
+      ...(checkpoint
+        ? { onCommitted: (phase: 'continuation' | 'done') => checkpoint.settle(phase) }
+        : {}),
     })
   }
 
@@ -1554,9 +1562,15 @@ export async function bootGame(
     id: string,
     dir: Facing,
     signal: AbortSignal,
+    checkpoint?: ScriptRuntimeContext['autoMotionCheckpoint'],
   ): Promise<AutoStepAck> {
     const continuationSceneToken = currentMotionSceneSessionId()
-    const ack = await scheduleAutoStep(id, dir, signal)
+    if (checkpoint?.phase !== undefined) {
+      if (checkpoint.phase === 'continuation')
+        await waitForAutoMotionContinuation(id, continuationSceneToken, signal)
+      return { outcome: 'droppedByAuthority' }
+    }
+    const ack = await scheduleAutoStep(id, dir, signal, checkpoint)
     if (ack.outcome === 'attempted') {
       try {
         await waitForAutoMotionContinuation(id, continuationSceneToken, signal)
@@ -1573,6 +1587,7 @@ export async function bootGame(
     range: number,
     floating: boolean,
     signal: AbortSignal,
+    checkpoint?: ScriptRuntimeContext['autoMotionCheckpoint'],
   ): Promise<AutoOneShotAck> {
     try {
       signal.throwIfAborted()
@@ -1625,6 +1640,9 @@ export async function bootGame(
           })
       },
       onCancelled: (entry) => clearPendingChaseTerminal(id, { commandEpoch: entry.commandEpoch }),
+      ...(checkpoint
+        ? { onCommitted: (phase: 'continuation' | 'done') => checkpoint.settle(phase) }
+        : {}),
     })
   }
 
@@ -1635,6 +1653,7 @@ export async function bootGame(
     speed: number,
     floating: boolean,
     signal: AbortSignal,
+    checkpoint?: ScriptRuntimeContext['autoMotionCheckpoint'],
   ): Promise<void> {
     const continuationSceneToken = currentMotionSceneSessionId()
     assertRunnerActive(signal, `追逐 ${entityId} 所属 runner 已取消`)
@@ -1642,6 +1661,12 @@ export async function bootGame(
     if (entityMotionPermanentlyRemoved(entityId))
       throw asyncIntentAbortError(`追逐实体 ${entityId} 已永久移除`)
     const activation = source === 'auto' ? autoActivationBySignal.get(signal) : undefined
+    if (checkpoint?.phase === 'done') return
+    if (checkpoint?.phase === 'continuation') {
+      await waitForAutoMotionContinuation(entityId, continuationSceneToken, signal)
+      await host.wait(Math.max(80, 480 / Math.max(1, speed)), signal)
+      return
+    }
     if (source === 'auto') {
       if (!activation || autoActivations.get(activation.entityId) !== activation)
         throw asyncIntentAbortError(`追逐 ${entityId} 的 auto activation 已失效`)
@@ -1658,10 +1683,12 @@ export async function bootGame(
       }
     }
     if (!e || !entityLifecycleGates(e).visible) {
+      checkpoint?.settle('done')
       await host.wait(200, signal)
       return
     }
     if (source === 'auto' && authority.has(entityId)) {
+      checkpoint?.settle('done')
       clearPendingChaseTerminal(entityId, {
         source: 'auto',
         activationOwnerId: activation?.entityId,
@@ -1705,32 +1732,47 @@ export async function bootGame(
           // Dialogue does not freeze unrelated auto motion, but the one global trigger runner is
           // still exclusive. Hold this exact terminal claim (and hostile exclusion) until it can
           // really start rather than dropping or replaying it.
-          while (
-            pendingTouchTrigger.pending ||
-            worldTriggerDeliveryBusy() ||
-            !entityLifecycleGates(e, { hasAuto: true }).autoAllowed
-          ) {
-            signal.throwIfAborted()
-            if (
-              authority.has(entityId) ||
-              (authorityEpoch.get(entityId) ?? 0) !== terminalAuthorityEpoch
+          while (true) {
+            while (
+              pendingTouchTrigger.pending ||
+              worldTriggerDeliveryBusy() ||
+              !entityLifecycleGates(e, { hasAuto: true }).autoAllowed
             ) {
-              clearPendingChaseTerminal(entityId, { commandEpoch: claim.commandEpoch })
-              return
+              signal.throwIfAborted()
+              if (
+                authority.has(entityId) ||
+                (authorityEpoch.get(entityId) ?? 0) !== terminalAuthorityEpoch
+              ) {
+                clearPendingChaseTerminal(entityId, { commandEpoch: claim.commandEpoch })
+                checkpoint?.settle('done')
+                return
+              }
+              if (
+                currentMotionSceneSessionId() !== continuationSceneToken ||
+                !activation ||
+                autoActivations.get(activation.entityId) !== activation
+              )
+                throw asyncIntentAbortError(`追逐 ${entityId} 的 terminal claim 已失效`)
+              await host.wait(120, signal)
             }
+            await checkpoint?.beginMutation()
+            // The async acquisition must not dispatch a trigger through a newly closed gate.
             if (
-              currentMotionSceneSessionId() !== continuationSceneToken ||
-              !activation ||
-              autoActivations.get(activation.entityId) !== activation
-            )
-              throw asyncIntentAbortError(`追逐 ${entityId} 的 terminal claim 已失效`)
-            await host.wait(120, signal)
+              pendingTouchTrigger.pending ||
+              worldTriggerDeliveryBusy() ||
+              !entityLifecycleGates(e, { hasAuto: true }).autoAllowed
+            ) {
+              checkpoint?.ready()
+              continue
+            }
+            break
           }
           if (
             authority.has(entityId) ||
             (authorityEpoch.get(entityId) ?? 0) !== terminalAuthorityEpoch
           ) {
             clearPendingChaseTerminal(entityId, { commandEpoch: claim.commandEpoch })
+            checkpoint?.settle('done')
             return
           }
           if (!fireTrigger(e)) {
@@ -1750,6 +1792,7 @@ export async function bootGame(
             }
             clearPendingChaseTerminal(entityId, { commandEpoch: claim.commandEpoch })
           }
+          checkpoint?.settle('done')
         } catch (error) {
           clearPendingChaseTerminal(entityId, { commandEpoch: claim.commandEpoch })
           throw error
@@ -1761,12 +1804,13 @@ export async function bootGame(
       return
     }
     if (dist > range) {
+      checkpoint?.settle('done')
       pendingChaseTerminal.delete(entityId)
       await host.wait(240, signal)
       return
     }
     pendingChaseTerminal.delete(entityId)
-    const outcome = await scheduleChaseMotion(source, entityId, range, floating, signal)
+    const outcome = await scheduleChaseMotion(source, entityId, range, floating, signal, checkpoint)
     if (source === 'auto' && outcome === 'attempted')
       await waitForAutoMotionContinuation(entityId, continuationSceneToken, signal)
     await host.wait(Math.max(80, 480 / Math.max(1, speed)), signal)
@@ -2965,7 +3009,28 @@ export async function bootGame(
       // droppedByAuthority completes immediately. An attempted step first crosses the shared
       // target-scoped continuation gate, so same-tick touch/lifecycle ownership is visible before
       // the next command can run.
-      await runAutoStepThroughContinuation(command.target.entity, command.dir, signal)
+      await runAutoStepThroughContinuation(
+        command.target.entity,
+        command.dir,
+        signal,
+        context.autoMotionCheckpoint,
+      )
+      return
+    }
+    if (
+      command.kind === 'chasePlayer' &&
+      context.timing === 'auto' &&
+      context.self?.scene === activeScene.scene.id
+    ) {
+      await runChaseStep(
+        'auto',
+        context.self.entity,
+        command.range ?? 8,
+        command.speed ?? 4,
+        command.floating ?? false,
+        signal,
+        context.autoMotionCheckpoint,
+      )
       return
     }
     await executeScriptHostEffect(
@@ -3464,6 +3529,7 @@ export async function bootGame(
           // position; becoming adjacent/out-of-range completes this attempt and lets the next leaf
           // retain the authored pre-close trigger semantics.
           if (distance <= 1 || distance > slot.range) {
+            slot.commitAttempt?.()
             // Do not wake the command synchronously. A same-tick touch may take/hide/replace this
             // actor; its script must establish that ownership before the chase reaches its next
             // safe point. The exact slot stays registered until queueContinuations.
@@ -3748,6 +3814,10 @@ export async function bootGame(
         }
       },
       afterLiveCommit: () => {
+        // Keep queued/re-enterable and committed/non-repeatable one-shots paired with the live
+        // pose in this same stack, before touch and the deliberately deferred Promise wake-up.
+        for (const { meta } of entityOutcomes)
+          if (meta.slot?.kind === 'step' || meta.slot?.kind === 'chase') meta.slot.commitAttempt?.()
         for (const { meta } of entityOutcomes) if (meta.hostile) hostileReady.delete(meta.entity.id)
         settleEntityGaitsForTick()
       },

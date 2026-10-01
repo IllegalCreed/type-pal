@@ -263,6 +263,8 @@ export async function readInnContract(root = repoRoot) {
     'packages/reforge/src/script-project-core.ts',
     'packages/reforge/src/motion-runtime-wiring.ts',
     'packages/reforge/src/motion-runtime-coordinator.ts',
+    'packages/reforge/src/world-motion-runtime.ts',
+    'packages/reforge/src/runtime-input-router.ts',
     'packages/reforge/src/entity-lifecycle.ts',
     'projects/pal/content/actors.json',
     'packages/content/src/author-dialogue.ts',

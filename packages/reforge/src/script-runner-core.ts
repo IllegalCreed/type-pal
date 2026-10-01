@@ -31,6 +31,15 @@ export type ScriptGateBoundary =
 export interface ScriptRuntimeContext {
   self?: EntityAddress
   timing?: ScriptTiming
+  autoMotionCheckpoint?: AutomaticMotionCheckpoint
+}
+
+/** Engine-only one-shot commit handshake; never an authored step or persistent function. */
+export interface AutomaticMotionCheckpoint {
+  readonly phase: 'continuation' | 'done' | undefined
+  settle(phase: 'continuation' | 'done'): void
+  ready(): void
+  beginMutation(): Promise<void>
 }
 
 export interface ScriptRuntimeHostLike<RuntimeLeafCommand> {
@@ -457,22 +466,64 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     const frame = this.frames.at(-1)
     if (!frame) throw new Error('ScriptRunnerCore: 缺少执行帧')
     switch (command.kind) {
-      case 'leaf':
+      case 'leaf': {
+        const motionKind =
+          typeof command.command === 'object' &&
+          command.command !== null &&
+          'kind' in command.command
+            ? command.command.kind
+            : undefined
+        const checkpointedMotion =
+          !!this.checkpointController &&
+          (motionKind === 'stepEntity' || motionKind === 'chasePlayer')
+        const index = frame.index
+        const current = () =>
+          !this.signal.aborted && this.frames.includes(frame) && frame.index === index
+        const publish = () => {
+          if (!current()) return
+          try {
+            this.checkpoint(true)
+          } catch (error) {
+            // A stale lease must not throw into the host's synchronous motion commit batch.
+            if (!(error instanceof ScriptStopped)) throw error
+          }
+        }
+        const autoMotionCheckpoint: AutomaticMotionCheckpoint | undefined = checkpointedMotion
+          ? {
+              get phase() {
+                return frame.control?.kind === 'leaf' ? frame.control.phase : undefined
+              },
+              settle: (phase) => {
+                if (!current()) return
+                frame.control = { kind: 'leaf', command: motionKind, phase }
+                publish()
+              },
+              ready: publish,
+              beginMutation: () => this.beginCheckpointMutation(),
+            }
+          : undefined
         // Absolute target movement can re-enter from the captured live position. A wait may
         // restart its duration; neither repeats a committed reward or relative displacement.
         if (
           typeof command.command === 'object' &&
           command.command !== null &&
           'kind' in command.command &&
-          (command.command.kind === 'moveEntity' || command.command.kind === 'wait')
+          (command.command.kind === 'moveEntity' ||
+            command.command.kind === 'wait' ||
+            checkpointedMotion)
         )
           this.checkpoint(true)
         await this.host.execute(
           command.command,
-          { self: this.self, timing: this.runningTiming },
+          {
+            self: this.self,
+            timing: this.runningTiming,
+            ...(autoMotionCheckpoint ? { autoMotionCheckpoint } : {}),
+          },
           this.signal,
         )
         return
+      }
       case 'stop':
         throw new ScriptStopped()
       case 'branch': {

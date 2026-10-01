@@ -38,6 +38,18 @@ describe('engine-only automatic continuation guard', () => {
     expect(JSON.stringify(value)).toEqual(before)
   })
   test.each([
+    'stepEntity',
+    'chasePlayer',
+  ] as const)('accepts the internal %s continuation/done phases', (command) => {
+    for (const phase of ['continuation', 'done'] as const) {
+      const value = world({
+        ...resume(),
+        frames: [{ index: 0, control: { kind: 'leaf', command, phase } }],
+      })
+      expect(() => checkWorldScriptState(value)).not.toThrow()
+    }
+  })
+  test.each([
     { ...resume(), digest: 'not-a-digest' },
     { ...resume(), frames: [] },
     { ...resume(), frames: [{ index: -1 }] },
@@ -56,6 +68,14 @@ describe('engine-only automatic continuation guard', () => {
     { ...resume(), frames: Array.from({ length: 257 }, () => ({ index: 0 })) },
     { ...resume(), outcomes: { answer: { command: 'confirm', no: 'no' } } },
     { ...resume(), caller: 'old-format' },
+    {
+      ...resume(),
+      frames: [{ index: 0, control: { kind: 'leaf', command: 'giveMoney', phase: 'done' } }],
+    },
+    {
+      ...resume(),
+      frames: [{ index: 0, control: { kind: 'leaf', command: 'stepEntity', phase: 'queued' } }],
+    },
   ])('rejects malformed runtime-only state %#', (value) => {
     expect(() => checkWorldScriptState(world(value))).toThrow(/resume/)
   })

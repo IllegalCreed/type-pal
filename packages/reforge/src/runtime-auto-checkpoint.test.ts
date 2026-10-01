@@ -511,6 +511,7 @@ test.each([
   'control',
   'child',
   'outcome',
+  'motion-phase',
 ] as const)('restore preflight refuses corrupt %s without executing anything', async (kind) => {
   const entered = deferred(),
     arrive = deferred()
@@ -546,6 +547,8 @@ test.each([
   if (kind === 'control') resume.frames[0]!.control = { kind: 'branch', arm: 'then' }
   if (kind === 'child') resume.frames.push({ index: 0 })
   if (kind === 'outcome') resume.outcomes.missing = { command: 'confirm', no: false }
+  if (kind === 'motion-phase')
+    resume.frames[0]!.control = { kind: 'leaf', command: 'stepEntity', phase: 'done' }
   const before = structuredClone(f.world)
   await expect(
     f.runtime.validateAutomaticContinuations(snapshot, new AbortController().signal),

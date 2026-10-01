@@ -59,6 +59,17 @@ export async function validateScriptContinuation<T>(
     const hasChild = depth < resume.frames.length - 1
     if (frame.control && (!command || command.kind !== frame.control.kind))
       throw new Error(`auto resume: 帧${depth}控制类型不匹配`)
+    if (frame.control?.kind === 'leaf') {
+      if (
+        command?.kind !== 'leaf' ||
+        typeof command.command !== 'object' ||
+        command.command === null ||
+        !('kind' in command.command) ||
+        command.command.kind !== frame.control.command
+      )
+        throw new Error('auto resume: 单步相位与命令不匹配')
+      if (hasChild) throw new Error('auto resume: 单步相位不能有子帧')
+    }
     if (frame.control?.kind === 'loop' && command?.kind === 'loop') {
       if (frame.control.iteration > command.maxIterations)
         throw new Error('auto resume: loop迭代越界')

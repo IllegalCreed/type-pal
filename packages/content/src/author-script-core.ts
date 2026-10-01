@@ -59,6 +59,7 @@ export type AutoCommandControl =
   | { kind: 'confirm'; no: boolean }
   | { kind: 'startBattle'; arm: 'onLose' | 'onFlee' | 'none' }
   | { kind: 'teleportOut'; failed: boolean }
+  | { kind: 'leaf'; command: 'stepEntity' | 'chasePlayer'; phase: 'continuation' | 'done' }
 
 export interface AutoCommandFrame {
   /** Execution ordinal in the exact content digest, never an entity/behavior identity. */
@@ -1241,6 +1242,13 @@ export function checkAutoScriptContinuation(value: unknown, path = 'resume'): vo
     const control = record(frame.control, `${p}.control`)
     const cp = `${p}.control`
     switch (control.kind) {
+      case 'leaf':
+        exactKeys(control, ['kind', 'command', 'phase'], cp)
+        if (control.command !== 'stepEntity' && control.command !== 'chasePlayer')
+          throw new Error(`${cp}.command: 非法自动单步命令`)
+        if (control.phase !== 'continuation' && control.phase !== 'done')
+          throw new Error(`${cp}.phase: 非法自动单步相位`)
+        break
       case 'branch':
         exactKeys(control, ['kind', 'arm'], cp)
         if (control.arm !== 'then' && control.arm !== 'else') throw new Error(`${cp}.arm: 非法分支`)

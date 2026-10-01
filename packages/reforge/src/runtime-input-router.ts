@@ -30,7 +30,6 @@ export function routeRuntimeInput(
       ports.confirm.toggle()
     else if (confirm) ports.confirm.yes()
     else if (cancel) ports.confirm.no()
-    else if (pressed.has('F5')) ports.quickSave()
   } else if (ports.consumeShop(pressed)) {
     // The active shop, including an ignored key, owns this frame.
   } else if (ports.consumeReward(pressed)) {

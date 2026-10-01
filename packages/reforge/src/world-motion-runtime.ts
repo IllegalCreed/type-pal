@@ -32,6 +32,8 @@ export interface EntityMotionSlotBase {
   resolve(): void
   cancel(message: string): void
   dropByAuthority?: () => void
+  /** Same-stack notification after the one-shot's live motion attempt is committed. */
+  commitAttempt?(): void
 }
 
 export interface EntityMoveSlot extends EntityMotionSlotBase {
@@ -109,6 +111,7 @@ interface RegisterAutoStepInput {
   sceneId: string
   signal: AbortSignal
   activation: ActivationStamp
+  onCommitted?(phase: 'continuation' | 'done'): void
 }
 
 interface RegisterChaseInput {
@@ -122,6 +125,7 @@ interface RegisterChaseInput {
   onRegistered(slot: EntityChaseSlot): void
   onDropped(): void
   onCancelled(slot: EntityChaseSlot): void
+  onCommitted?(phase: 'continuation' | 'done'): void
 }
 
 interface PlanWorldMotionInput
@@ -293,13 +297,22 @@ export class WorldMotionRuntime {
       const { id, signal } = input
       signal.throwIfAborted()
       if (this.coordinator.authority.has(id)) {
+        input.onCommitted?.('done')
         resolve({ outcome: 'droppedByAuthority' })
         return
       }
       let settled = false
+      let committed = false
       let entry!: EntityStepSlot
+      const commitAttempt = (): void => {
+        if (settled || committed) return
+        committed = true
+        input.onCommitted?.('continuation')
+      }
       const settle = (outcome: AutoOneShotAck): void => {
         if (settled) return
+        if (outcome === 'attempted') commitAttempt()
+        else input.onCommitted?.('done')
         settled = true
         signal.removeEventListener('abort', abort)
         if (outcome === 'attempted') this.coordinator.rememberCommittedAutoContinuation(id, entry)
@@ -317,6 +330,7 @@ export class WorldMotionRuntime {
         activationOwnerId: input.activation.ownerId,
         activationEpoch: input.activation.epoch,
         authorityEpochAtEnqueue: this.coordinator.epoch(id),
+        commitAttempt,
         resolve: (): void => settle('attempted'),
         dropByAuthority: (): void => settle('droppedByAuthority'),
         cancel: (message: string): void => {
@@ -342,14 +356,23 @@ export class WorldMotionRuntime {
       const registry =
         source === 'script' ? this.coordinator.scriptSlots : this.coordinator.autoSlots
       if (source === 'auto' && this.coordinator.authority.has(id)) {
+        input.onCommitted?.('done')
         input.onDropped()
         resolve('droppedByAuthority')
         return
       }
       let settled = false
+      let committed = false
       let entry!: EntityChaseSlot
+      const commitAttempt = (): void => {
+        if (settled || committed) return
+        committed = true
+        input.onCommitted?.('continuation')
+      }
       const settle = (outcome: AutoOneShotAck): void => {
         if (settled) return
+        if (outcome === 'attempted') commitAttempt()
+        else input.onCommitted?.('done')
         settled = true
         signal.removeEventListener('abort', abort)
         if (registry.get(id) === entry) registry.delete(id)
@@ -363,6 +386,7 @@ export class WorldMotionRuntime {
         floating: input.floating,
         commandEpoch: this.nextCommandEpoch(),
         sceneSessionId: this.currentSceneSessionId(input.sceneId),
+        commitAttempt,
         ...(input.activation
           ? {
               activationOwnerId: input.activation.ownerId,

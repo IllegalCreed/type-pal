@@ -118,6 +118,26 @@ Branch: codex/e2e-003
   正式冻结0b49ea4d4的第二套RF001→002→003都passed；因本次实现返工，仍只作为历史旅程证据。
 - 独立席正在定向复核两个counter闭合及相对走位的暂停边界；未收到accept，不宣布独立验收或main发布完成。
 
+### 相对巡逻/追逐存档菜单返工准入
+
+- 独立席与Root直接核main1559/1769的one-shot队列、main3244的菜单冻结以及motion-runtime-wiring113的target/owner等待。
+  普通auto step/chase尚未落步时打开菜单，会冻结应答世界拍，而旧readiness=false令写槽等待十秒；不涉及未完成交互。
+  已落步后的target/owner suspend也可能把同一叶永久停在续行门。
+- 04630a466恢复项闭合，但当前整体仍counter；本卡不以局部绿例发布。第一阶段/SDLPal一手证据独立复读与目标一致。
+- build allowed增量：仅自动step/chase新增引擎内部leaf continuation/done相位；尚未提交的意图允许从快照坐标重入，
+  motion batch实际提交与相位记录同栈线性化，不在延后ack之后才记录。已提交相对位移不可重放，只等原target/owner门。
+  chase触发交互前经原子门转unsafe，交互结束后才记done；仍不允许中途战斗/对话保存。不新增作者步骤/状态/UI。
+- 最强替代解释“允许整个相对命令重跑”会重复已提交位移或追逐触发；实际反控必须覆盖菜单未落步、提交后暂停与读档不复走。
+- 用户补充产品裁决：F5快速存档只在能主动打开菜单存档时允许，不能越过活动剧情/确认框；
+  runtime-input-router旧确认框F5例外实际违背该裁决，删除例外，并加入全部128层组合的快捷/手动准入等价反控。
+- `auto-checkpoint-one-shot-menu-red.log`2 fail / 11 pass直接复现普通菜单写槽被未落步step/chase阻塞；
+  `auto-checkpoint-quick-policy-red.log`2 fail / 20 pass复现确认框F5越权。
+- 一次意图提交相位写入motion batch的afterLiveCommit，不等延后Promise应答；投影坐标与continuation配对。
+  chase尚未发trigger只保留当前指令，无done标记；fireTrigger前原子取得unsafe，业务结束后才done。
+- 针对性6文件125例通过；追加真实手动槽pending chase恢复回归后，`auto-checkpoint-terminal-pending.log`真实主壳19例全绿。
+  guard新增合法step/chase相位与伪相位反控21例通过；类型检查通过，`auto-checkpoint-motion-final-lint.log`2725文件零诊断。
+  正式全仓/E2E和独立新候选accept待最终冻结后记实收据，候选仍未发布。
+
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，Root继续实现与验证，完成后等待用户体验验收。

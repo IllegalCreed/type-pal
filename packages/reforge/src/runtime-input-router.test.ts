@@ -37,7 +37,7 @@ test.each([
   [['Enter', 'Escape', 'F5'], 'yes'],
   [[' ', 'F5'], 'yes'],
   [['Escape', 'F5'], 'no'],
-  [['F5'], 'save'],
+  [['F5'], undefined],
   [['F9'], undefined],
   [[], undefined],
 ] as const)('confirmation modal priorities for %j', (keys, event) => {
@@ -106,4 +106,21 @@ test('dialogue ignores save, escape and debug keys and receives real rather than
   expect(f.events).toEqual([])
   routeRuntimeInput(new Set([' ']), 9100, f.ports)
   expect(f.events).toEqual([['dialogue', 9100]])
+})
+
+test('quick save is available exactly where the manual-save menu can open, across all active layers', () => {
+  const flags = ['confirm', 'shop', 'reward', 'menu', 'dialogue', 'runner', 'hostile'] as const
+  for (let mask = 0; mask < 128; mask++) {
+    const quick = inputFixture(),
+      manual = inputFixture()
+    flags.forEach((name, index) => {
+      quick.state[name] = manual.state[name] = !!(mask & (1 << index))
+    })
+    routeRuntimeInput(new Set(['F5']), 0, quick.ports)
+    routeRuntimeInput(new Set(['Escape']), 0, manual.ports)
+    expect(
+      quick.events.some(([event]) => event === 'save'),
+      `active mask ${mask}`,
+    ).toBe(manual.events.some(([event]) => event === 'open'))
+  }
 })

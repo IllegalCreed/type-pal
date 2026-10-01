@@ -150,6 +150,426 @@ test.each([
 const target = { scene: 'a', entity: 'npc' }
 const endpoint = { col: 5, row: 4, height: 0 }
 
+test.each([
+  'stepEntity',
+  'chasePlayer',
+] as const)('the ordinary save menu snapshots a queued auto %s without waiting for a frozen world tick', async (kind) => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: { col: 4, row: 4, height: 0 },
+      pages: [{ id: 'normal', label: 'Normal', auto: 'move' }],
+      initialPage: 'normal',
+      behaviors: {
+        auto: {
+          move: {
+            label: 'Move',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                {
+                  id: 'first',
+                  body: [
+                    kind === 'stepEntity' ? { kind, target, dir: 'right' } : { kind, range: 8 },
+                    { kind: 'giveMoney', delta: 7 },
+                  ],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const booted = await bootScenario(host, { first })
+  await drain()
+  await key(host, 'Escape', 1)
+  expect(state().renderDebug.menuActive).toBe(true)
+  const initial = structuredClone(state().entities[0]!.pos)
+  for (const value of ['ArrowUp', 'Enter', 'Enter', 'ArrowDown', 'ArrowDown', 'Enter'])
+    await key(host, value)
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  for (let turn = 0; turn < 20 && !(await store.getPayload('m01')); turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('m01')
+  expect(saved).not.toBeNull()
+  expect(saved?.world.money).toBe(50)
+  expect(saved?.world.script?.entityPos?.a?.npc).toEqual(initial)
+  expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 0 },
+  ])
+  booted.assertInputUnchanged()
+})
+
+test.each([
+  'stepEntity',
+  'chasePlayer',
+] as const)('a committed auto %s is saved before its deferred ack and never applies its relative movement twice after F9', async (kind) => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: { col: 4, row: 4, height: 0 },
+      pages: [{ id: 'normal', label: 'Normal', auto: 'move' }],
+      initialPage: 'normal',
+      behaviors: {
+        auto: {
+          move: {
+            label: 'Move',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                {
+                  id: 'first',
+                  body: [
+                    kind === 'stepEntity' ? { kind, target, dir: 'right' } : { kind, range: 8 },
+                    { kind: 'giveMoney', delta: 7 },
+                  ],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const booted = await bootScenario(host, { first })
+  await drain()
+  host.frame(100)
+  const committed = structuredClone(state().entities[0]!.pos)
+  expect(committed).not.toEqual({ col: 4, row: 4, height: 0 })
+  // Do not settle the timeout-based motion ack before requesting this real snapshot.
+  await key(host, 'F5', 1)
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  for (let turn = 0; turn < 20 && !(await store.getPayload('quick')); turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('quick')
+  expect(saved?.world.money).toBe(50)
+  expect(saved?.world.script?.entityPos?.a?.npc).toEqual(committed)
+  expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 0, control: { kind: 'leaf', command: kind, phase: 'continuation' } },
+  ])
+  await key(host, 'F9', 1)
+  for (let turn = 0; turn < 10; turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  await advance(
+    host,
+    () => state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at.kind === 'completed',
+  )
+  expect(state().entities[0]!.pos).toEqual(committed)
+  expect(state().world.money).toBe(57)
+  booted.assertInputUnchanged()
+})
+
+test.each([
+  'owner',
+  'target',
+] as const)('a committed cross-target auto step suspended at its %s is immediately saveable and resumes without a second step', async (who) => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  const paused = { scene: 'a', entity: who === 'owner' ? 'owner' : 'npc' }
+  first.entities = [
+    { id: 'npc', sprite: 'walker', pos: { col: 4, row: 4, height: 0 } },
+    {
+      id: 'owner',
+      sprite: 'walker',
+      pos: { col: 8, row: 8, height: 0 },
+      pages: [{ id: 'normal', label: 'Normal', auto: 'move' }],
+      initialPage: 'normal',
+      behaviors: {
+        auto: {
+          move: {
+            label: 'Move target',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                {
+                  id: 'first',
+                  body: [
+                    { kind: 'stepEntity', target, dir: 'right' },
+                    { kind: 'giveMoney', delta: 7 },
+                  ],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'switch',
+      sprite: 'walker',
+      pos: { col: 2, row: 3, height: 0 },
+      pages: [
+        {
+          id: 'normal',
+          label: 'Normal',
+          trigger: 'pause',
+          triggerActivation: { on: 'interact', range: 2 },
+        },
+      ],
+      initialPage: 'normal',
+      behaviors: {
+        trigger: {
+          pause: {
+            label: 'Pause / restore',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'pause',
+              stages: [
+                {
+                  id: 'pause',
+                  body: [{ kind: 'suspendEntity', target: paused, ticks: 1_000_000 }],
+                  next: 'resume',
+                },
+                {
+                  id: 'resume',
+                  body: [{ kind: 'restoreEntity', target: paused }],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const booted = await bootScenario(host, { first })
+  await drain()
+  host.frame(100)
+  const committed = structuredClone(state().entities[0]!.pos)
+  expect(committed.col).toBe(4.25)
+  await key(host, 'Enter', 1)
+  for (let turn = 0; turn < 10; turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  expect(state().world.entityLifecycles?.a?.[paused.entity]?.phase).toBe('suspended')
+  expect(state().script.running).toBe(false)
+  await key(host, 'F5', 1)
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  for (let turn = 0; turn < 20 && !(await store.getPayload('quick')); turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('quick')
+  expect(saved?.world.money).toBe(50)
+  expect(saved?.world.script?.behaviors.entities?.a?.owner?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 0, control: { kind: 'leaf', command: 'stepEntity', phase: 'continuation' } },
+  ])
+  await key(host, 'F9', 1)
+  for (let turn = 0; turn < 10; turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  expect(state().entities[0]!.pos).toEqual(committed)
+  expect(state().world.money).toBe(50)
+  await key(host, 'Enter', 1)
+  await advance(
+    host,
+    () => state().world.script?.behaviors.entities?.a?.owner?.auto?.cursor?.at.kind === 'completed',
+  )
+  expect(state().entities[0]!.pos).toEqual(committed)
+  expect(state().world.money).toBe(57)
+  booted.assertInputUnchanged()
+})
+
+test('a completed chase-trigger interaction is saved during its pacing wait and never rewards twice after F9', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: { col: 3, row: 2, height: 0 },
+      pages: [
+        {
+          id: 'normal',
+          label: 'Normal',
+          auto: 'chase',
+          trigger: 'greet',
+          triggerActivation: { on: 'interact', range: 1 },
+        },
+      ],
+      initialPage: 'normal',
+      behaviors: {
+        auto: {
+          chase: {
+            label: 'Chase once',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                {
+                  id: 'first',
+                  body: [{ kind: 'chasePlayer' }, { kind: 'giveMoney', delta: 7 }],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+        trigger: {
+          greet: {
+            label: 'Greet',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [{ id: 'first', body: [{ kind: 'giveMoney', delta: 5 }] }],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const booted = await bootScenario(host, { first })
+  await advance(
+    host,
+    () =>
+      state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames[0]?.control
+        ?.kind === 'leaf',
+  )
+  expect(state().world.money).toBe(55)
+  expect(state().script.running).toBe(false)
+  await key(host, 'F5', 1)
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  for (let turn = 0; turn < 20 && !(await store.getPayload('quick')); turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('quick')
+  expect(saved?.world.money).toBe(55)
+  expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 0, control: { kind: 'leaf', command: 'chasePlayer', phase: 'done' } },
+  ])
+  await key(host, 'F9', 1)
+  for (let turn = 0; turn < 10; turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  await advance(
+    host,
+    () => state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at.kind === 'completed',
+  )
+  expect(state().world.money).toBe(62)
+  booted.assertInputUnchanged()
+})
+
+test('a chase terminal held by the manual-save menu remains pending in the real slot and fires once after restoring that slot', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: { col: 3, row: 2, height: 0 },
+      pages: [
+        {
+          id: 'normal',
+          label: 'Normal',
+          auto: 'chase',
+          trigger: 'greet',
+          triggerActivation: { on: 'interact', range: 1 },
+        },
+      ],
+      initialPage: 'normal',
+      behaviors: {
+        auto: {
+          chase: {
+            label: 'Chase once',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                {
+                  id: 'first',
+                  body: [
+                    { kind: 'wait', ms: 200 },
+                    { kind: 'chasePlayer' },
+                    { kind: 'giveMoney', delta: 7 },
+                  ],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+        trigger: {
+          greet: {
+            label: 'Greet',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [{ id: 'first', body: [{ kind: 'giveMoney', delta: 5 }] }],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const booted = await bootScenario(host, { first })
+  await drain()
+  await key(host, 'Escape', 1)
+  for (const value of ['ArrowUp', 'Enter', 'Enter', 'ArrowDown', 'ArrowDown', 'Enter'])
+    await key(host, value)
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  for (let turn = 0; turn < 20 && !(await store.getPayload('m01')); turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('m01')
+  expect(saved?.world.money).toBe(50)
+  expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 1 },
+  ])
+  for (let layer = 0; layer < 4 && state().renderDebug.menuActive; layer++)
+    await key(host, 'Escape', 1)
+  await advance(
+    host,
+    () => state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at.kind === 'completed',
+  )
+  expect(state().world.money).toBe(62)
+  // Hub remembers system, system remembers save, and the only populated browser slot is m01.
+  for (const value of ['Escape', 'Enter', 'ArrowDown', 'Enter', 'Enter']) await key(host, value, 1)
+  for (let turn = 0; turn < 20; turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  expect(state().renderDebug.menuActive).toBe(false)
+  await advance(
+    host,
+    () => state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at.kind === 'completed',
+  )
+  expect(state().world.money).toBe(62)
+  expect(await store.getPayload('m01')).toEqual(saved)
+  booted.assertInputUnchanged()
+})
+
 /** Actual authored flow, translated into the legal small shell fixture; no business module mock. */
 function auntRouteScene(startWithRoute = true) {
   const aunt = validateAuthorScenes([structuredClone(inn)])[0]!.entities.find(

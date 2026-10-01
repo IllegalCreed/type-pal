@@ -167,7 +167,8 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 - `WorldScriptState` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，
   以及 Page/Behavior/Hook 选择、epoch 和 `FlowCursor`。
-- 存档只在 flow safe-point 捕获 cursor；不持久化 command index、调用栈或 wait 中间相位。
+- 作者cursor仍在flow业务边界提交；SAVE10另保存自动flow的引擎内部命令续跑位置、嵌套控制帧及单步提交相位，
+  不把它们变成作者步骤，也不保存临时交互/战斗调用栈。后台移动不等待整步结束才允许存档，详见当前存档合同。
 - 默认 auto 的 100ms compatibility boundary、段间 40ms、hidden/authority 等兼容调度由
   compiler 显式物化；`cadence:'transition'` 则只物化 transition 声明的节拍。runtime 不再靠
   遍历 AST 后的隐式 sleep 猜节拍。
