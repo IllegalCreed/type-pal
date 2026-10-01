@@ -31,9 +31,9 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 修正常三态误拒、退役三旧针、逐条件真账后续余族 | r8 469执行，新content1411绿/静态零；62存档60目标有效，已删目标不重造；原700未完 |
-| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 窄项accept后继续P02–P10合法增量 | r3.6 67执行，新3853全绿/静态零；三相raw/G03/22自测关闭，10针有效；F14/F18及原700未完 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 退役NT8、扣旧配额、同步账并续合法余族 | r8 134执行/净新上限133，56存档50执行目标；10针独立重放，新增合同目标仍至少缺1；静态零 |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 新桥、真账排重与完整路径身份后续余族 | r9 497执行/净新上限≤492；69结构存档67目标，正常三态关闭；704/1439/154绿/静态零，原700未完 |
+| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 修canonical fixture、伪证/旧证明与RAF焦点实红 | r9 79执行/净新上限≤76，3864绿+1红及三次定向红；15结构存档，旧10保留；静态零，F14/F18未证 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 合法YJ2/PAT正控、FP真轴与51/50目标分列 | r9 135执行/C134待合法性；61结构存档51执行目标，非55；五针15相对应，NT8关闭；静态零，原700未完 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待错误承接窄准入 | 合法当前存档+外部读失败独立复现1未处理拒绝，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |

@@ -212,3 +212,16 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```text
 继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支codex/glm-wave-o-supply-validation-r1，固定5cf74bdd1ae3dd47d953b504362c83697cb5fbb0。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md/json及原卡最新段。只补O-R8-01～03：正常0→1→0身份相同但目标状态应变化，修唯一judge的跨相状态误拒、spec短title误拒，完整目标/完整包路径与collection/runtime拒收；用真实存档及整段合法生命周期正控自测。O08-CC8/9、O09-CC13目标已删，保留历史并退役，不重采或重造；剩余62存档60目标不变保留。旧删重/typed/raw未处理异常/exit拒收与清理已闭合不重做。分域人工真账替代token最近标题与首断言生成器；明确matcher和值、源条件/caller、旧fullName断言锚。资源7→0同条件cross-check不计新，同步净新上限468/缺口至少232、691路径和历史数。然后持续原合法余族，700/60组/50不同合同目标不缩，CLI仅mkdtemp。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原O新测/fixture/wave-O白名单；产品/旧测/配置/baseline/真实数据/P/Q/共享文档只读。每批定向相邻/typecheck，最终静态0/0/0、全包/docs/diff/verifier后阶段推送完整SHA；不合main、不done、不官方门、不清树。
 ```
+
+
+## Codex r9 独立复核（2026-10-02，最新）
+
+固定 ad468369015a4ec9c4652f3e24de603f77c42b07，counter/rework。新704/1439/154全绿、三typecheck零，lint3215文件0/0/0、docs/diff/716冻结/760白名单过，497最终身份匹配。69三态结构对应/67执行目标；正常三态误拒、collection/runtime与三旧针退役关闭，实际O01-CC1 runner全过并干净清理。新6强转、至少4 ambience旧合同、串邻例/截答案/token真账未闭；judge仍末两段路径跨包误收与顶层执行数漏核、新7短title未钉完整目标。净新上限≤492、缺口≥208并待合法性复核；原700/60组不缩，只重采源/执行集变动的针，未变证据保留。
+
+[详细结论与交接](../../testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md)、[机器总证据](../../testing/glm-tenfold-triple/codex-opq-r9-review-20261002.json)。未写贡献者树、未自动投递、未合main/done/正式结算。代码阶段由用户发送前手动选 GLM-5.3；P未证视觉另阶段手动选GLM-5.3-Flash，不混派。
+
+### 下一位 GLM O 提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、原分支codex/glm-wave-o-supply-validation-r1，固定ad468369015a4ec9c4652f3e24de603f77c42b07。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md/json与原卡最新段。只闭O-R9-01～03：judge去临时根但保留完整包/子路径与fullName、多重集合及顶层叶计数闭合；新活跃spec登记完整target，补异包/异深路径/同尾标题/假执行数拒收。正常0→1→0、collection/runtime/raw、三针退役已闭，不重做69针；判据/登记变且业务源身份不变可重判保留。新增ambience-skill/rewards-lifecycle六处强转改真实typed直构；四条已证ambience重复登记existing-proof不计新，非整数rounding新轴保留；逐新增28合同核旧fullName/断言行/源条件与生产caller，修串邻例与截数组oracle，整账不得靠token。497执行净新上限不超过492、缺口至少208并待进一步合法性扣列；继续原合法余族，700/60组不缩。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原O新测/fixture/wave-O；产品/旧测/配置/baseline/真实数据/P/Q/共享文档只读。变动源或执行集仅重采受影响针，每批定向相邻/typecheck阶段推送，末批全包/静态0/0/0/docs/diff/verifier，回执钉真实完整SHA和剩余账。不合main、不done、不官方门、不清树。
+```

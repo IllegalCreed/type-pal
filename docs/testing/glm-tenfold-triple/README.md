@@ -132,6 +132,13 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- [Codex O/P/Q r9 独立复核（2026-10-02）](codex-opq-r9-review-20261002.md)与
+  [总证据](codex-opq-r9-review-20261002.json)：497/79/135最终身份对应；
+  O704/1439/154绿，P3864绿+1红（同文件三次定向红），Q新extract362绿且未变两包明确复用。
+  三树静态/docs/diff/冻结过，145存档结构复算、Q五针15相及O/P实际runner重放；
+  O新强转/排重/错账与包路径判据、P非法entry/伪证/旧证明/RAF门、Q非法YJ2/PAT与目标计数仍counter。
+  NT8退役与旧闭合项保留；三卡PARTIAL/rework，未main/正式结算，手动模型与提示词见各卡最新段。
+
 - [Codex O r8 / P r3.6 / Q r8独立复核（2026-10-02）](codex-opq-r8-review-20261002.md)与
   [逐针/实跑/复用机器证据](codex-opq-r8-review-20261002.json)：469/67/134最终执行身份匹配；
   新content1411/Editor3853/game2805及typecheck零，其它完整字节不变包明确复用。

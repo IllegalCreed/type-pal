@@ -231,3 +231,16 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```text
 继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、分支codex/glm-wave-p-editor-residual-r1，固定2ba6c02303d44f136762b81d1255683893e6c5d9。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md/json及原卡最新段。G03结果/诚实标题、三相共同raw/exit1政策窄项关闭，10业务针/索引/最终执行集对应；不重做这些工具或未变针。继续原P02合法残余与P03～P10，不再仅交窄返工回执；每域先逐条件核旧fullName和断言行，业务oracle完整matcher和值，补真账而非首初态断言。700例/70组/50不同合同目标不缩，当前67/14组/10针仍部分；避让grok-cursor-large/targets.json中Cursor74保留源的新增主合同。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原P新测/fixture/wave-P；产品/旧测/配置/baseline/真实数据/O/Q/共享文档只读。此为代码阶段，不启动浏览器或代读F14/F18；20流程目标保留另交视觉。每批定向相邻/typecheck，阶段提交推送，末批Editor全包/静态0/0/0/docs/diff/verifier与完整SHA；不合main、不done、不官方门、不清树。
 ```
+
+
+## Codex r9 独立复核（2026-10-02，最新）
+
+固定 fb735c552282cb6e88e32ba30fbe320f11a31d2b（测试/证据cd68684257296ef98ddf9dba020eaee0eea5548d），counter/rework。Editor3864 passed+1 failed；Toolbar同文件默认门三次4/5，真实RAF焦点未收敛，不是资产环境红。typecheck零、22自测过、lint2825文件0/0/0、docs/diff/716冻结/194白名单过。79身份匹配但一状态不一致；新fixture公开ScriptEditSession拒收实体machine.entry，G13-02伪证、G13-04/G14-04旧证明，G12-03/G13-01逐条件排重。15三态结构对应/15目标、旧10未变保留，新C11实际runner绿但合法正控未接收；净新上限≤76、缺口≥624。原700/70组/50目标/20流程不缩，18/20视觉及F14/F18未完。
+
+[详细结论与交接](../../testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md)、[机器总证据](../../testing/glm-tenfold-triple/codex-opq-r9-review-20261002.json)。未写贡献者树、未自动投递、未合main/done/正式结算。代码阶段由用户发送前手动选 GLM-5.3；P未证视觉另阶段手动选GLM-5.3-Flash，不混派。
+
+### 下一位 GLM P 提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、原分支codex/glm-wave-p-editor-residual-r1，固定fb735c552282cb6e88e32ba30fbe320f11a31d2b。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md/json及原卡最新段。闭P-R9-01～03：P03 fixture实体machine.entry非法，改合法onEnter initial state并核handoff源/目标cursor，公开作者校验/引用闭包须过；G13-02真实非initial+精确非空命令/无initial，去every伪证；G13-04坏路径和G14-04正文标签旧测已直证，existing-proof不计新；G12-03已有旧只读后缀证据，保留须独证合法entry容器/locator新轴，G13-01对照旧完整locator排重。Toolbar默认门全包及单文件3次实红，用真实RAF/可观察焦点收敛等待而非抢焦/空act，不扩timeout、不改产品。旧10针/22自测/G03收窄标题及业务oracle保留，仅P03受影响新5针与Toolbar所属针需重采。同步79执行净新上限≤76/缺口≥624、17组/15存档/18流程与当前锚/历史口径，继续P02残余/P03～P10，不整族缩围。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，避让Cursor74新合同保留源；仅原P新测/fixture/wave-P，产品/旧测/配置/baseline/真实数据/O/Q/共享文档只读。此为代码阶段，F14/F18另阶段视觉不代看图；每批定向相邻/typecheck阶段推送，末批Editor全包/静态0/0/0/docs/diff/verifier与完整SHA。700/70组/50目标/20流程不缩；不合main、不done、不官方门、不清树。
+```

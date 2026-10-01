@@ -334,3 +334,16 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```text
 继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、分支codex/glm-wave-q-runtime-residual-r1，固定7e115b4dd2e59f78a2fbbb4beb535c9085ffeab2。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md/json及原卡最新段。投影真账、S1非空毒/对象身份、固定fallback oracle、NT1～6六新目标已关闭，不重做；56存档满足业务单断言红，50执行目标不等于50净新合同目标。NT8普通产品Error非AssertionError，退役保留历史，无需换针；C114room0已证旧合同不计新，S1-RC4历史针不计新配额。同步134执行/净新上限133/缺口至少567、ledger当前口径、C115已修分类/game2805/lint2999与三态来源45旧未变+5S1更新+7新增；后续合法余族至少补一真正新合同目标，不拆标题凑数。继续Q07/Q08 typed已核生命周期与Q10 mkdtemp合成CLI，700/50组不缩；避让Grok46保留源新增主合同。game/pal-extract与Reforge阶段分开，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原Q新测/fixture/wave-Q；产品/旧测/配置/baseline/真实数据/O/P/共享文档只读，D-Q01-1 draft不夹修，不测learnedSpells/capture误设行、不走PAL剧情/E2E002/世界后门。每批定向相邻/typecheck阶段推送，末批全包/静态0/0/0/docs/diff/verifier和完整SHA；不合main、不done、不官方门、不清树。
 ```
+
+
+## Codex r9 独立复核（2026-10-02，最新）
+
+固定 3593e8db21a2978c934aba31470f73af79b336f9、测试f28bcf1d34c13abebce38e2fbe69e895f6cc8b41，counter/rework。新extract362/typecheck×3零、完整字节相同Reforge2150/game2805全包证据复用，lint3019文件0/0/0、docs/diff/716冻结/661白名单过；18/135最终身份状态匹配。NT8退役/C114扣配额关闭。68B零流首次负回引-4032、78874越界bit读及无终止，4B header同输出；PAT576/768通道>63，C134不是合法新正控。5FP独立15相单红/身份/hash成立但同一目标，FP2/3实际RangeError→exit1不是宣称业务数量轴；正确结构61存档/51执行目标/净新目标上限50，当前合法新增目标上限49、用例合法性上限133/缺口≥567。合法修好这一真新目标就够，不要求四假新标题。51组业务三态未变+5Q10重采+5FP新增；修源仅重采受影响10CLI针。旧slot/投影/默认timeout/NT1～6不重开，原700/50组未闭，D-Q01-1另draft。
+
+[详细结论与交接](../../testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md)、[机器总证据](../../testing/glm-tenfold-triple/codex-opq-r9-review-20261002.json)。未写贡献者树、未自动投递、未合main/done/正式结算。代码阶段由用户发送前手动选 GLM-5.3；P未证视觉另阶段手动选GLM-5.3-Flash，不混派。
+
+### 下一位 GLM Q 提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、原分支codex/glm-wave-q-runtime-residual-r1，固定3593e8db21a2978c934aba31470f73af79b336f9、测试f28bcf1d34c13abebce38e2fbe69e895f6cc8b41。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md/json及原卡最新段。闭Q-R9-01～03：68B零流靠EOF/负回引归零不是合法YJ2，构造真实自包含位流/合法已产出回引/正确终止的65536B MAP，别加更多零或改生产decoder；PAT通道0..63，合法[1,2,63]仍应[4,8,255]，MAP/GOP/FBP对齐并保持mkdtemp隔离。FP2/3当前只是RangeError→exit1，非声明tileset/sprite数轴，改合法未引用MAP空块/合法YJ2 sprite等真轴或如实边界拒绝合同；五针同一个file×fullName，61/51/净新目标上限50，不是55/54，修好这一新目标就够补旧49→50，不另拆四标题。当前135执行/结构净新上限134但C134未接收，合法性上限133/缺口至少567；更新receipt旧57/50、三态真实51未变+5Q10重采+5FP新增与旧S1仅quota注记。正控源/执行集变动仅重采5旧Q10+5FP，其它未变51业务证据保留；NT8退役/C114扣配额、旧slot/投影/默认timeout/NT1～6关闭不重做。然后持续Q07/Q08 typed生命周期和Q10合法CLI余族，700/50组不缩，避让Grok46保留源。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原Q新测/fixture/wave-Q；产品/旧测/配置/baseline/真实数据/O/P/共享文档只读；D-Q01-1 draft不夹修，不learnedSpells/capture/剧情/世界后门。每批定向相邻/typecheck阶段推送，末批三包/静态0/0/0/docs/diff/verifier与真实完整SHA。不合main、不done、不官方门、不清树。
+```
