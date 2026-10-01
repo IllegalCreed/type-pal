@@ -2,6 +2,7 @@ import {
   type AuthorItemCoreMap,
   type BaseSceneDef,
   type BaseSceneEntity,
+  type EntityAddress,
   type EntityLifecycleCommand,
   type EntityLifecycleReferenceIndex,
   emptyWorldScriptState,
@@ -481,6 +482,10 @@ export class ScriptProjectRuntime {
     claims: readonly StoredAutomaticChaseClaim[] = [],
     restoredScene = this.host.currentSceneId(),
   ): Promise<void> {
+    const offstage = (target: EntityAddress): boolean => {
+      const phase = world.entityLifecycles?.[target.scene]?.[target.entity]?.phase
+      return phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed'
+    }
     for (const [sceneId, entities] of Object.entries(world.script?.behaviors.entities ?? {})) {
       for (const [entityId, state] of Object.entries(entities)) {
         const saved = state.auto?.cursor
@@ -514,6 +519,8 @@ export class ScriptProjectRuntime {
           active?.behaviorId === saved.behavior &&
           location.leaf?.kind === 'chasePlayer' &&
           location.self &&
+          !offstage(owner) &&
+          !offstage(location.self) &&
           location.control?.kind === 'leaf' &&
           location.control.phase === 'continuation' &&
           !claims.some(
@@ -540,9 +547,7 @@ export class ScriptProjectRuntime {
         : undefined
       if (active?.behaviorId !== claim.behavior)
         throw new Error('auto chase claim: owner方案未选中')
-      const phase = world.entityLifecycles?.[restoredScene]?.[claim.owner.entity]?.phase
-      if (phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed')
-        throw new Error('auto chase claim: owner已离场')
+      if (offstage(claim.owner)) throw new Error('auto chase claim: owner已离场')
     }
   }
 

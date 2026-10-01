@@ -162,6 +162,21 @@ Branch: codex/e2e-003
   本次之后实现仅reforge及E2E源码hash清单变化；最终验收重跑受影响包完整测试、全部硬性静态门及docs/tools，
   不把未变包的已通过测试说成最终候选重跑，也不降低任何质量规则。
 
+### 同场景隐藏取消预检 counter（61a36f648）
+
+- 独立席核core取消保留resume、main hide/remove取消activation及认领、startAutoRunner跳过despawned/awaitingExit/removed。
+  61a的强制认领校验仅按选中方案判断，会把真实hide业务结束后的正常F5载荷误当坏档，尚不能发布。
+- Root真实主壳反控`auto-checkpoint-chase-hidden-red.log`2 fail / 1 pass：self隐藏owner及shared显式隐藏target，
+  当前读取实际报缺少认领，恢复预检拒绝；不是伪造坏输入或既有complete后泄漏。
+- build allowed窄修：认领要求与实际可恢复owner/target生命周期一致；隐藏/移除取消态可保留续执行地址而没有活认领，
+  suspended仍保留activation、仍须匹配认领。不得跳过所有生命周期校验或改变hide/remove的实际执行语义。
+- 第一轮修后回归的5个失败来自Root新增的错误测试判据：主壳`replaceWorld`刻意原地替换world内容，
+  不能以world对象换引用证明成功。改用`commitSceneSwitch`实际提交的新scene entities引用；
+  预检拒绝时该引用不变，不修改产品恢复事务来迎合测试。两份失败收据原样保留。
+- `auto-checkpoint-chase-hidden-green-final.log`3文件120例通过，真实F9提交新scene实体引用；
+  隐藏owner/target的续行地址保留但没有活认领，悬停owner仍重建认领且不提前遇敌。
+  尚待窄修独立复核和冻结后的正式旅程，不将本局部绿例记为最终验收。
+
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，Root继续实现与验证，完成后等待用户体验验收。

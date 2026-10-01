@@ -1,4 +1,9 @@
-import type { RuntimeCommand, RuntimeScriptLibrary, WorldState } from '@type-pal/content'
+import type {
+  EntityLifecycleEntry,
+  RuntimeCommand,
+  RuntimeScriptLibrary,
+  WorldState,
+} from '@type-pal/content'
 import { expect, test, vi } from 'vitest'
 import { deferred, fixture, stage } from './__tests__/save-lineage-fixture.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
@@ -66,6 +71,25 @@ test('a committed chase cannot be restored without its contact ownership', async
     f.runtime.validateAutomaticContinuations(f.saved, f.signal, [], 's'),
   ).rejects.toThrow('缺少已提交追逐认领')
   expect(f.effect).not.toHaveBeenCalled()
+})
+
+test.each([
+  { phase: 'despawned', remainingTicks: 1000 },
+  { phase: 'awaitingExit' },
+  { phase: 'removed' },
+] satisfies EntityLifecycleEntry[])('cancelled offstage chase %j can retain a continuation without a live claim', async (entry) => {
+  const f = retainedChaseFixture(0)
+  f.saved.entityLifecycles = { s: { e: entry } }
+  await f.runtime.validateAutomaticContinuations(f.saved, f.signal, [], 's')
+  expect(f.effect).not.toHaveBeenCalled()
+})
+
+test('suspension retains activation and still requires a committed chase claim', async () => {
+  const f = retainedChaseFixture(0)
+  f.saved.entityLifecycles = { s: { e: { phase: 'suspended', remainingTicks: 1000 } } }
+  await expect(
+    f.runtime.validateAutomaticContinuations(f.saved, f.signal, [], 's'),
+  ).rejects.toThrow('缺少已提交追逐认领')
 })
 
 test.each([

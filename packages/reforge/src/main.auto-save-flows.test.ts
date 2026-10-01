@@ -297,12 +297,16 @@ test.each([
   'self',
   'shared-suspended-owner',
   'between-chase-leaves',
+  'self-hidden-owner',
+  'shared-hidden-target',
 ] as const)('F9 restores a %s chase contact claim before hostile scanning can steal its pacing window', async (mode) => {
   host = await installShellHost()
   const first = shellScene('a')
-  const shared = mode === 'shared-suspended-owner'
+  const shared = mode.startsWith('shared')
+  const hidden = mode.includes('hidden')
   const between = mode === 'between-chase-leaves'
   const owner = { scene: 'a', entity: shared ? 'owner' : 'npc' }
+  const paused = mode === 'shared-hidden-target' ? target : owner
   const flow: AuthorScriptFlow = {
     kind: 'stages',
     initial: 'first',
@@ -375,52 +379,57 @@ test.each([
     },
   ]
   if (shared)
-    first.entities.push(
-      {
-        id: 'owner',
-        sprite: 'walker',
-        pos: { col: 8, row: 8, height: 0 },
-        ...behavior,
-      },
-      {
-        id: 'switch',
-        sprite: 'walker',
-        pos: { col: 2, row: 3, height: 0 },
-        pages: [
-          {
-            id: 'normal',
-            label: 'Normal',
-            trigger: 'pause',
-            triggerActivation: { on: 'interact', range: 2 },
-          },
-        ],
-        initialPage: 'normal',
-        behaviors: {
-          trigger: {
-            pause: {
-              label: 'Pause / restore owner',
-              order: 0,
-              flow: {
-                kind: 'stages',
-                initial: 'pause',
-                stages: [
-                  {
-                    id: 'pause',
-                    body: [{ kind: 'suspendEntity', target: owner, ticks: 1_000_000 }],
-                    next: 'resume',
-                  },
-                  {
-                    id: 'resume',
-                    body: [{ kind: 'restoreEntity', target: owner }],
-                    next: { kind: 'complete' },
-                  },
-                ],
-              },
+    first.entities.push({
+      id: 'owner',
+      sprite: 'walker',
+      pos: { col: 8, row: 8, height: 0 },
+      ...behavior,
+    })
+  if (shared || hidden)
+    first.entities.push({
+      id: 'switch',
+      sprite: 'walker',
+      pos: { col: 2, row: 3, height: 0 },
+      pages: [
+        {
+          id: 'normal',
+          label: 'Normal',
+          trigger: 'pause',
+          triggerActivation: { on: 'interact', range: 2 },
+        },
+      ],
+      initialPage: 'normal',
+      behaviors: {
+        trigger: {
+          pause: {
+            label: 'Pause / restore owner',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'pause',
+              stages: [
+                {
+                  id: 'pause',
+                  body: [
+                    {
+                      kind: hidden ? 'hideEntity' : 'suspendEntity',
+                      target: paused,
+                      ticks: 1_000_000,
+                    },
+                  ],
+                  next: 'resume',
+                },
+                {
+                  id: 'resume',
+                  body: [{ kind: 'restoreEntity', target: paused }],
+                  next: { kind: 'complete' },
+                },
+              ],
             },
           },
         },
       },
-    )
+    })
   const booted = await bootScenario(host, {
     first,
     sharedScripts: {
@@ -443,13 +452,15 @@ test.each([
         state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames[0]?.index ===
         1,
     )
-  if (shared) {
+  if (shared || hidden) {
     await key(host, 'Enter', 1)
     for (let turn = 0; turn < 10; turn++) {
       await drain()
       await host.settleIO()
     }
-    expect(state().world.entityLifecycles?.a?.owner?.phase).toBe('suspended')
+    expect(state().world.entityLifecycles?.a?.[paused.entity]?.phase).toBe(
+      hidden ? 'despawned' : 'suspended',
+    )
     expect(state().script.running).toBe(false)
   }
   await key(host, 'F5', 1)
@@ -469,13 +480,28 @@ test.each([
           { index: 0, control: { kind: 'leaf', command: 'chasePlayer', phase: 'continuation' } },
         ],
   )
-  expect(motionState().pendingChase).toEqual(['npc'])
+  expect(motionState().pendingChase).toEqual(hidden ? [] : ['npc'])
   expect(state().renderDebug.inBattle).toBe(false)
-  expect(saved?.automaticChaseClaims).toEqual([{ owner, target, behavior: 'chase' }])
+  expect(saved?.automaticChaseClaims).toEqual(
+    hidden ? undefined : [{ owner, target, behavior: 'chase' }],
+  )
+  // World is deliberately replaced in place; a successful same-scene restore commits fresh
+  // scene entities. Rejected preflight leaves this live scene reference unchanged.
+  const previousEntities = state().entities
   await key(host, 'F9', 1)
   for (let turn = 0; turn < 10; turn++) {
     await drain()
     await host.settleIO()
+  }
+  expect(state().entities).not.toBe(previousEntities)
+  if (hidden) {
+    expect(state().world.entityLifecycles?.a?.[paused.entity]?.phase).toBe('despawned')
+    expect(state().world.money).toBe(50)
+    expect(state().world.script?.behaviors.entities?.a?.[owner.entity]?.auto?.cursor?.at).toEqual(
+      saved?.world.script?.behaviors.entities?.a?.[owner.entity]?.auto?.cursor?.at,
+    )
+    booted.assertInputUnchanged()
+    return
   }
   expect(motionState().pendingChase).toEqual(['npc'])
   host.frame(100)
