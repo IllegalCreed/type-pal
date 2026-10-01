@@ -1,6 +1,6 @@
 # SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤
 
-Status: review
+Status: build
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Codex Root
@@ -141,6 +141,19 @@ greet-after-guests均正确；未修改值或提交，保存仍disabled。
 截图 `build/e2e/steps-main-6012.jpg`、`steps-main-switch-6012.jpg`；6012与旧6051页保持打开。
 最后文档状态接收后strict lint2721文件0/0/0、docs809 Markdown/4265链接/249任务0问题。
 当前剩余166复杂流程仍存在，实际auto/legacy-006的46状态未伪装为步骤，后续编排重写另排。
+
+## 单步骤卡片反馈续修（2026-10-01）
+
+用户发现单步骤被隐藏成摘要行，明确授权修正。前提：`ScriptEditor.tsx:3927–3971`
+仅在步数大于1时显示既有卡片；stages数据和执行语义不缺步骤，一阶段没有对应作者编辑器（N/A）。
+目标before→after：单步骤摘要行→与多步骤完全相同的一张步骤卡，显示编号/指令数/首次/下次去向/详情。
+Root连续Owner、原隔离tree；build allowed只改此显示分支、删除不用CSS、相应DOM回归及本卡记录。
+不改schema/runtime/作者正文，不复跑已证剧情；编辑器功能界面做最小视觉核验。
+保留最后一步不可删除、完成/重复去向、entry正文标签、创建/删除/撤销合同。
+使用pnpm/Vitest按包红绿回归、全仓typecheck/严格lint/docs；不新增依赖或降低门槛。
+
+用户另问e56自动行为用途：仅只读审计7套实际方案与调用域，独立贡献者并行核事实；
+不因数量多推断错误，不在本次UI修复中重写剧情/自动调度。
 
 ## 下一位 Agent 提示词
 

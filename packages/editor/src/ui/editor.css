@@ -13436,14 +13436,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: var(--ds-space-4);
   padding: var(--ds-space-2);
 }
-.canonical-stage-single-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--ds-space-4);
-  padding: var(--ds-space-2);
-  color: var(--dim);
-}
 .canonical-stage-card {
   display: grid;
   flex: 0 0 160px;

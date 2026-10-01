@@ -3924,51 +3924,42 @@ export function CanonicalScriptFlowEditor(props: {
             </DsButton>
           </div>
         </header>
-        {hasMultipleStages ? (
-          <nav className="canonical-stage-tabs" aria-label="执行步骤">
-            {flow.stages.map((candidate, index) => (
-              <div
-                key={candidate.id}
-                className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
+        <nav className="canonical-stage-tabs" aria-label="执行步骤">
+          {flow.stages.map((candidate, index) => (
+            <div
+              key={candidate.id}
+              className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
+            >
+              <DsPressable
+                className="canonical-stage-card-select"
+                aria-pressed={candidate.id === stage?.id}
+                aria-label={`${stageLabel(candidate.id)}，${candidate.body.length} 条指令，${candidate.id === flow.initial ? '首次运行，' : ''}${stageNextLabel(candidate)}`}
+                onClick={() => setSelectedId(candidate.id)}
               >
-                <DsPressable
-                  className="canonical-stage-card-select"
-                  aria-pressed={candidate.id === stage?.id}
-                  aria-label={`${stageLabel(candidate.id)}，${candidate.body.length} 条指令，${candidate.id === flow.initial ? '首次运行，' : ''}${stageNextLabel(candidate)}`}
-                  onClick={() => setSelectedId(candidate.id)}
-                >
-                  <span className="canonical-stage-card-heading">
-                    <strong>步骤 {index + 1}</strong>
-                    <span>{candidate.body.length} 条指令</span>
-                  </span>
-                  <small>
-                    {candidate.id === flow.initial ? <span>首次运行</span> : null}
-                    <span>{stageNextLabel(candidate)}</span>
-                  </small>
-                </DsPressable>
-                <DsButton
-                  size="compact"
-                  variant="quiet"
-                  className="canonical-stage-card-details"
-                  aria-label={`打开“${stageLabel(candidate.id)}”详情`}
-                  onClick={() => {
-                    setSelectedId(candidate.id)
-                    setDetailsOpen(true)
-                  }}
-                >
-                  步骤详情
-                </DsButton>
-              </div>
-            ))}
-          </nav>
-        ) : stage ? (
-          <div className="canonical-stage-single-summary">
-            <span>{stageNextLabel(stage)}</span>
-            <DsButton size="compact" variant="quiet" onClick={() => setDetailsOpen(true)}>
-              步骤详情
-            </DsButton>
-          </div>
-        ) : null}
+                <span className="canonical-stage-card-heading">
+                  <strong>步骤 {index + 1}</strong>
+                  <span>{candidate.body.length} 条指令</span>
+                </span>
+                <small>
+                  {candidate.id === flow.initial ? <span>首次运行</span> : null}
+                  <span>{stageNextLabel(candidate)}</span>
+                </small>
+              </DsPressable>
+              <DsButton
+                size="compact"
+                variant="quiet"
+                className="canonical-stage-card-details"
+                aria-label={`打开“${stageLabel(candidate.id)}”详情`}
+                onClick={() => {
+                  setSelectedId(candidate.id)
+                  setDetailsOpen(true)
+                }}
+              >
+                步骤详情
+              </DsButton>
+            </div>
+          ))}
+        </nav>
         {stage ? (
           <CanonicalFlowBodyTabs
             key={stage.id}

@@ -175,9 +175,21 @@ describe('CanonicalScriptEditor author presentation', () => {
       )
     }
     await act(async () => root.render(<Harness />))
-    expect(host.querySelector('.canonical-stage-tabs')).toBeNull()
-    const details = host.querySelector<HTMLButtonElement>('.canonical-stage-single-summary button')!
+    expect(host.querySelectorAll('.canonical-stage-tabs > .canonical-stage-card')).toHaveLength(1)
+    expect(host.querySelector('.canonical-stage-single-summary')).toBeNull()
+    const card = host.querySelector<HTMLButtonElement>('.canonical-stage-card-select')!
+    expect(card.getAttribute('aria-label')).toBe('步骤 1，1 条指令，首次运行，下次仍执行当前步骤')
+    expect(card.getAttribute('aria-pressed')).toBe('true')
+    await act(async () => card.click())
+    expect(saved).toBeUndefined()
+    const details = host.querySelector<HTMLButtonElement>('.canonical-stage-card-details')!
     await act(async () => details.click())
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('步骤 1 · 详情')
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('[role="dialog"] button')].find(
+        (candidate) => candidate.textContent === '删除步骤',
+      )?.disabled,
+    ).toBe(true)
     const choose = async (label: string) => {
       const nextLabel = [
         ...document.querySelectorAll<HTMLLabelElement>('[role="dialog"] label'),
@@ -194,11 +206,32 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(saved).toMatchObject({ stages: [{ id: 'complete', next: { kind: 'complete' } }] })
     if (saved?.kind !== 'stages') throw new Error('flow fixture')
     expect(saved.stages).toHaveLength(1)
-    expect(host.querySelector('.canonical-stage-single-summary')?.textContent).toContain(
+    expect(host.querySelector('.canonical-stage-card')?.textContent).toContain(
       '本方案完成，不再执行',
     )
     await choose('仍执行当前步骤')
     expect(saved.stages[0]?.next).toBeUndefined()
+    expect(host.querySelectorAll('.canonical-stage-card')).toHaveLength(1)
+    expect(host.querySelector('.canonical-stage-card')?.textContent).toContain('下次仍执行当前步骤')
+  })
+
+  test('keeps a zero-command single step visible without creating or rewriting author data', async () => {
+    const onChange = vi.fn()
+    const flow: AuthorScriptFlow = {
+      kind: 'stages',
+      initial: 'empty',
+      stages: [{ id: 'empty', body: [], next: { kind: 'complete' } }],
+    }
+    await act(async () =>
+      root.render(<CanonicalScriptFlowEditor flow={flow} onChange={onChange} />),
+    )
+    expect(host.querySelectorAll('.canonical-stage-card')).toHaveLength(1)
+    expect(host.querySelector('.canonical-stage-card-select')?.getAttribute('aria-label')).toBe(
+      '步骤 1，0 条指令，首次运行，本方案完成，不再执行',
+    )
+    expect(host.querySelector('.canonical-stage-card-details')?.textContent).toBe('步骤详情')
+    expect(onChange).not.toHaveBeenCalled()
+    expect(flow.stages).toEqual([{ id: 'empty', body: [], next: { kind: 'complete' } }])
   })
 
   test('has an author-facing Chinese name for every enabled canonical command kind', () => {
@@ -1557,7 +1590,10 @@ describe('CanonicalScriptEditor author presentation', () => {
         .click(),
     )
     expect(host.textContent).toContain('1 个步骤')
-    expect(host.querySelector('.canonical-stage-tabs')).toBeNull()
+    expect(host.querySelectorAll('.canonical-stage-tabs > .canonical-stage-card')).toHaveLength(1)
+    expect(host.querySelector('.canonical-stage-card-select')?.getAttribute('aria-label')).toBe(
+      '步骤 1，1 条指令，首次运行，下次进入步骤 1',
+    )
     expect(host.textContent).toContain('旗标 body = 真')
     expect(host.textContent).not.toContain('分段剧情')
   })
