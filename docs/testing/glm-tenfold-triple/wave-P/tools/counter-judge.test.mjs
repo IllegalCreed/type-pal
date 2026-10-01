@@ -330,3 +330,49 @@ test('复核：业务红 message 里的 rejects 前缀不因 raw harness 扫描�
   })
   assert.equal(r.valid, true)
 })
+
+// ---------- r3.6 政策与共同 raw 判据 ----------
+
+test('政策探针：mutant exit=2（非业务 1）→ 拒收（业务/harness 退出区分）', () => {
+  const r = judgeMutant({
+    exitCode: 2,
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'target',
+    positiveExecuted: 1,
+    json: {
+      testResults: [
+        {
+          name: '/repo/packages/editor/src/a.glm-p.test.ts',
+          assertionResults: [
+            { fullName: 'target', status: 'failed', failureMessages: ['AssertionError: boom'] },
+          ],
+        },
+      ],
+    },
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('mutated-invalid-exit:2'))
+})
+
+test('clean 相同样接入 raw harness：positive 带 Vitest caught 未处理异常 → 拒收', () => {
+  const r = judgeClean({
+    exitCode: 0,
+    json: { testResults: [file('a', 'passed')] },
+    expectedExecuted: 1,
+    label: 'positive',
+    rawOutput: 'stderr: Vitest caught 1 unhandled error during the test run.',
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('positive:unhandled-error'))
+})
+
+test('clean 相 raw 无异常区段 → raw 轴通过（回归）', () => {
+  const r = judgeClean({
+    exitCode: 0,
+    json: { testResults: [file('a', 'passed')] },
+    expectedExecuted: 1,
+    label: 'restored',
+    rawOutput: 'JSON report written to /tmp/x.json',
+  })
+  assert.equal(r.valid, true)
+})

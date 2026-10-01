@@ -5,7 +5,7 @@
   "replaceText": "      return !excluded.has(copy.path)",
   "testSpec": "src/core/project-io.glm-p.test.ts",
   "expectFullname": "P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
-  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
+  "candidateHead": "c30d53441df71c62b4029e79e7faae6bb3bc03b9",
   "productSha256Candidate": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
   "patch": "--- a/packages/editor/src/core/project-io.ts\n+++ b/packages/editor/src/core/project-io.ts\n@@ -494,7 +494,7 @@\n       assertWorkspaceIdentityPathWritable(copy.path)\n       if (copyPaths.has(copy.path)) throw new Error(`复制清单路径重复：${copy.path}`)\n       copyPaths.add(copy.path)\n-      return !(copy.path in files) && !excluded.has(copy.path)\n+      return !excluded.has(copy.path)\n     })\n   const directories = [...(opts?.directories ?? [])]\n   for (const path of directories) assertWorkspaceIdentityPathWritable(path)\n",
   "positive": {

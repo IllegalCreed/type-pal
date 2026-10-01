@@ -224,6 +224,7 @@ try {
     expectedExecuted: null,
     expectedIdentitySet: null,
     label: 'positive',
+    rawOutput: positive.output,
     spawnError: positive.spawnError,
     signal: positive.signal,
   })
@@ -280,6 +281,7 @@ try {
     expectedExecuted: mutatedStats.executed,
     expectedIdentitySet: positiveJudge.identitySet,
     label: 'restored',
+    rawOutput: restored.output,
     spawnError: restored.spawnError,
     signal: restored.signal,
   })

@@ -5,7 +5,7 @@
   "replaceText": "{props.focusEnabled ? '只看当前X' : '聚焦当前'}",
   "testSpec": "src/ui/LayerStackControls.glm-p.test.tsx",
   "expectFullname": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
-  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
+  "candidateHead": "c30d53441df71c62b4029e79e7faae6bb3bc03b9",
   "productSha256Candidate": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
   "patch": "--- a/packages/editor/src/ui/LayerStackControls.tsx\n+++ b/packages/editor/src/ui/LayerStackControls.tsx\n@@ -51,7 +51,7 @@\n           aria-label={props.focusEnabled ? '关闭其他图层聚焦' : '聚焦当前图层和高度'}\n           aria-pressed={props.focusEnabled}\n         >\n-          {props.focusEnabled ? '只看当前' : '聚焦当前'}\n+          {props.focusEnabled ? '只看当前X' : '聚焦当前'}\n         </DsButton>\n       </div>\n       <DsField id={rangeId} label=\"显示高度\" layout=\"inline\" className=\"map-paint-context__control\">\n",
   "positive": {

@@ -5,7 +5,7 @@
   "replaceText": "    void (typeof value === 'string' ? JSON.parse(value) : value)",
   "testSpec": "src/core/project-io.glm-p.test.ts",
   "expectFullname": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
-  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
+  "candidateHead": "c30d53441df71c62b4029e79e7faae6bb3bc03b9",
   "productSha256Candidate": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
   "patch": "--- a/packages/editor/src/core/project-io.ts\n+++ b/packages/editor/src/core/project-io.ts\n@@ -695,7 +695,7 @@\n   for (const rel of removePaths) assertWorkspaceIdentityPathWritable(rel)\n   if (Object.hasOwn(files, BATTLE_SIMULATOR_PATH)) {\n     const value = files[BATTLE_SIMULATOR_PATH]\n-    parseBattleSimulatorLibrary(typeof value === 'string' ? JSON.parse(value) : value)\n+    void (typeof value === 'string' ? JSON.parse(value) : value)\n   }\n   const rawManifest = files['manifest.json'] as { assets?: { catalog?: string } } | undefined\n   const catalogPath = rawManifest?.assets?.catalog\n",
   "positive": {

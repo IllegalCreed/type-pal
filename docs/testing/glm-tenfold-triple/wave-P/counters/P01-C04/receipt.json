@@ -5,7 +5,7 @@
   "replaceText": "    poisons: [...project.poisons],",
   "testSpec": "src/core/project-io.glm-p.test.ts",
   "expectFullname": "P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
-  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
+  "candidateHead": "c30d53441df71c62b4029e79e7faae6bb3bc03b9",
   "productSha256Candidate": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
   "patch": "--- a/packages/editor/src/core/project-io.ts\n+++ b/packages/editor/src/core/project-io.ts\n@@ -120,7 +120,7 @@\n     // D24:战场表(数组直传;缺 = 空)\n     battleFields: project.battleFields,\n     // B10:毒表(loader 原序数组直传;⚠ 勿用 poisonsById 转 —— 数值键升序重排破坏 round-trip)\n-    poisons: project.poisons,\n+    poisons: [...project.poisons],\n     // W6:氛围表(数组直传;缺 = 空)\n     ambiences: project.ambiences,\n     // 商店表(数组直传;缺 = 空)\n",
   "positive": {

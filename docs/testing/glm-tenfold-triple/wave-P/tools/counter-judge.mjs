@@ -47,7 +47,7 @@ export function collectionErrors(json) {
 
 const identitySetOf = (tests) => tests.map((t) => `${t.file}×${t.fullName}`).sort()
 
-function commonChecks({ json, spawnError, signal, label }) {
+function commonChecks({ json, rawOutput, spawnError, signal, label }) {
   const reasons = []
   if (spawnError) reasons.push(`${label}:spawn-error`)
   if (signal) reasons.push(`${label}:signal-${signal}`)
@@ -59,6 +59,13 @@ function commonChecks({ json, spawnError, signal, label }) {
   for (const t of tests)
     if (t.status !== 'passed' && t.status !== 'failed')
       reasons.push(`${label}:non-passfail-status:${t.status}`)
+  // 共同 raw harness 检查：clean/mutant 一致拒收真实未处理异常区段。
+  if (typeof rawOutput === 'string') {
+    if (/Vitest caught \d+ unhandled error/i.test(rawOutput))
+      reasons.push(`${label}:unhandled-error`)
+    if (/CODEX_UNHANDLED_REJECTION|Unhandled Rejection/i.test(rawOutput))
+      reasons.push(`${label}:unhandled-rejection`)
+  }
   return { reasons, tests }
 }
 
@@ -73,11 +80,15 @@ export function judgeClean({
   expectedExecuted,
   expectedIdentitySet,
   label = 'clean',
+  rawOutput,
   spawnError,
   signal,
 }) {
-  const { reasons, tests } = commonChecks({ exitCode, json, spawnError, signal, label })
-  if (exitCode !== 0) reasons.push(`${label}:exit-${exitCode}`)
+  const { reasons, tests } = commonChecks({ json, rawOutput, spawnError, signal, label })
+  // 清洁相有效正常退出：exit 必须恰为 0；负值/未知退出无效。
+  if (spawnError || signal) {
+    // 已由 commonChecks 记录，不重复计 exit。
+  } else if (exitCode !== 0) reasons.push(`${label}:exit-${exitCode}`)
   const failed = tests.filter((t) => t.status === 'failed')
   if (failed.length > 0) reasons.push(`${label}:failed-${failed.length}`)
   if (typeof expectedExecuted === 'number' && tests.length !== expectedExecuted)
@@ -116,14 +127,14 @@ export function judgeMutant({
   spawnError,
   signal,
 }) {
-  const { reasons, tests } = commonChecks({ json, spawnError, signal, label: 'mutated' })
+  const { reasons, tests } = commonChecks({ json, rawOutput, spawnError, signal, label: 'mutated' })
   const failed = tests.filter((t) => t.status === 'failed')
   const first = failed[0] ?? null
   const target =
     first === null ? null : { fullName: first.fullName, message: first.message, file: first.file }
-  // 有效正常退出：spawn 成功时 exit 必须为正数业务红；0/负值/未知都非有效退出。
-  if (!spawnError && !signal && !(Number.isInteger(exitCode) && exitCode > 0))
-    reasons.push(`mutated-invalid-exit:${exitCode}`)
+  // 有效业务退出（按已实证 Vitest 形态 0→1→0）：mutant 恰为 exit 1；
+  // 0（无红）、负值（spawn 形态）、≥2（harness/policy 退出）都区分拒收。
+  if (!spawnError && !signal && exitCode !== 1) reasons.push(`mutated-invalid-exit:${exitCode}`)
   if (failed.length === 0) reasons.push('no-failed')
   if (failed.length > 1) reasons.push(`multi-failed:${failed.length}`)
   if (typeof positiveExecuted === 'number' && tests.length !== positiveExecuted)

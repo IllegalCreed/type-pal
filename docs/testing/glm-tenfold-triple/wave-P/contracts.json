@@ -1,19 +1,19 @@
 {
   "total": 67,
-  "note": "数量/状态由 directed-vitest.json（r3 候选树实跑）生成；r3.5：oracle=每合同测试源第一条真实断言行（含 file:line）；oldAssertion=真实旧测试文件与 fullName/断言锚；G09 三条重复分类断言已删（70→67）",
+  "note": "数量/状态由 directed-vitest.json（r3 候选树实跑）生成；r3.5：oracle=每合同测试源第一条真实断言行（含 file:line）；oldAssertion=真实旧测试文件与 fullName/断言锚；G09 三条重复分类断言已删（70→67）；G03 三条 oracle 为人工指定的实际业务结果行（r3.6 P-R36-01）",
   "contracts": [
     {
       "batch": "P02",
       "id": "P02-G03-01",
       "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
-      "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
+      "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
       "status": "passed",
       "condition": "合法 typed 输入：IsometricEditorToolbar props 全 typed + ISOMETRIC_BRUSH_SIZES",
       "source": "packages/editor/src/ui/IsometricEditorToolbar.tsx",
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "MapMode.test.tsx 700 已证笔刷面积托盘点选",
-      "axis": "本合同新轴: 触发器 ArrowDown/Enter 开盘+aria-expanded 相位为新轴",
-      "oracle": "真实断言行: expect(trigger.getAttribute('aria-expanded')).toBe('false')  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:74",
+      "axis": "本合同新轴: 触发器 ArrowDown/Enter 开盘 + 选项点击提交尺寸 2（空格键未断言，主张已撤回）",
+      "oracle": "真实断言行: expect(onBrushSizeChange).toHaveBeenCalledWith(2) + await key(trigger2, 'Enter') 后 aria-expanded=true  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:83-87（开盘结果与尺寸提交，非初始 :74）",
       "classification": "ui-keyboard"
     },
     {
@@ -27,7 +27,7 @@
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "MapMode.test.tsx › 笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入（已证托盘点选主链）；Escape 臂无旧 fullName",
       "axis": "本合同新轴: 托盘 Escape 关盘回焦触发器为新轴",
-      "oracle": "真实断言行: expect(trigger.getAttribute('aria-expanded')).toBe('true')  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:94",
+      "oracle": "真实断言行: Escape 后 expect(trigger.getAttribute('aria-expanded')).toBe('false') 与 expect(document.activeElement).toBe(trigger)  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:96-97（关闭/回焦结果）",
       "classification": "ui-keyboard"
     },
     {
@@ -41,7 +41,7 @@
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "glm-leaf-wave select.test 已证通用 select 键盘",
       "axis": "本合同新轴: 托盘 Home/End/ArrowLeft/Right 相对移焦为新轴",
-      "oracle": "真实断言行: expect(options.length).toBeGreaterThanOrEqual(3)  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:105",
+      "oracle": "真实断言行: End→options.at(-1)、ArrowLeft→at(-2)、Home→options[0]、ArrowRight→options[1] 四组 expect(document.activeElement)  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:117-121（键盘移焦结果）",
       "classification": "ui-keyboard"
     },
     {

@@ -5,7 +5,7 @@
   "replaceText": "? `选区含隐藏层成员，整笔修改已禁用。`",
   "testSpec": "src/ui/MapSelectionInspector.glm-p.test.tsx",
   "expectFullname": "P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
-  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
+  "candidateHead": "c30d53441df71c62b4029e79e7faae6bb3bc03b9",
   "productSha256Candidate": "12c018e7eda0aed1fa91ee8989e4e56b71818b8851aedf2b0a22a195e8076463",
   "patch": "--- a/packages/editor/src/ui/MapSelectionInspector.tsx\n+++ b/packages/editor/src/ui/MapSelectionInspector.tsx\n@@ -119,7 +119,7 @@\n       : activeLocked\n         ? '当前活动层已锁定；请显式解锁或切换图层后再修改。'\n         : selectedHidden.length\n-          ? `选区含 ${selectedHidden.length} 个隐藏层成员，整笔修改已禁用。`\n+          ? `选区含隐藏层成员，整笔修改已禁用。`\n           : selectedLocked.length\n             ? `选区含 ${selectedLocked.length} 个锁定层成员，整笔修改已禁用。`\n             : undefined\n",
   "positive": {

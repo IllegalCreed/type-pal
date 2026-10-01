@@ -24,17 +24,17 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790858324478,
+  "startTime": 1790865928606,
   "success": true,
   "testResults": [
     {
       "assertionResults": [
         {
           "ancestorTitles": ["P02-G03 工具选项托盘键盘合同"],
-          "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
+          "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
           "status": "passed",
-          "title": "触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
-          "duration": 77.9550419999996,
+          "title": "触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
+          "duration": 53.32391699999994,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
           "status": "passed",
           "title": "托盘内 Escape 关盘并把焦点还给触发器",
-          "duration": 16.511209000000235,
+          "duration": 9.983334000000013,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
           "status": "passed",
           "title": "托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
-          "duration": 24.471666999999798,
+          "duration": 14.6243750000001,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
           "status": "passed",
           "title": "绘制高度托盘 disabled 时按键不开盘",
-          "duration": 11.065874999999323,
+          "duration": 4.695291999999881,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,17 +74,17 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
           "status": "passed",
           "title": "绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
-          "duration": 10.848125000000437,
+          "duration": 6.1747919999997976,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790858328639,
-      "endTime": 1790858328779.8481,
+      "startTime": 1790865930265,
+      "endTime": 1790865930354.1748,
       "status": "passed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C08-qvr9NB/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C08-wnC4IL/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx"
     }
   ]
 }

@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790860913336,
+  "startTime": 1790865796193,
   "success": false,
   "testResults": [
     {
@@ -34,9 +34,9 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
           "status": "failed",
           "title": "默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
-          "duration": 35.48374999999987,
+          "duration": 28.70679199999995,
           "failureMessages": [
-            "AssertionError: expected '只看当前X' to be '只看当前' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C07-OSDRcg/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx:54:32\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            "AssertionError: expected '只看当前X' to be '只看当前' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C07-onFRU4/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx:54:32\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
           ],
           "meta": {},
           "tags": []
@@ -46,7 +46,7 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
           "status": "passed",
           "title": "显示高度滑杆按整数步进回调，output 实时显示当前值",
-          "duration": 5.1121250000001055,
+          "duration": 5.101125000000025,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -56,7 +56,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
           "status": "passed",
           "title": "addDisabledReason：新增按钮禁用并渲染原因段",
-          "duration": 15.034040999999888,
+          "duration": 14.785250000000019,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -66,7 +66,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
           "status": "passed",
           "title": "最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
-          "duration": 10.201542000000018,
+          "duration": 10.920959000000039,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -76,17 +76,17 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
           "status": "passed",
           "title": "add/delete 同因 → 只渲染一段共享原因",
-          "duration": 14.301917000000003,
+          "duration": 12.121999999999957,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790860914471,
-      "endTime": 1790860914551.302,
+      "startTime": 1790865796908,
+      "endTime": 1790865796979.122,
       "status": "failed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C07-OSDRcg/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C07-onFRU4/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"
     }
   ]
 }

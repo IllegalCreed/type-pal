@@ -1,6 +1,6 @@
 {
   "total": 10,
-  "note": "r3.5：patch/三态记录逐条取自最终 per-counter receipt（patch 为 diff -u 真实差异并经 git apply 实测）；judge 为收紧版完整身份集判定；mutated 失败数直读原始 JSON",
+  "note": "r3.6：索引逐条取自最终 per-counter receipt（patch 经 git apply+hash 独立验证）；judge 为 0→1→0 业务退出+完整身份集+三相共同 raw 判据；P02-C08 因 G03 标题撤回重采",
   "counters": [
     {
       "id": "P01-C01",
@@ -852,7 +852,7 @@
         "exitCode": 0,
         "executed": 5,
         "executedFullNames": [
-          "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
+          "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
           "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
           "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
           "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
@@ -867,7 +867,7 @@
             "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
             "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
             "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
-            "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸"
+            "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
           ]
         }
       },
@@ -885,7 +885,7 @@
         "exitCode": 0,
         "executed": 5,
         "executedFullNames": [
-          "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
+          "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
           "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
           "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
           "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
@@ -900,7 +900,7 @@
             "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
             "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
             "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
-            "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸"
+            "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
           ]
         }
       },

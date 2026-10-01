@@ -26,7 +26,9 @@
     "P-R35-01": "judgeMutant 增 expectedIdentitySet（完整多重身份比对）与 rawOutput 扫描（Vitest caught unhandled/CODEX_UNHANDLED_REJECTION——该版本 JSON 无 runtime 计数字段）；无效退出（负值/未知）拒收；runner 传 positive 身份集与 raw。自测 19/19 含身份一致正例",
     "P-R35-02": "die(process.exit) 改 throw+外层 catch 设 exitCode；建树/依赖复制移入 try；finally 只回收本次 mkdtemp 树（CLEANUP-PROBE 实测 wrong-fullName 拒收后零泄漏、processExitCode=2）",
     "P-R35-03": "新增 browser/README.md 目录索引与父 README 导航；630→633；自测 10→14→19；截图 55→66；三态重采来源登记 receipt.threeStateProvenance；测试/工具/docs-only 锚独立登记 anchors 字段",
-    "P-R35-04": "contracts.json oracle=每合同测试源第一条真实断言行（含 file:line，fallback 0 条）；同上锚全部替换为真实旧文件+fullName/断言描述；condition 字段补合法 typed 输入来源"
+    "P-R35-04": "contracts.json oracle=每合同测试源第一条真实断言行（含 file:line，fallback 0 条）；同上锚全部替换为真实旧文件+fullName/断言描述；condition 字段补合法 typed 输入来源",
+    "P-R36-01": "G03 三条 oracle 指向实际业务结果行（开盘+尺寸提交 :83-87 / Escape 关闭回焦 :96-97 / Home/End/Arrow 移焦 :117-121）；标题未测空格主张撤回（测试标题与 fullName 同步，P02-C08 因执行集变化重采）；其余 64 条 oracle 为每合同首条真实断言行",
+    "P-R36-02": "judgeClean 增 rawOutput 形参，三相共用同一 raw harness 检查（Vitest caught unhandled/UNHANDLED_REJECTION）；mutant 有效业务退出收紧为恰 exit 1（0/负值/≥2 区分拒收），政策探针 exit2 自测拒收；自测 22/22；receipt 同步 judgeSelfTest=22、工具证据锚 52dd21198（本轮再更新至最新提交）、9 针更新+P02-C08 未变的口径修正为“9 更新+C08 因标题撤回重采”"
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
@@ -35,7 +37,7 @@
     "rootLint": "PASS 2804 files; 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
-    "judgeSelfTest": "node --test counter-judge.test.mjs → 10 pass / 0 fail"
+    "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail"
   },
   "notDone": [
     "P02 剩余暗区",
@@ -56,10 +58,10 @@
   "anchors": {
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
     "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-    "testCodeAnchor": "5899dae6057d73a852b37617635e823d2e388c58（glm-p 测试代码最后一次改动；其后至 tip 仅 wave-P 证据/工具/文档）",
-    "toolEvidenceAnchor": "5e492fbeaacd2717ad70681f67d1cd150668d479（r3.5 首轮工具收紧）",
+    "testCodeAnchor": "e515d353d（G03 标题撤回——5899dae6 之后唯一测试改动）",
+    "toolEvidenceAnchor": "本轮工具提交（r3.6，见 git log；上一轮 52dd21198e752243ebf4820122eedc68b7376448 为 r3.5-review 闭合）",
     "finalRemoteCandidate": "推送 tip（receipt 不自引用，见分支远端 HEAD）"
   },
-  "threeStateProvenance": "r3.5 判据收紧后 10 针全部重采（30 份三态 JSON 的字节与 startTime 相对 48ade 已变；身份/状态/单红口径保持）；属工具判据变更触发的重采，非业务针位变化",
+  "threeStateProvenance": "r3.6 判据收紧后 10 针重采；相对 bb2ffcb6：9 针在 r3.5-review 更新、P02-C08 因 G03 标题撤回（执行集 fullName 变化）于 r3.6 重采",
   "finalRemoteCandidate": "85f7d16f94135f4fe81df3e1e89b24f7aff2485c（含 receipt pin docs-only 提交；功能性/证据提交为 52dd21198）"
 }
