@@ -1,6 +1,6 @@
 # TEST-CURSOR-ASSET-UI-LARGE-1 — Editor资源编辑/叶组件/设计控件大包补测
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: editor-assets-leaf / test-coverage
 Coding Owner: Cursor（仅新测试/专属fixture/证据）
@@ -103,4 +103,17 @@ Codex核74源hash、公开入口、旧证明与GC-1分配，**build allowed仅�
 仅新.cursor-r1测试/专属cursor-asset-r1 fixture/cursor证据可写，主合同仅74源；App/MapMode/ScriptEditor等P剩余源只读。产品/旧测/共享文档/配置/官方baseline/真实数据/其它队列只读。
 禁止非法fixture、强转桥、核心mock、私有state/扩大timeout；新机制/真缺陷/源漂移仅停受影响组举证。交完整fullName JSON、实际旧断言和精确oracle、counter三态原证据及拒收自测、私有覆盖和真实视觉流程证据。
 末批串行editor全包test/typecheck、lint0/0/0、docs/diff/verifier，推完整真实候选SHA；不合main、不标done、不跑正式ratchet。
+```
+
+
+## Codex r1 独立验收（2026-10-02，最新）
+
+固定6ea1b41ff30e8bf532a78e98af991128947da9df（测试6a16751e7a12e1e1a3734fb749dcfe7547226dfd），counter/rework。新Editor4493全绿、58文件707身份状态对应/typecheck零；根lint FAIL 1 error format（_vitest-raw.json），docs/diff/716冻结与120分配源/795白名单过。50三态结构/patch/hash对应但仅43不同目标；至少7新合法目标尚缺，判据换邻居/exit2/真实raw异常误收，实际错目标runner泄漏已证（Reviewer只清自己探针树）。双桥/伪batch、3000ms等待、707模板真账未闭；至少九重复/未证使净新上限≤698、缺口≥2且待全量排重。23截图hash过但12流程不接受：固定计数/null聚焦/自画色块/无选择变化/缺失未恢复/DS错误prop只读/键盘未执行/失败中相未证。2针6相新重放通过；未变业务证据保留、只重采受源/身份变动针。700/70组/50不同目标/12真实流程不缩，未main/done/正式结算。
+
+[详细审核与交接](../../testing/grok-cursor-large/codex-grok-cursor-r1-review-20261002.md)、[机器证据](../../testing/grok-cursor-large/codex-grok-cursor-r1-review-20261002.json)。不写贡献者树、不自动投递；用户手动转发以下最新提示词。
+
+### 下一位 Cursor 提示词（覆盖旧交接）
+
+```text
+继续TEST-CURSOR-ASSET-UI-LARGE-1，唯一Cursor测试Owner，原树/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal、分支codex/cursor-asset-ui-large-r1，固定6ea1b41ff30e8bf532a78e98af991128947da9df、测试6a16751e7a12e1e1a3734fb749dcfe7547226dfd。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/grok-cursor-large/codex-grok-cursor-r1-review-20261002.md/json及原卡最新段，逐项闭CURSOR-R1-01～04。_vitest-raw.json正常机械格式化保留JSON值与原日志，lint须完整0/0/0；tileset引用fixture双桥和伪batch改完整typed/真实公开batch，frame-editor自定义3000ms等待改默认观察就绪，不扩timeout。唯一judge补mutant完整身份/raw和三相异常/恰exit1/真实拒收自测；die改throw+外层exitCode，建树/复制/各相全部finally局部清理，错目标实际泄漏已证，禁止全局prune。50存档三态hash对应但只43不同目标，旧合同扣净新；新增至少7真实不同合法目标，不能拆标题。重建707逐合同真账（真实primary源条件/caller/合法输入/旧SHA fullName断言matcher/精确oracle），删重或existing-proof：C09-G02-01/02/03/05/10旧owner例直接已证，-06无新oracle；C09-G01-04旧LRU直接已证；C07-G01-02/10被本组-01完整列表包含。当前净新上限≤698仍待全量排重，700/70组不缩。视觉按审核修R01行集/R02用途/R03聚焦/R04真实产品Canvas/R05选择变化/R06真实恢复/DS03错误prop与只读伪证/DS01-02真实键盘/AR01失败中相；23截图hash、已证AR02错误清除及DS鼠标/虚拟滚动保留，不全部重拍，不抢6010/E2E。判据变而源/身份不变可重判保留50旧存档；源或执行集变动仅重采受影响针。派发0704d3de6d3d2a2099475a42f601b654bba08579、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原editor新.cursor-r1测/专属cursor-asset-r1 fixture/cursor证据可写，74源主合同边界保持；产品/旧测/配置/baseline/真实数据/GLM/Grok/共享文档只读。末批Editor全包/typecheck、根lint完整0/0/0、docs/diff/verifier，交真实完整SHA、准确执行/净新/存档/不同目标/流程与未完账。不合main、不done、不正式ratchet/protected，不批量清共享临时树或退休原树。
 ```

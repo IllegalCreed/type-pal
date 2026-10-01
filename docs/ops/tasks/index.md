@@ -15,14 +15,14 @@
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-ASSET-UI-LARGE-1 — Editor资源编辑/叶组件/设计控件大包补测](TEST-CURSOR-ASSET-UI-LARGE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CURSOR-ASSET-UI-LARGE-1 — Editor资源编辑/叶组件/设计控件大包补测](TEST-CURSOR-ASSET-UI-LARGE-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-O-1 — 当前供应链、内容守卫与migrate门十倍测试包](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-P-1 — Editor全域残余工作流十倍测试包](TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-Q-1 — 两阶段runtime与解码残余合同十倍测试包](TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GROK-RENDER-HOST-LARGE-1 — 一阶段渲染/资源/有限宿主大包补测](TEST-GROK-RENDER-HOST-LARGE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GROK-RENDER-HOST-LARGE-1 — 一阶段渲染/资源/有限宿主大包补测](TEST-GROK-RENDER-HOST-LARGE-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -267,3 +267,4 @@
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [TEST-GLM-ZCODE-DISPATCH-1 — ZCode 三路覆盖率补测持续调度](../archive/tasks/cancelled/TEST-GLM-ZCODE-DISPATCH-1.md) | cancelled | 取消原因与替代项见卡内终态裁决。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
+

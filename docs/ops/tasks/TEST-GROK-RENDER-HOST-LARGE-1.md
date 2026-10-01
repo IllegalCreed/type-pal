@@ -1,6 +1,6 @@
 # TEST-GROK-RENDER-HOST-LARGE-1 — 一阶段渲染/资源/有限宿主大包补测
 
-Status: build
+Status: rework
 Phase: phase1
 Capability: render-host / test-coverage
 Coding Owner: Grok（仅新测试/专属fixture/证据）
@@ -100,4 +100,17 @@ Codex核源码入口/现有断言与46源hash，所有权已落GC-1，**build al
 连续G01-G10，400合法未重复新合同/40组/40有效反控，不逐批等继续。首批先落真账和typed宿主小样，每批定向相邻/typecheck，阶段提交推送后继续。
 仅新.grok-r1测试/专属grok-render-r1 fixture/grok证据可写；生产/旧测/共享文档/配置/官方baseline/真实数据/其它队列只读。禁止非法fixture、核心mock、强转桥、扩timeout；缺陷或新真值只停受影响组举证。
 按协议交真实fullName JSON、逐合同旧断言/精确oracle、完整三态counter原证据与拒收自测、私有覆盖及宿主/像素证据；末批串行game全包test/typecheck、lint0/0/0、docs/diff/verifier。推完整真实候选SHA；不合main、不标done、不跑正式ratchet。
+```
+
+
+## Codex r1 独立验收（2026-10-02，最新）
+
+固定919fc291a6e2b5b8710bac756e6a7d28d99dbae7（测试16db4d1ed9d394a2506293e7b4448f8a0c19ceef），counter/rework。隔离补齐旧测资产后新game3173全绿、40文件400身份对应/typecheck零，lint2969文件0/0/0、docs/diff/716冻结与120分配源/496白名单过。40三态源hash和业务身份对应、38patch可重建；G02-C/G04-A两patch坏但规格hash与独立三态成立，只重生成patch。唯一judge漏完整目标/collection-runtime/实际叶计数，四反例误收；真实raw异常探针拒收关闭。400真账旧63blob与派发一致，样本合法新轴保留；至少六组真实Canvas/六DOM宿主执行已证，最小图像hash未交。3针9相新重放全过，判据登记变而源/身份不变不重采40针。不扩另一大包，先按GROK-R1-01～03闭合后最终排重/正式门；未main/done/正式结算。
+
+[详细审核与交接](../../testing/grok-cursor-large/codex-grok-cursor-r1-review-20261002.md)、[机器证据](../../testing/grok-cursor-large/codex-grok-cursor-r1-review-20261002.json)。不写贡献者树、不自动投递；用户手动转发以下最新提示词。
+
+### 下一位 Grok 提示词（覆盖旧交接）
+
+```text
+继续TEST-GROK-RENDER-HOST-LARGE-1，唯一Grok测试Owner，原树/Users/zhangxu/.codex/worktrees/grok-render-host-large/type-pal、分支codex/grok-render-host-large-r1，固定919fc291a6e2b5b8710bac756e6a7d28d99dbae7、测试16db4d1ed9d394a2506293e7b4448f8a0c19ceef。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/grok-cursor-large/codex-grok-cursor-r1-review-20261002.md/json及原卡最新段。只闭GROK-R1-01～03：唯一judge可导入且runner/selftest共用，完整注册file/fullName和多重身份、实际叶非零/顶层计数闭合、collection/runtime/raw/spawn与正常exit/signal政策；补已给错完整标题、单红叠空suite、假执行数/零实际叶拒收和真实Vitest单红叠异常探针。原raw异常拒收/真实Canvas/typed代码/400定向/40组与40不同目标、资产副本全包3173已证保留，不重做或扩大另一包。G02-C/G04-A只修两份可应用patch，from/to重建与旧mutant hash及三态已独立成立，不重采未变日志。按原卡给已有至少六组离线真实canvas及功能宿主补最小图像落盘/hash/读回日志，不跑剧情PAL001/002，不生替代美术。其它未变针可按新judge重判保留，源/最终执行集变化才重采受影响针。400合同账63旧blob与派发一致，保持逐条件真账/排重，不为已证轴造数量；完整收口后交真实40位SHA、docs-only锚与实际门数。派发0704d3de6d3d2a2099475a42f601b654bba08579、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原game新.grok-r1测/专属grok-render-r1 fixture/grok证据可写；产品/旧测/配置/官方baseline/真实数据/GLM/Cursor/共享文档只读。末批game全包/typecheck、根lint完整0/0/0、docs/diff/verifier；环境资产单列，不冒称绿。不合main、不done、不正式ratchet/protected、不清贡献者树。
 ```

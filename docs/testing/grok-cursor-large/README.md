@@ -104,6 +104,10 @@ Codex独立核候选、去重与反控；仅接收后串行全仓check→官方r
 
 ## 导航
 
+- [Codex r1独立复核（2026-10-02）](codex-grok-cursor-r1-review-20261002.md)、
+  [机器总证据](codex-grok-cursor-r1-review-20261002.json)：新game3173/Editor4493全绿，
+  400/707最终执行身份状态对应；Grok两patch与judge/图像hash待闭，Cursor静态1格式红、
+  判据/清理/真账/typed/流程counter，50存档仅43不同目标；两卡rework，未main/正式结算。
 - [Codex派发前核验](dispatch-preflight.md)、[机器记录](dispatch-preflight.json)
 
 - [Grok独占证据](grok/README.md)
