@@ -14,6 +14,7 @@
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | 以任务卡当前准入与看板分工为准。 |

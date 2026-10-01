@@ -12,6 +12,10 @@ Codex独立验收并统一check→ratchet→protected fast；2100例不等于分
 三卡部分交付，新例457/457实跑绿，但规模、类型合法性与反控/视觉证据仍有counter，均rework。
 未合main、未正式结算；原700例/50有效反控目标不自动缩减，活动树不清理。
 
+同日[Q r2二审](../testing/glm-tenfold-triple/codex-q-r2-review-20261001.md)：
+Q-01/02关闭、三包5297全绿，但四枚最终hash失配/CLI扩大超时/缩围证据不足，仍rework；
+标题读档IO悬空拒绝已独立确认，另列产品draft，不夹入GLM测试返工。
+
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
@@ -19,7 +23,8 @@ Codex独立验收并统一check→ratchet→protected fast；2100例不等于分
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
 | TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 修类型、三态证据并续O06–O10 | 274/700例、30/50反控；lint四格式/diff六patch有诊断 |
 | TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 修输入/双红并续P02–P10 | 70/700例、10/50反控；两枚各红2例、0/20浏览器流程 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 修类型/执行证据并补残余批 | 113/700例、34/50反控；缺恢复运行、F1表述矛盾，视觉未accept |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 重采四针/去超时并续残余 | r2 115/700例；四针hash失配，700/50不缩；全包5297绿 |
+| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待错误承接窄准入 | 合法当前存档+外部读失败独立复现1未处理拒绝，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |
 

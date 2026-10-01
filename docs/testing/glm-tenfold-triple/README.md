@@ -8,6 +8,11 @@
 [实跑与门禁机器证据](codex-review-20261001.json)保留457例file/fullName/status；
 原700例/50有效反控目标不自动缩减，未合main、未正式覆盖结算，下一步见各卡返工提示词。
 
+同日[Q r2二审](codex-q-r2-review-20261001.md)关闭类型桥/逐例执行/F1撤回，三包5297绿；
+四针最终hash不对应、CLI扩大超时、缩围证据不足仍counter，Q保持rework。
+[r2机器证据](codex-q-r2-review-20261001.json)与独立产品IO红诊断一并保存；
+O/P新提交不在本次Q二审范围，原规模/正式门纪律不变。
+
 派发分支 `codex/glm-lmn-acceptance-r1` 包含 L/M/N 151 例，避免从缺少它们的 main
 重复造测试。生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；
 从本轮已推送派发提交各建全新的分支/worktree，不能继续写 L/M/N 退休候选。

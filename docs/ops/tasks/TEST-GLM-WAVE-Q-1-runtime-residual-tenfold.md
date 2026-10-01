@@ -115,3 +115,35 @@ Codex **counter → rework**；113/700例、34/50枚反控，Q07/Q08/Q10未开�
 仍钉派发基点8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380；不得cherry-pick Codex共享审查提交或改基点绕过白名单，源漂移先交Codex。
 最终实跑JSON/截图/源hash一致，串行reforge/game/pal-extract全包test/typecheck、根lint完整0/0/0、docs/diff/verifier后推送完整候选SHA。产品/旧测/配置/官方baseline/O/P/共享文档/真实工程/E2E只读，不合main、不标done、不清树。
 ```
+
+## Codex 二审（2026-10-01，r2）
+
+测试树`042dd8bbb3243e3a0d8a33add322631f93337855`，远端tip
+`b20c8067fca7fa786fd2a40a3fa443dd409a5b8e`，后者确仅receipt pin。
+[r2独立复核](../../testing/glm-tenfold-triple/codex-q-r2-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-q-r2-review-20261001.json)为当前交接结论。
+Codex **counter，保持rework**；以下关闭项不重开，原700/50目标未缩，未合main/未done。
+
+- Q-01关闭：两处unknown双桥删除、typed类观测，audio新实跑12/12。
+- Q-02关闭：最终16文件/115例file×fullName×status与新实跑逐条相同。
+- 串行全包5297（2150/2788/359）全绿；typecheck×3零诊断、根lint2905文件完整0/0/0；docs/diff/verifier全绿。
+- Q-R2-01：34枚正/恢复绿、变异恰一业务红、执行数一致；但仅30枚hash与最终源匹配。
+  Q03-RC1～RC4登记fcd54104…，042dd8bb中audio实际5f1f78ff…，三态hash均不对应；须真实重采，不能只改hash。
+- Q-R2-02：cli-isolated:186/200两条60000超时违反协议，删扩大超时并默认门复跑；mkdtemp隔离与两合同路径本身成立。
+- Q-R2-03：不批准Q07/Q08整体縮围。接受已证具体轴排重/既定停线，但22族未对应全残余；Reforge证据不能替game，“成本高”不是headless不可达。700例/50有效反控保留。
+- Q-R2-04：16+1 headline正确，Q01行仍错计7（实际6测试+fixture）；receipt shortfall仍113，候选SHA为短字符串。修准确最终口径。
+- F1撤回恢复宣称与metadata一致，11截图hash相符，抽看4张；不把autoplay恢复或console零当已验。
+- D-Q01-1已用当前合法存档/PNG+外部getThumb IO拒绝独立确认1未处理拒绝/exit1，
+  [另列产品draft](REFORGE-OPENING-LOAD-ERROR-1.md)，不授权GLM修产品。
+
+### 下一位 GLM Q 提示词（r3，取代上一轮返工提示词）
+
+```text
+继续 TEST-GLM-WAVE-Q-1，原分支 codex/glm-wave-q-runtime-residual-r1；测试起点042dd8bbb3243e3a0d8a33add322631f93337855，docs-only tip b20c8067fca7fa786fd2a40a3fa443dd409a5b8e。当前rework，不合main、不标done。
+先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md 的r2二审段与所链codex-q-r2-review/机器证据，再读共同协议和GLM自检。
+Q-01/Q-02与F1撤回已闭合，不重复返工。Q-R2-01：在最终格式化audio文件上真实重采Q03-RC1～RC4正/变/恢复JSON/raw/退出码/执行数/业务断言/三态hash，不能只改hash；其它30枚保留，最后全部34枚重核hash。Vitest rejects序列化Error前缀不单独判环境红，保留原文。
+Q-R2-02：删除cli-isolated两条60000超时，保留默认门、子进程失败/取消收尾，复跑两例及pal-extract全包/typecheck。Q-R2-04：Q01行6测试+fixture、receipt115及完整40位候选SHA准确生成，后续新增时同样以树为准。
+Q-R2-03缩围未获准：700合法未重复例/50有效反控保留，连续做未完合法残余。逐源未命中条件/caller/合法输入/旧file+完整fullName+断言行/oracle/剩余反例分类；Reforge不能当game真值，集成成本高不等于不可达。具体已证轴不重做；剧情、新原版机制/碰撞真值仍停线，不凑数、不扩权。
+只写原Q新测/专属fixture/wave-Q证据；D-Q01-1是独立产品draft，不夹修，不改产品/旧测/配置/官方baseline/O/P/真实数据/E2E/共享文档，也不cherry-pick Codex共享审查提交。
+派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；最终实跑JSON与证据一致，串行三个Owner包test/typecheck、根lint完整0/0/0、docs/diff/verifier后推送完整候选SHA与诚实未完账。official ratchet/protected fast/并集结算/合main/done仅Codex。
+```
