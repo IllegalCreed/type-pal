@@ -93,8 +93,8 @@ describe('ED-3 PAL project reference index', () => {
     const index = createProjectReferenceIndex(diagnostics.projectReferences)
     const edges = index.allReferences()
 
-    // E2E-002 adds six local take/release pairs; completion folding changes no commands.
-    expect(diagnostics.entityAddressReferences).toHaveLength(38_138)
+    // E2E-003 adds the verified first-talk/kitchen handoff; retain exact census and collector parity.
+    expect(diagnostics.entityAddressReferences).toHaveLength(38_158)
     const expectedEntityBlockers = diagnostics.entityAddressReferences
       .filter((reference) =>
         entityAddressReferenceBlocksDeletion(reference, {
@@ -117,7 +117,7 @@ describe('ED-3 PAL project reference index', () => {
       })
       .sort()
     expect(actualEntityBlockers).toEqual(expectedEntityBlockers)
-    expect(actualEntityBlockers).toHaveLength(4_374)
+    expect(actualEntityBlockers).toHaveLength(4_387)
 
     expect(
       edges.filter(
@@ -179,7 +179,7 @@ describe('ED-3 PAL project reference index', () => {
       .sort()
     expect(unifiedBattleDataKeys).toEqual(oldBattleDataKeys)
     const actorEdges = edges.filter((edge) => edge.relation.kind === 'actor-use')
-    expect(actorEdges).toHaveLength(808)
+    expect(actorEdges).toHaveLength(819)
     const oldActorReferences = collectActorReferences(state)
     const oldActorKeys = oldActorReferences
       .map((reference) => `${reference.actorId}\0${reference.kind}`)
@@ -221,8 +221,8 @@ describe('ED-3 PAL project reference index', () => {
         .map((reference) => `${reference.actorId}\0${reference.kind}\0${reference.where}`)
         .sort(),
     )
-    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(804)
-    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(516)
+    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(815)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(527)
     expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(1)
     expect(
       state.actors.reduce((count, actor) => {
@@ -231,7 +231,7 @@ describe('ED-3 PAL project reference index', () => {
           count + index.deletionImpact(target, index.deletionScopeFor([target])).blockers.length
         )
       }, 0),
-    ).toBe(804)
+    ).toBe(815)
     expect(
       Object.fromEntries(
         [
@@ -255,12 +255,12 @@ describe('ED-3 PAL project reference index', () => {
       'actor-covered-by': 6,
       'item-equipable-by': 261,
       'item-battle-sprite-by-actor': 7,
-      'command-set-actor-sprite': 122,
+      'command-set-actor-sprite': 123,
       'command-set-actor-appearance': 9,
       'command-set-party-member': 219,
       'enemy-apply-actor-growth': 1,
       'enemy-play-actor-cast-effect': 1,
-      'dialogue-actor': 163,
+      'dialogue-actor': 173,
       'level-up-owner': 4,
     })
     expect(
@@ -331,7 +331,18 @@ describe('ED-3 PAL project reference index', () => {
     )
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
     const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
-    expect(worldSpriteEdges).toHaveLength(3_824)
+    expect(worldSpriteEdges).toHaveLength(3_825)
+    expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-208' })).toMatchObject([
+      {
+        source: {
+          owner: {
+            kind: 'script-owner',
+            owner: { kind: 'entity-behavior', sceneId: 's001', entityId: 'e20' },
+          },
+        },
+        relation: { kind: 'world-sprite-use' },
+      },
+    ])
     // E2E-002 declares one persistent open-page action on each inn door. Keep exact census and
     // owner/locator identities, not just the +2 count; all collector/index parity gates below stay.
     expect(worldSpriteActionEdges).toHaveLength(387)
@@ -354,7 +365,7 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
     expect(battleSpriteEdges).toHaveLength(180)
-    expect(assetEdges).toHaveLength(6_002)
+    expect(assetEdges).toHaveLength(6_008)
     const baselineAssetReferences = collectEditorAssetReferences(state, canonical)
     const optimizedAssetReferences = diagnostics.assetSnapshot.references
     const assetReferenceIdentity = (reference: (typeof baselineAssetReferences)[number]): string =>
@@ -494,13 +505,13 @@ describe('ED-3 PAL project reference index', () => {
         .sort(),
     )
     const worldSpriteIds = new Set(oldWorldSpriteReferences.map((reference) => reference.sprite))
-    expect(worldSpriteIds.size).toBe(573)
+    expect(worldSpriteIds.size).toBe(574)
     expect(
       [...worldSpriteIds].reduce(
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_211)
+    ).toBe(4_212)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
@@ -556,7 +567,26 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_461)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_470)
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 's001',
+        entityId: 'e20',
+        channel: 'trigger',
+        behaviorId: 'take-dishes',
+      }),
+    ).toMatchObject([
+      {
+        source: {
+          owner: {
+            kind: 'script-owner',
+            owner: { kind: 'entity-behavior', sceneId: 's001', entityId: 'e19' },
+          },
+        },
+        relation: { kind: 'behavior-reference' },
+      },
+    ])
     expect(
       edges
         .filter(
@@ -626,10 +656,9 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    // Two action edges + two trigger bindings add four rows; action parent-sprite buckets add
-    // two additional target aliases. Compact worker byte limit and full snapshot equality remain.
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_205)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_108)
+    // First-talk/kitchen adds forty rows and fifty-four aliases; no parity or payload gate is relaxed.
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_245)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_162)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

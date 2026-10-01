@@ -103,7 +103,7 @@ test('first-day greeting dispatches independent kitchen movement and first begga
   ).toEqual(['dlg.59', 'dlg.60'])
 })
 
-test('kitchen replacement becomes visible only after three actual movement promises, then hallway mother hides', async () => {
+test('kitchen command sequence moves the hallway mother three times before showing its replacement and hiding the source', async () => {
   const result = await run(flow('s003', 'e56', 'auto', 'go-to-kitchen'))
   expect(result.commands).toEqual([
     ...[
