@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/migration-plan.ts b/packages/migrate/src/migration-plan.ts
-index fd4044b2..85881339 100644
+index fd4044b22..85881339f 100644
 --- a/packages/migrate/src/migration-plan.ts
 +++ b/packages/migrate/src/migration-plan.ts
 @@ -200 +200 @@ export function createMigrationPlan(

@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-content-supply.ts b/packages/migrate/src/pal-content-supply.ts
-index 1499f121..48311618 100644
+index 1499f121c..483116180 100644
 --- a/packages/migrate/src/pal-content-supply.ts
 +++ b/packages/migrate/src/pal-content-supply.ts
 @@ -64 +64 @@ export function buildPalContentSupply(sources: PalContentSupplySources) {

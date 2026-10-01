@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/migration-project-io.ts b/packages/migrate/src/migration-project-io.ts
-index 5e76bdd4..97317411 100644
+index 5e76bdd40..973174113 100644
 --- a/packages/migrate/src/migration-project-io.ts
 +++ b/packages/migrate/src/migration-project-io.ts
 @@ -50 +50 @@ export function discoverProjectManagedFiles(repo: string, seed: ReadonlySet<stri

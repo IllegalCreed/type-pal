@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-assets.ts
-index ef913497..8fe15ea3 100644
+index ef9134975..8fe15ea3d 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
 @@ -1171 +1171 @@ export function planPalAssetRetirements(args: {

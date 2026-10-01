@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-world-sprite-semantic-alias.ts b/packages/migrate/src/pal-world-sprite-semantic-alias.ts
-index e923d90a..59c03618 100644
+index e923d90ac..59c036184 100644
 --- a/packages/migrate/src/pal-world-sprite-semantic-alias.ts
 +++ b/packages/migrate/src/pal-world-sprite-semantic-alias.ts
 @@ -38 +38 @@ function assertEquivalentDefinition(label: string, left: SpriteDef, right: Sprit

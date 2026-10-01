@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/migration-write-plan.ts b/packages/migrate/src/migration-write-plan.ts
-index 642c92ee..ce998bfc 100644
+index 642c92ee5..ce998bfc8 100644
 --- a/packages/migrate/src/migration-write-plan.ts
 +++ b/packages/migrate/src/migration-write-plan.ts
 @@ -42 +42 @@ export function buildMigrationTransactionChanges(args: {

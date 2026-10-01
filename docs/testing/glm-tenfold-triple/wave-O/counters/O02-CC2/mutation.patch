@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/migration-merge.ts b/packages/migrate/src/migration-merge.ts
-index fa5a2ed5..c110b0d4 100644
+index fa5a2ed50..c110b0d48 100644
 --- a/packages/migrate/src/migration-merge.ts
 +++ b/packages/migrate/src/migration-merge.ts
 @@ -266 +266 @@ function mergeIdentityArray(

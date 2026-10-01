@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-current-publication.ts b/packages/migrate/src/pal-current-publication.ts
-index 04a91c22..bb146487 100644
+index 04a91c224..bb1464872 100644
 --- a/packages/migrate/src/pal-current-publication.ts
 +++ b/packages/migrate/src/pal-current-publication.ts
 @@ -101 +101 @@ export function buildPalCurrentPublication(
