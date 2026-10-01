@@ -267,4 +267,3 @@
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [TEST-GLM-ZCODE-DISPATCH-1 — ZCode 三路覆盖率补测持续调度](../archive/tasks/cancelled/TEST-GLM-ZCODE-DISPATCH-1.md) | cancelled | 取消原因与替代项见卡内终态裁决。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
-
