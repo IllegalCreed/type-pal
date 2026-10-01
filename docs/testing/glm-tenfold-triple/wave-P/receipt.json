@@ -10,14 +10,15 @@
   "head": "(见下方 headNote：回执不引用自身提交)",
   "headNote": "r3.5-review 闭合提交 = 52dd21198e752243ebf4820122eedc68b7376448（工具收紧+10针重采+docs/contracts 补账同提交）；其后仅 receipt pin docs-only；最终远端候选以推送 tip 为准",
   "counts": {
-    "contracts": 79,
+    "contracts": 78,
     "workGroups": 17,
-    "countersValidSubmitted": 15,
-    "countersExactlyOneRed": 15,
+    "countersValidSubmitted": 14,
+    "countersExactlyOneRed": 14,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
     "browserScreenshots": 66,
-    "target": "700/70组/50反控/20流程（不缩）"
+    "target": "700/70组/50反控/20流程（不缩）",
+    "netNewCapNote": "79 执行经 r9 复核扣 G13-02 伪证修正与 G13-04/G14-04 existing-proof 移出后，当前 78 执行、净新上限 ≤78、缺口 ≥622"
   },
   "reworkClosures": {
     "P-R2-01": "counter.mjs diff -u patch + git apply 实测；judge 恰一红+目标逐字匹配；10 枚重跑 numFailedTests=1",
@@ -30,31 +31,34 @@
     "P-R36-01": "G03 三条 oracle 指向实际业务结果行（开盘+尺寸提交 :83-87 / Escape 关闭回焦 :96-97 / Home/End/Arrow 移焦 :117-121）；标题未测空格主张撤回（测试标题与 fullName 同步，P02-C08 因执行集变化重采）；其余 64 条 oracle 为每合同首条真实断言行",
     "P-R36-02": "judgeClean 增 rawOutput 形参，三相共用同一 raw harness 检查（Vitest caught unhandled/UNHANDLED_REJECTION）；mutant 有效业务退出收紧为恰 exit 1（0/负值/≥2 区分拒收），政策探针 exit2 自测拒收；自测 22/22；receipt 同步 judgeSelfTest=22、工具证据锚 52dd21198（本轮再更新至最新提交）、9 针更新+P02-C08 未变的口径修正为“9 更新+C08 因标题撤回重采”",
     "P-R8-receipt-sync": "receipt.sourceSha256 自最终字节重算（editor-asset-io/Toolbar/counter.mjs 三个旧摘要已同步）",
-    "P03-batch": "script-editor.p03.glm-p.test.ts 12 例（G12 behaviorReferences 页槽/命令路径/cursorHandoff/未知 id；G13 sceneHookReferences initial+command/destinationExists 三臂/坏路径 undefined；G14 五 owner 标签+悬空回退+两臂文案+容器标签）；P03 反控 C11–C15 五枚恰一红；contracts 79 条全 oracle=真实断言行"
+    "P03-batch": "script-editor.p03.glm-p.test.ts 12 例（G12 behaviorReferences 页槽/命令路径/cursorHandoff/未知 id；G13 sceneHookReferences initial+command/destinationExists 三臂/坏路径 undefined；G14 五 owner 标签+悬空回退+两臂文案+容器标签）；P03 反控 C11–C15 五枚恰一红；contracts 79 条全 oracle=真实断言行",
+    "P-R9-01": "P03 fixture 的实体 behavior machine.entry 非法（公开校验拒收：只允许 onEnter initial state，author-script-core.ts:984-986）——entry.prepare+handoff 移到合法 onEnter hook 的 stateMachine initial state；G12-03 断言完整 locator（owner/容器 state section prepare/commandPath 0）并经 resolveCanonicalScriptCommand 核 handoff 源/目标 cursor（stateMap fromBehavior/cases/onUnmapped）；fixture 过公开作者校验与引用闭包",
+    "P-R9-02": "G13-02 重写：真实非 initial hook（enter-b，initial=enter-a）+ 精确断言无 initial 引用、恰一命令引用含路径；删除 every 伪证。G13-04（坏路径 undefined）与 G14-04 旧正文标签（:488-490 精确整串）登记 existing-proof 并移出执行集。G12-03 保留为合法 onEnter entry 容器/locator 新轴（旧测 :334-368 是 shared-script body 容器后缀）；G13-01 重写为 hook 变体流容器命令 locator 精确 toEqual（旧测 :871-904 是 shared-script body 容器）",
+    "P-R9-03": "Toolbar Home/End 用例重写：删除手工抢焦/空 act；vi.waitFor 可观察收敛（焦点落进托盘 + 全部选项挂载完成 ISOMETRIC_BRUSH_SIZES.length）后断言产品 rAF 落焦于当前值选项，再全部经产品键盘处理器移动；单文件连续 10/10 稳定，不扩 timeout、不 mock、不改产品"
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
-    "fullEditorSuite": "517 files / 3865 tests 全绿 exit 0（含 P03 12 例；首跑高负载下旧 adoption.test.ts 一例 15s 超时漂移，单独与空闲复跑均绿——已两次登记该已知负载漂移）",
+    "fullEditorSuite": "517 files / 3864 tests 全绿 exit 0（本轮 P03 净 11 例 + Toolbar 重写；负载漂移史见前两轮登记）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2804 files; 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
-    "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail"
+    "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（未改工具，r3.6 判据保留）"
   },
   "notDone": [
     "P02 剩余暗区",
-    "P04–P10 七批（621 例缺口）",
-    "35 枚反控缺口",
+    "P04–P10 七批（622 例缺口）",
+    "36 枚反控缺口",
     "F14/F18 完整流程证明"
   ],
   "sourceSha256": {
     "packages/editor/src/core/project-io.glm-p.test.ts": "28267c1938f90e7241534ef6c6a5a2e6d5c224d3b169f60993e8ffc332dcfd04",
     "packages/editor/src/core/project-diagnostics.glm-p.test.ts": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
     "packages/editor/src/core/editor-asset-io.glm-p.test.ts": "c333f92de0cc84bff36aca4a6aa70bdb12ace8e00f1bc54e36046a737e738e83",
-    "packages/editor/src/core/script-editor.p03.glm-p.test.ts": "417c725499d79e5dfdaa41ff046a89674c902199a12c7291ed785b5a88099283",
+    "packages/editor/src/core/script-editor.p03.glm-p.test.ts": "dd5c13176a15dc2f6659f7dd79a2bdcb0981e36d3898f89541bfa0cbf21dc3ad",
     "packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
     "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
-    "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "40ed1d50a14fa81ee6c8cd08880c2d9dd3c4e268fdd115d6cb932089e69cc041",
+    "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "ef91157741be001489e0268844a64ac473ff1592a30a6b9ec83fa0ea48a25a57",
     "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ae62f15652dbd1b8a2869758914a1c551a8040c06123ed619c1b6991ba5ae5be"
   },

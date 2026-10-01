@@ -139,7 +139,6 @@ function scene(extra?: Partial<AuthorSceneDef>): AuthorSceneDef {
           trigger: {
             talk: behavior('talk', stageFlow('start', [selectionCommand('talk')])),
             auto2: behavior('auto2', machineFlow([selectionCommand('auto2')])),
-
           },
         },
       },
@@ -158,7 +157,10 @@ function editorState(): ScriptEditorState {
             variants: {
               'enter-a': hook(
                 '进场A',
-                onEnterEntryMachineFlow([handoffCommand('talk', 'auto2')], [selectionCommand('talk')]),
+                onEnterEntryMachineFlow(
+                  [handoffCommand('talk', 'auto2')],
+                  [selectionCommand('talk')],
+                ),
               ),
               'enter-b': hook(
                 '进场B',
@@ -269,9 +271,7 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
       cursorHandoff: {
         kind: 'stateMap',
         fromBehavior: 'talk',
-        cases: [
-          { from: { kind: 'stage', stage: 'start' }, to: { kind: 'stage', stage: 'start' } },
-        ],
+        cases: [{ from: { kind: 'stage', stage: 'start' }, to: { kind: 'stage', stage: 'start' } }],
         onUnmapped: 'error',
       },
     })
@@ -343,7 +343,6 @@ describe('P03-G13 sceneHookReferences 与目标存在性', () => {
       }),
     ).toBe(false)
   })
-
 })
 
 describe('P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference）', () => {

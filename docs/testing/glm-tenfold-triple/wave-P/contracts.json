@@ -1,5 +1,5 @@
 {
-  "total": 79,
+  "total": 78,
   "note": "r9：oracle=每合同测试源真实断言行（P02-G03 三条为人工指定结果行保留）；oldAssertion=真实旧 fullName 锚；P03 三组新增（67→79）",
   "contracts": [
     {
@@ -699,7 +699,7 @@
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-editor.test.ts › canonical script editor commands › renames a behavior immutably and rewrites page plus nested project references（已证重写链；只读 page 引用收集无旧直测）",
       "axis": "本合同新轴: behaviorReferences 页槽 entity-page locator/路径",
-      "oracle": "真实断言行: expect(pageRef?.path).toBe( 'scenes.s001.entities.e1.pages.default.trigger', )  // src/core/script-editor.p03.glm-p.test.ts:192",
+      "oracle": "真实断言行: expect(pageRef?.path).toBe('scenes.s001.entities.e1.pages.default.trigger')  // src/core/script-editor.p03.glm-p.test.ts:222",
       "classification": "reference-collection"
     },
     {
@@ -713,21 +713,21 @@
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-editor.test.ts › canonical script editor commands › tracks and rewrites cursor-handoff source behaviors without duplicate references（已证 cursorHandoff 重写）",
       "axis": "本合同新轴: 只读 selection 命中的完整命令路径集合",
-      "oracle": "真实断言行: expect(commandRefs).toContain('scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]')  // src/core/script-editor.p03.glm-p.test.ts:209",
+      "oracle": "真实断言行: expect(commandRefs).toContain( 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:237",
       "classification": "reference-collection"
     },
     {
       "batch": "P03",
       "id": "P03-G12-03",
       "file": "src/core/script-editor.p03.glm-p.test.ts",
-      "fullName": "P03-G12 behaviorReferences 只读引用收集 selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
+      "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
       "status": "passed",
       "condition": "与 script-editor.test.ts 同构 typed fixture（AuthorSceneDef/items/sharedScripts，含状态机 prepare 的合法 CursorHandoff stateMap）",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "同上（重写链已证）",
       "axis": "本合同新轴: cursorHandoff.fromBehavior 只读引用（后缀路径）",
-      "oracle": "真实断言行: expect(handoff).toBeDefined()  // src/core/script-editor.p03.glm-p.test.ts:220",
+      "oracle": "真实断言行: expect(handoff).toBeDefined()  // src/core/script-editor.p03.glm-p.test.ts:253",
       "classification": "reference-collection"
     },
     {
@@ -741,35 +741,35 @@
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-references.test.ts › 覆盖场景入口、共享体互调、动态绑定与嵌套分支（已证 callScript 边）",
       "axis": "本合同新轴: 未知 behaviorId 空引用（只读不抛错）",
-      "oracle": "真实断言行: expect(behaviorReferences(editorState(), target, 'trigger', 'ghost')).toEqual([])  // src/core/script-editor.p03.glm-p.test.ts:227",
+      "oracle": "真实断言行: expect(behaviorReferences(editorState(), target, 'trigger', 'ghost')).toEqual([])  // src/core/script-editor.p03.glm-p.test.ts:281",
       "classification": "reference-collection"
     },
     {
       "batch": "P03",
       "id": "P03-G13-01",
       "file": "src/core/script-editor.p03.glm-p.test.ts",
-      "fullName": "P03-G13 sceneHookReferences 与目标存在性 initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
+      "fullName": "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
       "status": "passed",
       "condition": "同上 fixture + selectSceneHooks/disabled 合法 selection",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "script-editor.test.ts › edits scene Hook variants through stable ids and rewrites selections（已证 hook 重写）",
       "axis": "本合同新轴: sceneHookReferences initial+command 两类 locator",
-      "oracle": "真实断言行: expect(initial?.path).toBe('scenes.s001.hooks.onEnter.initial')  // src/core/script-editor.p03.glm-p.test.ts:246",
+      "oracle": "真实断言行: expect(command.path).toBe( 'scenes.s001.hooks.onEnter.variants.enter-b.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:291",
       "classification": "reference-collection"
     },
     {
       "batch": "P03",
       "id": "P03-G13-02",
       "file": "src/core/script-editor.p03.glm-p.test.ts",
-      "fullName": "P03-G13 sceneHookReferences 与目标存在性 非 initial hook → 只有命令引用，无 initial 引用",
+      "fullName": "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
       "status": "passed",
       "condition": "同上 fixture + selectSceneHooks/disabled 合法 selection",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "同上",
       "axis": "本合同新轴: 非 initial hook 的引用形态约束",
-      "oracle": "真实断言行: expect(refs.every((ref) => ref.kind === 'initial' || ref.kind === 'command')).toBe(true)  // src/core/script-editor.p03.glm-p.test.ts:261",
+      "oracle": "真实断言行: expect(refs.filter((ref) => ref.kind === 'initial')).toHaveLength(0)  // src/core/script-editor.p03.glm-p.test.ts:305",
       "classification": "reference-collection"
     },
     {
@@ -783,21 +783,7 @@
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "script-references.test.ts › 缺场景、缺落点…（已证保存门阻断）",
       "axis": "本合同新轴: canonicalScriptReferenceDestinationExists 三臂真值",
-      "oracle": "真实断言行: expect(canonicalScriptReferenceDestinationExists(state, commandRef)).toBe(true)  // src/core/script-editor.p03.glm-p.test.ts:270",
-      "classification": "reference-collection"
-    },
-    {
-      "batch": "P03",
-      "id": "P03-G13-04",
-      "file": "src/core/script-editor.p03.glm-p.test.ts",
-      "fullName": "P03-G13 sceneHookReferences 与目标存在性 resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
-      "status": "passed",
-      "condition": "同上 fixture + selectSceneHooks/disabled 合法 selection",
-      "source": "packages/editor/src/core/script-editor.ts",
-      "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
-      "oldAssertion": "script-editor.test.ts › locates state-machine commands and rejects an invalid command path（已证命令定位）",
-      "axis": "本合同新轴: resolveCanonicalScriptCommand 坏路径 undefined 不抛",
-      "oracle": "真实断言行: expect(resolveCanonicalScriptCommand(state, ref.locator)).toBeDefined()  // src/core/script-editor.p03.glm-p.test.ts:298",
+      "oracle": "真实断言行: expect(canonicalScriptReferenceDestinationExists(state, commandRef)).toBe(true)  // src/core/script-editor.p03.glm-p.test.ts:319",
       "classification": "reference-collection"
     },
     {
@@ -811,7 +797,7 @@
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "UI 展示经 ScriptBehaviorInspector 等间接消费；无旧直测 fullName",
       "axis": "本合同新轴: 五种 owner 中文标签精确值",
-      "oracle": "真实断言行: expect(describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'trigger', behaviorId: 'talk' })).toBe( '场景 s001 / 实体 e1 / 交互脚本“标签-talk”', )  // src/core/script-editor.p03.glm-p.test.ts:308",
+      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'trigger', behaviorId: 'talk',  // src/core/script-editor.p03.glm-p.test.ts:352",
       "classification": "label-contract"
     },
     {
@@ -825,7 +811,7 @@
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "同上（间接消费）",
       "axis": "本合同新轴: 悬空 id 回退 id 本身四臂",
-      "oracle": "真实断言行: expect(describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'auto', behaviorId: 'ghost' })).toContain('ghost')  // src/core/script-editor.p03.glm-p.test.ts:327",
+      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'auto', behaviorId: 'ghost',  // src/core/script-editor.p03.glm-p.test.ts:391",
       "classification": "label-contract"
     },
     {
@@ -839,21 +825,21 @@
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "同上（间接消费）",
       "axis": "本合同新轴: entity-page 与 scene-hook-initial 两臂文案",
-      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'page', path: 'p', locator: { kind: 'entity-page', sceneId: 's001', entityId: 'e1', pageId: 'default', channel: 'trigger' }, }), ).toBe('场景 s001 / 实体 e1 / 页面“默认页” / 使用交互脚本')  // src/core/script-editor.p03.glm-p.test.ts:335",
+      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'page', path: 'p', locator: { kind: 'entity-page', sceneId: 's001',  // src/core/script-editor.p03.glm-p.test.ts:423",
       "classification": "label-contract"
     },
     {
       "batch": "P03",
       "id": "P03-G14-04",
       "file": "src/core/script-editor.p03.glm-p.test.ts",
-      "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）",
+      "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
       "status": "passed",
       "condition": "同上 fixture 的五种合法 owner/locator 字面量",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "同上（间接消费）",
       "axis": "本合同新轴: 命令引用容器标签（连续流程/状态/正文段）",
-      "oracle": "真实断言行: expect(inMachine).toBeDefined()  // src/core/script-editor.p03.glm-p.test.ts:358",
+      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'command', path: 'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior', locator: { kind: 'command', owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },  // src/core/script-editor.p03.glm-p.test.ts:453",
       "classification": "label-contract"
     },
     {

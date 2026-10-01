@@ -50,9 +50,9 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 
 | 项 | 数量 | 说明 |
 |---|---:|---|
-| 合法新用例 | **79 / 700** | 67/67 绿（[directed-vitest.json](directed-vitest.json) 树内实跑；G09 三条重复断言已删）；逐合同 [contracts.json](contracts.json) |
+| 合法新用例 | **78 / 700**（执行数；净新上限 ≤78——P03 两条 existing-proof 已移出执行集） | 67/67 绿（[directed-vitest.json](directed-vitest.json) 树内实跑；G09 三条重复断言已删）；逐合同 [contracts.json](contracts.json) |
 | 合同工作组 | 17 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G14 |
-| 有效反控 | **15 / 50** | 严格判据重跑，10/10 恰一目标红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
+| 有效反控 | **14 / 50**（P03-C13 退役：initial locator 轴旧测已完整 toEqual 直证，存档保留） | 严格判据重跑，10/10 恰一目标红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
 | 浏览器流程 | **18 / 20 完整证明** | F01–F20 共 20 条；F14/F18 如实登记未证（[browser/browser-evidence.json](browser/browser-evidence.json)） |
 | 私有同分母 coverage | 上轮 +32/+16/+2（branches/statements/functions，分母 28489 不变） | 本轮合同未变，未重跑 |
 
@@ -63,7 +63,7 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
   维持「已提交」口径）。
 - 证据：browser/**（20 流程 + 55 截图哈希）、directed/contracts/counters 重生成、
   README/receipt 重写。
-- 未完成（如实登记，不缩围）：**P02 剩余与 P03–P10 未开工（621 例缺口）**、
+- 未完成（如实登记，不缩围）：**P02 剩余与 P03–P10 未开工（622 例缺口）**、
   反控 40 枚缺口。单会话上下文不足以完成十倍量级；按卡「缺合法缺口举证申请调整，
   不自行缩围凑数」，请 Codex 据排重账决定续派方式。
 

@@ -3,8 +3,8 @@
   "numPassedTestSuites": 2,
   "numFailedTestSuites": 2,
   "numPendingTestSuites": 0,
-  "numTotalTests": 12,
-  "numPassedTests": 11,
+  "numTotalTests": 11,
+  "numPassedTests": 10,
   "numFailedTests": 1,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790869522832,
+  "startTime": 1790896832445,
   "success": false,
   "testResults": [
     {
@@ -34,9 +34,9 @@
           "fullName": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
           "status": "failed",
           "title": "页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
-          "duration": 4.21508399999999,
+          "duration": 4.127375000000029,
           "failureMessages": [
-            "AssertionError: expected 'scenes.s001.entities.e1.PAGE.default.…' to be 'scenes.s001.entities.e1.pages.default…' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C12-eWz1AY/packages/editor/src/core/script-editor.p03.glm-p.test.ts:192:27\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected 'scenes.s001.entities.e1.PAGE.default.…' to be 'scenes.s001.entities.e1.pages.default…' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C12-RHFCJ1/packages/editor/src/core/script-editor.p03.glm-p.test.ts:222:27\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ],
           "meta": {},
           "tags": []
@@ -46,17 +46,17 @@
           "fullName": "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
           "status": "passed",
           "title": "嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
-          "duration": 0.588374999999985,
+          "duration": 0.6162909999999897,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["P03-G12 behaviorReferences 只读引用收集"],
-          "fullName": "P03-G12 behaviorReferences 只读引用收集 selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
+          "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
           "status": "passed",
-          "title": "selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
-          "duration": 0.3522500000000264,
+          "title": "合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+          "duration": 0.8985409999999661,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -66,27 +66,27 @@
           "fullName": "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
           "status": "passed",
           "title": "不存在的 behaviorId → 空引用列表（只读收集不抛错）",
-          "duration": 0.26829100000003336,
+          "duration": 0.21887499999996862,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["P03-G13 sceneHookReferences 与目标存在性"],
-          "fullName": "P03-G13 sceneHookReferences 与目标存在性 initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
+          "fullName": "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
           "status": "passed",
-          "title": "initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
-          "duration": 0.27291700000000674,
+          "title": "hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+          "duration": 0.22808300000002646,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["P03-G13 sceneHookReferences 与目标存在性"],
-          "fullName": "P03-G13 sceneHookReferences 与目标存在性 非 initial hook → 只有命令引用，无 initial 引用",
+          "fullName": "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
           "status": "passed",
-          "title": "非 initial hook → 只有命令引用，无 initial 引用",
-          "duration": 0.1335830000000442,
+          "title": "真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+          "duration": 0.32366700000000037,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -96,17 +96,7 @@
           "fullName": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
           "status": "passed",
           "title": "destinationExists 三臂：command/entity-page/scene-hook-initial",
-          "duration": 0.30870799999996734,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["P03-G13 sceneHookReferences 与目标存在性"],
-          "fullName": "P03-G13 sceneHookReferences 与目标存在性 resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
-          "status": "passed",
-          "title": "resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
-          "duration": 0.19395900000000665,
+          "duration": 0.261792000000014,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -118,7 +108,7 @@
           "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
           "status": "passed",
           "title": "五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
-          "duration": 0.47566600000004655,
+          "duration": 0.21329100000002654,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -130,7 +120,7 @@
           "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
           "status": "passed",
           "title": "悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
-          "duration": 0.13766700000002174,
+          "duration": 0.3782080000000292,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -142,7 +132,7 @@
           "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
           "status": "passed",
           "title": "describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
-          "duration": 0.17229199999997036,
+          "duration": 0.16458299999999326,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -151,20 +141,20 @@
           "ancestorTitles": [
             "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference）"
           ],
-          "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）",
+          "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
           "status": "passed",
-          "title": "describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）",
-          "duration": 0.1512079999999969,
+          "title": "describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+          "duration": 0.15416700000002947,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790869523213,
-      "endTime": 1790869523221.1724,
+      "startTime": 1790896832790,
+      "endTime": 1790896832798.1646,
       "status": "failed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C12-eWz1AY/packages/editor/src/core/script-editor.p03.glm-p.test.ts"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C12-RHFCJ1/packages/editor/src/core/script-editor.p03.glm-p.test.ts"
     }
   ]
 }

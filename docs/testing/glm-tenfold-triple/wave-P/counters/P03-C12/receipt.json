@@ -5,41 +5,39 @@
   "replaceText": "        path: `scenes.${target.scene}.entities.${target.entity}.PAGE.${page.id}.${channel}`,",
   "testSpec": "src/core/script-editor.p03.glm-p.test.ts",
   "expectFullname": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
-  "candidateHead": "012122a457945728ee76746318821eccfa6ed6fa",
+  "candidateHead": "3d0c5d6eb79dda704ce56ccb711a9f7d55e6b19f",
   "productSha256Candidate": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
   "patch": "--- a/packages/editor/src/core/script-editor.ts\n+++ b/packages/editor/src/core/script-editor.ts\n@@ -697,7 +697,7 @@\n     if (page[channel] === behaviorId)\n       references.push({\n         kind: 'page',\n-        path: `scenes.${target.scene}.entities.${target.entity}.pages.${page.id}.${channel}`,\n+        path: `scenes.${target.scene}.entities.${target.entity}.PAGE.${page.id}.${channel}`,\n         locator: {\n           kind: 'entity-page',\n           sceneId: target.scene,\n",
   "positive": {
     "exitCode": 0,
-    "executed": 12,
+    "executed": 11,
     "executedFullNames": [
       "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
       "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
-      "P03-G12 behaviorReferences 只读引用收集 selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
+      "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
       "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
-      "P03-G13 sceneHookReferences 与目标存在性 initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
-      "P03-G13 sceneHookReferences 与目标存在性 非 initial hook → 只有命令引用，无 initial 引用",
+      "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+      "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
       "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
-      "P03-G13 sceneHookReferences 与目标存在性 resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
-      "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）"
+      "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）"
     ],
     "judge": {
       "valid": true,
       "reasons": [],
-      "executed": 12,
+      "executed": 11,
       "identitySet": [
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 非 initial hook → 只有命令引用，无 initial 引用",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
       ]
@@ -48,20 +46,19 @@
   "productSha256MutatedTree": "1ddc9e011d4fc20fbcc7142f9c6605f3df5c60ed935bcd2b93048a8e76b675c9",
   "mutated": {
     "exitCode": 1,
-    "executed": 12,
+    "executed": 11,
     "executedFullNames": [
       "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
       "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
-      "P03-G12 behaviorReferences 只读引用收集 selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
+      "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
       "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
-      "P03-G13 sceneHookReferences 与目标存在性 initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
-      "P03-G13 sceneHookReferences 与目标存在性 非 initial hook → 只有命令引用，无 initial 引用",
+      "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+      "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
       "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
-      "P03-G13 sceneHookReferences 与目标存在性 resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
-      "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）"
+      "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）"
     ],
     "failed": [
       {
@@ -82,36 +79,34 @@
   },
   "restored": {
     "exitCode": 0,
-    "executed": 12,
+    "executed": 11,
     "executedFullNames": [
       "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
       "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
-      "P03-G12 behaviorReferences 只读引用收集 selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
+      "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
       "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
-      "P03-G13 sceneHookReferences 与目标存在性 initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
-      "P03-G13 sceneHookReferences 与目标存在性 非 initial hook → 只有命令引用，无 initial 引用",
+      "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+      "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
       "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
-      "P03-G13 sceneHookReferences 与目标存在性 resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
       "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
-      "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）"
+      "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）"
     ],
     "judge": {
       "valid": true,
       "reasons": [],
-      "executed": 12,
+      "executed": 11,
       "identitySet": [
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 非 initial hook → 只有命令引用，无 initial 引用",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
-        "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）",
+        "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
         "src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
       ]
