@@ -4195,35 +4195,39 @@ export function CanonicalScriptFlowEditor(props: {
           >
             <div className="canonical-flow-settings-fields">
               <section className="canonical-flow-setting">
-                <header className="canonical-dialog-field-heading">
-                  <label htmlFor={stageNameInputId}>步骤名称</label>
-                  <DsHelpTip label="步骤名称">
-                    说明这一轮执行什么，例如“首次交谈”或“提醒去厨房”。只修改显示名称，不改变步骤编号、运行去向或游戏行为；留空表示尚未命名。
-                  </DsHelpTip>
-                </header>
-                <DsDraftTextInput
-                  size="compact"
+                <DsField
                   id={stageNameInputId}
-                  aria-label="步骤名称"
-                  placeholder="例如：走到房门并进房"
-                  draftKey={`canonical-flow:${props.ownerLabel}:${stage.id}:label`}
-                  syncToken={props.focusRevision}
-                  value={stage.label ?? ''}
-                  onCommit={(value) => {
-                    const label = value.trim()
-                    if (label === (stage.label ?? '')) return true
-                    return props.onChange({
-                      ...flow,
-                      stages: flow.stages.map((candidate) => {
-                        if (candidate.id !== stage.id) return candidate
-                        const updated = { ...candidate }
-                        if (label) updated.label = label
-                        else delete updated.label
-                        return updated
-                      }),
-                    })
+                  label="步骤名称"
+                  help={{
+                    label: '步骤名称',
+                    content:
+                      '说明这一轮执行什么，例如“首次交谈”或“提醒去厨房”。只修改显示名称，不改变步骤编号、运行去向或游戏行为；留空表示尚未命名。',
                   }}
-                />
+                >
+                  <DsDraftTextInput
+                    size="compact"
+                    id={stageNameInputId}
+                    aria-label="步骤名称"
+                    placeholder="例如：走到房门并进房"
+                    draftKey={`canonical-flow:${props.ownerLabel}:${stage.id}:label`}
+                    syncToken={props.focusRevision}
+                    value={stage.label ?? ''}
+                    onCommit={(value) => {
+                      const label = value.trim()
+                      if (label === (stage.label ?? '')) return true
+                      return props.onChange({
+                        ...flow,
+                        stages: flow.stages.map((candidate) => {
+                          if (candidate.id !== stage.id) return candidate
+                          const updated = { ...candidate }
+                          if (label) updated.label = label
+                          else delete updated.label
+                          return updated
+                        }),
+                      })
+                    }}
+                  />
+                </DsField>
               </section>
               <section className="canonical-flow-setting">
                 <header className="canonical-dialog-field-heading">

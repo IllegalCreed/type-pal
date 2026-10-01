@@ -3,7 +3,7 @@
 Status: rework
 Phase: phase2
 Capability: W7 / P3
-Coding Owner: entity_names 贡献者
+Coding Owner: Codex Root（仅存量步骤字段质量修复；贡献者实现已交付）
 Contributor: Codex 子 Agent
 Generation Owner: N/A
 Reviewer: Codex Root 独立验收
@@ -103,6 +103,8 @@ Branch: codex/editor-entity-names
 - 独立发现此前步骤名称新增raw label导致33>32。Root从Git计数确认f5726a504与RC1均33，
   是前批存量，不是本贡献者新增；保持32门不变。贡献者交付C1/C2并停写后，Root独占ScriptEditor
   将该字段用现行设计label原语表达，单独提交验证；不把全仓存量治理外推给贡献者。
+- 贡献者48189ac7e交付C1/C2五文件后明确停止写入；Root接回ScriptEditor独占权，仅将步骤名称的
+  原生label/手工help外壳改为现行DsField。id、input、帮助正文、草稿事务和脚本状态不变，32预算不放宽。
 
 ## 下一位 Agent 提示词
 
