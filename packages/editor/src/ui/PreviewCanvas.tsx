@@ -11,6 +11,7 @@ import type {
   AuthorScriptFlow,
   AuthorScriptLibrary,
   Command,
+  FlowCursor,
   Locale,
   MapIndexV1,
   SceneDef,
@@ -29,6 +30,10 @@ import {
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { Playback } from '../core/playback.js'
+import {
+  collectScriptMovementPreview,
+  type ScriptMovementPreview,
+} from '../core/script-movement-preview.js'
 import { DsButton, DsSelect, DsTag, DsToolbar } from './design-system/index.js'
 import {
   drawGridBlocked,
@@ -39,6 +44,89 @@ import {
 } from './scene-stage.js'
 
 const DEFAULT_ZOOM = 2
+const ROUTE_COLORS = ['#78d8ff', '#ffbf69', '#b2ef8e', '#d6a4ff', '#ff91bc', '#71e5cc']
+
+/** Use the renderer's actual camera and scale; route dots mark logical map coordinates. */
+export function drawScriptMovementPreview(
+  ctx: Pick<
+    CanvasRenderingContext2D,
+    | 'save'
+    | 'restore'
+    | 'lineJoin'
+    | 'lineCap'
+    | 'setLineDash'
+    | 'beginPath'
+    | 'moveTo'
+    | 'lineTo'
+    | 'strokeStyle'
+    | 'lineWidth'
+    | 'stroke'
+    | 'closePath'
+    | 'arc'
+    | 'fillStyle'
+    | 'fill'
+    | 'font'
+    | 'textAlign'
+    | 'textBaseline'
+    | 'fillText'
+  >,
+  preview: ScriptMovementPreview,
+  camera: { x: number; y: number },
+  zoom: number,
+): void {
+  if (preview.tracks.length === 0) return
+  const screenPoint = (pos: import('@type-pal/content').GridPos) => {
+    const pixel = gridToPixel(pos)
+    return { x: (pixel.x - camera.x) * zoom, y: (pixel.y - camera.y) * zoom }
+  }
+  ctx.save()
+  ctx.lineJoin = 'round'
+  ctx.lineCap = 'round'
+  for (const [index, track] of preview.tracks.entries()) {
+    const color = ROUTE_COLORS[index % ROUTE_COLORS.length] ?? '#78d8ff'
+    for (const segment of track.segments) {
+      const from = screenPoint(segment.from.pos)
+      const to = screenPoint(segment.to.pos)
+      ctx.setLineDash(segment.conditional ? [6, 4] : [])
+      ctx.beginPath()
+      ctx.moveTo(from.x, from.y)
+      ctx.lineTo(to.x, to.y)
+      ctx.strokeStyle = '#10151ce6'
+      ctx.lineWidth = 5
+      ctx.stroke()
+      ctx.strokeStyle = color
+      ctx.lineWidth = 2.5
+      ctx.stroke()
+    }
+    for (const node of track.nodes) {
+      const point = screenPoint(node.pos)
+      const radius = node.kind === 'start' ? 4 : 9
+      ctx.setLineDash(node.conditional ? [3, 2] : [])
+      ctx.beginPath()
+      if (node.kind === 'teleport') {
+        ctx.moveTo(point.x, point.y - radius - 2)
+        ctx.lineTo(point.x + radius + 2, point.y)
+        ctx.lineTo(point.x, point.y + radius + 2)
+        ctx.lineTo(point.x - radius - 2, point.y)
+        ctx.closePath()
+      } else ctx.arc(point.x, point.y, radius, 0, Math.PI * 2)
+      ctx.fillStyle = node.conditional ? '#152536' : color
+      ctx.fill()
+      ctx.strokeStyle = node.conditional ? color : '#10151c'
+      ctx.lineWidth = 2
+      ctx.stroke()
+      if (node.number !== undefined) {
+        ctx.setLineDash([])
+        ctx.font = 'bold 11px sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillStyle = node.conditional ? color : '#10151c'
+        ctx.fillText(String(node.number), point.x, point.y + 0.5)
+      }
+    }
+  }
+  ctx.restore()
+}
 
 /** 收集脚本树里所有 world-sprite 语义 id（含换装、appearance 与编外跟随者）。 */
 function collectScriptSprites(stages: readonly ScriptStage[]): string[] {
@@ -135,6 +223,8 @@ export function PreviewCanvas(props: {
   /** 当前作者态入口：直接启动原始 flow；缺省使用运行时投影的 stages。 */
   startPlayback?: (paused: boolean) => void
   canonicalFlow?: AuthorScriptFlow
+  canonicalCursor?: FlowCursor
+  canonicalSceneEntry?: boolean
   canonicalSharedScripts?: AuthorScriptLibrary
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
@@ -163,6 +253,8 @@ export function PreviewCanvas(props: {
     playback,
     startPlayback,
     canonicalFlow,
+    canonicalCursor,
+    canonicalSceneEntry,
     canonicalSharedScripts,
     layers,
     hint,
@@ -184,6 +276,27 @@ export function PreviewCanvas(props: {
     centerAnchor: true,
   })
   const panDragRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
+  const movementPreview = useMemo(
+    () =>
+      canonicalFlow
+        ? collectScriptMovementPreview({
+            scene,
+            flow: canonicalFlow,
+            cursor: canonicalCursor,
+            sceneEntry: canonicalSceneEntry,
+            sharedScripts: canonicalSharedScripts,
+            self: focusEntityId ? { scene: scene.id, entity: focusEntityId } : undefined,
+          })
+        : { tracks: [], notes: [] },
+    [
+      scene,
+      canonicalFlow,
+      canonicalCursor,
+      canonicalSceneEntry,
+      canonicalSharedScripts,
+      focusEntityId,
+    ],
+  )
 
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const entityDef = (e: SceneDef['entities'][number]): SpriteDef | undefined => {
@@ -373,6 +486,7 @@ export function PreviewCanvas(props: {
           }) // 隐藏实体:淡显位置仍可寻
         }
       }
+      drawScriptMovementPreview(ctx, movementPreview, camera, zoom)
       // 淡幕
       if (v.fadeBlack > 0) {
         ctx.save()
@@ -398,6 +512,7 @@ export function PreviewCanvas(props: {
     layers,
     sceneFraming,
     tilesets,
+    movementPreview,
   ])
 
   const v = playback.view
@@ -563,6 +678,60 @@ export function PreviewCanvas(props: {
             panDragRef.current = null
           }}
         />
+        {movementPreview.tracks.length > 0 || movementPreview.notes.length > 0 ? (
+          <div
+            className="preview-route-legend"
+            role="note"
+            aria-label="移动轨迹"
+            title={movementPreview.notes.join('\n') || '节点编号为编排顺序，起点取作者场景位置。'}
+            style={{
+              position: 'absolute',
+              top: 8,
+              left: 8,
+              maxWidth: 'calc(100% - 16px)',
+              padding: '5px 8px',
+              borderRadius: 5,
+              background: '#10151ce6',
+              color: '#e8edf4',
+              fontSize: 11,
+              lineHeight: 1.5,
+            }}
+          >
+            <div>移动轨迹 · 当前步骤 · 编排参考，非避障路径</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 12px' }}>
+              {movementPreview.tracks.map((track, index) => {
+                const target = track.target
+                const entity =
+                  target.kind === 'entity'
+                    ? scene.entities.find((candidate) => candidate.id === target.address.entity)
+                    : undefined
+                const actor = entity && 'actor' in entity ? actorsById[entity.actor] : undefined
+                const label =
+                  track.target.kind === 'party'
+                    ? '主角队伍'
+                    : actor
+                      ? lookupText(actor.name, locale)
+                      : track.target.address.entity
+                return (
+                  <span key={index} style={{ color: ROUTE_COLORS[index % ROUTE_COLORS.length] }}>
+                    ● {label}
+                  </span>
+                )
+              })}
+              {movementPreview.tracks.some((track) =>
+                track.nodes.some((node) => node.conditional),
+              ) ? (
+                <span>虚线：条件 / 循环 / 动态</span>
+              ) : null}
+              {movementPreview.tracks.some((track) =>
+                track.nodes.some((node) => node.kind === 'teleport'),
+              ) ? (
+                <span>◇ 瞬移 / 摆位</span>
+              ) : null}
+            </div>
+            {movementPreview.notes[0] ? <div>{movementPreview.notes[0]}</div> : null}
+          </div>
+        ) : null}
         {view.zoom !== DEFAULT_ZOOM || view.panX !== 0 || view.panY !== 0 ? (
           <DsButton
             size="compact"

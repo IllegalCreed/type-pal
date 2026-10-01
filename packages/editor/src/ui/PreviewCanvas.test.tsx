@@ -5,7 +5,8 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { Playback } from '../core/playback.js'
-import { PreviewCanvas } from './PreviewCanvas.js'
+import { collectScriptMovementPreview } from '../core/script-movement-preview.js'
+import { drawScriptMovementPreview, PreviewCanvas } from './PreviewCanvas.js'
 
 vi.mock('./scene-stage.js', () => ({
   drawGridBlocked: vi.fn(),
@@ -83,6 +84,27 @@ describe('PreviewCanvas confirm controls', () => {
           locale={{}}
           playback={playback}
           startPlayback={startPlayback}
+          canonicalCursor={{ kind: 'stage', stage: 'second' }}
+          canonicalFlow={{
+            kind: 'stages',
+            initial: 'first',
+            stages: [
+              { id: 'first', body: [] },
+              {
+                id: 'second',
+                body: [
+                  {
+                    kind: 'branch',
+                    cond: { kind: 'flag', flag: 'move', is: true },
+                    then: [
+                      { kind: 'moveParty', to: { col: 3, row: 4, height: 0 }, speed: 'normal' },
+                    ],
+                  },
+                  { kind: 'teleportParty', pos: { col: 9, row: 0, height: 0 } },
+                ],
+              },
+            ],
+          }}
         />,
       )
       await Promise.resolve()
@@ -93,6 +115,11 @@ describe('PreviewCanvas confirm controls', () => {
     expect(toolbar?.querySelector('.pv-btn, .pv-speed')).toBeNull()
     expect(toolbar?.querySelectorAll('.ds-toolbar__group')).toHaveLength(1)
     expect(toolbar?.querySelector('.preview-toolbar__trailing')).not.toBeNull()
+    const legend = host.querySelector('[role="note"][aria-label="移动轨迹"]')
+    expect(legend?.textContent).toContain('移动轨迹 · 当前步骤 · 编排参考，非避障路径')
+    expect(legend?.textContent).toContain('主角队伍')
+    expect(legend?.textContent).toContain('虚线：条件 / 循环 / 动态')
+    expect(legend?.textContent).toContain('◇ 瞬移 / 摆位')
 
     await act(async () => {
       toolbar?.querySelector<HTMLButtonElement>('button[aria-label="播放"]')?.click()
@@ -202,5 +229,62 @@ describe('PreviewCanvas confirm controls', () => {
     expect(submitConfirm).toHaveBeenCalledTimes(1)
     expect(answerConfirm).toHaveBeenNthCalledWith(1, false)
     expect(answerConfirm).toHaveBeenNthCalledWith(2, true)
+  })
+})
+
+describe('movement overlay drawing', () => {
+  test('points and lines use the renderer camera/zoom, with dashed alternatives and isolated teleport diamonds', () => {
+    const ctx: Parameters<typeof drawScriptMovementPreview>[0] = {
+      save: vi.fn(),
+      restore: vi.fn(),
+      lineJoin: 'round',
+      lineCap: 'round',
+      setLineDash: vi.fn(),
+      beginPath: vi.fn(),
+      moveTo: vi.fn(),
+      lineTo: vi.fn(),
+      strokeStyle: '',
+      lineWidth: 1,
+      stroke: vi.fn(),
+      closePath: vi.fn(),
+      arc: vi.fn(),
+      fillStyle: '',
+      fill: vi.fn(),
+      font: '',
+      textAlign: 'center',
+      textBaseline: 'middle',
+      fillText: vi.fn(),
+    }
+    const movement = collectScriptMovementPreview({
+      scene: { ...scene, entry: { ...scene.entry, pos: { col: 1, row: 2, height: 3 } } },
+      flow: {
+        kind: 'stages',
+        initial: 'start',
+        stages: [
+          {
+            id: 'start',
+            body: [
+              {
+                kind: 'branch',
+                cond: { kind: 'flag', flag: 'possible', is: true },
+                then: [{ kind: 'moveParty', to: { col: 3, row: 4, height: 3 }, speed: 'normal' }],
+              },
+              { kind: 'teleportParty', pos: { col: 9, row: 0, height: 0 } },
+            ],
+          },
+        ],
+      },
+    })
+    drawScriptMovementPreview(ctx, movement, { x: -20, y: 4 }, 2)
+    // gridToPixel marks the logical map point; sprite height does not silently move map dots.
+    expect(ctx.moveTo).toHaveBeenCalledWith(8, 40)
+    expect(ctx.lineTo).toHaveBeenCalledWith(8, 104)
+    expect(ctx.arc).toHaveBeenCalledWith(8, 104, 9, 0, Math.PI * 2)
+    expect(ctx.fillText).toHaveBeenCalledWith('1', 8, 104.5)
+    expect(ctx.fillText).toHaveBeenCalledWith('2', 328, 136.5)
+    expect(ctx.setLineDash).toHaveBeenCalledWith([6, 4])
+    expect(ctx.closePath).toHaveBeenCalledTimes(1)
+    expect(ctx.save).toHaveBeenCalledTimes(1)
+    expect(ctx.restore).toHaveBeenCalledTimes(1)
   })
 })
