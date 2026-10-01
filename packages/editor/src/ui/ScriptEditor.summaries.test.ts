@@ -1,4 +1,4 @@
-import type { AuthorSceneDef } from '@type-pal/content'
+import type { AuthorCommand, AuthorSceneDef } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { type CanonicalScriptEditorContext, describeCanonicalCommand } from './ScriptEditor.js'
@@ -59,6 +59,111 @@ const context: CanonicalScriptEditorContext = {
   battleSprites: [],
 }
 const target = { scene: 's003', entity: 'e56' }
+
+test('canonical movement summary reads unsaved instance labels from the property session', () => {
+  const namedContext = {
+    ...context,
+    shellScenes: [
+      {
+        ...scene,
+        entities: [
+          {
+            id: 'e56',
+            sprite: 'aunt',
+            label: '大厅李大娘',
+            pos: { col: 2, row: 3, height: 0 },
+          },
+        ],
+      },
+    ],
+  }
+  const command = {
+    kind: 'moveEntity' as const,
+    target,
+    to: { col: 9, row: 8, height: 0 },
+    speed: 'fast' as const,
+  }
+  expect(describeCanonicalCommand(command, namedContext).label).toContain('大厅李大娘')
+  expect(describeCanonicalCommand(command, namedContext).label).toContain('e56')
+  expect(describeCanonicalCommand(command, context).label).not.toContain('大厅李大娘')
+})
+
+test.each([
+  { kind: 'setEntityState', target, state: 0 },
+  { kind: 'setEntityFacing', target, facing: 'up' },
+  { kind: 'setEntityFrame', target, frame: 1 },
+  { kind: 'setEntityPos', target, pos: { col: 1, row: 2, height: 0 } },
+  { kind: 'setEntityLayer', target, layer: 1 },
+  { kind: 'takeEntity', target },
+  { kind: 'releaseEntity', target },
+  { kind: 'hideEntity', target, ticks: 2 },
+  { kind: 'restoreEntity', target },
+  { kind: 'removeEntity', target },
+] satisfies AuthorCommand[])('all entity command paths show the current instance name: $kind', (command) => {
+  const namedContext = {
+    ...context,
+    shellScenes: [
+      {
+        ...scene,
+        entities: [
+          {
+            id: 'e56',
+            sprite: 'aunt',
+            label: '大厅李大娘',
+            pos: { col: 2, row: 3, height: 0 },
+          },
+        ],
+      },
+    ],
+  }
+  expect(describeCanonicalCommand(command, namedContext).label).toContain('大厅李大娘 · e56')
+})
+
+test('cross-scene equal IDs and nested conditions resolve their full address', () => {
+  const nextContext = {
+    ...context,
+    shellScenes: [
+      {
+        ...scene,
+        entities: [
+          { id: 'e56', sprite: 'aunt', label: '大厅李大娘', pos: { col: 1, row: 2, height: 0 } },
+        ],
+      },
+      {
+        ...scene,
+        id: 's001',
+        entities: [
+          { id: 'e56', sprite: 'aunt', label: '厨房李大娘', pos: { col: 1, row: 2, height: 0 } },
+        ],
+      },
+    ],
+  }
+  expect(
+    describeCanonicalCommand(
+      { kind: 'setEntityState', target: { scene: 's001', entity: 'e56' }, state: 2 },
+      nextContext,
+    ).label,
+  ).toContain('s001 / 厨房李大娘 · e56')
+  const described = describeCanonicalCommand(
+    {
+      kind: 'branch',
+      cond: {
+        kind: 'all',
+        of: [
+          { kind: 'entityInScene', target },
+          {
+            kind: 'not',
+            cond: { kind: 'entityState', target: { scene: 's001', entity: 'e56' }, is: 0 },
+          },
+        ],
+      },
+      then: [],
+    },
+    nextContext,
+  )
+  expect(described.label).toContain('大厅李大娘 · e56')
+  expect(described.label).toContain('s001 / 厨房李大娘 · e56')
+})
 
 test('behavior, page and shared-call summaries resolve semantic names', () => {
   expect(

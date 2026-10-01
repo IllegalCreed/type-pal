@@ -137,6 +137,7 @@ export class DeleteEntityCommand implements Command {
  *  C0:'sprite' 移出——实体引用(actor⊕sprite)切换是 C1 的专门命令/UI,patch 不表达联合切换。
  *  B9:hostile 整对象替换(非深合并);传 undefined = 撤销敌对。 */
 export type EntityPatch = Partial<{
+  label: EntityDef['label']
   collide: EntityDef['collide']
   facing: Facing
   hostile: EntityDef['hostile']
@@ -191,6 +192,7 @@ export class UpdateEntityCommand implements Command {
   /** 按 this.patch 出现的键,从 entity 上摘旧值(EntityPatch 形状)。 */
   private captureOld(entity: EntityDef): EntityPatch {
     const old: EntityPatch = {}
+    if ('label' in this.patch) old.label = entity.label
     if ('collide' in this.patch) old.collide = entity.collide
     if ('facing' in this.patch) old.facing = entity.facing
     if ('hidden' in this.patch) old.hidden = entity.hidden

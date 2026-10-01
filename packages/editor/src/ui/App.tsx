@@ -81,6 +81,7 @@ import {
   isEditorDerivedSnapshotCurrent,
 } from '../core/editor-derived-store.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
+import { entityDisplayName } from '../core/entity-display.js'
 import {
   activePageTriggerActivation,
   createCanonicalPlacedEntity,
@@ -177,6 +178,7 @@ import {
 import { EditorAppHeader } from './EditorAppHeader.js'
 import { EditorDiagnosticsBar } from './EditorDiagnosticsBar.js'
 import { ENTITY_FACING_OPTIONS, EntityFacingHelpTip } from './EntityFacingHelp.js'
+import { EntityNameField } from './EntityNameField.js'
 import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
 import {
   ACTOR_WORKSPACE_SECTIONS,
@@ -2529,7 +2531,10 @@ export function App(props: {
                               <span className="ico">
                                 {isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}
                               </span>
-                              <span>{e.id}</span>
+                              <span>{entityDisplayName(e, actorsById, state.locale)}</span>
+                              {entityDisplayName(e, actorsById, state.locale) !== e.id ? (
+                                <code className="meta">{e.id}</code>
+                              ) : null}
                               <span
                                 className="k"
                                 title={
@@ -2677,6 +2682,7 @@ export function App(props: {
                   scene={scene}
                   sprites={state.sprites}
                   actorsById={actorsById}
+                  locale={state.locale}
                   leaderSpriteId={leaderSpriteId}
                   assetBase={project.assetBase}
                   assetCatalog={state.assetCatalog}
@@ -3524,10 +3530,7 @@ function SceneEntityInspectorTabs(props: {
   const id = useId()
   const pageSelectId = `${id}-scene-entity-page`
   const [activeId, setActiveId] = useState('properties')
-  const actorName =
-    isActorEntity(props.entity) && props.actorsById[props.entity.actor]
-      ? lookupText(props.actorsById[props.entity.actor]!.name, props.locale)
-      : undefined
+  const name = entityDisplayName(props.entity, props.actorsById, props.locale)
   const items = [
     { id: 'properties', label: '属性', panel: props.properties },
     { id: 'behavior', label: '行为', panel: props.behavior },
@@ -3544,8 +3547,8 @@ function SceneEntityInspectorTabs(props: {
       <div className="insp-head">
         <div className="what">选中实体</div>
         <div className="who">
-          {actorName ?? props.entity.id}
-          {actorName ? <code> {props.entity.id}</code> : null}
+          {name}
+          {name !== props.entity.id ? <code> {props.entity.id}</code> : null}
         </div>
       </div>
       {props.pages.length > 1 && props.page ? (
@@ -3752,6 +3755,7 @@ function EntityInspector(props: {
           <div className="section">
             <h4>外观 / 交互</h4>
             <DsPropertyGrid>
+              <EntityNameField entity={entity} sceneId={sceneId} session={session} />
               {spriteDef && (
                 <DsPropertyRow label="预览" className="entity-preview-field">
                   <div className="entity-sprite-preview">

@@ -814,7 +814,7 @@ describe('CanonicalScriptEditor author presentation', () => {
     changes.mockClear()
 
     let row = host.querySelector<HTMLElement>('.cmd-row')!
-    expect(row.textContent).toContain('暂停 s001/e1')
+    expect(row.textContent).toContain('暂停 e1')
     await act(async () =>
       row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
     )

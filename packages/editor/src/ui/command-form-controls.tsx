@@ -1,5 +1,12 @@
-import type { SceneDef, WorldVariableKindV1, WorldVariableRegistryV1 } from '@type-pal/content'
+import type {
+  ActorDef,
+  Locale,
+  SceneDef,
+  WorldVariableKindV1,
+  WorldVariableRegistryV1,
+} from '@type-pal/content'
 import { useEffect, useState } from 'react'
+import { entityDisplayLabel } from '../core/entity-display.js'
 import {
   DsButton,
   DsNumberInput,
@@ -120,9 +127,14 @@ export function WorldVariablePicker(props: {
 export function EntitySel(props: {
   value: string
   scene: SceneDef
+  actors?: Record<string, ActorDef>
+  locale?: Locale
   onChange: (id: string) => void
 }) {
-  const options = props.scene.entities.map((entity) => ({ value: entity.id, label: entity.id }))
+  const options = props.scene.entities.map((entity) => ({
+    value: entity.id,
+    label: entityDisplayLabel(entity, props.actors, props.locale),
+  }))
   if (!props.scene.entities.some((entity) => entity.id === props.value))
     options.push({ value: props.value, label: `${props.value}(不在场)` })
   return (

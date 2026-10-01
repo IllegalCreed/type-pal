@@ -21,9 +21,19 @@ beforeEach(() => authorSaveStorage.receipts.clear())
 
 import type { AuthorSceneDef, ScriptChunkV1, ScriptIndexV1 } from '@type-pal/content'
 import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
+import { EditSession } from './edit-session.js'
+import { UpdateEntityCommand } from './entity-commands.js'
 import { finishOpen } from './open-actions.js'
-import { serializeProject, serializeProjectWithMapCopies, toEditorState } from './project-io.js'
+import {
+  serializeProject,
+  serializeProjectWithMapCopies,
+  toEditorState,
+  writeProject,
+} from './project-io.js'
+import { mergeEditorProjectionWithCurrentAuthorState } from './script-editor-projection.js'
 import { buildBlankProject } from './seed.js'
+import { createLocalWorkspaceContext } from './workspace-context.js'
+import { authorizeFirstSaveTarget } from './workspace-persistence.js'
 
 async function blankState(id: string) {
   const files = await buildBlankProject(id)
@@ -34,6 +44,81 @@ async function blankState(id: string) {
 }
 
 // ═══ S01：脚本索引/分片/共享脚本 ═══
+
+test('entity names survive actual dual-session serialization and current loader reopening with references unchanged', async () => {
+  const { opened, disk, files: seedFiles } = await blankState('named-entities')
+  const initial = opened.scenes[0]!
+  const target = { scene: initial.id, entity: 'e59' }
+  const scene: AuthorSceneDef = {
+    ...initial,
+    entities: [
+      {
+        id: 'e59',
+        label: '原名',
+        actor: 'hero',
+        pos: { col: 1, row: 2, height: 0 },
+        behaviors: {
+          auto: {
+            walk: {
+              label: '进房',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'walk',
+                stages: [
+                  {
+                    id: 'walk',
+                    label: '走到房门',
+                    body: [
+                      {
+                        kind: 'moveEntity',
+                        target,
+                        to: { col: 2, row: 2, height: 0 },
+                        speed: 'slow',
+                      },
+                      { kind: 'setEntityState', target, state: 0 },
+                    ],
+                    next: { kind: 'complete' },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      { id: 'e60', label: '苗人头领', sprite: 'hero', pos: { col: 1, row: 3, height: 0 } },
+      { id: 'zone', zone: true, pos: { col: 1, row: 4, height: 0 } },
+    ],
+  }
+  const session = new EditSession(toEditorState(opened.project, [scene], {}, {}, []))
+  const author = {
+    scenes: [scene],
+    items: opened.project.authorContent.items,
+    sharedScripts: opened.project.authorContent.sharedScripts,
+  }
+  session.dispatch(new UpdateEntityCommand(initial.id, 'e59', { label: '苗人头领' }))
+  session.dispatch(new UpdateEntityCommand(initial.id, 'zone', { label: '进房触发区' }))
+  const merged = mergeEditorProjectionWithCurrentAuthorState(author, session.getState())
+  const files = await serializeProjectWithMapCopies(merged, fsaSource(disk.dir))
+  const output = memoryAuthorDirectory()
+  const workspace = createLocalWorkspaceContext('named-entities', 'blank-project')
+  await writeProject(await authorizeFirstSaveTarget(workspace, output.dir), {
+    ...seedFiles,
+    ...files,
+  })
+  expect(output.json('.type-pal/save-state.json').phase).toBe('committed')
+  const reopened = await loadCurrentProjectFrom(fsaSource(output.dir))
+  const saved = (await loadAllAuthorScenes(reopened))[0]!
+  expect(saved.entities.map((entity) => ({ id: entity.id, label: entity.label }))).toEqual([
+    { id: 'e59', label: '苗人头领' },
+    { id: 'e60', label: '苗人头领' },
+    { id: 'zone', label: '进房触发区' },
+  ])
+  expect(saved.entities[0]!.behaviors).toEqual(scene.entities[0]!.behaviors)
+  expect(saved.entities[0]).toMatchObject({ actor: 'hero' })
+  expect(reopened.manifest.contentVersion).toBe(21)
+  expect(reopened.manifest.minimumSaveVersion).toBe(10)
+})
 
 test('named steps survive canonical scene serialization and real current loader reopening', async () => {
   const { opened, disk } = await blankState('named-steps')

@@ -70,6 +70,8 @@ export type EntityRef =
 /** 实体公共字段(实例级:位置/碰撞/交互)。可见实体的朝向属于 EntityRef。 */
 export interface EntityBase {
   id: string
+  /** 场景实例的作者名称；不参与实体寻址，也不改变关联人物的共享名称。 */
+  label?: string
   /** 世界菱形轴逻辑坐标(D16);height=0 地面站立。 */
   pos: GridPos
   /** 是否挡路（碰撞） */

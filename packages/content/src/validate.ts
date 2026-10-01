@@ -318,6 +318,12 @@ function validateSceneArray(json: unknown): SceneDef[] {
     ents.forEach((e, j) => {
       const eo = assertObject(e, `scenes[${i}].entities[${j}]`)
       requireKeys(eo, ['id', 'pos'], `scenes[${i}].entities[${j}]`)
+      if (
+        'label' in eo &&
+        eo.label !== undefined &&
+        (typeof eo.label !== 'string' || !eo.label.trim())
+      )
+        throw new Error(`scenes[${i}].entities[${j}].label: 期望非空字符串`)
       const refs = ['actor', 'sprite', 'zone'].filter((k) => k in eo).length
       if (refs !== 1)
         throw new Error(`scenes[${i}].entities[${j}]: 须恰有 actor/sprite/zone 之一(现 ${refs} 个)`)

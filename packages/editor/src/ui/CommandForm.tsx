@@ -149,6 +149,7 @@ export function CommandForm(props: CommandFormProps) {
         <WorldCommandForm
           command={cmd}
           scene={scene}
+          locale={locale}
           scenes={scenes}
           actors={actors}
           battleSprites={battleSprites}
@@ -171,6 +172,7 @@ export function CommandForm(props: CommandFormProps) {
         <ActorCommandForm
           command={cmd}
           scene={scene}
+          locale={locale}
           actors={actors}
           references={references}
           showRawJson={showRawJson}

@@ -125,11 +125,14 @@ describe('SceneCanvas direct manipulation', () => {
     vi.restoreAllMocks()
   })
 
-  const renderCanvas = async (placingEntity = false): Promise<HTMLCanvasElement> => {
+  const renderCanvas = async (
+    placingEntity = false,
+    label?: string,
+  ): Promise<HTMLCanvasElement> => {
     await act(async () =>
       root.render(
         <SceneCanvas
-          scene={scene}
+          scene={{ ...scene, entities: scene.entities.map((entity) => ({ ...entity, label })) }}
           sprites={[]}
           actorsById={{}}
           leaderSpriteId={undefined}
@@ -162,6 +165,17 @@ describe('SceneCanvas direct manipulation', () => {
     )
     return host.querySelector('canvas')!
   }
+
+  test('map context shows current instance name with its stable ID', async () => {
+    await renderCanvas(false, '进门触发区')
+    expect(host.querySelector('[aria-label="地图选中实体"]')?.textContent).toContain(
+      '进门触发区 · zone-a',
+    )
+    await renderCanvas(false, '厨房触发区')
+    expect(host.querySelector('[aria-label="地图选中实体"]')?.textContent).toContain(
+      '厨房触发区 · zone-a',
+    )
+  })
 
   test('空白 click 清选择一次，越过阈值的空白 drag 只平移', async () => {
     const canvas = await renderCanvas()

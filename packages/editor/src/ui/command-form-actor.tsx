@@ -1,4 +1,4 @@
-import type { CarryableStatusId, SceneDef, WalkSpeed } from '@type-pal/content'
+import type { CarryableStatusId, Locale, SceneDef, WalkSpeed } from '@type-pal/content'
 import {
   ACTOR_STATUS_DEFINITIONS,
   type ActorDef,
@@ -38,6 +38,7 @@ export interface ActorCommandFormProps {
   command: ActorCommand
   scene: SceneDef
   actors?: Record<string, ActorDef>
+  locale?: Locale
   references: ScriptReferenceCatalog
   showRawJson: boolean
   reorderScopeKey: string
@@ -393,7 +394,13 @@ export function ActorCommandForm(props: ActorCommandFormProps) {
       return (
         <>
           <Row label="载具实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="偏移 dx/dy">
             <Num value={cmd.dx ?? 0} onChange={(n) => set({ dx: n || undefined })} />
@@ -405,7 +412,13 @@ export function ActorCommandForm(props: ActorCommandFormProps) {
       return (
         <>
           <Row label="载具实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="col / row">
             <Num value={cmd.to.col} onChange={(n) => set({ to: { ...cmd.to, col: n } })} />

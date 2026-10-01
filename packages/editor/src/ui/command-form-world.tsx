@@ -4,6 +4,7 @@ import type {
   Facing,
   GridPos,
   LoadSceneCommand,
+  Locale,
   SceneDef,
   SceneTransitionProfile,
   SpriteDef,
@@ -11,6 +12,7 @@ import type {
 } from '@type-pal/content'
 import { type ActorDef, resolveEntitySpriteId } from '@type-pal/content'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { entityDisplayLabel } from '../core/entity-display.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { defaultActionTargetForEntity, sortedSpriteActions } from '../core/sprite-actions.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
@@ -80,6 +82,7 @@ export interface WorldCommandFormProps {
   scene: SceneDef
   scenes?: SceneDef[]
   actors?: Record<string, ActorDef>
+  locale?: Locale
   battleSprites: readonly BattleSpriteDef[]
   sprites: readonly SpriteDef[]
   assetCatalog: AssetCatalogV1
@@ -212,7 +215,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="col">
             <Num value={cmd.to.col} onChange={(n) => set({ to: { ...cmd.to, col: n } })} />
@@ -229,7 +238,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="状态">
             <EntityStateSelect value={cmd.state} onChange={(state) => set({ state })} />
@@ -240,7 +255,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="朝向">
             <Sel value={cmd.facing} options={FACINGS} onChange={(v) => set({ facing: v })} />
@@ -251,7 +272,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="帧">
             <Num value={cmd.frame} onChange={(n) => set({ frame: n })} />
@@ -285,7 +312,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={setEntityTarget} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={setEntityTarget}
+            />
           </Row>
           <Row label="精灵">
             <DsSelect
@@ -368,7 +401,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <DsCheckbox
             size="compact"
@@ -382,7 +421,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="方向">
             <Sel value={cmd.dir} options={FACINGS} onChange={(v) => set({ dir: v })} />
@@ -392,14 +437,26 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
     case 'animEntity':
       return (
         <Row label="实体">
-          <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+          <EntitySel
+            value={cmd.entity}
+            scene={scene}
+            actors={actors}
+            locale={props.locale}
+            onChange={(id) => set({ entity: id })}
+          />
         </Row>
       )
     case 'nudgeEntity':
       return (
         <>
           <Row label="实体">
-            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+            <EntitySel
+              value={cmd.entity}
+              scene={scene}
+              actors={actors}
+              locale={props.locale}
+              onChange={(id) => set({ entity: id })}
+            />
           </Row>
           <Row label="dx(px)">
             <Num value={cmd.dx} onChange={(n) => set({ dx: n })} />
@@ -668,7 +725,13 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
     case 'takeEntity':
       return (
         <Row label="接管实体">
-          <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+          <EntitySel
+            value={cmd.entity}
+            scene={scene}
+            actors={actors}
+            locale={props.locale}
+            onChange={(id) => set({ entity: id })}
+          />
         </Row>
       )
     case 'releaseEntity':
@@ -679,7 +742,10 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
             value={cmd.entity ?? ''}
             options={[
               { value: '', label: '(全部)' },
-              ...scene.entities.map((entity) => ({ value: entity.id, label: entity.id })),
+              ...scene.entities.map((entity) => ({
+                value: entity.id,
+                label: entityDisplayLabel(entity, actors, props.locale),
+              })),
             ]}
             onValueChange={(entity) =>
               onChange(entity ? { kind: 'releaseEntity', entity } : { kind: 'releaseEntity' })

@@ -23,6 +23,7 @@ import {
   resolveDialogueIdentity,
 } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
+import { entityDisplayLabel } from '../core/entity-display.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { DsButton, DsNumberInput, DsPressable, DsSelect } from './design-system/controls.js'
 import {
@@ -48,6 +49,7 @@ function describeCondition(
   c: ScriptCondition,
   locale: Locale,
   references: ScriptReferenceCatalog,
+  entityLabel: (id: string) => string = (id) => id,
 ): string {
   switch (c.kind) {
     case 'flag':
@@ -57,9 +59,9 @@ function describeCondition(
     case 'currentScene':
       return `当前场景是 ${c.scene}`
     case 'entityState':
-      return `${c.entity} 状态 = ${c.is}`
+      return `${entityLabel(c.entity)} 状态 = ${c.is}`
     case 'entityInScene':
-      return `${c.entity} 在本场景`
+      return `${entityLabel(c.entity)} 在本场景`
     case 'chance':
       return `${c.percent}% 概率`
     case 'hasItem':
@@ -69,7 +71,7 @@ function describeCondition(
     case 'itemEquipped':
       return `装备物品 ${references.label('item', c.itemId)}${c.atLeast && c.atLeast > 1 ? `≥${c.atLeast}` : ''}`
     case 'facingEntity':
-      return `面向实体 ${c.entity}${c.range !== undefined ? `（${c.range} 格内）` : ''}`
+      return `面向实体 ${entityLabel(c.entity)}${c.range !== undefined ? `（${c.range} 格内）` : ''}`
     case 'allFullHp':
       return '全队满血'
     case 'hasMoney':
@@ -77,11 +79,11 @@ function describeCondition(
     case 'inParty':
       return `队伍含 ${references.label('actor', c.actorId)}`
     case 'all':
-      return c.of.map((x) => describeCondition(x, locale, references)).join(' 且 ')
+      return c.of.map((x) => describeCondition(x, locale, references, entityLabel)).join(' 且 ')
     case 'any':
-      return c.of.map((x) => describeCondition(x, locale, references)).join(' 或 ')
+      return c.of.map((x) => describeCondition(x, locale, references, entityLabel)).join(' 或 ')
     case 'not':
-      return `非(${describeCondition(c.cond, locale, references)})`
+      return `非(${describeCondition(c.cond, locale, references, entityLabel)})`
   }
 }
 
@@ -102,7 +104,15 @@ export function describeScriptCommand(
   scenes: readonly SceneDef[] | undefined,
   references: ScriptReferenceCatalog,
   actors?: Readonly<Record<string, ActorDef>>,
+  entityLabel?: (id: string) => string,
 ): ScriptCommandDescription {
+  const namedEntity =
+    entityLabel ??
+    ((id: string) => {
+      const matches =
+        scenes?.flatMap((scene) => scene.entities.filter((entity) => entity.id === id)) ?? []
+      return matches.length === 1 ? entityDisplayLabel(matches[0]!, actors, locale) : id
+    })
   switch (cmd.kind) {
     case 'chasePlayer':
       return {
@@ -110,7 +120,10 @@ export function describeScriptCommand(
         label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.floating ? ' · 忽略障碍' : ''})`,
       }
     case 'vanishEntity':
-      return { icon: '⊘', label: `${cmd.entity ?? '自身'} 消失 ${cmd.seconds ?? 2}s(重生)` }
+      return {
+        icon: '⊘',
+        label: `${cmd.entity ? namedEntity(cmd.entity) : '自身'} 消失 ${cmd.seconds ?? 2}s(重生)`,
+      }
     case 'loadLastSave':
       return { icon: '📂', label: '读最近存档' }
     case 'gameOver':
@@ -209,7 +222,7 @@ export function describeScriptCommand(
     case 'setEntityState':
       return {
         icon: '👁',
-        label: `${cmd.entity} → ${entityStateDisplayLabel(cmd.state)}`,
+        label: `${namedEntity(cmd.entity)} → ${entityStateDisplayLabel(cmd.state)}`,
       }
     case 'setMultiEntityState':
       return {
@@ -217,11 +230,15 @@ export function describeScriptCommand(
         label: `批量设置 ${cmd.entities.length} 个实体 → ${entityStateDisplayLabel(cmd.state)}`,
       }
     case 'setEntityPos':
-      return { icon: '📍', label: `${cmd.entity} 定位`, detail: `(${cmd.pos.col},${cmd.pos.row})` }
+      return {
+        icon: '📍',
+        label: `${namedEntity(cmd.entity)} 定位`,
+        detail: `(${cmd.pos.col},${cmd.pos.row})`,
+      }
     case 'setEntityPosRelParty':
       return {
         icon: '📍',
-        label: `${cmd.entity} 相对队伍定位`,
+        label: `${namedEntity(cmd.entity)} 相对队伍定位`,
         detail: `队伍±(${cmd.dcol},${cmd.drow})`,
       }
     case 'shakeScreen':
@@ -229,7 +246,7 @@ export function describeScriptCommand(
     case 'setScreenWave':
       return { icon: '🌊', label: `屏波 幅 ${cmd.level} · 推进 ${cmd.progression}` }
     case 'setEntityLayer':
-      return { icon: '📐', label: `${cmd.entity} 图层 → ${cmd.layer}` }
+      return { icon: '📐', label: `${namedEntity(cmd.entity)} 图层 → ${cmd.layer}` }
     case 'increaseHpMp':
       return {
         icon: '❤',
@@ -265,9 +282,9 @@ export function describeScriptCommand(
     case 'halveMoney':
       return { icon: '💸', label: '金钱减半' }
     case 'setEntityFacing':
-      return { icon: '🧭', label: `${cmd.entity} 转向 ${cmd.facing}` }
+      return { icon: '🧭', label: `${namedEntity(cmd.entity)} 转向 ${cmd.facing}` }
     case 'setEntityFrame':
-      return { icon: '🎞', label: `${cmd.entity} 定帧 ${cmd.frame}` }
+      return { icon: '🎞', label: `${namedEntity(cmd.entity)} 定帧 ${cmd.frame}` }
     case 'setActorAppearance': {
       const parts = [
         cmd.spriteId ? references.label('sprite', cmd.spriteId) : '',
@@ -342,15 +359,19 @@ export function describeScriptCommand(
         label: `队伍变更 → ${cmd.members.map((id) => references.label('actor', id)).join('、')}`,
       }
     case 'mountParty':
-      return { icon: '🛶', label: `挂载 → ${cmd.entity}` }
+      return { icon: '🛶', label: `挂载 → ${namedEntity(cmd.entity)}` }
     case 'unmountParty':
       return { icon: '🚶', label: '下载具' }
     case 'ride':
-      return { icon: '⛵', label: `骑行 ${cmd.entity}`, detail: `→(${cmd.to.col},${cmd.to.row})` }
+      return {
+        icon: '⛵',
+        label: `骑行 ${namedEntity(cmd.entity)}`,
+        detail: `→(${cmd.to.col},${cmd.to.row})`,
+      }
     case 'takeEntity':
-      return { icon: '🔒', label: `接管 ${cmd.entity}` }
+      return { icon: '🔒', label: `接管 ${namedEntity(cmd.entity)}` }
     case 'releaseEntity':
-      return { icon: '🔓', label: `归还 ${cmd.entity ?? '(全部)'}` }
+      return { icon: '🔓', label: `归还 ${cmd.entity ? namedEntity(cmd.entity) : '(全部)'}` }
     case 'playMusic':
       return { icon: '🎵', label: `播放音乐 ${references.label('asset', cmd.asset)}` }
     case 'stopMusic':
@@ -363,27 +384,31 @@ export function describeScriptCommand(
     case 'moveEntity':
       return {
         icon: '🚶',
-        label: `${cmd.entity} 走到`,
+        label: `${namedEntity(cmd.entity)} 走到`,
         detail: `(${cmd.to.col},${cmd.to.row}) ${cmd.speed}`,
       }
     case 'stepEntity':
-      return { icon: '👣', label: `${cmd.entity} 走一步 ${cmd.dir}` }
+      return { icon: '👣', label: `${namedEntity(cmd.entity)} 走一步 ${cmd.dir}` }
     case 'animEntity':
-      return { icon: '🎞', label: `${cmd.entity} 推进 PAL 兼容实例帧` }
+      return { icon: '🎞', label: `${namedEntity(cmd.entity)} 推进 PAL 兼容实例帧` }
     case 'playEntityAction':
       return {
         icon: '▶',
-        label: `${cmd.entity} 播放预制动作`,
+        label: `${namedEntity(cmd.entity)} 播放预制动作`,
         detail: `${references.label('sprite', cmd.sprite)} / ${cmd.action} · ${cmd.loop ? '循环' : '单次'}${cmd.loop ? '' : cmd.wait === false ? ' · 后台' : ' · 等待完成'}${cmd.startAtMs ? ` · 起始 ${cmd.startAtMs}ms` : ''}`,
       }
     case 'stopEntityAction':
       return {
         icon: '⏹',
-        label: `${cmd.entity} 停止预制动作`,
+        label: `${namedEntity(cmd.entity)} 停止预制动作`,
         detail: cmd.reset ? '页面默认动作从头恢复' : '恢复冻结的页面默认动作',
       }
     case 'nudgeEntity':
-      return { icon: '↔', label: `${cmd.entity} 位移`, detail: `(${cmd.dx},${cmd.dy})px` }
+      return {
+        icon: '↔',
+        label: `${namedEntity(cmd.entity)} 位移`,
+        detail: `(${cmd.dx},${cmd.dy})px`,
+      }
     case 'moveParty':
       return { icon: '🚶', label: '队伍走到', detail: `(${cmd.to.col},${cmd.to.row}) ${cmd.speed}` }
     case 'nudgeParty':
@@ -418,7 +443,7 @@ export function describeScriptCommand(
     case 'branch':
       return {
         icon: '🔀',
-        label: `如果 ${describeCondition(cmd.cond, locale, references)}`,
+        label: `如果 ${describeCondition(cmd.cond, locale, references, namedEntity)}`,
         blocks: [
           { title: '则', seg: 'then', body: cmd.then },
           ...(cmd.else ? [{ title: '否则', seg: 'else', body: cmd.else }] : []),
@@ -431,7 +456,7 @@ export function describeScriptCommand(
     case 'setEntityAuto':
       return {
         icon: '🔁',
-        label: `${cmd.entity} 换巡逻脚本`,
+        label: `${namedEntity(cmd.entity)} 换巡逻脚本`,
         detail: cmd.script
           ? references.has('authorScript', cmd.script.id)
             ? references.label('authorScript', cmd.script.id)
@@ -443,7 +468,7 @@ export function describeScriptCommand(
     case 'setEntityTrigger':
       return {
         icon: '🔗',
-        label: `${cmd.entity} 换触发脚本`,
+        label: `${namedEntity(cmd.entity)} 换触发脚本`,
         detail: cmd.script
           ? references.has('authorScript', cmd.script.id)
             ? references.label('authorScript', cmd.script.id)
@@ -484,7 +509,7 @@ export function describeScriptCommand(
     case 'setEntityTriggerMode':
       return {
         icon: '🔗',
-        label: `${cmd.entity} 触发方式`,
+        label: `${namedEntity(cmd.entity)} 触发方式`,
         detail: cmd.on ? `${cmd.on}${cmd.range ?? ''}` : '关闭',
       }
   }

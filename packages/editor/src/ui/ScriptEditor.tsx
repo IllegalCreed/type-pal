@@ -20,7 +20,7 @@ import type {
   SpriteDef,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
-import { lookupText, organizeFlowAsStages } from '@type-pal/content'
+import { organizeFlowAsStages } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
 import { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
@@ -37,6 +37,7 @@ import {
   updateAuthorCommandAt,
 } from '../core/author-command-edit.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { entityDisplayLabel } from '../core/entity-display.js'
 import { effectiveTriggerRange } from '../core/entity-placement.js'
 import type { ProjectReferenceEdge } from '../core/project-reference.js'
 import type { ScriptCommandLocator, ScriptEditorState } from '../core/script-editor.js'
@@ -625,15 +626,21 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
 
 function addressLabel(address: EntityAddress, context?: CanonicalScriptEditorContext): string {
   if (!context) return `${address.scene}/${address.entity}`
-  const entity = context?.state.scenes
-    .find((scene) => scene.id === address.scene)
-    ?.entities.find((candidate) => candidate.id === address.entity)
-  const actor = entity && 'actor' in entity ? context?.actors?.[entity.actor] : undefined
-  const name = actor ? lookupText(actor.name, context?.locale ?? {}) : `实体 ${address.entity}`
+  // 普通属性来自主会话，正文来自脚本会话；改名/清名不等保存重开。
+  const scene =
+    context.shellScenes.find((candidate) => candidate.id === address.scene) ??
+    context.state.scenes.find((candidate) => candidate.id === address.scene)
+  const entity = scene?.entities.find((candidate) => candidate.id === address.entity)
+  const name = entity
+    ? entityDisplayLabel(entity, context.actors, context.locale)
+    : `实体 ${address.entity}`
   return address.scene === context?.currentSceneId ? name : `${address.scene} / ${name}`
 }
 
-function conditionLabel(condition: AuthorCondition): string {
+function conditionLabel(
+  condition: AuthorCondition,
+  context?: CanonicalScriptEditorContext,
+): string {
   switch (condition.kind) {
     case 'flag':
       return `${condition.flag} ${condition.is ? '为真' : '为假'}`
@@ -642,11 +649,11 @@ function conditionLabel(condition: AuthorCondition): string {
     case 'currentScene':
       return `当前场景是 ${condition.scene}`
     case 'entityState':
-      return `${addressLabel(condition.target)} 状态 = ${condition.is}`
+      return `${addressLabel(condition.target, context)} 状态 = ${condition.is}`
     case 'entityInScene':
-      return `${addressLabel(condition.target)} 在场`
+      return `${addressLabel(condition.target, context)} 在场`
     case 'facingEntity':
-      return `面向 ${addressLabel(condition.target)}`
+      return `面向 ${addressLabel(condition.target, context)}`
     case 'chance':
       return `${condition.percent}% 概率`
     case 'hasItem':
@@ -660,11 +667,11 @@ function conditionLabel(condition: AuthorCondition): string {
     case 'inParty':
       return `队伍包含 ${condition.actorId}`
     case 'all':
-      return condition.of.map(conditionLabel).join(' 且 ')
+      return condition.of.map((child) => conditionLabel(child, context)).join(' 且 ')
     case 'any':
-      return condition.of.map(conditionLabel).join(' 或 ')
+      return condition.of.map((child) => conditionLabel(child, context)).join(' 或 ')
     case 'not':
-      return `非（${conditionLabel(condition.cond)}）`
+      return `非（${conditionLabel(condition.cond, context)}）`
   }
 }
 
@@ -834,10 +841,12 @@ export function describeCanonicalCommand(
 ): DescribedCommand {
   const children = commandChildren(command)
   switch (command.kind) {
+    case 'branch':
+      return { icon: '🔀', label: `如果 ${conditionLabel(command.cond, context)}`, children }
     case 'loop':
       return {
         icon: '🔁',
-        label: `${command.mode === 'while' ? '当' : '直到'} ${conditionLabel(command.cond)}`,
+        label: `${command.mode === 'while' ? '当' : '直到'} ${conditionLabel(command.cond, context)}`,
         detail: `每轮让步 · 最多 ${command.maxIterations} 次`,
         children,
       }
@@ -943,21 +952,21 @@ export function describeCanonicalCommand(
     case 'suspendEntity':
       return {
         icon: '⏸',
-        label: `暂停 ${addressLabel(command.target)}`,
+        label: `暂停 ${addressLabel(command.target, context)}`,
         detail: `${command.ticks} tick`,
         children,
       }
     case 'hideEntity':
       return {
         icon: '🙈',
-        label: `隐藏 ${addressLabel(command.target)}`,
+        label: `隐藏 ${addressLabel(command.target, context)}`,
         detail: `${command.ticks} tick 后允许离屏恢复`,
         children,
       }
     case 'restoreEntity':
-      return { icon: '↩', label: `恢复 ${addressLabel(command.target)}`, children }
+      return { icon: '↩', label: `恢复 ${addressLabel(command.target, context)}`, children }
     case 'removeEntity':
-      return { icon: '⛔', label: `移除 ${addressLabel(command.target)}`, children }
+      return { icon: '⛔', label: `移除 ${addressLabel(command.target, context)}`, children }
   }
   const presentation = presentationCommand(command)
   if (presentation && (context || command.kind !== 'dialog')) {
@@ -971,6 +980,16 @@ export function describeCanonicalCommand(
         label: (_kind, id) => id,
       },
       context?.actors,
+      (id) =>
+        addressLabel(
+          'target' in command &&
+            command.target &&
+            typeof command.target === 'object' &&
+            'scene' in command.target
+            ? command.target
+            : { scene: context?.currentSceneId ?? '', entity: id },
+          context,
+        ),
     )
     return {
       icon: description.icon,
@@ -1228,6 +1247,7 @@ function EntityAddressEditor(props: {
   value: EntityAddress
   state?: ScriptEditorState
   sceneIndex?: SceneIndexV1
+  displayContext?: CanonicalScriptEditorContext
   entityFilter?: (entity: ScriptEditorEntity) => boolean
   onChange: (value: EntityAddress) => void
 }) {
@@ -1307,7 +1327,9 @@ function EntityAddressEditor(props: {
                 : []),
               ...selectableEntities.map((candidate) => ({
                 value: candidate.id,
-                label: candidate.id,
+                label: props.displayContext
+                  ? addressLabel({ scene: scene.id, entity: candidate.id }, props.displayContext)
+                  : entityDisplayLabel(candidate),
               })),
             ]}
             disabled={selectableEntities.length === 0}
@@ -1330,6 +1352,7 @@ function ConditionEditor(props: {
   value: AuthorCondition
   state?: ScriptEditorState
   sceneIndex?: SceneIndexV1
+  displayContext?: CanonicalScriptEditorContext
   references?: ScriptReferenceCatalog
   worldVariables?: WorldVariableRegistryV1
   onOpenWorldVariable?: (id: string) => void
@@ -1516,6 +1539,7 @@ function ConditionEditor(props: {
           value={target}
           state={props.state}
           sceneIndex={props.sceneIndex}
+          displayContext={props.displayContext}
           onChange={(next) => patch({ target: next })}
         />
       ) : null}
@@ -1570,6 +1594,7 @@ function ConditionEditor(props: {
               value={condition}
               state={props.state}
               sceneIndex={props.sceneIndex}
+              displayContext={props.displayContext}
               references={props.references}
               worldVariables={props.worldVariables}
               onOpenWorldVariable={props.onOpenWorldVariable}
@@ -1602,6 +1627,7 @@ function ConditionEditor(props: {
           value={props.value.cond}
           state={props.state}
           sceneIndex={props.sceneIndex}
+          displayContext={props.displayContext}
           references={props.references}
           worldVariables={props.worldVariables}
           onOpenWorldVariable={props.onOpenWorldVariable}
@@ -1836,6 +1862,7 @@ function CanonicalCommandForm(props: {
           value={command.cond}
           state={context?.state}
           sceneIndex={context?.sceneIndex}
+          displayContext={context}
           references={context?.references}
           worldVariables={context?.worldVariables}
           onOpenWorldVariable={context?.onOpenWorldVariable}
@@ -1880,6 +1907,7 @@ function CanonicalCommandForm(props: {
               value={command.self}
               state={context?.state}
               sceneIndex={context?.sceneIndex}
+              displayContext={context}
               onChange={(self) => props.onChange({ ...command, self })}
             />
             <DsButton
@@ -2254,6 +2282,7 @@ function CanonicalCommandForm(props: {
             value={target}
             state={context?.state}
             sceneIndex={context?.sceneIndex}
+            displayContext={context}
             entityFilter={command.kind === 'setEntityFacing' ? entitySupportsFacing : undefined}
             onChange={(next) =>
               props.onChange(stripCursorHandoff({ ...command, target: next } as AuthorCommand))
@@ -2501,6 +2530,7 @@ function CanonicalCommandForm(props: {
             value={target}
             state={context?.state}
             sceneIndex={context?.sceneIndex}
+            displayContext={context}
             onChange={(next) => {
               const targets = [...command.targets]
               targets[index] = next
@@ -3702,6 +3732,7 @@ function TransitionEditor(props: {
             value={transition.cond}
             state={props.context?.state}
             sceneIndex={props.context?.sceneIndex}
+            displayContext={props.context}
             references={props.context?.references}
             worldVariables={props.context?.worldVariables}
             onOpenWorldVariable={props.context?.onOpenWorldVariable}

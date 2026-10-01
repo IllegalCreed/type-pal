@@ -12,6 +12,29 @@ import { AddEntityCommand, SetEntitySpriteCommand, UpdateEntityCommand } from '.
 import { assertProjectSaveValid } from './project-diagnostics.js'
 
 describe('实体命令残项', () => {
+  test('entity label editing and clearing undo by stable ID without changing other fields', async () => {
+    const { state } = await loadBoundaryProject('entity-label-history')
+    const session = new EditSession(
+      new AddEntityCommand('start', {
+        id: 'head',
+        label: '头领',
+        sprite: 'hero',
+        pos: { col: 1, row: 2, height: 0 },
+      }).apply(state),
+    )
+    const original = structuredClone(session.getState().scenes[0]!.entities[0]!)
+    session.dispatch(new UpdateEntityCommand('start', 'head', { label: '苗人头领' }))
+    expect(session.getState().scenes[0]!.entities[0]!.label).toBe('苗人头领')
+    session.undo()
+    expect(session.getState().scenes[0]!.entities[0]).toEqual(original)
+    session.redo()
+    session.dispatch(new UpdateEntityCommand('start', 'head', { label: undefined }))
+    expect(session.getState().scenes[0]!.entities[0]!.label).toBeUndefined()
+    session.undo()
+    expect(session.getState().scenes[0]!.entities[0]!.label).toBe('苗人头领')
+    expect(session.getState().scenes[0]!.entities[0]).toEqual({ ...original, label: '苗人头领' })
+  })
+
   test('AddEntity 构造后改入参不泄漏；SetEntitySprite 可 undo/redo 换 sprite', async () => {
     const { source, state: loaded } = await loadBoundaryProject('entity-residual-sprite')
     const state = await withSharedWorldSprite(source, loaded, 'crate')

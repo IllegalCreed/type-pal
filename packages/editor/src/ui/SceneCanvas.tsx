@@ -9,6 +9,7 @@
 
 import type {
   ActorDef,
+  Locale,
   MapIndexV1,
   SceneDef,
   SpriteDef,
@@ -18,6 +19,7 @@ import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '
 import type { AssetBase, ProjectMap, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
+import { entityDisplayLabel } from '../core/entity-display.js'
 import {
   drawGridBlocked,
   drawTriggerHighlight,
@@ -71,6 +73,7 @@ export function SceneCanvas(props: {
   scene: SceneDef
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
+  locale?: Locale
   /** 进场点预览用的玩家精灵(party[0] → ActorDef.spriteId;App 解析)。 */
   leaderSpriteId: string | undefined
   assetBase: AssetBase
@@ -665,6 +668,16 @@ export function SceneCanvas(props: {
   return (
     <div className="viewport" ref={wrapRef}>
       <div className="canvas-note">
+        {selectedEntityId && scene.entities.some((entity) => entity.id === selectedEntityId) ? (
+          <span role="status" aria-label="地图选中实体">
+            {entityDisplayLabel(
+              scene.entities.find((entity) => entity.id === selectedEntityId)!,
+              actorsById,
+              props.locale,
+            )}{' '}
+            ·{' '}
+          </span>
+        ) : null}
         整图 · 滚轮缩放 · 拖空白平移 · {Math.round(view.zoom * 100)}%
         {status === 'loading' ? ' · 载入中…' : ''}
       </div>

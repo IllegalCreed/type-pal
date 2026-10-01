@@ -43,6 +43,28 @@ const item = (effect: unknown) => ({
 })
 
 describe('canonical author scene validation', () => {
+  test('entity labels are optional metadata and duplicate names do not replace IDs', () => {
+    const named = { ...scene().entities[0]!, label: '苗人头领' }
+    const duplicate = { ...named, id: 'e2' }
+    const input = [scene({ entities: [named, duplicate] })]
+    expect(validateBaseScenes(input)).toBe(input)
+    expect(input[0]!.entities.map((entity) => entity.id)).toEqual(['e1', 'e2'])
+    expect(() => validateBaseScenes([scene()])).not.toThrow()
+  })
+
+  test.each([
+    '',
+    '   ',
+    null,
+    42,
+    {},
+    [],
+  ])('rejects explicitly invalid entity label %j', (label) => {
+    const original = scene()
+    const entity = { ...original.entities[0], label }
+    expect(() => validateBaseScenes([scene({ entities: [entity] })])).toThrow(/label.*非空字符串/)
+  })
+
   test('accepts local behavior registries and named scene hook variants', () => {
     expect(() =>
       validateBaseScenes([

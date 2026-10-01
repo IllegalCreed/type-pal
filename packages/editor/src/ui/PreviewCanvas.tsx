@@ -28,6 +28,7 @@ import {
   walkFrameIndex,
 } from '@type-pal/reforge'
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { entityDisplayLabel } from '../core/entity-display.js'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { Playback } from '../core/playback.js'
 import { previewFlowCursor, previewStepLabel } from '../core/script-flow-preview.js'
@@ -765,12 +766,11 @@ export function PreviewCanvas(props: {
                   target.kind === 'entity'
                     ? scene.entities.find((candidate) => candidate.id === target.address.entity)
                     : undefined
-                const actor = entity && 'actor' in entity ? actorsById[entity.actor] : undefined
                 const label =
                   track.target.kind === 'party'
                     ? '主角队伍'
-                    : actor
-                      ? lookupText(actor.name, locale)
+                    : entity
+                      ? entityDisplayLabel(entity, actorsById, locale)
                       : track.target.address.entity
                 return (
                   <span key={index} style={{ color: ROUTE_COLORS[index % ROUTE_COLORS.length] }}>

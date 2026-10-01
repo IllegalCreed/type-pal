@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { gridToPixel, type SceneDef } from '@type-pal/content'
-import { act } from 'react'
+import { act, type ComponentProps, cloneElement } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { Playback } from '../core/playback.js'
@@ -96,54 +96,65 @@ describe('PreviewCanvas confirm controls', () => {
       confirmDialog: vi.fn(),
     } as unknown as Playback
 
+    const previewScene: SceneDef = {
+      ...scene,
+      entities: [
+        { id: 'e59', label: '苗人头领', sprite: 'head', pos: { col: 0, row: 0, height: 0 } },
+      ],
+    }
+    const preview = (
+      <PreviewCanvas
+        scene={previewScene}
+        stages={[]}
+        sourceKey="scene:preview-confirm:onEnter:default"
+        playIdentity={{
+          projectId: 'demo',
+          workspaceId: '11111111-1111-4111-8111-111111111111',
+          source: 'http',
+        }}
+        focusEntityId={undefined}
+        sprites={[]}
+        actorsById={{}}
+        leaderSpriteId={undefined}
+        assetBase={{} as never}
+        assetCatalog={{ version: 1, assets: {} }}
+        assetReader={{} as never}
+        projectMaps={{}}
+        mapIndex={{ version: 1, maps: [] }}
+        tilesets={[]}
+        locale={{}}
+        playback={playback}
+        startPlayback={startPlayback}
+        canonicalCursor={{ kind: 'stage', stage: 'second' }}
+        canonicalFlow={{
+          kind: 'stages',
+          initial: 'first',
+          stages: [
+            { id: 'first', body: [] },
+            {
+              id: 'second',
+              label: '走到房门',
+              body: [
+                {
+                  kind: 'branch',
+                  cond: { kind: 'flag', flag: 'move', is: true },
+                  then: [{ kind: 'moveParty', to: { col: 3, row: 4, height: 0 }, speed: 'normal' }],
+                },
+                { kind: 'teleportParty', pos: { col: 9, row: 0, height: 0 } },
+                {
+                  kind: 'moveEntity',
+                  target: { scene: scene.id, entity: 'e59' },
+                  to: { col: 3, row: 4, height: 0 },
+                  speed: 'normal',
+                },
+              ],
+            },
+          ],
+        }}
+      />
+    )
     await act(async () => {
-      root.render(
-        <PreviewCanvas
-          scene={scene}
-          stages={[]}
-          sourceKey="scene:preview-confirm:onEnter:default"
-          playIdentity={{
-            projectId: 'demo',
-            workspaceId: '11111111-1111-4111-8111-111111111111',
-            source: 'http',
-          }}
-          focusEntityId={undefined}
-          sprites={[]}
-          actorsById={{}}
-          leaderSpriteId={undefined}
-          assetBase={{} as never}
-          assetCatalog={{ version: 1, assets: {} }}
-          assetReader={{} as never}
-          projectMaps={{}}
-          mapIndex={{ version: 1, maps: [] }}
-          tilesets={[]}
-          locale={{}}
-          playback={playback}
-          startPlayback={startPlayback}
-          canonicalCursor={{ kind: 'stage', stage: 'second' }}
-          canonicalFlow={{
-            kind: 'stages',
-            initial: 'first',
-            stages: [
-              { id: 'first', body: [] },
-              {
-                id: 'second',
-                label: '走到房门',
-                body: [
-                  {
-                    kind: 'branch',
-                    cond: { kind: 'flag', flag: 'move', is: true },
-                    then: [
-                      { kind: 'moveParty', to: { col: 3, row: 4, height: 0 }, speed: 'normal' },
-                    ],
-                  },
-                  { kind: 'teleportParty', pos: { col: 9, row: 0, height: 0 } },
-                ],
-              },
-            ],
-          }}
-        />,
-      )
+      root.render(preview)
       await Promise.resolve()
     })
 
@@ -157,6 +168,16 @@ describe('PreviewCanvas confirm controls', () => {
     expect(legend?.textContent).not.toContain('编排参考')
     expect(legend?.textContent).not.toContain('菱形节点')
     expect(legend?.textContent).toContain('主角队伍')
+    expect(legend?.textContent).toContain('苗人头领 · e59')
+    const renamedPreview: Partial<ComponentProps<typeof PreviewCanvas>> = {
+      scene: {
+        ...previewScene,
+        entities: previewScene.entities.map((entity) => ({ ...entity, label: '苗人头领（进房）' })),
+      },
+    }
+    await act(async () => root.render(cloneElement(preview, renamedPreview)))
+    expect(legend?.textContent).toContain('苗人头领（进房） · e59')
+    expect(legend?.textContent).not.toContain('苗人头领 · e59')
     expect(legend?.textContent).toContain('┄ 条件/动态')
     expect(legend?.textContent).toContain('◇ 瞬移')
     expect(legend?.getAttribute('title')).toContain('非避障路径')
