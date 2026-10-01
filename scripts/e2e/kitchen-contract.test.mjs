@@ -25,7 +25,7 @@ const observer = () => {
   })
   return host
 }
-const fixture = () => {
+const fixture = ({ bootstrapPlacement = false, earlyAuntChange } = {}) => {
   const contract = {
     rows: KITCHEN_ROWS.map((n) => ({
       id: `dlg.${n}`,
@@ -48,7 +48,11 @@ const fixture = () => {
     before: null,
     state: before,
   })
-  let auntBefore = { position: [1136, 1624], facing: 'down', visible: true }
+  let auntBefore = {
+    position: bootstrapPlacement ? [1000, 1000] : [1136, 1624],
+    facing: 'down',
+    visible: true,
+  }
   append(trace.events, {
     kind: 'actor',
     scene: 's003',
@@ -57,6 +61,18 @@ const fixture = () => {
     before: null,
     state: auntBefore,
   })
+  if (bootstrapPlacement) {
+    const state = { ...auntBefore, position: [1136, 1624] }
+    append(trace.events, {
+      kind: 'actor',
+      scene: 's003',
+      id: 'e56',
+      source: 'commit:entity.pos',
+      before: auntBefore,
+      state,
+    })
+    auntBefore = state
+  }
   const stairs = { startOrder: order - 1 }
   for (let i = 0; i < 12; i++) {
     position = position.map((n) => n + (i % 2 ? 6 : 10))
@@ -85,6 +101,21 @@ const fixture = () => {
     before = state
   }
   stairs.endOrder = order
+  if (earlyAuntChange) {
+    const state = {
+      ...auntBefore,
+      ...(earlyAuntChange === 'move' ? { position: [1144, 1624] } : { visible: false }),
+    }
+    append(trace.events, {
+      kind: 'actor',
+      scene: 's003',
+      id: 'e56',
+      source: 'commit:entity.pos',
+      before: auntBefore,
+      state,
+    })
+    auntBefore = state
+  }
   for (const row of contract.rows) {
     append(trace.pages, {
       engine: 'game',
@@ -416,6 +447,26 @@ test('003 observer reports movement missing a commit, overflow and multiple rest
 test('003 full actual timeline validates fourteen rows, twelve committed/drawn fragments and strict end', () => {
   const { trace, contract, stairs } = fixture()
   assert.equal(assertKitchenTrace(trace, 'game', contract, stairs).status, 'passed')
+})
+test('003 bootstrap aunt placement remains in full continuity but is outside the admitted story phase', () => {
+  const { trace, contract, stairs } = fixture({ bootstrapPlacement: true })
+  const before = structuredClone(trace)
+  assert.equal(assertKitchenTrace(trace, 'game', contract, stairs).status, 'passed')
+  assert.deepEqual(trace, before, 'oracle must not remove bootstrap observations')
+  assert(
+    trace.events.some(
+      (e) => e.id === 'e56' && e.source === 'commit:entity.pos' && e.order <= stairs.startOrder,
+    ),
+  )
+})
+test('003 still rejects real aunt motion or hiding after admission but before the initial instruction ends', () => {
+  for (const earlyAuntChange of ['move', 'hide']) {
+    const { trace, contract, stairs } = fixture({ bootstrapPlacement: true, earlyAuntChange })
+    assert.throws(
+      () => assertKitchenTrace(trace, 'game', contract, stairs),
+      /aunt moved before finishing|aunt hidden before real kitchen route/,
+    )
+  }
 })
 test('003 rejects dropped movement even after global sequence re-numbering', () => {
   const { trace, contract, stairs } = fixture()

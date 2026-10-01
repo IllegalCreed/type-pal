@@ -558,7 +558,10 @@ export function assertKitchenTrace(trace, engine, contract, stairs) {
     'food enable not between refusal and last plea',
   )
   const aunt = trace.events.filter(
-    (e) => e.kind === 'actor' && e.scene === 's003' && e.id === 'e56',
+    // Restoring the genuine 002 checkpoint can place the actor after the template was observed.
+    // Keep those events in the global continuity oracle, but start story ordering at admission.
+    (e) =>
+      e.kind === 'actor' && e.scene === 's003' && e.id === 'e56' && e.order > stairs.startOrder,
   )
   const auntMoves = aunt.filter(
     (e) => e.before && JSON.stringify(e.before.position) !== JSON.stringify(e.state.position),
