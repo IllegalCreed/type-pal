@@ -1,1 +1,162 @@
-{"numTotalTestSuites":6,"numPassedTestSuites":4,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":12,"numPassedTests":11,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869836273,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["O09 validateStampTemplates：id/origin/anchor 残臂"],"fullName":"O09 validateStampTemplates：id/origin/anchor 残臂 合法模板通过并产出锚点","status":"passed","title":"合法模板通过并产出锚点","duration":1.4130419999999901,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateStampTemplates：id/origin/anchor 残臂"],"fullName":"O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝","status":"passed","title":"id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝","duration":0.7429170000000056,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateStampTemplates：id/origin/anchor 残臂"],"fullName":"O09 validateStampTemplates：id/origin/anchor 残臂 anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝","status":"passed","title":"anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝","duration":0.2361669999999947,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateStampTemplates：id/origin/anchor 残臂"],"fullName":"O09 validateStampTemplates：id/origin/anchor 残臂 migrated origin 合法","status":"passed","title":"migrated origin 合法","duration":0.27679200000000037,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateTilesets：退役字段与唯一 id"],"fullName":"O09 validateTilesets：退役字段与唯一 id 合法通过；resolveTilesetAsset 命中与未知拒绝","status":"passed","title":"合法通过；resolveTilesetAsset 命中与未知拒绝","duration":0.3703339999999855,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateTilesets：退役字段与唯一 id"],"fullName":"O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝","status":"passed","title":"id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝","duration":0.40179200000000037,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateTilesets：退役字段与唯一 id"],"fullName":"O09 validateTilesets：退役字段与唯一 id catalog 注入时 asset 必须存在","status":"passed","title":"catalog 注入时 asset 必须存在","duration":0.1882500000000107,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateWorldVariableRegistryV1：id/name 边界"],"fullName":"O09 validateWorldVariableRegistryV1：id/name 边界 空键 / 非法 id 字符 / 超长 name 逐轴拒绝","status":"passed","title":"空键 / 非法 id 字符 / 超长 name 逐轴拒绝","duration":0.39237499999998704,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateWorldVariableRegistryV1：id/name 边界"],"fullName":"O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝","status":"passed","title":"首尾空格 name / 非字符串 description 拒绝","duration":0.40920799999997826,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateMapIndex / mapAssetById"],"fullName":"O09 validateMapIndex / mapAssetById path 重复拒绝；mapAssetById 命中与未命中","status":"passed","title":"path 重复拒绝；mapAssetById 命中与未命中","duration":0.3028750000000002,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateMapIndex / mapAssetById"],"fullName":"O09 validateMapIndex / mapAssetById 非法 map 条目（缺 id）拒绝","status":"passed","title":"非法 map 条目（缺 id）拒绝","duration":0.12170900000000984,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateMigrationDiagnostics：诊断表结构"],"fullName":"O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过","status":"failed","title":"诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过","duration":2.733083999999991,"failureMessages":["AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/packages/content/src/data-guards.glm-o.test.ts:190:7\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"],"meta":{},"tags":[]}],"startTime":1790869836461,"endTime":1790869836469.7332,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/packages/content/src/data-guards.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 12,
+  "numPassedTests": 11,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869836273,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 合法模板通过并产出锚点",
+          "status": "passed",
+          "title": "合法模板通过并产出锚点",
+          "duration": 1.4130419999999901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+          "status": "passed",
+          "title": "id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+          "duration": 0.7429170000000056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝",
+          "status": "passed",
+          "title": "anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝",
+          "duration": 0.2361669999999947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 migrated origin 合法",
+          "status": "passed",
+          "title": "migrated origin 合法",
+          "duration": 0.27679200000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateTilesets：退役字段与唯一 id"],
+          "fullName": "O09 validateTilesets：退役字段与唯一 id 合法通过；resolveTilesetAsset 命中与未知拒绝",
+          "status": "passed",
+          "title": "合法通过；resolveTilesetAsset 命中与未知拒绝",
+          "duration": 0.3703339999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateTilesets：退役字段与唯一 id"],
+          "fullName": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+          "status": "passed",
+          "title": "id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+          "duration": 0.40179200000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateTilesets：退役字段与唯一 id"],
+          "fullName": "O09 validateTilesets：退役字段与唯一 id catalog 注入时 asset 必须存在",
+          "status": "passed",
+          "title": "catalog 注入时 asset 必须存在",
+          "duration": 0.1882500000000107,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateWorldVariableRegistryV1：id/name 边界"],
+          "fullName": "O09 validateWorldVariableRegistryV1：id/name 边界 空键 / 非法 id 字符 / 超长 name 逐轴拒绝",
+          "status": "passed",
+          "title": "空键 / 非法 id 字符 / 超长 name 逐轴拒绝",
+          "duration": 0.39237499999998704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateWorldVariableRegistryV1：id/name 边界"],
+          "fullName": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝",
+          "status": "passed",
+          "title": "首尾空格 name / 非字符串 description 拒绝",
+          "duration": 0.40920799999997826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateMapIndex / mapAssetById"],
+          "fullName": "O09 validateMapIndex / mapAssetById path 重复拒绝；mapAssetById 命中与未命中",
+          "status": "passed",
+          "title": "path 重复拒绝；mapAssetById 命中与未命中",
+          "duration": 0.3028750000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateMapIndex / mapAssetById"],
+          "fullName": "O09 validateMapIndex / mapAssetById 非法 map 条目（缺 id）拒绝",
+          "status": "passed",
+          "title": "非法 map 条目（缺 id）拒绝",
+          "duration": 0.12170900000000984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateMigrationDiagnostics：诊断表结构"],
+          "fullName": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+          "status": "failed",
+          "title": "诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+          "duration": 2.733083999999991,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/packages/content/src/data-guards.glm-o.test.ts:190:7\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869836461,
+      "endTime": 1790869836469.7332,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4A9bXC/packages/content/src/data-guards.glm-o.test.ts"
+    }
+  ]
+}

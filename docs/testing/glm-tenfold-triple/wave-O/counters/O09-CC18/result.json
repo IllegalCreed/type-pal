@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC18",
+  "contract": "pixelToGrid 唯一反解",
+  "target": {
+    "file": "src/hidden-exp-grid.glm-o.test.ts",
+    "title": "pixelToGrid 是 gridToPixel 的唯一反解（站位像素）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 9,
+    "passed": 8,
+    "failed": 1,
+    "failedFullName": "O09 菱形格几何：唯一反解与 height 语义 pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
+    "failureMessageHead": "AssertionError: expected { col: 1, row: 3 } to deeply equal { col: 3, row: 1 }"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6",
+    "mutated": "693ed867851aa96fa3d2a3258631db8cf1062b81f95c037fc69b070d3f1d5737",
+    "restored": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6",
+    "rebuilt": "693ed867851aa96fa3d2a3258631db8cf1062b81f95c037fc69b070d3f1d5737"
+  },
+  "patchRebuiltAndVerified": true
+}

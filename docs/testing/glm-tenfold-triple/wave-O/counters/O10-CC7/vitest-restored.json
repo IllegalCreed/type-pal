@@ -1,1 +1,100 @@
-{"numTotalTestSuites":4,"numPassedTestSuites":4,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":6,"numPassedTests":6,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869923960,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O10 YJ2 长流自适应树：权重互换与归约"],"fullName":"O10 YJ2 长流自适应树：权重互换与归约 重复字面长流（树满前）确定性解压：N 字节恒等往返","status":"passed","title":"重复字面长流（树满前）确定性解压：N 字节恒等往返","duration":1.543374999999969,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O10 YJ2 长流自适应树：权重互换与归约"],"fullName":"O10 YJ2 长流自适应树：权重互换与归约 头部 uncompLen 大于位流字面数：读到 0 尾字节按路径 0 走树（确定性输出）","status":"passed","title":"头部 uncompLen 大于位流字面数：读到 0 尾字节按路径 0 走树（确定性输出）","duration":0.8197079999999914,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O10 encodeRleFrame：游程分段与尾透明"],"fullName":"O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令","status":"passed","title":"0x7F 上限分段：129 连续 opaque → 两段（127+2）指令","duration":0.7311670000000277,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O10 encodeRleFrame：游程分段与尾透明"],"fullName":"O10 encodeRleFrame：游程分段与尾透明 尾透明补跳段写满 width*height；跳段同样 0x7F 分段","status":"passed","title":"尾透明补跳段写满 width*height；跳段同样 0x7F 分段","duration":0.22316599999999198,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O10 encodeRleFrame：游程分段与尾透明"],"fullName":"O10 encodeRleFrame：游程分段与尾透明 透明/opaque 交替边界：1px opaque 后跟 1px 透明","status":"passed","title":"透明/opaque 交替边界：1px opaque 后跟 1px 透明","duration":0.103999999999985,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O10 encodeSpriteChunk：偶对齐 pad 与多帧偏移表"],"fullName":"O10 encodeSpriteChunk：偶对齐 pad 与多帧偏移表 奇长帧后 pad 0x00；下一帧从偶偏移开始","status":"passed","title":"奇长帧后 pad 0x00；下一帧从偶偏移开始","duration":4.860458999999992,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869924466,"endTime":1790869924475.8604,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-fBBk8B/packages/shared/src/yj2-encode.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 6,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869923960,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O10 YJ2 长流自适应树：权重互换与归约"],
+          "fullName": "O10 YJ2 长流自适应树：权重互换与归约 重复字面长流（树满前）确定性解压：N 字节恒等往返",
+          "status": "passed",
+          "title": "重复字面长流（树满前）确定性解压：N 字节恒等往返",
+          "duration": 1.543374999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 YJ2 长流自适应树：权重互换与归约"],
+          "fullName": "O10 YJ2 长流自适应树：权重互换与归约 头部 uncompLen 大于位流字面数：读到 0 尾字节按路径 0 走树（确定性输出）",
+          "status": "passed",
+          "title": "头部 uncompLen 大于位流字面数：读到 0 尾字节按路径 0 走树（确定性输出）",
+          "duration": 0.8197079999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeRleFrame：游程分段与尾透明"],
+          "fullName": "O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令",
+          "status": "passed",
+          "title": "0x7F 上限分段：129 连续 opaque → 两段（127+2）指令",
+          "duration": 0.7311670000000277,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeRleFrame：游程分段与尾透明"],
+          "fullName": "O10 encodeRleFrame：游程分段与尾透明 尾透明补跳段写满 width*height；跳段同样 0x7F 分段",
+          "status": "passed",
+          "title": "尾透明补跳段写满 width*height；跳段同样 0x7F 分段",
+          "duration": 0.22316599999999198,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeRleFrame：游程分段与尾透明"],
+          "fullName": "O10 encodeRleFrame：游程分段与尾透明 透明/opaque 交替边界：1px opaque 后跟 1px 透明",
+          "status": "passed",
+          "title": "透明/opaque 交替边界：1px opaque 后跟 1px 透明",
+          "duration": 0.103999999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeSpriteChunk：偶对齐 pad 与多帧偏移表"],
+          "fullName": "O10 encodeSpriteChunk：偶对齐 pad 与多帧偏移表 奇长帧后 pad 0x00；下一帧从偶偏移开始",
+          "status": "passed",
+          "title": "奇长帧后 pad 0x00；下一帧从偶偏移开始",
+          "duration": 4.860458999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869924466,
+      "endTime": 1790869924475.8604,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-fBBk8B/packages/shared/src/yj2-encode.glm-o.test.ts"
+    }
+  ]
+}

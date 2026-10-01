@@ -1,1 +1,110 @@
-{"numTotalTestSuites":3,"numPassedTestSuites":3,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":7,"numPassedTests":7,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869878361,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],"fullName":"O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 unknown-item：物品不存在","status":"passed","title":"unknown-item：物品不存在","duration":1.8728340000000117,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],"fullName":"O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器","status":"passed","title":"wrong-context：battleOnly 用途不进世界执行器","duration":0.4041660000000036,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],"fullName":"O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 not-owned：背包与装备均无该物品","status":"passed","title":"not-owned：背包与装备均无该物品","duration":0.18495799999999463,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],"fullName":"O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 missing-target：needsTarget 且指定目标不在 party（typed 缺键直证）","status":"passed","title":"missing-target：needsTarget 且指定目标不在 party（typed 缺键直证）","duration":0.3446670000000154,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateAssetCatalog：kind/origin/路径轴"],"fullName":"O09 validateAssetCatalog：kind/origin/路径轴 非法 kind / 非法 sha 逐轴拒绝","status":"passed","title":"非法 kind / 非法 sha 逐轴拒绝","duration":0.5908329999999751,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateAssetCatalog：kind/origin/路径轴"],"fullName":"O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法","status":"passed","title":"origin legacy-migrated 前缀不符拒绝；authored 前缀合法","duration":0.25629200000000196,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateAssetCatalog：kind/origin/路径轴"],"fullName":"O09 validateAssetCatalog：kind/origin/路径轴 版本漂移拒绝","status":"passed","title":"版本漂移拒绝","duration":0.13599999999999568,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869878599,"endTime":1790869878603.2563,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-8rlZIl/packages/content/src/item-use.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869878361,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],
+          "fullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 unknown-item：物品不存在",
+          "status": "passed",
+          "title": "unknown-item：物品不存在",
+          "duration": 1.8728340000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],
+          "fullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器",
+          "status": "passed",
+          "title": "wrong-context：battleOnly 用途不进世界执行器",
+          "duration": 0.4041660000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],
+          "fullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 not-owned：背包与装备均无该物品",
+          "status": "passed",
+          "title": "not-owned：背包与装备均无该物品",
+          "duration": 0.18495799999999463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴"],
+          "fullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 missing-target：needsTarget 且指定目标不在 party（typed 缺键直证）",
+          "status": "passed",
+          "title": "missing-target：needsTarget 且指定目标不在 party（typed 缺键直证）",
+          "duration": 0.3446670000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateAssetCatalog：kind/origin/路径轴"],
+          "fullName": "O09 validateAssetCatalog：kind/origin/路径轴 非法 kind / 非法 sha 逐轴拒绝",
+          "status": "passed",
+          "title": "非法 kind / 非法 sha 逐轴拒绝",
+          "duration": 0.5908329999999751,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateAssetCatalog：kind/origin/路径轴"],
+          "fullName": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
+          "status": "passed",
+          "title": "origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
+          "duration": 0.25629200000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateAssetCatalog：kind/origin/路径轴"],
+          "fullName": "O09 validateAssetCatalog：kind/origin/路径轴 版本漂移拒绝",
+          "status": "passed",
+          "title": "版本漂移拒绝",
+          "duration": 0.13599999999999568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869878599,
+      "endTime": 1790869878603.2563,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-8rlZIl/packages/content/src/item-use.glm-o.test.ts"
+    }
+  ]
+}

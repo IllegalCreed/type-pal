@@ -8,10 +8,10 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import {
+  assertNoCollectionErrors,
+  flattenTests,
   judgePhase,
   sameExecutionIdentity,
-  flattenTests,
-  assertNoCollectionErrors,
 } from './counter-judge.mjs'
 
 const repo = mkdtempSync(resolve(tmpdir(), 'glm-o-selftest-'))
@@ -41,15 +41,18 @@ const run = (tests, extra = {}) => ({
 })
 const greenRun = (tests, extra = {}) => {
   const r = run(tests, { exitCode: 0, ...extra })
-  r.json = { ...r.json, ...counts(1, 0), testResults: [{ name: file, status: 'passed', assertionResults: tests }] }
+  r.json = {
+    ...r.json,
+    ...counts(1, 0),
+    testResults: [{ name: file, status: 'passed', assertionResults: tests }],
+  }
   return r
 }
 const pass = (fullName) => T(fullName, 'passed')
-const red = (fullName, msg = 'AssertionError: expected 1 to be 2') =>
-  T(fullName, 'failed', [msg])
+const red = (fullName, msg = 'AssertionError: expected 1 to be 2') => T(fullName, 'failed', [msg])
 
 let n = 0
-const ok = (label, fn) => {
+const ok = (_label, fn) => {
   fn()
   n++
 }
@@ -74,35 +77,32 @@ const restoredRun = greenRun([pass(TARGET), pass(other)])
 const controlTests = flattenTests(controlRun.json)
 const injectedTests = flattenTests(injectedRun.json)
 const restoredTests = flattenTests(restoredRun.json)
-ok('正常生命周期：control 全绿', () =>
-  judgePhase(controlRun, spec, 'control', pkg))
+ok('正常生命周期：control 全绿', () => judgePhase(controlRun, spec, 'control', pkg))
 ok('正常生命周期：injected 恰一业务红', () => {
   const t = judgePhase(injectedRun, spec, 'injected', pkg)
   assert.equal(t.fullName, TARGET)
 })
-ok('正常生命周期：restored 全绿', () =>
-  judgePhase(restoredRun, spec, 'restored', pkg))
-ok(
-  '正常生命周期：身份比较允许 passed→failed→passed（不再误拒状态变化）',
-  () => {
-    sameExecutionIdentity(controlTests, injectedTests, 'control↔injected')
-    sameExecutionIdentity(injectedTests, restoredTests, 'injected↔restored')
-  },
-)
+ok('正常生命周期：restored 全绿', () => judgePhase(restoredRun, spec, 'restored', pkg))
+ok('正常生命周期：身份比较允许 passed→failed→passed（不再误拒状态变化）', () => {
+  sameExecutionIdentity(controlTests, injectedTests, 'control↔injected')
+  sameExecutionIdentity(injectedTests, restoredTests, 'injected↔restored')
+})
 
 // ═══ 正控 2：spec.test.target 显式完整目标 ═══
 ok('spec.test.target 精确匹配', () =>
-  judgePhase(injectedRun, { test: { file: 'src/x.glm-o.test.ts', target: TARGET } }, 'injected', pkg))
+  judgePhase(
+    injectedRun,
+    { test: { file: 'src/x.glm-o.test.ts', target: TARGET } },
+    'injected',
+    pkg,
+  ),
+)
 ok('spec.test.title 迁移字段在裸 title 形态下精确匹配', () =>
-  judgePhase(run([red('目标合同')]), spec, 'injected', pkg))
+  judgePhase(run([red('目标合同')]), spec, 'injected', pkg),
+)
 
 // ═══ 正控 3：身份一致时比较通过 ═══
-ok('身份一致通过', () =>
-  sameExecutionIdentity(
-    [pass('a'), red('b')],
-    [pass('a'), red('b')],
-    'x↔y',
-  ))
+ok('身份一致通过', () => sameExecutionIdentity([pass('a'), red('b')], [pass('a'), red('b')], 'x↔y'))
 
 // ═══ 拒收：collection / runtime 总门（r8 新增）═══
 rejects(
@@ -155,7 +155,11 @@ rejects(
     r.json.numFailedTestSuites = 1
     r.json.testResults = [
       { name: file, status: 'failed', assertionResults: [red(TARGET)] },
-      { name: resolve(repo, 'packages/content/src/x.glm-o.test.ts'), status: 'failed', assertionResults: [] },
+      {
+        name: resolve(repo, 'packages/content/src/x.glm-o.test.ts'),
+        status: 'failed',
+        assertionResults: [],
+      },
     ]
     return assertNoCollectionErrors(r.json, 'injected')
   },
@@ -180,7 +184,11 @@ rejects(
           numPassedTestSuites: 2,
           testResults: [
             { name: file, status: 'passed', assertionResults: [pass('a')] },
-            { name: resolve(repo, 'packages/content/src/y.glm-o.test.ts'), status: 'passed', assertionResults: [pass('b')] },
+            {
+              name: resolve(repo, 'packages/content/src/y.glm-o.test.ts'),
+              status: 'passed',
+              assertionResults: [pass('b')],
+            },
           ],
         }
         return r
@@ -198,11 +206,7 @@ rejects(
 )
 
 // ═══ 拒收：目标精确性 ═══
-rejects(
-  '双红',
-  () => judgePhase(run([red(TARGET), red(other)]), spec, 'injected', pkg),
-  /恰一红/,
-)
+rejects('双红', () => judgePhase(run([red(TARGET), red(other)]), spec, 'injected', pkg), /恰一红/)
 rejects(
   '错目标',
   () => judgePhase(run([red('完全不同的合同')]), spec, 'injected', pkg),
@@ -220,7 +224,11 @@ rejects(
       (() => {
         const r = run([red(TARGET)])
         r.json.testResults = [
-          { name: resolve(repo, 'packages/content/src/z.glm-o.test.ts'), status: 'failed', assertionResults: [red(TARGET)] },
+          {
+            name: resolve(repo, 'packages/content/src/z.glm-o.test.ts'),
+            status: 'failed',
+            assertionResults: [red(TARGET)],
+          },
         ]
         return r
       })(),
@@ -235,7 +243,12 @@ rejects(
 rejects(
   '未处理 Promise 异常红',
   () =>
-    judgePhase(run([red(TARGET, 'Error: promise resolved "x" instead of rejecting')]), spec, 'injected', pkg),
+    judgePhase(
+      run([red(TARGET, 'Error: promise resolved "x" instead of rejecting')]),
+      spec,
+      'injected',
+      pkg,
+    ),
   /非业务 AssertionError/,
 )
 rejects(
@@ -260,13 +273,19 @@ rejects(
 )
 rejects(
   'signal',
-  () => judgePhase(greenRun([pass(TARGET)], { exitCode: 0, signal: 'SIGKILL' }), spec, 'control', pkg),
+  () =>
+    judgePhase(greenRun([pass(TARGET)], { exitCode: 0, signal: 'SIGKILL' }), spec, 'control', pkg),
   /signal=SIGKILL/,
 )
 rejects(
   'spawn error',
   () =>
-    judgePhase(greenRun([pass(TARGET)], { exitCode: 0, error: new Error('spawn ENOENT') }), spec, 'control', pkg),
+    judgePhase(
+      greenRun([pass(TARGET)], { exitCode: 0, error: new Error('spawn ENOENT') }),
+      spec,
+      'control',
+      pkg,
+    ),
   /spawn 失败/,
 )
 
@@ -278,4 +297,6 @@ rejects(
 )
 
 rmSync(repo, { recursive: true, force: true })
-console.log(`selftest ${n} 判据用例全过（整段生命周期正控 8 + 拒收 20，全部经 counter-judge.mjs 唯一判据）`)
+console.log(
+  `selftest ${n} 判据用例全过（整段生命周期正控 8 + 拒收 20，全部经 counter-judge.mjs 唯一判据）`,
+)

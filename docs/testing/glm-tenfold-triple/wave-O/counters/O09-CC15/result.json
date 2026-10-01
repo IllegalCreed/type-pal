@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC15",
+  "contract": "lerpTint t 夹取",
+  "target": {
+    "file": "src/ambience-skill.glm-o.test.ts",
+    "title": "t<0 取 from、t>1 取 to、t∈[0,1] 线性"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 lerpTint：t 夹取与分量四舍五入 t<0 取 from、t>1 取 to、t∈[0,1] 线性",
+    "failureMessageHead": "AssertionError: expected [ -100, -200, -50 ] to deeply equal [ +0, +0, +0 ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+    "mutated": "297b831d6b226f7a8e95144afd092fd80e12901598a9542fcba0b8f99c39b1e1",
+    "restored": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+    "rebuilt": "297b831d6b226f7a8e95144afd092fd80e12901598a9542fcba0b8f99c39b1e1"
+  },
+  "patchRebuiltAndVerified": true
+}

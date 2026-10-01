@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC10",
+  "contract": "applyLevelGrowth 零级不动",
+  "package": "content",
+  "test": {
+    "file": "src/rewards-lifecycle.glm-o.test.ts",
+    "title": "负级/零级 → 不改任何属性，delta 全 0"
+  },
+  "mutation": {
+    "file": "src/rewards.ts",
+    "find": "  const count = Math.max(0, Math.floor(levels))",
+    "replace": "  const count = Math.max(1, Math.floor(levels))"
+  }
+}

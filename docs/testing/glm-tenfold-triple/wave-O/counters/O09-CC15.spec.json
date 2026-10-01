@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC15",
+  "contract": "lerpTint t 夹取",
+  "package": "content",
+  "test": {
+    "file": "src/ambience-skill.glm-o.test.ts",
+    "title": "t<0 取 from、t>1 取 to、t∈[0,1] 线性"
+  },
+  "mutation": {
+    "file": "src/ambience.ts",
+    "find": "  const k = t < 0 ? 0 : t > 1 ? 1 : t",
+    "replace": "  const k = t"
+  }
+}

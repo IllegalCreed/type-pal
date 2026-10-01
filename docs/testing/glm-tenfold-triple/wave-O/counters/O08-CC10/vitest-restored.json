@@ -1,0 +1,110 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790870063620,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0",
+          "status": "passed",
+          "title": "负级/零级 → 不改任何属性，delta 全 0",
+          "duration": 1.2797079999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 每级固定+2 luck（无随机）；rng=0/1 区间上下界",
+          "status": "passed",
+          "title": "每级固定+2 luck（无随机）；rng=0/1 区间上下界",
+          "duration": 0.2905409999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 等级钳 MAX_LEVEL=99；属性钳 STAT_CAP=999",
+          "status": "passed",
+          "title": "等级钳 MAX_LEVEL=99；属性钳 STAT_CAP=999",
+          "duration": 0.1582920000000172,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机",
+          "status": "passed",
+          "title": "多级累积：每级独立掷随机",
+          "duration": 0.0746249999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 normalizeEntityLifecycleTable：引用闭包与不可变"],
+          "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 合法表深拷贝返回（输入 entry 不被别名共享）",
+          "status": "passed",
+          "title": "合法表深拷贝返回（输入 entry 不被别名共享）",
+          "duration": 0.2777499999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 normalizeEntityLifecycleTable：引用闭包与不可变"],
+          "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 undefined 表 → 空表（缺表即正常）",
+          "status": "passed",
+          "title": "undefined 表 → 空表（缺表即正常）",
+          "duration": 0.057749999999998636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 normalizeEntityLifecycleTable：引用闭包与不可变"],
+          "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断",
+          "status": "passed",
+          "title": "未知 scene id / 未知 entity id → 精确诊断",
+          "duration": 0.43020799999999326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790870063809,
+      "endTime": 1790870063811.4302,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/packages/content/src/rewards-lifecycle.glm-o.test.ts"
+    }
+  ]
+}

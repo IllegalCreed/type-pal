@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC17",
+  "contract": "normalizeEntityLifecycleTable 未知 entity",
+  "package": "content",
+  "test": {
+    "file": "src/rewards-lifecycle.glm-o.test.ts",
+    "title": "未知 scene id / 未知 entity id → 精确诊断"
+  },
+  "mutation": {
+    "file": "src/entity-lifecycle.ts",
+    "find": "      if (!knownEntities.has(entityId))",
+    "replace": "      if (false && !knownEntities.has(entityId))"
+  }
+}

@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/rewards.ts b/packages/content/src/rewards.ts
+index ef3f6168e..cbf9e44aa 100644
+--- a/packages/content/src/rewards.ts
++++ b/packages/content/src/rewards.ts
+@@ -159 +159 @@ export function applyHiddenExp(
+-  if (total <= 0) return []
++  if (total < 0) return []

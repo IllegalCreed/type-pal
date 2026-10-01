@@ -1,1 +1,260 @@
-{"numTotalTestSuites":5,"numPassedTestSuites":3,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":21,"numPassedTests":20,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869577120,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],"fullName":"O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化","status":"passed","title":"工程写按 scenes/index 最后排序；map 内容走专用序列化","duration":9.69137499999988,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],"fullName":"O03 buildMigrationTransactionChanges：工程写入与规划快照门 写入目标未纳入规划快照 → fail-loud","status":"passed","title":"写入目标未纳入规划快照 → fail-loud","duration":0.69925000000012,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],"fullName":"O03 buildMigrationTransactionChanges：工程写入与规划快照门 托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud","status":"passed","title":"托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud","duration":0.2842920000000504,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],"fullName":"O03 buildMigrationTransactionChanges：工程写入与规划快照门 删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null","status":"passed","title":"删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null","duration":1.1593339999999444,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：退役资源与重复目标"],"fullName":"O03 buildMigrationTransactionChanges：退役资源与重复目标 退役迁移资源按 path 排序生成删除改动并带 expectedSha256","status":"passed","title":"退役迁移资源按 path 排序生成删除改动并带 expectedSha256","duration":0.5263749999999163,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：退役资源与重复目标"],"fullName":"O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud","status":"passed","title":"退役资源路径越界或 sha 非法 → fail-loud","duration":0.42837499999996,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：退役资源与重复目标"],"fullName":"O03 buildMigrationTransactionChanges：退役资源与重复目标 工程写与退役删除同目标 → 重复工程目标 fail-loud","status":"passed","title":"工程写与退役删除同目标 → 重复工程目标 fail-loud","duration":0.43983299999990777,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"],"fullName":"O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 baseline 文件与磁盘一致时不产生改动；漂移时产生 baseline 写","status":"passed","title":"baseline 文件与磁盘一致时不产生改动；漂移时产生 baseline 写","duration":3.0432499999999436,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"],"fullName":"O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 previousBaseline 独有且磁盘仍存在的 baseline 文件产生删除改动","status":"passed","title":"previousBaseline 独有且磁盘仍存在的 baseline 文件产生删除改动","duration":4.018542000000025,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"],"fullName":"O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 nextManifest 无前置条件 → fail-loud；磁盘一致 → 无 manifest 改动","status":"passed","title":"nextManifest 无前置条件 → fail-loud；磁盘一致 → 无 manifest 改动","duration":3.506708000000117,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"],"fullName":"O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 manifest 变更排在全部改动最后（含 baseline 之后）","status":"passed","title":"manifest 变更排在全部改动最后（含 baseline 之后）","duration":2.7229580000000624,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）","status":"failed","title":"目标为 symlink 时提交被拒绝（assertMigrationFilePath）","duration":13.462332999999944,"failureMessages":["AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/packages/migrate/src/migration-write-plan.glm-o.test.ts:327:7\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal 绝对路径目标被 strictRepoRel 拒绝","status":"passed","title":"journal 绝对路径目标被 strictRepoRel 拒绝","duration":3.1370419999998376,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal write 操作缺 staged → strictRepoRel 拒绝","status":"passed","title":"journal write 操作缺 staged → strictRepoRel 拒绝","duration":4.295165999999881,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal 根非对象 / scope 未知 / project scope 越界 / precondition 非对象 逐轴拒绝","status":"passed","title":"journal 根非对象 / scope 未知 / project scope 越界 / precondition 非对象 逐轴拒绝","duration":5.48762499999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） manifest 前置条件指向 symlink 时恢复拒绝（不读取链外文件）","status":"passed","title":"manifest 前置条件指向 symlink 时恢复拒绝（不读取链外文件）","duration":6.115542000000005,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 多操作事务按序恢复且 afterOperation 收到 journal 操作与下标；完成后 staging 目录清理","status":"passed","title":"多操作事务按序恢复且 afterOperation 收到 journal 操作与下标；完成后 staging 目录清理","duration":46.40562499999987,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 中断后留下的 staging 在恢复中被消费并清理整个事务目录","status":"passed","title":"中断后留下的 staging 在恢复中被消费并清理整个事务目录","duration":22.150290999999925,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） baseline 目标在提交窗口被改 → 提交窗口守卫拒绝（双操作触发 assertPreviousTarget）","status":"passed","title":"baseline 目标在提交窗口被改 → 提交窗口守卫拒绝（双操作触发 assertPreviousTarget）","duration":24.216917000000194,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 删除已不存在的托管目标（规划 hash=null）为合法 no-op","status":"passed","title":"删除已不存在的托管目标（规划 hash=null）为合法 no-op","duration":4.714707999999973,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],"fullName":"O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 相同改动集合产出相同事务 id（staging 目录可复算）；不同内容 id 不同","status":"passed","title":"相同改动集合产出相同事务 id（staging 目录可复算）；不同内容 id 不同","duration":62.908792000000176,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869578327,"endTime":1790869578546.9087,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/packages/migrate/src/migration-write-plan.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 21,
+  "numPassedTests": 20,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869577120,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],
+          "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
+          "status": "passed",
+          "title": "工程写按 scenes/index 最后排序；map 内容走专用序列化",
+          "duration": 9.69137499999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],
+          "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 写入目标未纳入规划快照 → fail-loud",
+          "status": "passed",
+          "title": "写入目标未纳入规划快照 → fail-loud",
+          "duration": 0.69925000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],
+          "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud",
+          "status": "passed",
+          "title": "托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud",
+          "duration": 0.2842920000000504,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildMigrationTransactionChanges：工程写入与规划快照门"],
+          "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null",
+          "status": "passed",
+          "title": "删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null",
+          "duration": 1.1593339999999444,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildMigrationTransactionChanges：退役资源与重复目标"],
+          "fullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役迁移资源按 path 排序生成删除改动并带 expectedSha256",
+          "status": "passed",
+          "title": "退役迁移资源按 path 排序生成删除改动并带 expectedSha256",
+          "duration": 0.5263749999999163,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildMigrationTransactionChanges：退役资源与重复目标"],
+          "fullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
+          "status": "passed",
+          "title": "退役资源路径越界或 sha 非法 → fail-loud",
+          "duration": 0.42837499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildMigrationTransactionChanges：退役资源与重复目标"],
+          "fullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 工程写与退役删除同目标 → 重复工程目标 fail-loud",
+          "status": "passed",
+          "title": "工程写与退役删除同目标 → 重复工程目标 fail-loud",
+          "duration": 0.43983299999990777,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"
+          ],
+          "fullName": "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 baseline 文件与磁盘一致时不产生改动；漂移时产生 baseline 写",
+          "status": "passed",
+          "title": "baseline 文件与磁盘一致时不产生改动；漂移时产生 baseline 写",
+          "duration": 3.0432499999999436,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"
+          ],
+          "fullName": "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 previousBaseline 独有且磁盘仍存在的 baseline 文件产生删除改动",
+          "status": "passed",
+          "title": "previousBaseline 独有且磁盘仍存在的 baseline 文件产生删除改动",
+          "duration": 4.018542000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"
+          ],
+          "fullName": "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 nextManifest 无前置条件 → fail-loud；磁盘一致 → 无 manifest 改动",
+          "status": "passed",
+          "title": "nextManifest 无前置条件 → fail-loud；磁盘一致 → 无 manifest 改动",
+          "duration": 3.506708000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交"
+          ],
+          "fullName": "O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交 manifest 变更排在全部改动最后（含 baseline 之后）",
+          "status": "passed",
+          "title": "manifest 变更排在全部改动最后（含 baseline 之后）",
+          "duration": 2.7229580000000624,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
+          "status": "failed",
+          "title": "目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
+          "duration": 13.462332999999944,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/packages/migrate/src/migration-write-plan.glm-o.test.ts:327:7\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal 绝对路径目标被 strictRepoRel 拒绝",
+          "status": "passed",
+          "title": "journal 绝对路径目标被 strictRepoRel 拒绝",
+          "duration": 3.1370419999998376,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal write 操作缺 staged → strictRepoRel 拒绝",
+          "status": "passed",
+          "title": "journal write 操作缺 staged → strictRepoRel 拒绝",
+          "duration": 4.295165999999881,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal 根非对象 / scope 未知 / project scope 越界 / precondition 非对象 逐轴拒绝",
+          "status": "passed",
+          "title": "journal 根非对象 / scope 未知 / project scope 越界 / precondition 非对象 逐轴拒绝",
+          "duration": 5.48762499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） manifest 前置条件指向 symlink 时恢复拒绝（不读取链外文件）",
+          "status": "passed",
+          "title": "manifest 前置条件指向 symlink 时恢复拒绝（不读取链外文件）",
+          "duration": 6.115542000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 多操作事务按序恢复且 afterOperation 收到 journal 操作与下标；完成后 staging 目录清理",
+          "status": "passed",
+          "title": "多操作事务按序恢复且 afterOperation 收到 journal 操作与下标；完成后 staging 目录清理",
+          "duration": 46.40562499999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 中断后留下的 staging 在恢复中被消费并清理整个事务目录",
+          "status": "passed",
+          "title": "中断后留下的 staging 在恢复中被消费并清理整个事务目录",
+          "duration": 22.150290999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） baseline 目标在提交窗口被改 → 提交窗口守卫拒绝（双操作触发 assertPreviousTarget）",
+          "status": "passed",
+          "title": "baseline 目标在提交窗口被改 → 提交窗口守卫拒绝（双操作触发 assertPreviousTarget）",
+          "duration": 24.216917000000194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 删除已不存在的托管目标（规划 hash=null）为合法 no-op",
+          "status": "passed",
+          "title": "删除已不存在的托管目标（规划 hash=null）为合法 no-op",
+          "duration": 4.714707999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）"],
+          "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 相同改动集合产出相同事务 id（staging 目录可复算）；不同内容 id 不同",
+          "status": "passed",
+          "title": "相同改动集合产出相同事务 id（staging 目录可复算）；不同内容 id 不同",
+          "duration": 62.908792000000176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869578327,
+      "endTime": 1790869578546.9087,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-UiZKB7/packages/migrate/src/migration-write-plan.glm-o.test.ts"
+    }
+  ]
+}

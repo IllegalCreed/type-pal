@@ -1,1 +1,110 @@
-{"numTotalTestSuites":3,"numPassedTestSuites":3,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":7,"numPassedTests":7,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869881744,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O09 checkRuntimeHostileBehavior：策略域"],"fullName":"O09 checkRuntimeHostileBehavior：策略域 合法最小 hostile 通过；victory hide 带 ticks 合法","status":"passed","title":"合法最小 hostile 通过；victory hide 带 ticks 合法","duration":3.217208000000028,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 checkRuntimeHostileBehavior：策略域"],"fullName":"O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝","status":"passed","title":"缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝","duration":1.0112500000000182,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 checkRuntimeHostileBehavior：策略域"],"fullName":"O09 checkRuntimeHostileBehavior：策略域 onLose 自定义命令递归校验（未知 kind 在子树报错）","status":"passed","title":"onLose 自定义命令递归校验（未知 kind 在子树报错）","duration":0.49862500000006094,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 checkRuntimeHostileBehavior：策略域"],"fullName":"O09 checkRuntimeHostileBehavior：策略域 chase：非正 speed 拒绝；负 range 拒绝","status":"passed","title":"chase：非正 speed 拒绝；负 range 拒绝","duration":0.3773750000000291,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateRuntimeScenes：脚本归置轴"],"fullName":"O09 validateRuntimeScenes：脚本归置轴 onEnter 平铺字段拒绝（必须位于 hooks）","status":"passed","title":"onEnter 平铺字段拒绝（必须位于 hooks）","duration":0.4278749999999718,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateRuntimeScenes：脚本归置轴"],"fullName":"O09 validateRuntimeScenes：脚本归置轴 onTeleport 平铺字段拒绝（必须位于 hooks）","status":"passed","title":"onTeleport 平铺字段拒绝（必须位于 hooks）","duration":0.22220800000002328,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateRuntimeScenes：脚本归置轴"],"fullName":"O09 validateRuntimeScenes：脚本归置轴 entities 非数组拒绝","status":"passed","title":"entities 非数组拒绝","duration":1.7325409999999692,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869882476,"endTime":1790869882483.7324,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-qUXJjv/packages/content/src/runtime-hostile.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869881744,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 checkRuntimeHostileBehavior：策略域"],
+          "fullName": "O09 checkRuntimeHostileBehavior：策略域 合法最小 hostile 通过；victory hide 带 ticks 合法",
+          "status": "passed",
+          "title": "合法最小 hostile 通过；victory hide 带 ticks 合法",
+          "duration": 3.217208000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkRuntimeHostileBehavior：策略域"],
+          "fullName": "O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝",
+          "status": "passed",
+          "title": "缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝",
+          "duration": 1.0112500000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkRuntimeHostileBehavior：策略域"],
+          "fullName": "O09 checkRuntimeHostileBehavior：策略域 onLose 自定义命令递归校验（未知 kind 在子树报错）",
+          "status": "passed",
+          "title": "onLose 自定义命令递归校验（未知 kind 在子树报错）",
+          "duration": 0.49862500000006094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkRuntimeHostileBehavior：策略域"],
+          "fullName": "O09 checkRuntimeHostileBehavior：策略域 chase：非正 speed 拒绝；负 range 拒绝",
+          "status": "passed",
+          "title": "chase：非正 speed 拒绝；负 range 拒绝",
+          "duration": 0.3773750000000291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateRuntimeScenes：脚本归置轴"],
+          "fullName": "O09 validateRuntimeScenes：脚本归置轴 onEnter 平铺字段拒绝（必须位于 hooks）",
+          "status": "passed",
+          "title": "onEnter 平铺字段拒绝（必须位于 hooks）",
+          "duration": 0.4278749999999718,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateRuntimeScenes：脚本归置轴"],
+          "fullName": "O09 validateRuntimeScenes：脚本归置轴 onTeleport 平铺字段拒绝（必须位于 hooks）",
+          "status": "passed",
+          "title": "onTeleport 平铺字段拒绝（必须位于 hooks）",
+          "duration": 0.22220800000002328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateRuntimeScenes：脚本归置轴"],
+          "fullName": "O09 validateRuntimeScenes：脚本归置轴 entities 非数组拒绝",
+          "status": "passed",
+          "title": "entities 非数组拒绝",
+          "duration": 1.7325409999999692,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869882476,
+      "endTime": 1790869882483.7324,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-qUXJjv/packages/content/src/runtime-hostile.glm-o.test.ts"
+    }
+  ]
+}

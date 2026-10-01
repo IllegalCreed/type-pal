@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/grid.ts b/packages/content/src/grid.ts
+index a5c13c2fe..781093cd2 100644
+--- a/packages/content/src/grid.ts
++++ b/packages/content/src/grid.ts
+@@ -45 +45 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number }
+-  return { col: Math.round((b + a) / 2), row: Math.round((b - a) / 2) }
++  return { col: Math.round((b - a) / 2), row: Math.round((b + a) / 2) }

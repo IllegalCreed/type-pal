@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC16",
+  "contract": "authoredSkillExecutionLayers 双 override 追加",
+  "package": "content",
+  "test": {
+    "file": "src/ambience-skill.glm-o.test.ts",
+    "title": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加"
+  },
+  "mutation": {
+    "file": "src/skill.ts",
+    "find": "  for (const side of ['player', 'enemy'] as const) {",
+    "replace": "  for (const side of ['enemy', 'player'] as const) {"
+  }
+}

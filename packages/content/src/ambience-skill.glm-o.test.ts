@@ -5,16 +5,12 @@
  *  authoredSkillExecutionLayers 公共+双 override、resolveDialogueIdentity
  *  unbound 透传/default 缺表/未知表情/speakerOverride。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { ActorDef, AmbienceDef, SkillData } from '@type-pal/content'
-import {
-  AMBIENCE_IDENTITY,
-  isIdentityTint,
-  lerpTint,
-  resolveAmbienceTint,
-} from './ambience.js'
-import { authoredSkillExecutionLayers, resolveSkillExecution } from './skill.js'
+import { describe, expect, test } from 'vitest'
+import { AMBIENCE_IDENTITY, isIdentityTint, lerpTint, resolveAmbienceTint } from './ambience.js'
 import { resolveDialogueIdentity } from './author-dialogue.js'
+import { authoredSkillExecutionLayers, resolveSkillExecution } from './skill.js'
 
 describe('O09 resolveAmbienceTint：day/缺表/自定义白天', () => {
   const ambiences: AmbienceDef[] = [
@@ -116,12 +112,9 @@ describe('O09 resolveDialogueIdentity：身份残余轴', () => {
   }
 
   test('unbound：speaker/portrait 声明性透传（浅拷贝 portrait）', () => {
-    expect(
-      resolveDialogueIdentity(
-        { kind: 'unbound', speaker: '旁白甲' },
-        actors,
-      ),
-    ).toEqual({ speaker: '旁白甲' })
+    expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, actors)).toEqual({
+      speaker: '旁白甲',
+    })
     const withPortrait = resolveDialogueIdentity(
       {
         kind: 'unbound',
@@ -144,13 +137,21 @@ describe('O09 resolveDialogueIdentity：身份残余轴', () => {
   test('actor 绑定未知表情 → 精确表情诊断；命中表情 → 资源+side', () => {
     expect(() =>
       resolveDialogueIdentity(
-        { kind: 'actor', actor: 'hero', portrait: { kind: 'expression', expression: 'angry', side: 'left' } },
+        {
+          kind: 'actor',
+          actor: 'hero',
+          portrait: { kind: 'expression', expression: 'angry', side: 'left' },
+        },
         actors,
       ),
     ).toThrow('缺表情 "angry"')
     expect(
       resolveDialogueIdentity(
-        { kind: 'actor', actor: 'hero', portrait: { kind: 'expression', expression: 'smile', side: 'right' } },
+        {
+          kind: 'actor',
+          actor: 'hero',
+          portrait: { kind: 'expression', expression: 'smile', side: 'right' },
+        },
         actors,
       ),
     ).toEqual({ speaker: 'name.hero', portrait: { asset: 'portrait.hero-smile', side: 'right' } })
@@ -158,7 +159,10 @@ describe('O09 resolveDialogueIdentity：身份残余轴', () => {
 
   test('speakerOverride 覆盖 actor.name；无声明时 speaker=actor.name', () => {
     expect(
-      resolveDialogueIdentity({ kind: 'actor', actor: 'hero', speakerOverride: 'custom.line' }, actors),
+      resolveDialogueIdentity(
+        { kind: 'actor', actor: 'hero', speakerOverride: 'custom.line' },
+        actors,
+      ),
     ).toEqual({ speaker: 'custom.line' })
     expect(resolveDialogueIdentity({ kind: 'actor', actor: 'hero' }, actors)).toEqual({
       speaker: 'name.hero',

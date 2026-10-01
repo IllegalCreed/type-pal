@@ -1,1 +1,250 @@
-{"numTotalTestSuites":4,"numPassedTestSuites":4,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":21,"numPassedTests":21,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869640956,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O05 createPalWorldSpriteRegistry：布局证据与变体"],"fullName":"O05 createPalWorldSpriteRegistry：布局证据与变体 spriteRef 未注册（无场景证据直接取）→ fail-loud","status":"passed","title":"spriteRef 未注册（无场景证据直接取）→ fail-loud","duration":3.1588329999999587,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 createPalWorldSpriteRegistry：布局证据与变体"],"fullName":"O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts","status":"passed","title":"同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts","duration":2.2804580000001806,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 createPalWorldSpriteRegistry：布局证据与变体"],"fullName":"O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）","status":"passed","title":"角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）","duration":1.1414159999999356,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 createPalWorldSpriteRegistry：布局证据与变体"],"fullName":"O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册","status":"passed","title":"角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册","duration":0.2568750000000364,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名清单重复 semanticId → fail-loud","status":"passed","title":"别名清单重复 semanticId → fail-loud","duration":0.35295799999994415,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝","status":"passed","title":"别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝","duration":0.6523329999999987,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 current/generated 缺语义 SpriteDef → fail-loud","status":"passed","title":"current/generated 缺语义 SpriteDef → fail-loud","duration":0.60024999999996,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 纯迁移核仍生成 legacy 重复定义 → fail-loud","status":"passed","title":"纯迁移核仍生成 legacy 重复定义 → fail-loud","duration":0.5643749999999272,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 生成场景引用集合与别名清单漂移 → fail-loud","status":"passed","title":"生成场景引用集合与别名清单漂移 → fail-loud","duration":0.507959000000028,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 清单外场景引用 legacy id → fail-loud","status":"passed","title":"清单外场景引用 legacy id → fail-loud","duration":0.1822079999997186,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝","status":"passed","title":"改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝","duration":3.4671659999999065,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录","status":"passed","title":"合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录","duration":1.6882919999998194,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],"fullName":"O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 非 object 实体（原始值）在引用扫描时 fail-loud","status":"passed","title":"非 object 实体（原始值）在引用扫描时 fail-loud","duration":0.33116599999993923,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 item 私有脚本可达 + canonical label → 报告确定性 label 与 path","status":"passed","title":"item 私有脚本可达 + canonical label → 报告确定性 label 与 path","duration":4.469625000000178,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 canonical 但不可达（无 item 选择边）→ 零 item root 拒绝","status":"passed","title":"canonical 但不可达（无 item 选择边）→ 零 item root 拒绝","duration":0.3886670000001686,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）","status":"passed","title":"非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）","duration":2.624749999999949,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告","status":"passed","title":"机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告","duration":0.25954100000035396,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 opaque 摘要名节点可达但仍存活 → 永久门禁拒绝","status":"passed","title":"opaque 摘要名节点可达但仍存活 → 永久门禁拒绝","duration":0.155666999999994,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 同一地址重复注册（同场景重复出现）→ 节点重复拒绝","status":"passed","title":"同一地址重复注册（同场景重复出现）→ 节点重复拒绝","duration":0.1708330000001297,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）","status":"passed","title":"selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）","duration":3.5952080000001843,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],"fullName":"O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud","status":"passed","title":"选择图成环 → fail-loud","duration":4.054666999999881,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869643476,"endTime":1790869643508.0547,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O5B7cb/packages/migrate/src/pal-world-sprites.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 21,
+  "numPassedTests": 21,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869640956,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 spriteRef 未注册（无场景证据直接取）→ fail-loud",
+          "status": "passed",
+          "title": "spriteRef 未注册（无场景证据直接取）→ fail-loud",
+          "duration": 3.1588329999999587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
+          "status": "passed",
+          "title": "同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
+          "duration": 2.2804580000001806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）",
+          "status": "passed",
+          "title": "角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）",
+          "duration": 1.1414159999999356,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册",
+          "status": "passed",
+          "title": "角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册",
+          "duration": 0.2568750000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名清单重复 semanticId → fail-loud",
+          "status": "passed",
+          "title": "别名清单重复 semanticId → fail-loud",
+          "duration": 0.35295799999994415,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝",
+          "status": "passed",
+          "title": "别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝",
+          "duration": 0.6523329999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 current/generated 缺语义 SpriteDef → fail-loud",
+          "status": "passed",
+          "title": "current/generated 缺语义 SpriteDef → fail-loud",
+          "duration": 0.60024999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 纯迁移核仍生成 legacy 重复定义 → fail-loud",
+          "status": "passed",
+          "title": "纯迁移核仍生成 legacy 重复定义 → fail-loud",
+          "duration": 0.5643749999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 生成场景引用集合与别名清单漂移 → fail-loud",
+          "status": "passed",
+          "title": "生成场景引用集合与别名清单漂移 → fail-loud",
+          "duration": 0.507959000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 清单外场景引用 legacy id → fail-loud",
+          "status": "passed",
+          "title": "清单外场景引用 legacy id → fail-loud",
+          "duration": 0.1822079999997186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝",
+          "status": "passed",
+          "title": "改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝",
+          "duration": 3.4671659999999065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录",
+          "status": "passed",
+          "title": "合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录",
+          "duration": 1.6882919999998194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 非 object 实体（原始值）在引用扫描时 fail-loud",
+          "status": "passed",
+          "title": "非 object 实体（原始值）在引用扫描时 fail-loud",
+          "duration": 0.33116599999993923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 item 私有脚本可达 + canonical label → 报告确定性 label 与 path",
+          "status": "passed",
+          "title": "item 私有脚本可达 + canonical label → 报告确定性 label 与 path",
+          "duration": 4.469625000000178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 canonical 但不可达（无 item 选择边）→ 零 item root 拒绝",
+          "status": "passed",
+          "title": "canonical 但不可达（无 item 选择边）→ 零 item root 拒绝",
+          "duration": 0.3886670000001686,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）",
+          "status": "passed",
+          "title": "非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）",
+          "duration": 2.624749999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告",
+          "status": "passed",
+          "title": "机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告",
+          "duration": 0.25954100000035396,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 opaque 摘要名节点可达但仍存活 → 永久门禁拒绝",
+          "status": "passed",
+          "title": "opaque 摘要名节点可达但仍存活 → 永久门禁拒绝",
+          "duration": 0.155666999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 同一地址重复注册（同场景重复出现）→ 节点重复拒绝",
+          "status": "passed",
+          "title": "同一地址重复注册（同场景重复出现）→ 节点重复拒绝",
+          "duration": 0.1708330000001297,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）",
+          "status": "passed",
+          "title": "selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）",
+          "duration": 3.5952080000001843,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud",
+          "status": "passed",
+          "title": "选择图成环 → fail-loud",
+          "duration": 4.054666999999881,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869643476,
+      "endTime": 1790869643508.0547,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O5B7cb/packages/migrate/src/pal-world-sprites.glm-o.test.ts"
+    }
+  ]
+}

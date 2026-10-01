@@ -1,8 +1,8 @@
 {
-  "total": 62,
-  "uniqueIds": 62,
-  "distinctTargets": 60,
-  "rule": "三态（counter-judge.mjs 唯一判据：相内状态政策/精确 spec.test.target/collection-runtime 总门/正常退出/signal/spawn/raw Unhandled 拒收）；62 枚全部按新 judge 重采",
+  "total": 69,
+  "uniqueIds": 69,
+  "distinctTargets": 67,
+  "rule": "三态（counter-judge.mjs 唯一判据）；62 枚重采 + 7 枚新批次（O09-CC14~18、O08-CC10/11）",
   "retired": ["O08-CC8", "O08-CC9", "O09-CC13"],
   "retiredNote": "目标测试已删，三枚退役仅保留历史证据目录",
   "counters": [
@@ -987,6 +987,62 @@
       "patchRebuiltAndVerified": true
     },
     {
+      "id": "O08-CC10",
+      "control": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0",
+        "failureMessageHead": "AssertionError: expected { level: 1, maxHP: 10, maxMP: 8, …(5) } to deeply equal { level: +0, maxHP: +0, …(6) }",
+        "executed": 7
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+        "mutated": "52facc55032c55c95bb5b2eb9adfae143952ecc368cd0ef95258de580f26a873",
+        "restored": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+        "rebuilt": "52facc55032c55c95bb5b2eb9adfae143952ecc368cd0ef95258de580f26a873"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O08-CC11",
+      "control": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 applyHiddenExp：隐藏经验池 全零计数 → 空报告且不动角色",
+        "failureMessageHead": "AssertionError: expected [ { characterId: 'hero', …(2) }, …(6) ] to deeply equal []",
+        "executed": 9
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+        "mutated": "90249b487bf40c5cbaf7295db2e9676795168b5215733219ce371c965d5260f3",
+        "restored": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+        "rebuilt": "90249b487bf40c5cbaf7295db2e9676795168b5215733219ce371c965d5260f3"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
       "id": "O08-CC2",
       "control": {
         "exitCode": 0,
@@ -1263,6 +1319,146 @@
         "mutated": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9",
         "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
         "rebuilt": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC14",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 缺 id / day 无自定义 / 未知 id → 恒等乘色",
+        "failureMessageHead": "AssertionError: expected [ +0, +0, +0 ] to deeply equal [ 255, 255, 255 ]",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+        "mutated": "74c4dacac09b786db98eaffe34abc00e0c3f479b1086552902159a35317c0c6c",
+        "restored": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+        "rebuilt": "74c4dacac09b786db98eaffe34abc00e0c3f479b1086552902159a35317c0c6c"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC15",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 lerpTint：t 夹取与分量四舍五入 t<0 取 from、t>1 取 to、t∈[0,1] 线性",
+        "failureMessageHead": "AssertionError: expected [ -100, -200, -50 ] to deeply equal [ +0, +0, +0 ]",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+        "mutated": "297b831d6b226f7a8e95144afd092fd80e12901598a9542fcba0b8f99c39b1e1",
+        "restored": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+        "rebuilt": "297b831d6b226f7a8e95144afd092fd80e12901598a9542fcba0b8f99c39b1e1"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC16",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+        "failureMessageHead": "AssertionError: expected [ 'base', 'enemy', 'player' ] to deeply equal [ 'base', 'player', 'enemy' ]",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1d5a0e3ee89618713fa4b7a50f0fe8df7f89d339377dbc44326c4208ab7d003c",
+        "mutated": "311fd72f36aac12771d7d8f6a164fe57db558ea92d4dbbc9c2a77e28c38fab58",
+        "restored": "1d5a0e3ee89618713fa4b7a50f0fe8df7f89d339377dbc44326c4208ab7d003c",
+        "rebuilt": "311fd72f36aac12771d7d8f6a164fe57db558ea92d4dbbc9c2a77e28c38fab58"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC17",
+      "control": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 7
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e",
+        "mutated": "26d17f38190332f6762a8496da4b6ed4c2da155c38136f9db149510976c6922a",
+        "restored": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e",
+        "rebuilt": "26d17f38190332f6762a8496da4b6ed4c2da155c38136f9db149510976c6922a"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC18",
+      "control": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 菱形格几何：唯一反解与 height 语义 pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
+        "failureMessageHead": "AssertionError: expected { col: 1, row: 3 } to deeply equal { col: 3, row: 1 }",
+        "executed": 9
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6",
+        "mutated": "693ed867851aa96fa3d2a3258631db8cf1062b81f95c037fc69b070d3f1d5737",
+        "restored": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6",
+        "rebuilt": "693ed867851aa96fa3d2a3258631db8cf1062b81f95c037fc69b070d3f1d5737"
       },
       "patchRebuiltAndVerified": true
     },

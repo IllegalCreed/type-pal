@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC10",
+  "contract": "applyLevelGrowth 零级不动",
+  "target": {
+    "file": "src/rewards-lifecycle.glm-o.test.ts",
+    "title": "负级/零级 → 不改任何属性，delta 全 0"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 7,
+    "passed": 6,
+    "failed": 1,
+    "failedFullName": "O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0",
+    "failureMessageHead": "AssertionError: expected { level: 1, maxHP: 10, maxMP: 8, …(5) } to deeply equal { level: +0, maxHP: +0, …(6) }"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+    "mutated": "52facc55032c55c95bb5b2eb9adfae143952ecc368cd0ef95258de580f26a873",
+    "restored": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+    "rebuilt": "52facc55032c55c95bb5b2eb9adfae143952ecc368cd0ef95258de580f26a873"
+  },
+  "patchRebuiltAndVerified": true
+}

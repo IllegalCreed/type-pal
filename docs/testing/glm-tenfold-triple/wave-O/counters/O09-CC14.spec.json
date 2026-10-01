@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC14",
+  "contract": "resolveAmbienceTint 未知 id 兜底恒等",
+  "package": "content",
+  "test": {
+    "file": "src/ambience-skill.glm-o.test.ts",
+    "title": "缺 id / day 无自定义 / 未知 id → 恒等乘色"
+  },
+  "mutation": {
+    "file": "src/ambience.ts",
+    "find": "  return ambiences.find((a) => a.id === id)?.tint ?? AMBIENCE_IDENTITY",
+    "replace": "  return ambiences.find((a) => a.id === id)?.tint ?? [0, 0, 0]"
+  }
+}

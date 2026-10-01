@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/ambience.ts b/packages/content/src/ambience.ts
+index c2953c286..87a14e70b 100644
+--- a/packages/content/src/ambience.ts
++++ b/packages/content/src/ambience.ts
+@@ -43 +43 @@ export function lerpTint(
+-  const k = t < 0 ? 0 : t > 1 ? 1 : t
++  const k = t

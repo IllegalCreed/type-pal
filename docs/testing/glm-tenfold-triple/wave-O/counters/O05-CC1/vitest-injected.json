@@ -1,1 +1,312 @@
-{"numTotalTestSuites":6,"numPassedTestSuites":4,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":27,"numPassedTests":26,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869639085,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],"fullName":"O05 applyPalItemOverlays：隐蛊与 puppet 轴 item141 被覆写为全队隐形 3 回合且 battleOnly","status":"passed","title":"item141 被覆写为全队隐形 3 回合且 battleOnly","duration":1.1623749999999973,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],"fullName":"O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 141 物品结构化克隆返回（输入不被共享引用）","status":"passed","title":"非 141 物品结构化克隆返回（输入不被共享引用）","duration":1.0550000000000637,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],"fullName":"O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）","status":"failed","title":"puppet 状态效果被强制 battleOnly（无论原值）","duration":5.803125000000023,"failureMessages":["AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/packages/migrate/src/pal-supply-guards.glm-o.test.ts:81:34\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],"fullName":"O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 puppet 效果不注入 battleOnly","status":"passed","title":"非 puppet 效果不注入 battleOnly","duration":0.32766700000001947,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],"fullName":"O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 无消息的 generated 物品整批跳过（不触碰 current）","status":"passed","title":"无消息的 generated 物品整批跳过（不触碰 current）","duration":0.3000839999999698,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],"fullName":"O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 current 缺同 id 物品 → fail-loud","status":"passed","title":"current 缺同 id 物品 → fail-loud","duration":0.36800000000005184,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],"fullName":"O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 craft 数量漂移与 recipes 漂移分别 fail-loud","status":"passed","title":"craft 数量漂移与 recipes 漂移分别 fail-loud","duration":0.3360410000000229,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],"fullName":"O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 非法消息（空白/未修剪）→ fail-loud","status":"passed","title":"非法消息（空白/未修剪）→ fail-loud","duration":0.15916600000002745,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],"fullName":"O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 resource pool 漂移轴：数量/结构/消息逐轴拒绝","status":"passed","title":"resource pool 漂移轴：数量/结构/消息逐轴拒绝","duration":0.5441250000000082,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],"fullName":"O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 generated/current 内部重复 id → fail-loud","status":"passed","title":"generated/current 内部重复 id → fail-loud","duration":0.11591599999997015,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],"fullName":"O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 入口缺 0x06 门 → fail-loud","status":"passed","title":"入口缺 0x06 门 → fail-loud","duration":0.2787909999999556,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],"fullName":"O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x06 门参数非法（非整数/第三操作数非零）→ fail-loud","status":"passed","title":"0x06 门参数非法（非整数/第三操作数非零）→ fail-loud","duration":0.13450000000000273,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],"fullName":"O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 分支引用越界 / 未以 end 结束 / 未知指令逐轴拒绝","status":"passed","title":"分支引用越界 / 未以 end 结束 / 未知指令逐轴拒绝","duration":0.20433399999990343,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],"fullName":"O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝","status":"passed","title":"0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝","duration":0.20862499999998363,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],"fullName":"O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 合法 0x30/0x1b/0x1c 效果与 top/narration 风格进入结构化脚本","status":"passed","title":"合法 0x30/0x1b/0x1c 效果与 top/narration 风格进入结构化脚本","duration":0.13437499999997726,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],"fullName":"O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 applyPalCasualtyOverlays：入口缺失 / 角色缺 battler / locale 键漂移 逐轴拒绝","status":"passed","title":"applyPalCasualtyOverlays：入口缺失 / 角色缺 battler / locale 键漂移 逐轴拒绝","duration":0.15770900000006804,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],"fullName":"O05 buildPalItemMessageSources / translate*：窄消息形状漂移 Store0 数量 ≠1 / item 定义缺失或不可用 → fail-loud","status":"passed","title":"Store0 数量 ≠1 / item 定义缺失或不可用 → fail-loud","duration":0.274167000000034,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],"fullName":"O05 buildPalItemMessageSources / translate*：窄消息形状漂移 显式 label 与数组地址不一致 → label 索引拒绝","status":"passed","title":"显式 label 与数组地址不一致 → label 索引拒绝","duration":0.06533400000000711,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],"fullName":"O05 buildPalItemMessageSources / translate*：窄消息形状漂移 craft 形状漂移：itemId 非法 / 失败块缺失 / 产物缺失 逐轴返回 undefined","status":"passed","title":"craft 形状漂移：itemId 非法 / 失败块缺失 / 产物缺失 逐轴返回 undefined","duration":0.1372920000000022,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],"fullName":"O05 buildPalItemMessageSources / translate*：窄消息形状漂移 pool 形状漂移：0x34 缺 end / 失败地址非法 / 失败块非旁白 逐轴返回 undefined","status":"passed","title":"pool 形状漂移：0x34 缺 end / 失败地址非法 / 失败块非旁白 逐轴返回 undefined","duration":0.1209160000000793,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],"fullName":"O05 buildPalItemMessageSources / translate*：窄消息形状漂移 applyPalItemMessageSources：current 缺用途 → fail-loud","status":"passed","title":"applyPalItemMessageSources：current 缺用途 → fail-loud","duration":0.09299999999996089,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],"fullName":"O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同","status":"passed","title":"alchemy 正控通过并校验 112/72 buyPrice=0 合同","duration":0.2738329999999678,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],"fullName":"O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 源 Store0 数量/零奖励 轴拒绝","status":"passed","title":"源 Store0 数量/零奖励 轴拒绝","duration":0.17145899999991343,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],"fullName":"O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 item268/270 结构漂移轴（recipes 桶、消息、资源池数量）逐轴拒绝","status":"passed","title":"item268/270 结构漂移轴（recipes 桶、消息、资源池数量）逐轴拒绝","duration":0.17533300000002328,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],"fullName":"O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝","status":"passed","title":"发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝","duration":0.5575000000000045,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],"fullName":"O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝","status":"passed","title":"openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝","duration":0.60775000000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],"fullName":"O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）","status":"passed","title":"buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）","duration":1.4461659999999483,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869639784,"endTime":1790869639800.446,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/packages/migrate/src/pal-supply-guards.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 27,
+  "numPassedTests": 26,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869639085,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],
+          "fullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 item141 被覆写为全队隐形 3 回合且 battleOnly",
+          "status": "passed",
+          "title": "item141 被覆写为全队隐形 3 回合且 battleOnly",
+          "duration": 1.1623749999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],
+          "fullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 141 物品结构化克隆返回（输入不被共享引用）",
+          "status": "passed",
+          "title": "非 141 物品结构化克隆返回（输入不被共享引用）",
+          "duration": 1.0550000000000637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],
+          "fullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）",
+          "status": "failed",
+          "title": "puppet 状态效果被强制 battleOnly（无论原值）",
+          "duration": 5.803125000000023,
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/packages/migrate/src/pal-supply-guards.glm-o.test.ts:81:34\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalItemOverlays：隐蛊与 puppet 轴"],
+          "fullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 puppet 效果不注入 battleOnly",
+          "status": "passed",
+          "title": "非 puppet 效果不注入 battleOnly",
+          "duration": 0.32766700000001947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],
+          "fullName": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 无消息的 generated 物品整批跳过（不触碰 current）",
+          "status": "passed",
+          "title": "无消息的 generated 物品整批跳过（不触碰 current）",
+          "duration": 0.3000839999999698,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],
+          "fullName": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 current 缺同 id 物品 → fail-loud",
+          "status": "passed",
+          "title": "current 缺同 id 物品 → fail-loud",
+          "duration": 0.36800000000005184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],
+          "fullName": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 craft 数量漂移与 recipes 漂移分别 fail-loud",
+          "status": "passed",
+          "title": "craft 数量漂移与 recipes 漂移分别 fail-loud",
+          "duration": 0.3360410000000229,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],
+          "fullName": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 非法消息（空白/未修剪）→ fail-loud",
+          "status": "passed",
+          "title": "非法消息（空白/未修剪）→ fail-loud",
+          "duration": 0.15916600000002745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],
+          "fullName": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 resource pool 漂移轴：数量/结构/消息逐轴拒绝",
+          "status": "passed",
+          "title": "resource pool 漂移轴：数量/结构/消息逐轴拒绝",
+          "duration": 0.5441250000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步"],
+          "fullName": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 generated/current 内部重复 id → fail-loud",
+          "status": "passed",
+          "title": "generated/current 内部重复 id → fail-loud",
+          "duration": 0.11591599999997015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],
+          "fullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 入口缺 0x06 门 → fail-loud",
+          "status": "passed",
+          "title": "入口缺 0x06 门 → fail-loud",
+          "duration": 0.2787909999999556,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],
+          "fullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x06 门参数非法（非整数/第三操作数非零）→ fail-loud",
+          "status": "passed",
+          "title": "0x06 门参数非法（非整数/第三操作数非零）→ fail-loud",
+          "duration": 0.13450000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],
+          "fullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 分支引用越界 / 未以 end 结束 / 未知指令逐轴拒绝",
+          "status": "passed",
+          "title": "分支引用越界 / 未以 end 结束 / 未知指令逐轴拒绝",
+          "duration": 0.20433399999990343,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],
+          "fullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
+          "status": "passed",
+          "title": "0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
+          "duration": 0.20862499999998363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],
+          "fullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 合法 0x30/0x1b/0x1c 效果与 top/narration 风格进入结构化脚本",
+          "status": "passed",
+          "title": "合法 0x30/0x1b/0x1c 效果与 top/narration 风格进入结构化脚本",
+          "duration": 0.13437499999997726,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴"],
+          "fullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 applyPalCasualtyOverlays：入口缺失 / 角色缺 battler / locale 键漂移 逐轴拒绝",
+          "status": "passed",
+          "title": "applyPalCasualtyOverlays：入口缺失 / 角色缺 battler / locale 键漂移 逐轴拒绝",
+          "duration": 0.15770900000006804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],
+          "fullName": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 Store0 数量 ≠1 / item 定义缺失或不可用 → fail-loud",
+          "status": "passed",
+          "title": "Store0 数量 ≠1 / item 定义缺失或不可用 → fail-loud",
+          "duration": 0.274167000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],
+          "fullName": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 显式 label 与数组地址不一致 → label 索引拒绝",
+          "status": "passed",
+          "title": "显式 label 与数组地址不一致 → label 索引拒绝",
+          "duration": 0.06533400000000711,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],
+          "fullName": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 craft 形状漂移：itemId 非法 / 失败块缺失 / 产物缺失 逐轴返回 undefined",
+          "status": "passed",
+          "title": "craft 形状漂移：itemId 非法 / 失败块缺失 / 产物缺失 逐轴返回 undefined",
+          "duration": 0.1372920000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],
+          "fullName": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 pool 形状漂移：0x34 缺 end / 失败地址非法 / 失败块非旁白 逐轴返回 undefined",
+          "status": "passed",
+          "title": "pool 形状漂移：0x34 缺 end / 失败地址非法 / 失败块非旁白 逐轴返回 undefined",
+          "duration": 0.1209160000000793,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 buildPalItemMessageSources / translate*：窄消息形状漂移"],
+          "fullName": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 applyPalItemMessageSources：current 缺用途 → fail-loud",
+          "status": "passed",
+          "title": "applyPalItemMessageSources：current 缺用途 → fail-loud",
+          "duration": 0.09299999999996089,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],
+          "fullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同",
+          "status": "passed",
+          "title": "alchemy 正控通过并校验 112/72 buyPrice=0 合同",
+          "duration": 0.2738329999999678,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],
+          "fullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 源 Store0 数量/零奖励 轴拒绝",
+          "status": "passed",
+          "title": "源 Store0 数量/零奖励 轴拒绝",
+          "duration": 0.17145899999991343,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],
+          "fullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 item268/270 结构漂移轴（recipes 桶、消息、资源池数量）逐轴拒绝",
+          "status": "passed",
+          "title": "item268/270 结构漂移轴（recipes 桶、消息、资源池数量）逐轴拒绝",
+          "duration": 0.17533300000002328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],
+          "fullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝",
+          "status": "passed",
+          "title": "发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝",
+          "duration": 0.5575000000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],
+          "fullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝",
+          "status": "passed",
+          "title": "openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝",
+          "duration": 0.60775000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴"],
+          "fullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）",
+          "status": "passed",
+          "title": "buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）",
+          "duration": 1.4461659999999483,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869639784,
+      "endTime": 1790869639800.446,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-XZ7Fot/packages/migrate/src/pal-supply-guards.glm-o.test.ts"
+    }
+  ]
+}

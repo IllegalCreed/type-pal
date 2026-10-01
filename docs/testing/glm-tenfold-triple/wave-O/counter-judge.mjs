@@ -55,7 +55,9 @@ export function assertNoCollectionErrors(json, phase) {
   if (json.numRuntimeErrorTestSuites > 0)
     throw new Error(`${phase} numRuntimeErrorTestSuites=${json.numRuntimeErrorTestSuites} 拒收`)
   if (json.numPendingTestSuites > 0)
-    throw new Error(`${phase} numPendingTestSuites=${json.numPendingTestSuites}（pending/todo suite）拒收`)
+    throw new Error(
+      `${phase} numPendingTestSuites=${json.numPendingTestSuites}（pending/todo suite）拒收`,
+    )
   if (json.numTODOTests > 0) throw new Error(`${phase} numTODOTests=${json.numTODOTests} 拒收`)
   const suites = json.testResults ?? []
   // Vitest 的 numPassed/numFailedTestSuites 是全 workspace 计数（可 > 单文件 testResults 长度，
@@ -110,8 +112,7 @@ export function judgePhase(run, spec, phase, ownerPackage) {
   if (!VALID_EXITS[phase].has(run.exitCode))
     throw new Error(`${phase} 非正常退出码 ${run.exitCode}（harness/环境失败）拒收`)
   for (const raw of [run.stdout, run.stderr]) {
-    if (hasUnhandledMarker(raw))
-      throw new Error(`${phase} raw 含未处理异常公告（Unhandled*）拒收`)
+    if (hasUnhandledMarker(raw)) throw new Error(`${phase} raw 含未处理异常公告（Unhandled*）拒收`)
   }
   const files = new Set(tests.map((t) => suffix2(t.file)))
   if (files.size !== 1)
@@ -123,8 +124,7 @@ export function judgePhase(run, spec, phase, ownerPackage) {
       throw new Error(`${phase} 须全绿：failed=${failed.length}（${failed[0]?.fullName}）`)
     return undefined
   }
-  if (failed.length !== 1)
-    throw new Error(`injected 须恰一红：failed=${failed.length}`)
+  if (failed.length !== 1) throw new Error(`injected 须恰一红：failed=${failed.length}`)
   const target = failed[0]
   const wantedSuffix = suffix2(`packages/${ownerPackage}/${spec.test.file}`)
   if (suffix2(target.file) !== wantedSuffix)
@@ -135,8 +135,6 @@ export function judgePhase(run, spec, phase, ownerPackage) {
     )
   const message = target.failureMessages[0] ?? ''
   if (!isBusinessAssertion(message))
-    throw new Error(
-      `红例非业务 AssertionError（未处理异常/崩溃拒收）: ${message.slice(0, 200)}`,
-    )
+    throw new Error(`红例非业务 AssertionError（未处理异常/崩溃拒收）: ${message.slice(0, 200)}`)
   return target
 }

@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/ambience.ts b/packages/content/src/ambience.ts
+index c2953c286..94790b436 100644
+--- a/packages/content/src/ambience.ts
++++ b/packages/content/src/ambience.ts
+@@ -34 +34 @@ export function resolveAmbienceTint(
+-  return ambiences.find((a) => a.id === id)?.tint ?? AMBIENCE_IDENTITY
++  return ambiences.find((a) => a.id === id)?.tint ?? [0, 0, 0]

@@ -1,0 +1,112 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 6,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790870062732,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0",
+          "status": "failed",
+          "title": "负级/零级 → 不改任何属性，delta 全 0",
+          "duration": 4.853916999999996,
+          "failureMessages": [
+            "AssertionError: expected { level: 1, maxHP: 10, maxMP: 8, …(5) } to deeply equal { level: +0, maxHP: +0, …(6) }\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/packages/content/src/rewards-lifecycle.glm-o.test.ts:30:21\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 每级固定+2 luck（无随机）；rng=0/1 区间上下界",
+          "status": "passed",
+          "title": "每级固定+2 luck（无随机）；rng=0/1 区间上下界",
+          "duration": 0.4497090000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 等级钳 MAX_LEVEL=99；属性钳 STAT_CAP=999",
+          "status": "passed",
+          "title": "等级钳 MAX_LEVEL=99；属性钳 STAT_CAP=999",
+          "duration": 0.193333999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyLevelGrowth：钳位与确定性区间"],
+          "fullName": "O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机",
+          "status": "passed",
+          "title": "多级累积：每级独立掷随机",
+          "duration": 0.1635829999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 normalizeEntityLifecycleTable：引用闭包与不可变"],
+          "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 合法表深拷贝返回（输入 entry 不被别名共享）",
+          "status": "passed",
+          "title": "合法表深拷贝返回（输入 entry 不被别名共享）",
+          "duration": 0.3004169999999817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 normalizeEntityLifecycleTable：引用闭包与不可变"],
+          "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 undefined 表 → 空表（缺表即正常）",
+          "status": "passed",
+          "title": "undefined 表 → 空表（缺表即正常）",
+          "duration": 0.06004200000000992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 normalizeEntityLifecycleTable：引用闭包与不可变"],
+          "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断",
+          "status": "passed",
+          "title": "未知 scene id / 未知 entity id → 精确诊断",
+          "duration": 0.45633300000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790870062936,
+      "endTime": 1790870062942.4563,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-b533uK/packages/content/src/rewards-lifecycle.glm-o.test.ts"
+    }
+  ]
+}

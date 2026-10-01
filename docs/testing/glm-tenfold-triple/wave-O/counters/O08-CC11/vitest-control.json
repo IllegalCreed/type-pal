@@ -1,0 +1,130 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790870071181,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 applyHiddenExp：隐藏经验池"],
+          "fullName": "O08 applyHiddenExp：隐藏经验池 全零计数 → 空报告且不动角色",
+          "status": "passed",
+          "title": "全零计数 → 空报告且不动角色",
+          "duration": 0.9834160000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyHiddenExp：隐藏经验池"],
+          "fullName": "O08 applyHiddenExp：隐藏经验池 单属性全量入池：比例分配 = 100%、×2 加成、阈值升级循环",
+          "status": "passed",
+          "title": "单属性全量入池：比例分配 = 100%、×2 加成、阈值升级循环",
+          "duration": 0.30237500000001205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyHiddenExp：隐藏经验池"],
+          "fullName": "O08 applyHiddenExp：隐藏经验池 多属性按计数比例分配；未计数属性池初始化但零经验",
+          "status": "passed",
+          "title": "多属性按计数比例分配；未计数属性池初始化但零经验",
+          "duration": 0.284417000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyHiddenExp：隐藏经验池"],
+          "fullName": "O08 applyHiddenExp：隐藏经验池 池经验 WORD 截断（exp & 0xffff）",
+          "status": "passed",
+          "title": "池经验 WORD 截断（exp & 0xffff）",
+          "duration": 0.12883399999998346,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyHiddenExp：隐藏经验池"],
+          "fullName": "O08 applyHiddenExp：隐藏经验池 rng=1 上界：每级 inc=2",
+          "status": "passed",
+          "title": "rng=1 上界：每级 inc=2",
+          "duration": 0.08020899999999642,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 菱形格几何：唯一反解与 height 语义"],
+          "fullName": "O09 菱形格几何：唯一反解与 height 语义 gridToPixel 公式 x=16(col−row), y=8(col+row)",
+          "status": "passed",
+          "title": "gridToPixel 公式 x=16(col−row), y=8(col+row)",
+          "duration": 0.1524169999999856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 菱形格几何：唯一反解与 height 语义"],
+          "fullName": "O09 菱形格几何：唯一反解与 height 语义 pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
+          "status": "passed",
+          "title": "pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
+          "duration": 0.18625000000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 菱形格几何：唯一反解与 height 语义"],
+          "fullName": "O09 菱形格几何：唯一反解与 height 语义 height 不投影进格坐标；spriteScreenY 每级 -16px",
+          "status": "passed",
+          "title": "height 不投影进格坐标；spriteScreenY 每级 -16px",
+          "duration": 0.08941599999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 菱形格几何：唯一反解与 height 语义"],
+          "fullName": "O09 菱形格几何：唯一反解与 height 语义 pixelDeltaToGridDelta 保留小数（碎步位移不取整）",
+          "status": "passed",
+          "title": "pixelDeltaToGridDelta 保留小数（碎步位移不取整）",
+          "duration": 0.39033299999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790870071367,
+      "endTime": 1790870071369.3904,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-dLRBoO/packages/content/src/hidden-exp-grid.glm-o.test.ts"
+    }
+  ]
+}

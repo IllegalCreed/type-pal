@@ -1,1 +1,160 @@
-{"numTotalTestSuites":6,"numPassedTestSuites":6,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":12,"numPassedTests":12,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869869470,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O08 collectPoisonDefinitionReferences：关系边收集"],"fullName":"O08 collectPoisonDefinitionReferences：关系边收集 lethalWith 与 counters 各产一条带精确 where 的引用","status":"passed","title":"lethalWith 与 counters 各产一条带精确 where 的引用","duration":1.6551670000000058,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 collectPoisonDefinitionReferences：关系边收集"],"fullName":"O08 collectPoisonDefinitionReferences：关系边收集 无关系毒不产引用","status":"passed","title":"无关系毒不产引用","duration":1.633291000000014,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 poisonCurableBy：可解度秩"],"fullName":"O08 poisonCurableBy：可解度秩 common 可被任一档解；incurable 不可被 common/severe 解","status":"passed","title":"common 可被任一档解；incurable 不可被 common/severe 解","duration":0.40166599999997743,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 applyPoisonSelf：三段链"],"fullName":"O08 applyPoisonSelf：三段链 身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）","status":"passed","title":"身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）","duration":0.3007090000000119,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 applyPoisonSelf：三段链"],"fullName":"O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）","status":"passed","title":"身中 lethalWith 毒 → hp 0 暴毙（lethal）","duration":0.09645800000001259,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 applyPoisonSelf：三段链"],"fullName":"O08 applyPoisonSelf：三段链 无关系 → 纯加毒（applied）；缺表同路径","status":"passed","title":"无关系 → 纯加毒（applied）；缺表同路径","duration":0.17775000000000318,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O08 applyPoisonSelf：三段链"],"fullName":"O08 applyPoisonSelf：三段链 缺 defs 时 counters/lethalWith 关系不可判定 → 纯加毒","status":"passed","title":"缺 defs 时 counters/lethalWith 关系不可判定 → 纯加毒","duration":0.12179199999999923,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 parseRichText：颜色标记解析"],"fullName":"O09 parseRichText：颜色标记解析 无标记 / 空串 → 单 span 非空数组","status":"passed","title":"无标记 / 空串 → 单 span 非空数组","duration":0.3136250000000018,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 parseRichText：颜色标记解析"],"fullName":"O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留","status":"passed","title":"成对颜色标记切分 span 并带 color；前后纯文本保留","duration":0.5321250000000077,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 parseRichText：颜色标记解析"],"fullName":"O09 parseRichText：颜色标记解析 未闭合标记按纯文本；未知颜色不识别","status":"passed","title":"未闭合标记按纯文本；未知颜色不识别","duration":0.15541699999999992,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 parseRichText：颜色标记解析"],"fullName":"O09 parseRichText：颜色标记解析 多段颜色标记顺序解析","status":"passed","title":"多段颜色标记顺序解析","duration":0.14145800000000008,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 lookupText：locale 缺键合同"],"fullName":"O09 lookupText：locale 缺键合同 命中返回文本；缺键原样返回 textId（调用方可见诊断）","status":"passed","title":"命中返回文本；缺键原样返回 textId（调用方可见诊断）","duration":0.07233299999998621,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869869669,"endTime":1790869869676.0723,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-Kp3VMw/packages/content/src/poison.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 12,
+  "numPassedTests": 12,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869869470,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 collectPoisonDefinitionReferences：关系边收集"],
+          "fullName": "O08 collectPoisonDefinitionReferences：关系边收集 lethalWith 与 counters 各产一条带精确 where 的引用",
+          "status": "passed",
+          "title": "lethalWith 与 counters 各产一条带精确 where 的引用",
+          "duration": 1.6551670000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 collectPoisonDefinitionReferences：关系边收集"],
+          "fullName": "O08 collectPoisonDefinitionReferences：关系边收集 无关系毒不产引用",
+          "status": "passed",
+          "title": "无关系毒不产引用",
+          "duration": 1.633291000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 poisonCurableBy：可解度秩"],
+          "fullName": "O08 poisonCurableBy：可解度秩 common 可被任一档解；incurable 不可被 common/severe 解",
+          "status": "passed",
+          "title": "common 可被任一档解；incurable 不可被 common/severe 解",
+          "duration": 0.40166599999997743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyPoisonSelf：三段链"],
+          "fullName": "O08 applyPoisonSelf：三段链 身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）",
+          "status": "passed",
+          "title": "身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）",
+          "duration": 0.3007090000000119,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyPoisonSelf：三段链"],
+          "fullName": "O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）",
+          "status": "passed",
+          "title": "身中 lethalWith 毒 → hp 0 暴毙（lethal）",
+          "duration": 0.09645800000001259,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyPoisonSelf：三段链"],
+          "fullName": "O08 applyPoisonSelf：三段链 无关系 → 纯加毒（applied）；缺表同路径",
+          "status": "passed",
+          "title": "无关系 → 纯加毒（applied）；缺表同路径",
+          "duration": 0.17775000000000318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyPoisonSelf：三段链"],
+          "fullName": "O08 applyPoisonSelf：三段链 缺 defs 时 counters/lethalWith 关系不可判定 → 纯加毒",
+          "status": "passed",
+          "title": "缺 defs 时 counters/lethalWith 关系不可判定 → 纯加毒",
+          "duration": 0.12179199999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：颜色标记解析"],
+          "fullName": "O09 parseRichText：颜色标记解析 无标记 / 空串 → 单 span 非空数组",
+          "status": "passed",
+          "title": "无标记 / 空串 → 单 span 非空数组",
+          "duration": 0.3136250000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：颜色标记解析"],
+          "fullName": "O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留",
+          "status": "passed",
+          "title": "成对颜色标记切分 span 并带 color；前后纯文本保留",
+          "duration": 0.5321250000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：颜色标记解析"],
+          "fullName": "O09 parseRichText：颜色标记解析 未闭合标记按纯文本；未知颜色不识别",
+          "status": "passed",
+          "title": "未闭合标记按纯文本；未知颜色不识别",
+          "duration": 0.15541699999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：颜色标记解析"],
+          "fullName": "O09 parseRichText：颜色标记解析 多段颜色标记顺序解析",
+          "status": "passed",
+          "title": "多段颜色标记顺序解析",
+          "duration": 0.14145800000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 lookupText：locale 缺键合同"],
+          "fullName": "O09 lookupText：locale 缺键合同 命中返回文本；缺键原样返回 textId（调用方可见诊断）",
+          "status": "passed",
+          "title": "命中返回文本；缺键原样返回 textId（调用方可见诊断）",
+          "duration": 0.07233299999998621,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869869669,
+      "endTime": 1790869869676.0723,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-Kp3VMw/packages/content/src/poison.glm-o.test.ts"
+    }
+  ]
+}

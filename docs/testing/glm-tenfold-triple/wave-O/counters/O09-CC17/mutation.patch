@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/entity-lifecycle.ts b/packages/content/src/entity-lifecycle.ts
+index 7b482686b..6f279f181 100644
+--- a/packages/content/src/entity-lifecycle.ts
++++ b/packages/content/src/entity-lifecycle.ts
+@@ -101 +101 @@ export function normalizeEntityLifecycleTable(
+-      if (!knownEntities.has(entityId))
++      if (false && !knownEntities.has(entityId))

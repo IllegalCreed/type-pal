@@ -1,1 +1,180 @@
-{"numTotalTestSuites":8,"numPassedTestSuites":8,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":14,"numPassedTests":14,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869870693,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O09 validateShops / shopBuy / shopSell / sellableItems"],"fullName":"O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝","status":"passed","title":"非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝","duration":1.216875000000016,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateShops / shopBuy / shopSell / sellableItems"],"fullName":"O09 validateShops / shopBuy / shopSell / sellableItems shopBuy：钱不够 null；成功扣钱入包","status":"passed","title":"shopBuy：钱不够 null；成功扣钱入包","duration":0.4522919999999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateShops / shopBuy / shopSell / sellableItems"],"fullName":"O09 validateShops / shopBuy / shopSell / sellableItems shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目","status":"passed","title":"shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目","duration":0.19870800000001054,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateShops / shopBuy / shopSell / sellableItems"],"fullName":"O09 validateShops / shopBuy / shopSell / sellableItems sellableItems 过滤 count=0 与不可卖","status":"passed","title":"sellableItems 过滤 count=0 与不可卖","duration":0.08449999999999136,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 spriteDefinitionFrameDemand / FrameIndices"],"fullName":"O09 spriteDefinitionFrameDemand / FrameIndices directional 帧需求 = framesPerDir*4 + poses 绝对帧","status":"passed","title":"directional 帧需求 = framesPerDir*4 + poses 绝对帧","duration":0.11775000000000091,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 spriteDefinitionFrameDemand / FrameIndices"],"fullName":"O09 spriteDefinitionFrameDemand / FrameIndices static 帧需求 = 1","status":"passed","title":"static 帧需求 = 1","duration":0.04924999999997226,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 validateEnemyTeamStructure：槽位形状"],"fullName":"O09 validateEnemyTeamStructure：槽位形状 非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法","status":"passed","title":"非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法","duration":0.511874999999975,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 checkRuntimeScenes：运行态场景入口"],"fullName":"O09 checkRuntimeScenes：运行态场景入口 非法场景（entry 缺 facing）拒绝；合法最小场景通过","status":"passed","title":"非法场景（entry 缺 facing）拒绝；合法最小场景通过","duration":0.5432079999999928,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 checkThrowSpec：投掷规格边界"],"fullName":"O09 checkThrowSpec：投掷规格边界 effects 空 / target 非法 逐轴拒绝","status":"passed","title":"effects 空 / target 非法 逐轴拒绝","duration":0.4906670000000304,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 checkThrowSpec：投掷规格边界"],"fullName":"O09 checkThrowSpec：投掷规格边界 presentation 非 magic 拒绝","status":"passed","title":"presentation 非 magic 拒绝","duration":0.10741600000000062,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 resolveDialogueIdentity / collectCommandTargetReferences"],"fullName":"O09 resolveDialogueIdentity / collectCommandTargetReferences 身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空","status":"passed","title":"身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空","duration":0.2691249999999741,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 resolveDialogueIdentity / collectCommandTargetReferences"],"fullName":"O09 resolveDialogueIdentity / collectCommandTargetReferences loadScene 命令收集目标场景引用","status":"passed","title":"loadScene 命令收集目标场景引用","duration":0.2675830000000019,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 buildWorld / instantiate：实例域边界"],"fullName":"O09 buildWorld / instantiate：实例域边界 instantiate：无 battler fail-loud；battler 角色取 baseStats","status":"passed","title":"instantiate：无 battler fail-loud；battler 角色取 baseStats","duration":0.10200000000003229,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 buildWorld / instantiate：实例域边界"],"fullName":"O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断","status":"passed","title":"buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断","duration":0.10816699999998036,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869871018,"endTime":1790869871023.1082,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-kYG6E2/packages/content/src/small-guards.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 8,
+  "numPassedTestSuites": 8,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 14,
+  "numPassedTests": 14,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869870693,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+          "status": "passed",
+          "title": "非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+          "duration": 1.216875000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems shopBuy：钱不够 null；成功扣钱入包",
+          "status": "passed",
+          "title": "shopBuy：钱不够 null；成功扣钱入包",
+          "duration": 0.4522919999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目",
+          "status": "passed",
+          "title": "shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目",
+          "duration": 0.19870800000001054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems sellableItems 过滤 count=0 与不可卖",
+          "status": "passed",
+          "title": "sellableItems 过滤 count=0 与不可卖",
+          "duration": 0.08449999999999136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 spriteDefinitionFrameDemand / FrameIndices"],
+          "fullName": "O09 spriteDefinitionFrameDemand / FrameIndices directional 帧需求 = framesPerDir*4 + poses 绝对帧",
+          "status": "passed",
+          "title": "directional 帧需求 = framesPerDir*4 + poses 绝对帧",
+          "duration": 0.11775000000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 spriteDefinitionFrameDemand / FrameIndices"],
+          "fullName": "O09 spriteDefinitionFrameDemand / FrameIndices static 帧需求 = 1",
+          "status": "passed",
+          "title": "static 帧需求 = 1",
+          "duration": 0.04924999999997226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateEnemyTeamStructure：槽位形状"],
+          "fullName": "O09 validateEnemyTeamStructure：槽位形状 非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法",
+          "status": "passed",
+          "title": "非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法",
+          "duration": 0.511874999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkRuntimeScenes：运行态场景入口"],
+          "fullName": "O09 checkRuntimeScenes：运行态场景入口 非法场景（entry 缺 facing）拒绝；合法最小场景通过",
+          "status": "passed",
+          "title": "非法场景（entry 缺 facing）拒绝；合法最小场景通过",
+          "duration": 0.5432079999999928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkThrowSpec：投掷规格边界"],
+          "fullName": "O09 checkThrowSpec：投掷规格边界 effects 空 / target 非法 逐轴拒绝",
+          "status": "passed",
+          "title": "effects 空 / target 非法 逐轴拒绝",
+          "duration": 0.4906670000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkThrowSpec：投掷规格边界"],
+          "fullName": "O09 checkThrowSpec：投掷规格边界 presentation 非 magic 拒绝",
+          "status": "passed",
+          "title": "presentation 非 magic 拒绝",
+          "duration": 0.10741600000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity / collectCommandTargetReferences"],
+          "fullName": "O09 resolveDialogueIdentity / collectCommandTargetReferences 身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空",
+          "status": "passed",
+          "title": "身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空",
+          "duration": 0.2691249999999741,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity / collectCommandTargetReferences"],
+          "fullName": "O09 resolveDialogueIdentity / collectCommandTargetReferences loadScene 命令收集目标场景引用",
+          "status": "passed",
+          "title": "loadScene 命令收集目标场景引用",
+          "duration": 0.2675830000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 buildWorld / instantiate：实例域边界"],
+          "fullName": "O09 buildWorld / instantiate：实例域边界 instantiate：无 battler fail-loud；battler 角色取 baseStats",
+          "status": "passed",
+          "title": "instantiate：无 battler fail-loud；battler 角色取 baseStats",
+          "duration": 0.10200000000003229,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 buildWorld / instantiate：实例域边界"],
+          "fullName": "O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断",
+          "status": "passed",
+          "title": "buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断",
+          "duration": 0.10816699999998036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869871018,
+      "endTime": 1790869871023.1082,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-kYG6E2/packages/content/src/small-guards.glm-o.test.ts"
+    }
+  ]
+}

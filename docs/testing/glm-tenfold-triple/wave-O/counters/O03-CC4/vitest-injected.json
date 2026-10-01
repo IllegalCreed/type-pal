@@ -1,1 +1,142 @@
-{"numTotalTestSuites":4,"numPassedTestSuites":2,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":9,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869577694,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）","status":"failed","title":"同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）","duration":10.181332999999995,"failureMessages":["AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/packages/migrate/src/pal-content-supply.glm-o.test.ts:38:50\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）","status":"passed","title":"源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）","duration":5.154125000000022,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）","status":"passed","title":"生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）","duration":1.1456660000001193,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）","status":"passed","title":"scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）","duration":3.1299169999999776,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 实体 spriteNum<=0 不产生场景实体","status":"passed","title":"实体 spriteNum<=0 不产生场景实体","duration":3.697458000000097,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门","status":"passed","title":"合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门","duration":42.22637499999996,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝","status":"passed","title":"覆写引用未知角色 → 发布门以 where: message 拒绝","duration":10.30074999999988,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写角色不在 equipableBy → 发布门拒绝","status":"passed","title":"覆写角色不在 equipableBy → 发布门拒绝","duration":12.456916000000092,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未注册战斗精灵 → 发布门拒绝","status":"passed","title":"覆写引用未注册战斗精灵 → 发布门拒绝","duration":8.009041000000025,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 合成 catalog 自检补充"],"fullName":"O03 合成 catalog 自检补充 sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）","status":"passed","title":"sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）","duration":0.80337499999996,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869578772,"endTime":1790869578869.8035,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/packages/migrate/src/pal-content-supply.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869577694,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+          "status": "failed",
+          "title": "同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+          "duration": 10.181332999999995,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/packages/migrate/src/pal-content-supply.glm-o.test.ts:38:50\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）",
+          "status": "passed",
+          "title": "源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）",
+          "duration": 5.154125000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）",
+          "status": "passed",
+          "title": "生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）",
+          "duration": 1.1456660000001193,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）",
+          "status": "passed",
+          "title": "scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）",
+          "duration": 3.1299169999999776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 实体 spriteNum<=0 不产生场景实体",
+          "status": "passed",
+          "title": "实体 spriteNum<=0 不产生场景实体",
+          "duration": 3.697458000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门",
+          "status": "passed",
+          "title": "合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门",
+          "duration": 42.22637499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝",
+          "status": "passed",
+          "title": "覆写引用未知角色 → 发布门以 where: message 拒绝",
+          "duration": 10.30074999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写角色不在 equipableBy → 发布门拒绝",
+          "status": "passed",
+          "title": "覆写角色不在 equipableBy → 发布门拒绝",
+          "duration": 12.456916000000092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未注册战斗精灵 → 发布门拒绝",
+          "status": "passed",
+          "title": "覆写引用未注册战斗精灵 → 发布门拒绝",
+          "duration": 8.009041000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 合成 catalog 自检补充"],
+          "fullName": "O03 合成 catalog 自检补充 sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）",
+          "status": "passed",
+          "title": "sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）",
+          "duration": 0.80337499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869578772,
+      "endTime": 1790869578869.8035,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-VAytMG/packages/migrate/src/pal-content-supply.glm-o.test.ts"
+    }
+  ]
+}

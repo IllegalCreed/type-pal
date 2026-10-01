@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC11",
+  "contract": "applyHiddenExp 零计数短路",
+  "target": {
+    "file": "src/hidden-exp-grid.glm-o.test.ts",
+    "title": "全零计数 → 空报告且不动角色"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 9,
+    "passed": 8,
+    "failed": 1,
+    "failedFullName": "O08 applyHiddenExp：隐藏经验池 全零计数 → 空报告且不动角色",
+    "failureMessageHead": "AssertionError: expected [ { characterId: 'hero', …(2) }, …(6) ] to deeply equal []"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+    "mutated": "90249b487bf40c5cbaf7295db2e9676795168b5215733219ce371c965d5260f3",
+    "restored": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
+    "rebuilt": "90249b487bf40c5cbaf7295db2e9676795168b5215733219ce371c965d5260f3"
+  },
+  "patchRebuiltAndVerified": true
+}

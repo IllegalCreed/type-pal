@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC17",
+  "contract": "normalizeEntityLifecycleTable 未知 entity",
+  "target": {
+    "file": "src/rewards-lifecycle.glm-o.test.ts",
+    "title": "未知 scene id / 未知 entity id → 精确诊断"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 7,
+    "passed": 6,
+    "failed": 1,
+    "failedFullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e",
+    "mutated": "26d17f38190332f6762a8496da4b6ed4c2da155c38136f9db149510976c6922a",
+    "restored": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e",
+    "rebuilt": "26d17f38190332f6762a8496da4b6ed4c2da155c38136f9db149510976c6922a"
+  },
+  "patchRebuiltAndVerified": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC14",
+  "contract": "resolveAmbienceTint 未知 id 兜底恒等",
+  "target": {
+    "file": "src/ambience-skill.glm-o.test.ts",
+    "title": "缺 id / day 无自定义 / 未知 id → 恒等乘色"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 缺 id / day 无自定义 / 未知 id → 恒等乘色",
+    "failureMessageHead": "AssertionError: expected [ +0, +0, +0 ] to deeply equal [ 255, 255, 255 ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+    "mutated": "74c4dacac09b786db98eaffe34abc00e0c3f479b1086552902159a35317c0c6c",
+    "restored": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
+    "rebuilt": "74c4dacac09b786db98eaffe34abc00e0c3f479b1086552902159a35317c0c6c"
+  },
+  "patchRebuiltAndVerified": true
+}

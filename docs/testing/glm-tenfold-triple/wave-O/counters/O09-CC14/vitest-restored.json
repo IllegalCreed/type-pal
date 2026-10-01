@@ -1,0 +1,160 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 12,
+  "numPassedTests": 12,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790870021469,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 resolveAmbienceTint：day/缺表/自定义白天"],
+          "fullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 缺 id / day 无自定义 / 未知 id → 恒等乘色",
+          "status": "passed",
+          "title": "缺 id / day 无自定义 / 未知 id → 恒等乘色",
+          "duration": 1.0607919999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveAmbienceTint：day/缺表/自定义白天"],
+          "fullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 非 day id 命中表 → 表乘色",
+          "status": "passed",
+          "title": "非 day id 命中表 → 表乘色",
+          "duration": 0.19070800000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveAmbienceTint：day/缺表/自定义白天"],
+          "fullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 isIdentityTint：≥254 三分量判恒等（含 255 恒等常量）",
+          "status": "passed",
+          "title": "isIdentityTint：≥254 三分量判恒等（含 255 恒等常量）",
+          "duration": 0.13412499999999739,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 lerpTint：t 夹取与分量四舍五入"],
+          "fullName": "O09 lerpTint：t 夹取与分量四舍五入 t<0 取 from、t>1 取 to、t∈[0,1] 线性",
+          "status": "passed",
+          "title": "t<0 取 from、t>1 取 to、t∈[0,1] 线性",
+          "duration": 0.250583000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 lerpTint：t 夹取与分量四舍五入"],
+          "fullName": "O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入",
+          "status": "passed",
+          "title": "非整数结果按分量四舍五入",
+          "duration": 0.07945800000000247,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "status": "passed",
+          "title": "无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "duration": 0.19104099999999846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共",
+          "status": "passed",
+          "title": "单侧 override：覆盖侧用 override，另一侧回退公共",
+          "duration": 0.13287499999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "status": "passed",
+          "title": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "duration": 0.203125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity：身份残余轴"],
+          "fullName": "O09 resolveDialogueIdentity：身份残余轴 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "status": "passed",
+          "title": "unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "duration": 0.4692089999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity：身份残余轴"],
+          "fullName": "O09 resolveDialogueIdentity：身份残余轴 actor 绑定 default 缺 portraits.default → 精确诊断",
+          "status": "passed",
+          "title": "actor 绑定 default 缺 portraits.default → 精确诊断",
+          "duration": 0.393250000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity：身份残余轴"],
+          "fullName": "O09 resolveDialogueIdentity：身份残余轴 actor 绑定未知表情 → 精确表情诊断；命中表情 → 资源+side",
+          "status": "passed",
+          "title": "actor 绑定未知表情 → 精确表情诊断；命中表情 → 资源+side",
+          "duration": 0.17908400000000313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity：身份残余轴"],
+          "fullName": "O09 resolveDialogueIdentity：身份残余轴 speakerOverride 覆盖 actor.name；无声明时 speaker=actor.name",
+          "status": "passed",
+          "title": "speakerOverride 覆盖 actor.name；无声明时 speaker=actor.name",
+          "duration": 0.061333000000004745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790870021598,
+      "endTime": 1790870021602.1792,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-ly1aPx/packages/content/src/ambience-skill.glm-o.test.ts"
+    }
+  ]
+}

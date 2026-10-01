@@ -3,10 +3,11 @@
  *  本卡按 gap-map 直击未覆盖臂：applyHiddenExp 零计数短路/池初始化/阈值升级循环/
  *  WORD 截断、gridToPixel/pixelToGrid 唯一反解/height 不投影/spriteScreenY。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { CharacterInstance } from '@type-pal/content'
-import { applyHiddenExp } from './rewards.js'
+import { describe, expect, test } from 'vitest'
 import { gridToPixel, pixelDeltaToGridDelta, pixelToGrid, spriteScreenY } from './grid.js'
+import { applyHiddenExp } from './rewards.js'
 
 const hero = (over: Partial<CharacterInstance> = {}): CharacterInstance => ({
   id: 'hero',
@@ -89,7 +90,7 @@ describe('O09 菱形格几何：唯一反解与 height 语义', () => {
       [3, 1],
       [-2, 1],
       [10, -7],
-    ]) {
+    ] as const) {
       const { x, y } = gridToPixel({ col, row, height: 0 })
       expect(pixelToGrid(x, y)).toEqual({ col, row })
     }

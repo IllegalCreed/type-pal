@@ -1,1 +1,332 @@
-{"numTotalTestSuites":3,"numPassedTestSuites":1,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":29,"numPassedTests":28,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869475176,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 绝对路径目标被 safeRel 拒绝","status":"passed","title":"绝对路径目标被 safeRel 拒绝","duration":3.3900420000001077,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 '..' 越界段目标被 safeRel 拒绝","status":"passed","title":"'..' 越界段目标被 safeRel 拒绝","duration":0.48908300000005056,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 './' 前缀目标被规范化后接受（同一事务目标等价）","status":"passed","title":"'./' 前缀目标被规范化后接受（同一事务目标等价）","duration":51.99270799999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝","status":"failed","title":"重复目标在提交侧被拒绝","duration":13.218916000000036,"failureMessages":["AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/packages/migrate/src/migration-transaction.glm-o.test.ts:89:7\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 project expectedPreviousHash 非十六进制被拒绝","status":"passed","title":"project expectedPreviousHash 非十六进制被拒绝","duration":0.49300000000005184,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 precondition hash 非法被拒绝","status":"passed","title":"precondition hash 非法被拒绝","duration":0.7587919999999713,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 非 manifest 操作携带 preconditions 被拒绝","status":"passed","title":"非 manifest 操作携带 preconditions 被拒绝","duration":0.8669999999999618,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 manifest 写入缺前置条件被拒绝","status":"passed","title":"manifest 写入缺前置条件被拒绝","duration":0.44537499999989905,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 存在未恢复 journal 时提交被互斥拒绝","status":"passed","title":"存在未恢复 journal 时提交被互斥拒绝","duration":24.48837500000002,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝","status":"passed","title":"scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝","duration":6.366708000000017,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],"fullName":"O01 commitMigrationTransaction：提交侧单轴拒绝合同 hasPendingMigrationTransaction 在无 journal 时为 false","status":"passed","title":"hasPendingMigrationTransaction 在无 journal 时为 false","duration":0.6673749999999927,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 操作项非对象被拒绝","status":"passed","title":"journal 操作项非对象被拒绝","duration":2.581291999999962,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 空串/反斜杠逐轴拒绝（路径无效）","status":"passed","title":"journal target 空串/反斜杠逐轴拒绝（路径无效）","duration":3.814375000000041,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 带 './' 前缀被拒绝（须为规范仓库相对路径）","status":"passed","title":"journal target 带 './' 前缀被拒绝（须为规范仓库相对路径）","duration":1.6937500000000227,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 含 .. 段被拒绝","status":"passed","title":"journal target 含 .. 段被拒绝","duration":1.380708000000027,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 重复目标被拒绝","status":"passed","title":"journal 重复目标被拒绝","duration":1.4131250000000364,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal previousHash 非法被拒绝","status":"passed","title":"journal previousHash 非法被拒绝","duration":2.1335840000000417,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal delete 操作携带 staged/hash 被拒绝","status":"passed","title":"journal delete 操作携带 staged/hash 被拒绝","duration":1.486250000000041,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal preconditions 非数组被拒绝","status":"passed","title":"journal preconditions 非数组被拒绝","duration":1.6418330000000196,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 非 manifest journal 操作携带 preconditions 被拒绝","status":"passed","title":"非 manifest journal 操作携带 preconditions 被拒绝","duration":1.5283750000000964,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition 目标越出 projects/pal 被拒绝","status":"passed","title":"manifest precondition 目标越出 projects/pal 被拒绝","duration":1.6908750000000055,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition hash 非法被拒绝","status":"passed","title":"manifest precondition hash 非法被拒绝","duration":2.5280840000000353,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest scope 指向非固定目标被 journal 验证拒绝","status":"passed","title":"manifest scope 指向非固定目标被 journal 验证拒绝","duration":1.5162500000000136,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest journal 操作缺前置条件被拒绝","status":"passed","title":"manifest journal 操作缺前置条件被拒绝","duration":3.9012910000000147,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 恢复期窗口篡改：目标与 journal previousHash 不符时拒绝且不落盘","status":"passed","title":"恢复期窗口篡改：目标与 journal previousHash 不符时拒绝且不落盘","duration":2.9154159999999365,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 目标与 journal hash 一致时恢复跳过重复落盘并清理 staging","status":"passed","title":"目标与 journal hash 一致时恢复跳过重复落盘并清理 staging","duration":3.387542000000053,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交后目标被再次改动触发提交后哈希复核失败","status":"passed","title":"提交后目标被再次改动触发提交后哈希复核失败","duration":30.342624999999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 合法坏数据只进 IO 校验：journal 根非 JSON 时恢复失败且工程无写入","status":"passed","title":"合法坏数据只进 IO 校验：journal 根非 JSON 时恢复失败且工程无写入","duration":0.66762499999993,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],"fullName":"O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交期前置闭包失败留下 pending journal；修复闭包后恢复完成同一事务","status":"passed","title":"提交期前置闭包失败留下 pending journal；修复闭包后恢复完成同一事务","duration":25.51649999999995,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869475990,"endTime":1790869476184.5166,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/packages/migrate/src/migration-transaction.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 29,
+  "numPassedTests": 28,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869475176,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 绝对路径目标被 safeRel 拒绝",
+          "status": "passed",
+          "title": "绝对路径目标被 safeRel 拒绝",
+          "duration": 3.3900420000001077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 '..' 越界段目标被 safeRel 拒绝",
+          "status": "passed",
+          "title": "'..' 越界段目标被 safeRel 拒绝",
+          "duration": 0.48908300000005056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 './' 前缀目标被规范化后接受（同一事务目标等价）",
+          "status": "passed",
+          "title": "'./' 前缀目标被规范化后接受（同一事务目标等价）",
+          "duration": 51.99270799999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝",
+          "status": "failed",
+          "title": "重复目标在提交侧被拒绝",
+          "duration": 13.218916000000036,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/packages/migrate/src/migration-transaction.glm-o.test.ts:89:7\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 project expectedPreviousHash 非十六进制被拒绝",
+          "status": "passed",
+          "title": "project expectedPreviousHash 非十六进制被拒绝",
+          "duration": 0.49300000000005184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 precondition hash 非法被拒绝",
+          "status": "passed",
+          "title": "precondition hash 非法被拒绝",
+          "duration": 0.7587919999999713,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 非 manifest 操作携带 preconditions 被拒绝",
+          "status": "passed",
+          "title": "非 manifest 操作携带 preconditions 被拒绝",
+          "duration": 0.8669999999999618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 manifest 写入缺前置条件被拒绝",
+          "status": "passed",
+          "title": "manifest 写入缺前置条件被拒绝",
+          "duration": 0.44537499999989905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 存在未恢复 journal 时提交被互斥拒绝",
+          "status": "passed",
+          "title": "存在未恢复 journal 时提交被互斥拒绝",
+          "duration": 24.48837500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝",
+          "status": "passed",
+          "title": "scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝",
+          "duration": 6.366708000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O01 commitMigrationTransaction：提交侧单轴拒绝合同"],
+          "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 hasPendingMigrationTransaction 在无 journal 时为 false",
+          "status": "passed",
+          "title": "hasPendingMigrationTransaction 在无 journal 时为 false",
+          "duration": 0.6673749999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 操作项非对象被拒绝",
+          "status": "passed",
+          "title": "journal 操作项非对象被拒绝",
+          "duration": 2.581291999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 空串/反斜杠逐轴拒绝（路径无效）",
+          "status": "passed",
+          "title": "journal target 空串/反斜杠逐轴拒绝（路径无效）",
+          "duration": 3.814375000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 带 './' 前缀被拒绝（须为规范仓库相对路径）",
+          "status": "passed",
+          "title": "journal target 带 './' 前缀被拒绝（须为规范仓库相对路径）",
+          "duration": 1.6937500000000227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 含 .. 段被拒绝",
+          "status": "passed",
+          "title": "journal target 含 .. 段被拒绝",
+          "duration": 1.380708000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 重复目标被拒绝",
+          "status": "passed",
+          "title": "journal 重复目标被拒绝",
+          "duration": 1.4131250000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal previousHash 非法被拒绝",
+          "status": "passed",
+          "title": "journal previousHash 非法被拒绝",
+          "duration": 2.1335840000000417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal delete 操作携带 staged/hash 被拒绝",
+          "status": "passed",
+          "title": "journal delete 操作携带 staged/hash 被拒绝",
+          "duration": 1.486250000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal preconditions 非数组被拒绝",
+          "status": "passed",
+          "title": "journal preconditions 非数组被拒绝",
+          "duration": 1.6418330000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 非 manifest journal 操作携带 preconditions 被拒绝",
+          "status": "passed",
+          "title": "非 manifest journal 操作携带 preconditions 被拒绝",
+          "duration": 1.5283750000000964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition 目标越出 projects/pal 被拒绝",
+          "status": "passed",
+          "title": "manifest precondition 目标越出 projects/pal 被拒绝",
+          "duration": 1.6908750000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition hash 非法被拒绝",
+          "status": "passed",
+          "title": "manifest precondition hash 非法被拒绝",
+          "duration": 2.5280840000000353,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest scope 指向非固定目标被 journal 验证拒绝",
+          "status": "passed",
+          "title": "manifest scope 指向非固定目标被 journal 验证拒绝",
+          "duration": 1.5162500000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest journal 操作缺前置条件被拒绝",
+          "status": "passed",
+          "title": "manifest journal 操作缺前置条件被拒绝",
+          "duration": 3.9012910000000147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 恢复期窗口篡改：目标与 journal previousHash 不符时拒绝且不落盘",
+          "status": "passed",
+          "title": "恢复期窗口篡改：目标与 journal previousHash 不符时拒绝且不落盘",
+          "duration": 2.9154159999999365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 目标与 journal hash 一致时恢复跳过重复落盘并清理 staging",
+          "status": "passed",
+          "title": "目标与 journal hash 一致时恢复跳过重复落盘并清理 staging",
+          "duration": 3.387542000000053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交后目标被再次改动触发提交后哈希复核失败",
+          "status": "passed",
+          "title": "提交后目标被再次改动触发提交后哈希复核失败",
+          "duration": 30.342624999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 合法坏数据只进 IO 校验：journal 根非 JSON 时恢复失败且工程无写入",
+          "status": "passed",
+          "title": "合法坏数据只进 IO 校验：journal 根非 JSON 时恢复失败且工程无写入",
+          "duration": 0.66762499999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）"],
+          "fullName": "O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交期前置闭包失败留下 pending journal；修复闭包后恢复完成同一事务",
+          "status": "passed",
+          "title": "提交期前置闭包失败留下 pending journal；修复闭包后恢复完成同一事务",
+          "duration": 25.51649999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869475990,
+      "endTime": 1790869476184.5166,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-B1U5xx/packages/migrate/src/migration-transaction.glm-o.test.ts"
+    }
+  ]
+}

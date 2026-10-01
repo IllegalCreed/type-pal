@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC16",
+  "contract": "authoredSkillExecutionLayers 双 override 追加",
+  "target": {
+    "file": "src/ambience-skill.glm-o.test.ts",
+    "title": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+    "failureMessageHead": "AssertionError: expected [ 'base', 'enemy', 'player' ] to deeply equal [ 'base', 'player', 'enemy' ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1d5a0e3ee89618713fa4b7a50f0fe8df7f89d339377dbc44326c4208ab7d003c",
+    "mutated": "311fd72f36aac12771d7d8f6a164fe57db558ea92d4dbbc9c2a77e28c38fab58",
+    "restored": "1d5a0e3ee89618713fa4b7a50f0fe8df7f89d339377dbc44326c4208ab7d003c",
+    "rebuilt": "311fd72f36aac12771d7d8f6a164fe57db558ea92d4dbbc9c2a77e28c38fab58"
+  },
+  "patchRebuiltAndVerified": true
+}

@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/skill.ts b/packages/content/src/skill.ts
+index 8508bab8b..bc84c7939 100644
+--- a/packages/content/src/skill.ts
++++ b/packages/content/src/skill.ts
+@@ -196 +196 @@ export function authoredSkillExecutionLayers(skill: SkillData): AuthoredSkillExe
+-  for (const side of ['player', 'enemy'] as const) {
++  for (const side of ['enemy', 'player'] as const) {

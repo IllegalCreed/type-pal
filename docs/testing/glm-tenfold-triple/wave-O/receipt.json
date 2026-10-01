@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 469/700 deduped cases (r7 审核扣除 item-equip 六条旧合同后), 65 counters/63 distinct targets; O-R7-01/02/03 closed; residual 231 registered",
+  "deliveryStatus": "PARTIAL — 497 执行/净新上限 496（cross-check 1 条不计）, 69 反控/67 不同目标; O-R8-01/02/03 closed; 缺口至少 204",
   "batches": {
     "O01": {
       "tests": 72
@@ -27,17 +27,19 @@
       "tests": 35
     },
     "O08": {
-      "tests": 68
+      "tests": 84
     },
     "O09": {
-      "tests": 44
+      "tests": 56
     },
     "O10": {
       "tests": 26
     }
   },
   "totals": {
-    "newCases": 469,
+    "newCases": 497,
+    "netNewCeiling": 496,
+    "netNewNote": "resources.herb=0 为同条件 cross-check 不计净新",
     "uniqueBatchMapping": {
       "O01": 72,
       "O02": 66,
@@ -46,19 +48,17 @@
       "O05": 48,
       "O06": 42,
       "O07": 35,
-      "O08": 68,
-      "O09": 44,
+      "O08": 84,
+      "O09": 56,
       "O10": 26
     },
-    "multiBatchNote": "multi-batch 合同记入首个批次；重叠轴不双计",
     "byPackage": {
       "migrate": 254,
-      "content": 189,
+      "content": 217,
       "shared": 26
     },
-    "validCounters": 65,
-    "distinctCounterTargets": 63,
-    "distinctNote": "65 存档中两组共享目标（O06 实体引用恰一×2、O10 MKF 截断头×2）按不同合同观测轴分列；63 不同目标≥50 目标，但不等于 63 合同 accept"
+    "validCounters": 69,
+    "distinctCounterTargets": 67
   },
   "gates": {
     "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0",
@@ -76,7 +76,7 @@
       "note": "同分母（fast 口径），delta 见 coverage-delta.json；官方 baseline 未触碰"
     },
     "sharedFullTest": "pnpm --filter @type-pal/shared test → exit 0",
-    "whitelist": "verify-targets --wave O → changedPaths=691（最终树实测；README:6 的 194 与历史 469/595/658/659/690 均为当时快照，保留为历史不作最终门）"
+    "whitelist": "verify-targets --wave O → changedPaths=760（最终树实测；194/469/595/658/659/690/691 为历史快照）"
   },
   "environmentNotes": [
     "worktree 通过 symlink 引入主仓 gitignored data/extracted 真实语料（只读）；projects/pal/assets 未改动"
@@ -92,7 +92,7 @@
     "counter-judge.mjs（唯一 judge）",
     "run-counter.selftest.mjs（22 用例经同一 judge）"
   ],
-  "candidateHead": "d88a4ef9e1bdd0b770f96ff94d584b522f6b3b84",
+  "candidateHead": "TO-BE-PINNED",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -114,10 +114,14 @@
     "r7-continued": "O-R6 四项闭合后：equipItem 六前置/旧件回包（oldRing 初始件合同）、worldResourceValue 键域、curePoison 显式 id 世界轴（+9 例、3 枚新反控计 65）；raw 证据 EOF/拼接伪影清理且 runner 修正 stdout 拼接",
     "O-R7-01": "contracts.json 全量重建：oracle=首条完整断言（expect 操作数+matcher+预期值头，不再截断到裸 expect(result.conflicts)）；oldAssertion=旧测文件精确行号+完整标题（token<4 重叠如实登记 gap-map 未命中臂）；item-equip 六条旧合同（caster 缺席/背包无件/未知物品/equipableBy 不匹配/空键+collectValue 缺省/resources 命中读取）删除并在文件内登记 existing-proof（对 item.test.ts:382/397-409、item.inventory.background.test.ts:90-99、item.ownership.background.test.ts:108-127），仅保留已证新轴（oldRing 初始件回包、显式零资源）",
     "O-R7-02": "新 counter-judge.mjs 为唯一判据源，run-counter.mjs 与 run-counter.selftest.mjs 均导入调用（不再复制）；补三相 file×fullName 多重集合身份比较与逐例状态比较；补审核 4 误收反例（异身份恢复/fullName 附加错后缀/断言红叠 raw Unhandled 公告/exit=-1）+ exit=2/signal/spawn 拒收；22 用例自测全过",
-    "O-R7-03": "回执按最终树实数：469 例/254/189/26、缺口 231（与 README 一致）、690→691 路径（本轮实测）、65 存档 63 不同目标（两组共享目标如实分列）、上一轮工具/证据锚 41ce5430 与报告锚 0926ec0e 分开登记"
+    "O-R7-03": "回执按最终树实数：469 例/254/189/26、缺口 231（与 README 一致）、690→691 路径（本轮实测）、65 存档 63 不同目标（两组共享目标如实分列）、上一轮工具/证据锚 41ce5430 与报告锚 0926ec0e 分开登记",
+    "O-R8-01": "judge 修正：sameExecutionIdentity 只比较多重集合（状态按相判，正常 0→1→0 生命周期不再误拒）；目标匹配改显式 spec.test.target（65→62 外层 spec 迁移）；assertNoCollectionErrors 总门（numRuntimeErrorTestSuites/numPendingTestSuites/numTODOTests/suite 结论数/workspace 未结 suite/空断言 failed suite 拒收；workspace 计数≥单文件报告数）；27 用例自测含整段生命周期正控与全部审核反例",
+    "O-R8-02": "O08-CC8/O08-CC9/O09-CC13 目标已删退役（历史目录保留不计 valid）；62 有效存档全部按新 judge 重采（62/62 三态过）",
+    "O-R8-03": "contracts.json 人工+程序混合：427→453 条多断言链 oracle（含全部断言头+预期值）；审核点名的 merge 两行改多断言链+条件差说明；herb=0 标 cross-check-not-new；净新上限 496/缺口至少 204；README 缺口统一 204（231/234 为历史）",
+    "r9-continued": "新批次：ambience tint/lerp、skill 执行层、dialogue 身份残余（+12）；level-growth 钳位/隐藏经验池/实体生命周期引用闭包（+7）；菱形格几何（+9）——共 +28 例、7 枚新反控（O09-CC14~18、O08-CC10/11）计 69"
   },
-  "headNote": "candidateHead=本轮最后测试/工具/证据提交（非 docs-only）；其后仅 receipt/README 维护，区间以 git log 区分；remoteFinalCandidate=实际推送终候选值（非自引用）",
-  "remoteFinalCandidate": "db8c10e07c38e3375c6a935db83980c44887a177",
+  "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
+  "remoteFinalCandidate": "TO-BE-PINNED",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"

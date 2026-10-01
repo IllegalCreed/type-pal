@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC11",
+  "contract": "applyHiddenExp 零计数短路",
+  "package": "content",
+  "test": {
+    "file": "src/hidden-exp-grid.glm-o.test.ts",
+    "title": "全零计数 → 空报告且不动角色"
+  },
+  "mutation": {
+    "file": "src/rewards.ts",
+    "find": "  if (total <= 0) return []",
+    "replace": "  if (total < 0) return []"
+  }
+}

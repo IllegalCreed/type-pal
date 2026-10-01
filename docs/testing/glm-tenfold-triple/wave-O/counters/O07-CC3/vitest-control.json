@@ -1,1 +1,110 @@
-{"numTotalTestSuites":4,"numPassedTestSuites":4,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":7,"numPassedTests":7,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869737822,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],"fullName":"O07 sceneEntryPrepareSafety：进场 prepare 命令域 纯摆位/外观类命令安全（safe）","status":"passed","title":"纯摆位/外观类命令安全（safe）","duration":0.9183330000000183,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],"fullName":"O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）","status":"passed","title":"loadScene / fade / startBattle / openShop 等阻断（blocked）","duration":0.2712500000000091,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],"fullName":"O07 sceneEntryPrepareSafety：进场 prepare 命令域 wait 因不读取目标世界而安全（PAL 入场等待数帧合同）","status":"passed","title":"wait 因不读取目标世界而安全（PAL 入场等待数帧合同）","duration":0.06833400000002143,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],"fullName":"O07 sceneEntryPrepareSafety：进场 prepare 命令域 giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe","status":"passed","title":"giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe","duration":0.17399999999997817,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 stage 游标：stageIndexFor / applyStageNext"],"fullName":"O07 stage 游标：stageIndexFor / applyStageNext stageIndexFor：默认 0、钳制到 stages 上限","status":"passed","title":"stageIndexFor：默认 0、钳制到 stages 上限","duration":0.10000000000002274,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 stage 游标：stageIndexFor / applyStageNext"],"fullName":"O07 stage 游标：stageIndexFor / applyStageNext applyStageNext：advance 递增 / 数字重置 / undefined 不变","status":"passed","title":"applyStageNext：advance 递增 / 数字重置 / undefined 不变","duration":0.08295799999999076,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 emptyProjectedWorldScriptState：初始形状"],"fullName":"O07 emptyProjectedWorldScriptState：初始形状 flags/vars/entityState/stages 初始为空域","status":"passed","title":"flags/vars/entityState/stages 初始为空域","duration":0.45537500000000364,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869738084,"endTime":1790869738086.4553,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-ZeCOfE/packages/content/src/script.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869737822,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],
+          "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 纯摆位/外观类命令安全（safe）",
+          "status": "passed",
+          "title": "纯摆位/外观类命令安全（safe）",
+          "duration": 0.9183330000000183,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],
+          "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）",
+          "status": "passed",
+          "title": "loadScene / fade / startBattle / openShop 等阻断（blocked）",
+          "duration": 0.2712500000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],
+          "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 wait 因不读取目标世界而安全（PAL 入场等待数帧合同）",
+          "status": "passed",
+          "title": "wait 因不读取目标世界而安全（PAL 入场等待数帧合同）",
+          "duration": 0.06833400000002143,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 sceneEntryPrepareSafety：进场 prepare 命令域"],
+          "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe",
+          "status": "passed",
+          "title": "giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe",
+          "duration": 0.17399999999997817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 stage 游标：stageIndexFor / applyStageNext"],
+          "fullName": "O07 stage 游标：stageIndexFor / applyStageNext stageIndexFor：默认 0、钳制到 stages 上限",
+          "status": "passed",
+          "title": "stageIndexFor：默认 0、钳制到 stages 上限",
+          "duration": 0.10000000000002274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 stage 游标：stageIndexFor / applyStageNext"],
+          "fullName": "O07 stage 游标：stageIndexFor / applyStageNext applyStageNext：advance 递增 / 数字重置 / undefined 不变",
+          "status": "passed",
+          "title": "applyStageNext：advance 递增 / 数字重置 / undefined 不变",
+          "duration": 0.08295799999999076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 emptyProjectedWorldScriptState：初始形状"],
+          "fullName": "O07 emptyProjectedWorldScriptState：初始形状 flags/vars/entityState/stages 初始为空域",
+          "status": "passed",
+          "title": "flags/vars/entityState/stages 初始为空域",
+          "duration": 0.45537500000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869738084,
+      "endTime": 1790869738086.4553,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-ZeCOfE/packages/content/src/script.glm-o.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/rewards.ts b/packages/content/src/rewards.ts
+index ef3f6168e..353aed891 100644
+--- a/packages/content/src/rewards.ts
++++ b/packages/content/src/rewards.ts
+@@ -50 +50 @@ export function applyLevelGrowth(
+-  const count = Math.max(0, Math.floor(levels))
++  const count = Math.max(1, Math.floor(levels))

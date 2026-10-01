@@ -1,1 +1,140 @@
-{"numTotalTestSuites":5,"numPassedTestSuites":5,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":10,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869748856,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],"fullName":"O07 deriveScriptChunk / stableScriptHash：分桶与哈希 同 id 稳定、不同 id 可落不同分片；shared 桶数边界","status":"passed","title":"同 id 稳定、不同 id 可落不同分片；shared 桶数边界","duration":2.2038329999999746,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],"fullName":"O07 deriveScriptChunk / stableScriptHash：分桶与哈希 global 域脚本按 global/<domain> 分片；未登记 domain → undefined","status":"passed","title":"global 域脚本按 global/<domain> 分片；未登记 domain → undefined","duration":0.28612499999997,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],"fullName":"O07 deriveScriptChunk / stableScriptHash：分桶与哈希 scene 前缀 → scene/<id> 分片","status":"passed","title":"scene 前缀 → scene/<id> 分片","duration":0.08708399999994754,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],"fullName":"O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入","status":"passed","title":"stableScriptHash 稳定且区分输入","duration":0.3367089999999848,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 findScriptOwnerChunk / getScriptBody：归属与读取"],"fullName":"O07 findScriptOwnerChunk / getScriptBody：归属与读取 单 owner 命中；跨 chunk 重复 id fail-loud；未登记 undefined","status":"passed","title":"单 owner 命中；跨 chunk 重复 id fail-loud；未登记 undefined","duration":0.8161249999999995,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 findScriptOwnerChunk / getScriptBody：归属与读取"],"fullName":"O07 findScriptOwnerChunk / getScriptBody：归属与读取 getScriptBody：先按派生分片直取，未命中再全局寻 owner","status":"passed","title":"getScriptBody：先按派生分片直取，未命中再全局寻 owner","duration":0.5294579999999769,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步"],"fullName":"O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 normalize 按 id 排序合并 chunks 并保留合法体","status":"passed","title":"normalize 按 id 排序合并 chunks 并保留合法体","duration":0.36529200000001083,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步"],"fullName":"O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等","status":"passed","title":"upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等","duration":1.0519590000000107,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步"],"fullName":"O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体","status":"passed","title":"remove：未登记 id fail-loud；已登记移除元数据与脚本体","duration":0.6738750000000095,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O07 checkScriptIndex：结构轴"],"fullName":"O07 checkScriptIndex：结构轴 version 漂移 / shards 缺失 逐轴拒绝；合法索引通过","status":"passed","title":"version 漂移 / shards 缺失 逐轴拒绝；合法索引通过","duration":0.24516699999998082,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869749263,"endTime":1790869749270.245,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-Lgscxc/packages/content/src/script-library.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869748856,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],
+          "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 同 id 稳定、不同 id 可落不同分片；shared 桶数边界",
+          "status": "passed",
+          "title": "同 id 稳定、不同 id 可落不同分片；shared 桶数边界",
+          "duration": 2.2038329999999746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],
+          "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 global 域脚本按 global/<domain> 分片；未登记 domain → undefined",
+          "status": "passed",
+          "title": "global 域脚本按 global/<domain> 分片；未登记 domain → undefined",
+          "duration": 0.28612499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],
+          "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 scene 前缀 → scene/<id> 分片",
+          "status": "passed",
+          "title": "scene 前缀 → scene/<id> 分片",
+          "duration": 0.08708399999994754,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 deriveScriptChunk / stableScriptHash：分桶与哈希"],
+          "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入",
+          "status": "passed",
+          "title": "stableScriptHash 稳定且区分输入",
+          "duration": 0.3367089999999848,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 findScriptOwnerChunk / getScriptBody：归属与读取"],
+          "fullName": "O07 findScriptOwnerChunk / getScriptBody：归属与读取 单 owner 命中；跨 chunk 重复 id fail-loud；未登记 undefined",
+          "status": "passed",
+          "title": "单 owner 命中；跨 chunk 重复 id fail-loud；未登记 undefined",
+          "duration": 0.8161249999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 findScriptOwnerChunk / getScriptBody：归属与读取"],
+          "fullName": "O07 findScriptOwnerChunk / getScriptBody：归属与读取 getScriptBody：先按派生分片直取，未命中再全局寻 owner",
+          "status": "passed",
+          "title": "getScriptBody：先按派生分片直取，未命中再全局寻 owner",
+          "duration": 0.5294579999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步"],
+          "fullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 normalize 按 id 排序合并 chunks 并保留合法体",
+          "status": "passed",
+          "title": "normalize 按 id 排序合并 chunks 并保留合法体",
+          "duration": 0.36529200000001083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步"],
+          "fullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等",
+          "status": "passed",
+          "title": "upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等",
+          "duration": 1.0519590000000107,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步"],
+          "fullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体",
+          "status": "passed",
+          "title": "remove：未登记 id fail-loud；已登记移除元数据与脚本体",
+          "duration": 0.6738750000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O07 checkScriptIndex：结构轴"],
+          "fullName": "O07 checkScriptIndex：结构轴 version 漂移 / shards 缺失 逐轴拒绝；合法索引通过",
+          "status": "passed",
+          "title": "version 漂移 / shards 缺失 逐轴拒绝；合法索引通过",
+          "duration": 0.24516699999998082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869749263,
+      "endTime": 1790869749270.245,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-Lgscxc/packages/content/src/script-library.glm-o.test.ts"
+    }
+  ]
+}

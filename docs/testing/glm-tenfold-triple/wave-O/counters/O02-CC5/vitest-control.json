@@ -1,1 +1,220 @@
-{"numTotalTestSuites":5,"numPassedTestSuites":5,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":18,"numPassedTests":18,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869516832,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],"fullName":"O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scene index 登记的正文路径并入托管集","status":"passed","title":"scene index 登记的正文路径并入托管集","duration":2.9170420000000377,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],"fullName":"O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scene index 非法 JSON → 托管索引解析失败（带 cause）","status":"passed","title":"scene index 非法 JSON → 托管索引解析失败（带 cause）","duration":1.8818340000000262,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],"fullName":"O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scripts index chunks 路径并入托管集；path 非字符串 fail-loud","status":"passed","title":"scripts index chunks 路径并入托管集；path 非字符串 fail-loud","duration":2.0644999999999527,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],"fullName":"O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud","status":"passed","title":"maps index path 非字符串 / maps 非数组分别 fail-loud","duration":1.7754169999999476,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],"fullName":"O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 合法 maps index 并入地图正文路径","status":"passed","title":"合法 maps index 并入地图正文路径","duration":2.014499999999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],"fullName":"O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 加载托管文件值与 hash；缺失文件跳过但保留托管登记","status":"passed","title":"加载托管文件值与 hash；缺失文件跳过但保留托管登记","duration":1.827415999999971,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],"fullName":"O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 托管 JSON 坏字节 → 托管 JSON 解析失败","status":"passed","title":"托管 JSON 坏字节 → 托管 JSON 解析失败","duration":3.2194579999999178,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],"fullName":"O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 绝对路径与 .. 越界路径被 safeProjectPath 拒绝","status":"passed","title":"绝对路径与 .. 越界路径被 safeProjectPath 拒绝","duration":0.9809169999999767,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],"fullName":"O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 快照后文件被改动 → assertProjectSnapshotCurrent 报精确路径","status":"passed","title":"快照后文件被改动 → assertProjectSnapshotCurrent 报精确路径","duration":2.298167000000035,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],"fullName":"O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 目标托管集包含快照外文件（缺失视为未变更）时断言通过","status":"passed","title":"目标托管集包含快照外文件（缺失视为未变更）时断言通过","duration":1.7162500000000591,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 hashUnmanagedProjectFiles / assertHashMapsEqual"],"fullName":"O02 hashUnmanagedProjectFiles / assertHashMapsEqual 非托管文件逐个入账；托管与排除文件不入账","status":"passed","title":"非托管文件逐个入账；托管与排除文件不入账","duration":4.317000000000007,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 hashUnmanagedProjectFiles / assertHashMapsEqual"],"fullName":"O02 hashUnmanagedProjectFiles / assertHashMapsEqual 工程目录不存在 → 空 hash 表","status":"passed","title":"工程目录不存在 → 空 hash 表","duration":0.6090000000000373,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 hashUnmanagedProjectFiles / assertHashMapsEqual"],"fullName":"O02 hashUnmanagedProjectFiles / assertHashMapsEqual assertHashMapsEqual：一致通过；差异报排序后的精确路径","status":"passed","title":"assertHashMapsEqual：一致通过；差异报排序后的精确路径","duration":0.1906250000000682,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 project-io 补充：递归遍历与断言容忍"],"fullName":"O02 project-io 补充：递归遍历与断言容忍 无任何索引时空工程仅返回种子托管集","status":"passed","title":"无任何索引时空工程仅返回种子托管集","duration":0.6199169999999867,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 project-io 补充：递归遍历与断言容忍"],"fullName":"O02 project-io 补充：递归遍历与断言容忍 非托管文件递归遍历子目录且 rel 路径为 posix","status":"passed","title":"非托管文件递归遍历子目录且 rel 路径为 posix","duration":1.0370840000000499,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 project-io 补充：递归遍历与断言容忍"],"fullName":"O02 project-io 补充：递归遍历与断言容忍 assertProjectSnapshotCurrent：未改动时默认目标集通过","status":"passed","title":"assertProjectSnapshotCurrent：未改动时默认目标集通过","duration":0.8609169999999722,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 project-io 补充：递归遍历与断言容忍"],"fullName":"O02 project-io 补充：递归遍历与断言容忍 assertHashMapsEqual：actual 多出的键也被报告","status":"passed","title":"assertHashMapsEqual：actual 多出的键也被报告","duration":0.08504199999993034,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 project-io 补充：递归遍历与断言容忍"],"fullName":"O02 project-io 补充：递归遍历与断言容忍 loadProjectMigrationSnapshot 保留传入托管集原序语义（Set 复制）","status":"passed","title":"loadProjectMigrationSnapshot 保留传入托管集原序语义（Set 复制）","duration":0.9517079999999396,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869517513,"endTime":1790869517542.9517,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-JrHxo6/packages/migrate/src/migration-project-io.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 18,
+  "numPassedTests": 18,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869516832,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],
+          "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scene index 登记的正文路径并入托管集",
+          "status": "passed",
+          "title": "scene index 登记的正文路径并入托管集",
+          "duration": 2.9170420000000377,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],
+          "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scene index 非法 JSON → 托管索引解析失败（带 cause）",
+          "status": "passed",
+          "title": "scene index 非法 JSON → 托管索引解析失败（带 cause）",
+          "duration": 1.8818340000000262,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],
+          "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scripts index chunks 路径并入托管集；path 非字符串 fail-loud",
+          "status": "passed",
+          "title": "scripts index chunks 路径并入托管集；path 非字符串 fail-loud",
+          "duration": 2.0644999999999527,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],
+          "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud",
+          "status": "passed",
+          "title": "maps index path 非字符串 / maps 非数组分别 fail-loud",
+          "duration": 1.7754169999999476,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 discoverProjectManagedFiles：索引发现与坏索引拒绝"],
+          "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 合法 maps index 并入地图正文路径",
+          "status": "passed",
+          "title": "合法 maps index 并入地图正文路径",
+          "duration": 2.014499999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],
+          "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 加载托管文件值与 hash；缺失文件跳过但保留托管登记",
+          "status": "passed",
+          "title": "加载托管文件值与 hash；缺失文件跳过但保留托管登记",
+          "duration": 1.827415999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],
+          "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 托管 JSON 坏字节 → 托管 JSON 解析失败",
+          "status": "passed",
+          "title": "托管 JSON 坏字节 → 托管 JSON 解析失败",
+          "duration": 3.2194579999999178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],
+          "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 绝对路径与 .. 越界路径被 safeProjectPath 拒绝",
+          "status": "passed",
+          "title": "绝对路径与 .. 越界路径被 safeProjectPath 拒绝",
+          "duration": 0.9809169999999767,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],
+          "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 快照后文件被改动 → assertProjectSnapshotCurrent 报精确路径",
+          "status": "passed",
+          "title": "快照后文件被改动 → assertProjectSnapshotCurrent 报精确路径",
+          "duration": 2.298167000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent"],
+          "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 目标托管集包含快照外文件（缺失视为未变更）时断言通过",
+          "status": "passed",
+          "title": "目标托管集包含快照外文件（缺失视为未变更）时断言通过",
+          "duration": 1.7162500000000591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 hashUnmanagedProjectFiles / assertHashMapsEqual"],
+          "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual 非托管文件逐个入账；托管与排除文件不入账",
+          "status": "passed",
+          "title": "非托管文件逐个入账；托管与排除文件不入账",
+          "duration": 4.317000000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 hashUnmanagedProjectFiles / assertHashMapsEqual"],
+          "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual 工程目录不存在 → 空 hash 表",
+          "status": "passed",
+          "title": "工程目录不存在 → 空 hash 表",
+          "duration": 0.6090000000000373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 hashUnmanagedProjectFiles / assertHashMapsEqual"],
+          "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual assertHashMapsEqual：一致通过；差异报排序后的精确路径",
+          "status": "passed",
+          "title": "assertHashMapsEqual：一致通过；差异报排序后的精确路径",
+          "duration": 0.1906250000000682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 project-io 补充：递归遍历与断言容忍"],
+          "fullName": "O02 project-io 补充：递归遍历与断言容忍 无任何索引时空工程仅返回种子托管集",
+          "status": "passed",
+          "title": "无任何索引时空工程仅返回种子托管集",
+          "duration": 0.6199169999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 project-io 补充：递归遍历与断言容忍"],
+          "fullName": "O02 project-io 补充：递归遍历与断言容忍 非托管文件递归遍历子目录且 rel 路径为 posix",
+          "status": "passed",
+          "title": "非托管文件递归遍历子目录且 rel 路径为 posix",
+          "duration": 1.0370840000000499,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 project-io 补充：递归遍历与断言容忍"],
+          "fullName": "O02 project-io 补充：递归遍历与断言容忍 assertProjectSnapshotCurrent：未改动时默认目标集通过",
+          "status": "passed",
+          "title": "assertProjectSnapshotCurrent：未改动时默认目标集通过",
+          "duration": 0.8609169999999722,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 project-io 补充：递归遍历与断言容忍"],
+          "fullName": "O02 project-io 补充：递归遍历与断言容忍 assertHashMapsEqual：actual 多出的键也被报告",
+          "status": "passed",
+          "title": "assertHashMapsEqual：actual 多出的键也被报告",
+          "duration": 0.08504199999993034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 project-io 补充：递归遍历与断言容忍"],
+          "fullName": "O02 project-io 补充：递归遍历与断言容忍 loadProjectMigrationSnapshot 保留传入托管集原序语义（Set 复制）",
+          "status": "passed",
+          "title": "loadProjectMigrationSnapshot 保留传入托管集原序语义（Set 复制）",
+          "duration": 0.9517079999999396,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869517513,
+      "endTime": 1790869517542.9517,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-JrHxo6/packages/migrate/src/migration-project-io.glm-o.test.ts"
+    }
+  ]
+}

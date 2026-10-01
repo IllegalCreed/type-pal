@@ -4,11 +4,11 @@
  *  normalizeEntityLifecycleTable 未知 scene/entity 引用与输入不可变。
  */
 import { describe, expect, test } from 'vitest'
-import { applyLevelGrowth, type LevelGrowthTarget } from './rewards.js'
 import {
   buildEntityLifecycleReferenceIndex,
   normalizeEntityLifecycleTable,
 } from './entity-lifecycle.js'
+import { applyLevelGrowth, type LevelGrowthTarget } from './rewards.js'
 
 const target = (over: Partial<LevelGrowthTarget> = {}): LevelGrowthTarget => ({
   level: 1,
@@ -107,17 +107,11 @@ describe('O09 normalizeEntityLifecycleTable：引用闭包与不可变', () => {
   })
 
   test('未知 scene id / 未知 entity id → 精确诊断', () => {
+    expect(() => normalizeEntityLifecycleTable({ s999: {} }, index)).toThrow(
+      'entityLifecycles.s999: 未知 scene id',
+    )
     expect(() =>
-      normalizeEntityLifecycleTable(
-        { s999: {} },
-        index,
-      ),
-    ).toThrow('entityLifecycles.s999: 未知 scene id')
-    expect(() =>
-      normalizeEntityLifecycleTable(
-        { s001: { ghost: { phase: 'removed' as const } } },
-        index,
-      ),
+      normalizeEntityLifecycleTable({ s001: { ghost: { phase: 'removed' as const } } }, index),
     ).toThrow('entityLifecycles.s001.ghost: 未知 entity id')
   })
 })

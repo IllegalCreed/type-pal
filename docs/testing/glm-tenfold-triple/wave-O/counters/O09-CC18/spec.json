@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC18",
+  "contract": "pixelToGrid 唯一反解",
+  "package": "content",
+  "test": {
+    "file": "src/hidden-exp-grid.glm-o.test.ts",
+    "title": "pixelToGrid 是 gridToPixel 的唯一反解（站位像素）"
+  },
+  "mutation": {
+    "file": "src/grid.ts",
+    "find": "  return { col: Math.round((b + a) / 2), row: Math.round((b - a) / 2) }",
+    "replace": "  return { col: Math.round((b - a) / 2), row: Math.round((b + a) / 2) }"
+  }
+}
