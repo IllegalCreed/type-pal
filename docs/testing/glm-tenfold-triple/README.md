@@ -132,6 +132,11 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- [Codex O r7 / P r3.5-review / Q r7独立复核](codex-opq-latest-review-20261001.md)与
+  [逐针及复用机器证据](codex-opq-latest-review-20261001.json)：475/67/134最终身份匹配；
+  新跑content1417/game2805/extract361，其它未变包沿用已核门。三树静态/docs/diff/冻结通过；
+  P判据/失败清理/docs与Q极限技/RC7因果关闭。三卡仍rework：真账未闭、新重复及O判据漏收，
+  Q50存档只有44不同目标。未合main/未正式结算，最新手动交接在该审核与各卡末段。
 - [Codex O r6独立复核](codex-o-r6-review-20261001.md)与[机器证据](codex-o-r6-review-20261001.json)：
   三包2268绿、468身份匹配、62三态存档hash/执行集对应、旧六针关闭；合同账/非法fixture/判据与原规模仍rework。
 - [Codex P r3.5独立复核](codex-p-r35-review-20261001.md)与[机器证据](codex-p-r35-review-20261001.json)：

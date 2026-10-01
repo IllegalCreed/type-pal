@@ -180,3 +180,19 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```text
 继续 TEST-GLM-WAVE-O-1，原树 /Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal，原分支 codex/glm-wave-o-supply-validation-r1，固定审核候选 1d805509af6ecd94a95c0965d373bf98ccde123c。先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md 最新 r6 独立审核段及所链 codex-o-r6-review-20261001.md/json，按 O-R6-01～04 窄返工：合同账不能用token最近标题/首条expect代替逐条件排重与完整oracle；删 item-effects gate失败重复，不计 item-use 用存在hero伪证缺目标轴，死亡跳过未测须更名或先排重再补合法轴；item-use world/useItem 改完整 typed WorldState/CharacterInstance/ItemData，补exp、去as never及Record扩展强转；runner零执行/pending/todo/skip/异身份/错file或fullName/未处理异常/raw harness/signal/spawn拒收，保留stdout+stderr，不全局prune；最终包分布254/188/26及658路径从树生成，历史数字标历史，锚点与docs-only区间明确，勿循环自pin。旧七桥/两oracle/canAct删重、六针漂移及62枚hash对应项已关闭；不重跑未变业务，仅重采改动文件受影响针（item-effects目前O08-CC6/7、O09-CC12；item-use目前O09-CC6/7），其他保留。继续原合法余族，700例/60组/50有效反控不缩，468仍部分，缺合法轴逐项existing-proof/unreachable/blocked申请。只写原O白名单新测/专属fixture/wave-O证据，CLI mkdtemp合成工程，真实工程migrate含dry-run禁止；派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。最终串行migrate/content/shared全包test/typecheck、lint完整0/0/0、docs/diff/verifier后推送40位候选；产品/旧测/配置/官方baseline/真实数据/P/Q/共享文档只读，不合main、不标done。
 ```
+
+
+## Codex r7 最新独立复核（2026-10-01）
+
+固定本地/远端 `a708ac4fbb5c7a25549b03805880779048e647c5`，**counter / rework**。475执行不是475净新合同；新content1417绿，未变migrate704/shared154与typecheck复用，总2275。lint3173文件0/0/0、docs/diff/716冻结/690白名单路径通过；65三态对应、63不同目标，57旧存档不变。旧typed桥与gate/allAllies伪轴删除关闭，不重开。O-R7-01真账仍首expect/token匹配且新equip包至少6旧合同重复；O-R7-02实际runner异身份恢复/错fullName后缀/真实未处理异常/-1退出误收，自测为另一复制判据；O-R7-03 225/234、194/690、30组及最后工具/报告锚需分开。原700/60组/50不同目标不缩。
+
+[详细判定与下一步](../../testing/glm-tenfold-triple/codex-opq-latest-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opq-latest-review-20261001.json)。
+本轮未合main、未done、未官方覆盖结算、未新视觉；不写贡献者树，不自动投递。
+用户手动选择GLM-5.3后转发以下代码提示词；P视觉另阶段手动选Flash。
+
+### 下一位GLM O代码提示词（本轮最新）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支codex/glm-wave-o-supply-validation-r1，固定a708ac4fbb5c7a25549b03805880779048e647c5。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md最新段和同树docs/testing/glm-tenfold-triple/codex-opq-latest-review-20261001.md/json。仅执行O-R7-01～03：逐条件真账/真实旧fullName与断言行/完整业务oracle，不再token匹配或首expect；item-equip六明确旧合同扣除，其它加强轴举证保留。实际runner和自测共用唯一judge，完整三态多重身份/精确目标/状态/JSON和raw错误/正常退出/signal/spawn拒收，补已给4误收反例，不复制另一判据。按最终blob同步225/234、690路径、65存档63目标、工具/证据锚41ce5430与报告锚及docs-only区间。保留已关闭旧桥、gate/allAllies删重、五受影响针更新和未变57针，不重采未变业务。然后连续原合法余族，700合法未重复例/60组/50不同目标不缩、不凑数；缺合法轴逐项existing-proof/unreachable/blocked申请。仅原O白名单新测/fixture/wave-O证据可写，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，真实工程与产品/旧测/配置/baseline/P/Q/共享文档只读，CLI仅mkdtemp合成。每批定向相邻/typecheck并阶段推送，最终全包/静态零/docs/diff/verifier及完整真实SHA；不合main、不done、不跑官方门、不清贡献者树。
+```

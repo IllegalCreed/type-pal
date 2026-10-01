@@ -199,3 +199,19 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```text
 继续 TEST-GLM-WAVE-P-1，原树 /Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal，原分支 codex/glm-wave-p-editor-residual-r1，固定审核候选 bb2ffcb6614a5f48eb5bb0bab671941242f2a00b。先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md 最新 r3.5 独立审核段及所链 codex-p-r35-review-20261001.md/json，按 P-R35-01～04 窄返工：mutant 对齐完整多重身份；真实未处理异常/raw harness/signal/spawn/无效退出拒收；throw+finally 覆盖建树/复制/各拒收分支并仅回收本次树；补 browser 目录索引导航，修633缺口/14自测/66截图与三态证据重采来源；逐合同补真实条件/caller/旧fullName断言行/完整matcher和值。旧四拒收、恢复判据、10索引patch、G09删除与既有业务证据保留，源或执行集改变才重采受影响针。再连续原P02残余/P03～P10与F14/F18，700合法未重复例/70组/50有效反控/20流程不缩，不凑数，缺合法轴逐项举证申请。只写原P新测试/专属fixture/wave-P白名单；派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。最终定向JSON与源hash一致，串行Editor全包test/typecheck、lint完整0/0/0、docs/diff/verifier后推送40位候选；产品/旧测/配置/官方baseline/真实数据/O/Q/共享文档只读，不合main、不标done，不操作其它会话。
 ```
+
+
+## Codex r3.5-review 最新独立复核（2026-10-01）
+
+固定本地/远端 `c30d53441df71c62b4029e79e7faae6bb3bc03b9`，**counter / rework**。packages和配置依赖未变，复用已核Editor3853/typecheck零，67最终身份匹配。新19自测绿，mutant异身份/真实未处理异常/-1拒收、错误目标失败finally无登记泄漏；P-R35-01/02及docs两个失败关闭，不重做。lint2804文件0/0/0、docs/diff/716冻结/158白名单通过；10存档/10目标对应，9针更新+P02-C08未变。P-R36-01 oracle仍首条初始状态，非开盘/提交/关闭回焦/移焦结果，真账未闭；P-R36-02三相raw/正常退出政策及19自测/最新52dd工具锚口径需同步。67/700、14/70、10/50与18/20仍部分，F14/F18未证；原目标不缩。代码先做，视觉单独阶段，不让文本模型代读图。
+
+[详细判定与下一步](../../testing/glm-tenfold-triple/codex-opq-latest-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opq-latest-review-20261001.json)。
+本轮未合main、未done、未官方覆盖结算、未新视觉；不写贡献者树，不自动投递。
+用户手动选择GLM-5.3后转发以下代码提示词；P视觉另阶段手动选Flash。
+
+### 下一位GLM P代码提示词（本轮最新）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、分支codex/glm-wave-p-editor-residual-r1，固定c30d53441df71c62b4029e79e7faae6bb3bc03b9。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md最新段和同树docs/testing/glm-tenfold-triple/codex-opq-latest-review-20261001.md/json。P-R35-01 mutant身份/真实异常、P-R35-02 finally清理和docs两问题已关闭，不重复窄修。补P-R36-01真实逐条件合同账，G03 oracle指实际开盘/提交/关闭回焦/键盘移焦结果，不再第一断言；旧完整fullName和行锚齐，标题未测空格撤回或合法排重补证。P-R36-02所有三相接入共同raw/harness判据，业务exit1与无效退出分开，补政策拒收自测；同步19自测、52dd21198工具证据锚、9针更新+1针未变。源/执行集不变不要求全10重采。连续原P02残余/P03～P10的合法代码合同，700例/70组/50不同目标不缩；必须避让共同grok-cursor-large/targets.json给Cursor的74保留源，新主合同不越界，既有历史/窄返工保留。只写原P白名单新测/fixture/wave-P，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；产品/旧测/配置/baseline/真实数据/O/Q/共享文档只读，每批定向相邻/typecheck并阶段推送。此提示仅代码阶段，不启动浏览器或用源码代替F14/F18视觉；20流程目标保留，视觉另交接。最后全包/静态零/docs/diff/verifier和完整真实SHA；不合main、不done、不跑官方门、不清树。
+```
