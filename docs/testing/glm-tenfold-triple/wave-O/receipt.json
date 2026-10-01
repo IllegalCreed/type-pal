@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 466/700 deduped cases (r6 审查扣除 2 条重复/伪证轴), 62/50 counters; O-R6-01/02/03 closed, O-R6-04 counts from final tree; residual 234 registered",
+  "deliveryStatus": "PARTIAL — 475/700 deduped cases, 65/50 counters; O-R6-01/02/03/04 closed; residual 225 registered",
   "batches": {
     "O01": {
       "tests": 72
@@ -27,7 +27,7 @@
       "tests": 35
     },
     "O08": {
-      "tests": 65
+      "tests": 74
     },
     "O09": {
       "tests": 44
@@ -37,7 +37,7 @@
     }
   },
   "totals": {
-    "newCases": 466,
+    "newCases": 475,
     "uniqueBatchMapping": {
       "O01": 72,
       "O02": 66,
@@ -46,17 +46,17 @@
       "O05": 48,
       "O06": 42,
       "O07": 35,
-      "O08": 65,
+      "O08": 74,
       "O09": 44,
       "O10": 26
     },
     "multiBatchNote": "multi-batch 合同记入首个批次；重叠轴不双计",
     "byPackage": {
       "migrate": 254,
-      "content": 186,
+      "content": 195,
       "shared": 26
     },
-    "validCounters": 62
+    "validCounters": 65
   },
   "gates": {
     "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0",
@@ -74,7 +74,7 @@
       "note": "同分母（fast 口径），delta 见 coverage-delta.json；官方 baseline 未触碰"
     },
     "sharedFullTest": "pnpm --filter @type-pal/shared test → exit 0",
-    "whitelist": "verify-targets --wave O → changedPaths=659（最终树实测；历史 194/469/595/658 为当时树快照，保留为历史）"
+    "whitelist": "verify-targets --wave O → changedPaths=690（最终树实测；历史 194/469/595/658/659 为当时快照）"
   },
   "environmentNotes": [
     "worktree 通过 symlink 引入主仓 gitignored data/extracted 真实语料（只读）；projects/pal/assets 未改动"
@@ -104,7 +104,8 @@
     "O-R6-01": "item-effects gate 失败轴（rng0.9/chance50/不消耗/HP 不变）与旧 item.test.ts:898-928 同入口同阈值重复，整例删除登记 existing-proof；item-use allAllies 伪证轴（传现存 hero 只验 reason 不等）删除；\"死亡队员跳过/0钳位\"两处标题改为实际验证的轴（HP 差额+消耗 / trunc 99→49+100→50）；合同账 note 明示字段提取方法与局限",
     "O-R6-02": "item-use 全 typed 重写：完整 CharacterInstance（必填 exp）+ WorldState + ItemData/UseSpec 直构，删除 as never/Record 扩展/inventory:unknown 三桥；missing-target 轴改 typed 缺键直证（ghost 不在 party）",
     "O-R6-03": "run-counter 判据收紧：叶状态白名单（pending/todo/skip 拒收）、零执行拒收、单文件校验、红例精确 file 后缀+fullName 匹配、未处理异常/崩溃栈非 AssertionError 拒收；stdout+stderr+signal+spawn error 全保留进 raw；清理仅局部 rm（移除全局 prune）；13 用例自测（10 拒收+2 正控+1 目标返回）全过",
-    "O-R6-04": "最终树实数：466 例/包分布 254/186/26、659 白名单路径、62 反控；receipt 锚=最后测试/证据提交，docs-only 区间以 git log 说明；remoteFinalCandidate 不自引循环（记录实际推送值）"
+    "O-R6-04": "最终树实数：466 例/包分布 254/186/26、659 白名单路径、62 反控；receipt 锚=最后测试/证据提交，docs-only 区间以 git log 说明；remoteFinalCandidate 不自引循环（记录实际推送值）",
+    "r7-continued": "O-R6 四项闭合后：equipItem 六前置/旧件回包（oldRing 初始件合同）、worldResourceValue 键域、curePoison 显式 id 世界轴（+9 例、3 枚新反控计 65）；raw 证据 EOF/拼接伪影清理且 runner 修正 stdout 拼接"
   },
   "headNote": "candidateHead=最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分；remoteFinalCandidate=实际推送终候选",
   "remoteFinalCandidate": "TO-BE-PINNED"

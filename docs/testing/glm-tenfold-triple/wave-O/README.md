@@ -5,7 +5,7 @@ Owner GLM O；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-O-1-supply-validation
 （自派发提交 `8b3ca062953b17a12178f8d1a9e36657971234b1` 建独立 worktree）。
 生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；verify-targets --wave O 通过（白名单内 194 路径、冻结 hash 有效）。
 
-## 交付状态（r7）：466/700 例（去重后唯一主映射）、62/50 反控（超额）
+## 交付状态（r7）：475/700 例（去重后唯一主映射）、65/50 反控（超额）
 
 Codex 2026-10-01 counter 的 O-01/02/03 已闭合（见 [receipt.json](receipt.json).reworkFixes）：
 lint/diff 零诊断、17 处类型桥改 typed 合法 fixture、44 枚反控补齐恢复后真实执行三态。
@@ -20,23 +20,23 @@ COMMON-01 按原范围继续推进，但本轮会话仍未到 700 —— 余量�
 | O05 | 48 | 5 |
 | O06 | 42 | 7 |
 | O07 | 35 | 4 |
-| O08 | 65 | 4 |
+| O08 | 74 | 4 |
 | O09 | 44 | 6 |
 | O10 | 26 | 6 |
-| **合计** | **466** | **62** |
+| **合计** | **475** | **65** |
 
 multi-batch 合同记入首个批次（O01/O03→O01、O03/O05→O03、O06/O08→O06、O08/O09→O08）；
 此前的 593 为批次表相加口径（重叠双计），已改用唯一 case→batch 主映射，批次覆盖域不变。
 
-- [directed-vitest.json](directed-vitest.json)：466/466 全绿（r6 审查扣除 2 条重复/伪证轴后的去重计数）（最终实跑，含全部 file/fullName/status）。
-- [contracts.json](contracts.json)：**逐合同账**（r7 全量去模板、466 条（含 r6 审查的 existing-proof 扣除）：source/caller 取自真实 import 域、
+- [directed-vitest.json](directed-vitest.json)：475/475 全绿（含 r7 equipItem/资源键/curePoison 新批次）（最终实跑，含全部 file/fullName/status）。
+- [contracts.json](contracts.json)：**逐合同账**（r7 全量去模板、475 条（含 r6 审查的 existing-proof 扣除）：source/caller 取自真实 import 域、
   oldAssertion 为旧测 fullName token 匹配锚点、oracle 从测试体括号平衡提取首条断言，0 条模板残留）；
   enemy-ai 中与 battle-formulas.test.ts:219-224 重复的 canAct/canCastMagic 5 断言整例删除不计。
-- [counters.json](counters.json) + [counters/](counters/)：**62 枚三态反控（超额达成 50 目标）**
+- [counters.json](counters.json) + [counters/](counters/)：**65 枚三态反控（超额达成 50 目标）**
   （control 全绿 → injected 恰一目标业务 AssertionError 红 → restored 恢复后真实重跑全绿；
   patch 以 --unidiff-zero 重建并校验字节 = mutatedSha；候选树零改动）。
   r5：O08-CC1/CC2、O10-CC2/3/4/5 六枚执行集漂移已按最终测试源重采；其余 50 枚控制证据保留。
-  r6：新增 O08-CC6/7、O09-CC11/12、O10-CC7/10 六枚（含换针重打），计 62 枚。
+  r6：新增 O08-CC6/7、O09-CC11/12、O10-CC7/10 六枚（含换针重打），计 65 枚（r7：O08-CC8/9、O09-CC13）。
 - [coverage-delta.json](coverage-delta.json)：migrate 同分母（fast 口径）st 82.753% / br 84.344% /
   ln 82.458%，**三项比率门全部高于旧比率**（77.246/75.667/78.663）。官方 baseline 未触碰。
 - [receipt.json](receipt.json)：全部门禁（三包全量 test、三 typecheck 0 诊断、根 lint（文件数以最终跑为准）
@@ -52,9 +52,9 @@ multi-batch 合同记入首个批次（O01/O03→O01、O03/O05→O03、O06/O08�
 r6 新增：item 执行器效果分支（healHp/healMp 钳位+消耗、scaleCurrentHp trunc、
 gate 显式阈值、menu 透传、applyPoison 统一入口）、敌脚本 guard（fallback chance 域、
 hook 状态结构、AI 聚合）、世界变量 fresh-record/sys: 保留轴、YJ2 长流确定性、
-RLE 编码器 0x7F 分段/偶对齐 pad、MKF 容器——共 +24 例净增（r6 报 26，r7 扣 2 条重复/伪证）、6 枚新反控。
+RLE 编码器 0x7F 分段/偶对齐 pad、MKF 容器——共 +33 例净增（468 报告 − 2 条 r6 扣除 + 9 条 r7 equip/资源/curePoison 新轴）、9 枚新反控（计 65）。
 
-以下子域尚未建模（余量 234 例），非“不可合法构造”证明；后续按同法（typed 合法 fixture +
+以下子域尚未建模（余量 225 例），非“不可合法构造”证明；后续按同法（typed 合法 fixture +
 真实公开入口）继续：locale 大表/ rich-text 嵌套轴、script.ts 执行器深域、
 bake-assets CLI mkdtemp 临时工程、migrate pal-assets 真实语料 census 轴
 （loadPal* 需 extracted corpus，属 fast 排除域）、world-sprite layout 语义深域、

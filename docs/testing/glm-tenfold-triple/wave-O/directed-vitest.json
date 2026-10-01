@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 466,
-  "passed": 466,
+  "numTotalTests": 475,
+  "passed": 475,
   "failed": 0,
   "tests": [
     {
@@ -1706,6 +1706,51 @@
     {
       "file": "packages/content/src/item-effects.glm-o.test.ts",
       "fullName": "O08 复合链顺序与 gate 显式阈值 applyPoison 自毒经统一入口（毒 defs 缺失=纯加毒）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 equipItem：四拒绝前置与成功流 成功装上：入槽、扣包 1、旧件回包 1",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 equipItem：四拒绝前置与成功流 物品无 equip 块 → 原引用返回",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 equipItem：四拒绝前置与成功流 caster 不在 party → 原引用返回",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 equipItem：四拒绝前置与成功流 未知物品 id → 原引用返回",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 worldResourceValue：键域合同 resources 键缺省 0；已设值读取",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/item-equip.glm-o.test.ts",
+      "fullName": "O08 curePoison 显式 id 轴（世界执行器） 显式 poisonId 只解指定毒、其它保留",
       "status": "passed"
     },
     {

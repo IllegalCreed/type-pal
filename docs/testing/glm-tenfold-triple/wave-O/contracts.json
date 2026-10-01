@@ -1,6 +1,6 @@
 {
-  "total": 466,
-  "note": "逐合同账（r7 去重后最终实跑）：source/caller=该合同直接调用的公开入口（按文件 import 域登记）；oldAssertion=最近相邻旧 fullName + 重叠登记；oracle=首条断言的调用+matcher（完整断言见测试体行号）；item-effects gate 失败轴按 r6 登记 existing-proof 删除；item-use allAllies 伪证轴已删",
+  "total": 475,
+  "note": "逐合同账（r7 最终实跑）：r6 审查的 existing-proof 扣除已并入；source/caller/oracle 提取方法与局限见各字段",
   "contracts": [
     {
       "batch": "O02",
@@ -4092,6 +4092,114 @@
       "axis": "复合链顺序与 gate 显式阈值 applyPoison 自毒经统一入口（毒 defs 缺失=纯加毒）",
       "oracle": "expect(outcome.world.party[0]!.poisons)",
       "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 equipItem：四拒绝前置与成功流 成功装上：入槽、扣包 1、旧件回包 1",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts :: \"装 bead → 入 accessory 槽,旧件回包,原 world 不变(不可变)\"（相邻域；新 fullName/断言组合不重复）",
+      "axis": "equipItem：四拒绝前置与成功流 成功装上：入槽、扣包 1、旧件回包 1",
+      "oracle": "expect(first.party[0]!.equipment.accessory)",
+      "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 equipItem：四拒绝前置与成功流 物品无 equip 块 → 原引用返回",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts :: \"背包里该角色可装的(equipableBy 命中 + 有 equip 块)\"（相邻域；新 fullName/断言组合不重复）",
+      "axis": "equipItem：四拒绝前置与成功流 物品无 equip 块 → 原引用返回",
+      "oracle": "expect(equipItem(base, 'hero', 'plain', items))",
+      "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 equipItem：四拒绝前置与成功流 caster 不在 party → 原引用返回",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts（同源旧测 44 例，无此 fullName/断言组合 → gap-map 未命中臂）",
+      "axis": "equipItem：四拒绝前置与成功流 caster 不在 party → 原引用返回",
+      "oracle": "expect(equipItem(base, 'ghost', 'bead', items))",
+      "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts :: \"背包里该角色可装的(equipableBy 命中 + 有 equip 块)\"（相邻域；新 fullName/断言组合不重复）",
+      "axis": "equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回",
+      "oracle": "expect(equipItem(base, 'hero', 'bead', items))",
+      "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts（同源旧测 44 例，无此 fullName/断言组合 → gap-map 未命中臂）",
+      "axis": "equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
+      "oracle": "expect(equipItem(base, 'hero', 'bead', items))",
+      "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 equipItem：四拒绝前置与成功流 未知物品 id → 原引用返回",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts（同源旧测 44 例，无此 fullName/断言组合 → gap-map 未命中臂）",
+      "axis": "equipItem：四拒绝前置与成功流 未知物品 id → 原引用返回",
+      "oracle": "expect(equipItem(base, 'hero', 'ghost', {}))",
+      "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts（同源旧测 44 例，无此 fullName/断言组合 → gap-map 未命中臂）",
+      "axis": "worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
+      "oracle": "expect(() => worldResourceValue(world([]), ''))",
+      "classification": "boundary-reject",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 worldResourceValue：键域合同 resources 键缺省 0；已设值读取",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts（同源旧测 44 例，无此 fullName/断言组合 → gap-map 未命中臂）",
+      "axis": "worldResourceValue：键域合同 resources 键缺省 0；已设值读取",
+      "oracle": "expect(worldResourceValue(w, 'herb'))",
+      "classification": "normal-input",
+      "status": "passed"
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 curePoison 显式 id 轴（世界执行器） 显式 poisonId 只解指定毒、其它保留",
+      "source": "item.ts, __tests__/glm-item-logic-fixtures.ts",
+      "caller": "equipItem, worldResourceValue, resolveWorldItemUse",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "oldAssertion": "item.test.ts（同源旧测 44 例，无此 fullName/断言组合 → gap-map 未命中臂）",
+      "axis": "curePoison 显式 id 轴（世界执行器） 显式 poisonId 只解指定毒、其它保留",
+      "oracle": "expect(outcome.world.party[0]!.poisons)",
+      "classification": "idempotence",
       "status": "passed"
     },
     {
