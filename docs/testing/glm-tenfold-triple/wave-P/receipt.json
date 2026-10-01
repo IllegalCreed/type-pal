@@ -59,9 +59,9 @@
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
     "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
     "testCodeAnchor": "e515d353d（G03 标题撤回——5899dae6 之后唯一测试改动）",
-    "toolEvidenceAnchor": "本轮工具提交（r3.6，见 git log；上一轮 52dd21198e752243ebf4820122eedc68b7376448 为 r3.5-review 闭合）",
+    "toolEvidenceAnchor": "dc8fd75ce13c4134f4795066a67ceb0d79b6f54e（r3.6 工具/证据提交；测试改动锚 e515d353d 仅 G03 标题撤回）",
     "finalRemoteCandidate": "推送 tip（receipt 不自引用，见分支远端 HEAD）"
   },
   "threeStateProvenance": "r3.6 判据收紧后 10 针重采；相对 bb2ffcb6：9 针在 r3.5-review 更新、P02-C08 因 G03 标题撤回（执行集 fullName 变化）于 r3.6 重采",
-  "finalRemoteCandidate": "85f7d16f94135f4fe81df3e1e89b24f7aff2485c（含 receipt pin docs-only 提交；功能性/证据提交为 52dd21198）"
+  "finalRemoteCandidate": "推送 tip（功能性提交 dc8fd75ce；其后仅本 receipt pin）"
 }
