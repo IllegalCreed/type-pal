@@ -48,7 +48,27 @@
   "mainIntegrated": false,
   "officialCoverageMeasured": false,
   "ownersActuallyStarted": false,
-  "scopeCheckAfterRegistration": "pending",
+  "scopeCheckAfterRegistration": {
+    "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
+    "grok": {
+      "branch": "codex/grok-render-host-large-r1",
+      "worktree": "/Users/zhangxu/.codex/worktrees/grok-render-host-large/type-pal",
+      "headEqualsBase": true,
+      "clean": true,
+      "changedPaths": 0,
+      "guardPassed": true
+    },
+    "cursor": {
+      "branch": "codex/cursor-asset-ui-large-r1",
+      "worktree": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal",
+      "headEqualsBase": true,
+      "clean": true,
+      "changedPaths": 0,
+      "guardPassed": true
+    },
+    "remoteDispatchMatches": true,
+    "authorCandidateAccepted": false
+  },
   "dedupCandidates": {
     "O": "1d805509af6ecd94a95c0965d373bf98ccde123c",
     "P": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",

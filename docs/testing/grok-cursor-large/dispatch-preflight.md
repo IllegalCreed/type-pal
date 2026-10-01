@@ -16,8 +16,9 @@
 - 登记本证据前docs实测830 Markdown/4403本地链接/249任务、零问题；
   增加本证据后最终831 Markdown/4406本地链接/249任务，docs/diff均零问题。
 - 修改均为本轮docs/card/tool。主树、GLM活动树、产品/旧测试/配置/官方baseline与真实数据未写。
-- 本卡写入scope在targets注册提交产生后，再分别在两个新隔离树以完整BASE复核；
-  此项不伪装为已核作者候选。
+- targets注册派发BASE为0704d3de6d3d2a2099475a42f601b654bba08579，已推送并核远端对象一致。
+- 两个指定隔离树/分支已创建，HEAD均为BASE、工作树干净；分别实跑owner/base guard通过，
+  changedPaths=0、全局冻结716/716、保留120源/交集0。这只核空派发树，不冒称作者候选已接受。
 
 后续由用户转发[两卡提示词](README.md)及GLM P/Q避让。
 Grok/Cursor新任务待实际开工；O/P/Q仍rework、未done。没有自动发消息、切模型或清树。
