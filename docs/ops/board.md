@@ -26,13 +26,13 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GLM-ZCODE-DISPATCH-1 | [ZCode三路补测持续调度](tasks/TEST-GLM-ZCODE-DISPATCH-1.md) | build | Codex / 每10分钟巡检、P槽轮换与独立复核 | O/Q英文续派已运行；P r3已钉SHA，归档确认未响应，第三槽待补 |
+| TEST-GLM-ZCODE-DISPATCH-1 | [ZCode三路补测持续调度](tasks/TEST-GLM-ZCODE-DISPATCH-1.md) | build | Codex / 解锁后核三槽与待派窄项、固定候选复核 | O四枚阶段提交/Q新测有进展；当前Mac锁屏、实时UI未知，P判据/Q候选pin待直派 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
 | TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 修类型/合同/格式并续残余 | r2 401/700、44/50提交反控；全包2201绿、三格式仍红 |
-| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 修judge/patch/视觉并续P02–P10 | r2 70/700、10/50；旧双红关闭、3856绿，20流程未全部证实 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 同步五针索引/格式/合同账并续残余 | r3 116/700、39/50；旧四针闭合，15格式/五索引仍红；全包5298绿 |
+| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 判据/恢复相/patch索引窄返工后续P02–P10 | r3 67/700；10针源hash/执行账对应，但4个judge误收、10索引patch旧；F14/F18未证 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 修receipt有效SHA并续合法余族 | r4 116/700、39针hash/index证据复算对应；完整candidateHead非有效对象，整包新验收待核 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待错误承接窄准入 | 合法当前存档+外部读失败独立复现1未处理拒绝，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |

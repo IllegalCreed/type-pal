@@ -137,3 +137,22 @@ Codex direct dispatch authorized by the user: continue TEST-GLM-WAVE-P-1 as the 
 
 当前无用户转发提示词。由本对话 Codex heartbeat 按上方路由直接巡检与续派；
 先核 UI 输入通道和实际工作中状态，再核交付 SHA，不能将本卡历史快照当作最新状态。
+
+## 2026-10-01 19:25 JST 巡检与固定候选预审
+
+- P 归档确认框仍未解除，有限重试无变化；未归档/未新建/未派发第三槽，不重复请求相同用户动作。
+- O 新增4枚阶段提交，观测tip `d0bb58f95065f6d83ecbf9c21d33a0ba61863c45`；Q 新增
+  `battle-action-error-arms.glm-q.test.ts`。只有Git活动证据，UI被模态挡住，不冒称新UI运行核验。
+- [P/Q固定工具与证据预审](../../testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.md)
+  已落各原卡：P10个作者自测绿但4个拒收反例误收，patch索引10/10旧值；旧业务三态/hash对应。
+  Q39枚index/meta/三态hash复算对应，但receipt所写完整候选SHA不是有效提交。
+- 本卡历史快照及此前续派转录了Q错误值，当前必须使用真实测试候选
+  `9da8354d4e7c706d0c9e1fc70035b351807bf3a3`，文档pin `86d2a4c42925ce636691ca573baa5eada94e940e`。
+  不把40位字符串或作者receipt当对象真实性证明；新交付一律git rev-parse/cat-file复核。
+- 上方P单行续派需加最新原卡窄补充：先修判据/恢复相/mkdtemp及10枚索引，再连续补残余。
+  Q仅待发送receipt有效对象窄补充，不打断运行、不得为重复提示再排同任务。
+  本轮零新UI消息、未动活动贡献者源/产品/main；未跑整包/官方门或结算。
+- 提交前再次核UI时，支持工具返回 Mac已锁屏、自动解锁失败，需用户手动解锁。
+  立即停止桌面动作，不输入凭据/绕锁或更改安全设置；heartbeat保持启用，宿主未变时静默。
+  锁屏后的三槽实时UI状态未知，不能沿用旧“工作中”快照；解锁后先重新核会话/队列，
+  再按已有待办续派，不重复发送或假定P已经归档。

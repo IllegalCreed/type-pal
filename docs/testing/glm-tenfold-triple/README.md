@@ -115,6 +115,8 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- [ZCode P r3/Q r4 工具与候选预审](codex-zcode-pq-preflight-20261001.md)与
+  [机器记录](codex-zcode-pq-preflight-20261001.json)：P judge/patch索引仍counter；Q39枚hash复算对应，回执完整SHA却非有效对象，未整包验收。
 - [Codex Q r3三审](codex-q-r3-review-20261001.md)与[机器证据](codex-q-r3-review-20261001.json)：
   三包5298绿，旧四针/超时闭合；新五针业务成立但总索引/15格式/回执合同账仍counter，整族缩围未准。
 - [Codex O/P r2二审](codex-op-r2-review-20261001.md)与[机器证据](codex-op-r2-review-20261001.json)：

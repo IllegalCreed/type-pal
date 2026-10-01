@@ -183,3 +183,19 @@ Q08第6/8/10的具体旧证据认可，不重造；第6无空槽测试不能扩�
 只写原Q新测/专属fixture/wave-Q证据；D-Q01-1另卡draft不夹修。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，不cherry-pick共享Codex审查提交，不改基点绕白名单。
 最后串行reforge/game/pal-extract全包test/typecheck、根lint完整0/0/0、docs/区间diff/verifier；最终directed file×fullName×status与实跑对应，推送完整40位新候选及诚实未完账。产品/旧測/配置/baseline/O/P/共享文档/真实数据/E2E只读；official ratchet/protected fast/并集结算/合main/done及清树仅Codex，不自行操作。
 ```
+
+## Codex r4 候选/反控证据预审（2026-10-01，非整包复验）
+
+真实候选 `9da8354d4e7c706d0c9e1fc70035b351807bf3a3`、docs-only pin
+`86d2a4c42925ce636691ca573baa5eada94e940e`，**counter，保持 rework**。
+[预审详情](../../testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.md)、
+[机器记录](../../testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.json)。
+
+- Q-R3-01 证据层关闭：全部39枚 index/meta/实际 original-restored/rebuilt-mutant SHA
+  对应，三态 JSON 执行身份/单目标红/退出码/恢复绿齐；Q10五枚各3执行。
+  这是复算，不冒称本轮独立执行全部39变异；旧业务独立五针结果保留。
+- Q-R4-PIN：receipt candidateHead/Note 所写 `9da8354dc6b1c68ee8aee42c66f577c93d38c2a6`
+  不是本仓有效对象（git cat-file exit128），应以真实9da8354d4e7…回填；Codex此前转录也已纠正。
+- 活动 Q07/Q08/Q10 合法余族可继续，仅修白名单receipt对象/Note，不重造未变hash/业务针；
+  新最终报告/合同与全包/静态/视觉仍待独立核验，700/50不缩，未正式结算或done。
+  待 UI 通道恢复由 Codex直接发此窄补充，用户无需搬运；不向运行会话重复投喂。

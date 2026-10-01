@@ -1,0 +1,81 @@
+{
+  "reviewer": "Codex",
+  "observedAtUtc": "2026-10-01 10:25:57 UTC",
+  "scope": {
+    "fixedGitBlobAudit": true,
+    "authorJudgeSelfTestsReexecuted": true,
+    "independentAdversarialJudgeProbesExecuted": true,
+    "businessMutantsReexecuted": false,
+    "fullPackageGatesReexecuted": false,
+    "formalCoverageSettled": false,
+    "activeContributorTreesModified": false
+  },
+  "dispatch": {
+    "pArchiveConfirmationUnchanged": true,
+    "pArchivedOrReplacementStartedByCodex": false,
+    "macLockedAtFinalUiCheck": true,
+    "liveUiStatesAfterLock": "unknown; desktop actions stopped pending manual unlock",
+    "oMilestoneTipObserved": "d0bb58f95065f6d83ecbf9c21d33a0ba61863c45",
+    "oNewMilestonesSincePinnedCandidate": 4,
+    "qNewUntrackedTestObserved": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+    "newUiMessagesSentThisRun": 0
+  },
+  "P": {
+    "candidate": "48ade197eb508273168f62384141f8d1dde854ec",
+    "directedCases": 67,
+    "controlsAudited": 10,
+    "originalAndRebuiltMutantProductHashesMatched": 10,
+    "allRecordedMutantsExactlyOneFailed": true,
+    "allRecordedRestoredAssertionsPassed": true,
+    "recordedFullNameSetsMatchAllThreeStatesAndFinalDirected": true,
+    "counterIndexPatchMismatchWithPerCounterReceipt": 10,
+    "perCounterReceiptPatchReconstructsMutantInMemory": 10,
+    "counterIndexPatchRejectedByInMemoryContextCheck": 10,
+    "authorJudgeSelfTests": { "passed": 10, "failed": 0, "exitCode": 0 },
+    "adversarialProbes": [
+      { "id": "clean-zero-executed", "expectedValid": false, "actualValid": true },
+      {
+        "id": "same-count-different-execution-identity",
+        "expectedValid": false,
+        "actualValid": true
+      },
+      {
+        "id": "target-assertion-plus-collection-error",
+        "expectedValid": false,
+        "actualValid": true
+      },
+      { "id": "clean-pending-status", "expectedValid": false, "actualValid": true }
+    ],
+    "counterRunnerRestoredUsesOnlyExitCode": true,
+    "counterRunnerTemporaryTree": "fixed /tmp/glm-p-counter-<id>, not mkdtemp",
+    "verdict": "counter: P-R2-01 remains open; no full acceptance"
+  },
+  "Q": {
+    "actualR4Candidate": "9da8354d4e7c706d0c9e1fc70035b351807bf3a3",
+    "docsOnlyPin": "86d2a4c42925ce636691ca573baa5eada94e940e",
+    "receiptClaimedCandidate": "9da8354dc6b1c68ee8aee42c66f577c93d38c2a6",
+    "claimedCandidateResolvesToCommit": false,
+    "gitCatFileExitCode": 128,
+    "docsPinChangedPaths": ["docs/testing/glm-tenfold-triple/wave-Q/receipt.json"],
+    "controlsAudited": 39,
+    "indexMetaSourceAndRebuiltMutantHashesMatched": 39,
+    "threeStateReportExitCountStatusTargetIdentityChecksPassed": 39,
+    "q10ControlsEachExecuteThreeCases": 5,
+    "nonEmptyRawFiles": 117,
+    "rawFilesContainingOnlyJsonReporterAnnouncement": 117,
+    "rawInterpretation": "JSON reporter stdout; not an independent full console or business rerun claim",
+    "verdict": "counter: receipt candidate object is invalid; counter index/hash evidence audit passes"
+  },
+  "reviewDocumentationGates": {
+    "docsMarkdownFiles": 821,
+    "docsLocalLinks": 4345,
+    "docsTasks": 247,
+    "docsIssues": 0,
+    "lintFiles": 2750,
+    "lintErrors": 0,
+    "lintWarnings": 0,
+    "lintInfos": 0,
+    "lintCompleteReport": true,
+    "diffCheckDiagnostics": 0
+  }
+}

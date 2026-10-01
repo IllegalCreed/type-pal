@@ -148,3 +148,27 @@ P-01类型桥、P-02两枚真实单业务红、P-03docs-only区间已关闭，�
 派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；不cherry-pick共享Codex审查提交、不改基点绕白名单。最终串行Editor全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier，定向JSON对齐最终实跑，推送完整40位SHA。
 产品/旧测/配置/官方baseline/真实工程/O/Q/共享卡看板只读；不合main、不标done、不清活动树，不自行修UI/扩大超时。
 ```
+
+## Codex r3 工具/证据预审（2026-10-01，非整包验收）
+
+固定候选 `48ade197eb508273168f62384141f8d1dde854ec`，**counter，保持 rework**。
+[预审详情与拒收反例](../../testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.md)、
+[机器记录](../../testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.json)。
+
+- 67 最终 directed；10 枚原始三态 fullName 集/单目标红/恢复绿/product-mutant hash 审计对应。
+  保留旧业务证据；未独立重跑这10枚业务变异、全包或本轮视觉，不记全部 accept。
+- P-R2-01 未闭合：作者 judge 自测10/10实跑绿，但四个独立拒收反例均被接受；
+  仅比较数量、漏收集/runtime 错误与 pending，恢复 runner 仅查 exit。
+  counters.json 的10枚 patch 全部仍不同于正确 per-counter receipt；工具固定临时路径不符合 mkdtemp。
+- 本次不重开旧类型桥/双红/区间；F14/F18与整包缺口仍未证。67/700 的例数缺口应633，不是旧630。
+
+### 下一位 GLM P 直接续派补充（优先于上方旧 r3 指令）
+
+仅原白名单内收紧唯一 judge：各相位逐条 passed/failed、拒零执行/pending/todo/skip/
+collection/runtime/未处理异常，完整 file×fullName 多重集合比较；恢复相也调用，不仅 exit。
+保留 Vitest rejects 的真实 AssertionError 序列化原文，不靠 Error 前缀一刀拒收。
+添加上链四个独立反例和 signal/spawn 拒收自测；mkdtemp+finally仅回收本次树，不全局prune。
+由最终 receipt 重建10枚索引patch，验证可应用/重建hash；不变业务证据保留，改变源/执行集才重采。
+再持续 P02残余/P03–P10及F14/F18，原700/70组/50/20不缩。候选仍固定上方SHA待审；
+不写产品/旧测/共享文档、不中断O/Q、不合main、不done、不清活动树。
+本轮 UI 第三槽仍待确认框恢复；用户无需搬运此提示，由Codex直接发送。
