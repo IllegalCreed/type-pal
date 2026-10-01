@@ -175,3 +175,20 @@ Codex direct dispatch authorized by the user: continue TEST-GLM-WAVE-P-1 as the 
   O/Q只在空闲无相同排队时直发最新原卡窄项再续余族，用户无需转交。
   不将作者闭合当accept，700/组数/50及P20流程保留、原冻结/白名单不变。
 - 本轮仅固定blob/diff/格式对照/三态执行账，不写活动树、不新跑重门/合main/正式结算。
+
+## 2026-10-01 20:13 JST 静态调用链补核与有限输入尝试
+
+- O/P/Q HEAD及干净状态未变，不重复同SHA整包/反控重门。
+- 归档面板已关闭，首页 composer 聚焦后完整单行 ASCII typeText 读回仍空、发送按钮禁用；
+  未按 Return，零新消息/零替换P启动。O/Q当前运行/队列仍未知，停止本轮UI重试，
+  不重复通知旧输入阻塞或要求用户搬运。旧P可恢复归档证据保留。
+- Q-R5-03已核一手：`shared/src/tables.ts:562` 已声明 `PlayerRole.magic?: number[]`；
+  `game-state.ts:569/1577/1670` 公开 runtime 投影及 `shell/bootstrap.ts:1197` 真实 caller
+  证明合法已学法术输入现成，不须补产品字段。候选/冻结五个blob逐字一致；
+  [补核详情](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)及
+  [机器记录](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)已补原卡。
+- Q下次空闲无同任务排队时直接发原卡最新 ASCII 补充，撤回magic blocked-input误记，
+  排重后续原合法余族；不放行learnedSpells fallback、不改产品/冻结/范围。
+  其余O/P/Q窄项及700/组数/50目标原样保留，本轮未新增业务通过数/覆盖结算或accept。
+- 本审核树 docs 为822 Markdown/4357链接/247卡、0问题；lint2751文件完整
+  0 error/0 warning/0 info，配置格式与diff零。仅审核文档收口，不替代贡献者最终门。

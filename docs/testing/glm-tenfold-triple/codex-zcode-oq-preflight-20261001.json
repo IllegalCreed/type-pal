@@ -4623,5 +4623,66 @@
       "kind": "metadata",
       "detail": "receipt candidate now resolves; old invalid SHA counter closed at object pin layer. 44 controls final hash/index/report sets correspond. receipt game 2788 unchanged vs seven added cases requires final raw result anchor, and counterEvidence still says39. README historical gap lines mix old/new, update current ledger; no full gate rerun claimed."
     }
-  ]
+  ],
+  "qR5PrimaryFollowup": {
+    "observedAt": "2026-10-01T11:13:26Z",
+    "candidate": "63129473574ac21a082d1c5902b1fddfe62b02d7",
+    "frozen": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+    "mode": "fixed Git blob type declaration and canonical caller audit; no business rerun",
+    "verdict": "magic blocked-input claim refuted; original rework and other counters remain",
+    "declaredInput": "PlayerRole.magic?: number[] already exists at packages/shared/src/tables.ts:562",
+    "canonicalFlow": [
+      "createInitialGameState / hydratePlayerRolesRuntime -> PlayerRolesRuntime.rgwMagic",
+      "projectRuntimeToBattleRoles -> PlayerRoles.roles[].magic",
+      "shell/bootstrap startBattle -> battle resources",
+      "pickAutoMagic getLearnedSpells -> Force commit caller"
+    ],
+    "limits": [
+      "Use complete typed role and BattleState; no cast or private state is necessary",
+      "No product/interface changes authorized",
+      "learnedSpells fallback is not approved or proved unreachable by this audit",
+      "Old signed-negative and all prior assertions must be deduplicated",
+      "No new business pass counts, acceptance or official coverage settlement"
+    ],
+    "evidence": [
+      {
+        "path": "packages/shared/src/tables.ts",
+        "sha256": "c6e4f9cea1f009d74b292198bb706b25f98d5e4de6b651a3d6be99ad4f514a7a",
+        "frozenMatches": true,
+        "lines": [562]
+      },
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "sha256": "b116bc67d0b182a73e5e95ac731391186d18ddfcb30ae71f7271b1a2a6216355",
+        "frozenMatches": true,
+        "lines": [552, 569, 1394, 1577, 1670, 1881]
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.ts",
+        "sha256": "0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+        "frozenMatches": true,
+        "lines": [1033, 1048, 1372]
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596",
+        "frozenMatches": true,
+        "lines": [1197]
+      },
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "sha256": "8f3afd63ca015ca3f5229325f395797514ddc1cdd4c591559477de4f5e8cc472",
+        "frozenMatches": true,
+        "lines": [1075, 1089, 1105]
+      }
+    ],
+    "dispatch": {
+      "messageSent": false,
+      "replacementPStarted": false,
+      "composerReadback": "empty; send disabled after supported typeText and refreshed app state",
+      "returnPressed": false,
+      "currentOQRunQueueState": "unverified",
+      "uiRetriesStoppedForThisTurn": true
+    }
+  }
 }

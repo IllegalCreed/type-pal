@@ -70,3 +70,27 @@ O/Q当轮工作中/排队状态也未新确认；不继续无限重试或开第�
 700/各卡组数/50有效反控/P20流程不缩，合法停线仅停受影响组。
 无用户搬运提示词；由Codex heartbeat直接续派。独立accept后串行check→官方ratchet→
 受保护strict-fast才决定集成/main/done；本轮未正式测覆盖或宣称85%。
+
+## Q-R5-03 后续一手补核（2026-10-01）
+
+同一固定 Q 测试树，补查声明和真实 caller 后，作者“PlayerRole 未声明 magic、必须补产品
+接口后才能测”的 blocked-input 前提被直接推翻：`packages/shared/src/tables.ts:562`
+已经是 `magic?: number[]`。上方预审只判断作者理由不足；现在无需假定结构化扩展合法性，
+有既有显式 typed 字段和生产公开投影可用。
+
+`core/game-state.ts:569` 的 `rgwMagic` 为公开矩阵，`:1881` 建完整状态，`:1394` hydrate，
+`:1577–1670` 的 `projectRuntimeToBattleRoles` 返回完整 PlayerRoles 并写入 `magic`。
+`shell/bootstrap.ts:1197–1201` 的 startBattle 使用这一投影；
+`core/battle/battle-system.ts:1033–1080` 的 getLearnedSpells/pickAutoMagic 和`:1372`的 Force
+caller 消费此数据。候选五个证据文件与冻结逐字一致，hash/精确锚点见机器记录。
+
+合法方式是完整 typed role 的已声明 `magic`，或完整 create/hydrate 后填公开槽并投影；
+不采用旧测试双桥，不改产品字段，不把 dev `learnedSpells` fallback 一并放行。
+旧 `core/battle/__tests__/battle-system.test.ts:1089–1119` 已证 signed-negative 两回归，
+仍须逐源条件/旧断言排重后展开原卡合法余族。Q撤回 `magic` 的 blocked-input 误记，
+其它 Q-R5 counter/700目标不变。本次未执行业务测试、未增加通过数或正式覆盖率。
+
+本轮 UI 归档面板已关闭、首页 composer 可聚焦；单行 ASCII 输入后刷新仍空，发送按钮禁用，
+因此没有按 Return。零新消息、零替换P启动，O/Q当轮运行/排队仍未证；有限尝试后停止 UI
+动作。原P可恢复归档事实保留，不重复请求用户处理旧确认框。新 Q 补充已落卡待直接续派，
+不是已发送；不写活动贡献者树或main。

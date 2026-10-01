@@ -217,3 +217,33 @@ Q08第6/8/10的具体旧证据认可，不重造；第6无空槽测试不能扩�
   默认超时、D-Q01-1产品draft保留。不把两种统计相加冒称正式收益。
 - 未新整包/官方结算，123仍作者运行规模；700/50组/50有效反控不缩。
   仅实际空闲无相同排队时由Codex直接发窄项后续余族；不打断、不合main、不done。
+
+### Q-R5-03 一手调用链补核（2026-10-01）
+
+固定测试树 `63129473574ac21a082d1c5902b1fddfe62b02d7`；**仍 counter/rework**。
+学习法术 `magic` 路径已有合法 typed 输入，不能以缺产品字段为由停测或缩围：
+
+- `packages/shared/src/tables.ts:560–562` 已声明 `PlayerRole.magic?: number[]`。
+  作者 ledger 引接口起始行482后断言“未声明该字段”不成立；也不必采用先前预审提及的
+  结构化扩展方案。`learnedSpells` 是另一 fallback，不因本次核验自动获准或被证不可达。
+- `packages/game/src/core/game-state.ts:552–569` 的公开 `PlayerRolesRuntime.rgwMagic`
+  是32槽×6角色矩阵；`:1881` 创建完整 GameState，`:1394` 的 hydrate 接完整静态角色，
+  `:1577–1670` 的公开 `projectRuntimeToBattleRoles` 将槽投影为 `role.magic`。
+- `packages/game/src/shell/bootstrap.ts:1197–1201` 的真实 startBattle caller 正是该投影；
+  `core/battle/battle-system.ts:1033–1080` 读取已学槽并判 resolve/costMP/MP/威力，
+  `:1372` 的 Force caller 实际消费 `pickAutoMagic`。不需私有态、双桥或产品接口修改。
+- 用完整 typed role/BattleState，合法填 `role.magic`，或经 create/hydrate/rgwMagic/投影
+  进入同一公开入口。先对照旧 `core/battle/__tests__/battle-system.test.ts:1089–1119`
+  两条 signed-negative 回归及其它旧断言，逐源条件展开原已批准余族；不复制旧双桥或换号凑例。
+
+五个证据文件候选 blob 与原冻结逐字相同，SHA256 已记入
+[机器补核](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)。
+本次是源码/类型/caller 复核，不是新增业务实跑，不更改123例或44针通过数。
+Q须撤回 `magic` 的 blocked-input/等待补产品字段表述，保留其它 counter；
+源或执行集变化才重采受影响针，未变39枚保留。700/50组/50有效反控不缩。
+
+待直接续派的单行 ASCII 补充（**尚未发送**，仅实际空闲且无同任务排队时使用）：
+
+```text
+TEST-GLM-WAVE-Q-1 Codex primary-source follow-up: continue only in /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal on codex/glm-wave-q-runtime-residual-r1, with the original whitelist/base/freeze unchanged. Read the latest Q card and codex-zcode-oq-preflight-20261001.md/json in the acceptance tree. Q-R5-03 is now verified: packages/shared/src/tables.ts:562 already declares PlayerRole.magic?: number[], and core/game-state.ts:569,1577,1670 plus shell/bootstrap.ts:1197 provide the real public typed runtime projection into battle roles. Withdraw the magic blocked-input/product-field claim; use a complete typed role/BattleState or createInitialGameState, hydratePlayerRolesRuntime, rgwMagic and projectRuntimeToBattleRoles. No casts, private state, product changes or new mechanics. Deduplicate the old signed-negative tests and all prior assertions before expanding the approved resolve/costMP/MP/selection contracts. This does not authorize the separate learnedSpells fallback or shrink 700 cases/50 groups/50 controls. Keep Q-R5-01/02/04 and all previously closed items as recorded; recollect only controls whose source or execution set changed. Continue approved Q07/Q08/Q10 residual work, validate each batch, commit and push stages; no main merge, done, official gates or real data/story/E2E002 writes.
+```
