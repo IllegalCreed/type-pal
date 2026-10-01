@@ -121,7 +121,7 @@
     "r9-continued": "新批次：ambience tint/lerp、skill 执行层、dialogue 身份残余（+12）；level-growth 钳位/隐藏经验池/实体生命周期引用闭包（+7）；菱形格几何（+9）——共 +28 例、7 枚新反控（O09-CC14~18、O08-CC10/11）计 69"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED",
+  "remoteFinalCandidate": "91bf7a8434beb596c2e1cc1cf2cfc69614b2733f",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
