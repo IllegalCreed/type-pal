@@ -1799,7 +1799,7 @@ describe('项目设置工作区', () => {
     )
 
     expect(host.textContent).toContain('内容版本 21')
-    expect(host.textContent).toContain('最低存档版本 9')
+    expect(host.textContent).toContain('最低存档版本 10')
 
     await act(async () =>
       root.render(
