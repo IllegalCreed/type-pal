@@ -1,253 +1,223 @@
 #!/usr/bin/env node
-/** run-counter 判据自测：以合成 Vitest JSON 报告验证 assertPhase 拒收路径。
- *  每个用例构造最小报告形状，直接调用提取出的判定逻辑等价实现（与 run-counter.mjs
- *  同判据复制），断言拒收消息。不自建 worktree、不跑 vitest。
+/** 反控 judge 自测：直接调用与 runner 相同的 counter-judge.mjs（唯一判据源）。
+ *  覆盖 O-R7 审核给出的全部误收反例：异身份恢复、fullName 附加错后缀、
+ *  一断言红叠未处理异常、exit=-1；以及零执行/非叶/多文件/双红/错目标/错文件/
+ *  崩溃栈/raw Unhandled 公告/signal/spawn 与四个正控。
  */
 import assert from 'node:assert/strict'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
-
-const LEAF_OK = new Set(['passed', 'failed'])
-function isBusinessAssertion(message) {
-  return /^AssertionError|^expect\(/.test(message)
-}
-// 与 run-counter.mjs 相同的判据（复制以供纯函数测试；改动须同步两处）
-function assertPhase(run, spec, phase, ownerPackage, repoRoot) {
-  const tests = run.json.testResults.flatMap((f) =>
-    (f.assertionResults ?? []).map((a) => ({ ...a, file: f.name })),
-  )
-  if (tests.length === 0) throw new Error(`${phase} 零执行（collection/过滤后为空）拒收`)
-  for (const entry of tests) {
-    if (!LEAF_OK.has(entry.status))
-      throw new Error(
-        `${phase} 非叶状态 ${entry.status}（pending/todo/skip）拒收: ${entry.fullName}`,
-      )
-  }
-  const failed = tests.filter((e) => e.status === 'failed')
-  const files = new Set(run.json.testResults.map((f) => f.name))
-  if (files.size !== 1) throw new Error(`${phase} 期望单文件执行，实际 ${files.size} 个文件`)
-  if (phase !== 'injected') {
-    if (run.exitCode !== 0 || failed.length !== 0)
-      throw new Error(`${phase} 须全绿：exit=${run.exitCode} failed=${failed.length}`)
-    return undefined
-  }
-  if (run.exitCode === 0 || failed.length !== 1)
-    throw new Error(`injected 须恰一红：exit=${run.exitCode} failed=${failed.length}`)
-  const target = failed[0]
-  if (!target.fullName.includes(spec.test.title))
-    throw new Error(`红例 fullName 不符: ${target.fullName}`)
-  const targetFile = run.json.testResults.find((f) =>
-    (f.assertionResults ?? []).some((a) => a.fullName === target.fullName),
-  )?.name
-  const wanted = resolve(repoRoot, `packages/${ownerPackage}`, spec.test.file)
-  if (!targetFile || !resolve(targetFile).startsWith(wanted))
-    throw new Error(`红例文件不符: ${targetFile} 期望 ${wanted}`)
-  const message = target.failureMessages[0] ?? ''
-  if (!isBusinessAssertion(message))
-    throw new Error(`红例非业务 AssertionError（未处理异常/崩溃拒收）: ${message.slice(0, 200)}`)
-  return target
-}
+import { flattenTests, judgePhase, sameExecutionIdentity } from './counter-judge.mjs'
 
 const repo = mkdtempSync(resolve(tmpdir(), 'glm-o-selftest-'))
 const spec = { test: { file: 'src/x.glm-o.test.ts', title: '目标合同' } }
+const pkg = 'content'
 const file = resolve(repo, 'packages/content/src/x.glm-o.test.ts')
-const report = (assertionResults, exitCode = 1) => ({
-  exitCode,
-  json: { testResults: [{ name: file, assertionResults }] },
+const T = (fullName, status, failureMessages = []) => ({
+  file,
+  fullName,
+  status,
+  failureMessages,
 })
+const run = (tests, extra = {}) => ({
+  exitCode: 1,
+  json: { testResults: [{ name: file, assertionResults: tests }] },
+  stdout: '',
+  stderr: '',
+  ...extra,
+})
+const pass = (fullName) => T(fullName, 'passed')
+const red = (fullName, msg = 'AssertionError: expected 1 to be 2') => T(fullName, 'failed', [msg])
 
-let checked = 0
+let n = 0
 const rejects = (label, fn, match) => {
-  let threw
+  let err
   try {
     fn()
   } catch (error) {
-    threw = error
+    err = error
   }
-  assert.ok(threw, `${label} 应拒收`)
-  assert.match(threw.message, match, `${label} 拒收消息`)
-  checked++
+  assert.ok(err, `${label} 应拒收`)
+  assert.match(err.message, match, `${label} 拒收消息不符`)
+  n++
 }
 
-// 1) 零执行拒收（control 与 injected 都拒）
-rejects(
-  '零执行 control',
-  () => assertPhase(report([], 0), spec, 'control', 'content', repo),
-  /零执行/,
-)
-rejects(
-  '零执行 injected',
-  () => assertPhase(report([], 1), spec, 'injected', 'content', repo),
-  /零执行/,
-)
-
-// 2) skip/pending 非叶状态拒收
+// ── 拒收：执行集与状态 ──
+rejects('零执行', () => judgePhase(run([]), spec, 'injected', pkg), /零执行/)
 rejects(
   'skip 叶',
-  () =>
-    assertPhase(
-      report([{ fullName: 'a 目标合同', status: 'skipped' }]),
-      spec,
-      'injected',
-      'content',
-      repo,
-    ),
+  () => judgePhase(run([T('a 目标合同', 'skipped')]), spec, 'injected', pkg),
   /非叶状态 skipped/,
 )
 rejects(
   'todo 叶',
-  () =>
-    assertPhase(
-      report([{ fullName: 'a 目标合同', status: 'todo' }]),
-      spec,
-      'injected',
-      'content',
-      repo,
-    ),
+  () => judgePhase(run([T('a 目标合同', 'todo')]), spec, 'injected', pkg),
   /非叶状态 todo/,
 )
-
-// 3) 多文件拒收
-const twoFiles = {
-  exitCode: 1,
-  json: {
-    testResults: [
-      { name: file, assertionResults: [{ fullName: 'a 目标合同', status: 'passed' }] },
-      {
-        name: resolve(repo, 'packages/content/src/y.glm-o.test.ts'),
-        assertionResults: [{ fullName: 'b', status: 'passed' }],
-      },
-    ],
-  },
-}
-rejects('多文件', () => assertPhase(twoFiles, spec, 'injected', 'content', repo), /单文件/)
-
-// 4) control 有红拒收
 rejects(
-  'control 红',
+  '多文件',
   () =>
-    assertPhase(
-      report([
-        { fullName: 'a 目标合同', status: 'failed', failureMessages: ['AssertionError: x'] },
-      ]),
+    judgePhase(
+      {
+        exitCode: 0,
+        json: {
+          testResults: [
+            { name: file, assertionResults: [pass('a')] },
+            {
+              name: resolve(repo, 'packages/content/src/y.glm-o.test.ts'),
+              assertionResults: [pass('b')],
+            },
+          ],
+        },
+        stdout: '',
+        stderr: '',
+      },
       spec,
       'control',
-      'content',
-      repo,
+      pkg,
     ),
+  /单文件/,
+)
+// control 红在 exit=0 正常形态下触发须全绿拒收
+rejects(
+  'control 红',
+  () => judgePhase(run([red('a 目标合同')], { exitCode: 0 }), spec, 'control', pkg),
   /control 须全绿/,
 )
 
-// 5) injected 双红拒收
+// ── 拒收：目标精确性 ──
 rejects(
   '双红',
-  () =>
-    assertPhase(
-      report([
-        { fullName: 'a 目标合同', status: 'failed', failureMessages: ['AssertionError: x'] },
-        { fullName: 'b 其它', status: 'failed', failureMessages: ['AssertionError: y'] },
-      ]),
-      spec,
-      'injected',
-      'content',
-      repo,
-    ),
+  () => judgePhase(run([red('a 目标合同'), red('b 其它')]), spec, 'injected', pkg),
   /恰一红/,
 )
-
-// 6) 目标 fullName 不符拒收
 rejects(
-  '错目标',
-  () =>
-    assertPhase(
-      report([
-        { fullName: 'a 完全不同的合同', status: 'failed', failureMessages: ['AssertionError: x'] },
-      ]),
-      spec,
-      'injected',
-      'content',
-      repo,
-    ),
+  '错目标（无此前缀）',
+  () => judgePhase(run([red('完全不同的合同')]), spec, 'injected', pkg),
   /fullName 不符/,
 )
-
-// 7) 红在错误文件拒收（spec 指向 src/x，红落在 src/z）
-const wrongFileReport = {
-  exitCode: 1,
-  json: {
-    testResults: [
-      {
-        name: resolve(repo, 'packages/content/src/z.glm-o.test.ts'),
-        assertionResults: [
-          { fullName: 'a 目标合同', status: 'failed', failureMessages: ['AssertionError: x'] },
-        ],
-      },
-    ],
-  },
-}
-rejects('错文件', () => assertPhase(wrongFileReport, spec, 'injected', 'content', repo), /文件不符/)
-
-// 8) 未处理 Promise 异常/崩溃红拒收（非 AssertionError 首帧）
 rejects(
-  '未处理异常红',
+  'fullName 附加错后缀（append-only 不算精确匹配）',
+  () => judgePhase(run([red('a 目标合同XX')]), spec, 'injected', pkg),
+  /fullName 不符/,
+)
+rejects(
+  '错文件（spec 指 src/x，红落 src/z）',
   () =>
-    assertPhase(
-      report([
-        {
-          fullName: 'a 目标合同',
-          status: 'failed',
-          failureMessages: ['Error: promise resolved "x" instead of rejecting'],
+    judgePhase(
+      {
+        exitCode: 1,
+        json: {
+          testResults: [
+            {
+              name: resolve(repo, 'packages/content/src/z.glm-o.test.ts'),
+              assertionResults: [red('a 目标合同')],
+            },
+          ],
         },
-      ]),
+        stdout: '',
+        stderr: '',
+      },
       spec,
       'injected',
-      'content',
-      repo,
+      pkg,
+    ),
+  /文件不符/,
+)
+
+// ── 拒收：非业务红与 harness 形态 ──
+rejects(
+  '未处理 Promise 异常红',
+  () =>
+    judgePhase(
+      run([red('a 目标合同', 'Error: promise resolved "x" instead of rejecting')]),
+      spec,
+      'injected',
+      pkg,
     ),
   /非业务 AssertionError/,
 )
 rejects(
   '崩溃栈红',
-  () =>
-    assertPhase(
-      report([
-        { fullName: 'a 目标合同', status: 'failed', failureMessages: ['TypeError: cannot read'] },
-      ]),
-      spec,
-      'injected',
-      'content',
-      repo,
-    ),
+  () => judgePhase(run([red('a 目标合同', 'TypeError: cannot read')]), spec, 'injected', pkg),
   /非业务 AssertionError/,
 )
-
-// 9) 正控：合法单目标业务红通过
-const okTarget = assertPhase(
-  report([
-    {
-      fullName: 'O08 组 a 目标合同',
-      status: 'failed',
-      failureMessages: ['AssertionError: expected 1 to be 2'],
-    },
-  ]),
-  spec,
-  'injected',
-  'content',
-  repo,
+rejects(
+  '一断言红叠 raw Unhandled 公告',
+  () =>
+    judgePhase(
+      run([red('a 目标合同')], { stderr: 'Unhandled Error: boom at processTicks' }),
+      spec,
+      'injected',
+      pkg,
+    ),
+  /未处理异常公告/,
 )
-assert.equal(okTarget.fullName, 'O08 组 a 目标合同')
-checked++
-
-// 10) 正控：control/restored 全绿通过
-assertPhase(
-  report([{ fullName: 'a 目标合同', status: 'passed' }], 0),
-  spec,
-  'control',
-  'content',
-  repo,
+rejects(
+  'exit=-1（harness 崩溃）拒收',
+  () => judgePhase(run([pass('a 目标合同')], { exitCode: -1 }), spec, 'control', pkg),
+  /非正常退出码 -1/,
 )
-checked++
+rejects(
+  'injected exit=2 拒收',
+  () => judgePhase(run([red('a 目标合同')], { exitCode: 2 }), spec, 'injected', pkg),
+  /非正常退出码 2/,
+)
+rejects(
+  'signal 拒收',
+  () =>
+    judgePhase(run([pass('a 目标合同')], { exitCode: 0, signal: 'SIGKILL' }), spec, 'control', pkg),
+  /signal=SIGKILL/,
+)
+rejects(
+  'spawn error 拒收',
+  () =>
+    judgePhase(
+      run([pass('a 目标合同')], { exitCode: 0, error: new Error('spawn ENOENT') }),
+      spec,
+      'control',
+      pkg,
+    ),
+  /spawn 失败/,
+)
+
+// ── 拒收：三相身份比较 ──
+rejects(
+  '异身份恢复（injected 多一条）',
+  () =>
+    sameExecutionIdentity(
+      flattenTests({ testResults: [{ name: file, assertionResults: [pass('a'), pass('b')] }] }),
+      flattenTests({ testResults: [{ name: file, assertionResults: [pass('a')] }] }),
+      'control↔injected',
+    ),
+  /执行身份/,
+)
+rejects(
+  '状态漂移（a passed → failed）',
+  () =>
+    sameExecutionIdentity(
+      flattenTests({ testResults: [{ name: file, assertionResults: [pass('a')] }] }),
+      flattenTests({ testResults: [{ name: file, assertionResults: [red('a')] }] }),
+      'injected↔restored',
+    ),
+  /状态漂移/,
+)
+
+// ── 正控 ──
+const target = judgePhase(run([red('O08 组 目标合同')]), spec, 'injected', pkg)
+assert.equal(target.fullName, 'O08 组 目标合同')
+n++
+judgePhase(run([pass('a 目标合同')], { exitCode: 0 }), spec, 'control', pkg)
+n++
+judgePhase(run([pass('a 目标合同')], { exitCode: 0 }), spec, 'restored', pkg)
+n++
+sameExecutionIdentity(
+  flattenTests({ testResults: [{ name: file, assertionResults: [pass('a'), red('b')] }] }),
+  flattenTests({ testResults: [{ name: file, assertionResults: [pass('a'), red('b')] }] }),
+  'x↔y',
+)
+n++
 
 rmSync(repo, { recursive: true, force: true })
-console.log(`selftest ${checked} 判据用例全过（拒收 10 + 正控 2 + 目标返回 1）`)
+console.log(`selftest ${n} 判据用例全过（拒收 18 + 正控 4，全部经 counter-judge.mjs 唯一判据）`)

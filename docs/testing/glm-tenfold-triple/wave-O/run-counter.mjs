@@ -10,6 +10,7 @@ import { createHash } from 'node:crypto'
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
+import { flattenTests, judgePhase, sameExecutionIdentity } from './counter-judge.mjs'
 
 const repoRoot = resolve(resolve(import.meta.dirname), '../../../..')
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -79,52 +80,6 @@ const phaseSummary = (run) => {
   }
 }
 
-/** 叶状态白名单：pending/todo/skip/空收集等一律不是有效执行。 */
-const LEAF_OK = new Set(['passed', 'failed'])
-
-/** 真实业务断言红：AssertionError/expect 首帧；未处理异常/崩溃栈拒收。 */
-function isBusinessAssertion(message) {
-  return /^AssertionError|^expect\(/.test(message)
-}
-
-function assertPhase(run, spec, phase) {
-  const tests = flatten(run.json.testResults)
-  if (tests.length === 0) throw new Error(`${phase} 零执行（collection/过滤后为空）拒收`)
-  for (const entry of tests) {
-    if (!LEAF_OK.has(entry.status))
-      throw new Error(
-        `${phase} 非叶状态 ${entry.status}（pending/todo/skip）拒收: ${entry.fullName}`,
-      )
-  }
-  const failed = tests.filter((entry) => entry.status === 'failed')
-  const files = new Set(run.json.testResults.map((f) => f.name))
-  if (files.size !== 1) throw new Error(`${phase} 期望单文件执行，实际 ${files.size} 个文件`)
-  if (phase !== 'injected') {
-    if (run.exitCode !== 0 || failed.length !== 0)
-      throw new Error(`${phase} 须全绿：exit=${run.exitCode} failed=${failed.length}`)
-    return undefined
-  }
-  if (run.exitCode === 0 || failed.length !== 1)
-    throw new Error(`injected 须恰一红：exit=${run.exitCode} failed=${failed.length}`)
-  const target = failed[0]
-  if (!target.fullName.endsWith(spec.test.title) && !target.fullName.includes(spec.test.title))
-    throw new Error(`红例 fullName 不符: ${target.fullName}`)
-  const targetFile = run.json.testResults.find((f) =>
-    (f.assertionResults ?? []).some((a) => a.fullName === target.fullName),
-  )?.name
-  const wantedSuffix = resolve(`packages/${ownerPackage}`, spec.test.file)
-    .split('/')
-    .slice(-2)
-    .join('/')
-  const targetSuffix = targetFile ? targetFile.split('/').slice(-2).join('/') : ''
-  if (targetSuffix !== wantedSuffix)
-    throw new Error(`红例文件不符: ${targetSuffix} 期望 ${wantedSuffix}`)
-  const message = target.failureMessages[0] ?? ''
-  if (!isBusinessAssertion(message))
-    throw new Error(`红例非业务 AssertionError（未处理异常/崩溃拒收）: ${message.slice(0, 200)}`)
-  return target
-}
-
 function main() {
   const spec = JSON.parse(readFileSync(process.argv[2], 'utf8'))
   ownerPackage = spec.package ?? 'migrate'
@@ -155,7 +110,7 @@ function main() {
       resolve(controlDir, 'vitest-control.json'),
       resolve(controlDir, 'vitest-control.txt'),
     )
-    assertPhase(control, spec, 'control')
+    judgePhase(control, spec, 'control', ownerPackage)
 
     // ── phase 2: injected（单轴变异 → 恰一业务红）──
     const source = readFileSync(resolve(injectedDir, productRel), 'utf8')
@@ -175,7 +130,7 @@ function main() {
       resolve(injectedDir, 'vitest-injected.json'),
       resolve(injectedDir, 'vitest-injected.txt'),
     )
-    const target = assertPhase(injected, spec, 'injected')
+    const target = judgePhase(injected, spec, 'injected', ownerPackage)
 
     // ── 重建自校验：checkout 后应用零上下文 patch，必须重建出同一变异字节 ──
     git(['checkout', '--', productRel], injectedDir)
@@ -197,7 +152,17 @@ function main() {
       resolve(injectedDir, 'vitest-restored.json'),
       resolve(injectedDir, 'vitest-restored.txt'),
     )
-    assertPhase(restored, spec, 'restored')
+    judgePhase(restored, spec, 'restored', ownerPackage)
+    sameExecutionIdentity(
+      flattenTests(control.json),
+      flattenTests(injected.json),
+      'control↔injected',
+    )
+    sameExecutionIdentity(
+      flattenTests(injected.json),
+      flattenTests(restored.json),
+      'injected↔restored',
+    )
 
     if (controlShaBefore !== sha256(readFileSync(candidateFile)))
       throw new Error('候选树测试文件被意外修改')
