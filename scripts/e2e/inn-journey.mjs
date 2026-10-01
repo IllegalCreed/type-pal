@@ -7,6 +7,7 @@ import {
   assertInnChoreography,
   assertInnDialogueHolds,
   assertInnEvidence,
+  assertInnHandoffPayload,
   assertInnRestoreCommitted,
   innArguments,
   innEndPresented,
@@ -489,6 +490,7 @@ export async function runInnJourney(engine) {
         sha256: sha256(bytes),
         source: `this 002 normal route/core / ${engine === 'game' ? 'F5 Save.loadSlot/serialize' : 'production barrier dumpSave'}`,
       }
+      report.handoff = { checkpoint: assertInnHandoffPayload(JSON.parse(bytes), engine) }
       await bootstrap('002-real-restore', bytes)
       s = await snapshot()
       assert(hall(s, engine))
@@ -506,6 +508,14 @@ export async function runInnJourney(engine) {
           ? await page.evaluate(readWorld)
           : assertInnRestoreCommitted(restoredTrace, report.endWorld)
       report.restoredWorldHash = sha256(JSON.stringify(report.restoredWorld))
+      const restoredPayload =
+        engine === 'game'
+          ? await page.evaluate(async () => {
+              const { serializeSave } = await import('/src/tools/save-io.ts')
+              return JSON.parse(serializeSave(window.__tpgs))
+            })
+          : report.restoredWorld
+      report.handoff.restored = assertInnHandoffPayload(restoredPayload, engine)
       assert.equal(
         report.restoredWorldHash,
         report.endWorldHash,

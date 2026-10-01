@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { repoRoot, sha256 } from './browser-journey.mjs'
-import { readInnContract } from './inn-contract.mjs'
+import { assertInnHandoffPayload, readInnContract } from './inn-contract.mjs'
 import { openingFrameMatches } from './opening-frame.mjs'
 import { openingSaveView } from './reforge-opening-policy.mjs'
 
@@ -192,6 +192,7 @@ export function validateKitchenPredecessor(report, payload, engine, bytes) {
     assert.equal(payload.world.script.entityState.s001.e19 ?? 0, 0)
     assert.equal(payload.world.script.entityState.s001.e20 ?? 0, 0)
   }
+  assertInnHandoffPayload(payload, engine)
   return {
     revision: report.revision,
     sha256: report.checkpoint.sha256,

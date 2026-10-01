@@ -113,6 +113,89 @@ export async function readPredecessor(path, engine) {
   return { path, bytes, payload, ...validatePredecessor(report, payload, engine, bytes) }
 }
 
+/** Story handoff, not merely save equality: L373 must select first-day L355, not late L2369. */
+export function assertInnHandoffPayload(payload, engine) {
+  assert(['game', 'reforge'].includes(engine), 'unknown inn handoff engine')
+  if (engine === 'game') {
+    assert.equal(payload.format, 'type-pal-save')
+    const gs = payload.gs
+    assert.equal(gs.wNumScene, 4, '002 handoff is not in the inn hall')
+    assert.equal(gs.dwCash, 500)
+    const actor = (id) => {
+      const matches = gs.allEventObjects.filter((e) => e.id === id)
+      assert.equal(matches.length, 1, `missing/duplicate handoff actor e${id}`)
+      return matches[0]
+    }
+    const aunt = actor(56),
+      taoist = actor(62)
+    assert.equal(aunt.triggerLabel, 'L_355', '002 aunt handoff must select first-day L355')
+    assert.equal(aunt.triggerMode, 6, '002 aunt first-day approach trigger missing')
+    assert.equal(aunt.sState, 2, '002 aunt prematurely hidden')
+    assert.equal(aunt.triggerResume, undefined, 'first-day aunt instruction already executed')
+    assert.equal(taoist.triggerLabel, 'L_601', 'first beggar talk prematurely dispatched')
+    assert.equal(taoist.sState, 2)
+    assert.equal(taoist.triggerResume, undefined, 'initial taoist observation already executed')
+    for (const [id, label] of [
+      [19, 'L_557'],
+      [20, 'L_579'],
+    ]) {
+      const e = actor(id)
+      assert.equal(e.sState, 0, `kitchen actor e${id} prematurely active`)
+      assert.equal(e.triggerLabel, label, `kitchen actor e${id} premature handoff`)
+      assert.equal(e.triggerResume, undefined, `kitchen actor e${id} already executed`)
+    }
+  } else {
+    assert.equal(payload.version, 9)
+    assert.equal(payload.contentVersion, 21)
+    assert.equal(payload.projectId, 'pal')
+    assert.equal(payload.position.sceneId, 's003', '002 handoff is not in the inn hall')
+    const script = payload.world.script,
+      bindings = script.behaviors?.entities ?? {},
+      aunt = bindings.s003?.e56
+    assert.equal(payload.world.money, 500)
+    assert.deepEqual(
+      aunt?.trigger?.selection,
+      { kind: 'use', value: 'greet-after-guests' },
+      '002 aunt handoff must select first-day greet-after-guests',
+    )
+    assert.equal(aunt.trigger.cursor, undefined, 'first-day aunt instruction already executed')
+    assert.deepEqual(
+      aunt.triggerActivation,
+      { kind: 'use', value: { on: 'touch', range: 2 } },
+      '002 aunt first-day approach trigger missing',
+    )
+    assert.deepEqual(
+      aunt.auto?.selection,
+      { kind: 'use', value: 'legacy-006' },
+      'kitchen movement prematurely dispatched',
+    )
+    // Canonical e56/e62 are visible+collidable (state2); hidden kitchen e19/e20 default to state0.
+    for (const id of ['e56', 'e62'])
+      assert.equal(script.entityState?.s003?.[id] ?? 2, 2, `handoff actor ${id} prematurely hidden`)
+    const unexecutedDefault = (slot, label) => {
+      const selection = slot?.trigger?.selection
+      assert(
+        !selection ||
+          selection.kind === 'inherit' ||
+          (selection.kind === 'use' && selection.value === 'default'),
+        `${label} prematurely dispatched`,
+      )
+      assert.equal(slot?.trigger?.cursor, undefined, `${label} already executed`)
+    }
+    unexecutedDefault(bindings.s003?.e62, 'first beggar talk')
+    for (const id of ['e19', 'e20']) {
+      assert.equal(script.entityState?.s001?.[id] ?? 0, 0, `kitchen actor ${id} prematurely active`)
+      unexecutedDefault(bindings.s001?.[id], `kitchen actor ${id}`)
+    }
+  }
+  return {
+    status: 'passed',
+    aunt: engine === 'game' ? 'L_355' : 'greet-after-guests',
+    kitchen: 'not activated',
+    beggar: 'initial observation',
+  }
+}
+
 /** Compare the real synchronous restore commit, never a later background-resumed save. */
 export function assertInnRestoreCommitted(trace, expected) {
   assert.equal(trace.overflow, false, 'inn restore collector overflow')

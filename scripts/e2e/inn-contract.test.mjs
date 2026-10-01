@@ -7,6 +7,7 @@ import {
   assertInnChoreography,
   assertInnDialogueHolds,
   assertInnEvidence,
+  assertInnHandoffPayload,
   assertInnRestoreCommitted,
   INN_ROWS,
   innArguments,
@@ -33,6 +34,120 @@ const state = (position = [0, 0, 0]) => ({
   money: 0,
   control: false,
   roomActors: [],
+})
+const handoffPayload = (engine) =>
+  engine === 'game'
+    ? {
+        format: 'type-pal-save',
+        gs: {
+          wNumScene: 4,
+          dwCash: 500,
+          allEventObjects: [
+            { id: 56, sState: 2, triggerLabel: 'L_355', triggerMode: 6 },
+            { id: 62, sState: 2, triggerLabel: 'L_601' },
+            { id: 19, sState: 0, triggerLabel: 'L_557' },
+            { id: 20, sState: 0, triggerLabel: 'L_579' },
+          ],
+        },
+      }
+    : {
+        version: 9,
+        contentVersion: 21,
+        projectId: 'pal',
+        position: { sceneId: 's003' },
+        world: {
+          money: 500,
+          script: {
+            entityState: {},
+            behaviors: {
+              entities: {
+                s003: {
+                  e56: {
+                    trigger: { selection: { kind: 'use', value: 'greet-after-guests' } },
+                    triggerActivation: { kind: 'use', value: { on: 'touch', range: 2 } },
+                    auto: { selection: { kind: 'use', value: 'legacy-006' } },
+                  },
+                  e62: {
+                    auto: {
+                      cursor: { behavior: 'default', at: { kind: 'stage', stage: 'legacy-003' } },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+test('002 story handoff accepts the genuine first-day pointers without pinning background auto phases', () => {
+  for (const engine of ['game', 'reforge']) {
+    const payload = handoffPayload(engine),
+      original = structuredClone(payload)
+    assert.equal(assertInnHandoffPayload(payload, engine).status, 'passed')
+    assert.deepEqual(payload, original, 'handoff oracle must not modify the payload')
+  }
+  const payload = handoffPayload('reforge')
+  payload.world.script.behaviors.entities.s003.e62.auto.cursor.at.stage = 'initial'
+  assertInnHandoffPayload(payload, 'reforge')
+})
+test('002 rejects a consistently saved late-day aunt binding and any premature 003 dispatch', () => {
+  for (const engine of ['game', 'reforge']) {
+    const payload = handoffPayload(engine)
+    if (engine === 'game') payload.gs.allEventObjects[0].triggerLabel = 'L_2369'
+    else payload.world.script.behaviors.entities.s003.e56.trigger.selection.value = 'legacy-001'
+    assert.throws(() => assertInnHandoffPayload(payload, engine), /must select first-day/)
+  }
+  for (const corrupt of [
+    (p) => {
+      p.world.script.behaviors.entities.s003.e56.trigger.cursor = {
+        behavior: 'greet-after-guests',
+        at: { kind: 'stage', stage: 'remind-kitchen' },
+      }
+    },
+    (p) => {
+      p.world.script.behaviors.entities.s003.e56.auto.selection.value = 'go-to-kitchen'
+    },
+    (p) => {
+      p.world.script.behaviors.entities.s003.e56.triggerActivation.value.on = 'interact'
+    },
+    (p) => {
+      p.world.script.behaviors.entities.s003.e62.trigger = {
+        selection: { kind: 'use', value: 'beggar-first-talk' },
+      }
+    },
+    (p) => {
+      p.world.script.entityState.s001 = { e19: 2 }
+    },
+    (p) => {
+      p.world.script.behaviors.entities.s001 = {
+        e20: { trigger: { selection: { kind: 'use', value: 'take-dishes' } } },
+      }
+    },
+  ]) {
+    const payload = handoffPayload('reforge')
+    corrupt(payload)
+    assert.throws(() => assertInnHandoffPayload(payload, 'reforge'))
+  }
+  for (const corrupt of [
+    (gs) => {
+      gs.allEventObjects[0].triggerResume = { ip: 370 }
+    },
+    (gs) => {
+      gs.allEventObjects[0].triggerMode = 2
+    },
+    (gs) => {
+      gs.allEventObjects[1].triggerLabel = 'L_604'
+    },
+    (gs) => {
+      gs.allEventObjects[2].sState = 2
+    },
+    (gs) => {
+      gs.allEventObjects[3].triggerLabel = 'L_583'
+    },
+  ]) {
+    const payload = handoffPayload('game')
+    corrupt(payload.gs)
+    assert.throws(() => assertInnHandoffPayload(payload, 'game'))
+  }
 })
 test('restored control alone cannot end capture before the last participant hide is observed', () => {
   const final = {

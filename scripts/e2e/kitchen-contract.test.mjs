@@ -188,6 +188,17 @@ test('002 predecessor admission rejects fake bytes, wrong story, missing restore
         flags: {},
         vars: {},
         entityState: { s003: { e59: 0, e60: 0, e61: 0 }, s001: { e24: 2, e25: 2, e26: 2 } },
+        behaviors: {
+          entities: {
+            s003: {
+              e56: {
+                trigger: { selection: { kind: 'use', value: 'greet-after-guests' } },
+                triggerActivation: { kind: 'use', value: { on: 'touch', range: 2 } },
+                auto: { selection: { kind: 'use', value: 'legacy-006' } },
+              },
+            },
+          },
+        },
       },
     },
   }
@@ -253,6 +264,27 @@ test('002 predecessor admission rejects fake bytes, wrong story, missing restore
     assert.throws(() =>
       validateKitchenPredecessor({ ...report, ...patch }, payload, 'reforge', bytes),
     )
+  const late = structuredClone(payload)
+  late.world.script.behaviors.entities.s003.e56.trigger.selection.value = 'legacy-001'
+  const lateBytes = JSON.stringify(late),
+    lateWorld = openingSaveView(late)
+  assert.throws(
+    () =>
+      validateKitchenPredecessor(
+        {
+          ...report,
+          endWorld: lateWorld,
+          restoredWorld: structuredClone(lateWorld),
+          endWorldHash: sha256(JSON.stringify(lateWorld)),
+          restoredWorldHash: sha256(JSON.stringify(lateWorld)),
+          checkpoint: { ...report.checkpoint, sha256: sha256(lateBytes) },
+        },
+        late,
+        'reforge',
+        lateBytes,
+      ),
+    /must select first-day/,
+  )
 })
 test('002 game admission binds the persistent save fields to actual end/restore, not only updated SHA', () => {
   const gs = {
@@ -265,13 +297,13 @@ test('002 game admission binds the persistent save fields to actual end/restore,
     rgScene: [],
     rgObject: [],
     rgEventObject: [],
-    allEventObjects: [19, 20, 24, 25, 26, 59, 60, 61].map((id) => ({
+    allEventObjects: [19, 20, 24, 25, 26, 56, 59, 60, 61, 62].map((id) => ({
       id,
       x: 1,
       y: 1,
-      sState: [24, 25, 26].includes(id) ? 2 : 0,
-      triggerLabel: `L_${id}`,
-      triggerResume: { ip: id },
+      sState: [24, 25, 26, 56, 62].includes(id) ? 2 : 0,
+      triggerLabel: { 19: 'L_557', 20: 'L_579', 56: 'L_355', 62: 'L_601' }[id] ?? `L_${id}`,
+      triggerMode: id === 56 ? 6 : 1,
     })),
   }
   const payload = { format: 'type-pal-save', gs },
@@ -308,7 +340,7 @@ test('002 game admission binds the persistent save fields to actual end/restore,
   }
   validateKitchenPredecessor(report, payload, 'game', bytes)
   const altered = structuredClone(payload)
-  altered.gs.allEventObjects[0].triggerResume.ip++
+  altered.gs.allEventObjects[0].triggerResume = { ip: 19 }
   const alteredBytes = JSON.stringify(altered)
   assert.throws(
     () =>
