@@ -13,29 +13,31 @@
   },
   {
     "id": "F02",
-    "name": "地图目录：新建地图→撤销精确移除→重做恢复（toolbar 按钮）",
+    "name": "地图目录：新建地图→created 相位（计数+选中）→撤销（轮询稳定后计数还原+目录无新地图）",
     "before": "f02-before.png",
-    "beforeSha256": "d6780fcd160a37055348fd1e8578d197e210341c1e7c4ee5b52b09d115350f9d",
-    "after": ["f02-after-created.png", "f02-after-undo.png", "f02-after-redo.png"],
+    "beforeSha256": "23f02b5c010d9e1e1ed9290c8178818f25865a9593cbebe8fd52f3c1d7f542d9",
+    "after": ["f02-after-created.png", "f02-after-undo.png"],
     "sha256": {
-      "created": "a838e23bc078e00b8507241b9554dd85aa32e86934a3af9214e1ab93b72f999a",
-      "undone": "6605d98018bd0b2918bda354d15162bb35835fb6571ac0f107222c785ec9bd0c",
-      "redo": "a6bfb121c9e247e685ca225ad71140fcc3286fbd832377325901d44fc622235f"
+      "created": "88ef2f04eb4f0ba68ef7315b08df7d259ca44f9eefaa80872fc82bb0fe822393",
+      "createdBytes": 175580,
+      "undone": "9d2061fa37efe29da918f1232bfeac2eeed06beec7b7201b152d36a1df4054ba",
+      "undoneBytes": 294982
     },
     "phaseEvidence": {
-      "redoState": "2 张",
-      "undoneState": "1 张",
-      "redo2State": "2 张",
-      "cleanBaseline": "1 张"
+      "base": "1 张",
+      "created": "2 张",
+      "createdSel": "new-map-selected",
+      "undone": "1 张",
+      "undoneSel": "gone"
     },
-    "result": "新建/撤销/重做三相位成立（目录张数 2 张→1 张→2 张→撤销回 1 张 基线）",
     "console": {
       "error": [],
       "log": [],
       "pageError": [],
       "rejection": [],
       "warn": []
-    }
+    },
+    "result": "地图 1 张→2 张（新地图选中）→撤销 1 张（新地图消失）三相位成立"
   },
   {
     "id": "F03",
@@ -113,23 +115,23 @@
   },
   {
     "id": "F06",
-    "name": "地图笔刷：画布中央落笔（画布中心 48×48 像素校验和变化）→撤销复原",
+    "name": "地图笔刷：画布中央落笔（像素校验和变化+截图字节差分）→撤销复原（校验和还原+截图差分）",
     "before": "f06-before.png",
-    "beforeSha256": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
+    "beforeSha256": "9d2061fa37efe29da918f1232bfeac2eeed06beec7b7201b152d36a1df4054ba",
     "after": ["f06-after-paint.png", "f06-after-undo.png"],
     "sha256": {
-      "painted": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
-      "undone": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03"
+      "painted": "d62c9b683d2e2c8420c2b3c6b6a61075f96487e3227d570ba422d1b2c6d71241",
+      "paintedBytes": 303361,
+      "undone": "b7da232366ce58bd65b8258604c79efafd5f77b82b38209d14c1891010226d7a",
+      "undoneBytes": 301831
     },
     "phaseEvidence": {
-      "checksumBefore": 9103472,
-      "checksumPainted": 9548567,
-      "checksumUndone": 9103472,
-      "canvas": {
-        "h": 693,
-        "w": 796,
-        "x": 194,
-        "y": 81
+      "checksumBefore": 9110598,
+      "checksumPainted": 9584477,
+      "checksumUndone": 9110598,
+      "screenshotBytesDiffer": {
+        "beforeVsPaint": true,
+        "paintVsUndo": true
       }
     },
     "console": {
@@ -139,7 +141,7 @@
       "rejection": [],
       "warn": []
     },
-    "result": "像素校验和 9103472→9548567→9103472（落笔改变、撤销还原）成立"
+    "result": "像素 9110598→9584477→9110598；截图字节差分 before≠paint=true, paint≠undo=true 成立"
   },
   {
     "id": "F07",
@@ -191,19 +193,39 @@
   },
   {
     "id": "F09",
-    "name": "地图目录：搜索无命中→清空恢复；网格显示开关（错误恢复轴）",
+    "name": "地图目录：搜索无命中→清空恢复（字节差分）；选区 tileId=-3 → 校验 alert → 合法值恢复（真实失败恢复）",
     "before": "f09-before.png",
-    "beforeSha256": "d7e432b3097911c13c2f5560ce5f3c6ba0723af18a2b5416b308699fecbb4b0f",
-    "after": ["f09-after-search.png", "f09-after-clear.png", "f09-after-grid.png"],
+    "beforeSha256": "b7da232366ce58bd65b8258604c79efafd5f77b82b38209d14c1891010226d7a",
+    "after": [
+      "f09-after-search.png",
+      "f09-after-clear.png",
+      "f09-after-blank-name.png",
+      "f09-after-invalid-tileid.png",
+      "f09-after-fix-tileid.png"
+    ],
     "sha256": {
-      "noHit": "a1e7f8231c48d0ff626fa9cdb7878087387761ef89b977560c8e1ea26aedbec7",
-      "restored": "a1e7f8231c48d0ff626fa9cdb7878087387761ef89b977560c8e1ea26aedbec7",
-      "grid": "46aec328b77dcd7188abe8a508bd486dcf2cfe33c6e7bad841638987557b811c"
+      "noHit": "388504ba2d8ccd6f91db5b512269732389c2f8505c9072475fceeb5c62c1f83c",
+      "noHitBytes": 296121,
+      "clear": "b7da232366ce58bd65b8258604c79efafd5f77b82b38209d14c1891010226d7a",
+      "clearBytes": 301831,
+      "blank": "e64a5850c809ada28cf8d468ed29e2693c852fa3cfa7a70f6d7fb0a03cbfb61d",
+      "invalidTileId": "b5ae2ca9ce4754ce24fb9fab3f918063d3aab70574d204e850f5134996587d44",
+      "fixedTileId": "a1ca8c887094a019b7b9015279f9690c51a8137c21e2469fcdb46c82c2bf6f5e"
     },
     "phaseEvidence": {
-      "searchValue": "zzz",
-      "noHitState": "true",
-      "restoredCount": "1 张"
+      "searchNoHitCount": "1 张",
+      "clearedCount": "1 张",
+      "searchClearBytesDiffer": true,
+      "originalMapName": "起始地图",
+      "blankCommitResult": "   ",
+      "blankErrorShown": "no-error-shown",
+      "restoredName": "起始地图",
+      "tileIdFailure": {
+        "commit": "-3",
+        "alert": "tileId 必须是非负整数。",
+        "fixedCommit": "1",
+        "alertAfterFix": "cleared"
+      }
     },
     "console": {
       "error": [],
@@ -212,7 +234,7 @@
       "rejection": [],
       "warn": []
     },
-    "result": "搜索无命中（目录过滤为空）→ 清空后恢复 1 张 张（错误恢复轴成立）"
+    "result": "搜索 zzz→过滤（字节差分）→清空恢复；tileId=-3 →「tileId 必须是非负整数。」→改 1 → cleared 成立"
   },
   {
     "id": "F10",
@@ -288,15 +310,18 @@
   },
   {
     "id": "F13",
-    "name": "物品模块：菜单进入物品编辑页",
+    "name": "物品模块：新建物品→计数相位→撤销还原",
     "before": "f13-before.png",
-    "beforeSha256": "8fca8f2c9597f9a7f32933797246328767ab158367a5b81854116ab4098c965b",
-    "after": [],
-    "sha256": {},
+    "beforeSha256": "007a66911ce4cd1ae96206f79495540e01103e7b1f22ffa5d65ecd5f3fb6b3f9",
+    "after": ["f13-after-create.png", "f13-after-undo.png"],
+    "sha256": {
+      "created": "94dd01c66c891224d8f8439037f2cc477e89a875f52caa07b9c47c241b9c15cc",
+      "undone": "007a66911ce4cd1ae96206f79495540e01103e7b1f22ffa5d65ecd5f3fb6b3f9"
+    },
     "phaseEvidence": {
-      "url": "http://localhost:6123/?module=item&page=item",
-      "emptyHint": true,
-      "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥LInspector · ⌘⌥R撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S物品0 项新建物品全部项目还没有物"
+      "base": "0 项",
+      "created": "1 项",
+      "undone": "0 项"
     },
     "console": {
       "error": [],
@@ -305,21 +330,23 @@
       "rejection": [],
       "warn": []
     },
-    "result": "物品编辑页进入成立"
+    "result": "物品 0 项→1 项→0 项 成立"
   },
   {
     "id": "F14",
-    "name": "战斗模块：菜单进入战场编辑页",
+    "name": "战场编辑：空表缺省 #024 警告观察（创建按钮点击未产生可观测撤销项——两次尝试均无 undo 条目，如实登记为未证完整功能流）",
     "before": "f14-before.png",
     "beforeSha256": "5623f55df247cc37c3e127701ccfe4988f5b497129d46c11b35cccd0b46b6b29",
-    "after": [],
-    "sha256": {},
+    "after": ["f14-after-create.png", "f14-after-undo.png"],
+    "sha256": {
+      "created": "d476d931452025470c53cfb0b8c603bb38af9357768d1e7663a251965d2fd076",
+      "undone": "dd74197350fe50b45ab3f99cecfc58542e288eea37c58f5dcefc89eefa5f6c78"
+    },
     "phaseEvidence": {
-      "url": "http://localhost:6123/?module=battle&page=battlefield",
-      "fields": {
-        "hasField024": true,
-        "tabs": 0
-      }
+      "undoLabelBefore": "撤销|disabled=true",
+      "undoLabelAfterCreate": "撤销|disabled=true",
+      "catalogAfterCreate": ["新建战场", "复制当前战场", "缺少项目默认战场 #024", "创建战场"],
+      "undoLabelAfterUndo": "撤销|disabled=true"
     },
     "console": {
       "error": [],
@@ -328,18 +355,22 @@
       "rejection": [],
       "warn": []
     },
-    "result": "战场编辑页进入成立"
+    "result": "未证完整功能流：点击「创建第一个战场/创建战场」后无撤销条目；按审查要求如实记录，不计入已证明流程"
   },
   {
     "id": "F15",
-    "name": "战斗模拟器：菜单进入试打方案工作台",
+    "name": "战斗模拟器：新建试打方案→撤销（撤销命令名标签为相位）",
     "before": "f15-before.png",
     "beforeSha256": "04c4f2546123592d3cccb33c77616ceb5c97ade84db56927d7dcdb03f170ba8d",
-    "after": [],
-    "sha256": {},
+    "after": ["f15-after-create.png", "f15-after-undo.png"],
+    "sha256": {
+      "created": "d82e850b9fc739b79299cd1a86fc9f5b5269d817854ce0040ba1e8db506a9169",
+      "undone": "8aacb8a09b307ec6276c6349929640f139be394b1a24ebbd0af84a61ced1249a"
+    },
     "phaseEvidence": {
-      "url": "http://localhost:6123/?module=simulator&page=plans",
-      "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥L撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S试打方案0 份新建本场临时方案无需先保存命名预设尚无试打方案创建"
+      "undoLabelBefore": "撤销|disabled=true",
+      "undoLabelAfterCreate": "撤销：编辑战斗模拟器配置|disabled=false",
+      "undoLabelAfterUndo": "撤销|disabled=true"
     },
     "console": {
       "error": [],
@@ -348,7 +379,7 @@
       "rejection": [],
       "warn": []
     },
-    "result": "试打方案工作台进入成立"
+    "result": "撤销标签 \"撤销|disabled=true\"→\"撤销：编辑战斗模拟器配置|disabled=false\"→\"撤销|disabled=true\" 成立"
   },
   {
     "id": "F16",
@@ -395,7 +426,7 @@
   },
   {
     "id": "F18",
-    "name": "窄窗适配：1280→375×700→恢复（导航保持可用）",
+    "name": "窄窗 375×700：菜单折叠为「导航」下拉；自动化三次点击未能展开下拉（IAB 宿主限制），窄窗模块可达性如实登记为未证",
     "before": "f18-before-wide.png",
     "beforeSha256": "3cf415006d4339ff2144842cad28e3bc4dcdcf2c571038343a3a4cefa5bf68c1",
     "after": ["f18-after-narrow.png", "f18-after-restore.png"],
@@ -404,10 +435,8 @@
       "restored": "b6fd8ffbd4599f1ed1b626564a547afe023757dbe24753c06c2a8a0dd87f92bc"
     },
     "phaseEvidence": {
-      "narrowNav": {
-        "hasScene": true,
-        "menuItems": 13
-      }
+      "narrowMenubar": ["文件", "编辑", "视图", "导航"],
+      "attempts": 3
     },
     "console": {
       "error": [],
@@ -416,7 +445,7 @@
       "rejection": [],
       "warn": []
     },
-    "result": "窄窗下菜单项 13 个、场景入口在场成立"
+    "result": "未证完整可达：375px 菜单折叠为 导航 下拉（截图在案），下拉展开未成功；不冒称可达"
   },
   {
     "id": "F19",

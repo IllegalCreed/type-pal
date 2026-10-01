@@ -15,12 +15,25 @@ import { execFileSync, spawnSync } from 'node:child_process'
  * - mutated 树的产品源 SHA256、restored 后与候选树逐字节一致的复核 SHA256。
  * - 可重建变异 patch（unified diff）。
  *
- * 判定：mutated 必须 exit≠0 且 JSON 中恰有目标测试标题 failed，
- * failureMessages 首行匹配 AssertionError/^expect(；positive 与 restored 必须 exit=0。
+ * 判定（r2 P-R2-01 严格化，judge 实现在 counter-judge.mjs，自测 counter-judge.test.mjs）：
+ * mutated 恰一 failed 且 file/fullName 逐字等于 --test/--expect-fullname 登记目标；
+ * 拒收零红/多红/错目标/skipped/collection/超时/未处理异常/执行集漂移；
+ * positive 与 restored exit=0、零失败、执行 fullName 集与 mutated 一致。
+ * patch 由 diff -u 生成真实可应用 unified diff，并以 git apply --check 复核。
  */
 import { createHash } from 'node:crypto'
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join, resolve } from 'node:path'
+import { judgeClean, judgeMutant } from './counter-judge.mjs'
 
 const args = process.argv.slice(2)
 function need(name) {
@@ -33,6 +46,7 @@ const productFile = need('file')
 const findText = need('find')
 const replaceText = need('replace')
 const testSpec = need('test')
+const expectFullname = need('expect-fullname')
 const outDir = resolve(need('out'))
 const candidateRoot = process.cwd()
 
@@ -48,16 +62,49 @@ const original = readFileSync(join(candidateRoot, productFile), 'utf8')
 const occurrences = original.split(findText).length - 1
 if (occurrences !== 1) die(`--find must match exactly once in ${productFile}, got ${occurrences}`)
 const mutated = original.replace(findText, replaceText)
-const patch = [
-  `--- a/${productFile}`,
-  `+++ b/${productFile}`,
-  `@@ -1 +1 @@`,
-  ...original.split('\n').map((line, index) => {
-    const mutatedLine = mutated.split('\n')[index] ?? ''
-    if (line !== mutatedLine) return `-${line}\n+${mutatedLine}`
-    return ` ${line}`
-  }),
-].join('\n')
+// 真实可应用 unified diff：临时目录内 diff -u，前缀改写为 a/ b/，git apply --check 复核。
+function buildPatch() {
+  const tmp = mkdtempSync(join(tmpdir(), 'glm-p-patch-'))
+  const aPath = join(tmp, 'a')
+  const bPath = join(tmp, 'b')
+  writeFileSync(aPath, original)
+  writeFileSync(bPath, mutated)
+  let text
+  try {
+    text = execFileSync(
+      'diff',
+      ['-u', '--label', `a/${productFile}`, '--label', `b/${productFile}`, aPath, bPath],
+      {
+        encoding: 'utf8',
+      },
+    )
+  } catch (error) {
+    // diff -u 在文件不同时退出码为 1，输出即 patch。
+    text = error.stdout ?? ''
+  }
+  rmSync(tmp, { recursive: true, force: true })
+  if (!text.trim()) throw new Error('empty patch')
+  // git apply 实测：-p1 去掉 a/ 前缀 → 临时目录按完整相对路径放原文件，
+  // 应用后必须逐字节等于变异内容（可应用且可重建双重证明）。
+  const verifyDir = mkdtempSync(join(tmpdir(), 'glm-p-patchverify-'))
+  const targetPath = join(verifyDir, productFile)
+  mkdirSync(dirname(targetPath), { recursive: true })
+  writeFileSync(targetPath, original)
+  const apply = spawnSync('git', ['apply', '--unidiff-zero'], {
+    input: text,
+    cwd: verifyDir,
+    encoding: 'utf8',
+  })
+  if (apply.status !== 0) {
+    rmSync(verifyDir, { recursive: true, force: true })
+    throw new Error(`patch not applicable: ${apply.stderr ?? apply.stdout}`)
+  }
+  const applied = readFileSync(targetPath, 'utf8')
+  rmSync(verifyDir, { recursive: true, force: true })
+  if (applied !== mutated) throw new Error('patch applied bytes differ from mutated content')
+  return text
+}
+const patch = buildPatch()
 
 /** 隔离树：git worktree（共享对象库，独立检出）。node_modules 硬链接候选树。 */
 const counterTree = `/tmp/glm-p-counter-${id}`
@@ -150,20 +197,20 @@ function runVitest(tree, extraArgs = []) {
 }
 
 const collect = (run) => {
-  if (!run.json) return { executed: null, failed: [], firstFailure: null }
+  if (!run.json) return { executed: null, failed: [], firstFailure: null, names: [] }
   const failed = []
-  let executed = 0
-  // vitest JSON: testResults[] → assertionResults[] 叶子测试。
-  for (const file of run.json.testResults ?? [])
-    for (const leaf of file.assertionResults ?? []) {
-      executed += 1
+  const names = []
+  for (const fileResult of run.json.testResults ?? [])
+    for (const leaf of fileResult.assertionResults ?? []) {
+      names.push(leaf.fullName)
       if (leaf.status === 'failed')
         failed.push({
           fullName: leaf.fullName,
           message: leaf.failureMessages?.[0]?.split('\n')[0] ?? '',
+          file: fileResult.name.replace(/^.*packages\/editor\//, ''),
         })
     }
-  return { executed, failed, firstFailure: failed[0] ?? null }
+  return { executed: names.length, failed, firstFailure: failed[0] ?? null, names }
 }
 
 mkdirSync(outDir, { recursive: true })
@@ -181,13 +228,24 @@ const record = {
   patch,
 }
 
-// ---- positive：候选树原样 ----
+// ---- positive：候选树原样（judge 清洁相）----
 const positive = runVitest(candidateRoot)
 const positiveStats = collect(positive)
-if (positive.exit !== 0) die(`positive run must exit 0, got ${positive.exit}`)
+const positiveJudge = judgeClean({
+  exitCode: positive.exit,
+  json: positive.json,
+  expectedExecuted: null,
+  label: 'positive',
+})
+if (!positiveJudge.valid) die(`positive invalid: ${positiveJudge.reasons.join(',')}`)
 writeFileSync(join(outDir, 'positive.json'), JSON.stringify(positive.json, null, 2))
 writeFileSync(join(outDir, 'positive.raw.txt'), `${positive.output.replace(/\n+$/, '')}\n`)
-record.positive = { exitCode: positive.exit, executed: positiveStats.executed }
+record.positive = {
+  exitCode: positive.exit,
+  executed: positiveStats.executed,
+  executedFullNames: positiveStats.names,
+  judge: positiveJudge,
+}
 
 // ---- mutated：隔离树单针替换 ----
 writeFileSync(rel(productFile), mutated)
@@ -196,21 +254,24 @@ const mutatedRun = runVitest(counterTree)
 const mutatedStats = collect(mutatedRun)
 writeFileSync(join(outDir, 'mutated.json'), JSON.stringify(mutatedRun.json, null, 2))
 writeFileSync(join(outDir, 'mutated.raw.txt'), `${mutatedRun.output.replace(/\n+$/, '')}\n`)
-const first = mutatedStats.firstFailure
-// vitest rejects 断言红的两种既定首行格式：AssertionError / Error: promise resolved…。
-const assertionRed =
-  first !== null && /^(AssertionError|expect\(|Error: promise resolved)/i.test(first.message)
+// 严格单目标 judge（counter-judge.mjs）：恰一红、file/fullName 逐字匹配、
+// 拒收 skipped/collection/超时/环境红/执行集漂移。不过滤邻居。
+const mutantJudge = judgeMutant({
+  exitCode: mutatedRun.exit,
+  json: mutatedRun.json,
+  targetFile: testSpec.replace(/^src\//, 'src/'),
+  targetFullName: expectFullname,
+  positiveExecuted: positiveStats.executed,
+})
 record.mutated = {
   exitCode: mutatedRun.exit,
   executed: mutatedStats.executed,
+  executedFullNames: mutatedStats.names,
   failed: mutatedStats.failed,
-  targetAssertionRed: assertionRed,
+  judge: { valid: mutantJudge.valid, reasons: mutantJudge.reasons },
+  target: mutantJudge.target,
 }
-const validMutant = mutatedRun.exit !== 0 && assertionRed && mutatedStats.failed.length >= 1
-if (!validMutant)
-  die(
-    `mutated run invalid: exit=${mutatedRun.exit} assertionRed=${assertionRed} failed=${JSON.stringify(mutatedStats.failed)}`,
-  )
+if (!mutantJudge.valid) die(`mutated invalid: ${mutantJudge.reasons.join(',')}`)
 
 // ---- restored：同树还原后必须回到绿 ----
 writeFileSync(rel(productFile), original)
@@ -232,8 +293,8 @@ console.log(
     positive: record.positive,
     mutated: {
       exitCode: record.mutated.exitCode,
-      target: first?.fullName,
-      message: first?.message,
+      target: record.mutated.target?.fullName,
+      message: record.mutated.target?.message,
     },
     restored: record.restored,
     outDir,

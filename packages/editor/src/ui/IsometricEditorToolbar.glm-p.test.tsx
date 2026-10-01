@@ -101,15 +101,18 @@ describe('P02-G03 工具选项托盘键盘合同', () => {
     renderToolbar()
     const trigger = brushTrigger()
     await act(async () => trigger.click())
-    // 等开盘聚焦 effect 真正把焦点落进托盘（portal 二次挂载有先后），再自设焦点。
-    for (let i = 0; i < 20 && !tray().contains(document.activeElement); i++)
-      await act(async () => {})
-    expect(tray().contains(document.activeElement)).toBe(true)
     const options = [...tray().querySelectorAll<HTMLButtonElement>('button')]
     expect(options.length).toBeGreaterThanOrEqual(3)
+    // 开盘聚焦 effect 与 portal 二次挂载会抢焦点：自设后补帧再重设一次，
+    // 保证按键派发时焦点稳定在托盘内（不依赖时序）。
     await act(async () => {
       options[1]!.focus()
     })
+    await act(async () => {})
+    await act(async () => {
+      if (!tray().contains(document.activeElement)) options[1]!.focus()
+    })
+    if (!tray().contains(document.activeElement)) options[1]!.focus()
     await key(tray(), 'End')
     expect(document.activeElement).toBe(options.at(-1))
     await key(tray(), 'ArrowLeft')

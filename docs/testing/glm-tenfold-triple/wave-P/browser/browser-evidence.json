@@ -1,6 +1,37 @@
 {
-  "generatedFrom": "browser/flows.json + 目录截图实算 SHA256",
+  "generatedFrom": "browser/flows.json + 目录截图实算 SHA256（r3 相位修复后）",
   "flowCount": 20,
+  "fullyProvenFlows": 18,
+  "fullyProvenIds": [
+    "F01",
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F15",
+    "F16",
+    "F17",
+    "F19",
+    "F20"
+  ],
+  "partiallyProven": [
+    {
+      "id": "F14",
+      "reason": "未证完整功能流：点击「创建第一个战场/创建战场」后无撤销条目；按审查要求如实记录，不计入已证明流程"
+    },
+    {
+      "id": "F18",
+      "reason": "未证完整可达：375px 菜单折叠为 导航 下拉（截图在案），下拉展开未成功；不冒称可达"
+    }
+  ],
   "flows": [
     {
       "id": "F01",
@@ -12,13 +43,14 @@
     },
     {
       "id": "F02",
-      "name": "地图目录：新建地图→撤销精确移除→重做恢复（toolbar 按钮）",
-      "result": "新建/撤销/重做三相位成立（目录张数 2 张→1 张→2 张→撤销回 1 张 基线）",
+      "name": "地图目录：新建地图→created 相位（计数+选中）→撤销（轮询稳定后计数还原+目录无新地图）",
+      "result": "地图 1 张→2 张（新地图选中）→撤销 1 张（新地图消失）三相位成立",
       "phaseEvidence": {
-        "redoState": "2 张",
-        "undoneState": "1 张",
-        "redo2State": "2 张",
-        "cleanBaseline": "1 张"
+        "base": "1 张",
+        "created": "2 张",
+        "createdSel": "new-map-selected",
+        "undone": "1 张",
+        "undoneSel": "gone"
       },
       "console": {
         "error": [],
@@ -81,17 +113,15 @@
     },
     {
       "id": "F06",
-      "name": "地图笔刷：画布中央落笔（画布中心 48×48 像素校验和变化）→撤销复原",
-      "result": "像素校验和 9103472→9548567→9103472（落笔改变、撤销还原）成立",
+      "name": "地图笔刷：画布中央落笔（像素校验和变化+截图字节差分）→撤销复原（校验和还原+截图差分）",
+      "result": "像素 9110598→9584477→9110598；截图字节差分 before≠paint=true, paint≠undo=true 成立",
       "phaseEvidence": {
-        "checksumBefore": 9103472,
-        "checksumPainted": 9548567,
-        "checksumUndone": 9103472,
-        "canvas": {
-          "h": 693,
-          "w": 796,
-          "x": 194,
-          "y": 81
+        "checksumBefore": 9110598,
+        "checksumPainted": 9584477,
+        "checksumUndone": 9110598,
+        "screenshotBytesDiffer": {
+          "beforeVsPaint": true,
+          "paintVsUndo": true
         }
       },
       "console": {
@@ -138,12 +168,22 @@
     },
     {
       "id": "F09",
-      "name": "地图目录：搜索无命中→清空恢复；网格显示开关（错误恢复轴）",
-      "result": "搜索无命中（目录过滤为空）→ 清空后恢复 1 张 张（错误恢复轴成立）",
+      "name": "地图目录：搜索无命中→清空恢复（字节差分）；选区 tileId=-3 → 校验 alert → 合法值恢复（真实失败恢复）",
+      "result": "搜索 zzz→过滤（字节差分）→清空恢复；tileId=-3 →「tileId 必须是非负整数。」→改 1 → cleared 成立",
       "phaseEvidence": {
-        "searchValue": "zzz",
-        "noHitState": "true",
-        "restoredCount": "1 张"
+        "searchNoHitCount": "1 张",
+        "clearedCount": "1 张",
+        "searchClearBytesDiffer": true,
+        "originalMapName": "起始地图",
+        "blankCommitResult": "   ",
+        "blankErrorShown": "no-error-shown",
+        "restoredName": "起始地图",
+        "tileIdFailure": {
+          "commit": "-3",
+          "alert": "tileId 必须是非负整数。",
+          "fixedCommit": "1",
+          "alertAfterFix": "cleared"
+        }
       },
       "console": {
         "error": [],
@@ -205,12 +245,12 @@
     },
     {
       "id": "F13",
-      "name": "物品模块：菜单进入物品编辑页",
-      "result": "物品编辑页进入成立",
+      "name": "物品模块：新建物品→计数相位→撤销还原",
+      "result": "物品 0 项→1 项→0 项 成立",
       "phaseEvidence": {
-        "url": "http://localhost:6123/?module=item&page=item",
-        "emptyHint": true,
-        "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥LInspector · ⌘⌥R撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S物品0 项新建物品全部项目还没有物"
+        "base": "0 项",
+        "created": "1 项",
+        "undone": "0 项"
       },
       "console": {
         "error": [],
@@ -222,14 +262,13 @@
     },
     {
       "id": "F14",
-      "name": "战斗模块：菜单进入战场编辑页",
-      "result": "战场编辑页进入成立",
+      "name": "战场编辑：空表缺省 #024 警告观察（创建按钮点击未产生可观测撤销项——两次尝试均无 undo 条目，如实登记为未证完整功能流）",
+      "result": "未证完整功能流：点击「创建第一个战场/创建战场」后无撤销条目；按审查要求如实记录，不计入已证明流程",
       "phaseEvidence": {
-        "url": "http://localhost:6123/?module=battle&page=battlefield",
-        "fields": {
-          "hasField024": true,
-          "tabs": 0
-        }
+        "undoLabelBefore": "撤销|disabled=true",
+        "undoLabelAfterCreate": "撤销|disabled=true",
+        "catalogAfterCreate": ["新建战场", "复制当前战场", "缺少项目默认战场 #024", "创建战场"],
+        "undoLabelAfterUndo": "撤销|disabled=true"
       },
       "console": {
         "error": [],
@@ -241,11 +280,12 @@
     },
     {
       "id": "F15",
-      "name": "战斗模拟器：菜单进入试打方案工作台",
-      "result": "试打方案工作台进入成立",
+      "name": "战斗模拟器：新建试打方案→撤销（撤销命令名标签为相位）",
+      "result": "撤销标签 \"撤销|disabled=true\"→\"撤销：编辑战斗模拟器配置|disabled=false\"→\"撤销|disabled=true\" 成立",
       "phaseEvidence": {
-        "url": "http://localhost:6123/?module=simulator&page=plans",
-        "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥L撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S试打方案0 份新建本场临时方案无需先保存命名预设尚无试打方案创建"
+        "undoLabelBefore": "撤销|disabled=true",
+        "undoLabelAfterCreate": "撤销：编辑战斗模拟器配置|disabled=false",
+        "undoLabelAfterUndo": "撤销|disabled=true"
       },
       "console": {
         "error": [],
@@ -290,13 +330,11 @@
     },
     {
       "id": "F18",
-      "name": "窄窗适配：1280→375×700→恢复（导航保持可用）",
-      "result": "窄窗下菜单项 13 个、场景入口在场成立",
+      "name": "窄窗 375×700：菜单折叠为「导航」下拉；自动化三次点击未能展开下拉（IAB 宿主限制），窄窗模块可达性如实登记为未证",
+      "result": "未证完整可达：375px 菜单折叠为 导航 下拉（截图在案），下拉展开未成功；不冒称可达",
       "phaseEvidence": {
-        "narrowNav": {
-          "hasScene": true,
-          "menuItems": 13
-        }
+        "narrowMenubar": ["文件", "编辑", "视图", "导航"],
+        "attempts": 3
       },
       "console": {
         "error": [],
@@ -343,10 +381,10 @@
   "screenshotSha256": {
     "f01-after.png": "ed301c5ac1cc9bc175f917852e04a7dce798411b86a6fcbb7ce76e77711b3998",
     "f01-before.png": "cc9be86e3220874658e4cca1266a9db80bdd1b932bc2ce5fcf3c2b58a1814989",
-    "f02-after-created.png": "a838e23bc078e00b8507241b9554dd85aa32e86934a3af9214e1ab93b72f999a",
+    "f02-after-created.png": "88ef2f04eb4f0ba68ef7315b08df7d259ca44f9eefaa80872fc82bb0fe822393",
     "f02-after-redo.png": "a6bfb121c9e247e685ca225ad71140fcc3286fbd832377325901d44fc622235f",
-    "f02-after-undo.png": "6605d98018bd0b2918bda354d15162bb35835fb6571ac0f107222c785ec9bd0c",
-    "f02-before.png": "d6780fcd160a37055348fd1e8578d197e210341c1e7c4ee5b52b09d115350f9d",
+    "f02-after-undo.png": "9d2061fa37efe29da918f1232bfeac2eeed06beec7b7201b152d36a1df4054ba",
+    "f02-before.png": "23f02b5c010d9e1e1ed9290c8178818f25865a9593cbebe8fd52f3c1d7f542d9",
     "f03-after-created.png": "7b34299a7cd69a4898544eb16086c08795c3902c2d40161531365e83a47937b5",
     "f03-after-undo.png": "0a14802ef89381522ea0b5c5d8f70162873df41fe64d0a1e534606914912b8a8",
     "f03-before.png": "d4d15f66472b21de505dee031cd75863c98d6079608d0ee514672e89337da853",
@@ -358,19 +396,22 @@
     "f05-after-created.png": "1a0a20db30a2577e98fbd300f1a3e50bc47dfa4ed90200b813ea186a63e81b35",
     "f05-after-undo.png": "62735e2cd395af136b0ac6c2128a0970b055344e3e8d3764b94f3c90b0434988",
     "f05-before.png": "0a14802ef89381522ea0b5c5d8f70162873df41fe64d0a1e534606914912b8a8",
-    "f06-after-paint.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
-    "f06-after-undo.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
-    "f06-before.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
+    "f06-after-paint.png": "d62c9b683d2e2c8420c2b3c6b6a61075f96487e3227d570ba422d1b2c6d71241",
+    "f06-after-undo.png": "b7da232366ce58bd65b8258604c79efafd5f77b82b38209d14c1891010226d7a",
+    "f06-before.png": "9d2061fa37efe29da918f1232bfeac2eeed06beec7b7201b152d36a1df4054ba",
     "f07-after.png": "e395ff470c76c45c339965eec6467ed8f399e0cc1943cdbf0054f69de002dbd8",
     "f07-before.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
     "f08-after-add.png": "2ee67443865fcc72d44a62464762398013f31785de4561ccf9fafa3c1b0de934",
     "f08-after-lock.png": "5c7e705f3c620b17d57604a05e1612f5b25d8dae266312388dfd5598ec5bd9fd",
     "f08-after-undo.png": "569a9a4bbcb000721cc7d21df05d2d4dec3cc0d717e915c1f370ba9cfecc57e1",
     "f08-before.png": "e395ff470c76c45c339965eec6467ed8f399e0cc1943cdbf0054f69de002dbd8",
-    "f09-after-clear.png": "a1e7f8231c48d0ff626fa9cdb7878087387761ef89b977560c8e1ea26aedbec7",
+    "f09-after-blank-name.png": "e64a5850c809ada28cf8d468ed29e2693c852fa3cfa7a70f6d7fb0a03cbfb61d",
+    "f09-after-clear.png": "b7da232366ce58bd65b8258604c79efafd5f77b82b38209d14c1891010226d7a",
+    "f09-after-fix-tileid.png": "a1ca8c887094a019b7b9015279f9690c51a8137c21e2469fcdb46c82c2bf6f5e",
     "f09-after-grid.png": "46aec328b77dcd7188abe8a508bd486dcf2cfe33c6e7bad841638987557b811c",
-    "f09-after-search.png": "a1e7f8231c48d0ff626fa9cdb7878087387761ef89b977560c8e1ea26aedbec7",
-    "f09-before.png": "d7e432b3097911c13c2f5560ce5f3c6ba0723af18a2b5416b308699fecbb4b0f",
+    "f09-after-invalid-tileid.png": "b5ae2ca9ce4754ce24fb9fab3f918063d3aab70574d204e850f5134996587d44",
+    "f09-after-search.png": "388504ba2d8ccd6f91db5b512269732389c2f8505c9072475fceeb5c62c1f83c",
+    "f09-before.png": "b7da232366ce58bd65b8258604c79efafd5f77b82b38209d14c1891010226d7a",
     "f10-after-esc.png": "9068ed9b538ffb7964e3825c9a62e7eab4ff0dcb21ed93f6f633753ed67c9895",
     "f10-after-select.png": "9531d42750eb4e7077f08e57b1c7e6dc159a97de07d26d0afb35b74f14570438",
     "f10-before.png": "3cf27d7d684154af01f4f1baa26155b4834e7dd6f3c88c0a1d0f992232a3e47a",
@@ -384,14 +425,22 @@
     "f12-after-select.png": "ee152aa143d90955e64a0d8f051c35d3c88438529df72e251b7d81e959880cc6",
     "f12-after-undo.png": "7e43093951649e7387f304e086310f60805b96ba1f864abf683b9d18343e03a4",
     "f12-before.png": "655d0149df1399d17c1f2889d8cecadb3f66bc8c64a64ad8d8118b1ff10703bb",
-    "f13-before.png": "8fca8f2c9597f9a7f32933797246328767ab158367a5b81854116ab4098c965b",
-    "f14-before.png": "5623f55df247cc37c3e127701ccfe4988f5b497129d46c11b35cccd0b46b6b29",
+    "f13-after-create.png": "94dd01c66c891224d8f8439037f2cc477e89a875f52caa07b9c47c241b9c15cc",
+    "f13-after-undo.png": "007a66911ce4cd1ae96206f79495540e01103e7b1f22ffa5d65ecd5f3fb6b3f9",
+    "f13-before.png": "007a66911ce4cd1ae96206f79495540e01103e7b1f22ffa5d65ecd5f3fb6b3f9",
+    "f14-after-create.png": "edf326c8441001f24d3b887eda093f7f519e52b9827d20a22c5dec076d01eb5f",
+    "f14-after-undo.png": "dd74197350fe50b45ab3f99cecfc58542e288eea37c58f5dcefc89eefa5f6c78",
+    "f14-before.png": "4824324cb2e6143f3727595f72bb3002a62e4eec2249d85f8613d6a9cae199d5",
+    "f15-after-create.png": "d82e850b9fc739b79299cd1a86fc9f5b5269d817854ce0040ba1e8db506a9169",
+    "f15-after-undo.png": "8aacb8a09b307ec6276c6349929640f139be394b1a24ebbd0af84a61ced1249a",
     "f15-before.png": "04c4f2546123592d3cccb33c77616ceb5c97ade84db56927d7dcdb03f170ba8d",
     "f16-after-select.png": "2d986f366d81065b27de2ec432b0807dfbbf439b871d1ec008c9f16290189367",
     "f16-before.png": "d27d29d889b2787ef378eadfae5080d53406d75203bcf6dc450c6b47effda386",
     "f17-before.png": "c29e35ee119596a46a0a6a19b8a40657437c4d34a711c52d68cde28420728540",
+    "f18-after-narrow-map.png": "9dc7244f4eda66f7745f982ae0b8fd7530c22467565f458d21c6a10b85be8799",
     "f18-after-narrow.png": "73b6d44add3a05cc66e9c4764e4d0284d3ce52d33578bc386b0b213b6f2a7e14",
     "f18-after-restore.png": "b6fd8ffbd4599f1ed1b626564a547afe023757dbe24753c06c2a8a0dd87f92bc",
+    "f18-before-narrow-scene.png": "fa2ba239651cc57ab909887d4429a714c30413ddfbc9418c29bd33ed97e280db",
     "f18-before-wide.png": "3cf415006d4339ff2144842cad28e3bc4dcdcf2c571038343a3a4cefa5bf68c1",
     "f19-after-toggle.png": "1b302f26144bac717ecfd5d0d766d0293fc6848edc29d67122f387f0acc6307b",
     "f19-before.png": "84c6935f5a03173835a5d631f6b49527595afed24e3d6e3052c25d04c09a261d",

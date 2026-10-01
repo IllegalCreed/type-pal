@@ -6,23 +6,35 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`）。当前 rework（2026-10-01 Codex counter），
 仅原白名单可写；不合 main、不标 done。
 
-## 返工闭合状态（对 codex-review-20261001 P-01…P-04）
+## r3 二审闭合状态（对 codex-op-r2-review-20261001 P-R2-01…03）
+
+| 项 | 处置 |
+|---|---|
+| P-R2-01 patch+判据 | counter.mjs 重写：`diff -u` 生成真实 unified diff 并以 `git apply` 实测（应用后逐字节等于变异内容）；judge 抽出 counter-judge.mjs（恰一红+file/fullName 逐字匹配+拒收多红/错目标/skipped/超时/环境红/执行集漂移），自测 counter-judge.test.mjs 10/10；10 枚反控全部重跑，counters.json 直读原始 mutated.json 全部恰一红 |
+| P-R2-02 合同账 | G09 三条与 file-system-access.test 重复的分类断言已删（70→67，保留非法 URL 回退轴）；contracts.json 逐合同填真实旧断言锚点（contracts-anchors.mjs） |
+| P-R2-03 相位 | F02（created/undo 相位轮询稳定+新地图消失）、F06（像素校验和 9110598→9584477→9110598 + 截图字节差分）、F09（搜索字节差分 + tileId=-3→alert→合法值恢复的真实失败恢复）、F13（物品 0项→1项→0项）、F15（撤销标签 撤销→撤销：编辑战斗模拟器配置→撤销）已补实；**F14（创建战场无撤销条目）与 F18（375px 导航下拉未展开）如实登记未证**——20 条中 18 条完整证明 |
+| verifier | lab 运行工程迁出至 /tmp/glm-p-lab-isolated（配方见 browser/lab-project.md），完整 verifier exit 0 |
+
+## r2 已闭合项（保留记录）
+
+| 项 | 处置 |
+|---|---|
 
 | 项 | 处置 |
 |---|---|
 | P-01 强转 | `project-diagnostics.glm-p.test.ts` 三处 as never/双桥全部重建为 typed-legal 值级守卫（空页记录缺 id / 空 battleSprite 的完整 EnemyDef / 空脚本 id 键）；全包 glm-p 文件 cast 审计零命中 |
 | P-02 双红 | P01-C03 换针（parse 调用改 void，仅负控合同红）、P02-C10 换针（共享原因段条件改 false，仅共享段合同红）；counters.json 直读原始 mutated.json，10/10 恰一红 |
 | P-03 回执 | receipt.json 重写：测试/证据锚点为 `47a3e49a`，其后仅 wave-P 证据与回执 docs/JSON 提交，最终远端候选见 receipt（不引用自身 SHA） |
-| P-04 视觉 | 20 条真实浏览器流程完成：自有 lab 工程（`projects/glm-p-lab`，未提交、dev server 自起自停）+ 截图 SHA256 + 相位文本 + console 分类，见 [browser/browser-evidence.json](browser/browser-evidence.json) |
+| P-04 视觉 | 20 条浏览器流程记录（r2 指出多为静态观察；r3 已补 F02/F06/F09/F13/F15 实动相位，F14/F18 如实登记未证，18/20 完整证明） |
 
 ## 当前候选（从树生成，2026-10-01 rework）
 
 | 项 | 数量 | 说明 |
 |---|---:|---|
-| 合法新用例 | **70 / 700** | 70/70 绿（[directed-vitest.json](directed-vitest.json) 树内实跑）；逐合同 [contracts.json](contracts.json) |
+| 合法新用例 | **67 / 700** | 67/67 绿（[directed-vitest.json](directed-vitest.json) 树内实跑；G09 三条重复断言已删）；逐合同 [contracts.json](contracts.json) |
 | 合同工作组 | 14 / 70 | P01-G01…G11 + P02-G01…G03 |
-| 有效反控 | **10 / 50** | 全部恰一目标红（[counters.json](counters.json) 直读 mutated.json），三态证据 [counters/](counters/) |
-| 浏览器流程 | **20 / 20** | F01–F20，55 张截图哈希 + console 分类 |
+| 有效反控 | **10 / 50** | 严格判据重跑，10/10 恰一目标红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
+| 浏览器流程 | **18 / 20 完整证明** | F01–F20 共 20 条；F14/F18 如实登记未证（[browser/browser-evidence.json](browser/browser-evidence.json)） |
 | 私有同分母 coverage | 上轮 +32/+16/+2（branches/statements/functions，分母 28489 不变） | 本轮合同未变，未重跑 |
 
 ## 本轮真实改动（相对 8fb38fcc）

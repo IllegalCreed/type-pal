@@ -4,24 +4,52 @@
   "findText": "      {sharedDisabledReason ? (",
   "replaceText": "      {false && sharedDisabledReason ? (",
   "testSpec": "src/ui/LayerStackControls.glm-p.test.tsx",
-  "candidateHead": "8fb38fcc3b3f4f2d277260148c66488c979caa49",
+  "candidateHead": "2547d8ade1ba94f124acdbef17d495672c581828",
   "productSha256Candidate": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
-  "patch": "--- a/packages/editor/src/ui/LayerStackControls.tsx\n+++ b/packages/editor/src/ui/LayerStackControls.tsx\n@@ -1 +1 @@\n import { type ReactNode, useId } from 'react'\n import {\n   DsActionGroup,\n   DsButton,\n   DsControlGroup,\n   DsField,\n   DsHelpTip,\n   DsIconButton,\n   DsPressable,\n   DsRangeInput,\n   DsTag,\n } from './design-system/index.js'\n import { DsReorderCollection, DsReorderItem, DsReorderMoveButton } from './design-system/reorder.js'\n \n const MINIMUM_LAYER_REASON = '至少保留一个图层。'\n \n export interface LayerStackControlItem {\n   id: string\n   name: string\n   detail?: ReactNode\n   hidden?: boolean\n   locked?: boolean\n   reorderDisabled?: boolean\n }\n \n /** 地图与组合编辑器共用的当前绘制层级与显示高度上下文。 */\n export function LayerPaintContext(props: {\n   layerName: string\n   focusEnabled: boolean\n   viewHeight: number\n   maxViewHeight: number\n   rangeId?: string\n   onToggleFocus: () => void\n   onViewHeightChange: (height: number) => void\n }) {\n   const generatedRangeId = useId()\n   const rangeId = props.rangeId ?? generatedRangeId\n \n   return (\n     <section className=\"map-paint-context\" aria-label=\"绘制层级\">\n       <div className=\"map-paint-context__head\">\n         <div className=\"map-paint-context__title\">\n           <span className=\"t\">绘制层级</span>\n           <span title={props.layerName}>{props.layerName}</span>\n         </div>\n         <DsButton\n           size=\"compact\"\n           variant=\"quiet\"\n           onClick={props.onToggleFocus}\n           title={props.focusEnabled ? '关闭聚焦，全部正常显示' : '开启聚焦，其他瓦片变暗'}\n           aria-label={props.focusEnabled ? '关闭其他图层聚焦' : '聚焦当前图层和高度'}\n           aria-pressed={props.focusEnabled}\n         >\n           {props.focusEnabled ? '只看当前' : '聚焦当前'}\n         </DsButton>\n       </div>\n       <DsField id={rangeId} label=\"显示高度\" layout=\"inline\" className=\"map-paint-context__control\">\n         {(field) => (\n           <DsControlGroup\n             control={\n               <DsRangeInput\n                 {...field}\n                 min={0}\n                 max={props.maxViewHeight}\n                 step={1}\n                 value={props.viewHeight}\n                 onChange={(event) => props.onViewHeightChange(Number(event.currentTarget.value))}\n               />\n             }\n             actions={\n               <output htmlFor={rangeId} aria-live=\"polite\">\n                 {props.viewHeight}\n               </output>\n             }\n           />\n         )}\n       </DsField>\n     </section>\n   )\n }\n \n /**\n  * 地图与组合编辑器共用的图层栈。领域页面只提供稳定 ID 与 draft/map 操作，\n  * 选中、显隐、锁定、排序及增删的可见交互必须保持一致。\n  */\n export function LayerStackControls(props: {\n   items: readonly LayerStackControlItem[]\n   activeId: string\n   onSelect: (id: string) => void\n   onAdd: () => void\n   onDelete: () => void\n   onToggleVisible: (id: string) => void\n   onToggleLocked: (id: string) => void\n   reorderScopeKey: string\n   reorderRevision: unknown\n   stackOrder: 'top-first' | 'bottom-first'\n   onReorder:\n     | ((id: string, visualToIndex: number) => boolean | undefined)\n     | ((id: string, visualToIndex: number) => void)\n   addDisabledReason?: string\n   deleteDisabledReason?: string\n   footer?: ReactNode\n }) {\n   const addReasonId = useId()\n   const deleteReasonId = useId()\n   const activeLayer = props.items.find((layer) => layer.id === props.activeId)\n   const minimumLayerRule = props.deleteDisabledReason === MINIMUM_LAYER_REASON\n   const visibleDeleteDisabledReason = minimumLayerRule ? undefined : props.deleteDisabledReason\n   const sharedDisabledReason =\n     props.addDisabledReason && props.addDisabledReason === visibleDeleteDisabledReason\n       ? props.addDisabledReason\n       : undefined\n   const addDescriptionId = props.addDisabledReason ? addReasonId : undefined\n   const deleteDescriptionId = visibleDeleteDisabledReason\n     ? sharedDisabledReason\n       ? addReasonId\n       : deleteReasonId\n     : undefined\n \n   return (\n     <section className=\"layer-stack-controls\" aria-label=\"图层\">\n       <div className=\"pane-h map-layer-panel__header\">\n         <span className=\"t\">图层</span>\n         <DsTag tone=\"neutral\">{props.items.length} 层</DsTag>\n         {minimumLayerRule ? (\n           <DsHelpTip label=\"图层删除规则\">{MINIMUM_LAYER_REASON}</DsHelpTip>\n         ) : null}\n         <span className=\"spacer\" />\n         <DsActionGroup density=\"compact\" className=\"map-layer-header-actions\">\n           <DsIconButton\n             variant=\"secondary\"\n             icon=\"add\"\n             onClick={props.onAdd}\n             disabled={Boolean(props.addDisabledReason)}\n             aria-describedby={addDescriptionId}\n             label=\"新增图层\"\n           />\n           <DsIconButton\n             variant=\"danger\"\n             icon=\"delete\"\n             onClick={props.onDelete}\n             disabled={Boolean(props.deleteDisabledReason)}\n             aria-describedby={deleteDescriptionId}\n             label={activeLayer ? `删除选中图层：${activeLayer.name}` : '删除选中图层'}\n           />\n         </DsActionGroup>\n       </div>\n-      {sharedDisabledReason ? (\n+      {false && sharedDisabledReason ? (\n         <p className=\"layer-stack-disabled-reason\" id={addReasonId}>\n           {sharedDisabledReason}\n         </p>\n       ) : (\n         <>\n           {props.addDisabledReason ? (\n             <p className=\"layer-stack-disabled-reason\" id={addReasonId}>\n               {props.addDisabledReason}\n             </p>\n           ) : null}\n           {visibleDeleteDisabledReason ? (\n             <p className=\"layer-stack-disabled-reason\" id={deleteReasonId}>\n               {visibleDeleteDisabledReason}\n             </p>\n           ) : null}\n         </>\n       )}\n       <DsReorderCollection\n         adoptionId=\"map/layer-stack\"\n         scopeKey={props.reorderScopeKey}\n         entries={props.items.map((layer) => ({\n           key: layer.id,\n           label: layer.name,\n           disabled: layer.reorderDisabled ?? layer.locked,\n         }))}\n         revision={props.reorderRevision}\n         onReorder={(intent) => {\n           const source = props.items[intent.fromIndex]\n           if (!source) return false\n           return props.onReorder(source.id, intent.toIndex)\n         }}\n       >\n         <div className=\"map-layer-list\">\n           {props.items.map((layer) => (\n             <DsReorderItem itemKey={layer.id} key={layer.id}>\n               <div className={`map-layer-row${layer.id === props.activeId ? ' sel' : ''}`}>\n                 <DsActionGroup density=\"compact\" className=\"layer-state-actions\">\n                   <DsIconButton\n                     variant=\"quiet\"\n                     icon={layer.hidden ? 'eye-off' : 'eye'}\n                     onClick={() => props.onToggleVisible(layer.id)}\n                     label={`图层可见：${layer.name}`}\n                     aria-pressed={!layer.hidden}\n                   />\n                   <DsIconButton\n                     variant=\"quiet\"\n                     icon={layer.locked ? 'lock' : 'unlock'}\n                     onClick={() => props.onToggleLocked(layer.id)}\n                     label={`图层锁定：${layer.name}`}\n                     aria-pressed={layer.locked}\n                   />\n                 </DsActionGroup>\n                 <DsPressable\n                   type=\"button\"\n                   className=\"layer-name\"\n                   onClick={() => props.onSelect(layer.id)}\n                   title={`${layer.name} (${layer.id})`}\n                   data-layer-id={layer.id}\n                   aria-label={`选择图层：${layer.name}（${layer.id}）`}\n                   aria-pressed={layer.id === props.activeId}\n                 >\n                   <span>{layer.name}</span>\n                   {layer.detail ? <small>{layer.detail}</small> : null}\n                 </DsPressable>\n                 {layer.id === props.activeId ? (\n                   <DsActionGroup density=\"compact\" className=\"layer-order\">\n                     <DsReorderMoveButton\n                       itemKey={layer.id}\n                       direction={props.stackOrder === 'top-first' ? 'backward' : 'forward'}\n                       label={`上移图层：${layer.name}`}\n                     />\n                     <DsReorderMoveButton\n                       itemKey={layer.id}\n                       direction={props.stackOrder === 'top-first' ? 'forward' : 'backward'}\n                       label={`下移图层：${layer.name}`}\n                     />\n                   </DsActionGroup>\n                 ) : null}\n               </div>\n             </DsReorderItem>\n           ))}\n         </div>\n       </DsReorderCollection>\n       {props.footer}\n     </section>\n   )\n }\n ",
+  "patch": "--- a/packages/editor/src/ui/LayerStackControls.tsx\n+++ b/packages/editor/src/ui/LayerStackControls.tsx\n@@ -145,7 +145,7 @@\n           />\n         </DsActionGroup>\n       </div>\n-      {sharedDisabledReason ? (\n+      {false && sharedDisabledReason ? (\n         <p className=\"layer-stack-disabled-reason\" id={addReasonId}>\n           {sharedDisabledReason}\n         </p>\n",
   "positive": {
     "exitCode": 0,
-    "executed": 5
+    "executed": 5,
+    "executedFullNames": [
+      "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+      "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+      "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+      "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
+      "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 5
+    }
   },
   "productSha256MutatedTree": "954cd40ae46ff67e61aa7c5efb66e2f96d23523d20c0626def71d2dc204a4478",
   "mutated": {
     "exitCode": 1,
     "executed": 5,
+    "executedFullNames": [
+      "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+      "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+      "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+      "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
+      "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因"
+    ],
     "failed": [
       {
         "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
-        "message": "AssertionError: expected <p …(2)></p>"
+        "message": "AssertionError: expected <p …(2)></p>",
+        "file": "src/ui/LayerStackControls.glm-p.test.tsx"
       }
     ],
-    "targetAssertionRed": true
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+      "message": "AssertionError: expected <p …(2)></p>",
+      "file": "src/ui/LayerStackControls.glm-p.test.tsx"
+    }
   },
   "restored": {
     "exitCode": 0,

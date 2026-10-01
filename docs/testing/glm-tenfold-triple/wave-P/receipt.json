@@ -1,37 +1,38 @@
 {
   "campaign": "TEST-GLM-OPQ-20260930",
   "wave": "P",
-  "rework": true,
-  "review": "docs/testing/glm-tenfold-triple/codex-review-20261001.md (P-01..P-04)",
+  "rework": "r3 (2026-10-01 r2 二审后)",
+  "review": "docs/testing/glm-tenfold-triple/codex-op-r2-review-20261001.md (P-R2-01..03)",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "previousCandidate": "8fb38fcc3b3f4f2d277260148c66488c979caa49",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "测试/证据锚点提交为 47a3e49a（P-01/P-02 重建）；其后到远端 tip 仅含 wave-P 证据 JSON/README/回执与 browser/ 证据目录的 docs-only 提交；最终远端候选 = 25adcd4a37f9290a79532a9f8ee072c39e70cd80",
+  "headNote": "测试/工具锚点提交为本次 rework 测试提交（见 git log）；其后到远端 tip 仅 wave-P 证据/README/回执 docs-only 提交；最终远端候选以推送 tip 为准",
   "counts": {
-    "contracts": 70,
+    "contracts": 67,
     "workGroups": 14,
     "countersValidSubmitted": 10,
     "countersExactlyOneRed": 10,
-    "browserFlows": 20,
+    "browserFlowsRecorded": 20,
+    "browserFlowsFullyProven": 18,
     "browserScreenshots": 55,
-    "target": 700
+    "target": "700/70组/50反控/20流程（不缩）"
   },
   "reworkClosures": {
-    "P-01": "project-diagnostics.glm-p.test.ts 三处 as never/双桥重建为 typed-legal 值级守卫（G06-01/02/04）",
-    "P-02": "P01-C03 与 P02-C10 重打为单合同变异；counters.json 直读原始 mutated.json：10/10 numFailedTests=1",
-    "P-03": "本回执以 47a3e49a 为测试/证据锚点，headNote 声明其后为 docs-only 区间",
-    "P-04": "20 条浏览器流程完成（browser/browser-evidence.json：55 截图 SHA256+相位+console）"
+    "P-R2-01": "counter.mjs 重写：diff -u 真实 patch + git apply 实测（应用后逐字节等于变异内容）；judge 抽出 counter-judge.mjs（恰一红+file/fullName 逐字匹配+拒收多红/错目标/skipped/超时/环境红/执行集漂移），自测 10/10；10 枚反控全部重跑，mutated.json 直读全部 numFailedTests=1",
+    "P-R2-02": "G09 三条重复分类断言删除（70→67）；contracts.json 逐合同真实旧断言锚点（contracts-anchors.mjs，67 条）",
+    "P-R2-03": "F02/F06/F09/F13/F15 相位实动补齐（含像素校验和、截图字节差分、tileId 真实失败恢复、撤销命令名标签）；F14 创建战场无撤销条目、F18 375px 导航下拉未展开——两条如实登记未证，18/20 完整证明",
+    "verifier": "lab 运行工程迁出 /tmp/glm-p-lab-isolated（配方 browser/lab-project.md），完整 verifier exit 0"
   },
   "commands": {
-    "directedVitest": "70/70 passed（directed-vitest.json 树内实跑）",
-    "fullEditorSuite": "516 files / 3856 tests 全绿, exit 0",
+    "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
+    "fullEditorSuite": "516 files / 3853 tests 全绿, exit 0（G09 删三条后 3856→3853）",
     "typecheck": "exit 0",
-    "rootLint": "本轮重跑于最终树（见 headNote 提交信息）",
+    "rootLint": "PASS 2804 files; 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
-    "verifyTargets": "exit 0, frozenHashesValid=true",
-    "coverage": "上轮 +32/+16/+2（分母 28489 不变）；本轮合同数未变未重跑"
+    "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
+    "judgeSelfTest": "node --test counter-judge.test.mjs → 10 pass / 0 fail"
   },
   "notDone": ["P02 剩余暗区", "P03–P10 八批（630 例缺口）", "40 枚反控缺口"],
   "sourceSha256": {
