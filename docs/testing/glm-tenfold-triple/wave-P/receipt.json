@@ -66,6 +66,6 @@
     "finalRemoteCandidate": "推送 tip（receipt 不自引用，见分支远端 HEAD）"
   },
   "threeStateProvenance": "r3.6 判据收紧后 10 针重采；相对 bb2ffcb6：9 针在 r3.5-review 更新、P02-C08 因 G03 标题撤回（执行集 fullName 变化）于 r3.6 重采",
-  "finalRemoteCandidate": "推送 tip（功能性提交 dc8fd75ce；其后仅本 receipt pin）",
+  "finalRemoteCandidate": "cd68684257296ef98ddf9dba020eaee0eea5548d（P03 批次 + 证据 + 回执同步同提交；测试锚 ca1848ea9→decouple 提交）",
   "sourceSha256Note": "r8 复核指出三个旧摘要（editor-asset-io/Toolbar/counter.mjs）未同步；本轮自最终字节重算全部八个"
 }
