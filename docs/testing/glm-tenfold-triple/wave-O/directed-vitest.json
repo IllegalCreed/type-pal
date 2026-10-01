@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 475,
-  "passed": 475,
+  "numTotalTests": 469,
+  "passed": 469,
   "failed": 0,
   "tests": [
     {
@@ -1715,37 +1715,7 @@
     },
     {
       "file": "packages/content/src/item-equip.glm-o.test.ts",
-      "fullName": "O08 equipItem：四拒绝前置与成功流 物品无 equip 块 → 原引用返回",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/item-equip.glm-o.test.ts",
-      "fullName": "O08 equipItem：四拒绝前置与成功流 caster 不在 party → 原引用返回",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/item-equip.glm-o.test.ts",
-      "fullName": "O08 equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/item-equip.glm-o.test.ts",
-      "fullName": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/item-equip.glm-o.test.ts",
-      "fullName": "O08 equipItem：四拒绝前置与成功流 未知物品 id → 原引用返回",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/item-equip.glm-o.test.ts",
-      "fullName": "O08 worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/item-equip.glm-o.test.ts",
-      "fullName": "O08 worldResourceValue：键域合同 resources 键缺省 0；已设值读取",
+      "fullName": "O08 worldResourceValue：键域合同（仅保留未证轴） resources 键在对象存在但值为 0 的显式零与缺键 0 分开（独立读取语义）",
       "status": "passed"
     },
     {
