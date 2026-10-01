@@ -8,7 +8,7 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "测试/证据锚点提交为 47a3e49a（P-01/P-02 重建）；其后到远端 tip 仅含 wave-P 证据 JSON/README/回执与 browser/ 证据目录的 docs-only 提交；最终远端候选以推送 tip 为准",
+  "headNote": "测试/证据锚点提交为 47a3e49a（P-01/P-02 重建）；其后到远端 tip 仅含 wave-P 证据 JSON/README/回执与 browser/ 证据目录的 docs-only 提交；最终远端候选 = 25adcd4a37f9290a79532a9f8ee072c39e70cd80",
   "counts": {
     "contracts": 70,
     "workGroups": 14,
