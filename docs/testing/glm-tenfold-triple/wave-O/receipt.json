@@ -103,5 +103,5 @@
     "r6-continued": "O-R4 三项闭合后继续合法残余：item 执行器效果分支（healHp/healMp/scaleCurrentHp/gate 显式阈值/menu 透传/applyPoison 统一入口）+ 敌脚本 guard（fallback chance 域/hook 状态结构/AI 聚合）+ 世界变量 fresh-record + YJ2 长流确定性 + RLE 编码器分段/pad（+26 例）；新增 6 枚三态反控（O08-CC6/7、O09-CC11/12、O10-CC7/10），计 62 枚"
   },
   "headNote": "candidateHead=测试/证据锚（最后非 docs 提交）；其后仅 receipt 格式化/pin 维护（docs-only），远端最终候选见 remoteFinalCandidate",
-  "remoteFinalCandidate": "054d3c4099cbc962b413a0e6e2c0c11dea35bb22"
+  "remoteFinalCandidate": "5ea8a5d23e245bab448294b4e03e928e6a46f7e7"
 }
