@@ -20,9 +20,9 @@ const TILE_H = 16
 const HALF_W = TILE_W / 2 // 16
 const SUBROW = TILE_H / 2 // 8
 
-/** D6-1 遮挡半透明常量(K5:集中一处,Kimi 视觉验收可调)。 */
+/** 局部透视中保留的前景权重；角色像素权重为 1 - OCCLUSION_ALPHA。 */
 export const OCCLUSION_ALPHA = 0.35
-/** D6-1 贴墙边界迟滞(K3:进入遮挡集合后保持 alpha 的毫秒数,防闪烁)。 */
+/** 贴墙边界迟滞：候选短暂消失时只保持当前队伍覆盖区域，防闪烁。 */
 export const OCCLUSION_LATCH_MS = 120
 
 /**
@@ -89,7 +89,7 @@ export interface SpriteDraw {
   coverSortOffset?: number
   /** 不透明度(编辑器幽灵渲染等;缺省 1)。 */
   alpha?: number
-  /** 是否主动触发前景半透明：大世界仅当前受控主角 true；普通遮挡/深度排序与此标记无关。 */
+  /** 是否允许局部前景透视：大世界仅主角队伍 true；普通遮挡/深度排序与此标记无关。 */
   occlusionTrigger?: boolean
 }
 
@@ -120,12 +120,16 @@ interface DrawEntry {
   draw: () => void
 }
 
-/**
- * D6-1 遮挡半透明迟滞 latch(K3):进入遮挡集合后保持 alpha OCCLUSION_LATCH_MS,
- * 防贴墙边界抖动闪烁。挂在 Renderer 实例(非模块级/全局);渲染器按场景重建
- * (main.ts:2785-2791 nextRenderer),场景切换天然清空。
- */
-export class OcclusionLatch {
+interface SpriteEntry extends DrawEntry {
+  sprite: SpriteDraw
+  image: HTMLCanvasElement
+  x: number
+  y: number
+  coverKeys: ReadonlySet<string>
+}
+
+/** 保留短暂消失的前景关系，不保存角色帧或坐标；透视始终来自本帧队伍像素。 */
+class OcclusionLatch {
   private readonly entries = new Map<string, { until: number; candidate: CoverCandidate }>()
 
   constructor(private readonly now: () => number = () => performance.now()) {}
@@ -147,17 +151,13 @@ export class OcclusionLatch {
     return retained
   }
 
-  has(key: string): boolean {
-    return this.retained().some((candidate) => candidate.key === key)
-  }
-
   reset(): void {
     this.entries.clear()
   }
 }
 
 /** cover 瓦片候选(已算遮挡关系的待画项)。 */
-export interface CoverCandidate {
+interface CoverCandidate {
   tile: ProjectMapTileDraw
   image: HTMLCanvasElement
   baseY: number
@@ -165,43 +165,28 @@ export interface CoverCandidate {
   key: string
 }
 
-/** D6-1(K2):跨 sprite 合并 cover 瓦片候选 + 遮挡半透明迟滞,输出每个瓦片绘制 alpha。
- *  纯函数(无 canvas/DOM),单测直接断言去重与 latch。 */
-export function mergeCoverCandidates(
-  perSprite: ReadonlyArray<{ trigger: boolean; candidates: readonly CoverCandidate[] }>,
-  opts: {
-    occlusionActive: boolean
-    tileAlpha: (tile: ProjectMapTileDraw) => number
-    latch: OcclusionLatch
-  },
-): Map<string, CoverCandidate & { alpha: number }> {
-  const merged = new Map<string, CoverCandidate & { alpha: number }>()
-  for (const { trigger, candidates } of perSprite) {
-    for (const candidate of candidates) {
-      const inOcclusionSet = opts.occlusionActive && trigger
-      if (inOcclusionSet) {
-        // 角色触发的遮挡瓦片:恒 OCCLUSION_ALPHA(覆盖同键早前的 tileAlpha,防迭代序影响)。
-        opts.latch.remember(candidate)
-        merged.set(candidate.key, { ...candidate, alpha: OCCLUSION_ALPHA })
-      } else if (!merged.has(candidate.key)) {
-        merged.set(candidate.key, {
-          ...candidate,
-          alpha:
-            opts.occlusionActive && opts.latch.has(candidate.key)
-              ? OCCLUSION_ALPHA
-              : opts.tileAlpha(candidate.tile),
-        })
-      }
-    }
-  }
-  // 本帧完全没有该候选时，也要用 latch 保存的 payload 画完 120ms 迟滞。
-  if (opts.occlusionActive) {
-    for (const candidate of opts.latch.retained()) {
-      if (!merged.has(candidate.key))
-        merged.set(candidate.key, { ...candidate, alpha: OCCLUSION_ALPHA })
-    }
-  }
-  return merged
+function coverKey(tile: ProjectMapTileDraw): string {
+  return `${tile.layerId}:${tile.row}:${tile.col}:${coverBaseY(tile)}`
+}
+
+function coverBaseY(tile: ProjectMapTileDraw): number {
+  return tile.centerY + 7 + tile.layerIndex + tile.height * SUBROW
+}
+
+function intersectsCover(
+  entry: SpriteEntry,
+  cover: CoverCandidate,
+  ox: number,
+  oy: number,
+): boolean {
+  const x = cover.tile.centerX - HALF_W + ox
+  const y = cover.tile.centerY + 7 - cover.image.height + oy
+  return (
+    entry.x < x + cover.image.width &&
+    entry.x + entry.image.width > x &&
+    entry.y < y + cover.image.height &&
+    entry.y + entry.image.height > y
+  )
 }
 
 /** 渲染层开关(编辑器图层显隐;引擎不传 = 全画)。 */
@@ -247,6 +232,8 @@ export class Canvas2DRenderer implements Renderer {
   private readonly tileCache = new Map<string, HTMLCanvasElement>()
   private readonly frameCache = new WeakMap<RleFrame, HTMLCanvasElement>()
   private readonly occlusionLatch: OcclusionLatch
+  private revealCanvas: HTMLCanvasElement | null = null
+  private retainedWallCanvas: HTMLCanvasElement | null = null
 
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
@@ -284,6 +271,99 @@ export class Canvas2DRenderer implements Renderer {
     b = this.bake(f)
     this.tileCache.set(key, b)
     return b
+  }
+
+  /**
+   * A normal opaque foreground is already painted. Restore only visible party pixels inside its
+   * opaque footprint. Sprite order is unchanged: front NPCs erase the party mask, rear NPCs do not.
+   * Device-resolution scratch uses the exact host transform, including camera rounding and scale.
+   */
+  private revealParty(
+    cover: CoverCandidate,
+    sprites: readonly SpriteEntry[],
+    eligible: ReadonlySet<SpriteEntry>,
+    x: number,
+    y: number,
+    retainedOnly: boolean,
+  ): void {
+    const transform = this.ctx.getTransform()
+    const corners = [
+      { x, y },
+      { x: x + cover.image.width, y },
+      { x, y: y + cover.image.height },
+      { x: x + cover.image.width, y: y + cover.image.height },
+    ]
+    const xs = corners.map((point) => transform.a * point.x + transform.c * point.y + transform.e)
+    const ys = corners.map((point) => transform.b * point.x + transform.d * point.y + transform.f)
+    const left = Math.floor(Math.min(...xs))
+    const top = Math.floor(Math.min(...ys))
+    const width = Math.ceil(Math.max(...xs)) - left
+    const height = Math.ceil(Math.max(...ys)) - top
+    if (width <= 0 || height <= 0) return
+    this.revealCanvas ??= document.createElement('canvas')
+    const canvas = this.revealCanvas
+    if (canvas.width !== width) canvas.width = width
+    if (canvas.height !== height) canvas.height = height
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('reforge: 2d context 不可用')
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+    ctx.clearRect(0, 0, width, height)
+    ctx.setTransform(
+      transform.a,
+      transform.b,
+      transform.c,
+      transform.d,
+      transform.e - left,
+      transform.f - top,
+    )
+    ctx.imageSmoothingEnabled = this.ctx.imageSmoothingEnabled
+    for (const entry of sprites) {
+      if (entry.baseY > cover.baseY) break
+      if (
+        entry.x >= x + cover.image.width ||
+        entry.x + entry.image.width <= x ||
+        entry.y >= y + cover.image.height ||
+        entry.y + entry.image.height <= y
+      )
+        continue
+      ctx.globalCompositeOperation = eligible.has(entry) ? 'source-over' : 'destination-out'
+      ctx.globalAlpha = entry.sprite.alpha ?? 1
+      ctx.drawImage(entry.image, entry.x, entry.y)
+    }
+    ctx.globalCompositeOperation = 'destination-in'
+    ctx.globalAlpha = 1
+    ctx.drawImage(cover.image, x, y)
+    this.ctx.save()
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+    if (retainedOnly) {
+      // A vanished candidate is not a normal cover. Repainting its whole tile would change NPC
+      // visibility. Retain foreground colour only inside the current visible party mask instead.
+      this.retainedWallCanvas ??= document.createElement('canvas')
+      const wall = this.retainedWallCanvas
+      if (wall.width !== width) wall.width = width
+      if (wall.height !== height) wall.height = height
+      const wallContext = wall.getContext('2d')
+      if (!wallContext) throw new Error('reforge: 2d context 不可用')
+      wallContext.setTransform(1, 0, 0, 1, 0, 0)
+      wallContext.clearRect(0, 0, width, height)
+      wallContext.globalCompositeOperation = 'source-over'
+      wallContext.drawImage(canvas, 0, 0)
+      wallContext.globalCompositeOperation = 'source-in'
+      wallContext.setTransform(
+        transform.a,
+        transform.b,
+        transform.c,
+        transform.d,
+        transform.e - left,
+        transform.f - top,
+      )
+      wallContext.imageSmoothingEnabled = this.ctx.imageSmoothingEnabled
+      wallContext.drawImage(cover.image, x, y)
+      this.ctx.drawImage(wall, left, top)
+    }
+    this.ctx.globalAlpha *= 1 - OCCLUSION_ALPHA
+    this.ctx.drawImage(canvas, left, top)
+    this.ctx.restore()
   }
 
   /**
@@ -358,7 +438,7 @@ export class Canvas2DRenderer implements Renderer {
             out.push({
               tile,
               image,
-              baseY: tile.centerY + 7 + tile.layerIndex + tile.height * SUBROW,
+              baseY: coverBaseY(tile),
             })
           }
         }
@@ -418,13 +498,33 @@ export class Canvas2DRenderer implements Renderer {
     }
 
     const entries: DrawEntry[] = []
+    const spriteEntries: SpriteEntry[] = []
+    const covers = new Map<string, CoverCandidate>()
+    const occlusionActive =
+      !opts?.skipCover &&
+      !opts?.showAll &&
+      opts?.focusLayerId === undefined &&
+      opts?.focusHeight === undefined
+    if (!occlusionActive) this.occlusionLatch.reset()
     for (const sprite of sprites) {
       const image = this.bake(sprite.frame)
       const rect = spriteBlitRect(sprite)
       const x = Math.round(rect.x + ox)
       const y = Math.round(rect.y + oy)
       const alpha = sprite.alpha
-      entries.push({
+      const candidates = opts?.skipCover ? [] : this.coverTileCandidates(tilesByLattice, sprite)
+      const coverKeys = new Set<string>()
+      for (const candidate of candidates) {
+        const key = coverKey(candidate.tile)
+        coverKeys.add(key)
+        covers.set(key, { ...candidate, key })
+      }
+      const entry: SpriteEntry = {
+        sprite,
+        image,
+        x,
+        y,
+        coverKeys,
         baseY: sprite.worldY + (sprite.sortOffset ?? 9) + (sprite.baseYBias ?? 0) * 8,
         draw:
           alpha !== undefined && alpha < 1
@@ -435,31 +535,65 @@ export class Canvas2DRenderer implements Renderer {
                 this.ctx.restore()
               }
             : () => this.ctx.drawImage(image, x, y),
-      })
+      }
+      entries.push(entry)
+      spriteEntries.push(entry)
     }
+    spriteEntries.sort((a, b) => a.baseY - b.baseY)
+    if (!spriteEntries.some((entry) => entry.sprite.occlusionTrigger === true))
+      this.occlusionLatch.reset()
 
     if (!opts?.skipCover) {
-      // D6-1(K2):跨 sprite 按瓦片键合并(同瓦片多角色候选只画一次,防 alpha 叠加变暗);
-      // 遮挡半透明仅 gameplay 态生效(K3:showAll/focusLayer 调试态所见即所得)。
-      const occlusionActive =
-        !opts?.showAll && opts?.focusLayerId === undefined && opts?.focusHeight === undefined
-      const perSprite = sprites.map((sprite) => ({
-        trigger: sprite.occlusionTrigger === true,
-        candidates: this.coverTileCandidates(tilesByLattice, sprite).map((c) => ({
-          ...c,
-          key: `${c.tile.layerIndex}:${c.tile.row}:${c.tile.col}:${c.baseY}`,
-        })),
-      }))
-      for (const { tile, image, baseY, alpha } of mergeCoverCandidates(perSprite, {
-        occlusionActive,
-        tileAlpha,
-        latch: this.occlusionLatch,
-      }).values()) {
+      const retained = new Set<string>()
+      const ordinaryCoverKeys = new Set(covers.keys())
+      const retainedCandidates = occlusionActive ? this.occlusionLatch.retained() : []
+      if (retainedCandidates.length > 0) {
+        const currentTiles = new Map(tiles.map((tile) => [coverKey(tile), tile]))
+        for (const candidate of retainedCandidates) {
+          const current = currentTiles.get(candidate.key)
+          if (
+            !current ||
+            current.tileId !== candidate.tile.tileId ||
+            current.tilesetId !== candidate.tile.tilesetId
+          )
+            continue
+          if (
+            !spriteEntries.some(
+              (entry) =>
+                entry.sprite.occlusionTrigger === true &&
+                entry.baseY <= candidate.baseY &&
+                intersectsCover(entry, candidate, ox, oy),
+            )
+          )
+            continue
+          retained.add(candidate.key)
+          if (!covers.has(candidate.key)) covers.set(candidate.key, candidate)
+        }
+      }
+      for (const cover of covers.values()) {
+        const { tile, image, baseY } = cover
         const x = tile.centerX - HALF_W + ox
         const y = tile.centerY + 7 - image.height + oy
+        const eligible = new Set(
+          spriteEntries.filter(
+            (entry) =>
+              occlusionActive &&
+              entry.sprite.occlusionTrigger === true &&
+              entry.baseY <= baseY &&
+              (entry.coverKeys.has(cover.key) || retained.has(cover.key)) &&
+              intersectsCover(entry, cover, ox, oy),
+          ),
+        )
+        if (eligible.size > 0 && [...eligible].some((entry) => entry.coverKeys.has(cover.key)))
+          this.occlusionLatch.remember(cover)
         entries.push({
           baseY,
-          draw: () => drawTile(image, x, y, alpha),
+          draw: () => {
+            const retainedOnly = !ordinaryCoverKeys.has(cover.key)
+            if (!retainedOnly) drawTile(image, x, y, tileAlpha(tile))
+            if (eligible.size > 0)
+              this.revealParty(cover, spriteEntries, eligible, x, y, retainedOnly)
+          },
         })
       }
     }

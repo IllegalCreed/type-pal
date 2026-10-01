@@ -224,7 +224,7 @@ export class WorldScenePresentation {
           gridToPixel(follower.pos),
           input.player.layer,
           partyIndex,
-          false,
+          true,
         ),
       )
     }
@@ -337,7 +337,7 @@ function partySprite(
   pixel: Readonly<{ x: number; y: number }>,
   layer: number,
   partyIndex: number,
-  controlled: boolean,
+  partyMember: boolean,
 ): SpriteDraw {
   return {
     frame,
@@ -350,7 +350,7 @@ function partySprite(
     coverSortOffset: layer * 8 + 10,
     // Leader wins equal-Y ties over every follower; this tiny bias never changes ordinary depth.
     baseYBias: layer - 0.01 * partyIndex,
-    // Only the currently controlled player reveals foreground. Depth slots are not control identity.
-    occlusionTrigger: controlled,
+    // Party membership is explicit; extra follower depth slots do not make them party members.
+    occlusionTrigger: partyMember,
   }
 }

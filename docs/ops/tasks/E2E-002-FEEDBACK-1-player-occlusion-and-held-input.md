@@ -120,3 +120,57 @@ Branch: codex/002-feedback
   新私有模块、render/party呈现测试、world-scene-presentation；不得改脚本/main壳/schema/编辑器/旧compat。
 - 验收必须含真实Canvas像素反控，不仅flags；须覆盖主角与NPC共享前景、相互重叠、前后深度、透明像素、
   队友、多墙、迟滞及退出反馈；Root独立复核并做最小PAL002画面检查。6012不关闭/刷新。
+<!-- 2026-10-01 Root build admission for the isolated rework candidate. -->
+
+## 返工 build 准入（2026-10-01）
+
+Codex 直接复核 `render.ts:170` 的全瓦片alpha合并、`:430` cover绘制和
+`world-scene-presentation.ts:202/227/256` 的真实身份调用域；贡献者独立读取相同一手实现并确认。
+前提已核：NPC自身正常不透明，泄漏来自队伍触发后共享前景瓦片的整体alpha。
+用户目标是主角队伍局部透出、普通NPC正常遮挡；不移植一阶段调色板混色机制。
+
+**build allowed**：贡献者 `party_occlusion_rework` 单一写入 Owner，隔离
+`codex/party-occlusion`，仅修改render/world-scene-presentation及对应回归测试和本卡自己的交付段。
+Codex后续独立验收，不将作者自验计为接收。003/main.ts/作者脚本、6012/6051不在贡献者写入域。
+
+设计：正常foreground绘制保持不透明，再仅在当前队伍opaque与本cover opaque的交集局部合成，
+保持原深度顺序，队伍前方NPC的opaque擦除局部透视；tile关系latch不保存旧位置/旧图像。
+多墙先正常覆盖再一次局部叠回，不能累积增亮；离开/空队伍/调试模式不得残留。
+最强反例是同一墙内NPC与队伍前后重叠、多个cover或透明洞导致泄漏，需真实Canvas像素先红后绿，
+并核+7脚点、相机/缩放/高度和debug/skipCover。若任一NPC颜色被局部叠回即推翻设计。
+
+## 返工贡献者交付（party_occlusion_rework，2026-10-01）
+
+- 隔离 `codex/party-occlusion`，base `94850a0f`；只修改render/world呈现及其回归、本段记录。
+  Root的准入段原样保留；不改main/003/schema/编辑器/服务，不标done，不推送或合main。
+- 已独立读取当前整瓦片alpha合并和调用域，确认NPC本体未设alpha；一阶段
+  `packages/game/src/present/draw-sprite.ts:43`按opaque覆盖，没有透视反馈，N/A作为新效果标准。
+  本轮产品标准来自用户新裁决，不从原版推断新的队伍范围。
+- 普通cover仍按现有baseY及stable ties不透明重画；`render.ts:281`局部设备像素canvas
+  只合成当前队伍帧的opaque，实际位于队伍前方的NPC/非本cover队伍像素用destination-out擦除。
+  最后destination-in当前前景opaque，再一次以0.65叠回，NPC颜色不会进入透视canvas。
+  原脚点+7、sprite rounding、host transform/scale、tile高度排序均复用原合同；无新身份/schema字段。
+- 队长和正式队友显式允许透视，普通实体和编外跟随者false；缺队长帧仍显示可绘队友，但
+  空party的第0编外深度槽不变成队伍身份。角色本体alpha不修改，不使用描边/剪影风格。
+- 120ms只保持tile关系，不保存旧角色图像/坐标；迟滞候选仍须在当前view、同tile来源及身份、
+  当前队伍矩形交集与正常前后深度内，最终像素仍受当前opaque遮罩裁切。
+  latch-only不将整个旧tile重新作为普通cover绘制，只在当前有效队伍mask内保持前景色，
+  避免改变区域外NPC原有画序。空队伍、showAll/focus/skipCover清latch；隐藏/改瓦片不消费旧载荷。
+- 真实jsdom/native Canvas像素回归先红：首批15项中11失败，直接观察shared-wall NPC
+  RGBA绿130/蓝70、重叠墙重复变暗及退场旧区域泄漏。另加latch-only反控先红1项，
+  定位旧候选整块不透明重画会改变候选区域外NPC普通像素，再改成仅mask局部保持。
+  两份原始红日志保留在 `build/e2e/party-occlusion/pixel-red.log`、`latch-counter-red.log`。
+- 最终21项真实RGBA回归覆盖NPC-only/共墙/前后与相等深度/墙前NPC、队友及编外、双方透明洞、
+  opaque palette0、实例高度、多墙/多队伍、120ms/退出/换位置与空帧/reset/改tile、debug/skipCover、
+  scale4下三种fractional camera与+7。旧4项整瓦片alpha draw-call检查删除，由新像素合同替代。
+- 自验：邻接5文件38项通过；Reforge全252文件2051项通过；typecheck零诊断；严格全仓lint
+  2707文件0 errors / 0 warnings / 0 infos。日志在同一证据目录；使用Vitest真实Canvas断言、
+  pnpm按包执行质量门，无新增依赖、无mock绘制或readback生产路径。
+- 未跑本轮PAL浏览器视觉或全仓check；它们由Root独立验收，用户观感仍pending。
+
+### 返工接收提示词
+
+Root请先读本卡返工分派/准入与 `render.ts`、`world-scene-presentation.ts`及21项真实RGBA回归，
+独立核前后NPC、multiple cover、latch-only及foot/transform反例，复跑邻接与统一质量门并做最小
+PAL002视觉检查；根据证据accept或列counter。贡献者自验不是独立验收。6012/6051未触碰，
+不得借此提交把旧卡标done或关闭用户服务。

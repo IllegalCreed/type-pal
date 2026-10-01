@@ -99,7 +99,7 @@ const directional: SpriteDef = {
 }
 
 describe('当前大世界呈现的实体与队伍帧选择', () => {
-  test('只有受控队长主动触发前景透明，NPC/静物/队友/编外跟随者仍保留普通遮挡与不透明本体', () => {
+  test('主角队伍触发局部前景透视，NPC/静物/编外跟随者仍保留普通遮挡与不透明本体', () => {
     const frames = loaded(1)
     const sprites = presentation().sprites(
       input({
@@ -120,7 +120,7 @@ describe('当前大世界呈现的实体与队伍帧选择', () => {
       false,
       false,
       true,
-      false,
+      true,
       false,
     ])
     expect(sprites.map((sprite) => sprite.coverSortOffset)).toEqual([9, 9, 26, 26, 26])
@@ -141,7 +141,7 @@ describe('当前大世界呈现的实体与队伍帧选择', () => {
     expect(sprites[0]?.occlusionTrigger).toBe(false)
   })
 
-  test('队长换人按当前受控绘制点触发，不绑定旧Actor；队长无可绘帧时队友不接替触发', () => {
+  test('队伍换人不绑定旧Actor；队长无可绘帧时当前队友仍按队伍身份透视', () => {
     const hero = member('hero')
     const friend = member('friend')
     const heroFrames = loaded(1)
@@ -165,15 +165,15 @@ describe('当前大世界呈现的实体与队伍帧选择', () => {
       friendFrames.frames[0],
       heroFrames.frames[0],
     ])
-    expect(original.map((sprite) => sprite.occlusionTrigger)).toEqual([true, false])
-    expect(swapped.map((sprite) => sprite.occlusionTrigger)).toEqual([true, false])
+    expect(original.map((sprite) => sprite.occlusionTrigger)).toEqual([true, true])
+    expect(swapped.map((sprite) => sprite.occlusionTrigger)).toEqual([true, true])
     const missingLeader = presenter.sprites({
       ...state,
       partyVisual: (entry) =>
         entry === hero ? undefined : { def: staticDef, frames: friendFrames },
     })
     expect(missingLeader).toHaveLength(1)
-    expect(missingLeader[0]?.occlusionTrigger).toBe(false)
+    expect(missingLeader[0]?.occlusionTrigger).toBe(true)
   })
 
   test('隐藏、缺定义和空解码帧不进入绘制队列，只有合法可见精灵留下实际帧锚', () => {
