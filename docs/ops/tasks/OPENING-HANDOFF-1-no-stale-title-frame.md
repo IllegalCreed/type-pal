@@ -80,5 +80,8 @@ Visual Verification Timing: mixed
 - 直接读取冻结实现diff：只在标题cleanup停rAF/键owner后同步不透明清黑，resetTransform/save/restore不污染新owner。
 - 直接读取DOM removal observer与断言：自然ended、撤层时runtime尚未ready、先有真实菜单再全黑；完整旅程继续到房间首帧，排除永黑过门。
 - 实际查看冻结绿控交接PNG，不存在旧菜单；第一阶段bootstrap已有同类清屏，与本次窄修一致。
-- 接收实现b7784da3a及卡面收据88decb71b，集成于编辑器候选；共享board/index登记由Root补齐，最终统一静态门待集成候选复跑。
+- 接收实现b7784da3a及卡面收据88decb71b，集成于编辑器候选；Root另跑真实菜单/交接工具2 files / 6 tests绿。
+- 共享board/index登记由Root补齐；集成839cad2a7全仓7包typecheck零诊断、lint2732 files零error/warning/info，
+  E2E工具94 tests绿、editor完整486 files / 3721 tests绿；docs37工具tests及813 Markdown / 4276链接 / 253任务绿。
+  不改冻结开场产品文件，正式RF001继续使用卡面b7784da3a的真实红绿像素与完整流程证据。
 - 用户体验待确认，Status保留review；6012不关闭、不重启。

@@ -14,7 +14,7 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹](EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹](EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单](OPENING-HANDOFF-1-no-stale-title-frame.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | review | 以任务卡当前准入与看板分工为准。 |

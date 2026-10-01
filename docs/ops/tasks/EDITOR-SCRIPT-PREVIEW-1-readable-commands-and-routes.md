@@ -1,6 +1,6 @@
 # EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹
 
-Status: build
+Status: review
 Owner: Codex Root
 Reviewer: editor_preview_audit（独立只读） / Codex Root（集成）
 Phase: phase2
@@ -53,8 +53,32 @@ editor_preview_audit只读独立复核。贡献者不改共享卡/6012，不合m
 
 - Root直接读取以上链路：premise verified / build allowed，隔离codex/editor-script-preview单一实现Owner。
 - editor_preview_audit独立只读核前提和最终候选；Root保留相关测试/实际画面证据再集成。
-- 自测/独立审查/用户体验pending。6012原服务保留，不修改用户.zcodeignore。
+- 自测与独立代码审查accept，用户体验pending。6012原服务保留，不修改用户.zcodeignore。
+
+## 实现与独立验收收据（2026-10-02）
+
+- 选中stage/state的结构化cursor贯穿正文、真实RuntimeScriptRunner预览与路线，按场景/实体/入口/方案隔离；
+  删除当前步骤同步回落，不改作者初始步骤。原红控第二步骤错误执行第一步骤，修后真实奖励及单步反例通过。
+- 指令摘要解析作者方案/页面/共享脚本名称，显示中文触发方式、移动坐标与速度；对话不堆portrait资产ID，
+  未解析引用明确提示。完整参数编辑表单保留，不修改canonical内容或runtime/save/schema。
+- 路线展示当前步骤的作者节点、分色连线、条件虚线及瞬移标记；共享self、相对移动与相机缩放复用现有坐标语义。
+  追加“显示完整轨迹”，解决e56六目标在浅地图视口中被裁切的问题；它是编排参考而不是实际避障结果。
+- 独立只读审查在d68943fc5给出counter：stopScript后仍画移动、共享脚本局部结束语义及相对落点高度。
+  Root修正为839cad2a7；审查者重新读取运行时primary代码和反例后accept，未用作者自验代替独立验收。
+- 浏览器实际操作候选6013：e56交互第二步播放只出现“别怠慢了客人”，不是接客第一步；自动方案
+  “接客后：下楼到大厅”的六目标路径实画可见，完整轨迹按钮能一键纳入视口；中文切换目标已显示
+  “客人进房后：请逍遥打发门口道士”；e62“门口初见”正文只突出对话内容与“居中”。
+  未写作者数据，候选及6012的保存/撤销/重做均禁用、显示已保存。
+- 冻结功能包7 files / 63 tests绿；独立counter修复2 files / 15 tests绿；最终完整editor check
+  486 files / 3721 tests绿（458.93s），收据`build/e2e/editor-preview-final-check.log`。
+- 第一轮完整editor check 1 failed / 3717 passed：静态样式adoption门捕获新legend三处内联常量。
+  保留原始红收据`build/e2e/editor-preview-full-check.log`；Root移入CSS recipe，未降级规则/增加忽略，最终完整检查全绿。
+- 全仓7包typecheck零诊断；lint 2732 files、0 errors / 0 warnings / 0 infos；E2E工具94 tests绿。
+  收据`build/e2e/editor-preview-final-{types,lint,e2e-tools}.log`。原浏览器导航模拟的测试stderr原样保留，不伪称无任何运行时提示。
+- 文档登记门已修正新卡board/index缺项；37工具tests与813 Markdown / 4276链接 / 253任务检查全绿。
+  最终卡状态登记后复跑PASS、0 issues，收据`build/e2e/editor-preview-final-docs.log`。
+  6012服务PID88523持续运行；用户未跟踪.zcodeignore保持原样。
 
 ## 下一位 Agent 提示词
 
-editor_preview_audit只读核选择链/重点摘要/路径反例并反馈，不改实现/不操作6012；Root继续实现并独立集成，待用户体验。
+无下一位 Agent 提示词，等待用户验收/收口。
