@@ -247,3 +247,20 @@ Q须撤回 `magic` 的 blocked-input/等待补产品字段表述，保留其它 
 ```text
 TEST-GLM-WAVE-Q-1 Codex primary-source follow-up: continue only in /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal on codex/glm-wave-q-runtime-residual-r1, with the original whitelist/base/freeze unchanged. Read the latest Q card and codex-zcode-oq-preflight-20261001.md/json in the acceptance tree. Q-R5-03 is now verified: packages/shared/src/tables.ts:562 already declares PlayerRole.magic?: number[], and core/game-state.ts:569,1577,1670 plus shell/bootstrap.ts:1197 provide the real public typed runtime projection into battle roles. Withdraw the magic blocked-input/product-field claim; use a complete typed role/BattleState or createInitialGameState, hydratePlayerRolesRuntime, rgwMagic and projectRuntimeToBattleRoles. No casts, private state, product changes or new mechanics. Deduplicate the old signed-negative tests and all prior assertions before expanding the approved resolve/costMP/MP/selection contracts. This does not authorize the separate learnedSpells fallback or shrink 700 cases/50 groups/50 controls. Keep Q-R5-01/02/04 and all previously closed items as recorded; recollect only controls whose source or execution set changed. Continue approved Q07/Q08/Q10 residual work, validate each batch, commit and push stages; no main merge, done, official gates or real data/story/E2E002 writes.
 ```
+
+### 直接投递与误停止记录（2026-10-01）
+
+最新窄项已出现于原Q会话第7条用户消息，包含原工作树/分支、固定候选、Q-R5-01～04、
+已声明magic一手补核与合法余族续做；不是accept。Codex在Return后又补点了会切换含义
+的发送/停止控件，用户指出Q被停止，新绑定已直接确认最新一轮“已停止”。
+撤回中途“仍执行”表述，规则改为每条消息回车或点击**只触发一次**、随后仅只读核验。
+工作树仍干净，HEAD `c05edb4e9fb4b32bf258848e2581a53137288650`；没有新业务交付。
+
+短恢复尚未发送，当前模型菜单操作未核出改变。后续只在Q仍明确停止、未由用户恢复、
+无排队时，用下段恢复已送达第7条，不重发整包/重造已关闭项。用户授权纯代码阶段优先
+GLM-5.3、需要视觉再用GLM-5.3-Flash；仅空闲核实选择，不动账号/套餐/权限。
+700/50组/50有效反控、原白名单/冻结、rework均不变，未合main/未结算。
+
+```text
+Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue that existing task ONLY in /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal on codex/glm-wave-q-runtime-residual-r1 as the only Q owner. Read the latest Q card in /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal and preserve its closed items. Do not restart completed batches or repeat unchanged controls. Original whitelist base freeze targets and safety limits remain unchanged. Main product old tests shared docs baselines and real data remain read-only. Continue the narrow repair then approved legal residual batches and push stages. Do not merge main or mark done.
+```
