@@ -58,7 +58,7 @@ describe('O07 stage 游标：stageIndexFor / applyStageNext', () => {
     expect(stageIndexFor(world, 'k', stages)).toBe(1)
   })
 
-  test('applyStageNext：advance 递增 / 显式 stage id 跳转 / undefined 不变', () => {
+  test('applyStageNext：advance 递增 / 数字重置 / undefined 不变', () => {
     world = emptyProjectedWorldScriptState()
     applyStageNext(world, 'k', 0, 'advance')
     expect(world.entityStage.k).toBe(1)
