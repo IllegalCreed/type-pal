@@ -5,7 +5,7 @@
 
 Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**。
 派发 BASE `0704d3de6d3d2a2099475a42f601b654bba08579`。
-完整候选 SHA 留到末批 `receipt.json`，本文不回填当前 HEAD。
+完整候选 SHA 在 [receipt.json](receipt.json) 的 `candidateHead`：`16db4d1ed9d394a2506293e7b4448f8a0c19ceef`。随后的 docs pin 不改这个值。
 
 ## 累计
 
@@ -41,6 +41,8 @@ G10 四组：G10-A `rng-player.ts` 默认跳过键、负帧号、等窗和零时
 - [directed-vitest.json](directed-vitest.json)：400 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条，G08 的 battle sprite/ui/settlement/effect/num/bg/present/P15/P08/P09 143 条，G09 的 input/main-loop/boot/precache 57 条，G10 的 rng/splash/trademark/fbp/ending/avi/bootstrap/fetch 68 条）
 - [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G10 各四枚三态原日志
 - [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked；全包有一条 PAL 资产环境 ENOENT，单列给 Codex
+- [coverage-delta.json](coverage-delta.json)：46 个所属源，语句分母 3501，本次 v8 多覆盖 164 条语句、126 个分支、131 行。这是私有测量，正式 ratchet 留给 Codex
+- [receipt.json](receipt.json)：`candidateHead` 是 `16db4d1ed9d394a2506293e7b4448f8a0c19ceef`
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
 ## G01 已跑命令
@@ -178,4 +180,4 @@ G10 四组：G10-A `rng-player.ts` 默认跳过键、负帧号、等窗和零时
 
 全包 `pnpm --filter @type-pal/game exec vitest run` 退出码 1。278 个文件通过，4 个文件跳过，1 个文件失败。测试 3145 passed、13 skipped。失败套件是 `src/dev/dev-panel.test.ts`：工作树没有 gitignore 的 `data/extracted/data/enemy-teams.json`，收集阶段 `readFileSync` 抛出 ENOENT。主检出 `/Users/zhangxu/illegal/type-pal/data/extracted/data/enemy-teams.json` 存在。未复制真实数据，未改旧测。本卡 grok-r1 文件都在通过列表里。这条环境异常单列给 Codex，全包不算绿。
 
-根 `pnpm lint`：2967 files，0 errors / 0 warnings / 0 infos。`node scripts/docs/check.mjs`：PASS，0 issues。`verify-targets.mjs --owner grok --base 0704d3de6d3d2a2099475a42f601b654bba08579` 在工作树里会看到 8 个未跟踪的 `node_modules` 符号链接（`.gitignore` 的 `node_modules/` 不匹配符号链接）。把这 8 个链接临时移开后退出码 0：`globalFrozenSources` 716，`allocatedSources` 120，`frozenHashesValid` true，`changedPaths` 494。链接已放回，不进入提交。G02 到 G09 的三态 vitest JSON 只做了 Biome 排版，解析后的值与排版前相同。`git diff --check` 与私有 coverage 的原文记在随后的 `receipt.json`。完整候选 SHA 也在那份回执的 `candidateHead`，本文不回填当前 HEAD。不合 main，不跑正式 ratchet，不标 done。
+根 `pnpm lint`：2967 files，0 errors / 0 warnings / 0 infos。`node scripts/docs/check.mjs`：PASS，0 issues。`verify-targets.mjs --owner grok --base 0704d3de6d3d2a2099475a42f601b654bba08579` 在工作树里会看到 8 个未跟踪的 `node_modules` 符号链接（`.gitignore` 的 `node_modules/` 不匹配符号链接）。把这 8 个链接临时移开后退出码 0：`globalFrozenSources` 716，`allocatedSources` 120，`frozenHashesValid` true，`changedPaths` 494。链接已放回，不进入提交。G02 到 G09 的三态 vitest JSON 只做了 Biome 排版，解析后的值与排版前相同。`git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...16db4d1ed9d394a2506293e7b4448f8a0c19ceef` 退出码 0。私有 coverage 见 [coverage-delta.json](coverage-delta.json)：46 个源的语句、分支、行 total 都与 `targets.json` 相同，多覆盖 164 条语句、126 个分支、131 行。全包退出码仍是 1，因为 `dev-panel.test.ts` 的 ENOENT；`--coverage.reportOnFailure` 仍写出了报告。不合 main，不跑正式 ratchet，不标 done。

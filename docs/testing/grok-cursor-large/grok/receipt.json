@@ -1,0 +1,138 @@
+{
+  "taskId": "TEST-GROK-RENDER-HOST-LARGE-1",
+  "owner": "grok",
+  "authorDelivery": "pending",
+  "accept": "not-claimed",
+  "done": false,
+  "mergedToMain": false,
+  "officialRatchet": false,
+  "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "candidateHead": "16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
+  "candidateObject": "commit",
+  "docsPin": {
+    "role": "docs-only",
+    "candidateHead": "16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
+    "paths": [
+      "docs/testing/grok-cursor-large/grok/receipt.json",
+      "docs/testing/grok-cursor-large/grok/coverage-delta.json",
+      "docs/testing/grok-cursor-large/grok/README.md"
+    ],
+    "note": "这一提交只补回执、私有覆盖差额和入口链接。candidateHead 保持测试与证据提交，不再为对齐 HEAD 追加提交。"
+  },
+  "counts": {
+    "newContracts": 400,
+    "groups": 40,
+    "acceptedCounters": 40,
+    "existingProof": 326,
+    "unreachable": 4,
+    "blocked": 1,
+    "g10NewContracts": 25,
+    "g10ExistingProof": 64,
+    "g10Unreachable": 1
+  },
+  "directed": {
+    "newPassed": 25,
+    "adjacentPassed": 68,
+    "pending": 0,
+    "files": 18
+  },
+  "typecheck": {
+    "command": "pnpm --filter @type-pal/game run typecheck",
+    "exitCode": 0
+  },
+  "fullTest": {
+    "command": "pnpm --filter @type-pal/game exec vitest run",
+    "exitCode": 1,
+    "passedFiles": 278,
+    "failedFiles": 1,
+    "skippedFiles": 4,
+    "passedTests": 3145,
+    "skippedTests": 13,
+    "failure": "packages/game/src/dev/dev-panel.test.ts readFileSync ENOENT data/extracted/data/enemy-teams.json",
+    "countedGreen": false,
+    "dataCopied": false
+  },
+  "lint": {
+    "command": "pnpm lint",
+    "files": 2967,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0
+  },
+  "docsCheck": {
+    "command": "node scripts/docs/check.mjs",
+    "result": "PASS",
+    "issues": 0
+  },
+  "diffCheck": {
+    "command": "git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
+    "exitCode": 0
+  },
+  "verifier": {
+    "command": "node docs/testing/grok-cursor-large/verify-targets.mjs --owner grok --base 0704d3de6d3d2a2099475a42f601b654bba08579",
+    "exitCodeWithLocalNodeModulesSymlinks": 1,
+    "symlinkPaths": [
+      "node_modules",
+      "packages/content/node_modules",
+      "packages/editor/node_modules",
+      "packages/game/node_modules",
+      "packages/migrate/node_modules",
+      "packages/pal-extract/node_modules",
+      "packages/reforge/node_modules",
+      "packages/shared/node_modules"
+    ],
+    "exitCodeWithSymlinksMovedAside": 0,
+    "globalFrozenSources": 716,
+    "allocatedSources": 120,
+    "frozenHashesValid": true,
+    "changedPathsBeforeDocsPin": 494
+  },
+  "counters": {
+    "accepted": [
+      "G01-A",
+      "G01-B",
+      "G01-C",
+      "G01-D",
+      "G02-A",
+      "G02-B",
+      "G02-C",
+      "G02-D",
+      "G03-A",
+      "G03-B",
+      "G03-C",
+      "G03-D",
+      "G04-A",
+      "G04-B",
+      "G04-C",
+      "G04-D",
+      "G05-A",
+      "G05-B",
+      "G05-C",
+      "G05-D",
+      "G06-A",
+      "G06-B",
+      "G06-C",
+      "G06-D",
+      "G07-A",
+      "G07-B",
+      "G07-C",
+      "G07-D",
+      "G08-A",
+      "G08-B",
+      "G08-C",
+      "G08-D",
+      "G09-A",
+      "G09-B",
+      "G09-C",
+      "G09-D",
+      "G10-A",
+      "G10-B",
+      "G10-C",
+      "G10-D"
+    ],
+    "patchSha256Matched": 40,
+    "historicalReporterJson": "G02–G09 的 original/mutant/restored JSON 经 Biome 排版。排版前后 json 解析值的规范哈希相同。"
+  },
+  "pixels": ["G04-D08", "G05-A11", "G06-A12", "G07-B13", "G08-D07", "G10-B01", "G10-B02"],
+  "coverageDelta": "docs/testing/grok-cursor-large/grok/coverage-delta.json"
+}
