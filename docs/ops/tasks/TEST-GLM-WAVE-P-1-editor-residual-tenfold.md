@@ -110,3 +110,41 @@ Codex **counter → rework**；70/700例、10/50枚反控、0/20浏览器流程�
 仍钉派发基点8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380；不要cherry-pick Codex共享审查提交或改基点绕白名单，源漂移先交Codex。
 最后实跑最终JSON与源hash，串行Editor全包test/typecheck、根lint完整0/0/0、docs/diff/verifier，推送完整候选SHA。产品/旧测/配置/官方baseline/O/Q/共享文档只读，不合main、不标done、不清树。
 ```
+
+## Codex r2 二审（2026-10-01）
+
+候选 `2547d8ade1ba94f124acdbef17d495672c581828`（本地/远端一致），
+测试锚点 `47a3e49ae72a1262e23de814bd483628ab896a98` 后确实仅wave-P文档/证据。
+**counter，保持rework**；70/700实跑例、10/50提交反控仍部分，
+20条浏览器记录未全部证明实际流程。历史记录保留。
+[二审详情](../../testing/glm-tenfold-triple/codex-op-r2-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-op-r2-review-20261001.json)。
+
+- P-01旧三桥关闭；P-03区间误记关闭。
+- P-02旧双红关闭：Codex隔离副本不筛邻居，P01-C03为24执行/1业务红、
+  P02-C10为5执行/1业务红，恢复29/29绿。其它8枚仅证据/hash审计，不冒称独立执行。
+- Editor全包3856绿，新70与最终directed逐条一致，typecheck/docs/diff零；
+  根lint2801文件完整0/0/0。全包jsdom导航未实现提示不冒称stdout零。
+- P-R2-01：10枚receipt.patch全部corrupt；counter.mjs允许两红/错目标，实际旧两红报告
+  仍被当前predicate接收。补可应用patch/验证manifest及严格单目标judge拒收自测。
+- P-R2-02：G09三条分类器断言重复旧file-system-access.test，contracts账需真实旧断言锚点；
+  保留非法URL等不同残余，续P02及P03–P10，原700/70组/50不缩。
+- P-R2-03：F02/F06/F09错相位，F13/14/15/17/20无after，F16无状态差分，
+  F18未证窄窗可达，真实错误恢复未证；仅补失败证据，保留F03/F11有效流程。
+- 完整verifier因projects/glm-p-lab/20未跟踪自有工程文件exit1；源716/716、
+  已提交142路径白名单均通过。Codex未删除lab；Owner保留可复现最小输入于白名单，
+  将运行工程可恢复迁入隔离临时目录后重跑，不改ignore、不提交projects越界。
+- 不合main、不done、不清活动树，不正式覆盖结算。
+
+### 下一位 GLM P 提示词（r3，取代上方返工提示词）
+
+```text
+你继续 TEST-GLM-WAVE-P-1，原分支 codex/glm-wave-p-editor-residual-r1，起点 2547d8ade1ba94f124acdbef17d495672c581828。当前rework，只写原Editor新测试/专属fixture/wave-P白名单。
+先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md 的Codex r2二审段与所链codex-op-r2-review-20261001.md/json，再读共同协议和GLM自检。
+P-01类型桥、P-02两枚真实单业务红、P-03docs-only区间已关闭，保留成果，不重复返工。修counter.mjs判据：恰一指定file/fullName业务断言红，拒收两红/错目标/skip/collection/环境/超时/未处理异常，正与恢复执行集相同全绿；加实际拒收自测，不过滤邻居。Vitest rejects的Error前缀可来自AssertionError，保留原文。
+10条receipt.patch均corrupt，改为可应用正确patch或验证过的明确替换manifest，最终重建hash/三态JSON/raw/退出码/执行数逐枚一致；不修改产品。
+逐合同contracts账填真实旧fullName/断言锚点，G09三条分类器旧断言不计新，保留非法URL不同轴；续P02残余和P03–P10，700合法未重复例/70组/50有效反控目标不缩，缺合法轴逐条件举证申请，不灌水。
+仅补错位/缺失浏览器相位：F02/F06/F09、F13/14/15/17/20、F16状态差分、F18真实窄窗可达及合法失败恢复。保留健康F03/F11；20条必须是真实功能前后流程，不以静态观察换名。保存自有lab最小合法输入/版本/hash/步骤到本卡白名单，运行树可恢复迁出projects/glm-p-lab到隔离临时目录再跑完整verifier，不删真实数据/不增ignore/不提交projects越界。
+派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；不cherry-pick共享Codex审查提交、不改基点绕白名单。最终串行Editor全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier，定向JSON对齐最终实跑，推送完整40位SHA。
+产品/旧测/配置/官方baseline/真实工程/O/Q/共享卡看板只读；不合main、不标done、不清活动树，不自行修UI/扩大超时。
+```

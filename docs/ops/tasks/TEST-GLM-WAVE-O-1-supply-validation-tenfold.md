@@ -111,3 +111,36 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 仍钉派发基点8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380；不得cherry-pick Codex共享审查提交或改基点绕过白名单，源漂移先交Codex。
 最终实跑JSON与源hash重核；串行migrate/content/shared全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier，再提交推送完整候选SHA。产品/旧测/配置/官方baseline/真实工程/P/Q/共享卡看板只读，不合main、不标done、不清树。
 ```
+
+## Codex r2 二审（2026-10-01）
+
+候选 `4d1fbd80e4bc61987d7d94eb2733d6aa8ca4d9af`（本地/远端一致）。
+**counter，保持rework**，401/700实跑例、44/50提交反控仍属部分交付；
+运行数未扣非法/重复，不能当作401已accept新合同。旧记录不追溯改写。
+[二审详情](../../testing/glm-tenfold-triple/codex-op-r2-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-op-r2-review-20261001.json)。
+
+- 已关闭：旧六个patch whitespace；44枚恢复后实际JSON/raw齐备，三态hash对应最终文件，
+  O44个patch解析/只读apply检查通过。这里只审计全部证据，未独立重跑44枚。
+- 独立全包migrate704/content1352/shared145共2201绿；新401与directed逐条一致，
+  typecheck×3、docs/diff、716源/469白名单路径零问题。
+- O-R2-01：7处禁止桥+2处单断言藏必填字段仍在；unknown-actor测试实际因no-battler红，
+  typed合法fixture与精确oracle需修。位置见详情，不能以tsc绿豁免。
+- O-R2-02：缺逐合同contracts.json；canAct/canCastMagic五断言重复旧测；
+  O07–O10等合法残余继续，原700/60组/50目标不缩。缺合法轴须逐合同举证申请。
+- 硬静态counter：wave-O的coverage-delta.json/directed-vitest.json/receipt.json共3格式error，
+  warning/info零但整体不通过；包例数、lint数、区间路径与最终回执须同步。
+- DEFECT-O-1仍缺canonical guard/caller证明，只保留疑似；不夹产品修复。
+- 不合main、不done、不清活动树；私有比率不等于正式ratchet解阻或85%。
+
+### 下一位 GLM O 提示词（r3，取代上方返工提示词）
+
+```text
+你继续 TEST-GLM-WAVE-O-1，原分支 codex/glm-wave-o-supply-validation-r1，候选起点 4d1fbd80e4bc61987d7d94eb2733d6aa8ca4d9af。当前rework，仅原O新测试/fixture/wave-O白名单可写。
+先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md 的Codex r2二审段、所链codex-op-r2-review-20261001.md/json，再读共同协议和GLM自检。
+旧patch空白和44枚恢复记录已关闭，保留成果；修详情列7处禁止桥与2处缺必填字段，坏数据仅走真实unknown/IO guard，修ghost已存在却以no-battler拒绝的错误oracle，用合法fixture和精确missing-actor诊断。
+清三个JSON格式诊断，补逐合同contracts.json，按旧fullName/断言锚点逐项排重，canAct/canCastMagic重复不得算新；更新最终包例数/lint/469路径等回执，DEFECT-O-1疑似表述与证据同义。
+连续补O07–O10等合法残余，原700合法未重复例/60组/50有效反控不缩；缺合法轴给existing-proof/unreachable/blocked逐条件证据申请，不靠时间预算/机械参数灌水。所有最终三态hash/patch/JSON/raw/执行数重核，不把审计冒称Codex全量实跑。
+派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；不得cherry-pick Codex共享审查提交或改基点绕白名单，源漂移先报Codex。
+最后串行migrate/content/shared全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier；定向file×fullName×status与最终实跑一致，推送完整40位候选。产品/旧测/配置/官方baseline/真实工程/P/Q/共享卡看板只读；不合main、不标done、不清树。
+```

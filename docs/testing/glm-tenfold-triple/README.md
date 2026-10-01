@@ -115,6 +115,9 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- [Codex O/P r2二审](codex-op-r2-review-20261001.md)与[机器证据](codex-op-r2-review-20261001.json)：
+  全包6057绿；旧P类型桥/双红/区间及O恢复记录已闭合，剩余counter与规模分开登记，两卡仍rework。
+
 - [Wave O](wave-O/README.md)：当前供应链/内容守卫，migrate门优先。
 - [Wave P](wave-P/README.md)：Editor全域残余工作流。
 - [Wave Q](wave-Q/README.md)：两阶段runtime与解码残余合同，阶段严格分段。
