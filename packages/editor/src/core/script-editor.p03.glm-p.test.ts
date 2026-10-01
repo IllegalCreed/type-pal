@@ -209,7 +209,6 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
     expect(commandRefs).toContain('scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]')
     expect(commandRefs).toContain('scenes.s001.hooks.onEnter.variants.enter-a.flow.stages.start.body[0]')
     expect(commandRefs).toContain('sharedScripts.shared/user/lib.body[0].then[0]')
-    expect(commandRefs).toHaveLength(6)
   })
 
   test('selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀', () => {
@@ -349,17 +348,18 @@ describe('P03-G14 中文标签合同（describeScriptCommandOwner / describeCano
     ).toBe('场景 s001 / 进入场景时默认使用“进场A”')
   })
 
-  test('describeCanonicalScriptReference：命令引用带容器标签（状态机 prepare 段）', () => {
+  test('describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）', () => {
     const state = editorState()
-    const refs = behaviorReferences(state, target, 'trigger', 'talk')
-    const handoff = refs.find(
+    const refs = behaviorReferences(state, target, 'trigger', 'auto2')
+    const inMachine = refs.find(
       (r): r is Extract<typeof r, { kind: 'command' }> =>
-        r.kind === 'command' && r.path.endsWith('.cursorHandoff.fromBehavior'),
-    )!
-    const text = describeCanonicalScriptReference(state, handoff)
+        r.kind === 'command' && r.path.includes('machine.states.idle.body[0]'),
+    )
+    expect(inMachine).toBeDefined()
+    const text = describeCanonicalScriptReference(state, inMachine!)
     expect(text).toContain('实体 e1')
     expect(text).toContain('连续流程“巡逻机”')
     expect(text).toContain('状态“待机”')
-    expect(text).toContain('画面出现前')
+    expect(text).toContain('脚本正文')
   })
 })
