@@ -131,7 +131,7 @@
   "counters/（30 组 spec/正控/注入 JSON+patch+三态 hash）",
   "defect-report.md"
  ],
- "candidateHead": "590dd57ab867519281065c7aadc998b263907ae3",
+ "candidateHead": "c6e2da2622c9ad6432e23d7033dcb4ae2cc8b7a0",
  "reworkFixes": {
   "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
   "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -143,6 +143,6 @@
   "O-R2-01-r4": "新增文件全部 typed fixture（Carrier 用 CarryableStatusId 联合、ActorConditionSeed 真形、Command 联合直构）；不可构造轴登记 unreachable-via-typed-entry（applyCarriedStatus puppet、parseIndexedRleChunk 未知 profile）",
   "O-R2-02-r4": "contracts.json 442 条随最终实跑再生；反控扩至 56 枚（超 50 目标），新增 O07-O10 批次反控全部三态"
  },
- "headNote": "本轮 r4 直派连续推进：测试/证据/回执同锚，无 docs-only 尾巴",
- "remoteFinalCandidate": "590dd57ab867519281065c7aadc998b263907ae3"
+ "headNote": "r4 最终锚 = 远端终候选；回执/README 维护与测试同锚提交",
+ "remoteFinalCandidate": "c6e2da2622c9ad6432e23d7033dcb4ae2cc8b7a0"
 }
