@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 497,
-  "passed": 497,
+  "numTotalTests": 493,
+  "passed": 493,
   "failed": 0,
   "tests": [
     {
@@ -1335,27 +1335,7 @@
     },
     {
       "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 缺 id / day 无自定义 / 未知 id → 恒等乘色",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 非 day id 命中表 → 表乘色",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 isIdentityTint：≥254 三分量判恒等（含 255 恒等常量）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 lerpTint：t 夹取与分量四舍五入 t<0 取 from、t>1 取 to、t∈[0,1] 线性",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入",
+      "fullName": "O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）",
       "status": "passed"
     },
     {

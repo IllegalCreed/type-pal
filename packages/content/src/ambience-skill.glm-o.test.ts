@@ -1,16 +1,17 @@
-/** TEST-GLM-WAVE-O-1 O09：氛围乘色/技能执行层/对话身份残余合同。
- *  旧证：ambience.test / skill 邻域 / author-dialogue.contracts 覆盖主干；
- *  本卡按 gap-map 直击未覆盖臂：lerpTint 分量四舍五入、resolveSkillExecution
- *  三层回退、authoredSkillExecutionLayers 公共+双 override、resolveDialogueIdentity
- *  unbound 透传/default 缺表/未知表情/speakerOverride。
- *
- *  existing-proof 扣除（O-R9-03，不计净新）：ambience.test.ts:16-45 已同条件同答案覆盖
- *  「缺 id/未知 id/空表恒等兜底、day 自定义覆写、非 day 命中表乘色、isIdentityTint
- *  恒等判定」与 lerpTint「t 夹取与整数中点」四轴；此处不再重复构造（原空 describe
- *  组随之移除，避免 vitest 空套件导致整文件失败）。
+/** TEST-GLM-WAVE-O-1 O09：lerpTint 舍入/技能执行层/对话身份残余合同。
+ *  旧证（existing-proof，O-R9 续审逐条件扣除，不计净新）：
+ *  - ambience.test.ts:16-29 已覆盖 resolveAmbienceTint day/缺 id/未知 id/空表/day 覆写；
+ *    :33-36 isIdentityTint；:38-44 lerp t=0/1/中点（全整数）/越界夹取 —— 原四轴行扣除；
+ *  - author-dialogue.test.ts:17-52 已覆盖 actor 默认名/speakerOverride/expression 资产+side，
+ *    :54-81 已覆盖缺 actor/缺 portraits.default/未知表情 fail-loud；contracts E2 同轴 ——
+ *    原三条 actor 绑定行删除登记。
+ *  本文件只保留旧证未覆盖的真实新轴：lerp 非整数四舍五入（旧中点全整数）、
+ *  resolveSkillExecution/authoredSkillExecutionLayers（旧测试零覆盖）、
+ *  合法 unbound cue 的 resolver 透传（旧证只做合法性 check 与空 unbound 拒绝，从未对
+ *  合法 unbound 断言 resolver 结果）。
  */
 
-import type { ActorDef, SkillAnimation, SkillData, SkillEffect } from '@type-pal/content'
+import type { SkillAnimation, SkillData, SkillEffect } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { lerpTint } from './ambience.js'
 import { resolveDialogueIdentity } from './author-dialogue.js'
@@ -75,19 +76,9 @@ describe('O09 resolveSkillExecution / authoredSkillExecutionLayers', () => {
   })
 })
 
-describe('O09 resolveDialogueIdentity：身份残余轴', () => {
-  const actors: Record<string, ActorDef> = {
-    hero: {
-      id: 'hero',
-      name: 'name.hero',
-      spriteId: 'hero-sprite',
-      portraits: { default: 'portrait.hero', expressions: { smile: 'portrait.hero-smile' } },
-    },
-    plain: { id: 'plain', name: 'name.plain', spriteId: 'p-sprite' },
-  }
-
+describe('O09 resolveDialogueIdentity：合法 unbound 透传', () => {
   test('unbound：speaker/portrait 声明性透传（浅拷贝 portrait）', () => {
-    expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, actors)).toEqual({
+    expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, {})).toEqual({
       speaker: '旁白甲',
     })
     const withPortrait = resolveDialogueIdentity(
@@ -95,52 +86,8 @@ describe('O09 resolveDialogueIdentity：身份残余轴', () => {
         kind: 'unbound',
         portrait: { asset: 'portrait.narrator', side: 'left' },
       },
-      actors,
+      {},
     )
     expect(withPortrait.portrait).toEqual({ asset: 'portrait.narrator', side: 'left' })
-  })
-
-  test('actor 绑定 default 缺 portraits.default → 精确诊断', () => {
-    expect(() =>
-      resolveDialogueIdentity(
-        { kind: 'actor', actor: 'plain', portrait: { kind: 'default', side: 'left' } },
-        actors,
-      ),
-    ).toThrow('dialogue.identity.portrait: Actor "plain" 缺 portraits.default')
-  })
-
-  test('actor 绑定未知表情 → 精确表情诊断；命中表情 → 资源+side', () => {
-    expect(() =>
-      resolveDialogueIdentity(
-        {
-          kind: 'actor',
-          actor: 'hero',
-          portrait: { kind: 'expression', expression: 'angry', side: 'left' },
-        },
-        actors,
-      ),
-    ).toThrow('缺表情 "angry"')
-    expect(
-      resolveDialogueIdentity(
-        {
-          kind: 'actor',
-          actor: 'hero',
-          portrait: { kind: 'expression', expression: 'smile', side: 'right' },
-        },
-        actors,
-      ),
-    ).toEqual({ speaker: 'name.hero', portrait: { asset: 'portrait.hero-smile', side: 'right' } })
-  })
-
-  test('speakerOverride 覆盖 actor.name；无声明时 speaker=actor.name', () => {
-    expect(
-      resolveDialogueIdentity(
-        { kind: 'actor', actor: 'hero', speakerOverride: 'custom.line' },
-        actors,
-      ),
-    ).toEqual({ speaker: 'custom.line' })
-    expect(resolveDialogueIdentity({ kind: 'actor', actor: 'hero' }, actors)).toEqual({
-      speaker: 'name.hero',
-    })
   })
 })

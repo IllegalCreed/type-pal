@@ -1,13 +1,15 @@
-/** TEST-GLM-WAVE-O-1 O08/O09：等级成长与实体生命周期残余合同。
- *  旧证：rewards.test / actor-condition 邻域覆盖主干；本卡按 gap-map 直击未覆盖臂：
- *  applyLevelGrowth 负/零级钳位、等级与属性上限、确定性 rng 区间、
- *  normalizeEntityLifecycleTable 未知 scene/entity 引用与输入不可变。
+/** TEST-GLM-WAVE-O-1 O08：applyLevelGrowth 防御与区间残余合同。
+ *  旧证（existing-proof，O-R9 续审逐条件扣除，不计净新）：
+ *  - rewards.test.ts:43-75「通用成长在 99 级仍掷上界属性并把七项钳到 999」已同轴覆盖
+ *    MAX_LEVEL=99 等级钳与 STAT_CAP=999 属性钳（含各 delta），本文件原「等级钳/属性钳」行删除；
+ *  - entity-lifecycle.test.ts:20 已覆盖 undefined 表 → 空表；:62-72 已覆盖未知 scene/entity
+ *    引用精确诊断与「输出改写不影响输入」的深拷贝证明 —— 原 normalizeEntityLifecycleTable
+ *    三行全部删除登记（含 buildEntityLifecycleReferenceIndex 输入形状）。
+ *  本文件只保留旧证未覆盖的真实新轴：防御性零/负级钳位、未钳位区间端点精确值与
+ *  luck 固定 +2（旧证仅在 998 钳位处观察，无法区分固定与随机）、多级累积独立掷骰。
  */
+
 import { describe, expect, test } from 'vitest'
-import {
-  buildEntityLifecycleReferenceIndex,
-  normalizeEntityLifecycleTable,
-} from './entity-lifecycle.js'
 import { applyLevelGrowth, type LevelGrowthTarget } from './rewards.js'
 
 const target = (over: Partial<LevelGrowthTarget> = {}): LevelGrowthTarget => ({
@@ -41,7 +43,7 @@ describe('O08 applyLevelGrowth：钳位与确定性区间', () => {
     }
   })
 
-  test('每级固定+2 luck（无随机）；rng=0/1 区间上下界', () => {
+  test('每级固定+2 luck（无随机）；rng=0/1 区间上下界（未钳位精确值）', () => {
     const low = applyLevelGrowth(target(), 1, () => 0)
     expect(low.luck).toBe(2)
     expect(low.maxHP).toBe(10) // 10 + r(0,7)=0
@@ -54,59 +56,11 @@ describe('O08 applyLevelGrowth：钳位与确定性区间', () => {
     expect(high.luck).toBe(2)
   })
 
-  test('等级钳 MAX_LEVEL=99；属性钳 STAT_CAP=999', () => {
-    // level 98 + 5 级 → 钳 99，delta.level=1。
-    const t = target({ level: 98 })
-    const delta = applyLevelGrowth(t, 5, () => 0)
-    expect(t.level).toBe(99)
-    expect(delta.level).toBe(1)
-    // maxHP 995 + 每级 10 → 5 级钳 999，delta.maxHP=4。
-    const near = target({ maxHP: 995 })
-    const d2 = applyLevelGrowth(near, 5, () => 0)
-    expect(near.maxHP).toBe(999)
-    expect(d2.maxHP).toBe(4)
-  })
-
   test('多级累积：每级独立掷随机', () => {
     const t = target()
     const delta = applyLevelGrowth(t, 3, () => 0)
     expect(delta.level).toBe(3)
     expect(delta.maxHP).toBe(30)
     expect(delta.luck).toBe(6)
-  })
-})
-
-describe('O09 normalizeEntityLifecycleTable：引用闭包与不可变', () => {
-  const index = buildEntityLifecycleReferenceIndex([
-    {
-      id: 's001',
-      entities: [{ id: 'e1' }, { id: 'e2' }],
-    },
-  ])
-
-  test('合法表深拷贝返回（输入 entry 不被别名共享）', () => {
-    const input = {
-      s001: {
-        e1: { phase: 'awaitingExit' as const },
-        e2: { phase: 'suspended' as const, remainingTicks: 3 },
-      },
-    }
-    const normalized = normalizeEntityLifecycleTable(input, index)
-    expect(normalized.s001?.e1).toEqual(input.s001?.e1)
-    expect(normalized.s001?.e2).toEqual(input.s001?.e2)
-    expect(normalized.s001?.e2).not.toBe(input.s001?.e2)
-  })
-
-  test('undefined 表 → 空表（缺表即正常）', () => {
-    expect(normalizeEntityLifecycleTable(undefined, index)).toEqual({})
-  })
-
-  test('未知 scene id / 未知 entity id → 精确诊断', () => {
-    expect(() => normalizeEntityLifecycleTable({ s999: {} }, index)).toThrow(
-      'entityLifecycles.s999: 未知 scene id',
-    )
-    expect(() =>
-      normalizeEntityLifecycleTable({ s001: { ghost: { phase: 'removed' as const } } }, index),
-    ).toThrow('entityLifecycles.s001.ghost: 未知 entity id')
   })
 })

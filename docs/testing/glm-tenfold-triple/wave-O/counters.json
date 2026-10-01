@@ -14,6 +14,11 @@
   "counters": [
     {
       "id": "O01-CC1",
+      "contract": "物品剧情方案 label 漂移被永久门禁拒绝",
+      "target": {
+        "file": "src/pal-current-publication.glm-o.test.ts",
+        "title": "方案 label 漂移被永久门禁拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 43,
@@ -22,9 +27,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 43,
+        "passed": 42,
+        "failed": 1,
         "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 43
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -42,6 +49,11 @@
     },
     {
       "id": "O01-CC2",
+      "contract": "Store0 buy openShop census 不足 29 时拒绝发布",
+      "target": {
+        "file": "src/pal-current-publication.glm-o.test.ts",
+        "title": "作者改动 buy openShop 至 28 时生成侧 census 拒绝发布"
+      },
       "control": {
         "exitCode": 0,
         "executed": 43,
@@ -50,9 +62,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 43,
+        "passed": 42,
+        "failed": 1,
         "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 buy openShop 至 28 时生成侧 census 拒绝发布",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 43
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -70,6 +84,11 @@
     },
     {
       "id": "O01-CC3",
+      "contract": "current baseline 含历史发布路径时构建 fail-loud",
+      "target": {
+        "file": "src/pal-current-publication.glm-o.test.ts",
+        "title": "current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud"
+      },
       "control": {
         "exitCode": 0,
         "executed": 43,
@@ -78,9 +97,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 43,
+        "passed": 42,
+        "failed": 1,
         "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 43
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -98,6 +119,11 @@
     },
     {
       "id": "O01-CC4",
+      "contract": "迁移事务重复目标在提交侧被拒绝",
+      "target": {
+        "file": "src/migration-transaction.glm-o.test.ts",
+        "title": "重复目标在提交侧被拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 29,
@@ -106,9 +132,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 29,
+        "passed": 28,
+        "failed": 1,
         "failedFullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'",
-        "executed": 29
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'"
       },
       "restored": {
         "exitCode": 0,
@@ -126,6 +154,11 @@
     },
     {
       "id": "O01-CC5",
+      "contract": "别名闭包：legacy 定义布局漂移（variant）拒绝发布",
+      "target": {
+        "file": "src/pal-current-publication.glm-o.test.ts",
+        "title": "别名闭包：legacy 定义布局漂移（variant）时拒绝发布"
+      },
       "control": {
         "exitCode": 0,
         "executed": 43,
@@ -134,9 +167,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 43,
+        "passed": 42,
+        "failed": 1,
         "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy 定义布局漂移（variant）时拒绝发布",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 43
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -154,6 +189,11 @@
     },
     {
       "id": "O02-CC1",
+      "contract": "身份数组内非对象条目 → invalid-identity 冲突",
+      "target": {
+        "file": "src/migration-merge.glm-o.test.ts",
+        "title": "场景 entities：非对象条目（无身份）→ invalid-identity 冲突"
+      },
       "control": {
         "exitCode": 0,
         "executed": 30,
@@ -162,9 +202,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 30,
+        "passed": 29,
+        "failed": 1,
         "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
-        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]",
-        "executed": 30
+        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]"
       },
       "restored": {
         "exitCode": 0,
@@ -182,6 +224,11 @@
     },
     {
       "id": "O02-CC2",
+      "contract": "scenes/index 严格顺序：双方不同重排 → array-order 冲突",
+      "target": {
+        "file": "src/migration-merge.glm-o.test.ts",
+        "title": "scenes/index.json 严格顺序：双方不同重排 → array-order 冲突"
+      },
       "control": {
         "exitCode": 0,
         "executed": 30,
@@ -190,9 +237,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 30,
+        "passed": 29,
+        "failed": 1,
         "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json 严格顺序：双方不同重排 → array-order 冲突",
-        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'array-order' ]",
-        "executed": 30
+        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'array-order' ]"
       },
       "restored": {
         "exitCode": 0,
@@ -210,6 +259,11 @@
     },
     {
       "id": "O02-CC3",
+      "contract": "assets/index authored 接管后迁移字段不再拼入",
+      "target": {
+        "file": "src/migration-merge.glm-o.test.ts",
+        "title": "assets/index.json：ours authored 接管后迁移字段不再拼入"
+      },
       "control": {
         "exitCode": 0,
         "executed": 30,
@@ -218,9 +272,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 30,
+        "passed": 29,
+        "failed": 1,
         "failedFullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入",
-        "failureMessageHead": "AssertionError: expected [ { file: 'assets/index.json', …(5) } ] to deeply equal []",
-        "executed": 30
+        "failureMessageHead": "AssertionError: expected [ { file: 'assets/index.json', …(5) } ] to deeply equal []"
       },
       "restored": {
         "exitCode": 0,
@@ -238,6 +294,11 @@
     },
     {
       "id": "O02-CC4",
+      "contract": "theirs 删除的托管文件进入 deletes",
+      "target": {
+        "file": "src/migration-plan.glm-o.test.ts",
+        "title": "theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes"
+      },
       "control": {
         "exitCode": 0,
         "executed": 18,
@@ -246,9 +307,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 18,
+        "passed": 17,
+        "failed": 1,
         "failedFullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
-        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]",
-        "executed": 18
+        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]"
       },
       "restored": {
         "exitCode": 0,
@@ -266,6 +329,11 @@
     },
     {
       "id": "O02-CC5",
+      "contract": "maps index path 非字符串 fail-loud",
+      "target": {
+        "file": "src/migration-project-io.glm-o.test.ts",
+        "title": "maps index path 非字符串 / maps 非数组分别 fail-loud"
+      },
       "control": {
         "exitCode": 0,
         "executed": 18,
@@ -274,9 +342,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 18,
+        "passed": 17,
+        "failed": 1,
         "failedFullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 18
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -294,6 +364,11 @@
     },
     {
       "id": "O03-CC1",
+      "contract": "工程写排序：scenes/index 排在最后",
+      "target": {
+        "file": "src/migration-write-plan.glm-o.test.ts",
+        "title": "工程写按 scenes/index 最后排序；map 内容走专用序列化"
+      },
       "control": {
         "exitCode": 0,
         "executed": 21,
@@ -302,9 +377,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 21,
+        "passed": 20,
+        "failed": 1,
         "failedFullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
-        "failureMessageHead": "AssertionError: expected 'projects/pal/content/zz-sidecar.json' to be 'projects/pal/content/scenes/index.json' // Object.is equality",
-        "executed": 21
+        "failureMessageHead": "AssertionError: expected 'projects/pal/content/zz-sidecar.json' to be 'projects/pal/content/scenes/index.json' // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -322,6 +399,11 @@
     },
     {
       "id": "O03-CC2",
+      "contract": "退役迁移资源路径越界 fail-loud",
+      "target": {
+        "file": "src/migration-write-plan.glm-o.test.ts",
+        "title": "退役资源路径越界或 sha 非法 → fail-loud"
+      },
       "control": {
         "exitCode": 0,
         "executed": 21,
@@ -330,9 +412,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 21,
+        "passed": 20,
+        "failed": 1,
         "failedFullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 21
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -350,6 +434,11 @@
     },
     {
       "id": "O03-CC3",
+      "contract": "事务目标经过符号链接时拒绝",
+      "target": {
+        "file": "src/migration-write-plan.glm-o.test.ts",
+        "title": "目标为 symlink 时提交被拒绝（assertMigrationFilePath）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 21,
@@ -358,9 +447,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 21,
+        "passed": 20,
+        "failed": 1,
         "failedFullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'",
-        "executed": 21
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'"
       },
       "restored": {
         "exitCode": 0,
@@ -378,6 +469,11 @@
     },
     {
       "id": "O03-CC4",
+      "contract": "EventObject 跨场景重复 fail-loud",
+      "target": {
+        "file": "src/pal-content-supply.glm-o.test.ts",
+        "title": "同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 10,
@@ -386,9 +482,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 10,
+        "passed": 9,
+        "failed": 1,
         "failedFullName": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 10
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -406,6 +504,11 @@
     },
     {
       "id": "O03-CC5",
+      "contract": "战斗形象覆写未知角色 → 发布门拒绝",
+      "target": {
+        "file": "src/pal-content-supply.glm-o.test.ts",
+        "title": "覆写引用未知角色 → 发布门以 where: message 拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 10,
@@ -414,9 +517,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 10,
+        "passed": 9,
+        "failed": 1,
         "failedFullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /items\\[\\d+\\]\\(166\\)\\.equip\\.effects\\[…/ but got 'Cannot read properties of undefined (…'",
-        "executed": 10
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /items\\[\\d+\\]\\(166\\)\\.equip\\.effects\\[…/ but got 'Cannot read properties of undefined (…'"
       },
       "restored": {
         "exitCode": 0,
@@ -434,6 +539,11 @@
     },
     {
       "id": "O04-CC1",
+      "contract": "重复物化：内容一致 → unchanged，不重写",
+      "target": {
+        "file": "src/pal-assets.glm-o.test.ts",
+        "title": "重复物化：内容一致 → unchanged，不重写"
+      },
       "control": {
         "exitCode": 0,
         "executed": 37,
@@ -442,9 +552,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 37,
+        "passed": 36,
+        "failed": 1,
         "failedFullName": "O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写",
-        "failureMessageHead": "AssertionError: expected { written: 1, unchanged: +0, …(3) } to match object { written: +0, unchanged: 1 }",
-        "executed": 37
+        "failureMessageHead": "AssertionError: expected { written: 1, unchanged: +0, …(3) } to match object { written: +0, unchanged: 1 }"
       },
       "restored": {
         "exitCode": 0,
@@ -462,6 +574,11 @@
     },
     {
       "id": "O04-CC2",
+      "contract": "退役清单只含 target 缺失的 legacy-migrated",
+      "target": {
+        "file": "src/pal-assets.glm-o.test.ts",
+        "title": "legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序"
+      },
       "control": {
         "exitCode": 0,
         "executed": 37,
@@ -470,9 +587,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 37,
+        "passed": 36,
+        "failed": 1,
         "failedFullName": "O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
-        "failureMessageHead": "AssertionError: expected [ Array(3) ] to deeply equal [ Array(2) ]",
-        "executed": 37
+        "failureMessageHead": "AssertionError: expected [ Array(3) ] to deeply equal [ Array(2) ]"
       },
       "restored": {
         "exitCode": 0,
@@ -490,6 +609,11 @@
     },
     {
       "id": "O04-CC3",
+      "contract": "非 RIFF/WAVE 字节被拒绝",
+      "target": {
+        "file": "src/pal-assets.glm-o.test.ts",
+        "title": "metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 37,
@@ -498,9 +622,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 37,
+        "passed": 36,
+        "failed": 1,
         "failedFullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 37
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -518,6 +644,11 @@
     },
     {
       "id": "O04-CC4",
+      "contract": "战场背景像素 R=G=B 且 alpha=255",
+      "target": {
+        "file": "src/pal-assets.glm-o.test.ts",
+        "title": "战场背景尺寸漂移与 R=G=B 违约逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 37,
@@ -526,9 +657,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 37,
+        "passed": 36,
+        "failed": 1,
         "failedFullName": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 37
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -546,6 +679,11 @@
     },
     {
       "id": "O04-CC5",
+      "contract": "isEmpty 与 size 一致性校验",
+      "target": {
+        "file": "src/pal-assets.glm-o.test.ts",
+        "title": "段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 37,
@@ -554,9 +692,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 37,
+        "passed": 36,
+        "failed": 1,
         "failedFullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 37
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -574,6 +714,11 @@
     },
     {
       "id": "O05-CC1",
+      "contract": "puppet 状态效果强制 battleOnly",
+      "target": {
+        "file": "src/pal-supply-guards.glm-o.test.ts",
+        "title": "puppet 状态效果被强制 battleOnly（无论原值）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 27,
@@ -582,9 +727,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 27,
+        "passed": 26,
+        "failed": 1,
         "failedFullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）",
-        "failureMessageHead": "AssertionError: expected false to be true // Object.is equality",
-        "executed": 27
+        "failureMessageHead": "AssertionError: expected false to be true // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -602,6 +749,11 @@
     },
     {
       "id": "O05-CC2",
+      "contract": "0x05 非零参数拒绝",
+      "target": {
+        "file": "src/pal-supply-guards.glm-o.test.ts",
+        "title": "0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 27,
@@ -610,9 +762,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 27,
+        "passed": 26,
+        "failed": 1,
         "failedFullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 27
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -630,6 +784,11 @@
     },
     {
       "id": "O05-CC3",
+      "contract": "试炼果/舍利子 buyPrice=0 合同",
+      "target": {
+        "file": "src/pal-supply-guards.glm-o.test.ts",
+        "title": "alchemy 正控通过并校验 112/72 buyPrice=0 合同"
+      },
       "control": {
         "exitCode": 0,
         "executed": 27,
@@ -638,9 +797,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 27,
+        "passed": 26,
+        "failed": 1,
         "failedFullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 27
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -658,6 +819,11 @@
     },
     {
       "id": "O05-CC4",
+      "contract": "场景布局变体生成 -f<frames> 稳定 id",
+      "target": {
+        "file": "src/pal-world-sprites.glm-o.test.ts",
+        "title": "同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts"
+      },
       "control": {
         "exitCode": 0,
         "executed": 21,
@@ -666,9 +832,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 21,
+        "passed": 20,
+        "failed": 1,
         "failedFullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
-        "failureMessageHead": "AssertionError: expected 'sprite-9' to be 'sprite-9-f3' // Object.is equality",
-        "executed": 21
+        "failureMessageHead": "AssertionError: expected 'sprite-9' to be 'sprite-9-f3' // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -686,6 +854,11 @@
     },
     {
       "id": "O05-CC5",
+      "contract": "物品方案选择图成环拒绝",
+      "target": {
+        "file": "src/pal-world-sprites.glm-o.test.ts",
+        "title": "选择图成环 → fail-loud"
+      },
       "control": {
         "exitCode": 0,
         "executed": 21,
@@ -694,9 +867,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 21,
+        "passed": 20,
+        "failed": 1,
         "failedFullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /PAL 物品剧情方案选择图成环/ but got 'Maximum call stack size exceeded'",
-        "executed": 21
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /PAL 物品剧情方案选择图成环/ but got 'Maximum call stack size exceeded'"
       },
       "restored": {
         "exitCode": 0,
@@ -714,6 +889,11 @@
     },
     {
       "id": "O06-CC1",
+      "contract": "collectValue 保留键拒绝",
+      "target": {
+        "file": "src/validate.glm-o.test.ts",
+        "title": "空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 19,
@@ -722,9 +902,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 19,
+        "passed": 18,
+        "failed": 1,
         "failedFullName": "O06 validateStartWorldResources：资源池边界 空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 19
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -742,6 +924,11 @@
     },
     {
       "id": "O06-CC2",
+      "contract": "入口 id 重复拒绝",
+      "target": {
+        "file": "src/validate.glm-o.test.ts",
+        "title": "入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 19,
@@ -750,9 +937,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 19,
+        "passed": 18,
+        "failed": 1,
         "failedFullName": "O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 19
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -770,6 +959,11 @@
     },
     {
       "id": "O06-CC3",
+      "contract": "实体引用恰一",
+      "target": {
+        "file": "src/validate.glm-o.test.ts",
+        "title": "实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 19,
@@ -778,9 +972,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 19,
+        "passed": 18,
+        "failed": 1,
         "failedFullName": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 19
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -798,6 +994,11 @@
     },
     {
       "id": "O06-CC4",
+      "contract": "directional 缺 framesPerDir 拒绝",
+      "target": {
+        "file": "src/validate.glm-o.test.ts",
+        "title": "directional 缺 framesPerDir / 非正整数 拒绝；static 通过"
+      },
       "control": {
         "exitCode": 0,
         "executed": 19,
@@ -806,9 +1007,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 19,
+        "passed": 18,
+        "failed": 1,
         "failedFullName": "O06 validateSprites：layout/poses 残臂 directional 缺 framesPerDir / 非正整数 拒绝；static 通过",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /directional 缺 framesPerDir/ but got 'sprites[0].layout: directional frames…'",
-        "executed": 19
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /directional 缺 framesPerDir/ but got 'sprites[0].layout: directional frames…'"
       },
       "restored": {
         "exitCode": 0,
@@ -826,6 +1029,11 @@
     },
     {
       "id": "O06-CC5",
+      "contract": "zone 无朝向拒绝",
+      "target": {
+        "file": "src/validate.glm-o.test.ts",
+        "title": "实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 19,
@@ -834,9 +1042,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 19,
+        "passed": 18,
+        "failed": 1,
         "failedFullName": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 19
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -854,6 +1064,11 @@
     },
     {
       "id": "O06-CC6",
+      "contract": "敌队槽位超上限拒绝",
+      "target": {
+        "file": "src/validate-refs.glm-o.test.ts",
+        "title": "敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法"
+      },
       "control": {
         "exitCode": 0,
         "executed": 23,
@@ -862,9 +1077,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 23,
+        "passed": 22,
+        "failed": 1,
         "failedFullName": "O06 敌 AI 与敌队：走访与引用闭包 敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法",
-        "failureMessageHead": "AssertionError: expected false to be true // Object.is equality",
-        "executed": 23
+        "failureMessageHead": "AssertionError: expected false to be true // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -882,6 +1099,11 @@
     },
     {
       "id": "O06-CC7",
+      "contract": "seedStats 未知角色拒绝",
+      "target": {
+        "file": "src/validate.glm-o.test.ts",
+        "title": "seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 19,
@@ -890,9 +1112,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 19,
+        "passed": 18,
+        "failed": 1,
         "failedFullName": "O06 validateStartWorld：当前入口世界形状 seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 19
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -910,6 +1134,11 @@
     },
     {
       "id": "O07-CC2",
+      "contract": "作者脚本命名空间强制",
+      "target": {
+        "file": "src/script-library.glm-o.test.ts",
+        "title": "remove：未登记 id fail-loud；已登记移除元数据与脚本体"
+      },
       "control": {
         "exitCode": 0,
         "executed": 10,
@@ -918,9 +1147,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 10,
+        "passed": 9,
+        "failed": 1,
         "failedFullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including '作者脚本不存在 shared/user/ghost' but got '作者脚本 shared/user/ghost 没有脚本体'",
-        "executed": 10
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including '作者脚本不存在 shared/user/ghost' but got '作者脚本 shared/user/ghost 没有脚本体'"
       },
       "restored": {
         "exitCode": 0,
@@ -938,6 +1169,11 @@
     },
     {
       "id": "O07-CC3",
+      "contract": "openShop prepare 阻断",
+      "target": {
+        "file": "src/script.glm-o.test.ts",
+        "title": "loadScene / fade / startBattle / openShop 等阻断（blocked）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 7,
@@ -946,9 +1182,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 7,
+        "passed": 6,
+        "failed": 1,
         "failedFullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）",
-        "failureMessageHead": "AssertionError: expected 'safe' to be 'blocked' // Object.is equality",
-        "executed": 7
+        "failureMessageHead": "AssertionError: expected 'safe' to be 'blocked' // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -966,6 +1204,11 @@
     },
     {
       "id": "O08-CC1",
+      "contract": "once 规则跳过",
+      "target": {
+        "file": "src/enemy-ai.glm-o.test.ts",
+        "title": "once 已触发规则被跳过，后续首条命中"
+      },
       "control": {
         "exitCode": 0,
         "executed": 15,
@@ -974,9 +1217,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 15,
+        "passed": 14,
+        "failed": 1,
         "failedFullName": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
-        "failureMessageHead": "AssertionError: expected { action: { kind: 'attack' }, …(1) } to deeply equal { Object (action, ruleIdx) }",
-        "executed": 15
+        "failureMessageHead": "AssertionError: expected { action: { kind: 'attack' }, …(1) } to deeply equal { Object (action, ruleIdx) }"
       },
       "restored": {
         "exitCode": 0,
@@ -994,6 +1239,11 @@
     },
     {
       "id": "O08-CC10",
+      "contract": "applyLevelGrowth 零级不动",
+      "target": {
+        "file": "src/rewards-lifecycle.glm-o.test.ts",
+        "title": "负级/零级 → 不改任何属性，delta 全 0"
+      },
       "control": {
         "exitCode": 0,
         "executed": 7,
@@ -1002,9 +1252,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 7,
+        "passed": 6,
+        "failed": 1,
         "failedFullName": "O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0",
-        "failureMessageHead": "AssertionError: expected { level: 1, maxHP: 10, maxMP: 8, …(5) } to deeply equal { level: +0, maxHP: +0, …(6) }",
-        "executed": 7
+        "failureMessageHead": "AssertionError: expected { level: 1, maxHP: 10, maxMP: 8, …(5) } to deeply equal { level: +0, maxHP: +0, …(6) }"
       },
       "restored": {
         "exitCode": 0,
@@ -1022,6 +1274,11 @@
     },
     {
       "id": "O08-CC11",
+      "contract": "applyHiddenExp 零计数短路",
+      "target": {
+        "file": "src/hidden-exp-grid.glm-o.test.ts",
+        "title": "全零计数 → 空报告且不动角色"
+      },
       "control": {
         "exitCode": 0,
         "executed": 9,
@@ -1030,9 +1287,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 9,
+        "passed": 8,
+        "failed": 1,
         "failedFullName": "O08 applyHiddenExp：隐藏经验池 全零计数 → 空报告且不动角色",
-        "failureMessageHead": "AssertionError: expected [ { characterId: 'hero', …(2) }, …(6) ] to deeply equal []",
-        "executed": 9
+        "failureMessageHead": "AssertionError: expected [ { characterId: 'hero', …(2) }, …(6) ] to deeply equal []"
       },
       "restored": {
         "exitCode": 0,
@@ -1050,6 +1309,11 @@
     },
     {
       "id": "O08-CC2",
+      "contract": "坏状态已有不刷新",
+      "target": {
+        "file": "src/enemy-ai.glm-o.test.ts",
+        "title": "applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者"
+      },
       "control": {
         "exitCode": 0,
         "executed": 15,
@@ -1058,9 +1322,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 15,
+        "passed": 14,
+        "failed": 1,
         "failedFullName": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
-        "failureMessageHead": "AssertionError: expected true to be false // Object.is equality",
-        "executed": 15
+        "failureMessageHead": "AssertionError: expected true to be false // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1078,6 +1344,11 @@
     },
     {
       "id": "O08-CC3",
+      "contract": "applyPoisonSelf counters 以毒攻毒 cured",
+      "target": {
+        "file": "src/poison.glm-o.test.ts",
+        "title": "身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1086,9 +1357,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O08 applyPoisonSelf：三段链 身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）",
-        "failureMessageHead": "AssertionError: expected 'applied' to be 'cured' // Object.is equality",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected 'applied' to be 'cured' // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1106,6 +1379,11 @@
     },
     {
       "id": "O08-CC4",
+      "contract": "applyPoisonSelf lethalWith 致死配对",
+      "target": {
+        "file": "src/poison.glm-o.test.ts",
+        "title": "身中 lethalWith 毒 → hp 0 暴毙（lethal）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1114,9 +1392,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）",
-        "failureMessageHead": "AssertionError: expected 'applied' to be 'lethal' // Object.is equality",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected 'applied' to be 'lethal' // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1134,6 +1414,11 @@
     },
     {
       "id": "O08-CC5",
+      "contract": "毒 id 非正整数形状轴",
+      "target": {
+        "file": "src/actor-condition.glm-o.test.ts",
+        "title": "毒 id 非正整数 fail-loud（形状轴）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1142,9 +1427,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /毒 id 必须是正安全整数/ but got 'applyActorConditionSeed.poisonIds: 毒 …'",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /毒 id 必须是正安全整数/ but got 'applyActorConditionSeed.poisonIds: 毒 …'"
       },
       "restored": {
         "exitCode": 0,
@@ -1162,6 +1449,11 @@
     },
     {
       "id": "O08-CC6",
+      "contract": "scaleCurrentHp trunc 截断",
+      "target": {
+        "file": "src/item-effects.glm-o.test.ts",
+        "title": "scaleCurrentHp trunc 截断（99→49）与满血减半（100→50）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 9,
@@ -1170,9 +1462,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 9,
+        "passed": 8,
+        "failed": 1,
         "failedFullName": "O08 scaleCurrentHp：分数缩放 scaleCurrentHp trunc 截断（99→49）与满血减半（100→50）",
-        "failureMessageHead": "AssertionError: expected 50 to be 49 // Object.is equality",
-        "executed": 9
+        "failureMessageHead": "AssertionError: expected 50 to be 49 // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1190,6 +1484,11 @@
     },
     {
       "id": "O08-CC7",
+      "contract": "gate 显式阈值放行",
+      "target": {
+        "file": "src/item-effects.glm-o.test.ts",
+        "title": "gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp"
+      },
       "control": {
         "exitCode": 0,
         "executed": 9,
@@ -1198,9 +1497,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 9,
+        "passed": 8,
+        "failed": 1,
         "failedFullName": "O08 复合链顺序与 gate 显式阈值 gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp",
-        "failureMessageHead": "AssertionError: expected 'failure' to be 'success' // Object.is equality",
-        "executed": 9
+        "failureMessageHead": "AssertionError: expected 'failure' to be 'success' // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1218,6 +1519,11 @@
     },
     {
       "id": "O09-CC1",
+      "contract": "TPFS 版本轴",
+      "target": {
+        "file": "src/frame-sequence.glm-o.test.ts",
+        "title": "截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 11,
@@ -1226,9 +1532,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 11,
+        "passed": 10,
+        "failed": 1,
         "failedFullName": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'TPFS.version: 期望 1' but got 'TPFS.index: 非法 JSON: Unexpected end o…'",
-        "executed": 11
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'TPFS.version: 期望 1' but got 'TPFS.index: 非法 JSON: Unexpected end o…'"
       },
       "restored": {
         "exitCode": 0,
@@ -1246,6 +1554,11 @@
     },
     {
       "id": "O09-CC10",
+      "contract": "world-variable 首尾空格 name",
+      "target": {
+        "file": "src/data-guards.glm-o.test.ts",
+        "title": "首尾空格 name / 非字符串 description 拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1254,9 +1567,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1274,6 +1589,11 @@
     },
     {
       "id": "O09-CC11",
+      "contract": "敌 fallback chance 域",
+      "target": {
+        "file": "src/enemy-script.glm-o.test.ts",
+        "title": "合法 cast/pass 通过；chancePercent 越界拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 10,
@@ -1282,9 +1602,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 10,
+        "passed": 9,
+        "failed": 1,
         "failedFullName": "O08 checkEnemyFallback：兜底行动域 合法 cast/pass 通过；chancePercent 越界拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 10
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1302,6 +1624,11 @@
     },
     {
       "id": "O09-CC12",
+      "contract": "healMp 钳 maxMP",
+      "target": {
+        "file": "src/item-effects.glm-o.test.ts",
+        "title": "healMp：加 MP 钳 maxMP（30+40 → maxMP 50）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 9,
@@ -1310,9 +1637,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 9,
+        "passed": 8,
+        "failed": 1,
         "failedFullName": "O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）",
-        "failureMessageHead": "AssertionError: expected 30 to be 50 // Object.is equality",
-        "executed": 9
+        "failureMessageHead": "AssertionError: expected 30 to be 50 // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1330,22 +1659,29 @@
     },
     {
       "id": "O09-CC16",
+      "contract": "authoredSkillExecutionLayers 双 override 追加",
+      "target": {
+        "file": "src/ambience-skill.glm-o.test.ts",
+        "title": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加"
+      },
       "control": {
         "exitCode": 0,
-        "executed": 12,
-        "passed": 12,
+        "executed": 8,
+        "passed": 8,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
+        "executed": 8,
+        "passed": 7,
+        "failed": 1,
         "failedFullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
-        "failureMessageHead": "AssertionError: expected [ 'base', 'enemy', 'player' ] to deeply equal [ 'base', 'player', 'enemy' ]",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected [ 'base', 'enemy', 'player' ] to deeply equal [ 'base', 'player', 'enemy' ]"
       },
       "restored": {
         "exitCode": 0,
-        "executed": 12,
-        "passed": 12,
+        "executed": 8,
+        "passed": 8,
         "failed": 0
       },
       "hashes": {
@@ -1358,6 +1694,11 @@
     },
     {
       "id": "O09-CC17",
+      "contract": "normalizeEntityLifecycleTable 未知 entity",
+      "target": {
+        "file": "src/rewards-lifecycle.glm-o.test.ts",
+        "title": "未知 scene id / 未知 entity id → 精确诊断"
+      },
       "control": {
         "exitCode": 0,
         "executed": 7,
@@ -1366,9 +1707,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 7,
+        "passed": 6,
+        "failed": 1,
         "failedFullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 7
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1386,6 +1729,11 @@
     },
     {
       "id": "O09-CC18",
+      "contract": "pixelToGrid 唯一反解",
+      "target": {
+        "file": "src/hidden-exp-grid.glm-o.test.ts",
+        "title": "pixelToGrid 是 gridToPixel 的唯一反解（站位像素）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 9,
@@ -1394,9 +1742,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 9,
+        "passed": 8,
+        "failed": 1,
         "failedFullName": "O09 菱形格几何：唯一反解与 height 语义 pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
-        "failureMessageHead": "AssertionError: expected { col: 1, row: 3 } to deeply equal { col: 3, row: 1 }",
-        "executed": 9
+        "failureMessageHead": "AssertionError: expected { col: 1, row: 3 } to deeply equal { col: 3, row: 1 }"
       },
       "restored": {
         "exitCode": 0,
@@ -1414,6 +1764,11 @@
     },
     {
       "id": "O09-CC2",
+      "contract": "stamp origin 域",
+      "target": {
+        "file": "src/data-guards.glm-o.test.ts",
+        "title": "id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1422,9 +1777,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1442,6 +1799,11 @@
     },
     {
       "id": "O09-CC3",
+      "contract": "tileset 退役 path 轴",
+      "target": {
+        "file": "src/data-guards.glm-o.test.ts",
+        "title": "id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1450,9 +1812,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1470,6 +1834,11 @@
     },
     {
       "id": "O09-CC4",
+      "contract": "诊断 id 重复轴",
+      "target": {
+        "file": "src/data-guards.glm-o.test.ts",
+        "title": "诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1478,9 +1847,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1498,6 +1869,11 @@
     },
     {
       "id": "O09-CC5",
+      "contract": "parseRichText yellow 色识别",
+      "target": {
+        "file": "src/poison.glm-o.test.ts",
+        "title": "成对颜色标记切分 span 并带 color；前后纯文本保留"
+      },
       "control": {
         "exitCode": 0,
         "executed": 12,
@@ -1506,9 +1882,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 12,
+        "passed": 11,
+        "failed": 1,
         "failedFullName": "O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留",
-        "failureMessageHead": "AssertionError: expected [ { text: '<yellow>全黄</yellow>' } ] to deeply equal [ { text: '全黄', color: 'yellow' } ]",
-        "executed": 12
+        "failureMessageHead": "AssertionError: expected [ { text: '<yellow>全黄</yellow>' } ] to deeply equal [ { text: '全黄', color: 'yellow' } ]"
       },
       "restored": {
         "exitCode": 0,
@@ -1526,6 +1904,11 @@
     },
     {
       "id": "O09-CC6",
+      "contract": "catalog origin 前缀域（legacy-migrated/generated/authored）",
+      "target": {
+        "file": "src/item-use.glm-o.test.ts",
+        "title": "origin legacy-migrated 前缀不符拒绝；authored 前缀合法"
+      },
       "control": {
         "exitCode": 0,
         "executed": 7,
@@ -1534,9 +1917,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 7,
+        "passed": 6,
+        "failed": 1,
         "failedFullName": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 7
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1554,6 +1939,11 @@
     },
     {
       "id": "O09-CC7",
+      "contract": "preflight wrong-context 轴",
+      "target": {
+        "file": "src/item-use.glm-o.test.ts",
+        "title": "wrong-context：battleOnly 用途不进世界执行器"
+      },
       "control": {
         "exitCode": 0,
         "executed": 7,
@@ -1562,9 +1952,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 7,
+        "passed": 6,
+        "failed": 1,
         "failedFullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器",
-        "failureMessageHead": "AssertionError: expected { status: 'success', …(6) } to match object { status: 'failure', …(1) }",
-        "executed": 7
+        "failureMessageHead": "AssertionError: expected { status: 'success', …(6) } to match object { status: 'failure', …(1) }"
       },
       "restored": {
         "exitCode": 0,
@@ -1582,6 +1974,11 @@
     },
     {
       "id": "O09-CC8",
+      "contract": "runtime hostile 缺 onVictory 轴",
+      "target": {
+        "file": "src/runtime-hostile.glm-o.test.ts",
+        "title": "缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 7,
@@ -1590,9 +1987,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 7,
+        "passed": 6,
+        "failed": 1,
         "failedFullName": "O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /缺键 \"onVictory\"/ but got 'hostile.onVictory: 期望对象'",
-        "executed": 7
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /缺键 \"onVictory\"/ but got 'hostile.onVictory: 期望对象'"
       },
       "restored": {
         "exitCode": 0,
@@ -1610,6 +2009,11 @@
     },
     {
       "id": "O09-CC9",
+      "contract": "validateShops 非数组拒绝",
+      "target": {
+        "file": "src/small-guards.glm-o.test.ts",
+        "title": "非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 14,
@@ -1618,9 +2022,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 14,
+        "passed": 13,
+        "failed": 1,
         "failedFullName": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'shops 期望数组' but got 'value.forEach is not a function'",
-        "executed": 14
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'shops 期望数组' but got 'value.forEach is not a function'"
       },
       "restored": {
         "exitCode": 0,
@@ -1638,6 +2044,11 @@
     },
     {
       "id": "O10-CC10",
+      "contract": "MKF chunk 越界读 fail-loud",
+      "target": {
+        "file": "src/mkf.glm-o.test.ts",
+        "title": "chunk 越界读 fail-loud（负数）"
+      },
       "control": {
         "exitCode": 0,
         "executed": 3,
@@ -1646,9 +2057,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 3,
+        "passed": 2,
+        "failed": 1,
         "failedFullName": "O10 MKF：容器合同 chunk 越界读 fail-loud（负数）",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 3
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1666,6 +2079,11 @@
     },
     {
       "id": "O10-CC2",
+      "contract": "strict 容器过短拒绝",
+      "target": {
+        "file": "src/rle.glm-o.test.ts",
+        "title": "过短容器 / 零帧表 / offset table 越界 逐轴拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 17,
@@ -1674,9 +2092,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 17,
+        "passed": 16,
+        "failed": 1,
         "failedFullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'sprite chunk 过短' but got 'Offset is outside the bounds of the D…'",
-        "executed": 17
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'sprite chunk 过短' but got 'Offset is outside the bounds of the D…'"
       },
       "restored": {
         "exitCode": 0,
@@ -1694,6 +2114,11 @@
     },
     {
       "id": "O10-CC3",
+      "contract": "YJ2 过短源拒绝",
+      "target": {
+        "file": "src/rle.glm-o.test.ts",
+        "title": "过短源 → 拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 17,
@@ -1702,9 +2127,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 17,
+        "passed": 16,
+        "failed": 1,
         "failedFullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'YJ2: source too small' but got 'Offset is outside the bounds of the D…'",
-        "executed": 17
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'YJ2: source too small' but got 'Offset is outside the bounds of the D…'"
       },
       "restored": {
         "exitCode": 0,
@@ -1722,6 +2149,11 @@
     },
     {
       "id": "O10-CC4",
+      "contract": "chunk 超 u16 上限拒绝",
+      "target": {
+        "file": "src/rle.glm-o.test.ts",
+        "title": "超 u16 word 偏移上限 → 拆分图集错误"
+      },
       "control": {
         "exitCode": 0,
         "executed": 17,
@@ -1730,9 +2162,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 17,
+        "passed": 16,
+        "failed": 1,
         "failedFullName": "O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 17
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1750,6 +2184,11 @@
     },
     {
       "id": "O10-CC5",
+      "contract": "纯 sentinel 不进 legacy 兼容",
+      "target": {
+        "file": "src/rle.glm-o.test.ts",
+        "title": "纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容"
+      },
       "control": {
         "exitCode": 0,
         "executed": 17,
@@ -1758,9 +2197,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 17,
+        "passed": 16,
+        "failed": 1,
         "failedFullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 17
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1778,6 +2219,11 @@
     },
     {
       "id": "O10-CC6",
+      "contract": "MKF 首偏移 4 倍数对齐",
+      "target": {
+        "file": "src/mkf.glm-o.test.ts",
+        "title": "截断头拒绝 / 首偏移非 4 倍数拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 3,
@@ -1786,9 +2232,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 3,
+        "passed": 2,
+        "failed": 1,
         "failedFullName": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 3
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
@@ -1806,6 +2254,11 @@
     },
     {
       "id": "O10-CC7",
+      "contract": "RLE 0x7F 分段",
+      "target": {
+        "file": "src/yj2-encode.glm-o.test.ts",
+        "title": "0x7F 上限分段：129 连续 opaque → 两段（127+2）指令"
+      },
       "control": {
         "exitCode": 0,
         "executed": 6,
@@ -1814,9 +2267,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 6,
+        "passed": 5,
+        "failed": 1,
         "failedFullName": "O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令",
-        "failureMessageHead": "AssertionError: expected 198 to be 135 // Object.is equality",
-        "executed": 6
+        "failureMessageHead": "AssertionError: expected 198 to be 135 // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1834,6 +2289,11 @@
     },
     {
       "id": "O10-CC8",
+      "contract": "MKF 截断头拒绝",
+      "target": {
+        "file": "src/mkf.glm-o.test.ts",
+        "title": "截断头拒绝 / 首偏移非 4 倍数拒绝"
+      },
       "control": {
         "exitCode": 0,
         "executed": 3,
@@ -1842,9 +2302,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 3,
+        "passed": 2,
+        "failed": 1,
         "failedFullName": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝",
-        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'MKF: buffer too small for header' but got 'Offset is outside the bounds of the D…'",
-        "executed": 3
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'MKF: buffer too small for header' but got 'Offset is outside the bounds of the D…'"
       },
       "restored": {
         "exitCode": 0,
@@ -1862,6 +2324,11 @@
     },
     {
       "id": "O10-CC9",
+      "contract": "stableScriptHash 区分输入",
+      "target": {
+        "file": "src/script-library.glm-o.test.ts",
+        "title": "stableScriptHash 稳定且区分输入"
+      },
       "control": {
         "exitCode": 0,
         "executed": 10,
@@ -1870,9 +2337,11 @@
       },
       "injected": {
         "exitCode": 1,
+        "executed": 10,
+        "passed": 9,
+        "failed": 1,
         "failedFullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入",
-        "failureMessageHead": "AssertionError: expected +0 not to be +0 // Object.is equality",
-        "executed": 10
+        "failureMessageHead": "AssertionError: expected +0 not to be +0 // Object.is equality"
       },
       "restored": {
         "exitCode": 0,
@@ -1890,8 +2359,8 @@
     }
   ],
   "reAdjudication": {
-    "judge": "counter-judge.mjs@729d554d0",
-    "result": "67/67 live pass（2 flagged 退役：O09-CC14/CC15 目标被 O-R9-03 去重删除）",
+    "judge": "counter-judge.mjs@729d554d0（O-R9-01 判据）",
+    "result": "67/67 live pass（re-adjudication.json；O09-CC16 因 ambience 文件执行集变化已按规则重采）",
     "evidence": "re-adjudication.json"
   }
 }

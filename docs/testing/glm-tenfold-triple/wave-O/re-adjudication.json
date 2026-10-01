@@ -1,0 +1,343 @@
+{
+  "judgeSource": "counter-judge.mjs@729d554d0（O-R9-01 判据：路径归一化保留完整 packages/包/子路径 + 顶层执行数闭合 + 逐相状态政策）",
+  "total": 67,
+  "pass": 67,
+  "flagged": [],
+  "verdicts": [
+    {
+      "id": "O01-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O01-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O01-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O01-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O01-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O02-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O02-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O02-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O02-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O02-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O03-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O03-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O03-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O03-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O03-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O04-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O04-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O04-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O04-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O04-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O05-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O05-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O05-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O05-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O05-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O06-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O06-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O06-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O06-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O06-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O06-CC6",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O06-CC7",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O07-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O07-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC10",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC11",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC6",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O08-CC7",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC1",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC10",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC11",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC12",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC16",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC17",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC18",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC6",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC7",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC8",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O09-CC9",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC10",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC2",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC3",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC4",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC5",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC6",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC7",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC8",
+      "verdict": "pass",
+      "reasons": []
+    },
+    {
+      "id": "O10-CC9",
+      "verdict": "pass",
+      "reasons": []
+    }
+  ]
+}

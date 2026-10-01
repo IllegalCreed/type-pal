@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 12,
-    "passed": 12,
+    "executed": 8,
+    "passed": 8,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 12,
-    "passed": 11,
+    "executed": 8,
+    "passed": 7,
     "failed": 1,
     "failedFullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
     "failureMessageHead": "AssertionError: expected [ 'base', 'enemy', 'player' ] to deeply equal [ 'base', 'player', 'enemy' ]"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 12,
-    "passed": 12,
+    "executed": 8,
+    "passed": 8,
     "failed": 0
   },
   "hashes": {
