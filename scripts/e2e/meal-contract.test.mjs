@@ -924,3 +924,101 @@ test('004 first-stage serving evidence begins before room entry so an early firs
     /missing\/reordered/,
   )
 })
+test('004 ready held navigation never requests the costly full-trace boundary proof', async () => {
+  const map = JSON.parse(
+    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
+  )
+  let position = [133, 46],
+    proofCalls = 0
+  const held = new Set(),
+    actions = []
+  const read = async () => ({ scene: 's003', position: [...position], ready: true })
+  await navigateMealRoute({
+    keyboard: {
+      down: async (key) => {
+        held.add(key)
+        actions.push(['down', key])
+      },
+      up: async (key) => {
+        held.delete(key)
+        actions.push(['up', key])
+      },
+    },
+    map,
+    read,
+    until: async (observe, accept) => {
+      if (held.has('ArrowUp')) position = [position[0], position[1] - 1]
+      const state = await observe()
+      assert(accept(state))
+      return state
+    },
+    health: () => {},
+    grid: (s) => s.position,
+    inScene: (s) => s.scene === 's003',
+    ready: (s) => s.ready,
+    destination: (c, r) => c === 133 && r === 43,
+    finished: (s) => s.position[0] === 133 && s.position[1] === 43,
+    onInput: () => {},
+    onProgress: () => {},
+    boundaryCommitted: () => {
+      proofCalls++
+      assert.equal(held.size, 0, 'costly RPC while held would advance past the sampled position')
+      return false
+    },
+  })
+  assert.equal(proofCalls, 0)
+  assert.deepEqual(actions, [
+    ['down', 'ArrowUp'],
+    ['up', 'ArrowUp'],
+  ])
+})
+test('004 busy or scene-exit evidence releases every held direction before a costly boundary proof', async () => {
+  const map = JSON.parse(
+    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
+  )
+  const states = [
+    { scene: 's003', position: [133, 44], ready: true },
+    { scene: 's003', position: [134, 43], ready: false },
+    { scene: 's001', position: [108, 30], ready: true },
+  ]
+  let reads = 0,
+    committed = false
+  const held = new Set(),
+    actions = []
+  const read = async () => states[Math.min(reads++, states.length - 1)]
+  await navigateMealRoute({
+    keyboard: {
+      down: async (key) => {
+        held.add(key)
+        actions.push('down')
+        committed = true
+      },
+      up: async (key) => {
+        held.delete(key)
+        actions.push('up')
+      },
+    },
+    map,
+    read,
+    until: async (observe, accept) => {
+      const state = await observe()
+      assert(accept(state))
+      return state
+    },
+    health: () => {},
+    grid: (s) => s.position,
+    inScene: (s) => s.scene === 's003',
+    ready: (s) => s.ready,
+    destination: (c, r) => c === 133 && r === 43,
+    finished: (s) => s.scene === 's001' && s.ready,
+    onInput: () => {},
+    onProgress: () => {},
+    boundaryCommitted: () => {
+      if (!committed) return false
+      assert.equal(held.size, 0, 'boundary evidence must not delay key release')
+      actions.push('proof')
+      return true
+    },
+  })
+  assert.deepEqual(actions, ['down', 'up', 'proof'])
+})
