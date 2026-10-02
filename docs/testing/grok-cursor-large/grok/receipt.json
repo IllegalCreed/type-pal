@@ -7,19 +7,19 @@
   "mergedToMain": false,
   "officialRatchet": false,
   "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
-  "candidateHead": "b0d8dbd3f202251e82ce8761645c4ac408d84f11",
+  "candidateHead": "985c615cc8a157a8cecf0750a696be86fdf0e1c8",
   "candidateObject": "commit",
-  "previousCandidateHead": "16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
-  "previousDocsCommit": "919fc291a6e2b5b8710bac756e6a7d28d99dbae7",
+  "previousCandidateHead": "b0d8dbd3f202251e82ce8761645c4ac408d84f11",
+  "previousDocsCommit": "4c86186076215d8f019436dbcce3d1599878e03d",
   "functionalRework": "fedacf2ec73452222ebafd38f37e824a19eb5cdf",
   "docsPin": {
     "role": "docs-only",
-    "candidateHead": "b0d8dbd3f202251e82ce8761645c4ac408d84f11",
+    "candidateHead": "985c615cc8a157a8cecf0750a696be86fdf0e1c8",
     "paths": [
       "docs/testing/grok-cursor-large/grok/receipt.json",
       "docs/testing/grok-cursor-large/grok/README.md"
     ],
-    "note": "这一提交只更新回执和入口里的候选 SHA 与门禁数字。candidateHead 是读回日志格式修复提交，不是本 docs 提交自身。功能返工是 fedacf2ec73452222ebafd38f37e824a19eb5cdf：10 份 readback JSON 被两格缩进展开短数组，根 lint 报 10 条 format。格式提交把写入收成 Biome 同行短数组，PNG SHA256 与 file×fullName 不变。上一测试提交是 16db4d1ed9d394a2506293e7b4448f8a0c19ceef，上一 docs pin 是 919fc291a6e2b5b8710bac756e6a7d28d99dbae7。"
+    "note": "这一提交只更新回执和入口里的候选 SHA。candidateHead 是 GROK-R2-01 报告格式提交，不是本 docs 提交自身。上一候选是 b0d8dbd3f202251e82ce8761645c4ac408d84f11，上一 docs pin 是 4c86186076215d8f019436dbcce3d1599878e03d。更早的测试提交是 16db4d1ed9d394a2506293e7b4448f8a0c19ceef，更早的 docs pin 是 919fc291a6e2b5b8710bac756e6a7d28d99dbae7。"
   },
   "counts": {
     "newContracts": 400,
@@ -40,7 +40,8 @@
   },
   "typecheck": {
     "command": "pnpm --filter @type-pal/game run typecheck",
-    "exitCode": 0
+    "exitCode": 0,
+    "r2Rerun": false
   },
   "fullTest": {
     "command": "pnpm --filter @type-pal/game exec vitest run",
@@ -55,7 +56,9 @@
     "dataCopied": false,
     "reworkRerun": true,
     "reviewerIsolatedAssetGreen": "3173/3173",
-    "reviewerIsolatedAssetNote": "审核在只读资产副本上的结果。本工作树没有复制 data/extracted 与 data/raw，退出码仍是上面的 1。"
+    "reviewerIsolatedAssetNote": "审核在只读资产副本上的结果。本工作树没有复制 data/extracted 与 data/raw，退出码仍是上面的 1。",
+    "r2Rerun": false,
+    "r2Cite": "GROK-R2 未改测试、产品或配置字节，不重跑全包。沿用 r2 审核记录的隔离资产 3173/3173。作者工作树上一轮退出码仍是 1。"
   },
   "lint": {
     "command": "pnpm lint",
@@ -63,7 +66,8 @@
     "errors": 0,
     "warnings": 0,
     "infos": 0,
-    "previousCandidateFiles": 2967
+    "previousCandidateFiles": 2967,
+    "remeasuredAfterConsecutiveSelftest": true
   },
   "docsCheck": {
     "command": "node scripts/docs/check.mjs",
@@ -71,7 +75,7 @@
     "issues": 0
   },
   "diffCheck": {
-    "command": "git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...b0d8dbd3f202251e82ce8761645c4ac408d84f11",
+    "command": "git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...985c615cc8a157a8cecf0750a696be86fdf0e1c8",
     "exitCode": 0
   },
   "verifier": {
@@ -162,5 +166,28 @@
     "pixelDumps": 14,
     "newItAdded": 0,
     "executionSetUnchanged": true
+  },
+  "r2": {
+    "id": "GROK-R2-01",
+    "selftestCommand": "node docs/testing/grok-cursor-large/grok/judge.selftest.mjs",
+    "consecutiveRuns": 2,
+    "eachRun": {
+      "falseAcceptsRejected": 4,
+      "rejudged": 40,
+      "probeRejected": true,
+      "probeExit": 1
+    },
+    "reportPath": "docs/testing/grok-cursor-large/grok/judge-selftest.json",
+    "reportBytesChanged": false,
+    "lintImmediatelyAfter": {
+      "files": 2988,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "fullPackageRerun": false,
+    "typecheckRerun": false,
+    "citedIsolatedFullPackage": "3173/3173",
+    "hostPngCategory": "dom-data-encoding"
   }
 }
