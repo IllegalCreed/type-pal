@@ -3,8 +3,8 @@
   "numPassedTestSuites": 0,
   "numFailedTestSuites": 2,
   "numPendingTestSuites": 0,
-  "numTotalTests": 4,
-  "numPassedTests": 3,
+  "numTotalTests": 2,
+  "numPassedTests": 1,
   "numFailedTests": 1,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,56 +24,36 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790908614205,
+  "startTime": 1790912297921,
   "success": false,
   "testResults": [
     {
       "assertionResults": [
         {
-          "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
-          "fullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
+          "ancestorTitles": ["Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41）"],
+          "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
           "status": "passed",
-          "title": "fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
-          "duration": 2.0627920000000017,
+          "title": "fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
+          "duration": 4.495124999999916,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
-          "fullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle 施法音=0（magicSound 0）不 push 空 promise 音",
+          "ancestorTitles": ["Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41）"],
+          "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle 施法音=0（magicSound 0）不 push、pendingSounds 通道不初始化",
           "status": "failed",
-          "title": "fizzle 施法音=0（magicSound 0）不 push 空 promise 音",
-          "duration": 2.4904999999999973,
+          "title": "fizzle 施法音=0（magicSound 0）不 push、pendingSounds 通道不初始化",
+          "duration": 4.104041999999936,
           "failureMessages": [
-            "AssertionError: expected [ 1 ] to be undefined\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts:245:30\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected [ 1 ] to be undefined\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts:236:30\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
-          "fullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 无 gs：施法音缓冲跳过（无宿主侧副作用），脚本照跑",
-          "status": "passed",
-          "title": "敌方 cast 无 gs：施法音缓冲跳过（无宿主侧副作用），脚本照跑",
-          "duration": 0.36420900000001666,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
-          "fullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
-          "status": "passed",
-          "title": "敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
-          "duration": 0.5430419999999572,
-          "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790908614638,
-      "endTime": 1790908614643.543,
+      "startTime": 1790912299027,
+      "endTime": 1790912299036.104,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts"

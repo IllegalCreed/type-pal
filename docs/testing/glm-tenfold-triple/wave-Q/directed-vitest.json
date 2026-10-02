@@ -1,9 +1,9 @@
 {
-  "source": "final-run (vitest run glm-q --reporter=json，三包 r12 实跑)",
+  "source": "final-run (vitest run glm-q --reporter=json；reforge/pal-extract 沿用 r12 实跑（源未变），game r13 实跑)",
   "counts": {
     "files": 19,
-    "total": 140,
-    "passed": 140,
+    "total": 138,
+    "passed": 138,
     "failed": 0
   },
   "cases": [
@@ -13,7 +13,7 @@
       "title": "caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
       "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
       "status": "passed",
-      "duration": 0.4730420000000777
+      "duration": 0.3842500000000655
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -21,7 +21,7 @@
       "title": "caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
       "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
       "status": "passed",
-      "duration": 5.755750000000035
+      "duration": 3.2886250000001382
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -31,7 +31,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.1608329999999114
+      "duration": 0.18458400000008623
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -41,7 +41,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.12370800000007875
+      "duration": 0.1457500000001346
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -51,7 +51,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.22466599999984282
+      "duration": 0.3426249999999982
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -61,7 +61,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.5236250000000382
+      "duration": 0.5577089999999316
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -71,7 +71,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.16420799999991686
+      "duration": 0.16599999999993997
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -81,7 +81,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.18812499999989996
+      "duration": 0.19366700000000492
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -91,7 +91,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.14970800000014606
+      "duration": 0.15583399999991343
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -101,7 +101,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.396541999999954
+      "duration": 0.47270800000001145
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -109,7 +109,7 @@
       "title": "begin<0 规范化为从 0 起扫首个活敌",
       "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
       "status": "passed",
-      "duration": 0.21804199999996854
+      "duration": 0.20487500000012915
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -117,7 +117,7 @@
       "title": "prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
       "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
       "status": "passed",
-      "duration": 0.15262500000017099
+      "duration": 0.3396660000000793
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -127,39 +127,23 @@
         "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重）"
       ],
       "status": "passed",
-      "duration": 0.6443329999999605
+      "duration": 0.6061670000001413
     },
     {
       "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle 施法音=0（magicSound 0）不 push 空 promise 音",
-      "title": "fizzle 施法音=0（magicSound 0）不 push 空 promise 音",
-      "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
+      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle 施法音=0（magicSound 0）不 push、pendingSounds 通道不初始化",
+      "title": "fizzle 施法音=0（magicSound 0）不 push、pendingSounds 通道不初始化",
+      "ancestorTitles": ["Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41）"],
       "status": "passed",
-      "duration": 0.4283339999999498
+      "duration": 1.2335840000000644
     },
     {
       "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
-      "title": "fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
-      "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
+      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
+      "title": "fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
+      "ancestorTitles": ["Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41）"],
       "status": "passed",
-      "duration": 3.385291999999936
-    },
-    {
-      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
-      "title": "敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
-      "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
-      "status": "passed",
-      "duration": 0.7908749999999145
-    },
-    {
-      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 无 gs：施法音缓冲跳过（无宿主侧副作用），脚本照跑",
-      "title": "敌方 cast 无 gs：施法音缓冲跳过（无宿主侧副作用），脚本照跑",
-      "ancestorTitles": ["Q08 performMagic 失败/音频残余臂（typed）"],
-      "status": "passed",
-      "duration": 0.4181670000000395
+      "duration": 5.264250000000175
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -167,7 +151,7 @@
       "title": "同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 0.7687499999999545
+      "duration": 0.7152089999999589
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -175,7 +159,7 @@
       "title": "复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 0.7125829999999951
+      "duration": 0.2572090000001026
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -183,7 +167,7 @@
       "title": "复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 4.147832999999991
+      "duration": 2.710708000000068
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -191,7 +175,7 @@
       "title": "活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 0.33170799999993505
+      "duration": 0.22804199999995944
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -199,7 +183,7 @@
       "title": "clear 归零全部索引",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 0.10304099999996197
+      "duration": 0.08262500000000728
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -207,7 +191,7 @@
       "title": "toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 0.6435000000000173
+      "duration": 0.663707999999815
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -215,7 +199,7 @@
       "title": "writePixel 四边界外全部忽略；界内按 y*width+x 落位",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 0.660665999999992
+      "duration": 0.2159999999998945
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -223,7 +207,7 @@
       "title": "默认 320×200；自定义尺寸按参数建",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 1.9710420000000113
+      "duration": 1.3246659999999792
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -231,7 +215,7 @@
       "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
       "ancestorTitles": ["Q06 addPoisonForPlayer"],
       "status": "passed",
-      "duration": 0.5692910000000211
+      "duration": 0.6964590000000044
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -239,7 +223,7 @@
       "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
       "ancestorTitles": ["Q06 addPoisonForPlayer"],
       "status": "passed",
-      "duration": 0.8657090000001517
+      "duration": 0.7920829999998205
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -247,7 +231,7 @@
       "title": "去重：已有同毒不落第二槽",
       "ancestorTitles": ["Q06 addPoisonForPlayer"],
       "status": "passed",
-      "duration": 0.6618330000001151
+      "duration": 0.5074589999999262
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -255,7 +239,7 @@
       "title": "curePlayerPoisonByKind 只清该毒全部槽位",
       "ancestorTitles": ["Q06 cure / remove"],
       "status": "passed",
-      "duration": 1.4498329999998987
+      "duration": 0.5658750000000055
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -263,7 +247,7 @@
       "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
       "ancestorTitles": ["Q06 cure / remove"],
       "status": "passed",
-      "duration": 0.16133300000001327
+      "duration": 0.12295799999992596
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -271,7 +255,7 @@
       "title": "removePoisonLevel99 清 level>=99、留 level<99",
       "ancestorTitles": ["Q06 cure / remove"],
       "status": "passed",
-      "duration": 0.44016700000020137
+      "duration": 0.2455410000000029
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -279,7 +263,7 @@
       "title": "ByKind 只查指定毒 id，不看等级与其它毒",
       "ancestorTitles": ["Q06 isPlayerPoisoned"],
       "status": "passed",
-      "duration": 1.5781660000000102
+      "duration": 1.9238339999999425
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -287,7 +271,7 @@
       "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
       "ancestorTitles": ["Q06 isPlayerPoisoned"],
       "status": "passed",
-      "duration": 0.2699159999999665
+      "duration": 0.9949160000001029
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -295,7 +279,7 @@
       "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
       "ancestorTitles": ["Q06 isPlayerPoisoned"],
       "status": "passed",
-      "duration": 0.1044160000001284
+      "duration": 0.1871249999999236
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -303,7 +287,7 @@
       "title": "fleeRate = runtime base + 各装备槽之和",
       "ancestorTitles": ["Q06 装备派生值读取器"],
       "status": "passed",
-      "duration": 0.14975000000004002
+      "duration": 0.20858300000008967
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -311,7 +295,7 @@
       "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
       "ancestorTitles": ["Q06 装备派生值读取器"],
       "status": "passed",
-      "duration": 0.26358299999992596
+      "duration": 0.17116699999996854
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",

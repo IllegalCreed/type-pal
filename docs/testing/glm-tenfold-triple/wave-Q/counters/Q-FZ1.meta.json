@@ -1,13 +1,13 @@
 {
   "id": "Q-FZ1",
   "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-  "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
-  "targetNameSubstring": "fizzle（scriptOnUse 失败）施法音仍即时播",
+  "targetFullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
+  "targetNameSubstring": "fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播",
   "axis": "输入轴单轴变异：role 默认施法音 9→10（合法音 id；fizzle 应播 [10] → toEqual([9]) 恰一红）；断言不动。",
   "sha256": {
-    "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
-    "mutated": "b20adf977b66be75a8a433671c9dec2a39e41ac04761fa3197fe949861ce8811",
-    "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+    "original": "ed9c029bcd1d65ac07d657e164c472297b9bcb13e547b4e91a9c907049c0dd04",
+    "mutated": "bd91d3bbe45471e63111ed376924bc70719424a5432b8b6d09c9f41243f957c8",
+    "restored": "ed9c029bcd1d65ac07d657e164c472297b9bcb13e547b4e91a9c907049c0dd04"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 4,
-        "numPassedTests": 4,
+        "numTotalTests": 2,
+        "numPassedTests": 2,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 4,
-        "numPassedTests": 3,
+        "numTotalTests": 2,
+        "numPassedTests": 1,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 4,
-        "numPassedTests": 4,
+        "numTotalTests": 2,
+        "numPassedTests": 2,
         "numFailedTests": 0,
         "success": true
       },

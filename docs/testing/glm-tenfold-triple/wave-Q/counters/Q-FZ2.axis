@@ -1,1 +1,1 @@
-输入轴单轴变异：第 2 例显式 magicSound 0→1（合法非零音 id；pendingCastSound>0 → 应初始化并 push [1] → toBeUndefined() 恰一红）；断言不动。
+输入轴单轴变异：第 2 例显式 magicSound 0→1（合法非零音 id；pendingCastSound>0 → 应 push [1] → toBeUndefined() 恰一红）；断言不动。

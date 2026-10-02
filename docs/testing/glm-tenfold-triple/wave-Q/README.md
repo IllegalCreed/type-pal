@@ -1,14 +1,32 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r12 续批）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r13 fizzle 合法化）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r12 候选**（r11 复核主账关闭后按完整续批范围推进；已关闭项不重开；
-r11 候选 d816b1fa/pin 17512c69 保留供独立复核）。不合 main、不标 done。
+本文件描述 **r13 候选**（r12 复核 Q-R12-01/02 闭合；已关闭项不重开；
+r12 候选 1c752fc2/pin 08ddbf06 保留供独立复核）。不合 main、不标 done。
 
-## r12 续批（描述同步 + Q08 performMagic 失败/音频残余臂）
+## r13 相对 r12 的改动（Q-R12-01/02）
+
+1. **Q-R12-01 fizzle 合法化**：两个 fizzle 例改**真实 runScript**（event-system 导出，
+   非 mock）+ 合成最小合法失败脚本 `[end, raw 0x41, end]` entry 1（0x41 =
+   mark-script-failed，script.c:1623-1627 在真实 runner 内置 fScriptSuccess=false）。
+   断言补齐：无越界 warning、fScriptSuccess 真实为 false、动画 0、施法音 9 入
+   pendingSounds、magicSound 0 不初始化通道。r12 版的 mock 手置旗 + 越界 entry 42
+   废弃。
+2. **Q-R12-02 删重**：r12 的两个 enemy 例删除——「无 gs 脚本照跑/动画」已由旧
+   actions.test.ts「敌人 cast→不扣 MP+仍 emit+仍 runScript」（:1859-1894，无 gs、
+   精确单动画/callback 次数/ctx）更强直证；「未建链即时施法音」已由 M6 旧例
+   （:1297-1342，敌 cast 音 62+效果音 55 完整数组）直证。FZ3/4/5 退役保留历史，
+   不换音效 id 充新。文件头「数字缓冲」未交主张撤回（本文件无数字 oracle）。
+3. **账目**：140→**138 执行**（r12 新增 4 例未接收；本批净 2 例合法 fizzle 亦待
+   Codex 接收）；**合法性结构上限 135 / 缺口至少 565**（r12 的 139/561 随未接收
+   4 例一并修正）。反控 **63 存档 / 54 执行目标 / 净新结构上限 53**；FZ1/FZ2 在
+   合法文件上重采全 VALID。
+
+## r12 续批（历史；其中 4 例已按 r12 复核修正/删除）
 
 - **描述同步（r11 复核遗留，不重采针）**：FP3 索引 axis 修正为 '1 sprites, 0 frames'
   （meta/断言早已如此，仅索引字符串旧值）；yj2-encoder 终止符注释更正为 8+6 bit

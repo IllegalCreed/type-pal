@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 140
+    "total": 138
   },
   "contracts": [
     {
@@ -191,59 +191,31 @@
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle 施法音=0（magicSound 0）不 push 空 promise 音",
+      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle 施法音=0（magicSound 0）不 push、pendingSounds 通道不初始化",
       "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic 失败/音频残余臂（:170-190 pendingCastSound 捕获；:261-271 fizzle 早退——施法音仍播 + 即时数字 flush）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（Enemy 含 magicSound=47 真值）+ createCommandBus + runScript spy（fizzle 例在 ip=42 置 fScriptSuccess=false，同旧 actions.test.ts 模式）",
-      "oldAssertion": "actions.test.ts 已证「scriptOnUse 失败 → MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」（未断言 pendingSounds）与「M6 法术音:队员施法 push 本角色 magicSound + 效果音」（成功路径）；本文件只补 fizzle 施法音/零音不 push/敌 cast 无 gs/敌 cast 即时回落四臂",
+      "source": "game core/battle/actions/magic.ts performMagic 失败施法音臂（:170-184 pendingCastSound 捕获；:261-268 fizzle 早退——施法音仍即时播）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构 + **真实 runScript**（event-system 导出，非 mock）+ 合成最小合法失败脚本 [end, raw 0x41, end] entry1（0x41=mark-script-failed，script.c:1623-1627 在真实 runner 内置 fScriptSuccess=false）",
+      "oldAssertion": "actions.test.ts「scriptOnUse 失败→MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」用 mock 手置旗（未断言 pendingSounds）；「M6 法术音」证成功路径起手音。本文件只补 fizzle 施法音/零音两轴（r12 版 mock+越界 entry 不合法，r13 重写）",
       "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
       "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "fizzle/audio residual arms（fight.c:4184 vs 4215 施法音先于 gate 的忠实行为；fight.c:4695 敌施法音）"
+      "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
     },
     {
       "id": "C015",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
+      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
       "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic 失败/音频残余臂（:170-190 pendingCastSound 捕获；:261-271 fizzle 早退——施法音仍播 + 即时数字 flush）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（Enemy 含 magicSound=47 真值）+ createCommandBus + runScript spy（fizzle 例在 ip=42 置 fScriptSuccess=false，同旧 actions.test.ts 模式）",
-      "oldAssertion": "actions.test.ts 已证「scriptOnUse 失败 → MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」（未断言 pendingSounds）与「M6 法术音:队员施法 push 本角色 magicSound + 效果音」（成功路径）；本文件只补 fizzle 施法音/零音不 push/敌 cast 无 gs/敌 cast 即时回落四臂",
+      "source": "game core/battle/actions/magic.ts performMagic 失败施法音臂（:170-184 pendingCastSound 捕获；:261-268 fizzle 早退——施法音仍即时播）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构 + **真实 runScript**（event-system 导出，非 mock）+ 合成最小合法失败脚本 [end, raw 0x41, end] entry1（0x41=mark-script-failed，script.c:1623-1627 在真实 runner 内置 fScriptSuccess=false）",
+      "oldAssertion": "actions.test.ts「scriptOnUse 失败→MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」用 mock 手置旗（未断言 pendingSounds）；「M6 法术音」证成功路径起手音。本文件只补 fizzle 施法音/零音两轴（r12 版 mock+越界 entry 不合法，r13 重写）",
       "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
       "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "fizzle/audio residual arms（fight.c:4184 vs 4215 施法音先于 gate 的忠实行为；fight.c:4695 敌施法音）"
+      "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
     },
     {
       "id": "C016",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
-      "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic 失败/音频残余臂（:170-190 pendingCastSound 捕获；:261-271 fizzle 早退——施法音仍播 + 即时数字 flush）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（Enemy 含 magicSound=47 真值）+ createCommandBus + runScript spy（fizzle 例在 ip=42 置 fScriptSuccess=false，同旧 actions.test.ts 模式）",
-      "oldAssertion": "actions.test.ts 已证「scriptOnUse 失败 → MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」（未断言 pendingSounds）与「M6 法术音:队员施法 push 本角色 magicSound + 效果音」（成功路径）；本文件只补 fizzle 施法音/零音不 push/敌 cast 无 gs/敌 cast 即时回落四臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "fizzle/audio residual arms（fight.c:4184 vs 4215 施法音先于 gate 的忠实行为；fight.c:4695 敌施法音）"
-    },
-    {
-      "id": "C017",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 无 gs：施法音缓冲跳过（无宿主侧副作用），脚本照跑",
-      "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic 失败/音频残余臂（:170-190 pendingCastSound 捕获；:261-271 fizzle 早退——施法音仍播 + 即时数字 flush）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（Enemy 含 magicSound=47 真值）+ createCommandBus + runScript spy（fizzle 例在 ip=42 置 fScriptSuccess=false，同旧 actions.test.ts 模式）",
-      "oldAssertion": "actions.test.ts 已证「scriptOnUse 失败 → MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」（未断言 pendingSounds）与「M6 法术音:队员施法 push 本角色 magicSound + 效果音」（成功路径）；本文件只补 fizzle 施法音/零音不 push/敌 cast 无 gs/敌 cast 即时回落四臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "fizzle/audio residual arms（fight.c:4184 vs 4215 施法音先于 gate 的忠实行为；fight.c:4695 敌施法音）"
-    },
-    {
-      "id": "C018",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -257,7 +229,7 @@
       "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
     },
     {
-      "id": "C019",
+      "id": "C017",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -271,7 +243,7 @@
       "classification": "needs independent oracle（r8 待改：getEnemyBasePos 计算 expected 非独立——见 Q-R7-02）"
     },
     {
-      "id": "C020",
+      "id": "C018",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -285,7 +257,7 @@
       "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
     },
     {
-      "id": "C021",
+      "id": "C019",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -299,7 +271,7 @@
       "classification": "existing-proof cross-check（不计新；Q-R7-02 收窄）"
     },
     {
-      "id": "C022",
+      "id": "C020",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -313,7 +285,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C023",
+      "id": "C021",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -327,7 +299,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C024",
+      "id": "C022",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -341,7 +313,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C025",
+      "id": "C023",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -355,7 +327,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C026",
+      "id": "C024",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -369,7 +341,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C027",
+      "id": "C025",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -383,7 +355,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C028",
+      "id": "C026",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -397,7 +369,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C029",
+      "id": "C027",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -411,7 +383,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C030",
+      "id": "C028",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -425,7 +397,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C031",
+      "id": "C029",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -439,7 +411,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C032",
+      "id": "C030",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -453,7 +425,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C033",
+      "id": "C031",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -467,7 +439,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C034",
+      "id": "C032",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -481,7 +453,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C035",
+      "id": "C033",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -495,7 +467,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C036",
+      "id": "C034",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -509,7 +481,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C037",
+      "id": "C035",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -523,7 +495,7 @@
       "classification": "boundary-rejection contract（r10 新目标；如实登记为边界拒绝，不冒称合法正向资源）"
     },
     {
-      "id": "C038",
+      "id": "C036",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -537,7 +509,7 @@
       "classification": "new full-pipeline contract target（r10 合法化重写；FP4 已独立为另一目标——见边界合同 override）"
     },
     {
-      "id": "C039",
+      "id": "C037",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -551,7 +523,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C040",
+      "id": "C038",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -565,7 +537,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C041",
+      "id": "C039",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -579,7 +551,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C042",
+      "id": "C040",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -593,7 +565,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C043",
+      "id": "C041",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -607,7 +579,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C044",
+      "id": "C042",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -621,7 +593,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C045",
+      "id": "C043",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -635,7 +607,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C046",
+      "id": "C044",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -649,7 +621,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C047",
+      "id": "C045",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -663,7 +635,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C048",
+      "id": "C046",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -677,7 +649,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C049",
+      "id": "C047",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -691,7 +663,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C050",
+      "id": "C048",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -705,7 +677,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C051",
+      "id": "C049",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -719,7 +691,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C052",
+      "id": "C050",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -733,7 +705,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C053",
+      "id": "C051",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -747,7 +719,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C054",
+      "id": "C052",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -761,7 +733,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C055",
+      "id": "C053",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -775,7 +747,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C056",
+      "id": "C054",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -789,7 +761,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C057",
+      "id": "C055",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -803,7 +775,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C058",
+      "id": "C056",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -817,7 +789,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C059",
+      "id": "C057",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -831,7 +803,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C060",
+      "id": "C058",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -845,7 +817,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C061",
+      "id": "C059",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -859,7 +831,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C062",
+      "id": "C060",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -873,7 +845,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C063",
+      "id": "C061",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -887,7 +859,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C064",
+      "id": "C062",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -901,7 +873,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C065",
+      "id": "C063",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -915,7 +887,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C066",
+      "id": "C064",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -929,7 +901,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C067",
+      "id": "C065",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -943,7 +915,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C068",
+      "id": "C066",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -957,7 +929,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C069",
+      "id": "C067",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -971,7 +943,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C070",
+      "id": "C068",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -985,7 +957,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C071",
+      "id": "C069",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -999,7 +971,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C072",
+      "id": "C070",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1013,7 +985,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C073",
+      "id": "C071",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1027,7 +999,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C074",
+      "id": "C072",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1041,7 +1013,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C075",
+      "id": "C073",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1055,7 +1027,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C076",
+      "id": "C074",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1069,7 +1041,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C077",
+      "id": "C075",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1083,7 +1055,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C078",
+      "id": "C076",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1097,7 +1069,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C079",
+      "id": "C077",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1111,7 +1083,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C080",
+      "id": "C078",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1125,7 +1097,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C081",
+      "id": "C079",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1139,7 +1111,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C082",
+      "id": "C080",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1153,7 +1125,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C083",
+      "id": "C081",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1167,7 +1139,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C084",
+      "id": "C082",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1181,7 +1153,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C085",
+      "id": "C083",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1195,7 +1167,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C086",
+      "id": "C084",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1209,7 +1181,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C087",
+      "id": "C085",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1223,7 +1195,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C088",
+      "id": "C086",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1237,7 +1209,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C089",
+      "id": "C087",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1251,7 +1223,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C090",
+      "id": "C088",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1265,7 +1237,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C091",
+      "id": "C089",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1279,7 +1251,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C092",
+      "id": "C090",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1293,7 +1265,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C093",
+      "id": "C091",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1307,7 +1279,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C094",
+      "id": "C092",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1321,7 +1293,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C095",
+      "id": "C093",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1335,7 +1307,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C096",
+      "id": "C094",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1349,7 +1321,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C097",
+      "id": "C095",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1363,7 +1335,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C098",
+      "id": "C096",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1377,7 +1349,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C099",
+      "id": "C097",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1391,7 +1363,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C100",
+      "id": "C098",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1405,7 +1377,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C101",
+      "id": "C099",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1419,7 +1391,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C102",
+      "id": "C100",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1433,7 +1405,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C103",
+      "id": "C101",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1447,7 +1419,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C104",
+      "id": "C102",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1461,7 +1433,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C105",
+      "id": "C103",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1475,7 +1447,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C106",
+      "id": "C104",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1489,7 +1461,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C107",
+      "id": "C105",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1503,7 +1475,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C108",
+      "id": "C106",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1517,7 +1489,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C109",
+      "id": "C107",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1531,7 +1503,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C110",
+      "id": "C108",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1545,7 +1517,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C111",
+      "id": "C109",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1559,7 +1531,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C112",
+      "id": "C110",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1573,7 +1545,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C113",
+      "id": "C111",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1587,7 +1559,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C114",
+      "id": "C112",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1601,7 +1573,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C115",
+      "id": "C113",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1615,7 +1587,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C116",
+      "id": "C114",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1629,7 +1601,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C117",
+      "id": "C115",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1643,7 +1615,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C118",
+      "id": "C116",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1657,7 +1629,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C119",
+      "id": "C117",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1671,7 +1643,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C120",
+      "id": "C118",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1685,7 +1657,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C121",
+      "id": "C119",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1699,7 +1671,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C122",
+      "id": "C120",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1713,7 +1685,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C123",
+      "id": "C121",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1727,7 +1699,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C124",
+      "id": "C122",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1741,7 +1713,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C125",
+      "id": "C123",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1755,7 +1727,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C126",
+      "id": "C124",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1769,7 +1741,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C127",
+      "id": "C125",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1783,7 +1755,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C128",
+      "id": "C126",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1797,7 +1769,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C129",
+      "id": "C127",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1811,7 +1783,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C130",
+      "id": "C128",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1825,7 +1797,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C131",
+      "id": "C129",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1839,7 +1811,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C132",
+      "id": "C130",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1853,7 +1825,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C133",
+      "id": "C131",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1867,7 +1839,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C134",
+      "id": "C132",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1881,7 +1853,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C135",
+      "id": "C133",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1895,7 +1867,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C136",
+      "id": "C134",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1909,7 +1881,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C137",
+      "id": "C135",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1923,7 +1895,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C138",
+      "id": "C136",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -1937,7 +1909,7 @@
       "classification": "residual arms（muted 置真/pause 抛错容忍/maxDecoded 逐臂/无适配器告警）"
     },
     {
-      "id": "C139",
+      "id": "C137",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -1951,7 +1923,7 @@
       "classification": "residual arms（muted 置真/pause 抛错容忍/maxDecoded 逐臂/无适配器告警）"
     },
     {
-      "id": "C140",
+      "id": "C138",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",

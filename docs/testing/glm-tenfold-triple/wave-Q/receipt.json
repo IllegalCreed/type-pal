@@ -15,22 +15,22 @@
   "deliverables": {
     "newTestFiles": 19,
     "newFixtureDirs": 2,
-    "newCases": 140,
-    "netNewCasesCap": 139,
-    "counterControls": 66,
-    "distinctTargets": 56,
-    "netNewContractTargetsCap": 54,
+    "newCases": 138,
+    "legalNetNewCap": 135,
+    "counterControls": 63,
+    "distinctTargets": 54,
+    "netNewContractTargetsCap": 53,
     "browserFlows": 10,
     "defectReports": 1
   },
   "shortfall": {
     "targetCases": 700,
-    "deliveredCases": 140,
-    "netNewCap": 139,
-    "remainingAtLeast": 561,
+    "deliveredCases": 138,
+    "legalNetNewCap": 135,
+    "remainingAtLeast": 565,
     "targetCounters": 50,
-    "deliveredCounters": 66,
-    "account": "140 执行/结构净新上限 139（扣 C114）/缺口至少 561；66 存档 56 执行目标/净新目标结构上限 54；r12 增 Q-FZ1~5（4 新执行目标）；见 README r12 段"
+    "deliveredCounters": 63,
+    "account": "138 执行/合法性上限 135（r12 新增 4 例未接收，净扣除后仍 135）/缺口至少 565；63 存档 54 执行目标/净新结构上限 53；FZ3/4/5 退役；见 README r13 段"
   },
   "commands": {
     "serialFullTests": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/<pkg> test （reforge → game → pal-extract 串行）",
@@ -40,15 +40,15 @@
     "diffCheck": "git diff --check 8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"
   },
   "results": {
-    "reforgeTest": "2150 passed（r12 最终串行复跑）",
-    "gameTest": "2809 passed（r12 最终串行复跑：基线 2773 + glm-q 36）",
-    "palExtractTest": "363 passed（r12 最终串行复跑：基线 357 + glm-q 6）",
-    "typechecks": "reforge/game/pal-extract 均 0 error（r12 复跑）",
-    "rootLint": "pnpm lint PASS — 3041 files; 0 errors / 0 warnings / 0 infos（r12 最终树复跑）",
-    "docsCheck": "PASS（r12 复跑）",
-    "diffCheck": "git diff --check 8b3ca062...HEAD 干净（r12 提交后复核）"
+    "reforgeTest": "2150 passed（r13 最终串行复跑）",
+    "gameTest": "2807 passed（r13 最终串行复跑：基线 2773 + glm-q 34）",
+    "palExtractTest": "363 passed（r13 最终串行复跑）",
+    "typechecks": "reforge/game/pal-extract 均 0 error（r13 复跑）",
+    "rootLint": "pnpm lint PASS — 3041 files; 0 errors / 0 warnings / 0 infos（r13 最终树复跑）",
+    "docsCheck": "PASS（r13 复跑）",
+    "diffCheck": "git diff --check 8b3ca062...HEAD 干净（r13 提交后复核）"
   },
-  "counterEvidence": "counters.json（66 全 VALID，56 执行目标）+ counters/",
+  "counterEvidence": "counters.json（63 全 VALID，54 执行目标；retired 含 NT8/FZ3/FZ4/FZ5）+ counters/",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
   "coverageDelta": "coverage-delta.json（reforge/game 全测口径 +82/+5 臂；pal-extract 为 glm-q 定向口径且 CLI 子进程不在插桩范围，收益主张合同级）",
   "notes": [
@@ -57,6 +57,6 @@
     "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
-  "reworkRound": 12,
+  "reworkRound": 13,
   "candidateHeadNote": "r12 口径：本字段为 r12 测试候选树的完整 40 位 SHA；其后仅本 docs-only pin 提交回填本字段与 Note，不改任何测试/产品文件（r2~r11 同口径）。"
 }
