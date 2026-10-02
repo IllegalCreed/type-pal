@@ -1,6 +1,13 @@
 /** TEST-GLM-WAVE-O-1 O03：写入计划（buildMigrationTransactionChanges）与 journal
  *  恢复的剩余合同。全部 mkdtemp 隔离。
- *  existing-proof 扣除（O-R13 逐行旧正文裁决，删重 6 行不计净新）：
+ *  existing-proof 扣除（O-R13 + Kimi/Grok 合并裁决，累计删重并分列）：
+ *  - 两快照拒收臂（未纳入快照 / files 有 hash 无）：next-wave:76/:81 同守卫同文案
+ *    完全旧证，O-R13-01 删除（路径名不同不计新）；
+ *  - 排序臂（scenes/index 权重越字典序）：boundaries:57-64（scenes/z 晚于 index）+
+ *    旧 test:166-171（s000 晚于 index）已使纯字典序分出次序，排序不计新；本文件仅保留
+ *    map 路径向 serializeMigrationJson(value, path) 的委派新轴（Codex 去参变异独证）；
+ *  - 删除 null 计算：next-wave:103-109 写臂已证；本文件保留删除环无 content 挂 null
+ *    与非 null 挂规划字节 hash 两臂（非 null 臂本轮补合法在场证据）。
  *  - 退役资源排序+expectedSha256：write-plan.boundaries:75-104 逐字节同答案（a/b 序+hash）；
  *  - baseline 一致跳过/漂移产生写：旧:114-131（相同→空计划）+:132-150（nextBaseline
  *    异于磁盘→baseline 正文写）+:174-196（未变跳过）；
@@ -79,78 +86,56 @@ const baseArgs = (repo: string) => ({
 })
 
 describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门', () => {
-  test('工程写按 scenes/index 最后排序；map 内容走专用序列化', () => {
+  test('map 路径委派专用序列化：write 内容=serializeMigrationJson(value, path)（排序臂由旧 boundaries:57-64/test:166-171 证）', () => {
     const repo = tempRepo()
     const plan = {
-      writes: new Map<string, MigrationJson>([
-        ['content/actors.json', [{ id: 'a' }] as MigrationJson],
-        ['content/scenes/index.json', { version: 1, scenes: [] } as MigrationJson],
-        [MAP, REAL_MAP as MigrationJson],
-        // 字母序在 scenes/index 之后：排序必须由显式 order 权重而非字典序决定。
-        ['content/zz-sidecar.json', { z: 1 } as MigrationJson],
-      ]),
+      writes: new Map<string, MigrationJson>([[MAP, REAL_MAP as MigrationJson]]),
       deletes: [],
     }
     const args = {
       ...baseArgs(repo),
       plan,
-      projectSnapshot: projectSnapshot({
-        'content/actors.json': [{ id: 'a' }],
-        'content/scenes/index.json': { version: 1, scenes: [] },
-        [MAP]: REAL_MAP,
-        'content/zz-sidecar.json': { z: 1 },
-      }),
+      projectSnapshot: projectSnapshot({ [MAP]: REAL_MAP }),
     }
     const changes = buildMigrationTransactionChanges(args)
-    const projectPaths = changes
-      .filter(({ scope }) => scope === 'project')
-      .map(({ target }) => target)
-    expect(projectPaths.at(-1)).toBe('projects/pal/content/scenes/index.json')
-    expect(projectPaths.at(-2)).toBe('projects/pal/content/zz-sidecar.json')
     const mapChange = changes.find(({ target }) => target === `projects/pal/${MAP}`)!
     expect(mapChange.content).toBe(serializeMigrationJson(REAL_MAP as MigrationJson, MAP))
   })
 
-  test('写入目标未纳入规划快照 → fail-loud', () => {
-    const repo = tempRepo()
-    const plan = {
-      writes: new Map<string, MigrationJson>([['content/ghost.json', {}]]),
-      deletes: [] as string[],
-    }
-    expect(() => buildMigrationTransactionChanges({ ...baseArgs(repo), plan })).toThrow(
-      '工程目标未纳入规划快照: content/ghost.json',
-    )
-  })
 
-  test('托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud', () => {
-    const repo = tempRepo()
-    const plan = {
-      writes: new Map<string, MigrationJson>([['content/a.json', {}]]),
-      deletes: [] as string[],
-    }
-    const projectSnapshot = {
-      files: new Map([['content/a.json', {}]]),
-      managedFiles: new Set(['content/a.json']),
-      hashes: new Map(),
-    }
-    expect(() =>
-      buildMigrationTransactionChanges({ ...baseArgs(repo), plan, projectSnapshot }),
-    ).toThrow('工程规划快照缺原始字节 hash: content/a.json')
-  })
 
-  test('删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null', () => {
+  test('删除改动无 content：正文缺席挂 null、正文在场挂规划字节 hash（null 计算臂由旧 next-wave:103-109 证）', () => {
     const repo = tempRepo()
     const plan = { writes: new Map<string, MigrationJson>(), deletes: ['content/gone.json'] }
-    const projectSnapshot = {
+    const absentSnapshot = {
       files: new Map(),
       managedFiles: new Set(['content/gone.json']),
       hashes: new Map(),
     }
-    const changes = buildMigrationTransactionChanges({ ...baseArgs(repo), plan, projectSnapshot })
+    const changes = buildMigrationTransactionChanges({
+      ...baseArgs(repo),
+      plan,
+      projectSnapshot: absentSnapshot,
+    })
     expect(changes.filter(({ scope }) => scope === 'project')).toMatchObject([
       { target: 'projects/pal/content/gone.json', scope: 'project', expectedPreviousHash: null },
     ])
     expect(changes.find(({ scope }) => scope === 'project')).not.toHaveProperty('content')
+    // 非 null 臂：删除目标在快照 files+hashes 同时在场 → 携带该规划字节 hash。
+    const present = projectSnapshot({
+      'content/present.json': [{ id: 'p' }],
+    })
+    const withPresent = buildMigrationTransactionChanges({
+      ...baseArgs(repo),
+      plan: { writes: new Map<string, MigrationJson>(), deletes: ['content/present.json'] },
+      projectSnapshot: present,
+    })
+    expect(withPresent.filter(({ scope }) => scope === 'project')).toMatchObject([
+      {
+        target: 'projects/pal/content/present.json',
+        expectedPreviousHash: present.hashes.get('content/present.json'),
+      },
+    ])
   })
 })
 
@@ -161,7 +146,7 @@ describe('O03 buildMigrationTransactionChanges：退役资源与重复目标', (
     expectedSha256: sha,
   })
 
-  test('退役资源路径越界或 sha 非法 → fail-loud', () => {
+  test('退役计划越界诊断含 id -> path 完整后缀（三守卫臂由旧 test:75-90 拒绝表证）', () => {
     const repo = tempRepo()
     expect(() =>
       buildMigrationTransactionChanges({
@@ -169,18 +154,6 @@ describe('O03 buildMigrationTransactionChanges：退役资源与重复目标', (
         retiredAssets: [retirement('assets/other/x.png')],
       }),
     ).toThrow('退役迁移资源计划无效: ret-1 -> assets/other/x.png')
-    expect(() =>
-      buildMigrationTransactionChanges({
-        ...baseArgs(repo),
-        retiredAssets: [retirement('assets/migrated/../x.png')],
-      }),
-    ).toThrow('退役迁移资源计划无效')
-    expect(() =>
-      buildMigrationTransactionChanges({
-        ...baseArgs(repo),
-        retiredAssets: [retirement('assets/migrated/x.png', 'nothex')],
-      }),
-    ).toThrow('退役迁移资源计划无效')
   })
 
   test('工程写与退役删除同目标 → 重复工程目标 fail-loud', () => {
@@ -345,6 +318,30 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
     )
     expect(() => recoverMigrationTransaction(repo)).toThrow()
     expect(existsSync(resolve(repo, 'projects/pal/manifest.json'))).toBe(false)
+  })
+
+  test('中断后 recover 清理真实 transactions/<id> 目录（补完/journal 清理/幂等由旧 tx-boundaries:86-101 证，此处只钉目录臂）', () => {
+    const repo = tempRepo()
+    expect(() =>
+      commitMigrationTransaction(
+        repo,
+        [
+          writeOp('projects/pal/content/a.json', 'a\n'),
+          writeOp('projects/pal/content/b.json', 'b\n'),
+        ],
+        {
+          afterOperation: (_operation, index) => {
+            if (index === 0) throw new Error('halt')
+          },
+        },
+      ),
+    ).toThrow('halt')
+    const journal = JSON.parse(
+      readFileSync(resolve(repo, '.type-pal-migrate/pal-journal.json'), 'utf8'),
+    ) as { id: string }
+    expect(existsSync(resolve(repo, '.type-pal-migrate/transactions', journal.id))).toBe(true)
+    expect(recoverMigrationTransaction(repo)).toBe(true)
+    expect(existsSync(resolve(repo, '.type-pal-migrate/transactions', journal.id))).toBe(false)
   })
 
   test('多操作事务按序恢复且 afterOperation 收到 journal 操作与下标；完成后 staging 目录清理', () => {
