@@ -16,6 +16,7 @@ import {
   mealArguments,
   mealInventoryCount,
   mealSaveView,
+  mealTraceArtifact,
   readMealContract,
   readMealPredecessor,
 } from './meal-contract.mjs'
@@ -204,11 +205,12 @@ export async function runMealJourney(engine) {
       const saveTrace = async (label) => {
         const t = await evidence()
         assertMealCollector(t)
-        await writeFile(resolve(out, `${label}.trace.json`), JSON.stringify(t, null, 2))
+        const artifact = mealTraceArtifact(t)
+        await writeFile(resolve(out, `${label}.trace.json`), artifact.bytes)
         report.contextTraces.push({
           context: contextLabel,
           path: `${label}.trace.json`,
-          sha256: sha256(JSON.stringify(t)),
+          sha256: artifact.sha256,
           events: t.events.length,
           pages: t.pages.length,
           menus: t.menus.length,

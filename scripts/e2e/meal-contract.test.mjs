@@ -10,6 +10,7 @@ import {
   assertMealPhase,
   mealArguments,
   mealSaveView,
+  mealTraceArtifact,
   readMealContract,
   validateMealPredecessor,
 } from './meal-contract.mjs'
@@ -58,6 +59,16 @@ const donor = () => {
   }
   return { report, payload, bytes }
 }
+
+test('004 artifact receipt hashes the exact pretty-printed file bytes and is detached', () => {
+  const trace = { events: [{ id: 'party', order: 0 }], pages: [] }
+  const result = mealTraceArtifact(trace)
+  assert.equal(result.bytes, JSON.stringify(trace, null, 2))
+  assert.equal(result.sha256, sha256(result.bytes))
+  assert.notEqual(result.sha256, sha256(JSON.stringify(trace)))
+  trace.events[0].order = 1
+  assert.equal(JSON.parse(result.bytes).events[0].order, 0)
+})
 
 test('004 CLI rejects missing donor, arbitrary scene/position and conflicting mode', () => {
   assert.throws(() => mealArguments([]), /required/)
