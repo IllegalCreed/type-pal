@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790896854654,
+  "startTime": 1790901595855,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
           "status": "passed",
           "title": "触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
-          "duration": 49.590458000000126,
+          "duration": 48.193624999999884,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,9 +44,9 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
           "status": "failed",
           "title": "托盘内 Escape 关盘并把焦点还给触发器",
-          "duration": 16.109083000000055,
+          "duration": 17.004666999999927,
           "failureMessages": [
-            "AssertionError: expected <body><div>…(5)</div></body> to be <button type=\"button\" …(6)>…(1)</button> // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C08-uv3m8M/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx:98:36\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            "AssertionError: expected <body><div>…(5)</div></body> to be <button type=\"button\" …(6)>…(1)</button> // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C08-Ld0qGP/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx:98:36\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
           ],
           "meta": {},
           "tags": []
@@ -56,7 +56,7 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
           "status": "passed",
           "title": "托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
-          "duration": 12.859375,
+          "duration": 12.880499999999984,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -66,7 +66,7 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
           "status": "passed",
           "title": "绘制高度托盘 disabled 时按键不开盘",
-          "duration": 3.5125829999999496,
+          "duration": 3.744666999999936,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -76,17 +76,17 @@
           "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
           "status": "passed",
           "title": "绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
-          "duration": 5.0668329999998605,
+          "duration": 5.462750000000142,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790896856094,
-      "endTime": 1790896856181.067,
+      "startTime": 1790901597395,
+      "endTime": 1790901597482.4626,
       "status": "failed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C08-uv3m8M/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C08-Ld0qGP/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx"
     }
   ]
 }

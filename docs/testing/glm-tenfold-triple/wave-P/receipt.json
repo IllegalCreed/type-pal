@@ -10,15 +10,20 @@
   "head": "(见下方 headNote：回执不引用自身提交)",
   "headNote": "r3.5-review 闭合提交 = 52dd21198e752243ebf4820122eedc68b7376448（工具收紧+10针重采+docs/contracts 补账同提交）；其后仅 receipt pin docs-only；最终远端候选以推送 tip 为准",
   "counts": {
-    "contracts": 78,
+    "contractsExecuted": 78,
     "workGroups": 17,
-    "countersValidSubmitted": 14,
-    "countersExactlyOneRed": 14,
+    "countersActive": 14,
+    "countersArchived": 1,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
     "browserScreenshots": 66,
     "target": "700/70组/50反控/20流程（不缩）",
-    "netNewCapNote": "79 执行经 r9 复核扣 G13-02 伪证修正与 G13-04/G14-04 existing-proof 移出后，当前 78 执行、净新上限 ≤78、缺口 ≥622"
+    "gap": {
+      "examples": 622,
+      "groups": 53,
+      "counters": 36,
+      "flows": 2
+    }
   },
   "reworkClosures": {
     "P-R2-01": "counter.mjs diff -u patch + git apply 实测；judge 恰一红+目标逐字匹配；10 枚重跑 numFailedTests=1",
@@ -34,7 +39,10 @@
     "P03-batch": "script-editor.p03.glm-p.test.ts 12 例（G12 behaviorReferences 页槽/命令路径/cursorHandoff/未知 id；G13 sceneHookReferences initial+command/destinationExists 三臂/坏路径 undefined；G14 五 owner 标签+悬空回退+两臂文案+容器标签）；P03 反控 C11–C15 五枚恰一红；contracts 79 条全 oracle=真实断言行",
     "P-R9-01": "P03 fixture 的实体 behavior machine.entry 非法（公开校验拒收：只允许 onEnter initial state，author-script-core.ts:984-986）——entry.prepare+handoff 移到合法 onEnter hook 的 stateMachine initial state；G12-03 断言完整 locator（owner/容器 state section prepare/commandPath 0）并经 resolveCanonicalScriptCommand 核 handoff 源/目标 cursor（stateMap fromBehavior/cases/onUnmapped）；fixture 过公开作者校验与引用闭包",
     "P-R9-02": "G13-02 重写：真实非 initial hook（enter-b，initial=enter-a）+ 精确断言无 initial 引用、恰一命令引用含路径；删除 every 伪证。G13-04（坏路径 undefined）与 G14-04 旧正文标签（:488-490 精确整串）登记 existing-proof 并移出执行集。G12-03 保留为合法 onEnter entry 容器/locator 新轴（旧测 :334-368 是 shared-script body 容器后缀）；G13-01 重写为 hook 变体流容器命令 locator 精确 toEqual（旧测 :871-904 是 shared-script body 容器）",
-    "P-R9-03": "Toolbar Home/End 用例重写：删除手工抢焦/空 act；vi.waitFor 可观察收敛（焦点落进托盘 + 全部选项挂载完成 ISOMETRIC_BRUSH_SIZES.length）后断言产品 rAF 落焦于当前值选项，再全部经产品键盘处理器移动；单文件连续 10/10 稳定，不扩 timeout、不 mock、不改产品"
+    "P-R9-03": "Toolbar Home/End 用例重写：删除手工抢焦/空 act；vi.waitFor 可观察收敛（焦点落进托盘 + 全部选项挂载完成 ISOMETRIC_BRUSH_SIZES.length）后断言产品 rAF 落焦于当前值选项，再全部经产品键盘处理器移动；单文件连续 10/10 稳定，不扩 timeout、不 mock、不改产品",
+    "P-R10-01": "三处 handoff 游标按行为真实 flow 对齐：talk=stage/start、auto2=state/machine-1/idle（入口 onEnter entry 的 to、item 私有脚本的 to、shared 分支的 from 全部经 LEGAL_CURSOR 表生成）；G12-03 expected 核真实合法映射；共同 fixture editorState() 返回前实际经过公开 new ScriptEditSession(structuredClone(state))（作者校验+引用闭包），非法即测试失败——r10 复核指出的拒收已在本地复现并以此修复，准入检查不计新业务合同",
+    "P-R10-02": "Toolbar Home/End 删除 timeout:2000 扩张，vi.waitFor 使用默认 1000ms（可观察收敛：焦点入托盘+选项挂载完成）；独立默认等待连续 5/5 绿；不重开手设焦点/旧业务标题",
+    "P-R10-03": "C13 七份 r9 原字节历史证据恢复（receipt sha256 与 a3a7c3906^ 逐字节一致 96aa28e8…）+ RETIRED.md 明确退役不计活跃；contracts 去同上/仅 isDefined/截操作数（G12-03 oracle 补完整合法 cursor 映射，G13-01 axis 改 hook 变体容器真实轴）；账同步 78 执行/17 组/14 活跃目标/18 流程、9 旧三态未变+P02-C08 与 4 P03 更新；定向 78/78、lint 实测 2821"
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
@@ -55,10 +63,10 @@
     "packages/editor/src/core/project-io.glm-p.test.ts": "28267c1938f90e7241534ef6c6a5a2e6d5c224d3b169f60993e8ffc332dcfd04",
     "packages/editor/src/core/project-diagnostics.glm-p.test.ts": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
     "packages/editor/src/core/editor-asset-io.glm-p.test.ts": "c333f92de0cc84bff36aca4a6aa70bdb12ace8e00f1bc54e36046a737e738e83",
-    "packages/editor/src/core/script-editor.p03.glm-p.test.ts": "dd5c13176a15dc2f6659f7dd79a2bdcb0981e36d3898f89541bfa0cbf21dc3ad",
+    "packages/editor/src/core/script-editor.p03.glm-p.test.ts": "4e9b9f66fbf5912e97b50144281dad418133537f04549b2ed566b073f39ea325",
     "packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
     "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
-    "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "ef91157741be001489e0268844a64ac473ff1592a30a6b9ec83fa0ea48a25a57",
+    "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "855efe4f06f46b54d3b325078821fe831868a2a9d5adddcd08e861efd1189287",
     "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ae62f15652dbd1b8a2869758914a1c551a8040c06123ed619c1b6991ba5ae5be"
   },
@@ -69,7 +77,7 @@
     "toolEvidenceAnchor": "dc8fd75ce13c4134f4795066a67ceb0d79b6f54e（r3.6 工具；本轮未改工具，22/22 自测沿用）",
     "finalRemoteCandidate": "a3a7c390643ef38bbab3f73974c8f51be2d0d43c"
   },
-  "threeStateProvenance": "r3.6 判据收紧后 10 针重采；相对 bb2ffcb6：9 针在 r3.5-review 更新、P02-C08 因 G03 标题撤回（执行集 fullName 变化）于 r3.6 重采",
+  "threeStateProvenance": "相对 48ade197：9 旧针三态未变；P02-C08 与 4 枚 P03 针因源/执行集变化重采（P03 又于 r10.5 因合法 cursor 修复再重采 4 枚）；C13 退役保留 r9 原字节存档",
   "finalRemoteCandidate": "a3a7c390643ef38bbab3f73974c8f51be2d0d43c（r10 闭合并证据同提交；测试锚 9af140d83→r10b 光标核验提交）",
   "sourceSha256Note": "r8 复核指出三个旧摘要（editor-asset-io/Toolbar/counter.mjs）未同步；本轮自最终字节重算全部八个"
 }

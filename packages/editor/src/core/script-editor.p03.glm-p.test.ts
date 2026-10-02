@@ -24,7 +24,6 @@ import type {
   AuthorScriptFlow,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { ScriptEditSession } from './script-editor.js'
 import {
   behaviorReferences,
   canonicalScriptReferenceDestinationExists,
@@ -32,6 +31,7 @@ import {
   describeScriptCommandOwner,
   resolveCanonicalScriptCommand,
   type ScriptEditorState,
+  ScriptEditSession,
   sceneHookReferences,
 } from './script-editor.js'
 

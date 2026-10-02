@@ -5,7 +5,7 @@
   "replaceText": "            } else if (event.key === 'Escape') {\n              setOpen(false)",
   "testSpec": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
   "expectFullname": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
-  "candidateHead": "3d0c5d6eb79dda704ce56ccb711a9f7d55e6b19f",
+  "candidateHead": "183e4fa9b4f17f4abb3113d57dabac0e830fa18c",
   "productSha256Candidate": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a",
   "patch": "--- a/packages/editor/src/ui/IsometricEditorToolbar.tsx\n+++ b/packages/editor/src/ui/IsometricEditorToolbar.tsx\n@@ -160,7 +160,6 @@\n               event.preventDefault()\n             } else if (event.key === 'Escape') {\n               setOpen(false)\n-              triggerRef.current?.focus()\n               event.preventDefault()\n             }\n           }}\n",
   "positive": {

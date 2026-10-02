@@ -1,6 +1,6 @@
 {
   "total": 78,
-  "note": "r9：oracle=每合同测试源真实断言行（P02-G03 三条为人工指定结果行保留）；oldAssertion=真实旧 fullName 锚；P03 三组新增（67→79）",
+  "note": "r9：oracle=每合同测试源真实断言行（P02-G03 三条为人工指定结果行保留）；oldAssertion=真实旧 fullName 锚；P03 三组新增（67→79）；r10.5：同上锚全部替换为真实旧 fullName/行号锚，G12-03 oracle 补完整合法 cursor 映射断言",
   "contracts": [
     {
       "batch": "P01",
@@ -699,7 +699,7 @@
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-editor.test.ts › canonical script editor commands › renames a behavior immutably and rewrites page plus nested project references（已证重写链；只读 page 引用收集无旧直测）",
       "axis": "本合同新轴: behaviorReferences 页槽 entity-page locator/路径",
-      "oracle": "真实断言行: expect(pageRef?.path).toBe('scenes.s001.entities.e1.pages.default.trigger')  // src/core/script-editor.p03.glm-p.test.ts:222",
+      "oracle": "真实断言行: expect(pageRef?.path).toBe('scenes.s001.entities.e1.pages.default.trigger')  // src/core/script-editor.p03.glm-p.test.ts:243",
       "classification": "reference-collection"
     },
     {
@@ -713,7 +713,7 @@
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-editor.test.ts › canonical script editor commands › tracks and rewrites cursor-handoff source behaviors without duplicate references（已证 cursorHandoff 重写）",
       "axis": "本合同新轴: 只读 selection 命中的完整命令路径集合",
-      "oracle": "真实断言行: expect(commandRefs).toContain( 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:237",
+      "oracle": "真实断言行: expect(commandRefs).toContain( 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:258",
       "classification": "reference-collection"
     },
     {
@@ -725,9 +725,9 @@
       "condition": "与 script-editor.test.ts 同构 typed fixture（AuthorSceneDef/items/sharedScripts，含状态机 prepare 的合法 CursorHandoff stateMap）",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
-      "oldAssertion": "同上（重写链已证）",
+      "oldAssertion": "script-editor.test.ts › tracks and rewrites cursor-handoff source behaviors without duplicate references :334-368（已直证只读后缀路径断言 '…cursorHandoff.fromBehavior'——shared-script body 容器）；本合同为合法 onEnter entry.prepare 容器新轴",
       "axis": "本合同新轴: cursorHandoff.fromBehavior 只读引用（后缀路径）",
-      "oracle": "真实断言行: expect(handoff).toBeDefined()  // src/core/script-editor.p03.glm-p.test.ts:253",
+      "oracle": "真实断言行: expect(handoff?.path).toBe('scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior') + locator toEqual + resolveCanonicalScriptCommand 解析 cursorHandoff stateMap 完整合法映射（talk stage/start → auto2 state/machine-1/idle）  // src/core/script-editor.p03.glm-p.test.ts:262-285",
       "classification": "reference-collection"
     },
     {
@@ -741,7 +741,7 @@
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-references.test.ts › 覆盖场景入口、共享体互调、动态绑定与嵌套分支（已证 callScript 边）",
       "axis": "本合同新轴: 未知 behaviorId 空引用（只读不抛错）",
-      "oracle": "真实断言行: expect(behaviorReferences(editorState(), target, 'trigger', 'ghost')).toEqual([])  // src/core/script-editor.p03.glm-p.test.ts:281",
+      "oracle": "真实断言行: expect(behaviorReferences(editorState(), target, 'trigger', 'ghost')).toEqual([])  // src/core/script-editor.p03.glm-p.test.ts:306",
       "classification": "reference-collection"
     },
     {
@@ -754,8 +754,8 @@
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "script-editor.test.ts › edits scene Hook variants through stable ids and rewrites selections（已证 hook 重写）",
-      "axis": "本合同新轴: sceneHookReferences initial+command 两类 locator",
-      "oracle": "真实断言行: expect(command.path).toBe( 'scenes.s001.hooks.onEnter.variants.enter-b.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:291",
+      "axis": "本合同新轴: hook 变体流（scene-hook owner）内 selectSceneHooks 命令引用的完整 locator——旧测 :871-904 仅证 shared-script body 容器",
+      "oracle": "真实断言行: expect(command.path).toBe( 'scenes.s001.hooks.onEnter.variants.enter-b.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:316",
       "classification": "reference-collection"
     },
     {
@@ -767,9 +767,9 @@
       "condition": "同上 fixture + selectSceneHooks/disabled 合法 selection",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
-      "oldAssertion": "同上",
+      "oldAssertion": "script-editor.test.ts › edits scene Hook variants through stable ids and rewrites selections :850-909（已证重写与 initial 保持；无旧直测查询非 initial hook 的只读引用集）",
       "axis": "本合同新轴: 非 initial hook 的引用形态约束",
-      "oracle": "真实断言行: expect(refs.filter((ref) => ref.kind === 'initial')).toHaveLength(0)  // src/core/script-editor.p03.glm-p.test.ts:305",
+      "oracle": "真实断言行: expect(refs.filter((ref) => ref.kind === 'initial')).toHaveLength(0)  // src/core/script-editor.p03.glm-p.test.ts:330",
       "classification": "reference-collection"
     },
     {
@@ -783,7 +783,7 @@
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "script-references.test.ts › 缺场景、缺落点…（已证保存门阻断）",
       "axis": "本合同新轴: canonicalScriptReferenceDestinationExists 三臂真值",
-      "oracle": "真实断言行: expect(canonicalScriptReferenceDestinationExists(state, commandRef)).toBe(true)  // src/core/script-editor.p03.glm-p.test.ts:319",
+      "oracle": "真实断言行: expect(canonicalScriptReferenceDestinationExists(state, commandRef)).toBe(true)  // src/core/script-editor.p03.glm-p.test.ts:344",
       "classification": "reference-collection"
     },
     {
@@ -797,7 +797,7 @@
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "UI 展示经 ScriptBehaviorInspector 等间接消费；无旧直测 fullName",
       "axis": "本合同新轴: 五种 owner 中文标签精确值",
-      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'trigger', behaviorId: 'talk',  // src/core/script-editor.p03.glm-p.test.ts:352",
+      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'trigger', behaviorId: 'talk',  // src/core/script-editor.p03.glm-p.test.ts:376",
       "classification": "label-contract"
     },
     {
@@ -809,9 +809,9 @@
       "condition": "同上 fixture 的五种合法 owner/locator 字面量",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
-      "oldAssertion": "同上（间接消费）",
+      "oldAssertion": "UI 展示经 ScriptBehaviorInspector/引用面板间接消费；无旧直测 fullName——悬空 id 回退四臂无旧证",
       "axis": "本合同新轴: 悬空 id 回退 id 本身四臂",
-      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'auto', behaviorId: 'ghost',  // src/core/script-editor.p03.glm-p.test.ts:391",
+      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'auto', behaviorId: 'ghost',  // src/core/script-editor.p03.glm-p.test.ts:415",
       "classification": "label-contract"
     },
     {
@@ -823,9 +823,9 @@
       "condition": "同上 fixture 的五种合法 owner/locator 字面量",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
-      "oldAssertion": "同上（间接消费）",
+      "oldAssertion": "describe 文案由 UI 引用面板（ScriptBehaviorInspector 等）间接消费；无旧直测 fullName——两臂 describe 无旧证",
       "axis": "本合同新轴: entity-page 与 scene-hook-initial 两臂文案",
-      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'page', path: 'p', locator: { kind: 'entity-page', sceneId: 's001',  // src/core/script-editor.p03.glm-p.test.ts:423",
+      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'page', path: 'p', locator: { kind: 'entity-page', sceneId: 's001',  // src/core/script-editor.p03.glm-p.test.ts:447",
       "classification": "label-contract"
     },
     {
@@ -837,9 +837,9 @@
       "condition": "同上 fixture 的五种合法 owner/locator 字面量",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
-      "oldAssertion": "同上（间接消费）",
+      "oldAssertion": "script-editor.test.ts › locates state-machine commands and rejects an invalid command path :488-490（已精确整串断言机器正文段标签=existing-proof 不计新）；本合同为合法 entry.prepare 段整串标签新轴",
       "axis": "本合同新轴: 命令引用容器标签（连续流程/状态/正文段）",
-      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'command', path: 'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior', locator: { kind: 'command', owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },  // src/core/script-editor.p03.glm-p.test.ts:453",
+      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'command', path: 'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior', locator: { kind: 'command', owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },  // src/core/script-editor.p03.glm-p.test.ts:477",
       "classification": "label-contract"
     },
     {

@@ -52,7 +52,7 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 |---|---:|---|
 | 合法新用例 | **78 / 700**（执行数；净新上限 ≤78——P03 两条 existing-proof 已移出执行集） | 67/67 绿（[directed-vitest.json](directed-vitest.json) 树内实跑；G09 三条重复断言已删）；逐合同 [contracts.json](contracts.json) |
 | 合同工作组 | 17 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G14 |
-| 有效反控 | **14 / 50**（P03-C13 退役：initial locator 轴旧测已完整 toEqual 直证，存档保留） | 严格判据重跑，10/10 恰一目标红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
+| 有效反控 | **14 / 50**（P03-C13 退役：initial locator 轴旧测已完整 toEqual 直证；7 份 r9 原字节历史证据已恢复于 counters/P03-C13/ 并附 RETIRED.md，不计活跃） | 严格判据重跑，10/10 恰一目标红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
 | 浏览器流程 | **18 / 20 完整证明** | F01–F20 共 20 条；F14/F18 如实登记未证（[browser/browser-evidence.json](browser/browser-evidence.json)） |
 | 私有同分母 coverage | 上轮 +32/+16/+2（branches/statements/functions，分母 28489 不变） | 本轮合同未变，未重跑 |
 
