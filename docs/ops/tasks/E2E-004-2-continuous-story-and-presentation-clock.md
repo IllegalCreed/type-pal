@@ -1,6 +1,6 @@
 # E2E-004-2 - 连续剧情演示与呈现时钟修正
 
-Status: build
+Status: review
 Phase: phase2
 Capability: E2E-R4-1 / X3 / W1
 Coding Owner: entity_names（主壳呈现时钟）；e2e004_runner（004工具）；Root（独立反控/文档/接收），各文件单一Owner
@@ -110,3 +110,16 @@ Root `premise verified / design agree / build allowed`：源码、历史政策�
   RF尾dither准备17.4ms、预算后约733.8ms到实际输出72。旧隐藏后17.334s停留已消除，正文/720ms/72步/字速零diff。
 - 全仓统一check正在Root冻结候选执行；源只因测试fixture/收据模型后续增量更新，历史E2E revision9a不重写。
   仅完成硬门与安全更新后才交6012；当前main/用户页面仍原样保持，不提前报done。
+
+### 统一质量门与交付结论
+
+`004-continuity-full-quality.log`全仓pnpm check已完成退出0：七包types、10971测试全绿，
+lint2760文件0error/0warning/0info、docs/coverage/quality工具及136 E2E工具门通过。
+Root后续仅文档/等树历史合并，文档门另核；两早期timeout与模型错误comparison不重写。
+原产品贡献者历史91d8178a2等树合并，实际通过的代码树不变；现场报告revision9a保留在main可达历史。
+Codex独立accept，技术返工收口转review等待用户连续观感；无需固定席位签字、不标done/capture通过。
+
+用户最小复验：正常浏览器004只用默认story（从真实003开始），取菜→送菜→物品菜单赠酒→喊话结束可移动。
+取消/错误位置、慢读/存读均从独立items/saves入口看，不会插入这场正常演示；001–003不需再走一遍。
+道士末句后的短溶解应立即衔接消失旁白，不应出现十几秒站定旧帧。6012页面/服务保持。
+无下一位Agent提示词：隔离贡献者已停写，Root独立接收完成，等待用户体验确认。

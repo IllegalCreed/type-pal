@@ -8,8 +8,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-004-1 | [端菜与使用桂花酒赠道士](tasks/E2E-004-1-meal-and-beggar-wine.md) | rework | Codex / 连续观感返工 | 技术verify保留；用户拒绝夹专项和道士久停，6012保持 |
-| E2E-004-2 | [连续剧情演示与呈现时钟修正](tasks/E2E-004-2-continuous-story-and-presentation-clock.md) | build | 两隔离Owner / Root独立接收 | 主壳混钟窄修；story/items/saves分包，一期对照 |
+| E2E-004-1 | [端菜与使用桂花酒赠道士](tasks/E2E-004-1-meal-and-beggar-wine.md) | review | 用户 / 连续观感复验 | 六case通过，末句至旁白一期1.20/二期1.22秒，6012保持 |
+| E2E-004-2 | [连续剧情演示与呈现时钟修正](tasks/E2E-004-2-continuous-story-and-presentation-clock.md) | review | 用户 / 默认story连续演示 | 混钟修正；质量零诊断，取消/存读已独立 |
 | EDITOR-ENTITY-NAMES-1 | [实体名称与稳定身份分离](tasks/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | review | 用户 / 实体名称体验 | 16实体含四门扇；本轮仅补label，门回归/作者检查绿，6012保持 |
 | E2E-SCRIPT-NAMES-1 | [随剧情命名方案与步骤](tasks/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 用户 / 命名与步骤界面体验 | 5方案22步骤补名；独立accept、静态零诊断，6012保持 |
 | EDITOR-SCRIPT-PREVIEW-1 | [可读指令、选中步骤播放与移动轨迹](tasks/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 用户 / 体验验收 | 独立counter闭合；editor3721绿、静态零诊断；6012保持 |
