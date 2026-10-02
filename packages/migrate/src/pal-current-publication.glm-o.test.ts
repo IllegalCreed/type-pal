@@ -51,7 +51,7 @@ function rebuild(
 }
 
 describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成工程）', () => {
-  test('catalog 分区整体来自供应核且 managedFiles 覆盖全部写入路径', () => {
+  test('catalog 分区来自供应核且 assets/actors 键被托管（不主张全部写入路径）', () => {
     const { baseline, sources } = fresh()
     const publication = rebuild(baseline, sources)
     expect(publication.files.get('assets/index.json')).toEqual(sources.assetCatalog)
@@ -59,7 +59,7 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
     expect(publication.managedFiles.has('content/actors.json')).toBe(true)
   })
 
-  test('角色分区 = 生成六角色在前、baseline 非生成作者角色按原序保留在后', () => {
+  test('角色分区尾部保留（cross-check：旧 pal.test:180-191 九 ID 全序+作者对象 deepEqual 已更强直证，不计净新）', () => {
     const { sources } = fresh()
     const authored = {
       id: 'author-npc',
@@ -86,7 +86,7 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
     expect(actors.at(-1)).toEqual(authored)
   })
 
-  test('物品 268/270 仅同步窄消息源，其余作者字段（价格/名字）保留', () => {
+  test('物品 268 名/270 maxRoll 生成基值（消息同步臂由旧 pal.test:221/:225 证）', () => {
     const { baseline, sources } = fresh()
     const publication = rebuild(baseline, sources)
     const items = publication.files.get('content/items.json') as Array<Record<string, unknown>>
@@ -118,7 +118,7 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
     })
   })
 
-  test('商店分区 = 源 1..20 顺序货单，且不发布 ShopDef0', () => {
+  test('商店货单全部为 141（ID 1..20/no-0 臂由旧 pal.test:226-228 证）', () => {
     const { baseline, sources } = fresh()
     const publication = rebuild(baseline, sources)
     const shops = publication.files.get('content/shops.json') as Array<{
