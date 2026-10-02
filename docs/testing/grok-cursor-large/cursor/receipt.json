@@ -9,8 +9,8 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "reviewedCandidate": "6459e906097594277bd0761d48367a0c148d5d9b",
   "priorEvidenceHead": "57221d6de0c1a7e74e6cd10f51b219b4b7dec006",
-  "reworkEvidenceHead": "pending-push",
-  "candidateSha": "pending-push",
+  "reworkEvidenceHead": "95555d3f63e11ca4580032dd8c99a87bf5345483",
+  "candidateSha": "95555d3f63e11ca4580032dd8c99a87bf5345483",
   "reworkCloses": ["CURSOR-R6-01", "CURSOR-R6-02"],
   "priorReworkCloses": [
     "CURSOR-R1-01",
@@ -50,7 +50,7 @@
   "gates": {
     "editorFull": "4503/4503",
     "typecheck": "0 diagnostics",
-    "lint": "pending-after-pin",
+    "lint": "pending-root-lint-after-pin",
     "judgeSelftest": "pass (R2 retained)",
     "flows": "12/12 (not re-run)",
     "docs": "PASS",
