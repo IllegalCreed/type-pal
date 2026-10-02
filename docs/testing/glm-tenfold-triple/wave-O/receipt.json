@@ -109,7 +109,7 @@
     "counter-judge.mjs（唯一 judge）",
     "run-counter.selftest.mjs（22 用例经同一 judge）"
   ],
-  "candidateHead": "TO-BE-PINNED",
+  "candidateHead": "6c85d2ab3c01b6916771cdb1f2d7cf3b923c6ffb",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
