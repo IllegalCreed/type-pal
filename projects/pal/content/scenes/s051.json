@@ -1034,6 +1034,7 @@
     },
     {
       "id": "e883",
+      "label": "居民",
       "pos": {
         "col": 108,
         "row": 85,
@@ -1092,7 +1093,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "尸患平息：居民夸口",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1123,6 +1124,32 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "自称早已看出少侠不凡",
+                  "next": "boast-of-restraint"
+                },
+                {
+                  "id": "boast-of-restraint",
+                  "label": "夸口自己只是不想出手",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.4044"
+                          },
+                          {
+                            "text": "dlg.4045"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

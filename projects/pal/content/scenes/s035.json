@@ -6460,6 +6460,7 @@
     },
     {
       "id": "e591",
+      "label": "丫鬟",
       "pos": {
         "col": 42,
         "row": -27,
@@ -6553,7 +6554,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "林府丫鬟指路与问候",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -6578,6 +6579,29 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "告知小姐在后花园赏月",
+                  "next": "polite-greeting"
+                },
+                {
+                  "id": "polite-greeting",
+                  "label": "向姑爷问候",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.丫鬟"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.3245"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

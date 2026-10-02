@@ -1,0 +1,313 @@
+{
+  "kind": "independent-script-governance-batch-review",
+  "reviewer": "Codex Root",
+  "date": "2026-10-02",
+  "status": "first-batch-accepted; larger-governance-remains-open",
+  "baseline": "8990f0cde3edfe6feb908234aeafcc937daaec52",
+  "contentFreeze": "e3586965e39ece390e77bd9357b14b21ecaaeba2",
+  "qualityImplementationRevision": "bb08d30ee451b41651efdb77ed998f23a0ad63ab",
+  "scope": {
+    "restoredSuccessorBehaviors": 18,
+    "additionalDoctorBranchRepairs": 2,
+    "explicitTreatmentReveals": 3,
+    "organizedFlows": 18,
+    "oldStatesInOrganizedFlows": 87,
+    "resultingOrdinarySteps": 24,
+    "paymentBindings": 8,
+    "remainingMachines": 147,
+    "remainingStates": 5490,
+    "addedLocaleKeys": 28,
+    "sourceInstallEdges": 639
+  },
+  "independentChecks": [
+    "Original complete source segments and installer/caller bindings read directly",
+    "18 before/after behavior hashes and all original first bodies verified",
+    "28 added locale values match original input exactly; existing locale unchanged",
+    "Six linear flows and twelve confirm flows have no unauthorized subtree changes",
+    "Eight payment changes are exactly authorized stop/reorder/label deltas; six scenes otherwise unchanged",
+    "s000-s005 bytes unchanged; no runtime, schema, editor implementation or converter changes",
+    "Original historical structure hashes preserved; authorized payment corrections use a separate corrected reference graph",
+    "Exact new shop and four portrait reference owners/steps/locators verified; all original deletion/parity/size gates retained"
+  ],
+  "quality": {
+    "packageTests": {
+      "content": 1255,
+      "shared": 128,
+      "game": 2773,
+      "palExtract": 357,
+      "reforge": 2361,
+      "editor": 3790,
+      "migrate": 452,
+      "total": 11116
+    },
+    "typecheck": {
+      "packages": 7,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "tools": {
+      "docs": 37,
+      "coverage": 30,
+      "quality": 27,
+      "e2e": 211,
+      "scriptGovernance": 20
+    },
+    "contentCheck": {
+      "scenes": 294,
+      "maps": 223,
+      "assets": 1934
+    },
+    "fullCheckLog": "type-pal-script-governance-quality-final2.log",
+    "fullCheckExitCode": 1,
+    "fullCheckOutcome": "All package typechecks and tests passed; final lint found two receipt-only formatting diagnostics, then corrected without semantic changes.",
+    "postFormatLint": {
+      "log": "type-pal-script-governance-lint-final.log",
+      "exitCode": 0,
+      "files": 2786,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "receiptCanonicalHashesPreserved": {
+      "payment": "fd9be3eeb73fe259a2f747b5f7e8c7d638e6f5f81b813256f0560e8faba7f569",
+      "successor": "16f124bf6e82a397908e9c4725d62f108aeb1cdccff24a0fc214768fe99271ba"
+    },
+    "claim": "Composed complete quality evidence, not a claim that the raw full-check command exited zero."
+  },
+  "e2e": {
+    "scope": "Old genuine RF001 plus rebuilt RF002/RF003/RF004 saves/RF005 saves; no new first-stage or full both-suite claim",
+    "old001": {
+      "directory": "build/evidence-archive/e2e005-20261002/e2e/reforge-001-2026-10-02T12-13-17-769Z",
+      "reportSha256": "4accb614ddcfa48f3e6848c950b40b8a6876a3da3bce5df4073c52efdb784127",
+      "saveSha256": "158d4f59f6b6e04d9855801000059c76913c85432e3a515de98313c3855ab695",
+      "autoResumes": 0,
+      "currentPreflightPassed": true
+    },
+    "digest": "c949c06a7ac42c001207ace7b1912c507698e75b79cb7b9ea57d05afcbf61a19",
+    "cases": [
+      {
+        "directory": "reforge-002-2026-10-02T14-11-25-321Z",
+        "reportSha256": "faef00578644c3aa6e20ac356496190036ce53bbea38fa90db0affcf56402438",
+        "status": "passed",
+        "revision": "e3586965e39ece390e77bd9357b14b21ecaaeba2",
+        "sourceInputs": 62,
+        "allInputsMatchCurrent": true,
+        "checkpoint": {
+          "path": "002.end.save.json",
+          "sha256": "5a35393ef333adb6dbe21b24a74ab6974ab9824d4ed34ad991d7c8f2ecdb5040",
+          "source": "this 002 normal route/core / production barrier dumpSave"
+        },
+        "endWorldHash": "5a35393ef333adb6dbe21b24a74ab6974ab9824d4ed34ad991d7c8f2ecdb5040",
+        "restoredWorldHash": "5a35393ef333adb6dbe21b24a74ab6974ab9824d4ed34ad991d7c8f2ecdb5040",
+        "checks": null,
+        "errors": [],
+        "warnings": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ],
+        "traces": [
+          {
+            "path": "inn-trace.json",
+            "sha256": "664b57356d4c43702c2a0fccefe549eaf405da81f81ba17edee12f24b4b7bfd2",
+            "bytes": 186997,
+            "events": 334,
+            "pages": 21,
+            "overflow": false,
+            "errors": []
+          },
+          {
+            "path": "002-restored-trace.json",
+            "sha256": "265e988074dbda48f96b68ee3f37059aad63a71db63d67b440fce820bb31d8b9",
+            "bytes": 30179,
+            "events": 26,
+            "pages": 0,
+            "overflow": false,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "directory": "reforge-003-2026-10-02T14-12-34-823Z",
+        "reportSha256": "42e00a628da7b44fc4ca9536f46194a252e97237445ab89fecc5d039b34dce78",
+        "status": "passed",
+        "revision": "e3586965e39ece390e77bd9357b14b21ecaaeba2",
+        "sourceInputs": 78,
+        "allInputsMatchCurrent": true,
+        "checkpoint": {
+          "path": "003.end.save.json",
+          "sha256": "1dc676fffcda62784a7947372880bfad612937975c540e87e506abc009037614",
+          "source": "this 003 normal route/dialogue, no pickup / production barrier dumpSave"
+        },
+        "endWorldHash": "1dc676fffcda62784a7947372880bfad612937975c540e87e506abc009037614",
+        "restoredWorldHash": "1dc676fffcda62784a7947372880bfad612937975c540e87e506abc009037614",
+        "checks": null,
+        "errors": [],
+        "warnings": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ],
+        "traces": [
+          {
+            "path": "kitchen-trace.json",
+            "sha256": "065cfde4622025e963fefc63c7a90da61fc19396e5596ab1b34be0ea0f5fe441",
+            "bytes": 2622446,
+            "events": 676,
+            "pages": 12,
+            "overflow": false,
+            "errors": []
+          },
+          {
+            "path": "003-restored-trace.json",
+            "sha256": "cba71a824b6d86daa8ad6789f39aa7c9f58c55b3e0b645a7107abd89d7155097",
+            "bytes": 64085,
+            "events": 12,
+            "pages": 0,
+            "overflow": false,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "directory": "reforge-004-saves-2026-10-02T14-13-28-622Z",
+        "reportSha256": "475c66e954314539f81ac0530b73be297504e4cfa0285ed4b566fcb96094af92",
+        "status": "passed",
+        "revision": "e3586965e39ece390e77bd9357b14b21ecaaeba2",
+        "sourceInputs": 407,
+        "allInputsMatchCurrent": true,
+        "checkpoint": {
+          "path": "004.end.save.json",
+          "sha256": "6c479afbcf1df0ed876ea8c09544862fcfbd9595434193b8c47fff31a9f0f9dc",
+          "source": "normal 003 -> pickup/carry save and fresh restore/serve/menu wine/full gift/movement -> formal dumpSave"
+        },
+        "endWorldHash": "6c479afbcf1df0ed876ea8c09544862fcfbd9595434193b8c47fff31a9f0f9dc",
+        "restoredWorldHash": "6c479afbcf1df0ed876ea8c09544862fcfbd9595434193b8c47fff31a9f0f9dc",
+        "checks": {
+          "pickup": "passed",
+          "pose": "passed",
+          "carryRestore": "passed",
+          "serve": "passed",
+          "gift": "passed",
+          "controlMove": "passed",
+          "end": "passed",
+          "endRestore": "passed"
+        },
+        "errors": [],
+        "warnings": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+        ],
+        "traces": [
+          {
+            "path": "004-before-carry-restore.trace.json",
+            "sha256": "0e10276a13573dc6ec1d20d8df80d7b6f1110c6a04d8ed68fdd4c1f4d7b21702",
+            "bytes": 1014616,
+            "events": 203,
+            "pages": 2,
+            "overflow": false,
+            "errors": []
+          },
+          {
+            "path": "004-saves-story.trace.json",
+            "sha256": "ef37e8a7c372d099f71e2964160b00cc86c7af807f48783ef2458e867dbcbd97",
+            "bytes": 5107776,
+            "events": 1089,
+            "pages": 48,
+            "overflow": false,
+            "errors": []
+          },
+          {
+            "path": "004-restored.trace.json",
+            "sha256": "eed846c06ac84fe46e89618342222ae8c8f874d71930ca6bb4bb3d488fcb767e",
+            "bytes": 58536,
+            "events": 19,
+            "pages": 0,
+            "overflow": false,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "directory": "reforge-005-saves-2026-10-02T14-14-39-629Z",
+        "reportSha256": "a277aedd7be86e6a605356eeaed063852f1e4db9bb54a789cdc47b98186818ba",
+        "status": "passed",
+        "revision": "e3586965e39ece390e77bd9357b14b21ecaaeba2",
+        "sourceInputs": 418,
+        "allInputsMatchCurrent": true,
+        "checkpoint": {
+          "path": "005.end.save.json",
+          "sha256": "8e8b3de4c39cafaf460f6328dec072a2c32a3c0f793508417e91b04a6382a5da",
+          "source": "formal dumpSave following genuine 004 and complete 005"
+        },
+        "endWorldHash": "8e8b3de4c39cafaf460f6328dec072a2c32a3c0f793508417e91b04a6382a5da",
+        "restoredWorldHash": "8e8b3de4c39cafaf460f6328dec072a2c32a3c0f793508417e91b04a6382a5da",
+        "checks": {
+          "aunt": "passed",
+          "fish": "passed",
+          "water": "passed",
+          "zhang": "passed",
+          "news": "passed",
+          "controlMove": "passed",
+          "causality": "passed",
+          "end": "passed",
+          "endRestore": "passed",
+          "backgroundContinuation": "passed"
+        },
+        "errors": [],
+        "warnings": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+        ],
+        "traces": [
+          {
+            "path": "005-before-restore.trace.json",
+            "sha256": "b7267c05a4ad6ead7c01a70f64a1f7883d937c9c9ab7b834fafa628e96358e27",
+            "bytes": 1373999,
+            "events": 1114,
+            "pages": 35,
+            "overflow": false,
+            "errors": []
+          },
+          {
+            "path": "005-latest.trace.json",
+            "sha256": "05f00e01535b83eb6debd3d24a0fac23bca130333de5091d8ab3645f4a987fca",
+            "bytes": 30001,
+            "events": 14,
+            "pages": 0,
+            "overflow": false,
+            "errors": []
+          }
+        ]
+      }
+    ],
+    "freshContextsVerified": true,
+    "visualInspected": [
+      "003-restored.png",
+      "004-carried-meal-real-restore.png",
+      "005-restored.png"
+    ],
+    "videos": 0,
+    "archive": "build/evidence-archive/script-governance-20261002/e2e",
+    "archiveFiles": 52,
+    "archiveBytes": 17990370
+  },
+  "failuresPreserved": [
+    "Relative apply_patch initially touched six main flows; exact owned changes restored before isolated testing; main user .zcodeignore preserved",
+    "Strict project read rejected out-of-root asset symlinks; APFS in-project clones used without weakening containment",
+    "Early confirmation regression lacked newly approved literal step labels; exact assertions added, no hash or metadata gate dropped",
+    "Full quality first found old shop/portrait census expectations; updated with exact new-reference assertions",
+    "Full quality second found two receipt formatting errors; formatter changed no semantic JSON values"
+  ],
+  "remaining": [
+    "147 stateMachine flows need the unified author-step capability work",
+    "Eight scanner risk edges still require source/context/cadence review, not automatically proven defects",
+    "Two fade-only flows and existing dialogue portrait inheritance require separate source review",
+    "New later-story representative visual E2E remains deferred and registered",
+    "R4 browser startup RPC supervision remains separate unfinished work"
+  ],
+  "editor": {
+    "port": 6012,
+    "pid": 88523,
+    "keptRunning": true,
+    "unsavedChangesConsent": "User confirmed none; update after validation",
+    "userUntrackedPreserved": ".zcodeignore"
+  }
+}

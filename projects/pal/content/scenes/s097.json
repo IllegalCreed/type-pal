@@ -168,6 +168,7 @@
     },
     {
       "id": "e1782",
+      "label": "古董商",
       "pos": {
         "col": 67,
         "row": -20,
@@ -245,7 +246,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "行李失窃：古董商诉苦",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -271,7 +272,34 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "哭诉行李财产被偷",
+                  "next": "lament-bankruptcy"
+                },
+                {
+                  "id": "lament-bankruptcy",
+                  "label": "哀叹金元宝古董尽失",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.古董商"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.4704"
+                          },
+                          {
+                            "text": "dlg.4705"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "next": "initial"
                 }
               ]
             }

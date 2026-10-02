@@ -389,6 +389,7 @@
     },
     {
       "id": "e2875",
+      "label": "老婆婆",
       "pos": {
         "col": 61,
         "row": 12,
@@ -1025,7 +1026,7 @@
             }
           },
           "legacy-003": {
-            "label": "触发行为 3",
+            "label": "阿奴来访：师徒相见与告别",
             "order": 3,
             "flow": {
               "kind": "stages",
@@ -1319,6 +1320,54 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "婆婆介绍阿奴并催办正事",
+                  "next": "anu-farewell"
+                },
+                {
+                  "id": "anu-farewell",
+                  "label": "阿奴向婆婆告别",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "asset": "portrait.pal.029",
+                            "side": "right"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.10154"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老婆婆",
+                          "portrait": {
+                            "asset": "portrait.pal.082",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.10156"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

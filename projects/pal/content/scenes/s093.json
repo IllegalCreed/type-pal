@@ -1601,6 +1601,7 @@
     },
     {
       "id": "e1740",
+      "label": "掌柜",
       "pos": {
         "col": 78,
         "row": 29,
@@ -1809,7 +1810,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "追查女飞贼：掌柜问讯",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1831,6 +1832,38 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "询问是否抓到女飞贼",
+                  "next": "elusive-thief"
+                },
+                {
+                  "id": "elusive-thief",
+                  "label": "感叹女飞贼狡猾",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.掌柜"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.4825"
+                          },
+                          {
+                            "text": "dlg.4826"
+                          },
+                          {
+                            "text": "dlg.4827"
+                          },
+                          {
+                            "text": "dlg.4828"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }
