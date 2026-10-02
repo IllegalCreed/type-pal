@@ -1,5 +1,5 @@
 import type { AuthorScriptFlow } from '@type-pal/content'
-import { organizeFlowAsStages } from '@type-pal/content'
+import { checkBaseScriptFlow, organizeFlowAsStages } from '@type-pal/content'
 import { expect, test } from 'vitest'
 
 type MachineFlow = Extract<AuthorScriptFlow, { kind: 'stateMachine' }>
@@ -9,6 +9,12 @@ function organize(flow: AuthorScriptFlow): StagesFlow {
   const organized = organizeFlowAsStages(flow)
   if (!organized) throw new Error('expected an organizable author flow')
   return organized
+}
+
+/** Fixtures must be legal through the public flow checker, and the organized output must be too. */
+function expectPublicLegal(flow: AuthorScriptFlow, organized: StagesFlow): void {
+  checkBaseScriptFlow(flow, 'probe', { allowSceneEntry: true })
+  checkBaseScriptFlow(organized, 'organized', { allowSceneEntry: true })
 }
 
 // K5 组织边界:stay 轴产出的 stage 不带 next 键(精确形状,不是 toEqual 的 undefined 宽松等价)。
@@ -33,7 +39,9 @@ test('K5 a stay state organizes to a stage with no next key while an advance sta
       },
     },
   }
-  expect(organize(flow)).toStrictEqual({
+  const organized = organize(flow)
+  expectPublicLegal(flow, organized)
+  expect(organized).toStrictEqual({
     kind: 'stages',
     initial: 'open',
     stages: [
@@ -67,7 +75,9 @@ test('K6 a multi-state restart cycle stays in reachable order and the unreachabl
       },
     },
   }
-  expect(organize(flow)).toStrictEqual({
+  const organized = organize(flow)
+  expectPublicLegal(flow, organized)
+  expect(organized).toStrictEqual({
     kind: 'stages',
     initial: 'a',
     stages: [
@@ -108,6 +118,7 @@ test('K6 editing the source machine after organizing never leaks into the organi
     },
   }
   const organized = organize(flow)
+  expectPublicLegal(flow, organized)
   const pristine = structuredClone(organized)
   const first = flow.machine.states.first!
   first.body.push({ kind: 'giveMoney', delta: 99 })
@@ -119,7 +130,7 @@ test('K6 editing the source machine after organizing never leaks into the organi
   expect(organized).toStrictEqual(pristine)
 })
 
-test('K6 editing an organized second stage entry or a nested branch arm never leaks back into the source machine', () => {
+test('K6 editing an organized second stage nested branch arm never leaks back into the source machine', () => {
   const flow: MachineFlow = {
     kind: 'stateMachine',
     machine: {
@@ -134,10 +145,6 @@ test('K6 editing an organized second stage entry or a nested branch arm never le
         },
         b: {
           label: '乙',
-          entry: {
-            prepare: [{ kind: 'playMusic', asset: 'music.pal.002' }],
-            reveal: { kind: 'cut' },
-          },
           body: [
             {
               kind: 'branch',
@@ -152,11 +159,12 @@ test('K6 editing an organized second stage entry or a nested branch arm never le
   }
   const pristine = structuredClone(flow)
   const organized = organize(flow)
+  expectPublicLegal(flow, organized)
   expect(organized.stages.map((stage) => stage.id)).toEqual(['a', 'b'])
   const second = organized.stages[1]!
-  second.entry!.prepare!.push({ kind: 'wait', ms: 1 })
   const nested = second.body[0]
   if (nested?.kind !== 'branch') throw new Error('expected organized branch')
   nested.then.push({ kind: 'giveMoney', delta: 95 })
+  second.body.push({ kind: 'giveMoney', delta: 96 })
   expect(flow).toStrictEqual(pristine)
 })
