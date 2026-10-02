@@ -1,324 +1,352 @@
 {
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：ours/theirs 各自新增不同实体时按身份并集合并": {
     "condition": "content/scenes/s000.json entities 身份数组：base [e1]，ours 增 e2、theirs 增 e3",
-    "caller": "mergeManagedFile(\"content/scenes/s000.json\", base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts:59-101「稳定 id 数组按字段合并并固定 ours-only 顺序」（items 根数组域：[theirs 改, ours 改, ours 新增] 序）；本行场景 entities 嵌套域同守卫 → 域新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:59-101「稳定 id 数组按字段合并并固定 ours-only 顺序」（items 根数组域：[theirs 改, ours 改, ours 新增] 序）；本行场景 entities 嵌套域同守卫 → 域新轴",
+    "source": "migration-merge.ts:44-60 arrayMode（:55 scenes/*/entities=id）+ :249-295 mergeIdentityArray 并集"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：同一新增 id 双方正文不同 → add-add 冲突（无 base 身份）": {
     "condition": "entities 双方各新增同一 id e2 且正文不同（theirs 加 x:9），base 无 e2",
-    "caller": "mergeManagedFile(sceneFile, base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts:102-113「稳定 id 数组双方新增同 id 不同值时冲突」@string:new add-add（items 域）；本行 entities 域 + 精确 path /entities/@string:e2 → 域新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:102-113「稳定 id 数组双方新增同 id 不同值时冲突」@string:new add-add（items 域）；本行 entities 域 + 精确 path /entities/@string:e2 → 域新轴",
+    "source": "migration-merge.ts:276-292 per-id mergeNode 落 :123-129（base absent → add-add），path 经 :285 escapePointer"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突": {
     "condition": "entities 数组含裸字符串 'bare-primitive'（非对象、无 id），对侧不变",
-    "caller": "mergeManagedFile(sceneFile, base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts 全文无 invalid-identity 场景（grep invalid=0）→ gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts 全文无 invalid-identity 场景（grep invalid=0）→ gap 新轴",
+    "source": "migration-merge.ts:259-263 identityMaps 失效 → invalid-identity"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：单侧重复 id → invalid-identity 冲突": {
     "condition": "单侧（ours）entities 内重复出现 e1：[e1, e1]，theirs 不变",
-    "caller": "mergeManagedFile(sceneFile, base, ours, theirs)",
-    "oldAssertion": "旧 :102-113 为双侧同 id 不同文 add-add，非单侧重复 → migration-merge.test.ts 无单侧重复 id 场景 → gap 新轴（O-R10 修正原错锚）"
-  },
-  "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方新增、一方重排可共存（公共序一致）": {
-    "condition": "scenes/index.json：base [a]，ours 尾增 b，theirs 改 a 的 path 且保持单元素序（公共前缀一致）",
-    "caller": "mergeManagedFile(\"content/scenes/index.json\", base, ours, theirs)",
-    "oldAssertion": "旧 :318-331「scene index 双边不同重排冲突」仅证重排必冲突；共存正控未证 → gap 新轴（O-R10 修正原 :244 错锚）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :102-113 为双侧同 id 不同文 add-add，非单侧重复 → migration-merge.test.ts 无单侧重复 id 场景 → gap 新轴（O-R10 修正原错锚）",
+    "source": "migration-merge.ts:259-263 identityMaps 单侧重复 id 置空 → invalid-identity"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） 已有场景文件缺 entities 键：双方同时建立 entities 仍按身份合并": {
     "condition": "base 为空对象 {}（无 entities 键），ours/theirs 各自建立 entities=[e9]/[e10]",
-    "caller": "mergeManagedFile(\"content/scenes/s042.json\", base, ours, theirs)",
-    "oldAssertion": "旧 :27「同一路径双方新增不同对象不得自动拼接」为对象键 add-add；双方同时建立身份数组键按身份并集未证 → gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :27「同一路径双方新增不同对象不得自动拼接」为对象键 add-add；双方同时建立身份数组键按身份并集未证 → gap 新轴",
+    "source": "migration-merge.ts:374-388 absent-base 数组分派 + :376-377（双方 present 数组走 :389-397）"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） 全新文件以 absent 为 base 直接合并 → add-add 冲突（不虚构身份合并）": {
     "condition": "三方均为 absent/present：base=jsonAbsent()，ours/theirs 各自 present 不同 entities",
-    "caller": "mergeManagedFile(\"content/scenes/s042.json\", jsonAbsent(), entitiesWith('e9'), entitiesWith('e10'))",
-    "oldAssertion": "migration-merge.test.ts:182-204「双方首跑新增同一 ActionId 的不同定义产生 add-add」（ActionId 域）；本行整文件 absent base → path=/ 根冲突 → 粒度新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:182-204「双方首跑新增同一 ActionId 的不同定义产生 add-add」（ActionId 域）；本行整文件 absent base → path=/ 根冲突 → 粒度新轴",
+    "source": "migration-merge.ts:374-386（file 非 id 数组域名时落 :123-129 根 add-add）"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） skills.json /skills 身份模式合并双方新增仙术": {
     "condition": "content/skills.json：base skills=[1]，ours 增 2、theirs 增 3，levelUp 键不动",
-    "caller": "mergeManagedFile(\"content/skills.json\", base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts 无 skills.json /skills 域（battle-sprites :114 / SpriteDef :140 之外）→ gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts 无 skills.json /skills 域（battle-sprites :114 / SpriteDef :140 之外）→ gap 新轴",
+    "source": "migration-merge.ts:56 arrayMode /skills=id + :249-295"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 无 id 页条目：一方尾部追加、一方不变 → 追加保留": {
     "condition": "无 id pages：base=[p1]，ours==theirs=[p1,p2]（双侧相同尾追加）",
-    "caller": "mergeManagedFile(sceneFile, base, ours, ours)",
-    "oldAssertion": "旧 :358-377 为改+尾增组合、:378-417 首段为单侧删页；双侧相同尾增的等值路径未证 → gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :358-377 为改+尾增组合、:378-417 首段为单侧删页；双侧相同尾增的等值路径未证 → gap 新轴",
+    "source": "migration-merge.ts:297-307 isTailOnlyLengthChange 双侧通过 + :309-323 元素级"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 无 id 页条目：等长改动允许元素级合并（长度变化才要求尾追加）": {
     "condition": "无 id pages 等长：base=[a,b]，ours=[a2,b]，theirs 与 base 相同（对侧不变）",
-    "caller": "mergeManagedFile(sceneFile, base, ours, theirs)",
-    "oldAssertion": "旧 :358-377「pages 槽位支持尾部新增与独立字段修改」为双侧同时变化；单侧等长改的退化路径未直接断言 → 退化臂新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :358-377「pages 槽位支持尾部新增与独立字段修改」为双侧同时变化；单侧等长改的退化路径未直接断言 → 退化臂新轴",
+    "source": "migration-merge.ts:303-305 等长即 tail-only + :309-323 下标元素 mergeNode"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 长度变化且前缀变动 → array-order 冲突（仅允许尾追加）": {
     "condition": "无 id pages：base=[a,b]，ours=[a2]（缩短且首元素值变），theirs 不变",
-    "caller": "mergeManagedFile(sceneFile, base, ours, theirs)",
-    "oldAssertion": "旧 :418-451「pages 非尾部插入或删除不得平移槽位身份」证非尾插/删 → array-order（前缀值不变）；本行为缩短+前缀值同变复合 → 复合臂新轴（O-R10 修正原 :378 锚）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :418-451「pages 非尾部插入或删除不得平移槽位身份」证非尾插/删 → array-order（前缀值不变）；本行为缩短+前缀值同变复合 → 复合臂新轴（O-R10 修正原 :378 锚）",
+    "source": "migration-merge.ts:303-307 前缀变动非尾追加 → array-order"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 无 id 页条目：双方同改同一下标 → value 冲突 path 下钻到冲突叶": {
     "condition": "无 id pages 等长：base/ours/theirs 同一下标 0 分别 cue=a/b/c",
-    "caller": "mergeManagedFile(sceneFile, base, ours, theirs)",
-    "oldAssertion": "旧 :17-26「同一路径双改产生精确冲突」为对象根路径 /a；数组元素内叶路径 /pages/0/cue 下钻未证 → 粒度新轴（O-R10 修正原 :378 锚）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :17-26「同一路径双改产生精确冲突」为对象根路径 /a；数组元素内叶路径 /pages/0/cue 下钻未证 → 粒度新轴（O-R10 修正原 :378 锚）",
+    "source": "migration-merge.ts:309-323 下标递归 mergeNode → 叶 value（:129-130）"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：authored 接管与 catalog 目标校验 stamps.json：ours authored 模板整条接管，theirs migrated 字段不灌回": {
     "condition": "stamps.json：base 空，ours 新增 @string:stamp-1 origin=authored，theirs 新增同 id origin=migrated 且带 extra 字段",
-    "caller": "mergeManagedFile(\"content/stamps.json\", base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts:205-224「stamps 稳定 id 合并 authored 接管整项归作者」为 base 已存在+migrated 的接管；本行 base 空双方并发新增 authored vs migrated → 并发接管臂新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:205-224「stamps 稳定 id 合并 authored 接管整项归作者」为 base 已存在+migrated 的接管；本行 base 空双方并发新增 authored vs migrated → 并发接管臂新轴",
+    "source": "migration-merge.ts:338-345 stamps authored 接管守卫"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：authored 接管与 catalog 目标校验 sprites.json：同一 ActionId 双方各自修改 → value 冲突（时间线原子）": {
     "condition": "sprites.json 对象 catalog 布局：@string:sprite-1 poses.wave 双方改不同帧号",
-    "caller": "mergeManagedFile(\"content/sprites.json\", sprite(0), sprite(1), sprite(2))",
-    "oldAssertion": "migration-merge.test.ts:140-181「SpriteDef poses 按 ActionId 合并单条动作原子」为根数组布局；本行对象 catalog 键布局（/@string:sprite-1/poses/wave）→ 布局新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:140-181「SpriteDef poses 按 ActionId 合并单条动作原子」为根数组布局；本行对象 catalog 键布局（/@string:sprite-1/poses/wave）→ 布局新轴",
+    "source": "migration-merge.ts:103-108 action 原子路由 + :111-131 mergeAtomicNode value（:330-332 分派）"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：authored 接管与 catalog 目标校验 sprites.json：三方动作删除语义 — 删除胜过未改动，双方修改才冲突": {
     "condition": "sprites.json：base poses={base,wave,idle}，ours 仅保留 {wave:5}（删 base/idle 且改 wave），theirs==base",
-    "caller": "mergeManagedFile(\"content/sprites.json\", spriteWith(base), spriteWith({wave:5}), spriteWith(base))",
-    "oldAssertion": "migration-merge.test.ts:225-243「上游删除 migrated 模板保留 authored 接管」为模板项删除保留；同一 sprite 内 poses 键级删除胜过未改动未证 → gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:225-243「上游删除 migrated 模板保留 authored 接管」为模板项删除保留；同一 sprite 内 poses 键级删除胜过未改动未证 → gap 新轴",
+    "source": "migration-merge.ts:103-105 poses 容器按 key 走 mergeObject（:333-336 前分派）+ :111-131 原子动作"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入": {
     "condition": "assets/index.json：base assets 空，ours 新增 a.x origin=authored（bytes 1），theirs 新增同 key origin=generated（bytes 2）",
-    "caller": "mergeManagedFile(\"assets/index.json\", base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts:573-599「catalog 按 AssetId 合并 authored 接管整条作者所有」为 base 已含 migrated 的替换接管；base 空并发新增 authored vs generated → 并发臂新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:573-599「catalog 按 AssetId 合并 authored 接管整条作者所有」为 base 已含 migrated 的替换接管；base 空并发新增 authored vs generated → 并发臂新轴",
+    "source": "migration-merge.ts:346-357 assets origin=authored 接管守卫"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json 合并结果非法（缺 version）时经 validateAssetCatalog 拒绝": {
     "condition": "assets/index.json：theirs 删除 version 键（删除胜）→ 合并产物缺 version 触发目标校验",
-    "caller": "mergeManagedFile(\"assets/index.json\", base, ours, theirs) 期望 throw 'MG2 assets/index.json target.version: 期望 1'",
-    "oldAssertion": "migration-merge.test.ts 无「合并产物非法被发布目标校验拒绝」场景（旧测只断言 conflicts 形态）→ gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts 无「合并产物非法被发布目标校验拒绝」场景（旧测只断言 conflicts 形态）→ gap 新轴",
+    "source": "migration-merge.ts:421-423 validateAssetCatalog(value, \"MG2 …target\")"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：冲突快照保真与输入不可变 冲突记录的 base/ours/theirs 快照与输入子树深等且互不别名": {
     "condition": "content/locales/extra.json 同路径 /v 三方 1/2/3 冲突；对快照 ours.value 原位改 999 后输入不变",
-    "caller": "mergeManagedFile(...).conflicts[0] 快照 {present,value} 三相",
-    "oldAssertion": "旧 :17-26 只断言 {path,type}；conflict.base/ours/theirs 快照深等与防别名未证 → gap 新轴（O-R10 修正原 :59 锚）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :17-26 只断言 {path,type}；conflict.base/ours/theirs 快照深等与防别名未证 → gap 新轴（O-R10 修正原 :59 锚）",
+    "source": "migration-merge.ts:63-75 conflict()/snapshot 构造"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：冲突快照保真与输入不可变 合并不修改三个输入（输入不可变）": {
     "condition": "entities 三方合并前后 JSON.stringify(base/ours/theirs) 逐字节相等",
-    "caller": "mergeManagedFile(sceneFile, base, ours, theirs) 前后快照对比",
-    "oldAssertion": "migration-merge.test.ts 无输入不可变断言（grep 不修改/immutable 无）→ gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts 无输入不可变断言（grep 不修改/immutable 无）→ gap 新轴",
+    "source": "migration-merge.ts:111-131 等全部分支返回 cloneNode（无原位写）"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：冲突快照保真与输入不可变 equal-but-invalid：三方相同的 scenes/index 重复 id 仍 fail-closed（快速路径不豁免）": {
     "condition": "scenes/index.json 三方传同一份含重复 id 'a' 的非法 index（equal 快速路径）",
-    "caller": "mergeManagedFile(\"content/scenes/index.json\", broken, broken, broken)",
-    "oldAssertion": "旧 :318-331 重排冲突为三方互异；三方相同的 equal 快速路径 + 非法身份 fail-closed 未证 → gap 新轴（O-R10 修正原 :244 锚）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :318-331 重排冲突为三方互异；三方相同的 equal 快速路径 + 非法身份 fail-closed 未证 → gap 新轴（O-R10 修正原 :244 锚）",
+    "source": "migration-merge.ts:359-372 fast path 显式排除身份数组 + :259-263 fail-closed"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 actors.json 根级数组按 id 身份合并双方新增角色": {
     "condition": "content/actors.json 根级数组：base=[{id:base}]，ours/theirs 各增不同 id",
-    "caller": "mergeManagedFile(\"content/actors.json\", base, actor('ours'), actor('theirs'))",
-    "oldAssertion": "migration-merge.test.ts:59-101 items 域根数组已证同守卫；actors.json 域注册表未单独断言 → 域新轴（守卫同 :59）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:59-101 items 域根数组已证同守卫；actors.json 域注册表未单独断言 → 域新轴（守卫同 :59）",
+    "source": "migration-merge.ts:46-52 根数组 id 正则 + :249-295"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 enemy-teams.json 根级数组按 id 合并；双方同 id 异文 → add-add": {
     "condition": "content/enemy-teams.json：base=[]，ours/theirs 各加同 id t1 不同 members",
-    "caller": "mergeManagedFile(\"content/enemy-teams.json\", jsonPresent([]), team(1), team(2))",
-    "oldAssertion": "旧 :102-113 items 域同臂；enemy-teams 域 + 空 base 数组 → 域新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :102-113 items 域同臂；enemy-teams 域 + 空 base 数组 → 域新轴",
+    "source": "migration-merge.ts:46-52（enemy-teams 在根数组 id 正则内）+ :276-292 落 add-add"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 对象键含 \"/\" 时按 JSON Pointer 转义合并（无串键冲突）": {
     "condition": "content/locales/extra.json 对象键 'a/b'：base 含之，ours 增 c，theirs 增 d",
-    "caller": "mergeManagedFile(\"content/locales/extra.json\", base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts 全部对象键不含 '/'（grep 无）→ 转义 gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts 全部对象键不含 '/'（grep 无）→ 转义 gap 新轴",
+    "source": "migration-merge.ts:285 escapePointer 键转义"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 jsonPresent/jsonAbsent：显式 present 标志": {
     "condition": "公开导出的 JSON 边界构造器：jsonPresent(5) / jsonAbsent() 形状",
-    "caller": "jsonPresent(5) / jsonAbsent()",
-    "oldAssertion": "旧测试仅消费未断言构造器形状 → gap 新轴（公开 API 形状合同）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧测试仅消费未断言构造器形状 → gap 新轴（公开 API 形状合同）",
+    "source": "migration-merge.ts:428-429 导出别名"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 对象键级 delete-modify：ours 删键、theirs 改值 → 冲突 path=/键": {
     "condition": "content/locales/extra.json：base={k:1}，ours={}（删 k），theirs={k:2}（改 k）",
-    "caller": "mergeManagedFile(\"content/locales/extra.json\", base, ours, theirs)",
-    "oldAssertion": "migration-merge.test.ts:37-58「文件新增、删除与删除对侧修改」为整文件级 delete-modify path=/；对象键级 path=/k 粒度未证 → 粒度新轴（O-R10 修正原 :59 锚）"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "migration-merge.test.ts:37-58「文件新增、删除与删除对侧修改」为整文件级 delete-modify path=/；对象键级 path=/k 粒度未证 → 粒度新轴（O-R10 修正原 :59 锚）",
+    "source": "migration-merge.ts:123-125（ours absent → delete-modify，path=/k）"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 scenes pages：带 id 页条目走身份合并（双方各加不同页并集）": {
     "condition": "content/scenes/s009.json 带 id pages：base=[p0]，ours 增 p1，theirs 增 p2（label/trigger 完整）",
-    "caller": "mergeManagedFile(\"content/scenes/s009.json\", pages('p0'), pages('p1'), pages('p2'))",
-    "oldAssertion": "旧 :452-526「canonical v5 pages 与 stages 稳定 id 合并」为单侧增+对侧改；双侧各增不同页并集序未直接断言 → 组合新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :452-526「canonical v5 pages 与 stages 稳定 id 合并」为单侧增+对侧改；双侧各增不同页并集序未直接断言 → 组合新轴",
+    "source": "migration-merge.ts:399-402 pages 有身份走 mergeIdentityArray"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 scenes stages：带 id 阶段走身份合并（stage 库新增并存）": {
     "condition": "content/scenes/s010.json 带 id stages：base=[s0]，ours 增 s1，theirs 增 s2",
-    "caller": "mergeManagedFile(\"content/scenes/s010.json\", stages('s0'), stages('s1'), stages('s2'))",
-    "oldAssertion": "旧 :452-526 stages 段为单侧增+对侧改；双侧各增不同 stage 并集未直接断言 → 组合新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :452-526 stages 段为单侧增+对侧改；双侧各增不同 stage 并集未直接断言 → 组合新轴",
+    "source": "migration-merge.ts:403-408 stages 有身份走 mergeIdentityArray"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：根级 id 数组文件与键转义 sidecar 标量映射：ours 与 base 相同 → 整树采纳 theirs（快速路径）": {
     "condition": "content/locales/extra.json：ours===base={a:1}，theirs={a:2,b:3}",
-    "caller": "mergeManagedFile(\"content/locales/extra.json\", base, base, theirs)",
-    "oldAssertion": "旧 :6-16 三方真值表为三方互异值；ours==base 快速路径整树采纳未证 → gap 新轴"
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :6-16 三方真值表为三方互异值；ours==base 快速路径整树采纳未证 → gap 新轴",
+    "source": "migration-merge.ts:369-372 allowWholeSubtreeFastPath（same(ours,base)→theirs）"
   },
   "packages/content/src/rewards-lifecycle.glm-o.test.ts :: O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机（计数 rng 区分每级取样）": {
     "condition": "levels=2，计数 rng 仅第 1 次调用掷 0、其余掷 →1（每级 6 项各掷一次共 12 次）",
-    "caller": "applyLevelGrowth(t, 2, countingRng)",
+    "caller": "生产链：applyLevelGrowth ← rewards.ts:215 grantBattleRewards 升级循环（每级 +1）",
     "oldAssertion": "rewards.test.ts:54 仅单级；多级独立抽样未证 → gap 新轴（O-R10 收窄：恒 rng 只证累积，计数 rng 才可证伪独立）",
-    "source": "rewards.ts",
+    "source": "rewards.ts:44-73 applyLevelGrowth（生产调用 :215）",
     "axis": "每级独立掷随机（计数 rng：maxHP=10+17 而非 2×同端）",
     "classification": "normal-input"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 绝对路径目标被 safeRel 拒绝": {
     "condition": "target=resolve(repo,...) 绝对路径，其余字段合法",
-    "caller": "commitMigrationTransaction(repo, [{target: 绝对路径}])",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts 全部目标为仓库相对路径，无绝对路径臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:58-61 safeRel（提交侧 :291 逐项调用）"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 '..' 越界段目标被 safeRel 拒绝": {
     "condition": "target='projects/pal/../evil.txt' 含 .. 段",
-    "caller": "同上",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts:282-298 的 ../victim 为 journal 侧；提交侧 .. 越界未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:58-61 safeRel 段校验"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 './' 前缀目标被规范化后接受（同一事务目标等价）": {
     "condition": "target='./projects/pal/content/a.json' 带 ./ 前缀",
-    "caller": "commitMigrationTransaction(repo, [writeOp(\"./projects/...\")])",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts 无 ./ 前缀规范化臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:58-65 safeRel normalize 后落盘"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝": {
     "condition": "同事务两个操作指向同一 target（内容不同）",
-    "caller": "commitMigrationTransaction(repo, [writeOp(a,1), writeOp(a,2)])",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts 无重复目标臂（:78-79 的重复目标门在 migration-write-plan 域）→ gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:296-297 targets Set 重复门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 project expectedPreviousHash 非十六进制被拒绝": {
     "condition": "project 操作 expectedPreviousHash='nothex'（非 64 位十六进制）",
-    "caller": "commitMigrationTransaction(repo, [{expectedPreviousHash}])",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts:24-37 已证 hash 与磁盘不符（偏离规划快照）；格式非法臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:302-304 commit 侧 hash 格式门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 precondition hash 非法被拒绝": {
     "condition": "manifest 前置条件 hash='xyz'（非十六进制）",
-    "caller": "commitMigrationTransaction(repo, [manifest 变体])",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts:156 前置条件 hash 均合法；格式非法臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:308-309 commit 侧前置 hash 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 非 manifest 操作携带 preconditions 被拒绝": {
     "condition": "project 操作携带 preconditions（非 manifest）",
-    "caller": "同上",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:310-311 commit 侧 scope-preconditions 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 manifest 写入缺前置条件被拒绝": {
     "condition": "manifest 写操作缺 preconditions 字段",
-    "caller": "同上",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts:214-217 为 delete-manifest（只能写入）；缺前置臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:204-205 validateManifestOrdering 缺前置门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 存在未恢复 journal 时提交被互斥拒绝": {
     "condition": "首次提交经 afterOperation 注入 interrupt 留 pending journal 后再次提交",
-    "caller": "commitMigrationTransaction 二次调用",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts 无互斥提交臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:282-283 hasPending 互斥门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝": {
     "condition": "project scope 指向 manifest 固定目标 + baseline scope 指向 projects/pal 目标",
-    "caller": "commitMigrationTransaction 两个单例",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts:219-228 第三例已证 project→manifest 固定目标拒绝；baseline scope 越界前缀臂未证 → 半臂新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:82-101 assertScopeTarget + :193-205 ordering"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 hasPendingMigrationTransaction 在无 journal 时为 false": {
     "condition": "空仓库无 .type-pal-migrate 目录",
-    "caller": "hasPendingMigrationTransaction(repo)",
+    "caller": "公开观察器 hasPendingMigrationTransaction（migration-transaction.ts:273）",
     "oldAssertion": "migration-transaction.test.ts 仅用 recoverMigrationTransaction()==false 判无 journal；hasPending 观察器未直接断言 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:273-275 存在性探测"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 操作项非对象被拒绝": {
     "condition": "journal operations[0]='not-an-object' 字符串",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:279-315 篡改四轴均为对象内字段；操作项整体非对象未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:113-115 validateJournal 操作对象门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 空串/反斜杠逐轴拒绝（路径无效）": {
     "condition": "journal target='' 空串 与 'projects\\\\pal\\\\x.json' 反斜杠两轴",
-    "caller": "recoverMigrationTransaction(repo) 逐轴",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:289 仅 '../victim.txt' 越界；空串/反斜杠轴未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:67-70 strictRepoRel"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 带 './' 前缀被拒绝（须为规范仓库相对路径）": {
     "condition": "journal target='./projects/pal/content/a.json'",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts 无 ./ 前缀臂（提交侧已规范化；journal 侧须拒）→ gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:71-72 strictRepoRel 规范路径门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 含 .. 段被拒绝": {
     "condition": "journal target='projects/pal/../x.json'（仓库内段级越界）",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:289-291 已证 target '../victim.txt' 越界拒绝且 victim 不动；本行为段级越界 + 精确文案变体 → 变体臂新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:73-74 strictRepoRel 越界门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 重复目标被拒绝": {
     "condition": "journal 两个操作同 target（staged 不同）",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts 无 journal 重复目标臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:118-120 validateJournal 重复门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal previousHash 非法被拒绝": {
     "condition": "journal previousHash='zzzz' 非十六进制",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:310 篡改的是 precondition hash 目标路径；previousHash 格式臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:124-125 validateJournal previousHash 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal delete 操作携带 staged/hash 被拒绝": {
     "condition": "journal 操作 kind 翻转为 delete 但保留 staged/hash",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:132-134 delete-staging 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal preconditions 非数组被拒绝": {
     "condition": "manifest journal 操作 preconditions='nope' 非数组",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:136-137 preconditions 数组门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 非 manifest journal 操作携带 preconditions 被拒绝": {
     "condition": "project journal 操作携带合法形状 preconditions",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:308-314 为 precondition 目标越界；非 manifest 携带臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:138-139 journal scope 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition 目标越出 projects/pal 被拒绝": {
     "condition": "manifest precondition target='baselines/evil.json'（非 ../ 逃逸、域外）",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:310-313 为 '../victim.txt' 逃逸；域内前缀越界臂未证 → 变体臂新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:147-149 前置目标域门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition hash 非法被拒绝": {
     "condition": "manifest precondition hash='short'",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts 无 precondition hash 格式臂（journal 侧）→ gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:150-151 journal 前置 hash 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest scope 指向非固定目标被 journal 验证拒绝": {
     "condition": "manifest scope 指向 content/a.json 非固定目标",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:227 为 project scope 指向 manifest；manifest scope 指向非固定目标反向臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:96-98 assertScopeTarget manifest 固定目标"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest journal 操作缺前置条件被拒绝": {
     "condition": "manifest journal 操作缺 preconditions",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:216 为 delete-manifest；journal 侧缺前置臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:204-205（经 validateJournal→ordering）"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 恢复期窗口篡改：目标与 journal previousHash 不符时拒绝且不落盘": {
     "condition": "journal previousHash=sha256(original) 而磁盘目标为 tampered-by-user",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:231-261 已证提交窗口并发修改拒绝；本行为恢复窗口同守卫 + 不落盘断言 → 相位臂新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:208-212 assertPreviousTarget"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 目标与 journal hash 一致时恢复跳过重复落盘并清理 staging": {
     "condition": "journal hash 与已落盘目标一致（操作已应用过）",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts:72-105 幂等补完为完成剩余操作；已应用操作跳过重落 + staging 清理臂未直接断言 → 变体臂新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:231-256 applyJournal targetMatches/有效 staging 分支 + :258-262 cleanup"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交后目标被再次改动触发提交后哈希复核失败": {
     "condition": "提交第一个操作后 afterOperation 改写刚写入的目标为 mutated",
-    "caller": "commitMigrationTransaction(repo, changes, {afterOperation})",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts 无提交后哈希复核臂 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:252-254 applyJournal 后置 hash 复核"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 合法坏数据只进 IO 校验：journal 根非 JSON 时恢复失败且工程无写入": {
     "condition": "journal 文件字节为 'not-json{' 非 JSON",
-    "caller": "recoverMigrationTransaction(repo)",
+    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
     "oldAssertion": "migration-transaction.test.ts journal 均为合法 JSON；坏字节经 IO 解析失败臂未证 → gap 新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:105-106 journal 解析门 + :264 recover 入口"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交期前置闭包失败留下 pending journal；修复闭包后恢复完成同一事务": {
     "condition": "提交时资源闭包不符（ready.bin=broken）→ pending journal；修复后恢复完成",
-    "caller": "commitMigrationTransaction → recoverMigrationTransaction",
+    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
     "oldAssertion": "migration-transaction.test.ts:176-190 为中断钩子 + 恢复窗口破坏资源；本行为提交期前置失败留 pending → 相位臂新轴",
-    "source": "migration-transaction.ts, migration-baseline.ts"
+    "source": "migration-transaction.ts:223-227 assertPreconditions + journal 先落盘语义（applyJournal :231 起）"
+  },
+  "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致；单侧真重排必冲突由旧 :318 证）": {
+    "condition": "scenes/index.json：base [a]，ours 尾增 b，theirs 改 a 的 path（单元素无重排可言；双侧互异真重排必冲突已由旧 :318 证）",
+    "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
+    "oldAssertion": "旧 :318-331「scene index 双边不同重排冲突」仅证重排必冲突；共存正控未证 → gap 新轴（O-R10 修正原 :244 错锚）",
+    "source": "migration-merge.ts:264-273 strictOrder 仅双方互异重排才冲突 + :276-295 orderedIds 并集追加"
   }
 }

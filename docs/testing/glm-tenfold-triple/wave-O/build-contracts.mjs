@@ -192,7 +192,7 @@ const errors = []
 for (const t of directed.tests) {
   const key = `${t.file} :: ${t.fullName}`
   const prevRow = prevByKey.get(key)
-  const overlay = manualOverlay[key] ?? overrides[key]
+  const overlay = overrides[key] ?? manualOverlay[key]
   if (!prevRow && !overlay) {
     errors.push(`旧账无此行且无人工账（join 失败）: ${key}`)
     continue
@@ -220,17 +220,17 @@ for (const t of directed.tests) {
     caller: overlay?.caller ?? prevRow.caller,
     testFile: t.file,
     oldAssertion: overlay?.oldAssertion ?? prevRow.oldAssertion,
-    axis: overlay?.axis ?? prevRow.axis,
+    axis: overlay?.axis ?? prevRow?.axis ?? t.fullName,
     oracle:
       isManualMerge &&
-      prevRow.oracle &&
+      prevRow?.oracle &&
       !EMPTY_ARG_BAD.test(prevRow.oracle) &&
       balanced(prevRow.oracle)
         ? prevRow.oracle
         : `${oracleText}  // ${t.file}:${assertions[0].startLine}`,
-    classification: overlay?.classification ?? prevRow.classification,
+    classification: overlay?.classification ?? prevRow?.classification ?? 'unclassified',
     status: t.status,
-    condition: overlay?.condition ?? prevRow.condition ?? '',
+    condition: overlay?.condition ?? prevRow?.condition ?? '',
   })
 }
 
