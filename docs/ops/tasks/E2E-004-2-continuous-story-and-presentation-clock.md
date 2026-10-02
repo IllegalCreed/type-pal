@@ -1,0 +1,78 @@
+# E2E-004-2 - 连续剧情演示与呈现时钟修正
+
+Status: build
+Phase: phase2
+Capability: E2E-R4-1 / X3 / W1
+Coding Owner: entity_names（主壳呈现时钟）；e2e004_runner（004工具）；Root（独立反控/文档/接收），各文件单一Owner
+Reviewer: Codex Root独立验收；e2e004_phase1_premise独立一手前提/源码复核
+Visual Verification Owner: Codex
+Visual Verification Timing: e2e-consolidated
+Branch: codex/e2e-004-continuity（Root）；贡献者另从554b8a055隔离开分支
+
+## 用户反馈与边界（2026-10-02）
+
+用户指出004演示夹杂取消/错误站位检查不连贯，要求把专项测试分出去；道士尾段站很久仍未消失，
+并明确要求比较第一阶段。上一轮verify报告原样保留，但不代表本次连续观感通过；[004母卡](E2E-004-1-meal-and-beggar-wine.md)转rework。
+6012原服务/页面保持，候选验证不更新用户正在看的工程，不关闭其它项目窗口。
+
+## 前提真值门
+
+一句话前提：正常剧情不应插技术反控；末尾720ms溶解不应为不同计时域补追十几秒，更不能通过改作者等待掩盖。
+
+| 维度 | 直接证据与目标 |
+| --- | --- |
+| 原始内容 | `data/extracted/events/all.json`全局709/710最后邀约201/202，711隐藏、712原0x73[0,0,0]、714/715消失旁白；无尾部站立wait。 |
+| 第一阶段UX | 真实game004 05-39 trace：完整邀约61979.4ms→hidden62579.0→fade结束ip714为63378.9→完整旁白63825.7；event-system与present以同一wall clock推进dither。不是内部帧/坐标对拍。 |
+| 当前二阶段 | main:1916首次dialog open用frames.now，5049 render/performance与5390 advance/real为UI实钟；dither:5174起点performance，5181却消费frames.now，741 debug仍real。RuntimeFrameSession:93/94来自GameplayClock，gameplay-clock:22截长帧100ms，两个域可拉开。 |
+| 当前实际反例 | main的RF004 06-26 trace：完整邀约80080.6→hidden81997.1→完整旁白99331.1，隐藏后17.334s；中间snapshot为dialog=null/ditherActive=true/e62.visible=false。无逐像素消失或精确Enter atMs，不能把hidden当实际画面消失，或把全部17秒归单个CPU成本。 |
+| 目标 | 仅恢复已有时钟归属：普通对白首次open用real，dither渲染消费用real，起点/debug保留real。字速/720ms/72步/零帧/预算后起算/取消/世界暂停/GameplayClock/fade不变。 |
+
+独立e2e004_phase1_premise已直接读取原始、两真实trace及三条调用域，签`premise verified / design agree`。
+历史`bede6b14d`dither起点/消费为rAF实钟；`bdd35ff65`预算后起点精确用performance；`6a8296a15`全局gameplay化漏分域；
+`8eb93bb72`仅机械改名。`debug-tools.ts:1149`、现行debug指南明确世界单步不单步演出/对白。
+先前“起点/debug改gameplay”的相邻猜测已撤销且未改产品；该方案会改变既有呈现域，不授权build。
+
+最强替代解释：palette首算慢、渲染或整trace RPC阻塞、读对白/确认时间。现trace不足以精确分摊这些成本，
+但不推翻源码混钟。普通菜单只冻结locomotion（main:3333），framePorts:5434仅confirm冻钟；004无confirm，
+不声称这次菜单直接冻结了GameplayClock。不是内容迁移缺陷，不恢复转换器或全局NPC冻结。
+可证伪：真主壳先产生>100ms长帧滞后，再正常触dither；旧版不额外step0停留或修后仍停留则重新归因。
+普通非narration/speed>0未跳字的dialog首帧应typing，按原字速才全显；observe.pageText是完整布局，不能作已实绘字数。
+
+Root `premise verified / design agree / build allowed`：源码、历史政策与真实对照齐全；先红后绿、独立接收，不等固定三席。
+
+## 单一Owner白名单
+
+- entity_names：独立干净候选从554b8a055；仅`main.ts`两处时钟域修正及必要相邻呈现时钟测试。
+  可补独立`main.presentation-clock.test.ts`。不改Root的`main.presentation-clock-root.test.ts`，不动GameplayClock、
+  RuntimeFrameSession、fade、字速/分页、72步像素算法、schema/save/content/资产/作者工程；不得为过门降低规则/扩大忽略。
+- e2e004_runner：独立干净候选从554b8a055；仅新meal-journey/contract/observer/trace-plugin/both和相邻meal tests。
+  三显式case：story默认正常40行/实际移动，不插慢读/取消/非法使用/中途或末尾存读；items从真003正常取得酒后单测取消/错误use；
+  saves从真003正常做慢读/持久208中途存读及完整剧情末尾真实存读，产合法004.end。无造库存/坐标或中间档兼容。
+  report name/scope/case明确，story不冒充005前驱；both全覆盖核两引擎三case同revision/source/各自同003原档，
+  只两story不能冒充完整both。原World/Canvas/实际save clone/来源/collector/唯一NPC正文/消费/40行硬门不得放宽。
+  正常热路径仅有界只读页面/菜单/序号/错误DTO，阶段边界dump全trace原硬断言保持；snapshot取菜单不clone全collector。
+  记录实际输入时刻与RPC耗时，补dither步进/prepareMs有界只读记录，供分辨渲染成本与确认延迟。
+  现行旧入口stationary baseline仅历史无调用方，可从当前执行器移除（日志/历史Git保留），不保留旧入口兼容路径。
+- Root：本卡/004母卡/看板/索引、package case入口/使用文档、独立`main.presentation-clock-root.test.ts`及真trace复算，
+  统一质量门/集成/6012交付；不与贡献者同时改其文件。
+
+## 验收
+
+1. 独立真主壳混钟反控先红后绿；长帧差不进入dither时长，debug step/pr与实际输出一致，世界步进时演出仍实钟推进。
+2. dialog新cue首帧不因gameplay落后而瞬显；原字速、普通翻页/合法跳字、自动尾停顿/世界冻结下UI语义保持。
+3. 三case CLI/报告准入/覆盖与both缺case、伪passed、异源/异前驱负例；原所有持久域与正常物品验收保留。
+4. 两引擎正常story对照004尾段，源码预算720ms之外的观测/prepare/确认费用分开说明；一个干净完整演示，不重复旧001–003视觉。
+5. 产品/工具独立复读、七包types/必要测试、全仓静态error/warning/info零诊断。完整门未绿不报完成。
+6. 6012更新前再次确认无草稿；页面/服务保持；用户决定可感知的连续性，capture另排。
+
+## 上下文
+
+- [第二阶段铁律](../../phase2/READ-FIRST.md)、[一期知识harvest N/X](../../phase2/reference/phase1-knowledge-harvest.md)、[工程经验](../../phase1/engineering-notes.md)。
+- [004收据](../../testing/e2e-004.md)、[E2E合同](../../testing/e2e.md)、[现行脚本合同](../../phase2/specs/script-system.md)。
+- [X3历史溶解](../archive/tasks/done/X3-opening-dither-speaker-inheritance.md)仅视觉与独立snapshot算法参考，旧入场前瞻已退役，不复活。
+- [现行debug时钟范围](../../phase2/guides/debug-tools.md)、当前main/RuntimeFrameSession/GameplayClock/DialogBox/typewriter。
+
+## 交接
+
+贡献者按上述白名单隔离施工、自验后交冻结SHA并停写；Root独立红绿复核、质量门、真正更新再交用户。
+不合main、不碰6012、不需要用户转发给固定席位。未跑的三case/正常演示不得写passed。

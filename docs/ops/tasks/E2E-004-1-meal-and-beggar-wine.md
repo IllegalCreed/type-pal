@@ -1,6 +1,6 @@
 # E2E-004-1 - 端菜与使用桂花酒赠道士
 
-Status: review
+Status: rework
 Phase: ops
 Capability: E2E-R4-1 / W1
 Coding Owner: entity_names（显式NPC调用/作者内容）；Root（旧003合同/接收）；e2e004_runner（新004工具），各文件单一Owner
@@ -10,6 +10,12 @@ Visual Verification Owner: Codex
 Visual Verification Timing: mixed
 Contributor: Codex 子 Agent；e2e004_phase1_premise独立只读核验
 Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
+
+## 用户演示返工（2026-10-02）
+
+用户拒绝正常演示插入取消/错误use/存读，且发现道士尾部消失不连贯，明确要求比较第一阶段。
+上一轮技术verify与报告保留，不代表此观感已验收；按[E2E-004-2](E2E-004-2-continuous-story-and-presentation-clock.md)
+拆正常流程与专项、核实并修主壳混钟，不先改作者wait。6012保持，候选不提前更新用户工程。
 
 ## 当前技术接收（2026-10-02，覆盖下文旧施工快照）
 
