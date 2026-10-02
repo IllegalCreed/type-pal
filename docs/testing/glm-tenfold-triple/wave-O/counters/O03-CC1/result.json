@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 21,
-    "passed": 21,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 21,
-    "passed": 20,
+    "executed": 15,
+    "passed": 14,
     "failed": 1,
     "failedFullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
     "failureMessageHead": "AssertionError: expected 'projects/pal/content/zz-sidecar.json' to be 'projects/pal/content/scenes/index.json' // Object.is equality"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 21,
-    "passed": 21,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "hashes": {

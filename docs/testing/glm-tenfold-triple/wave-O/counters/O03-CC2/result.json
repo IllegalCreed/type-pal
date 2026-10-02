@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 21,
-    "passed": 21,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 21,
-    "passed": 20,
+    "executed": 15,
+    "passed": 14,
     "failed": 1,
     "failedFullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
     "failureMessageHead": "AssertionError: expected [Function] to throw an error"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 21,
-    "passed": 21,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "hashes": {

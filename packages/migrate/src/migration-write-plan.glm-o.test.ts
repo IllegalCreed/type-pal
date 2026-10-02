@@ -28,8 +28,7 @@ import {
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
-import { syntheticCatalog } from './__tests__/glm-o/supply-fixture.js'
-import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
+import { serializeMigrationJson, sha256 } from './migration-baseline.js'
 import type { MigrationJson } from './migration-files.js'
 import {
   commitMigrationTransaction,
@@ -37,7 +36,6 @@ import {
   type TransactionChange,
 } from './migration-transaction.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
-import { buildPalCurrentManifest } from './pal-manifest.js'
 import { convertSourceTilemap } from './project-map-converter.js'
 
 const roots: string[] = []
@@ -61,9 +59,6 @@ const REAL_MAP: MigrationJson = (() => {
   })
   return JSON.parse(JSON.stringify(map)) as MigrationJson
 })()
-
-/** typed 合法 CurrentManifest（现行生成口 + 合成 catalog），不经强转。 */
-const legalManifest = buildPalCurrentManifest(syntheticCatalog())
 
 function projectSnapshot(files: Record<string, unknown>): {
   files: Map<string, MigrationJson>
@@ -165,7 +160,6 @@ describe('O03 buildMigrationTransactionChanges：退役资源与重复目标', (
     path,
     expectedSha256: sha,
   })
-
 
   test('退役资源路径越界或 sha 非法 → fail-loud', () => {
     const repo = tempRepo()
@@ -393,7 +387,6 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
     // 事务目录按 id 清理；空的 transactions/ 父目录允许保留。
     expect(readdirSync(resolve(control, 'transactions'))).toEqual([])
   })
-
 
   test('baseline 目标在提交窗口被改 → 提交窗口守卫拒绝（双操作触发 assertPreviousTarget）', () => {
     const repo = tempRepo()
