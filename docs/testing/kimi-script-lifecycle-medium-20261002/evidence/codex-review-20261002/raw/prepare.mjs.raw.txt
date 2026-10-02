@@ -1,0 +1,22 @@
+import{readFileSync}from'node:fs'
+import{execFileSync}from'node:child_process'
+import{resolve}from'node:path'
+const[id,mode]=process.argv.slice(2),root=resolve(import.meta.dirname,'candidate')
+const c={
+ M03:{file:'script-confirm-modal.ts',section:'toggle(): void {',from:'    if (!request || request.answer !== undefined) return',to:'    if (!request || request.answer) return'},
+ M05:{file:'script-confirm-modal.ts',from:'      if (index >= 0) this.queue.splice(index, 1)',to:'      if (index >= 0) this.queue.splice(0, 1)'},
+ M06:{file:'script-confirm-modal.ts',section:'private resolveRequest(request: ScriptConfirmRequest<TFrame>, answer: boolean): void {',from:"    request.signal.removeEventListener('abort', request.abort)",to:'    // mutant: leave the normal-settlement abort listener installed'},
+ L03:{file:'script-activity-lineage.ts',from:'      latest = registration.lease',to:'      latest = registration.lease\n    else if (registration.coordinator === coordinator) latest = undefined'},
+}[id]
+if(!c)throw Error('unknown owned control')
+const path='packages/reforge/src/'+c.file,base=execFileSync('git',['show','HEAD:'+path],{cwd:root,encoding:'utf8'}),at=c.section?base.indexOf(c.section):0
+if(at<0||!base.slice(at).includes(c.from))throw Error('missing exact mutation')
+const mutant=base.slice(0,at)+base.slice(at).replace(c.from,c.to),before=mode==='apply'?base:mutant,after=mode==='apply'?mutant:base
+if(readFileSync(resolve(root,path),'utf8')!==before)throw Error('unexpected source state')
+const a=before.split('\n'),b=after.split('\n');let start=0,endA=a.length,endB=b.length
+while(start<endA&&start<endB&&a[start]===b[start])start++
+while(endA>start&&endB>start&&a[endA-1]===b[endB-1]){endA--;endB--}
+const beforeLines=a.slice(Math.max(0,start-2),start)
+const jump=c.section&&!beforeLines.some(x=>x.includes(c.section))?'@@ '+c.section:'@@'
+const patch=['*** Begin Patch','*** Update File: '+resolve(root,path),jump,...beforeLines.map(x=>' '+x),...a.slice(start,endA).map(x=>'-'+x),...b.slice(start,endB).map(x=>'+'+x),...a.slice(endA,endA+2).map(x=>' '+x),'*** End Patch'].join('\n')+'\n'
+console.log(JSON.stringify({patch,mutation:c}))

@@ -6,6 +6,8 @@
 
 ## 交付导航
 
+- [Codex 2026-10-02 独立审核](codex-review-20261002/README.md)：仅M01未结算请求与证据措辞窄返工，完整机器/原始三态账；作者历史报告不追溯改为accept。
+
 - [contracts.json](contracts.json)：16 候选逐条件账（源锚点/生产 caller/合法输入/旧 blob+fullName+matcher/完整 expected/分类/旧证明限制）。
 - [directed-vitest.json](directed-vitest.json)：两新测 + 两旧同域文件真实定向 JSON（file×fullName×status，38 项）。
 - [receipt.json](receipt.json)：门禁/环境红/未完账回执。

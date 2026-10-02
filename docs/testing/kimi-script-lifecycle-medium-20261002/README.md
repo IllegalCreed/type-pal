@@ -5,6 +5,8 @@ Owner Kimi，独立分支 `codex/kimi-script-lifecycle-medium-r1`，原32例中�
 当前 sourceBase `8990f0cde3edfe6feb908234aeafcc937daaec52`，content21/SAVE10；开工 BASE 是该分支随后 docs-only 登记提交。
 [冻结/精确白名单](targets.json)、[只读核验](verify.mjs)、[三个真实公开API输入小样](preflight.json)、[作者证据目录](evidence/README.md)。
 
+2026-10-02 [Codex独立复核/窄收尾提示词](evidence/codex-review-20261002/README.md)：固定3be438a9，50/50与四代表反控已核；仅M01未结算请求与作者证据措辞返工，不加例、不续派原卡之外范围，不接受作者自验为done。
+
 ## 容量与责任
 
 16 个精确候选全部处置，预计12–18个合法未重复新例，硬上限24。数字是额度预算，不是凑数门。
@@ -33,7 +35,7 @@ Owner Kimi，独立分支 `codex/kimi-script-lifecycle-medium-r1`，原32例中�
 | L04 | 同opaque key/exactSignal，两个真实coordinator各自mint并注册live lease；分别查询只返回本coordinator，结一域不擦另一域 | :15-26/:47-59 | 旧different coordinator只验无对应注册时独立等待；此为helper权限隔离合法输入，不伪造lease |
 | L05 | 同key/coordinator两个真实Signal及live lease并行注册，一方拒绝/finally后另一域仍正确可借；最终自行close | :41-59 | 旧different signal只验独立等待；未同时注册两Signal并核局部清理 |
 | L06 | 自有transient的async body pending时lookup仍live、barrier未ready；body拒绝后同一Error、membership/registration释放，barrier可ready | :67-95 | 旧failed activity仅同步throw/message；只新增异步持有+reason identity，不重领同步清理 |
-| L07 | 真实AbortController自有reason，预取消和gate等待取消沿公开helper返回精确reason，body零调用，gate释放无迟到执行 | :40/:73/:78-80；script-world.ts waitForActivationGate | 旧仅默认AbortError/name；两时序轴可同例，不换reason字符串凑数 |
+| L07 | 真实AbortController自有reason，预取消沿公开helper返回原reason身份；gate等待取消返回coordinator规范化AbortError与实际message，body零调用，gate释放无迟到执行 | :40/:73/:78-80；script-world.ts:682-697 waitForActivationGate | 旧已证默认AbortError/name；只新增预取消身份及等待时实际message，两时序同例不换字符串凑数；原派发精确reason过宽措辞由Codex校正 |
 | L08 | 同key/exactSignal第一次scope失败释放后第二次合法进入，第二body确有新live lease而非旧闭lease，最终全清 | :41-59/:74-94 | 旧失败后只证barrier能ready；replacement旧例未重新登记同lineage；若真实旧集成已证则existing-proof |
 
 不追加 captureFrame抛错恢复策略、不允许mock coordinator.beginActivity制造合法输入不可达的登记失败；发现缺陷只停对应ID举证，不夹修。

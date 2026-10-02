@@ -1,0 +1,32 @@
+{
+  "name": "review-docs-final",
+  "command": [
+    "node",
+    "scripts/docs/check.mjs"
+  ],
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "hashes": {
+    "packages/reforge/src/script-confirm-modal.ts": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+    "packages/reforge/src/script-activity-lineage.ts": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c",
+    "packages/reforge/src/script-world.ts": "c561967e56d45e4838b893cfd6bff473363d2ca50ee296b27b81cdca38479b5e",
+    "packages/reforge/src/runtime-script-project.ts": "50d4d7fbad9ac34e199fefa5c1f07f1ca0290c6f03aba91cc4320c8e695eb0c2",
+    "packages/reforge/src/script-project-core.ts": "29b0305a1e9dd16e7abc3d804e0b18c443cd5e5943b197b97e46bd5492031238",
+    "packages/reforge/src/main.ts": "fd39ef6b1a73df34e9102a3afed79c1abd73da2c3798ae3bfd8be9d089ff24be",
+    "package.json": "b0c63469ebc5b295f902960a3c37176b3d3b159932961b2175b76c2d8761cad1",
+    "pnpm-lock.yaml": "3628449b53e456fb8354a43beafe5d05da8a65698170e476bddf7aaeb3b69a5e",
+    "pnpm-workspace.yaml": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7",
+    "biome.json": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+    "scripts/coverage/baseline.fast.json": "d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3",
+    "packages/reforge/package.json": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+    "packages/reforge/tsconfig.json": "259b6b195023b3c2ae163a8c58b35016156b5e9db9a57523f7609aad966cd3d3",
+    "packages/reforge/vite.config.ts": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa",
+    "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts": "5299ff59af6429f693df89f7a9b1253d5a24becea1b4c3a7773381d685150912",
+    "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts": "fc6ad36de280543c12b54e2fba11712f6fb825fcebbd8378d750017a06780d32",
+    "packages/reforge/src/script-confirm-modal.test.ts": "e232eda191163ba246438a699c15ec08f218462d83334b3de6d9a2528e7a17ed",
+    "packages/reforge/src/script-activity-lineage.test.ts": "1885b5c3fd069afea11b2913e9c4f3f2b492bdcbf829a320723a79774e9d46ad"
+  },
+  "stdout": "docs: 829 Markdown / 4417 local links / 263 tasks / content21 SAVE10\ndocs: PASS (0 issues)\n",
+  "stderr": ""
+}

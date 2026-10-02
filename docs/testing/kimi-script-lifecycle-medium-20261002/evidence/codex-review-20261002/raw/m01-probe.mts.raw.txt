@@ -1,0 +1,15 @@
+import {writeFileSync} from 'node:fs'
+import {ScriptConfirmModalQueue} from './candidate/packages/reforge/src/script-confirm-modal.ts'
+const q=new ScriptConfirmModalQueue<string>(),controller=new AbortController()
+let settled=0
+const answer=q.enqueue('original',controller.signal)
+void answer.then(()=>{settled++},()=>{settled++})
+let captures=0;const capture=()=>{captures++;return'captured'}
+q.activateIfPossible(false,capture);q.activateIfPossible(false,capture)
+q.activateIfPossible(true,capture);q.activateIfPossible(true,capture);q.activateIfPossible(true,capture)
+for(let i=0;i<5;i++)await Promise.resolve()
+const atSubmittedTestEnd={pendingCount:q.pendingCount,active:q.active,settled,captures}
+// Probe's own request is finally consumed; no author/source mutation.
+q.submitNo();q.presented();q.presented();await answer
+const out={candidate:'3be438a9424b2b95afc268c60874a4f068aef491',label:'faithful M01 public-operation reproduction; author M01 discards the promise and stops at this point',atSubmittedTestEnd,probeCleanup:{pendingCount:q.pendingCount,settled}}
+writeFileSync(new URL('./m01-probe.json',import.meta.url),JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out))

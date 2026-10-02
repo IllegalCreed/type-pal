@@ -1,6 +1,6 @@
 # TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 — 确认队列与脚本活动权限生命周期中包
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: test-coverage / script-lifecycle
 Coding Owner: Kimi（仅两新test、专属fixture/evidence）
@@ -41,7 +41,19 @@ Branch: `codex/kimi-script-lifecycle-medium-r1`
 - Codex独立验收：pending。真实4代表控制、至少两旧绿新红与最终hash；此职责不转成作者工具返工。合法缺口不足按事实接收，不凑到24。
 - main check→official ratchet→protected与coverage/done/退休树清理均归Codex，作者不得做。用户产品验收N/A（不改产品/UX）。
 
-## 下一位 Kimi 提示词
+## 2026-10-02 Codex 独立复核与窄收尾
+
+固定候选 `3be438a9424b2b95afc268c60874a4f068aef491`，测试 `9d384895b4fc6a1de3d700ddc5013dc8bc4491ab`，证据 `bf2274e1bc4fe5a95c90d45e3d4c917b3081f264`；尾提交仅receipt。9改动白名单、14冻结与实际作者路由 verifier 通过。
+[完整审核与可复制窄收尾提示词](../../testing/kimi-script-lifecycle-medium-20261002/evidence/codex-review-20261002/README.md)、[机器/原始三态账](../../testing/kimi-script-lifecycle-medium-20261002/evidence/codex-review-20261002/review.json)。审核落在Codex自有分支 `codex/kimi-lifecycle-review-r1`，未写作者活动树。
+
+Codex counter **KM-LIFE-R1-01**：M01丢弃enqueue promise并以active/pendingCount1结束，违反本卡pending结算要求。仅改该例async/消费答案/末态清零；不增加ID/例数、不要求重做其余15例。作者证据“旧含Q对照22/22”改为main旧22实跑、Q12仅排重，L07概述分清预取消reason身份与gate等待规范化AbortError。L07精确测试/账正确，原派发措辞由Codex校正，不开产品修复。
+
+独立新16+旧22+Q12为50/50；M03/M05/M06/L03四枚实际指定业务单红，旧34绿、恢复50/50，最终生产/支持hash一致。本轮反控有效仅针对此固定候选；M01改动后由Codex处理必要重采，不转作者工具返工。
+Ref全包2263实跑2258绿+5 ignored资产环境红；补入portraits后受影响文件6例为1绿5项下一缺item-icons，不声称全绿。typecheck0、lint2782×0/0/0、docs/diff0；未执行official/main/coverage/done。原准入中的pending条目由本段覆盖，历史原样保留。
+
+唯一下一步：Kimi按链接中窄提示词交一个最终候选，再由Codex收口；本卡16候选不滚动扩张，O/P/Q冻结不受影响。
+
+## 历史开工提示词（已执行，不再派发）
 
 ```text
 接手 TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2，唯一测试Owner Kimi，Status build allowed。原32中包已accept且只读，这是新卡，不重做旧返工。工作树 /Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal，分支 codex/kimi-script-lifecycle-medium-r1，sourceBase 8990f0cde3edfe6feb908234aeafcc937daaec52（content21/SAVE10），开工BASE取本分支Codex docs-only登记tip。先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/tasks/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md、docs/testing/kimi-script-lifecycle-medium-20261002/README.md/targets.json/preflight.json，再核branch/status/verify --base BASE。完整处置16候选：确认队列拒绝激活零capture、view包装隔离、false答案锁定、无提交两帧仍pending、中项取消、真实监听清理/迟到旧abort、登记窗口取消；lineage外借lease异常不越权close、反向出栈/闭latest回落、coordinator和signal域局部清理、async失败持有与释放、自有abort reason、同lineage失败后合法重入。先按main/Q12/原Kimi32及targets固定候选全部旧fullName/matcher逐条件排重，existing-proof/不可构造/blocked不凑数；预计12–18，硬上限24，每ID一个主例，不拆换值标题。只两个指定新test、kimi-lifecycle-mid-2 fixture及evidence目录可写，产品/旧测/旧fixture/配置/基线/真实工程/共享docs/其它Owner只读。用真实Queue/Signal/公开Coordinator-minted lease与生产函数；typed IO/deferred/标准API spy可用，不unsafe桥/ignore/私态/核心mock/扩timeout。所有pending/reject真实结算；产品缺陷只停该ID报告、不夹修，不决定capture抛错恢复新机制或save策略。Codex承担最终四代表反控，作者不写/跑反控工具、不重采原四针或Q旧针。每批定向相邻/typecheck，末次Reforge全test/typecheck、根lint完整0/0/0/docs/diff/verifier；环境缺资产保留原红与路径，不假绿。evidence交逐合同完整源/caller/合法输入/旧blob-fullName-matcher/完整expected分类、真实file×fullName×status、receipt与原始门日志，一次完整40位SHA推本独立分支，测试与docs-only尾区间明确。不做浏览器/剧情/官方coverage/main/done/清树，16候选完成即停止，交Codex验收。

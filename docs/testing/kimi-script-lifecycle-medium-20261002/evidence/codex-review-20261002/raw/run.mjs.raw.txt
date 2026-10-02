@@ -1,0 +1,13 @@
+import{spawnSync,execFileSync}from'node:child_process'
+import{readFileSync,writeFileSync}from'node:fs'
+import{resolve}from'node:path'
+import{createHash}from'node:crypto'
+const[name,...args]=process.argv.slice(2),root=resolve(import.meta.dirname,'candidate')
+const targets=JSON.parse(readFileSync(resolve(root,'docs/testing/kimi-script-lifecycle-medium-20261002/targets.json'),'utf8'))
+const paths=[...targets.frozen.map(x=>x.path),...targets.newTests,'packages/reforge/src/script-confirm-modal.test.ts','packages/reforge/src/script-activity-lineage.test.ts']
+try{readFileSync(resolve(root,'packages/reforge/src/codex-q-modal-baseline.test.ts'));paths.push('packages/reforge/src/codex-q-modal-baseline.test.ts')}catch{}
+const hashes=Object.fromEntries(paths.map(p=>[p,createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex')]))
+const env={...process.env,NO_COLOR:'1'};delete env.NODE_COMPILE_CACHE;delete env.TYPE_PAL_COVERAGE_PROFILE
+const r=spawnSync(args[0],args.slice(1),{cwd:root,env,encoding:'utf8',maxBuffer:64*1024*1024})
+writeFileSync(resolve(import.meta.dirname,name+'.run.json'),JSON.stringify({name,command:args,exitCode:r.status,signal:r.signal,spawnError:r.error?.message??null,hashes,stdout:r.stdout,stderr:r.stderr},null,2)+'\n')
+console.log(JSON.stringify({name,exitCode:r.status,signal:r.signal,spawnError:r.error?.message??null,stdout:r.stdout?.slice(-600),stderr:r.stderr?.slice(-250)}))

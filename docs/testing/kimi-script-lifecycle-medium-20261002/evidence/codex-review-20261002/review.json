@@ -1,0 +1,1638 @@
+{
+  "task": "TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2",
+  "date": "2026-10-02",
+  "reviewer": "Codex",
+  "verdict": "counter",
+  "status": "rework",
+  "candidate": "3be438a9424b2b95afc268c60874a4f068aef491",
+  "base": "5805749d6c2954628cf912904bdd903a327d68c4",
+  "sourceBase": "8990f0cde3edfe6feb908234aeafcc937daaec52",
+  "testsCommit": "9d384895b4fc6a1de3d700ddc5013dc8bc4491ab",
+  "evidenceCommit": "bf2274e1bc4fe5a95c90d45e3d4c917b3081f264",
+  "headTail": "receipt-only",
+  "authorChangedFiles": [
+    "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/README.md",
+    "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/contracts.json",
+    "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/directed-vitest.json",
+    "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/gates/directed.raw.txt",
+    "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/gates/reforge-full.raw.txt",
+    "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/gates/typecheck.raw.txt",
+    "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/receipt.json",
+    "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+    "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts"
+  ],
+  "frozen": [
+    {
+      "path": "packages/reforge/src/script-confirm-modal.ts",
+      "expected": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+      "actual": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/src/script-activity-lineage.ts",
+      "expected": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c",
+      "actual": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/src/script-world.ts",
+      "expected": "c561967e56d45e4838b893cfd6bff473363d2ca50ee296b27b81cdca38479b5e",
+      "actual": "c561967e56d45e4838b893cfd6bff473363d2ca50ee296b27b81cdca38479b5e",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/src/runtime-script-project.ts",
+      "expected": "50d4d7fbad9ac34e199fefa5c1f07f1ca0290c6f03aba91cc4320c8e695eb0c2",
+      "actual": "50d4d7fbad9ac34e199fefa5c1f07f1ca0290c6f03aba91cc4320c8e695eb0c2",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/src/script-project-core.ts",
+      "expected": "29b0305a1e9dd16e7abc3d804e0b18c443cd5e5943b197b97e46bd5492031238",
+      "actual": "29b0305a1e9dd16e7abc3d804e0b18c443cd5e5943b197b97e46bd5492031238",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "expected": "fd39ef6b1a73df34e9102a3afed79c1abd73da2c3798ae3bfd8be9d089ff24be",
+      "actual": "fd39ef6b1a73df34e9102a3afed79c1abd73da2c3798ae3bfd8be9d089ff24be",
+      "valid": true
+    },
+    {
+      "path": "package.json",
+      "expected": "b0c63469ebc5b295f902960a3c37176b3d3b159932961b2175b76c2d8761cad1",
+      "actual": "b0c63469ebc5b295f902960a3c37176b3d3b159932961b2175b76c2d8761cad1",
+      "valid": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "expected": "3628449b53e456fb8354a43beafe5d05da8a65698170e476bddf7aaeb3b69a5e",
+      "actual": "3628449b53e456fb8354a43beafe5d05da8a65698170e476bddf7aaeb3b69a5e",
+      "valid": true
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "expected": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7",
+      "actual": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7",
+      "valid": true
+    },
+    {
+      "path": "biome.json",
+      "expected": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+      "actual": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+      "valid": true
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "expected": "d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3",
+      "actual": "d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/package.json",
+      "expected": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+      "actual": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/tsconfig.json",
+      "expected": "259b6b195023b3c2ae163a8c58b35016156b5e9db9a57523f7609aad966cd3d3",
+      "actual": "259b6b195023b3c2ae163a8c58b35016156b5e9db9a57523f7609aad966cd3d3",
+      "valid": true
+    },
+    {
+      "path": "packages/reforge/vite.config.ts",
+      "expected": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa",
+      "actual": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa",
+      "valid": true
+    }
+  ],
+  "scope": {
+    "originalCandidateIds": 16,
+    "authorDirected": {
+      "files": 4,
+      "total": 38,
+      "new": 16,
+      "mainOld": 22,
+      "qExecuted": 0
+    },
+    "codexDirected": {
+      "files": 5,
+      "total": 50,
+      "new": 16,
+      "mainOld": 22,
+      "qOld": 12,
+      "status": "all passed"
+    },
+    "executionIdentities": [
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 canActivate=false 或已有活动请求时 activate 不动队列"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 captureFrame 缺席时保留入队时的原始 frame"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项"
+      ],
+      [
+        "packages/reforge/src/codex-q-modal-baseline.test.ts",
+        "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership abort before registration or while waiting never invokes the body"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership closed lease with pending finally cannot enter after ready, nor impersonate its replacement"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership different coordinator waits as an independent root"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership different runtime waits as an independent root"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership different signal waits as an independent root"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership failed activity releases membership and does not strand later snapshots"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership overlapping registrations settle out of order without erasing the live sibling"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership registration refuses closed lease before body"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership registration refuses foreign lease before body"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership registration refuses forged lease before body"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership registration refuses forged-persistent lease before body"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "internal lineage uses actual live membership same runtime/exact signal/coordinator borrows live activity and cleans registration"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "nested persistent leases preserve save and owner boundaries a busy owner is not duplicated; unrelated existing roots also block ready"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "nested persistent leases preserve save and owner boundaries begin rejects closed parent even while gate is open"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "nested persistent leases preserve save and owner boundaries begin rejects foreign parent even while gate is open"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "nested persistent leases preserve save and owner boundaries begin rejects forged parent even while gate is open"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "nested persistent leases preserve save and owner boundaries child/grandchild keep the barrier pending even if parent closes first"
+      ],
+      [
+        "packages/reforge/src/script-activity-lineage.test.ts",
+        "nested persistent leases preserve save and owner boundaries epoch invalidation does not kill live lineage, but never commits its stale cursor"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M01 refused activations never touch the capture port; a real activation captures exactly once"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M02 mutating a handed-out view wrapper never leaks into the next view or the final answer"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M03 an early default-No submit stays false through the pending window"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M04 two presented frames without a submit keep the answer pending until an explicit submit"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M05 cancelling the middle queued request before activation preserves first and third in FIFO order"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M06 every settlement path removes exactly its own registered abort listener once"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M07 a late abort of a settled first request leaves the truly active second request intact"
+      ],
+      [
+        "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "M08 an abort landing between the enqueue pre-check and listener registration still rejects cleanly"
+      ],
+      [
+        "packages/reforge/src/script-confirm-modal.test.ts",
+        "ScriptConfirmModalQueue aborting active and queued requests rejects without choosing either branch"
+      ],
+      [
+        "packages/reforge/src/script-confirm-modal.test.ts",
+        "ScriptConfirmModalQueue Esc is always No and double-submit cannot change the answer"
+      ],
+      [
+        "packages/reforge/src/script-confirm-modal.test.ts",
+        "ScriptConfirmModalQueue is FIFO, defaults to No and settles only after two presented frames"
+      ],
+      [
+        "packages/reforge/src/script-confirm-modal.test.ts",
+        "ScriptConfirmModalQueue session replacement rejects every request and late input is inert"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L01 a rejected body on a borrowed lease keeps the same reason, drops the registration and never closes the lease"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L02 the latest scope settling first falls lookup back to the earlier live lease"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L04 two coordinators each return only their own registered lease for the same key and signal"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L05 a rejected scope on one signal leaves the other signal lineage borrowable and cleanable"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L06 a pending async body keeps its own transient live and the barrier waiting; rejection releases both with the same reason"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L07 a pre-aborted signal surfaces its own exact reason and a gate-wait abort surfaces the coordinator reason with no late body"
+      ],
+      [
+        "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "L08 re-entering the same lineage after a failed scope borrows a fresh live lease, never the closed one"
+      ]
+    ]
+  },
+  "controls": [
+    {
+      "id": "M03",
+      "file": "packages/reforge/src/script-confirm-modal.ts",
+      "section": "toggle(): void {",
+      "from": "    if (!request || request.answer !== undefined) return",
+      "to": "    if (!request || request.answer) return",
+      "target": "M03 an early default-No submit stays false through the pending window",
+      "verdict": "VALID",
+      "originalGreenReusedFrom": "control",
+      "phases": {
+        "original": {
+          "run": "raw/control.run.json.raw.txt",
+          "report": "raw/control.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "mutated": {
+          "run": "raw/M03-mutated.run.json.raw.txt",
+          "report": "raw/M03-mutated.json.raw.txt",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 49,
+          "failed": 1,
+          "sourceSha256": "be2f02e37f7adefebba0009b321b2be0dda2cd6b534808df832531819911020f",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "restored": {
+          "run": "raw/M03-restored.run.json.raw.txt",
+          "report": "raw/M03-restored.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        }
+      },
+      "businessFailure": {
+        "file": "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "fullName": "M03 an early default-No submit stays false through the pending window",
+        "status": "failed",
+        "failureMessages": [
+          "AssertionError: expected true to be false // Object.is equality\n    at /private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts:83:35\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      },
+      "old34RemainGreen": true
+    },
+    {
+      "id": "M05",
+      "file": "packages/reforge/src/script-confirm-modal.ts",
+      "from": "      if (index >= 0) this.queue.splice(index, 1)",
+      "to": "      if (index >= 0) this.queue.splice(0, 1)",
+      "target": "M05 cancelling the middle queued request before activation preserves first and third in FIFO order",
+      "verdict": "VALID",
+      "originalGreenReusedFrom": "M03-restored",
+      "phases": {
+        "original": {
+          "run": "raw/M03-restored.run.json.raw.txt",
+          "report": "raw/M03-restored.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "mutated": {
+          "run": "raw/M05-mutated.run.json.raw.txt",
+          "report": "raw/M05-mutated.json.raw.txt",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 49,
+          "failed": 1,
+          "sourceSha256": "8a025e5e525e6848f5f9ea73d076ede087984dcd14f2e55ecd3d42bce3dd32b9",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "restored": {
+          "run": "raw/M05-restored.run.json.raw.txt",
+          "report": "raw/M05-restored.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        }
+      },
+      "businessFailure": {
+        "file": "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "fullName": "M05 cancelling the middle queued request before activation preserves first and third in FIFO order",
+        "status": "failed",
+        "failureMessages": [
+          "AssertionError: expected { token: 3, frame: 'third', …(3) } to match object { token: 1, frame: 'first' }\n(3 matching properties omitted from actual)\n    at Proxy.<anonymous> (file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1283:10)\n    at Proxy.<anonymous> (file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts:124:22\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ]
+      },
+      "old34RemainGreen": true
+    },
+    {
+      "id": "M06",
+      "file": "packages/reforge/src/script-confirm-modal.ts",
+      "section": "private resolveRequest(request: ScriptConfirmRequest<TFrame>, answer: boolean): void {",
+      "from": "    request.signal.removeEventListener('abort', request.abort)",
+      "to": "    // mutant: leave the normal-settlement abort listener installed",
+      "target": "M06 every settlement path removes exactly its own registered abort listener once",
+      "verdict": "VALID",
+      "originalGreenReusedFrom": "M05-restored",
+      "phases": {
+        "original": {
+          "run": "raw/M05-restored.run.json.raw.txt",
+          "report": "raw/M05-restored.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "mutated": {
+          "run": "raw/M06-mutated.run.json.raw.txt",
+          "report": "raw/M06-mutated.json.raw.txt",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 49,
+          "failed": 1,
+          "sourceSha256": "8533ed0c69198b028087ec839dcf2d42bf9dc57991535a6f19762265aab914ae",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "restored": {
+          "run": "raw/M06-restored.run.json.raw.txt",
+          "report": "raw/M06-restored.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        }
+      },
+      "businessFailure": {
+        "file": "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+        "fullName": "M06 every settlement path removes exactly its own registered abort listener once",
+        "status": "failed",
+        "failureMessages": [
+          "AssertionError: expected \"removeEventListener\" to be called 1 times, but got 0 times\n    at /private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts:156:25\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ]
+      },
+      "old34RemainGreen": true
+    },
+    {
+      "id": "L03",
+      "file": "packages/reforge/src/script-activity-lineage.ts",
+      "from": "      latest = registration.lease",
+      "to": "      latest = registration.lease\n    else if (registration.coordinator === coordinator) latest = undefined",
+      "target": "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration",
+      "verdict": "VALID",
+      "originalGreenReusedFrom": "M06-restored",
+      "phases": {
+        "original": {
+          "run": "raw/M06-restored.run.json.raw.txt",
+          "report": "raw/M06-restored.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "mutated": {
+          "run": "raw/L03-mutated.run.json.raw.txt",
+          "report": "raw/L03-mutated.json.raw.txt",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 49,
+          "failed": 1,
+          "sourceSha256": "b3a16169053823c3dc53819ecd4205c666cabe0397f9a60fdce2aa847ac5d6ed",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        },
+        "restored": {
+          "run": "raw/L03-restored.run.json.raw.txt",
+          "report": "raw/L03-restored.json.raw.txt",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "sourceSha256": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c",
+          "executionSetSha256": "d105f47e94b53dbaef10a867b9c0b5de065f622e59d4194bfee5d5c91265378e"
+        }
+      },
+      "businessFailure": {
+        "file": "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+        "fullName": "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration",
+        "status": "failed",
+        "failureMessages": [
+          "AssertionError: expected undefined to be FlowActivityLease{ …(3) } // Object.is equality\n    at /private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts:118:55\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      },
+      "old34RemainGreen": true
+    }
+  ],
+  "supportHashesAtPositive": {
+    "packages/reforge/src/script-confirm-modal.ts": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+    "packages/reforge/src/script-activity-lineage.ts": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c",
+    "packages/reforge/src/script-world.ts": "c561967e56d45e4838b893cfd6bff473363d2ca50ee296b27b81cdca38479b5e",
+    "packages/reforge/src/runtime-script-project.ts": "50d4d7fbad9ac34e199fefa5c1f07f1ca0290c6f03aba91cc4320c8e695eb0c2",
+    "packages/reforge/src/script-project-core.ts": "29b0305a1e9dd16e7abc3d804e0b18c443cd5e5943b197b97e46bd5492031238",
+    "packages/reforge/src/main.ts": "fd39ef6b1a73df34e9102a3afed79c1abd73da2c3798ae3bfd8be9d089ff24be",
+    "package.json": "b0c63469ebc5b295f902960a3c37176b3d3b159932961b2175b76c2d8761cad1",
+    "pnpm-lock.yaml": "3628449b53e456fb8354a43beafe5d05da8a65698170e476bddf7aaeb3b69a5e",
+    "pnpm-workspace.yaml": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7",
+    "biome.json": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+    "scripts/coverage/baseline.fast.json": "d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3",
+    "packages/reforge/package.json": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+    "packages/reforge/tsconfig.json": "259b6b195023b3c2ae163a8c58b35016156b5e9db9a57523f7609aad966cd3d3",
+    "packages/reforge/vite.config.ts": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa",
+    "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts": "5299ff59af6429f693df89f7a9b1253d5a24becea1b4c3a7773381d685150912",
+    "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts": "fc6ad36de280543c12b54e2fba11712f6fb825fcebbd8378d750017a06780d32",
+    "packages/reforge/src/script-confirm-modal.test.ts": "e232eda191163ba246438a699c15ec08f218462d83334b3de6d9a2528e7a17ed",
+    "packages/reforge/src/script-activity-lineage.test.ts": "1885b5c3fd069afea11b2913e9c4f3f2b492bdcbf829a320723a79774e9d46ad",
+    "packages/reforge/src/codex-q-modal-baseline.test.ts": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a"
+  },
+  "counter": [
+    {
+      "id": "KM-LIFE-R1-01",
+      "file": "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+      "line": 26,
+      "finding": "M01 discards the enqueue promise and ends with an active unconsumed request; this violates the explicit pending-settlement rule.",
+      "probe": {
+        "candidate": "3be438a9424b2b95afc268c60874a4f068aef491",
+        "label": "faithful M01 public-operation reproduction; author M01 discards the promise and stops at this point",
+        "atSubmittedTestEnd": {
+          "pendingCount": 1,
+          "active": true,
+          "settled": 0,
+          "captures": 1
+        },
+        "probeCleanup": {
+          "pendingCount": 0,
+          "settled": 1
+        }
+      },
+      "fix": "Make M01 async, keep every existing capture/token/count assertion, consume its own answer via public submitNo/presented and await it, then assert pendingCount 0 and view undefined. No new ID, case, mock, timeout, source or config change."
+    }
+  ],
+  "evidenceCorrection": "Author 38-case directed JSON runs new16 plus mainOld22, not Q12. Q12 is source/ledger dedup only for the author and an actual additional execution in this Codex 50-case audit.",
+  "codexPacketCorrection": "L07 exact caller-reason identity applies to pre-abort; gate-wait abort is the coordinator normalized AbortError/message. Candidate test and ledger follow actual source. No product fix or new model is authorized.",
+  "gates": {
+    "full": {
+      "exitCode": 1,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "test",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-kimi-lifecycle-review.4cNLCq/full.json",
+        "--maxWorkers=1"
+      ],
+      "raw": "raw/full.run.json.raw.txt"
+    },
+    "pal-assets": {
+      "exitCode": 1,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/pal-meal-shell.test.ts",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-kimi-lifecycle-review.4cNLCq/pal-assets.json",
+        "--maxWorkers=1"
+      ],
+      "raw": "raw/pal-assets.run.json.raw.txt"
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "command": ["pnpm", "--filter", "@type-pal/reforge", "typecheck"],
+      "raw": "raw/typecheck.run.json.raw.txt"
+    },
+    "lint": {
+      "exitCode": 0,
+      "command": ["pnpm", "lint"],
+      "raw": "raw/lint.run.json.raw.txt"
+    },
+    "docs": {
+      "exitCode": 0,
+      "command": ["node", "scripts/docs/check.mjs"],
+      "raw": "raw/docs.run.json.raw.txt"
+    }
+  },
+  "fullPackage": {
+    "executed": 2263,
+    "passed": 2258,
+    "environmentalFailures": 5,
+    "cause": "missing gitignored portraits/001.png",
+    "partialAssetProvisionedAffectedRerun": {
+      "executed": 6,
+      "passed": 1,
+      "failed": 5,
+      "cause": "next missing dependency item-icons/197.png"
+    },
+    "notASecondFullPackageRun": true,
+    "noClaimOfFullGreen": true
+  },
+  "verifier": {
+    "authorRoute": "/Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal",
+    "exitCode": 0,
+    "frozen": 14,
+    "scopeValid": true,
+    "ownCopyRouteGuardRejectedAsExpected": true
+  },
+  "assetCopies": {
+    "sourceMainReadOnly": "/Users/zhangxu/illegal/type-pal",
+    "destinationOwnedCopyOnly": "/private/tmp/codex-kimi-lifecycle-review.4cNLCq/candidate",
+    "manifest": [
+      {
+        "path": "projects/pal/assets/migrated/faces/anu.png",
+        "bytes": 2614,
+        "sha256": "6b041641606337a85ea24132db9f878394c071edccb9c2c3d6a680f876aad78f",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/faces/li-xiaoyao.png",
+        "bytes": 1742,
+        "sha256": "8e34f587e6dcc09c78f2a12a7683064ae342cd9a789c13edebc18d4c834932df",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/faces/lin-yueru.png",
+        "bytes": 1782,
+        "sha256": "40147e2e051c9e32e44fbfd5d4d50d5e4fc829e559aad7a48a5e3c61b9f2a368",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/faces/wu-hou.png",
+        "bytes": 2057,
+        "sha256": "96ea87e610c0c5d9d74ff045484a42a7d97664fcc0730e455d96d37102a9a83b",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/faces/zhao-linger.png",
+        "bytes": 2129,
+        "sha256": "ca94694abf402404ecbc10562423042c6e642de475bd2c25c6e6bb390391e306",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/001.png",
+        "bytes": 7977,
+        "sha256": "35cafbb9ced8c21f4271dfec52195dd1dc3279012d049c32d39c7e37d1fec2a7",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/002.png",
+        "bytes": 8057,
+        "sha256": "329ee6935db082150cd9be5471ae4dec08f76c07332a6f7673f5cbf4209fb351",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/003.png",
+        "bytes": 8044,
+        "sha256": "1ffaeb1329d24e6f6f60af151098d10f4e5e683dfe91d3d172c83e85851ed92d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/004.png",
+        "bytes": 7937,
+        "sha256": "2983a8b4252c982e8489c239af59920db93d78e7db07bc90056aea41257929c6",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/005.png",
+        "bytes": 7969,
+        "sha256": "dc5a456db5e0f7ac1fbd677fdeaae412e635a4cab9ccb4c8f1d1f4c24da6c059",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/006.png",
+        "bytes": 7948,
+        "sha256": "cf48e567afb073740654f78629cb7b6bef27900e7020168e240a834031390426",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/007.png",
+        "bytes": 7918,
+        "sha256": "5f673836fad2fa226ca36ae66c46760afc7f4cdfc7126dbb5bdb750b3148e8e9",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/008.png",
+        "bytes": 7982,
+        "sha256": "34b0e6856104138e5e4a75b741dbbb7c4724695cc5230f55bea0c12ec1c1be18",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/009.png",
+        "bytes": 7993,
+        "sha256": "4c2a2618359b3c4d047e756b6442b2f268b6463aa84cf1ae48f1f99f0c4a84bd",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/010.png",
+        "bytes": 7978,
+        "sha256": "5dc4ae8514fc45ea1a40a30d5da90f2d4fcba31b9426d5af75738554768fef6f",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/011.png",
+        "bytes": 8391,
+        "sha256": "6169e9fb93b1c94a44f29bee7f5d2313446e27a770c3b7489c0713b5e71a7c5f",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/012.png",
+        "bytes": 8454,
+        "sha256": "3ddbcf9921ddfb792de5de1e6e54cd385c5d1f9053474240b33927e24c0b0921",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/013.png",
+        "bytes": 7249,
+        "sha256": "fd0cc621eedaf7aa91c5ca2b2266872fda199ed251d827d23813b0ffb632dced",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/014.png",
+        "bytes": 8431,
+        "sha256": "4cfbe32aeb31701d6c646873ed23b83b095c0c8080d582e8a38d9ab245bc1618",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/015.png",
+        "bytes": 8347,
+        "sha256": "eb6b10379b0ae09b7653f2d8d77a850f2b8c93120581280faff3243348c01e32",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/016.png",
+        "bytes": 8361,
+        "sha256": "7d5dd465e5e01b5ddfbb345898e8d282aa053d42c3a5d31143a85bbe64faeee2",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/017.png",
+        "bytes": 8341,
+        "sha256": "707a9a590f9c858cf80436c62c0df0a085bb4ac8657253bf57136eb9aaf70031",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/018.png",
+        "bytes": 8460,
+        "sha256": "16386e47d52a55a5d5f9661a1d1cfb5143c13983af47ebdf35a0276eaa0a4b3a",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/019.png",
+        "bytes": 8105,
+        "sha256": "b29d1206765276bc9f8e8ea0724dd43c35b352f46a14a796b36c6518de228784",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/021.png",
+        "bytes": 8532,
+        "sha256": "563d4ee011b519fa090fd9744569e08fd9f7b1b1b2bcb15d2426425e0fbaeaaa",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/022.png",
+        "bytes": 8628,
+        "sha256": "d968eaf516d3935ad9a2086228952dda0f7cc1f945e689912ba1d45c90d00da2",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/023.png",
+        "bytes": 8656,
+        "sha256": "2c5385df06e6614288c92fce7673c271ce28026cb8c6b64d8e4cb8a8bbefc728",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/024.png",
+        "bytes": 8530,
+        "sha256": "f37a3f27b41d242e556903df3c7432a7e27dff9fa8407ab3e83f2bfd4790af49",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/025.png",
+        "bytes": 8393,
+        "sha256": "420cceeb4a6e19c3918a14617be9470fcc88edbed30869de80abd6219b151c11",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/026.png",
+        "bytes": 8551,
+        "sha256": "15f730674bee059ccd22f5e387b32cad8f18e7d0406ba126e87b24b087e3415e",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/027.png",
+        "bytes": 12352,
+        "sha256": "3dfc20fea94e0848686f915707907cc81b976c7c65c531cd05f7cb1676d8f3ef",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/028.png",
+        "bytes": 12352,
+        "sha256": "b7e5c48fd6933a3a423dd10578da99d97fe8f4aaf07e3225720f27429b88a275",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/029.png",
+        "bytes": 12328,
+        "sha256": "34a989655d49312c03e473e5c1a1389d50c54751721107d135ab00850ed1e4fb",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/030.png",
+        "bytes": 12345,
+        "sha256": "1f02cef3de0e06f2a10604ea6f34de64dddb83eec57c899b7311237130f8257e",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/031.png",
+        "bytes": 12322,
+        "sha256": "decb66ea212d2290c65588fbbdaccc4c824bfdd32f8d31f53afadd700d6d4630",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/032.png",
+        "bytes": 12310,
+        "sha256": "ebd2a519089d8e8118ab46ee7a36b9cbebdc57c7fc963355a5c8fd22779e0b0d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/033.png",
+        "bytes": 8299,
+        "sha256": "7af3486ed9cc755298ee11e84f40b9ea43634bbb5e727f6672a948890faf0d17",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/034.png",
+        "bytes": 8270,
+        "sha256": "e87b876dc76c277be2fe7e235434a46c00c66f61f5473d53ea3e8a21e187eb83",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/035.png",
+        "bytes": 8404,
+        "sha256": "2429b0be7e83fbf9654177a759c399d3f14144ab066df02f9058772e414ac2ab",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/036.png",
+        "bytes": 9522,
+        "sha256": "73940b6123a53af9d976984d694d69269fdf5b132ff4474e96e1483e4b7d67b5",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/037.png",
+        "bytes": 8331,
+        "sha256": "b2bdc70e54b844c69dd8538f56ea6e3d267693b965d120fb1ff141cbcb548493",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/038.png",
+        "bytes": 8584,
+        "sha256": "229b1612d761f98759c7200ba9628c6ff5616257c932e61c11ba85e7696ef3c1",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/039.png",
+        "bytes": 9750,
+        "sha256": "f8f05f9624b44ffcd947469e3616a2db9fb92abed6fdf2c562fc6be9d488a9f0",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/040.png",
+        "bytes": 7204,
+        "sha256": "0f051d71dbc1449ddcf81a389c892823d70584d16583406defd7064d464da15d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/041.png",
+        "bytes": 6415,
+        "sha256": "10384c47fe84423e45dfa439b09edf5961f8686dddc12f46c250458035e3c70e",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/042.png",
+        "bytes": 9396,
+        "sha256": "4a09a4f6ca17929c0547b6576757b320178338dd34c5a369171b8ad3d55ece43",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/043.png",
+        "bytes": 10306,
+        "sha256": "00d200cb70f3c79331bad3c423cb163b9cddddecb610d9209ae0a342c41673d3",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/044.png",
+        "bytes": 9937,
+        "sha256": "a92691bf2d3c123c8ed777c9fd6cdbdcac36cef93a4001936546b8da7de9bcba",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/045.png",
+        "bytes": 10278,
+        "sha256": "7be32c20fd1ed8f02cd606d92b27879eda93cdfe7fcae91fbd34641ab847c388",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/046.png",
+        "bytes": 10054,
+        "sha256": "186eaf484408c3ce41b6e4073803f54a20be99468a0b9531a613d9dc85e336c9",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/047.png",
+        "bytes": 8773,
+        "sha256": "54a56e06fbc044e8551e4c9db0fc70d47020dce7886a8fa663955f33bbfc6a8b",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/048.png",
+        "bytes": 8484,
+        "sha256": "92b5f7e2adf65ea9e88362bc5ecd2d430339aa0bf2fa32241b77bfbc4c2ded97",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/049.png",
+        "bytes": 8400,
+        "sha256": "998e444f0c5661a061a17726d372aa50c9b2a91671a920b05d8c11ad4fe56f9a",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/050.png",
+        "bytes": 8102,
+        "sha256": "38f4266a16a074f4bc0fccfd048b9c7f03af83cb6bd05948e273dce18a6c51db",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/051.png",
+        "bytes": 8068,
+        "sha256": "399a67b4706aecb6c575ae3124fdf77ab534606ac443258a9b11da935bb082e5",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/052.png",
+        "bytes": 7821,
+        "sha256": "3c447250507201a9277c629fccc49c8140cf7c6764ced94c018990b74531ae54",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/053.png",
+        "bytes": 9944,
+        "sha256": "36ea931d86209475a1d0d03870d6d10f289a95c071149d00682e25f378dff4cb",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/054.png",
+        "bytes": 10173,
+        "sha256": "7d2fbcad4f423e95c36afbc738aeb8772afac220d82435b6632be120d355cc43",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/055.png",
+        "bytes": 10350,
+        "sha256": "6efeb06525ed0949b1559d8edd837ec19de721b5757096c21e42b991dd03f7b7",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/056.png",
+        "bytes": 10691,
+        "sha256": "48a86ff610c4a3823221173f1ad111322ac49c50dc91e12eb129f748c5581853",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/057.png",
+        "bytes": 8833,
+        "sha256": "309fb819f8d6c0dc4458346680cecda095cedb1ae9cf3ecd2751aa062a374c7d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/058.png",
+        "bytes": 11954,
+        "sha256": "9d3883718be24f53e540a5aa927024bc522dc8aaaa41b6e9cbd4f5d6b81c87a6",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/059.png",
+        "bytes": 7352,
+        "sha256": "e21d989669917421fbca5efaa976a48805135c057ee33c5bb4958da2b0a58d76",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/060.png",
+        "bytes": 9569,
+        "sha256": "6058304e661653f76e57c3e97fc5bf0c6ac4940a4e83ce7af01dc034a32645f3",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/061.png",
+        "bytes": 7032,
+        "sha256": "37d2d51ebc13e641d91a4a7651e8f8e2ed61528376770b84801859d8860afa63",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/062.png",
+        "bytes": 6178,
+        "sha256": "454333c89f96ea549d9bcdc907c643860d5a0663a1d51f0f7ceb350610080ef4",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/063.png",
+        "bytes": 10204,
+        "sha256": "f76b3f182f47105dec93ae83888950c43a886d7d57535e1637bbc778ae651150",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/064.png",
+        "bytes": 7715,
+        "sha256": "79c9bc4b3bc41f394e4c77347a605a4f5fdc472bc70b0252a287d922ac635689",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/065.png",
+        "bytes": 12213,
+        "sha256": "65463ddb46ec6b1ee873f4905929f9d5686e4d0150d2c35ea6125e7f83f5864d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/066.png",
+        "bytes": 8300,
+        "sha256": "1d586b89ff7dc25374b0ab468b937b9ee376df76cbdd479156363364ae22eeaf",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/067.png",
+        "bytes": 7859,
+        "sha256": "796f41a30a1254fd8279eedaa227b557094ef96e2bd0c898c851cbfb2d663e02",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/068.png",
+        "bytes": 5440,
+        "sha256": "9ae3df13fcaeb90be16d484e5f8f84258af6c852c2f412e80cca341f003b0326",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/069.png",
+        "bytes": 7148,
+        "sha256": "ed62224ad02ed6cd25fbcf582ad9bb97e1ed59e5df31d81ccc7c7334f506fb32",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/070.png",
+        "bytes": 4423,
+        "sha256": "fa8fa0929d2c9f16a34fec3b83e1b0a31c85d1e58ade895297064ee65812a14d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/071.png",
+        "bytes": 5750,
+        "sha256": "ccb10ac0a9a641071cd465f3428ac59b9500648ab7d654b3d44f01ba1e9fe8fd",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/072.png",
+        "bytes": 10549,
+        "sha256": "0fbb231cf7c654495503990f059d8ba3ae1cb5a994bb0918892201c91fd1b8c9",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/073.png",
+        "bytes": 11832,
+        "sha256": "c77b459e2fa9e758013e41156555a1ddb2b77cfa875610f26108a4af0b4b71de",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/074.png",
+        "bytes": 9108,
+        "sha256": "66d9d14c3ce8392351dfec5e46a0ef2c1e99a1212ce35603ceaeb11b29c4e69d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/075.png",
+        "bytes": 8886,
+        "sha256": "570611cf7d376bb02811d060e2cc916ceeb5bdd707eb2703094d8aa6be103793",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/076.png",
+        "bytes": 8414,
+        "sha256": "91ae7eb15ed57c21dd04d2a6a50f380e60bd654f4c949f1e67c409f7a1939307",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/077.png",
+        "bytes": 10544,
+        "sha256": "25a59ba8ccf612c14ddc1b1cf99cc1ae6ef7225fe915c804fa743b34878ed245",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/080.png",
+        "bytes": 6415,
+        "sha256": "7f9a123a59c60ada77619120d8458ac172f48cbd763ed3030fef2e0652da240c",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/081.png",
+        "bytes": 7750,
+        "sha256": "98c08f9d111ecb5d7ebca606b37ba755beb9f2aa8d150db209ffff366dd57d25",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/082.png",
+        "bytes": 13536,
+        "sha256": "670d13bfc4c57b5c7e8600f876990c8f9110092badfe91da489b7a59046c1ba0",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/083.png",
+        "bytes": 7169,
+        "sha256": "69084e94a59929ae857bcf7cce108b2fbc1da6d9a12ac276eade2ee12f869ed4",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/084.png",
+        "bytes": 10005,
+        "sha256": "cca9f3dd446da735bf21d56bddf58e48a4212daed4bb8a7dfda1f84547466e77",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/085.png",
+        "bytes": 4325,
+        "sha256": "4cde2479ba5961cce85e7bccfe056985f76f652b632cbebecc1a2b8a8b143877",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/086.png",
+        "bytes": 6306,
+        "sha256": "7643b0f67a0766b9b667fddb491788c8e5a096fd521e0de2114b2ccf86e185ef",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/087.png",
+        "bytes": 6259,
+        "sha256": "aa5c2fdb50a38bf82a87ac182deb5113d120934fc78c8c95ee9bde100a76231c",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/088.png",
+        "bytes": 10722,
+        "sha256": "80fcf037c347e962597c024711bb5f18af3844a052affd420179c18b2bc500d0",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/089.png",
+        "bytes": 10766,
+        "sha256": "9fb25ce1f407330c15ce930dae743c958b5ee77d83f01954a8de0f210128d811",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/090.png",
+        "bytes": 6013,
+        "sha256": "21d6641f9ca908292e87689eb9a9afd8d664fbb6265b7b92a3012f974b0cd074",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "projects/pal/assets/migrated/portraits/091.png",
+        "bytes": 5475,
+        "sha256": "ce063392110a954b218f1edb5e066b8aae0b92334bcef0a397cedfee53b2a6f3",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Makefile",
+        "bytes": 13836,
+        "sha256": "f42762ce5c0c3903e1deff308349a09c5395ae70a4e0751c0ae73756d8f5ed2c",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/canvas.node",
+        "bytes": 654992,
+        "sha256": "34d2e33ac5228866827aa9d49cd373ef3fe691000614e7fc3fa606d4e36fef2c",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libX11.6.dylib",
+        "bytes": 1025184,
+        "sha256": "ad483ac48298a3c5c2aa0fae93725112da9dd7a8317d7b185f2a77e41a5b10c3",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libXau.6.dylib",
+        "bytes": 53312,
+        "sha256": "b854f7a86f8459ce56b21565eb9e6d92b87e0c9e50e905cd4f40b3a6b261d84c",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libXdmcp.6.dylib",
+        "bytes": 54224,
+        "sha256": "e057defae9807661c12f88ebf14999723673f0480ef0c7be81f0cb06344ac90b",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libXext.6.dylib",
+        "bytes": 115200,
+        "sha256": "39ae64cc6eb54f51e6d32e60defad7d7ae71a7502c755831ab7c2aaa5329b04b",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libXrender.1.dylib",
+        "bytes": 89696,
+        "sha256": "1479c94ea7ce432fa979fc1c7fe2878fe2ae7c76da121551ec73a5fbbce8d849",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libcairo-gobject.2.dylib",
+        "bytes": 75904,
+        "sha256": "8e864c7247133d51ef4f62f2fcde8ec4be29e5fe2bcc077375a0d4334025dc0a",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libcairo.2.dylib",
+        "bytes": 1183328,
+        "sha256": "3ebf29379a91a383539b5ec6c1e6afb18ad326a300aa235bb13930e0cc939b67",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libdatrie.1.dylib",
+        "bytes": 74288,
+        "sha256": "21cf9a4043e62e485c6e5247132069fb18cf8924f37f2ef2e967ed3210b8455d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libfontconfig.1.dylib",
+        "bytes": 306208,
+        "sha256": "e986e4ac6fb7a1710cc00e62e5b1e97384cfdfbb4d02679f549336d887ad404e",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libfreetype.6.dylib",
+        "bytes": 641888,
+        "sha256": "6ea69f54502cbb257e916005be55dc0751cc23740d8f4d2a4f95f7082c6f874f",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libfribidi.0.dylib",
+        "bytes": 171920,
+        "sha256": "7afa752e03d7a1a71374f4cd9ca591820096ff2d633345b62efc4514bda6e550",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libgdk_pixbuf-2.0.0.dylib",
+        "bytes": 234432,
+        "sha256": "5a01426bb330fe67186dff866369973b19f0916822c3d17b7f5da8e389e65d63",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libgif.7.2.0.dylib",
+        "bytes": 72992,
+        "sha256": "8c128aac623f2db965e9873cbf491b5f0ccac0faf0c3936fcdbffb70a1b09ef5",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libgio-2.0.0.dylib",
+        "bytes": 2037040,
+        "sha256": "679d59f47b698afa3d8d5155a5f68d3a142b061da54edf0a7cc4bd46794d2bb2",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libglib-2.0.0.dylib",
+        "bytes": 1381552,
+        "sha256": "9f029cddcf104062022978fdb05885a8e45ec2e165b63cab22ce8ada3a9fedb5",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libgmodule-2.0.0.dylib",
+        "bytes": 71600,
+        "sha256": "0ac3576e2ea2c610bad9c32b3a678d5e6e8ee3691329fa44cf5be22d1216fea2",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libgobject-2.0.0.dylib",
+        "bytes": 428352,
+        "sha256": "485b4bbc63155aeaf6082d272865dc4c1116463d5472aab090a38eeb9cad88f5",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libgraphite2.3.2.1.dylib",
+        "bytes": 143200,
+        "sha256": "9bb08a9474a5da966eb3c74b66bbefea774a34e5800a901102afc8e084e21f7e",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libharfbuzz.0.dylib",
+        "bytes": 1230464,
+        "sha256": "0b94e3dd33dc82611f77d2a2eee47a9353cacd60063ac9dbba09a05d7eacbdc7",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libintl.8.dylib",
+        "bytes": 230048,
+        "sha256": "cdd22cac6af3ceabdd3c7b1a9d5d8b9cf7d36c1c24ac49ec4a3ba6143db9292c",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libjpeg.8.3.2.dylib",
+        "bytes": 489424,
+        "sha256": "842d53ca49c62a9559d2d3a66c4e397598ca65a5214d85578362038532eb84fc",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libpango-1.0.0.dylib",
+        "bytes": 455312,
+        "sha256": "38a65b0b7aca3ae838fdecdbb629751c49658c25fd88eb54c812d95f3006f32c",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libpangocairo-1.0.0.dylib",
+        "bytes": 160336,
+        "sha256": "5ee370a5a923760f601d4ae810f51e76b832d7b7f90af99d7d019638002a07d3",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libpangoft2-1.0.0.dylib",
+        "bytes": 142448,
+        "sha256": "455d049c2b8fbedaa3a91c36aa0caf4ece53d315bf280cb1fcb39cb06aed306d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libpcre2-8.0.dylib",
+        "bytes": 591552,
+        "sha256": "3f6df43e36e511d851e11c8a20552cdade2f4a793a8c2c3ed562bcfdeaefdfb8",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libpixman-1.0.dylib",
+        "bytes": 634928,
+        "sha256": "c902bb08009ea69f9a43b7b88a7d28560d6ffc086186bbb692f2f91ecb7bab7a",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libpng16.16.dylib",
+        "bytes": 209392,
+        "sha256": "b746c8c10ad111681951e5a0eb1271c3c3d91bee104a2152ecf1b76b406386e3",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/librsvg-2.2.dylib",
+        "bytes": 5679136,
+        "sha256": "8ad980d2458835dd9d0301877cfbd9935f5df5e07345b6415720ce5945e4fe2a",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libthai.0.dylib",
+        "bytes": 90688,
+        "sha256": "68a7b57f37be17acc1f5e1861717d4c8b3f68611f69a70382374f7c48d33b54f",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libxcb-render.0.0.0.dylib",
+        "bytes": 105568,
+        "sha256": "a1875a2fc4f19dd06631cb1dc93ecfb5cefd913ea08451671d48b210650a5c92",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libxcb-shm.0.0.0.dylib",
+        "bytes": 70432,
+        "sha256": "13b206c0cb3e6482f95a8d85bfebcb483741104071e35d51424154a64ee31fca",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/Release/libxcb.1.1.0.dylib",
+        "bytes": 194768,
+        "sha256": "1c0b967425c2fc3dd6dfaac1ea809e3e79568bd9961337e0724d63da24368f15",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/binding.Makefile",
+        "bytes": 114,
+        "sha256": "e694313e858af9fc94a5f329ecc3aca1eb9b31f8640f42d44cd3aab7443cb5bc",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/canvas.target.mk",
+        "bytes": 9622,
+        "sha256": "c6a2de5618b5330afeae6ed36be6153ffc9a7e725f807f018518f59efa9cb46d",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/config.gypi",
+        "bytes": 15529,
+        "sha256": "01f1a6414c6c5749ec1282a3a54b5c3160b44f0770706181531475c7bd4c0447",
+        "readOnlyCopyMatchesMain": true
+      },
+      {
+        "path": "node_modules/.pnpm/canvas@3.2.3/node_modules/canvas/build/gyp-mac-tool",
+        "bytes": 30515,
+        "sha256": "ede790181cc11e68da4859ac13692a68b9f87589910fa921999e5074daba1aef",
+        "readOnlyCopyMatchesMain": true
+      }
+    ]
+  },
+  "rawManifest": [
+    {
+      "path": "raw/control.json.raw.txt",
+      "bytes": 18243,
+      "sha256": "a1c6091b5f19c69f79533ff1b80cde75b9b33613a47f4cbe8923c1a14b0d5af8"
+    },
+    {
+      "path": "raw/control.run.json.raw.txt",
+      "bytes": 2834,
+      "sha256": "308e900af76679afab4bf31cc90c488f7b5eff2d0c820aa4d6d6784076a1c54a"
+    },
+    {
+      "path": "raw/M03-mutated.json.raw.txt",
+      "bytes": 19747,
+      "sha256": "bf65473f47ea5d580b25bf8a55d7798bcc443b6ab7967f1d391ad6b4dd04a4ef"
+    },
+    {
+      "path": "raw/M03-mutated.run.json.raw.txt",
+      "bytes": 3329,
+      "sha256": "7b508259c3378e741e3eeae2b6ffb4e502e762d4f816e45ebe807522d4eb6e55"
+    },
+    {
+      "path": "raw/M03-restored.json.raw.txt",
+      "bytes": 18236,
+      "sha256": "827c859b768ab9ca3146382b0bd6f9f6f0401a2053f17dda391f5a4afa8a67aa"
+    },
+    {
+      "path": "raw/M03-restored.run.json.raw.txt",
+      "bytes": 2849,
+      "sha256": "ed8d1a69bbe2a3d63e7487d968b3480af67e011fc09ea9b98d8fb7e821a31470"
+    },
+    {
+      "path": "raw/M05-mutated.json.raw.txt",
+      "bytes": 19300,
+      "sha256": "ac65c175a1511b6678c3ae8850dd0d87369f76cd4967d7a663b07b8cbb65a33b"
+    },
+    {
+      "path": "raw/M05-mutated.run.json.raw.txt",
+      "bytes": 3329,
+      "sha256": "83eafd388533a439e60ab1ac11edd1a413e519acb92634bfecba10bffd811f31"
+    },
+    {
+      "path": "raw/M05-restored.json.raw.txt",
+      "bytes": 18238,
+      "sha256": "e73d173c4ca53e502f79ecc3a79421d0656234ee7abe2eee96c475b7684094fe"
+    },
+    {
+      "path": "raw/M05-restored.run.json.raw.txt",
+      "bytes": 2849,
+      "sha256": "74f632731a38782924eadad0a5f801126c47eb3ef266c0878e3cd4310b187880"
+    },
+    {
+      "path": "raw/M06-mutated.json.raw.txt",
+      "bytes": 18716,
+      "sha256": "f07887be63e10693a8f9073f23c148bebdd2965a932d376db5e730195dec7f56"
+    },
+    {
+      "path": "raw/M06-mutated.run.json.raw.txt",
+      "bytes": 3329,
+      "sha256": "09a5636809521dc016ee6cb8293176aa5c45185739f550e9706ee88041190cd0"
+    },
+    {
+      "path": "raw/M06-restored.json.raw.txt",
+      "bytes": 18242,
+      "sha256": "016b8f71def488ba8fb914052290f250ecf07c9697fde8db613d2cf1ed191160"
+    },
+    {
+      "path": "raw/M06-restored.run.json.raw.txt",
+      "bytes": 2849,
+      "sha256": "849695e281570ba438ff7ca4a757bdf1f158f0d832cb2623799572ef77c0c8cc"
+    },
+    {
+      "path": "raw/L03-mutated.json.raw.txt",
+      "bytes": 19775,
+      "sha256": "1f1b2d8c8408b54e0adaa8294109ec4c56783e23d88efa31ee3204a2962a4985"
+    },
+    {
+      "path": "raw/L03-mutated.run.json.raw.txt",
+      "bytes": 3329,
+      "sha256": "b81a7e399a973d487fb493db87fabd0fd8b381f8c264eb7727d563243127d3d6"
+    },
+    {
+      "path": "raw/L03-restored.json.raw.txt",
+      "bytes": 18221,
+      "sha256": "801c2365f41f58ecea3739a4bb11284f9007536482e05d1c3ef7749185f9f93f"
+    },
+    {
+      "path": "raw/L03-restored.run.json.raw.txt",
+      "bytes": 2849,
+      "sha256": "7a5d9a7c37eec8c8552c1cc7bf13facbf29f9fa43a52017a5bc4d8105cfff2d2"
+    },
+    {
+      "path": "raw/author-verifier.raw.txt",
+      "bytes": 180,
+      "sha256": "6d07b83ce8fb584142a8dc58680541e8748192ffd646aa3aa7a1e483244cb655"
+    },
+    {
+      "path": "raw/verifier.run.json.raw.txt",
+      "bytes": 3086,
+      "sha256": "173422464feaed8bfd91caad1579dd94186d4cb32e6b95f57151aed577c976a4"
+    },
+    {
+      "path": "raw/full.run.json.raw.txt",
+      "bytes": 2979,
+      "sha256": "549d49792ba5739bdfbae210d767b482cae5b32472a25c9a2ec422e27b733318"
+    },
+    {
+      "path": "raw/pal-assets.run.json.raw.txt",
+      "bytes": 2824,
+      "sha256": "003822b99038c99b10169108c1ba9e11c9a097fbb0100f687219f4a56fc37cbb"
+    },
+    {
+      "path": "raw/typecheck.run.json.raw.txt",
+      "bytes": 2375,
+      "sha256": "d14a923d26f090f5352404bae1d861d1acdf13da42bf9ad9fd4d75ada49f5593"
+    },
+    {
+      "path": "raw/lint.run.json.raw.txt",
+      "bytes": 2387,
+      "sha256": "4ab3c7fff5e302f255306042c26f9f125774dd1482a867980e0f7c02350b240a"
+    },
+    {
+      "path": "raw/docs.run.json.raw.txt",
+      "bytes": 2303,
+      "sha256": "a5d04782d4c88a9e72328722d3756519519f372cfb8a1e0119feb5e67e4feb12"
+    },
+    {
+      "path": "raw/full.json.raw.txt",
+      "bytes": 841757,
+      "sha256": "874c834aa23ff8c2d4cebebe86078bbcc0b5df7ee22cb255772579bcbf6f21d4"
+    },
+    {
+      "path": "raw/pal-assets.json.raw.txt",
+      "bytes": 6162,
+      "sha256": "29f568f4a7ca977715e7be02e0ee954b0fd453347996bd00857b01069f366552"
+    },
+    {
+      "path": "raw/m01-probe.json.raw.txt",
+      "bytes": 351,
+      "sha256": "7628d9ef3652eb93559556a5c1de9c0a322a0f8b8a3ae7b592b1c30531af5aef"
+    },
+    {
+      "path": "raw/m01-probe.run.json.raw.txt",
+      "bytes": 2721,
+      "sha256": "dbd76ee96533ab549eebe7dc8c396c46542a24e997dc5f0d1057f388ab0331f7"
+    },
+    {
+      "path": "raw/run.mjs.raw.txt",
+      "bytes": 1423,
+      "sha256": "d3f5ee6d1c052b668e607c5085f544f4d12cf4198d14cab5136deba94b9fb649"
+    },
+    {
+      "path": "raw/prepare.mjs.raw.txt",
+      "bytes": 2162,
+      "sha256": "3a60cda8a8f1a898e1c3195619fb11a17b298c19f51cb06ec569da3b25738e38"
+    },
+    {
+      "path": "raw/m01-probe.mts.raw.txt",
+      "bytes": 1195,
+      "sha256": "9729da445abafa84e7b4ed5e7d735b6243cdd93bc89a17f4891c0f6acefc1a1d"
+    },
+    {
+      "path": "raw/q-comparator-source.raw.txt",
+      "bytes": 7203,
+      "sha256": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a"
+    }
+  ],
+  "closure": {
+    "accept": false,
+    "officialRatchet": "not run while counter open",
+    "protectedFast": "not run while counter open",
+    "mainIntegration": false,
+    "coverageSettlement": "not measured",
+    "opqFrozen": true
+  }
+}
