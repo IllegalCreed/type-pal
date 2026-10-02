@@ -209,7 +209,7 @@ export function readErrandGame() {
     menu: menu ? { kind: menu.kind, cursor: menu.state?.selection?.cursor } : null,
     actors: Object.fromEntries(
       (gs?.allEventObjects ?? [])
-        .filter((e) => [18, 19, 44, 45, 62, 83, 84, 95, 115, 123, 124, 127].includes(e.id))
+        .filter((e) => [18, 19, 44, 53, 62, 83, 84, 95, 115, 123, 124, 127].includes(e.id))
         .map((e) => [
           `e${e.id}`,
           {

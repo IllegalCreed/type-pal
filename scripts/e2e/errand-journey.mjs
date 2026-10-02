@@ -190,7 +190,7 @@ export async function runErrandJourney(engine) {
           const entity = contract.scenes[sid].entities.find((e) => e.id === id),
             range = entity.pages[0].triggerActivation.range
           const [c, r] = grid({ position: actor.position })
-          destination = (col, row) => Math.abs(col - c) + Math.abs(row - r) <= range
+          destination = (col, row) => Math.max(Math.abs(col - c), Math.abs(row - r)) <= range
         }
         await navigate(sid, destination, finished)
       }
@@ -262,7 +262,7 @@ export async function runErrandJourney(engine) {
           assert.deepEqual(await page.evaluate(readWorld), predecessor.report.endWorld)
         else assertInnRestoreCommitted(await evidence(), predecessor.report.endWorld)
         await begin('kitchen-entry')
-        await touch('s003', 'e45', (s) => inScene(s, 's001') && ready(s))
+        await touch('s003', 'e53', (s) => inScene(s, 's001') && ready(s))
         await begin('aunt')
         await interact('s001', 'e19')
         await dialogue('s001', 'aunt')
