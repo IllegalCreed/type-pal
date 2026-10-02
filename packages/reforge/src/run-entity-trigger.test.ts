@@ -506,6 +506,116 @@ test('external session replacement during the last awaited child effect prevents
   expect(signal.aborted).toBe(false)
   expect(f.world.script!.flags).toEqual({})
   expect(f.runtime.isEntityTriggerActive(target)).toBe(false)
+  expect(f.world.script!.behaviors.entities?.room?.b?.trigger?.cursor).toBeUndefined()
+})
+
+test.each([
+  { empty: false, next: 'repeat' },
+  { empty: true, next: 'repeat' },
+  { empty: true, next: 'complete' },
+])('session change at last effect or settlement cannot commit a cursor: $empty/$next', async ({
+  empty,
+  next,
+}) => {
+  let session = 1,
+    entered = false
+  const held = deferred<void>()
+  const f = fixture(empty ? [] : [{ kind: 'wait', ms: 1 }], {
+    currentSceneSessionId: () => session,
+    executeEffect: async () => {
+      entered = true
+      await held.promise
+    },
+    gate: async (_signal, boundary) => {
+      if (empty && boundary?.kind === 'settlement' && f.runtime.isEntityTriggerActive(target)) {
+        entered = true
+        await held.promise
+      }
+    },
+  })
+  const flow = f.scene.entities[1]!.behaviors!.trigger!.talk!.flow
+  if (flow.kind !== 'stages') throw new Error('test requires stages')
+  flow.stages[0]!.next = next === 'complete' ? { kind: 'complete' } : 'repeat'
+  flow.stages.push({ id: 'repeat', body: [] })
+  f.world.script!.behaviors.entities = {
+    room: {
+      b: { trigger: { cursor: { behavior: 'talk', at: { kind: 'stage', stage: 'first' } } } },
+    },
+  }
+  const before = structuredClone(f.world.script!.behaviors)
+  const execution = f.runtime.runCommands([{ kind: 'runEntityTrigger', target }, parentTail], {
+    signal: new AbortController().signal,
+  })
+  await settle()
+  expect(entered).toBe(true)
+  session = 2
+  held.resolve()
+  await expect(execution).rejects.toHaveProperty('name', 'AbortError')
+  expect(f.world.script!.behaviors).toEqual(before)
+  expect(f.world.script!.flags).toEqual({})
+})
+
+test('overlapping calls with the same exact signal retain only their own scope registrations', async () => {
+  const b = deferred<void>(),
+    c = deferred<void>(),
+    signal = new AbortController().signal
+  const f = fixture([{ kind: 'wait', ms: 1 }], {
+    executeEffect: async (command, context) => {
+      if (command.kind === 'wait') await (context.self?.entity === 'b' ? b.promise : c.promise)
+      else if (command.kind === 'loadScene')
+        f.effects.push({ kind: command.kind, self: context.self, signal })
+    },
+  })
+  f.scene.entities.push(
+    definition('c', [
+      { kind: 'wait', ms: 1 },
+      { kind: 'loadScene', scene: 'other' },
+    ]),
+  )
+  const first = f.runtime.runCommands([{ kind: 'runEntityTrigger', target }], { signal })
+  const second = f.runtime.runCommands(
+    [{ kind: 'runEntityTrigger', target: { scene: 'room', entity: 'c' } }],
+    { signal },
+  )
+  await settle()
+  expect(f.runtime.isEntityTriggerActive(target)).toBe(true)
+  expect(f.runtime.isEntityTriggerActive({ scene: 'room', entity: 'c' })).toBe(true)
+  b.resolve()
+  await first
+  expect(f.runtime.isEntityTriggerActive({ scene: 'room', entity: 'c' })).toBe(true)
+  c.resolve()
+  await expect(second).rejects.toThrow(/当前场景演出禁止 loadScene/)
+  expect(f.effects).toEqual([])
+  await f.runtime.runCommands([{ kind: 'loadScene', scene: 'other' }], { signal })
+  expect(f.effects.map((effect) => effect.kind)).toEqual(['loadScene'])
+})
+
+test('an implicit independently running owner retains inherited scope after its explicit caller returns', async () => {
+  const held = deferred<void>(),
+    signal = new AbortController().signal
+  let implicit: Promise<boolean> | undefined
+  const f = fixture([{ kind: 'chasePlayer' }], {
+    executeEffect: async (command) => {
+      if (command.kind === 'chasePlayer') {
+        implicit = f.runtime.runEntityBehavior(f.scene, 'c', 'trigger', { signal })
+        await settle()
+      } else if (command.kind === 'wait') await held.promise
+      else if (command.kind === 'loadScene')
+        throw new Error('late implicit load effect must not run')
+    },
+  })
+  f.scene.entities.push(
+    definition('c', [
+      { kind: 'wait', ms: 1 },
+      { kind: 'loadScene', scene: 'other' },
+    ]),
+  )
+  await f.runtime.runCommands([{ kind: 'runEntityTrigger', target }], { signal })
+  expect(f.runtime.isEntityTriggerActive({ scene: 'room', entity: 'c' })).toBe(true)
+  expect(implicit).toBeDefined()
+  held.resolve()
+  await expect(implicit).rejects.toThrow(/当前场景演出禁止 loadScene/)
+  expect(f.world.script!.behaviors.entities?.room?.c?.trigger?.cursor).toBeUndefined()
 })
 
 test('a save gate closed on the parent admits its exact-lineage child and awaits the complete chain', async () => {

@@ -709,12 +709,14 @@ export class FlowRuntimeCoordinator {
     target: EntityAddress,
     channel: 'trigger' | 'auto',
     parent?: FlowLease,
+    beforeCommit?: () => void,
   ): ActiveEntityBehavior | undefined {
     const resolved = resolveEntityBehavior(entity, world, target, channel)
     if (!resolved || resolved.cursor.kind === 'completed') return
     const lease = this.begin(
       entityOwner(target, channel),
       (cursor, resume) => {
+        beforeCommit?.()
         assertFlowCursor(resolved.behavior.flow, cursor)
         const state = clone(entityWorldState(world, target) ?? {})
         const slot: ActiveBehaviorSlot = clone(state[channel] ?? {})
@@ -737,12 +739,14 @@ export class FlowRuntimeCoordinator {
     scene: BaseSceneDef,
     slot: 'onEnter' | 'onTeleport',
     parent?: FlowLease,
+    beforeCommit?: () => void,
   ): ActiveSceneHook | undefined {
     const resolved = resolveSceneHook(scene, world, slot)
     if (!resolved || resolved.cursor.kind === 'completed') return
     const lease = this.begin(
       hookOwner(scene.id, slot),
       (cursor) => {
+        beforeCommit?.()
         assertFlowCursor(resolved.hook.flow, cursor)
         const state = clone(sceneWorldState(world, scene.id) ?? {})
         const slotState = clone(state[slot] ?? {})

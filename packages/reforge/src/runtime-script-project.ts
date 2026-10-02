@@ -307,7 +307,7 @@ export class ScriptProjectRuntime {
   private readonly observers: Pick<ProjectScriptHostOptions, 'beforeStep' | 'onStep'>
   private readonly invocationScopes = new WeakMap<
     AbortSignal,
-    { scene: string; session: string | number }
+    Set<{ scene: string; session: string | number }>
   >()
 
   constructor(
@@ -333,14 +333,15 @@ export class ScriptProjectRuntime {
   }
 
   private guardInvocation(signal: AbortSignal, kind?: string): void {
-    const scope = this.invocationScopes.get(signal)
-    if (!scope) return
+    const scopes = this.invocationScopes.get(signal)
+    if (!scopes?.size) return
     signal.throwIfAborted()
-    if (
-      this.host.currentSceneId() !== scope.scene ||
-      this.host.currentSceneSessionId() !== scope.session
-    )
-      throw new DOMException('runEntityTrigger 当前场景会话已替换', 'AbortError')
+    for (const scope of scopes)
+      if (
+        this.host.currentSceneId() !== scope.scene ||
+        this.host.currentSceneSessionId() !== scope.session
+      )
+        throw new DOMException('runEntityTrigger 当前场景会话已替换', 'AbortError')
     if (
       kind &&
       [
@@ -353,6 +354,25 @@ export class ScriptProjectRuntime {
       ].includes(kind)
     )
       throw new Error(`runEntityTrigger 当前场景演出禁止 ${kind}；切场、战斗请在调用返回后编排`)
+  }
+
+  private registerInvocationScope(
+    signal: AbortSignal,
+    scope: { scene: string; session: string | number },
+  ): () => void {
+    const scopes = this.invocationScopes.get(signal) ?? new Set()
+    const registration = { ...scope }
+    scopes.add(registration)
+    this.invocationScopes.set(signal, scopes)
+    return () => {
+      scopes.delete(registration)
+      if (scopes.size === 0) this.invocationScopes.delete(signal)
+    }
+  }
+
+  private inheritInvocationScope(signal: AbortSignal): () => void {
+    const scope = this.invocationScopes.get(signal)?.values().next().value
+    return scope ? this.registerInvocationScope(signal, scope) : () => {}
   }
 
   private runner(signal: AbortSignal, owner?: EntityAddress): RuntimeScriptRunner {
@@ -411,8 +431,7 @@ export class ScriptProjectRuntime {
     if (!resolved || resolved.cursor.kind === 'completed') return
     if (!registeredScriptActivityLease(this.host, this.coordinator, signal))
       throw new Error('runEntityTrigger 缺少同host/exact signal的父activity lineage')
-    const previous = this.invocationScopes.get(signal)
-    this.invocationScopes.set(signal, previous ?? { scene: sceneId, session })
+    const releaseScope = this.registerInvocationScope(signal, { scene: sceneId, session })
     try {
       this.guardInvocation(signal)
       const ran = await this.runEntityBehavior(scene, target.entity, 'trigger', { signal })
@@ -422,8 +441,7 @@ export class ScriptProjectRuntime {
           `runEntityTrigger 无法取得目标owner（busy）：${target.scene}/${target.entity}`,
         )
     } finally {
-      if (previous) this.invocationScopes.set(signal, previous)
-      else this.invocationScopes.delete(signal)
+      releaseScope()
     }
   }
 
@@ -447,6 +465,7 @@ export class ScriptProjectRuntime {
       target,
       channel,
       parent,
+      () => this.guardInvocation(options.signal),
     )
     while (!active && !parent && this.coordinator.gateClosed()) {
       await this.coordinator.waitForActivationGate(options.signal)
@@ -461,6 +480,8 @@ export class ScriptProjectRuntime {
         entity as unknown as BaseSceneEntity,
         target,
         channel,
+        undefined,
+        () => this.guardInvocation(options.signal),
       )
     }
     if (!active) return false
@@ -470,6 +491,7 @@ export class ScriptProjectRuntime {
       throw new Error(`script behavior 在激活后消失: ${scene.id}/${entityId}/${channel}`)
     }
     const runner = this.runner(options.signal, target)
+    const releaseScope = this.inheritInvocationScope(options.signal)
     try {
       await withRegisteredScriptActivityLineage(
         this.host,
@@ -494,6 +516,7 @@ export class ScriptProjectRuntime {
       return true
     } finally {
       active.lease.close()
+      releaseScope()
     }
   }
 
@@ -513,6 +536,7 @@ export class ScriptProjectRuntime {
       scene as unknown as import('@type-pal/content').BaseSceneDef,
       slot,
       parent,
+      () => this.guardInvocation(options.signal),
     )
     while (!active && !parent && this.coordinator.gateClosed()) {
       await this.coordinator.waitForActivationGate(options.signal)
@@ -526,6 +550,8 @@ export class ScriptProjectRuntime {
         this.script,
         scene as unknown as import('@type-pal/content').BaseSceneDef,
         slot,
+        undefined,
+        () => this.guardInvocation(options.signal),
       )
     }
     if (!active) return false
@@ -535,6 +561,7 @@ export class ScriptProjectRuntime {
       throw new Error(`script scene hook 在激活后消失: ${scene.id}/${slot}`)
     }
     const runner = this.runner(options.signal)
+    const releaseScope = this.inheritInvocationScope(options.signal)
     try {
       await withRegisteredScriptActivityLineage(
         this.host,
@@ -559,6 +586,7 @@ export class ScriptProjectRuntime {
       return true
     } finally {
       active.lease.close()
+      releaseScope()
     }
   }
 
@@ -566,27 +594,32 @@ export class ScriptProjectRuntime {
     commands: readonly RuntimeCommand[],
     options: RunProjectCommandsOptions,
   ): Promise<void> {
-    await withScriptActivityLineage(this.host, this.coordinator, options.signal, async () => {
-      const runner = this.runner(options.signal, options.self)
-      await runner.runFlow(
-        compileRuntimeScriptFlow(
+    const releaseScope = this.inheritInvocationScope(options.signal)
+    try {
+      await withScriptActivityLineage(this.host, this.coordinator, options.signal, async () => {
+        const runner = this.runner(options.signal, options.self)
+        await runner.runFlow(
+          compileRuntimeScriptFlow(
+            {
+              kind: 'stages',
+              initial: '__transient',
+              stages: [{ id: '__transient', body: [...structuredClone(commands)] }],
+            },
+            {
+              canonicalContentDigest: this.canonicalContentDigest,
+              timing: options.timing ?? 'interactive',
+            },
+          ),
           {
-            kind: 'stages',
-            initial: '__transient',
-            stages: [{ id: '__transient', body: [...structuredClone(commands)] }],
+            cursor: { kind: 'stage', stage: '__transient' },
+            cursorController: { reachSafePoint: () => 'continue' },
+            ...(options.self ? { self: structuredClone(options.self) } : {}),
           },
-          {
-            canonicalContentDigest: this.canonicalContentDigest,
-            timing: options.timing ?? 'interactive',
-          },
-        ),
-        {
-          cursor: { kind: 'stage', stage: '__transient' },
-          cursorController: { reachSafePoint: () => 'continue' },
-          ...(options.self ? { self: structuredClone(options.self) } : {}),
-        },
-      )
-    })
+        )
+      })
+    } finally {
+      releaseScope()
+    }
   }
 
   async runSharedScript(script: string, options: RunProjectCommandsOptions): Promise<void> {
@@ -636,6 +669,7 @@ export class ScriptProjectRuntime {
         )
       : this.coordinator.beginActivity()
     if (!lease) throw new Error('preview flow owner busy')
+    const releaseScope = this.inheritInvocationScope(options.signal)
     try {
       await withRegisteredScriptActivityLineage(
         this.host,
@@ -660,6 +694,7 @@ export class ScriptProjectRuntime {
       )
     } finally {
       lease.close()
+      releaseScope()
     }
   }
 
