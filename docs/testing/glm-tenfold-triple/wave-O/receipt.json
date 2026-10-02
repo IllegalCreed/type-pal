@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 460 执行/净新上限 287（扣列 173）, 64 反控/62 目标/10 退役; O-NEXT-01～03 闭合; 缺口至少 413",
+  "deliveryStatus": "PARTIAL — 472 执行/净新上限 299（O-NEXT2 +12 全为 packet 核定新轴）, 64 反控/62 目标/10 退役; O-NEXT2 12/12 闭合; 缺口至少 401",
   "batches": {
     "O01": {
       "tests": 72
@@ -37,8 +37,8 @@
     }
   },
   "totals": {
-    "newCases": 460,
-    "netNewCeiling": 287,
+    "newCases": 472,
+    "netNewCeiling": 299,
     "netNewNote": "O-NEXT 后扣列 173：existing-proof 167+cross-check 1+fixture 自检 3+pending 1+herb 0 cross-check 1；herb 已扣不二扣",
     "uniqueBatchMapping": {
       "O01": 70,
@@ -49,12 +49,12 @@
       "O06": 42,
       "O07": 35,
       "O08": 72,
-      "O09": 58,
+      "O09": 70,
       "O10": 26
     },
     "byPackage": {
       "migrate": 227,
-      "content": 207,
+      "content": 219,
       "shared": 26
     },
     "validCounters": 64,
@@ -109,7 +109,7 @@
     "counter-judge.mjs（唯一 judge）",
     "run-counter.selftest.mjs（22 用例经同一 judge）"
   ],
-  "candidateHead": "52cec857da3916b63d3d244783dc918145c1f163",
+  "candidateHead": "TO-BE-PINNED",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -153,10 +153,11 @@
     "r17": "O-R17-01：恢复 incoming-only 新托管文件进入 writes 精确值子轴（migration-plan.ts:195-197 !ours.files.has 分支；boundaries:30-64 实际只证更新已有/删除，Codex 变异独证旧 34 绿仅此断言红）；不恢复旧 delete/summary 臂，O02-CC4 退役保持；pal-current-publication 域 41 行真账（palAssetPreconditions 两行 next-wave:59-71 删重；fixture 自检改标 fixture-self-check 不计产品净新；caller 接 mts:62 build/:90 validate 真实链）；O01-CC1/CC2/CC3/CC5 因文件删重重采 64/64",
     "O-R18-01": "publication 41 行账修正：①「旧 pal.test 一个 it」模板纠错——实际三 it（it1 :33-87 商店生命周期合并/it2 :88-229 作者字段保留与分区/it3 :231-251 毒定义拒绝），36 行锚点模板同步；②角色尾部保留改 existing-proof cross-check 不计净新（旧 :179-191 九 ID 全序+作者对象 deepEqual 更强直证），测试保留为快速对照；③商店行拆臂：ID 1..20/no-0 归旧 :226-228，货单全 141 为保留新臂；④268/270 拆臂：unavailableMessage 同步归旧 :217-225，生成基值 name=炼蛊皿/maxRoll=9 为保留新臂（buyPrice 作者保留旧证 1_234 侧）；⑤catalog 行标题与断言一致（仅 assets/actors 两托管键，不主张全部写入路径）；CC1/CC2/CC3/CC5 因标题收窄执行集变化重采 64/64",
     "O-next-finite-evidence": "有限证据整包（310 固定行/23 文件）一次完成：逐行真实源码条件/caller（migrate-content.mts 三路链、content 守卫消费链、reforge 跨包链、纯公开 API 如实注明）/旧 blob 完整 fullName+matcher 对照（扩展 tokenizer 支持 it(；机提取旧断言清单后逐臂比对，非 token）分列：existing-proof 160+cross-check 1+fixture 2+pending 1=165 扣列、mixed-subaxis 53、new-axis 96；预裁落账：materialize 正常写入/重放/漂移归旧 paths:1/ownership:8、TPFS UTF-8/provider 归旧 frame-sequence:0-4+runtime-resource；本轮不改测试/不删历史/不重采 64 针；生成器防回归（有限名单空 condition 即失败、overrides 优先）；净新上限 460−165=295、缺口 ≥405",
-    "O-NEXT-01-03": "O-NEXT-01：test-titles it( 长度误用 5 修复（it(=3）+ 6 例真实解析自测（it 单测/断言链/test 回归/嵌套 fullName/空白引号变体/字符串伪 it 不误识）；O-NEXT-02：点名六行——MKF 负索引（boundaries:70-73 -1+count）、worldVariables 类型（boundaries:58-84+glm-leaf-wave:28-59）、wait 安全（script-command.guard-residual:257-280）、stageIndex 默认/钳制（:265-273）四行转 existing-proof，零哨兵 277 转 fixture-self-check（仅读自造 items 无产品调用），coveredBy error 语义误报撤回（本行仅 message.includes 不断言 error 级）；O-NEXT-03：mixed 四行拆分——sound 计数/record 归旧 pal-assets:620-634（首资源顺序观察留混合）、队列 tie/低 dex2/无 dex2 归旧 battle-formulas:147-162、高 dex2 fIsSecond 仅领未证子轴不误删；净新上限 460−173=287（review 289 系 coveredBy 已在 160 内未二扣+队列三行按 03 亦转旧证）、缺口 ≥413；不改产品/测试/旧反控/不重采"
+    "O-NEXT-01-03": "O-NEXT-01：test-titles it( 长度误用 5 修复（it(=3）+ 6 例真实解析自测（it 单测/断言链/test 回归/嵌套 fullName/空白引号变体/字符串伪 it 不误识）；O-NEXT-02：点名六行——MKF 负索引（boundaries:70-73 -1+count）、worldVariables 类型（boundaries:58-84+glm-leaf-wave:28-59）、wait 安全（script-command.guard-residual:257-280）、stageIndex 默认/钳制（:265-273）四行转 existing-proof，零哨兵 277 转 fixture-self-check（仅读自造 items 无产品调用），coveredBy error 语义误报撤回（本行仅 message.includes 不断言 error 级）；O-NEXT-03：mixed 四行拆分——sound 计数/record 归旧 pal-assets:620-634（首资源顺序观察留混合）、队列 tie/低 dex2/无 dex2 归旧 battle-formulas:147-162、高 dex2 fIsSecond 仅领未证子轴不误删；净新上限 460−173=287（review 289 系 coveredBy 已在 160 内未二扣+队列三行按 03 亦转旧证）、缺口 ≥413；不改产品/测试/旧反控/不重采",
+    "O-NEXT2": "O-NEXT2-01～12 一次完整处置（packet codex-opq-next2-packet-20261002.json）：新文件 frame-sequence-provider-next2.glm-o.test.ts + 专属 next2 fixture（provider-ports.ts 真 zlib/记录/延迟/故障声明式 port）；12/12 绿、定向 JSON 落 next2/、相邻 frame-sequence 8 文件 84/84、content 全包 1441/1441、content typecheck 零；源 hash c4d91861… 与 packet 一致；caller=editor/core/frame-animation-codec.ts:85 + reforge/frame-animation-player.ts:82（packet 核定）；旧证不重领（35 帧/UTF-8/首块 Error/同步族/roundtrip/inflate 泛型）；node:zlib 导入沿用 contracts.test.ts 同款 @ts-expect-error Node-host 既有模式；无 typed 跳板/GB 数组/稀疏表"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "dce00d5197440cc0ee434233ea39c764eaf2a95c",
+  "remoteFinalCandidate": "TO-BE-PINNED",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"

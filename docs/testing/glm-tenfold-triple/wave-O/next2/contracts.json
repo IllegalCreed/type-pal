@@ -1,0 +1,131 @@
+{
+  "wave": "O-NEXT2",
+  "packet": "codex-opq-next2-packet-20261002.json",
+  "sourceSha256": {
+    "packages/content/src/frame-sequence.ts": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842"
+  },
+  "total": 12,
+  "note": "O-NEXT2-01～12 一次完整处置；真实 API（encodeFrameSequenceFromProvider/decodeFrameSequenceBlock/parseFrameSequence）；压缩解压为产品声明 port——真实 zlib 用于往返，记录/延迟/故障为声明式包装；无 typed 跳板/无 GB 级数组/无稀疏表；node:zlib 导入沿用 contracts.test.ts 同款 @ts-expect-error（Node-only host）既有模式",
+  "contracts": [
+    {
+      "id": "O-NEXT2-01",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts prepareFrameSequenceProviderInput:392-421（integerAt 元数据门在 frame()/deflate 之前）",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "provider width0/height0 分别拒收（TPFS.encode.width/height: 期望不小于 1 的安全整数）且零 frame/deflate IO",
+      "oldAssertion": "旧 provider resource-boundaries:107-135 仅空 frames/duration；同步 O09 守卫非 provider IO 顺序 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-02",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts prepareFrameSequenceProviderInput:396 positiveNumberAt",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "defaultFrameMs 0/NaN 同数值时序域拒收（期望正有限数）字段路径精确、零 IO",
+      "oldAssertion": "旧 resource-boundaries:107 合法 0.5 + 逐帧 duration 非法；非 provider 默认时序拒收 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-03",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:506-508 返回长度守卫",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "首帧返回 3 字节：TPFS.encode.frames[0].rgba: 期望 4 字节；frame1/deflate 零调用",
+      "oldAssertion": "旧 O09 同步输入长度与 resource provider 抛 Error 均未证返回字节长度守卫 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-04",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:497-510（第二 block 首帧长度守卫）",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "33 描述符、frame32 返回 3B：读序恰 0..32、首 block 恰压缩一次（4*32 原始字节），故障局部",
+      "oldAssertion": "旧 35 帧正常与失败 index1/3 从未组合先提交压缩+后返回长度错误 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-05",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:503 await 透传",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "65 描述符、provider frame32 抛自有 Error：读序 0..32、恰一次先压缩、拒绝为同一对象（toBe）",
+      "oldAssertion": "旧 resource-boundaries:137 失败于 index1 且 deflate0；本行为跨块渐进 IO 状态非首块换数字 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-06",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:518-524 await deflate 透传",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "deflate 拒绝自有 AbortError：同一对象+name 保持；下一 block 读取不发生（读序止于 0..31）",
+      "oldAssertion": "旧 contracts:178 仅 inflate 泛型 toThrow；无 provider 压缩 abort 身份 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-07",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:518-524（第二块压缩失败阻止第三块 IO）",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "首块压缩成功、第二块失败：恰两次压缩、读满 0..63、frame64 永不被读",
+      "oldAssertion": "旧 35 帧 happy 与首 provider 失败未覆盖已完成块+延迟压缩器失败 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-08",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:503 串行 await",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "deferrd frame0 未决时无 frame1/deflate；resolve 后完整合法输出（真 zlib 往返逐帧像素一致）",
+      "oldAssertion": "旧 frame-sequence.test:93 仅同步返回顺序；未证未决 deferred 读 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-09",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:522 await deflate 后才进下一块读",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "首块 deflate 未决期间只读 0..31（无 read-ahead/背压）；放行后读 32、压缩恰两次、解析得 2 blocks",
+      "oldAssertion": "旧同步恒等压缩器未证 read-ahead/内存背压 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-10",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts decodeFrameSequenceBlock:543-561 每帧 new Uint8Array",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "改解码 frame0：frame1、inflate 原始输出、序列 payload 均逐字节不变（独立所有权）",
+      "oldAssertion": "旧 contracts 全值/C5 byteOffset 与编码器不可变未断言解码后编辑所有权 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-11",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts decodeFrameSequenceBlock:539 await inflate 透传",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "inflate 拒绝自有 AbortError：同一对象身份保持（取消分类器不吞）",
+      "oldAssertion": "旧 contracts:178 泛型 Error 消息；未保持取消分类器与身份 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    },
+    {
+      "id": "O-NEXT2-12",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "source": "packages/content/src/frame-sequence.ts decodeFrameSequenceBlock:532-535 索引门在 IO 前",
+      "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
+      "condition": "非法公开块索引 -1/0.5/越界一格：TPFS.block: 非法块索引 <v> 精确诊断、inflate 零调用",
+      "oldAssertion": "旧族仅解有效块或坏解压字节；无块索引守卫/IO 避免 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
+      "classification": "new-axis",
+      "status": "passed"
+    }
+  ]
+}

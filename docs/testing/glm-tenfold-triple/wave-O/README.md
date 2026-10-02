@@ -71,6 +71,14 @@ multi-batch 合同记入首个批次（O01/O03→O01、O03/O05→O03、O06/O08�
   [re-adjudicate.selftest.mjs](re-adjudicate.selftest.mjs) 4 用例含「换 passed 邻居身份」真实拒收反例与
   suite-直传 bug 语义钉子；修后 65/65 存档再判定通过（不全量重采）；CC1/CC3/CC10 因文件变化重采。
 
+## O-NEXT2（packet 有限实施批）
+
+- [next2/contracts.json](next2/contracts.json) + [next2/directed-vitest.json](next2/directed-vitest.json)：
+  O-NEXT2-01～12（TPFS 完整帧 provider 的 IO 顺序/压缩背压与失败身份/解码所有权与取消/
+  非法块索引零 IO），12/12 绿；新文件 frame-sequence-provider-next2.glm-o.test.ts +
+  next2 fixture（真 zlib + 声明式 port）；源 hash 与 packet 一致；旧证不重领；
+  content 全包 1441/1441。累计 472 执行/净新上限 299。
+
 ## 剩余范围（未到 700 的如实账）
 
 r6 新增：item 执行器效果分支（healHp/healMp 钳位+消耗、scaleCurrentHp trunc、
