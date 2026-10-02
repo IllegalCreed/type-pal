@@ -78,10 +78,10 @@
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
     "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
     "testCodeAnchor": "r11 续批提交（P03b 新文件 + G03 标题撤回锚 e515d353d 保留）",
-    "toolEvidenceAnchor": "dc8fd75ce13c4134f4795066a67ceb0d79b6f54e（r3.6 工具；本轮未改工具，22/22 自测沿用）",
+    "toolEvidenceAnchor": "cdbc45edde3a142bb4ea563d1a4933544e324c8f（r10.5 全量证据提交）",
     "finalRemoteCandidate": "7ec3cca8a937cbdc9a22d9593709f5c5f083fd0b"
   },
   "threeStateProvenance": "相对 48ade197：9 旧针三态未变；P02-C08 与 4 枚 P03 针因源/执行集变化重采（P03 又于 r10.5 因合法 cursor 修复再重采 4 枚）；C13 退役保留 r9 原字节存档",
-  "finalRemoteCandidate": "24ca4de4f007377d3bc9f1bd7692fec0285d0570（r11 续批：P03b 8 例 + 账同步同提交；此前功能提交 03f6b0be5）",
+  "finalRemoteCandidate": "cdbc45edde3a142bb4ea563d1a4933544e324c8f（r10.5 闭合：P03b 合法 fixture + G16-02 精确顺序 oracle + 反控重采同提交；其后仅 receipt pin）",
   "sourceSha256Note": "r8 复核指出三个旧摘要（editor-asset-io/Toolbar/counter.mjs）未同步；本轮自最终字节重算全部八个"
 }
