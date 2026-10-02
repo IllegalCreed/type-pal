@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "campaign": "TEST-MEDIUM-TRIPLE-20261002",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "dispatchBranch": "codex/test-medium-triple-r1",
+  "dispatchBasePolicy": "BASE is the published docs-only registration commit; no product changes relative to sourceBase",
+  "canonicalVersions": {
+    "content": 21,
+    "save": 10
+  },
+  "mediumBudgetNotPaddingQuota": true,
+  "coverageNotMeasuredForDispatch": true,
+  "no85PercentPromise": true,
+  "ownershipRule": "only listed new tests + own fixture/evidence prefixes writable; targets and shared docs are Codex owned",
+  "configuration": [
+    {
+      "path": "package.json",
+      "blob": "10678e6843ee824738ef93ba6eea375ce1a21fc4",
+      "sha256": "ccffa580ab003ac7f9692122968a2432fc7ef11113b84872fff1b9e61a16fda0"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "381986b81661d8a69d77deeb308ea098e6b768ae",
+      "sha256": "3628449b53e456fb8354a43beafe5d05da8a65698170e476bddf7aaeb3b69a5e"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "blob": "18ec407efca710b5d0d1e19dd3e34a27ac6716a1",
+      "sha256": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7"
+    },
+    {
+      "path": "biome.json",
+      "blob": "347f429933764c8ae9b581bd9abcd774fdb60ca4",
+      "sha256": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "blob": "efd4626ba17712f711eb564f95c1d891b24622c4",
+      "sha256": "d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3"
+    }
+  ],
+  "dedupCandidates": {
+    "O": {
+      "branch": "codex/glm-wave-o-supply-validation-r1",
+      "head": "e5f53fe486b6463ed9d38162cb1f3952ba85c09c",
+      "role": "read-only dedup baseline; not author acceptance or completion"
+    },
+    "P": {
+      "branch": "codex/glm-wave-p-editor-residual-r1",
+      "head": "0f588c3e9f1e4f01bd37156b7781c3196524f17b",
+      "role": "read-only dedup baseline; not author acceptance or completion"
+    },
+    "Q": {
+      "branch": "codex/glm-wave-q-runtime-residual-r1",
+      "head": "c1ec0482db1557a34dd5114888187431f7333c7a",
+      "role": "read-only dedup baseline; not author acceptance or completion"
+    },
+    "grokLarge": {
+      "branch": "codex/grok-render-host-large-r1",
+      "head": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "role": "read-only dedup baseline; not author acceptance or completion"
+    },
+    "cursorLarge": {
+      "branch": "codex/cursor-asset-ui-large-r1",
+      "head": "fefab931c4174f0755e0d7766a8757490194a067",
+      "role": "read-only dedup baseline; not author acceptance or completion"
+    }
+  },
+  "owners": [
+    {
+      "id": "grok",
+      "taskId": "TEST-GROK-BOOT-RESOURCES-MEDIUM-1",
+      "owner": "Grok",
+      "branch": "codex/grok-boot-medium-r1",
+      "worktree": "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal",
+      "capacity": "24–32例，硬上限36例",
+      "maxCases": 36,
+      "primaryCounterTargets": 4,
+      "sourcePaths": [
+        "packages/game/src/shell/bootstrap-resources.ts",
+        "packages/game/src/assets/dialog-assets.ts",
+        "packages/game/src/assets/loader.ts"
+      ],
+      "newTestFiles": [
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "packages/game/src/assets/scene-cache.grok-mid-1.test.ts"
+      ],
+      "fixturePrefixes": ["packages/game/src/__tests__/grok-boot-mid-1/"],
+      "evidencePrefix": "docs/testing/medium-triple-20261002/grok/",
+      "sources": [
+        {
+          "path": "packages/game/src/shell/bootstrap-resources.ts",
+          "blob": "836ee1522a4b0552431daccb3c3662c0f6b5eb7d",
+          "sha256": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e",
+          "previousFrozenPoolOwners": ["Q", "grok"],
+          "resolution": "GC-1 Grok lease continues; old OPQ overlapping historical pool grants no new ownership"
+        },
+        {
+          "path": "packages/game/src/assets/dialog-assets.ts",
+          "blob": "ddbff98b1bdac3e06f02e34497ff7c482380b952",
+          "sha256": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+          "previousFrozenPoolOwners": ["Q", "grok"],
+          "resolution": "GC-1 Grok lease continues; old OPQ overlapping historical pool grants no new ownership"
+        },
+        {
+          "path": "packages/game/src/assets/loader.ts",
+          "blob": "6b40cb1154700c27a56ed288706c1e29614cdefd",
+          "sha256": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+          "previousFrozenPoolOwners": ["Q", "grok"],
+          "resolution": "GC-1 Grok lease continues; old OPQ overlapping historical pool grants no new ownership"
+        }
+      ]
+    },
+    {
+      "id": "kimi",
+      "taskId": "TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1",
+      "owner": "Kimi",
+      "branch": "codex/kimi-current-continuation-medium-r1",
+      "worktree": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal",
+      "capacity": "24–32例，硬上限36例",
+      "maxCases": 36,
+      "primaryCounterTargets": 4,
+      "sourcePaths": [
+        "packages/reforge/src/script-continuation.ts",
+        "packages/content/src/author-flow-stages.ts"
+      ],
+      "newTestFiles": [
+        "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+        "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts"
+      ],
+      "fixturePrefixes": ["packages/reforge/src/__tests__/kimi-current-mid-1/"],
+      "evidencePrefix": "docs/testing/medium-triple-20261002/kimi/",
+      "sources": [
+        {
+          "path": "packages/reforge/src/script-continuation.ts",
+          "blob": "1749304fadab3589208b6acb38d9f676b4f445e7",
+          "sha256": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
+          "previousFrozenPoolOwners": [],
+          "resolution": "new module absent from all old frozen source pools"
+        },
+        {
+          "path": "packages/content/src/author-flow-stages.ts",
+          "blob": "afe152d06b9441b379bb1fc94f55495980d78bbd",
+          "sha256": "5bf898814d87d0ecac315786a0d01a49fced8ec487f0d0ca3d04fd83414f03bc",
+          "previousFrozenPoolOwners": [],
+          "resolution": "new module absent from all old frozen source pools"
+        }
+      ]
+    },
+    {
+      "id": "cursor",
+      "taskId": "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
+      "owner": "Cursor",
+      "branch": "codex/cursor-script-preview-medium-r1",
+      "worktree": "/Users/zhangxu/.codex/worktrees/cursor-script-preview-medium/type-pal",
+      "capacity": "32–45例，硬上限48例",
+      "maxCases": 48,
+      "primaryCounterTargets": 6,
+      "sourcePaths": [
+        "packages/editor/src/core/script-flow-preview.ts",
+        "packages/editor/src/core/script-movement-preview.ts"
+      ],
+      "newTestFiles": [
+        "packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts",
+        "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+        "packages/editor/src/core/script-preview-integration.cursor-mid-1.test.ts"
+      ],
+      "fixturePrefixes": ["packages/editor/src/core/__tests__/cursor-preview-mid-1/"],
+      "evidencePrefix": "docs/testing/medium-triple-20261002/cursor/",
+      "sources": [
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "blob": "9e6b4a44067a53ef05edee6abe59eb8a3fc656f0",
+          "sha256": "89672d57bff0f923af3b3952b45c4215973534f117a399e78443892440eb2a72",
+          "previousFrozenPoolOwners": [],
+          "resolution": "new module absent from all old frozen source pools"
+        },
+        {
+          "path": "packages/editor/src/core/script-movement-preview.ts",
+          "blob": "66378d2fea9d69fe457da315749c8706cd08681e",
+          "sha256": "40413848c0942cf45b982a09dba76b7097c55430802f4268f0ad519a2eb192b3",
+          "previousFrozenPoolOwners": [],
+          "resolution": "new module absent from all old frozen source pools"
+        }
+      ]
+    }
+  ]
+}
