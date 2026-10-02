@@ -197,6 +197,7 @@ test('the restored Zhang Si rows have original text, speaker and portrait instea
 test('traversed errand entities, behaviors and steps have story names without replacing stable IDs', () => {
   for (const [sceneId, entityId, label] of [
     ['s003', 'e44', '客栈大门出口'],
+    ['s003', 'e53', '厨房入口'],
     ['s004', 'e83', '丁香兰'],
     ['s004', 'e94', '客栈入口'],
     ['s004', 'e95', '码头市集入口'],
@@ -209,6 +210,7 @@ test('traversed errand entities, behaviors and steps have story names without re
   for (const [sceneId, entityId, behavior] of [
     ['s001', 'e19', 'c8-74bc98f07f8e'],
     ['s003', 'e44', 'default'],
+    ['s003', 'e53', 'default'],
     ['s004', 'e94', 'default'],
     ['s004', 'e95', 'default'],
     ['s005', 'e115', 'default'],

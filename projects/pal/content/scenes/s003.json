@@ -771,6 +771,7 @@
     },
     {
       "id": "e53",
+      "label": "厨房入口",
       "pos": {
         "col": 123,
         "row": 61,
@@ -792,7 +793,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "进入客栈厨房",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -813,7 +814,8 @@
                         "evidenceId": "pal-load-scene-232"
                       }
                     }
-                  ]
+                  ],
+                  "label": "从大厅走进厨房"
                 }
               ]
             }
