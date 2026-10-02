@@ -27,9 +27,12 @@ Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
 - Root追加白名单：`project-reference.pal.test.ts`仅修当前内容的精确golden及真实语义见证；总entityAddress38111不变，
   e20→e19新转向引用、e19auto退役、两处持久appearance与net+1正文均显式核。规则/预算/边界未放宽。
   `004-final-frozen-quality.log`全仓check七包10957测试与所有types、docs/工具门绿，lint2757文件0/0/0；
-  后续仅新meal工具122项及完整lint另核。两旧全仓引用fixture失败保留，不追溯改成passed。
+  后续仅新meal工具124项及完整lint另核。两旧全仓引用fixture失败保留，不追溯改成passed。
 - 第一阶段历史game004完整候选4e1a5ab79已独立accept；当前新工具重跑失败只作诊断：真实保存克隆时机、
   正常touch边界与当前导航采样待窄修，不改产品/作者/旧001–003，不放行任意切场/伪造落步。
+  Root已复读2ad222444并接为3ba3708df：正常ready held步不读取整份traceRPC，异常边界先up再证明本leg普通落步，
+  两实际热路径反控双红→绿、Root完整工具124项和lint0/0/0；05-33重跑五个导航leg正常结束，
+  送菜入口自然触发先隐藏e15后读取active footprint的竞态仍待窄修，旧失败留存。
 - 用户再次确认6012无草稿、允许更新；Root先核保存禁用，main安全ff到c46a458d2，原服务PID88523与Chrome页保持。
   仅正常刷新一次，再选e62交互方案“赠桂花酒：约定山神庙学剑”；实际播放到首句后reset，页面就绪、保存仍禁用，
   main除用户原有`.zcodeignore`无脏改。截图`main/build/e2e/004-editor-delivery/6012-npc-owned-gift.png`已目视核。
