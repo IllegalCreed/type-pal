@@ -208,18 +208,20 @@ export function readErrandGame() {
       : null,
     menu: menu ? { kind: menu.kind, cursor: menu.state?.selection?.cursor } : null,
     actors: Object.fromEntries(
-      (gs?.allEventObjects ?? []).map((e) => [
-        `e${e.id}`,
-        {
-          position: [e.x, e.y],
-          visible: e.sState > 0,
-          state: e.sState,
-          triggerMode: e.triggerMode,
-          anchor: [e.autoTriggerAnchorX ?? e.x, e.autoTriggerAnchorY ?? e.y],
-          trigger: e.triggerLabel,
-          resume: e.triggerResume,
-        },
-      ]),
+      (gs?.allEventObjects ?? [])
+        .filter((e) => [18, 19, 44, 45, 62, 83, 84, 95, 115, 123, 124, 127].includes(e.id))
+        .map((e) => [
+          `e${e.id}`,
+          {
+            position: [e.x, e.y],
+            visible: e.sState > 0,
+            state: e.sState,
+            triggerMode: e.triggerMode,
+            anchor: [e.autoTriggerAnchorX ?? e.x, e.autoTriggerAnchorY ?? e.y],
+            trigger: e.triggerLabel,
+            resume: e.triggerResume,
+          },
+        ]),
     ),
     routeActors:
       gs?.npcs
