@@ -1240,33 +1240,51 @@ export function WorldSpriteLibrary(props: {
                           )}
                           {definition && definitionReferences.length ? (
                             <DsReferenceList>
-                              {automaticSitesForDefinition.map((site) => (
-                                <DsReferenceRow
-                                  key={`automatic:${site.sceneId}:${site.entityId}`}
-                                  title={`场景 ${site.sceneId} · 实体 ${site.entityId}`}
-                                  detail="保留的真实场景脚本；可继续查看和编辑"
-                                  path={site.where}
-                                  labels={[{ label: '实例行为脚本' }]}
-                                  action={
-                                    props.onJumpAutomaticScriptInstance
-                                      ? {
-                                          label: '编辑自动脚本',
-                                          onActivate: () =>
-                                            props.onJumpAutomaticScriptInstance?.(site),
-                                        }
-                                      : undefined
-                                  }
-                                  status={
-                                    props.onJumpAutomaticScriptInstance
-                                      ? undefined
-                                      : {
-                                          label: '暂不可定位',
-                                          reason: '当前宿主没有提供自动脚本定位能力。',
-                                          tone: 'warning',
-                                        }
-                                  }
-                                />
-                              ))}
+                              {automaticSitesForDefinition.map((site) => {
+                                const reference = definitionReferences.find(
+                                  (entry) =>
+                                    entry.source.owner.kind === 'scene-entity' &&
+                                    entry.source.owner.sceneId === site.sceneId &&
+                                    entry.source.owner.entityId === site.entityId,
+                                )
+                                const behavior = reference
+                                  ? describeSpriteReferenceBehavior(
+                                      spritePreviewState,
+                                      reference,
+                                      definition,
+                                      actualFrameCount,
+                                    )
+                                  : undefined
+                                return (
+                                  <DsReferenceRow
+                                    key={`automatic:${site.sceneId}:${site.entityId}`}
+                                    title={`场景 ${site.sceneId} · 实体 ${site.entityId}`}
+                                    detail={
+                                      behavior?.detail ?? '保留的真实场景脚本；可继续查看和编辑'
+                                    }
+                                    path={site.where}
+                                    labels={[{ label: '实例行为脚本' }]}
+                                    action={
+                                      props.onJumpAutomaticScriptInstance
+                                        ? {
+                                            label: '编辑自动脚本',
+                                            onActivate: () =>
+                                              props.onJumpAutomaticScriptInstance?.(site),
+                                          }
+                                        : undefined
+                                    }
+                                    status={
+                                      props.onJumpAutomaticScriptInstance
+                                        ? undefined
+                                        : {
+                                            label: '暂不可定位',
+                                            reason: '当前宿主没有提供自动脚本定位能力。',
+                                            tone: 'warning',
+                                          }
+                                    }
+                                  />
+                                )
+                              })}
                               {nonAutomaticReferences.map((reference) => {
                                 const behavior = describeSpriteReferenceBehavior(
                                   spritePreviewState,

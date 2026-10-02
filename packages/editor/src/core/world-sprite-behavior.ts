@@ -786,6 +786,10 @@ interface VisualSampleContext {
   chancePercents: Set<number>
 }
 
+type VisualSampleOutcome =
+  | { kind: 'empty'; bounded: boolean }
+  | { kind: 'sampled'; bounded: boolean; variant: SpriteAutomaticScriptPreviewVariant }
+
 class VisualScriptStopped {}
 
 class VisualScriptJump {
@@ -951,7 +955,7 @@ function sampleChanceStageGraph(
   entity: EntityDef,
   actualFrameCount: number,
   strategy: VisualBranchStrategy,
-): SpriteAutomaticScriptPreviewVariant | undefined {
+): VisualSampleOutcome | undefined {
   const stages = entity.pages?.[0]?.auto?.stages
   if (!stages?.length) return undefined
   const context: VisualSampleContext = {
@@ -992,21 +996,26 @@ function sampleChanceStageGraph(
     if (!stopped) stageIndex = stageTarget(stage, stageIndex, stages.length)
     if (tick === MAX_VISUAL_SAMPLE_TICKS - 1) bounded = true
   }
-  if (!context.steps.length) pushVisibleSampleFrame(context)
+  if (!context.steps.length) return { kind: 'empty', bounded }
   const stableSteps = context.steps.slice(cycleStart)
   const steps = finalizeSteps(
-    collapseRepeatedSteps(stableSteps.length ? stableSteps : context.steps),
+    bounded
+      ? collapseAdjacentSteps(context.steps)
+      : collapseRepeatedSteps(stableSteps.length ? stableSteps : context.steps),
   )
-  if (!steps.length) return undefined
   const chanceNote = [...context.chancePercents]
     .sort((left, right) => left - right)
     .map((percent) => `${percent}%`)
     .join('、')
   return {
-    id: strategy.id,
-    label: strategy.label,
-    steps,
-    note: `${chanceNote ? `${chanceNote} 为各判断的局部命中率` : '确定性控制流'}${bounded ? '；此示例在安全预算处截断' : ''}`,
+    kind: 'sampled',
+    bounded,
+    variant: {
+      id: strategy.id,
+      label: strategy.label,
+      steps,
+      note: `${chanceNote ? `${chanceNote} 为各判断的局部命中率` : '确定性控制流'}${bounded ? '；此示例在安全预算处截断' : ''}`,
+    },
   }
 }
 
@@ -1042,16 +1051,30 @@ function collectSafeScriptProjection(
     )
   )
     return undefined
-  const variantsBySteps = new Map<string, SpriteAutomaticScriptPreviewVariant>()
+  const samplesBySteps = new Map<string, Extract<VisualSampleOutcome, { kind: 'sampled' }>>()
+  let bounded = false
+  let unsampled = false
   for (const strategy of VISUAL_BRANCH_STRATEGIES) {
-    const variant = sampleChanceStageGraph(state, entity, actualFrameCount, strategy)
-    if (!variant) continue
+    const sample = sampleChanceStageGraph(state, entity, actualFrameCount, strategy)
+    bounded ||= sample?.bounded ?? false
+    if (!sample || sample.kind === 'empty') {
+      unsampled = true
+      continue
+    }
+    const { variant } = sample
     const key = JSON.stringify(variant.steps)
-    if (!variantsBySteps.has(key)) variantsBySteps.set(key, variant)
+    const existing = samplesBySteps.get(key)
+    if (!existing || (sample.bounded && !existing.bounded)) samplesBySteps.set(key, sample)
   }
-  const variants = [...variantsBySteps.values()]
-  if (!variants.length) return undefined
-  if (variants.length === 1)
+  const variants = [...samplesBySteps.values()].map((sample) => sample.variant)
+  if (!variants.length)
+    return bounded
+      ? {
+          kind: 'unavailable',
+          reason: '自动脚本预览已达到安全预算，尚未确定帧序；请在场景中播放确认。',
+        }
+      : undefined
+  if (variants.length === 1 && !bounded && !unsampled)
     return {
       kind: 'cycle',
       mode: 'explicit',
@@ -1061,7 +1084,12 @@ function collectSafeScriptProjection(
   return {
     kind: 'variants',
     variants,
-    note: '下列是脚本的代表性合法分支示例，不是完整概率分布，也不是唯一循环。',
+    note:
+      variants.length === 1
+        ? bounded
+          ? '此示例在安全预算处截断，尚未确定完整帧序；请在场景中播放确认。'
+          : '部分执行路径未采样到可见帧，尚未确定完整帧序；请在场景中播放确认。'
+        : '下列是脚本的代表性合法分支示例，不是完整概率分布，也不是唯一循环。',
   }
 }
 
@@ -1108,8 +1136,18 @@ function describeAutomaticEntityBehavior(
   if (preview?.kind === 'variants')
     return {
       kind: 'script',
-      label: '自动脚本随机切帧',
-      detail: `${preview.variants.length} 条可能路径；${preview.note}`,
+      label: preview.variants.length === 1 ? '自动脚本采样片段' : '自动脚本随机切帧',
+      detail:
+        preview.variants.length === 1
+          ? `已采样 1 条路径；${preview.note}`
+          : `${preview.variants.length} 条可能路径；${preview.note}`,
+      preview,
+    }
+  if (preview?.kind === 'unavailable')
+    return {
+      kind: 'script',
+      label: '自动行为脚本',
+      detail: preview.reason,
       preview,
     }
   return {

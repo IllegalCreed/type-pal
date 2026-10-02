@@ -1,5 +1,11 @@
 // @vitest-environment jsdom
-import type { AssetCatalogV1, SpriteDef } from '@type-pal/content'
+import {
+  type AssetCatalogV1,
+  type AuthorScriptLibrary,
+  checkAuthorScriptLibrary,
+  type SpriteDef,
+  validateAuthorScenes,
+} from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -10,6 +16,7 @@ import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import type {
+  CanonicalSpritePreviewState,
   SpriteAutomaticScriptBehaviorSummary,
   SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
@@ -232,6 +239,7 @@ function library(
     onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
     onBattleDomain?: () => void
     onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+    canonical?: CanonicalSpritePreviewState
   } = {},
 ) {
   const referenceIndex = collectCurrentProjectReferenceIndex(session.getState())
@@ -242,6 +250,7 @@ function library(
       assetBase={{} as never}
       assetReader={{} as never}
       session={session}
+      canonical={options.canonical}
       tabBar={null}
       view={options.view ?? 'definition'}
       focusObjectId={options.focusObjectId}
@@ -264,6 +273,105 @@ function library(
 }
 
 describe('WorldSpriteLibrary', () => {
+  test.each([
+    false,
+    true,
+  ])('真实引用页解释 canonical 深链预算截断（有前缀：%s）且保留脚本定位', async (withPrefix) => {
+    const target = { scene: 'deep-scene', entity: 'deep-entity' }
+    const sharedScripts: AuthorScriptLibrary = {}
+    for (let level = 1; level <= 17; level++) {
+      sharedScripts[`level-${level}`] = {
+        name: `调用 ${level}`,
+        self: 'none',
+        body:
+          level === 17
+            ? [
+                { kind: 'setEntityFrame', target, frame: 1 },
+                { kind: 'setEntityFrame', target, frame: 2 },
+              ]
+            : [{ kind: 'callScript', script: `level-${level + 1}` }],
+      }
+    }
+    const canonical: CanonicalSpritePreviewState = {
+      sharedScripts,
+      scenes: [
+        {
+          id: target.scene,
+          mapId: 'map-deep',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: target.entity,
+              pos: { col: 1, row: 1, height: 0 },
+              sprite: 'hero-static',
+              initialPage: 'main',
+              pages: [{ id: 'main', label: '默认', auto: 'deep-auto' }],
+              behaviors: {
+                auto: {
+                  'deep-auto': {
+                    label: '深链自动行为',
+                    order: 0,
+                    flow: {
+                      kind: 'stages',
+                      initial: 'main',
+                      stages: [
+                        {
+                          id: 'main',
+                          body: withPrefix
+                            ? [
+                                { kind: 'setEntityFrame', target, frame: 3 },
+                                { kind: 'callScript', script: 'level-1' },
+                              ]
+                            : [{ kind: 'callScript', script: 'level-1' }],
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+    }
+    validateAuthorScenes(canonical.scenes)
+    checkAuthorScriptLibrary(sharedScripts)
+    const before = structuredClone(canonical)
+    const session = new EditSession(
+      editorState([definitions[1]!], {
+        scenes: canonical.scenes.map((scene) => ({
+          id: scene.id,
+          mapId: scene.mapId,
+          entry: scene.entry,
+          entities: scene.entities.map(({ id, pos }) => ({ id, pos, sprite: 'hero-static' })),
+        })),
+        scriptChunks: {},
+      }),
+    )
+    const onJumpAutomaticScriptInstance = vi.fn()
+    await act(async () =>
+      root.render(
+        library([definitions[1]!], session, {
+          focusObjectId: 'hero-static',
+          canonical,
+          onJumpAutomaticScriptInstance,
+        }),
+      ),
+    )
+    await act(async () => button('引用').click())
+    const row = [...host.querySelectorAll<HTMLButtonElement>('.ds-reference-row')].find(
+      (candidate) => candidate.textContent?.includes('场景 deep-scene · 实体 deep-entity'),
+    )!
+    expect(row.textContent).toContain('安全预算')
+    expect(row.textContent).toContain(withPrefix ? '尚未确定完整帧序' : '尚未确定帧序')
+    expect(row.textContent).not.toContain('检测到 #0')
+    await act(async () => row.click())
+    expect(onJumpAutomaticScriptInstance).toHaveBeenCalledWith(
+      expect.objectContaining({ sceneId: target.scene, entityId: target.entity }),
+    )
+    expect(canonical).toEqual(before)
+  })
+
   test.each([
     ['checking', 'loading'],
     ['stale', 'partial'],
