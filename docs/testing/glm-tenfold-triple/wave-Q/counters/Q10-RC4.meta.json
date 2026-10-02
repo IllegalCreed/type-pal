@@ -5,9 +5,9 @@
   "targetNameSubstring": "合成小输入走完事件管线",
   "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
   "sha256": {
-    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-    "mutated": "4fe82026c5a5ec4411f2c7d86f4c95b58bad56b169f86e293ae024fbcd0c9149",
-    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+    "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+    "mutated": "29068c60973d8c1009d7b14601727deb633a15ef8173844e59404d4bc6e45ae3",
+    "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
   },
   "restoredHashUnchanged": true,
   "criteria": {

@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790897919738,
+  "startTime": 1790901345801,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
-          "duration": 295.61675,
+          "duration": 408.275625,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
-          "duration": 289.85116700000003,
+          "duration": 405.035834,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,17 +54,17 @@
           "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
-          "duration": 318.3921660000001,
+          "duration": 399.78833299999997,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": [],
-          "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+          "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
           "status": "passed",
-          "title": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
-          "duration": 312.4812079999999,
+          "title": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+          "duration": 387.8934999999999,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
-          "duration": 287.9273330000001,
+          "duration": 379.4502080000002,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,14 +84,14 @@
           "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
-          "duration": 274.17558299999996,
+          "duration": 359.7965419999996,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790897919891,
-      "endTime": 1790897921669.1755,
+      "startTime": 1790901345983,
+      "endTime": 1790901348323.7966,
       "status": "passed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-isolated.glm-q.test.ts"

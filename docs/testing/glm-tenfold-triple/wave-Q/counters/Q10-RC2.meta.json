@@ -5,9 +5,9 @@
   "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
   "axis": "输入轴单轴变异：PLAYERROLES 合成表 spriteNum[0] 2→3（合法精灵号）；断言不动。",
   "sha256": {
-    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-    "mutated": "3e8d1cb04e097708c9a45bb1add2aced7c4dcc04313cabc538de6cf13aa6fd49",
-    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+    "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+    "mutated": "6dcc7393b6ac3e3509fc218d3c4ea1f68eec32592244bc7593be00b213d167bf",
+    "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
   },
   "restoredHashUnchanged": true,
   "criteria": {

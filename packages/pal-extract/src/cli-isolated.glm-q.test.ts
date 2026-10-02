@@ -21,7 +21,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { encodeSpriteChunk } from '@type-pal/shared'
 import { afterAll, expect, test } from 'vitest'
-import { type Yj2Symbol, yj2Encode } from './__tests__/glm-q/yj2-encoder.js'
+import { yj2EncodeLiterals } from './__tests__/glm-q/yj2-encoder.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const REAL_PACKAGE = resolve(HERE, '..')
@@ -217,22 +217,18 @@ function buildImageStageInputs(): Record<string, Uint8Array> {
 }
 
 /**
- * 全管线合成输入（增量批，r9）：使 CLI 完整走到底（asset-manifest + done）。
- *   FBP.MKF = 5 chunk：0 空(skip)、1 {0,0,0,0} 零流(解出 0B≠64000 warn skip)、
- *     2 坏流(decompress throw warn skip)、3/4 不提供(YJ2 数据难精确合成 64000，全走 skip 路径)；
- *   MAP.MKF = 2 chunk：0 = {65536 零流}（YJ2 解出 65536B 全零 → parseMap 走通，全 cell lower/upper=0）、
- *     1 短 chunk（YJ2 头 2B 解出 2B ≠ 65536 → parseMap throw → warn skip）；
- *   GOP.MKF = 1 chunk = encodeSpriteChunk 合成 1 帧（tileset gzip blob）；
- *   PAT.MKF = 2 chunk：0 = 768B 调色板（日间）、1 = 1536B（日+夜）；<768 chunk 不加；
- *   MGO/F/ABC.MKF = 0 chunk 空 MKF（dump-all 循环零次）；unifont-cn.bdf 不提供（warn 跳过）。
+ * 全管线合成输入（r10/r11）：使 CLI 完整走到底（asset-manifest + done）。
+ *   FBP.MKF = 5 chunk：全空（splash/battle-bg 跳过路径——如实登记为空档，非非空图形证明）；
+ *   MAP.MKF = 2 chunk：均为合法字面量 YJ2 的 65536B 全零图（yj2EncodeLiterals + 0xFFF 终止符；
+ *     cell 全 {lower:0,upper:0}）；chunk1 与 scene mapNum=1 对齐（parseMap 在 YJ2 try 外）；
+ *   GOP.MKF = 2 chunk（chunk0/1 与 mapNum 0/1 对齐）= encodeSpriteChunk 合成 1 帧 sprite；
+ *   PAT.MKF = 2 chunk：0 = 768B 调色板（通道全 0..63）、1 = 1536B（日+夜）；<768 chunk 不加；
+ *   MGO.MKF = 1 chunk 合法 YJ2 压缩的 0 帧 sprite group（blob 落盘、frames=0）；
+ *   F/ABC.MKF = 0 chunk 空 MKF（dump-all 循环零次——跳过路径）；BDF 不提供（warn 跳过）。
  */
-/** 合法 YJ2 压缩（专属编码器，产品 decoder 往返验证见 yj2-encoder fixture 说明）。 */
+/** 合法 YJ2 字面量压缩（专属编码器 + 0xFFF 终止符；产品 decoder 往返验证）。 */
 function yj2Compress(data: Uint8Array): Uint8Array {
-  const symbols: Yj2Symbol[] = Array.from({ length: data.length }, (_, i) => ({
-    kind: 'literal' as const,
-    byte: data[i]!,
-  }))
-  return yj2Encode(symbols)
+  return yj2EncodeLiterals(data)
 }
 
 /** 合法 65536B 全零 MAP（自包含 YJ2；literal-only，长度守卫退出，流尾带 0xFFF 终止位）。 */
@@ -428,7 +424,7 @@ test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合
   expect(music).toEqual({ midi: [7], cdTracks: ['TRACK02.ogg'] })
 })
 
-test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）', async () => {
+test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）', async () => {
   const tree = makeTree({
     'SSS.MKF': buildSss(),
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
@@ -452,7 +448,7 @@ test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + 
   expect(result.stdout).toContain('[pal-extract] done. output →')
 
   const out = (rel: string) => join(tree, 'data', 'extracted', rel)
-  // MAP chunk0（零流 65536B 全零）：tilemap 走通、cell 全 0
+  // MAP chunk0（合法字面量 YJ2 65536B 全零）：tilemap 走通、cell 全 0
   const tilemap = JSON.parse(readFileSync(out('data/tilemap/0.json'), 'utf8'))
   expect(tilemap.width).toBe(64)
   expect(tilemap.height).toBe(128)
@@ -463,7 +459,7 @@ test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + 
   // PAT：768B 日间 + 1536B 日夜
   const pal0 = JSON.parse(readFileSync(out('data/palette/0.json'), 'utf8'))
   expect(pal0.colors).toHaveLength(256)
-  expect(pal0.colors[1]).toEqual([4, 8, 255]) // 6bit→8bit 扩展 ((v<<2)|(v>>4))&0xff：1→4, 2→8, 254 输入实际是 (255-1)=254→255
+  expect(pal0.colors[1]).toEqual([4, 8, 255]) // 6bit 输入 [1,2,63] → 8bit 扩展 ((v<<2)|(v>>4))&0xff：1→4, 2→8, 63→255
   expect(pal0.nightColors).toBeUndefined()
   const pal1 = JSON.parse(readFileSync(out('data/palette/1.json'), 'utf8'))
   expect(pal1.nightColors).toHaveLength(256)

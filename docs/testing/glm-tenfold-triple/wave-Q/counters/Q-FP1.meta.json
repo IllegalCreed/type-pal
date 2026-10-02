@@ -1,13 +1,13 @@
 {
   "id": "Q-FP1",
   "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
-  "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+  "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
   "targetNameSubstring": "全管线合成输入走到底",
   "axis": "输入轴单轴变异：PAT.MKF 2 chunk→1 chunk（去掉 1536B 日夜调色板；palette written 应 2→1 → toContain('2 chunks') 恰一红，nightColors 断言同红——恰一 fullName 内两断言同例）\n；断言不动。",
   "sha256": {
-    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-    "mutated": "e3f93af00672143b86d01864d7c8d68aa0eea217f4ee8200b83ac991e2d01bcb",
-    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+    "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+    "mutated": "21e827ebc8751501d20ec32e953f4f8833e5df86c398386262a2e6b0d8d26903",
+    "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
   },
   "restoredHashUnchanged": true,
   "criteria": {

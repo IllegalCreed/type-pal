@@ -1,13 +1,13 @@
 {
   "id": "Q-FP5",
   "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
-  "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+  "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
   "targetNameSubstring": "全管线合成输入走到底",
   "axis": "输入轴单轴变异：色1 R 输入 1→2（合法 6bit 值；6→8bit 扩展 [4,8,255]→[8,8,255] → toEqual 恰一红）；断言不动。",
   "sha256": {
-    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-    "mutated": "09f0d87f2fe88f50ab2cebc95e2a3c990fa4052b507f13dc017c5c6abb9606e0",
-    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+    "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+    "mutated": "8c75159ee4fb77962f3bc93d6c730dc28543d773ccb4aa2c6155554ecafb689f",
+    "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
   },
   "restoredHashUnchanged": true,
   "criteria": {

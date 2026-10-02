@@ -16,21 +16,21 @@
     "newTestFiles": 18,
     "newFixtureDirs": 2,
     "newCases": 136,
-    "netNewCasesCap": 134,
-    "counterControls": 62,
+    "netNewCasesCap": 135,
+    "counterControls": 61,
     "distinctTargets": 52,
-    "netNewContractTargetsCap": 50,
+    "netNewContractTargetsCap": 51,
     "browserFlows": 10,
     "defectReports": 1
   },
   "shortfall": {
     "targetCases": 700,
     "deliveredCases": 136,
-    "netNewCap": 134,
-    "remainingAtLeast": 564,
+    "netNewCap": 135,
+    "remainingAtLeast": 565,
     "targetCounters": 50,
-    "deliveredCounters": 62,
-    "account": "136 执行/净新上限 134（合法化后 C134/C135 可计）/缺口至少 564；62 存档 52 执行目标/净新合同目标上限 50 已达成；FP1/2/3/5 同目标四轴+FP4 边界新目标；三态 51 未变+5 Q10 重采+5 FP 重采+1 新；见 README r10 段"
+    "deliveredCounters": 61,
+    "account": "136 执行/结构净新上限 135（仅扣 C114 旧 room0）/缺口至少 565；61 存档 52 执行目标/净新合同目标结构上限 51（room0 只扣一次）；FP4 重定目标非新增存档；三态 51 未变+5 Q10 更新+5 FP 更新；见 README r11 段"
   },
   "commands": {
     "serialFullTests": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/<pkg> test （reforge → game → pal-extract 串行）",
@@ -42,13 +42,13 @@
   "results": {
     "reforgeTest": "2150 passed（r10 最终串行复跑）",
     "gameTest": "2805 passed（r10 最终串行复跑）",
-    "palExtractTest": "363 passed（r10 最终串行复跑：基线 357 + glm-q 6）",
-    "typechecks": "reforge/game/pal-extract 均 0 error（r10 复跑）",
-    "rootLint": "pnpm lint PASS — 3020 files; 0 errors / 0 warnings / 0 infos（r10 最终树复跑）",
-    "docsCheck": "PASS (815 Markdown / 4277 local links / 245 tasks, 0 issues；r10 复跑)",
-    "diffCheck": "git diff --check 8b3ca062...HEAD 干净（r10 提交后复核）"
+    "palExtractTest": "363 passed（r11 最终串行复跑：基线 357 + glm-q 6）",
+    "typechecks": "pal-extract r11 复跑 0 error；reforge/game 源未变（r10 门禁沿用）",
+    "rootLint": "pnpm lint PASS — 3020 files; 0/0/0（r11 最终树复跑）",
+    "docsCheck": "PASS（r11 复跑）",
+    "diffCheck": "git diff --check 8b3ca062...HEAD 干净（r11 提交后复核）"
   },
-  "counterEvidence": "counters.json（62 全 VALID，52 执行目标，净新上限 50）+ counters/",
+  "counterEvidence": "counters.json（61 全 VALID，52 执行目标，净新结构上限 51）+ counters/",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
   "coverageDelta": "coverage-delta.json（reforge/game 全测口径 +82/+5 臂；pal-extract 为 glm-q 定向口径且 CLI 子进程不在插桩范围，收益主张合同级）",
   "notes": [
@@ -57,6 +57,6 @@
     "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
-  "reworkRound": 10,
+  "reworkRound": 11,
   "candidateHeadNote": "r10 口径：本字段为 r10 测试候选树的完整 40 位 SHA；其后仅本 docs-only pin 提交回填本字段与 Note，不改任何测试/产品文件（r2~r9 同口径）。"
 }

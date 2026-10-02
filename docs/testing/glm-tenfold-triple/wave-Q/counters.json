@@ -9,9 +9,9 @@
     "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
     "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
     "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts :: Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
-    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
-    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
-    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）"
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）"
   ],
   "retired": [
     {
@@ -20,7 +20,7 @@
       "alsoSameTargetAs": "Q05-RC3"
     }
   ],
-  "quotaNotes": "61 存档满足业务单断言红 / 51 个不同执行目标 / 净新合同目标上限 50（C114 与 S1-RC4 为旧 room0 合同 cross-check 不计新）。FP1～5 共享同一 file×fullName（同一合同目标的五条输入轴），不是五个新目标；其中 r10 修复了 FP2/FP3 的真实业务轴（MAP 非空扫描跳过 / 合法 YJ2 sprite 数量）并把 FP4 独立为如实登记的边界拒绝合同（新目标）。r10 合法 YJ2 编码器（专属 fixture，产品 decoder 往返验证）替代 r9 非法零流。",
+  "quotaNotes": "61 存档满足业务单断言红 / 52 个不同执行目标 / 净新合同目标结构上限 51（C114 与 S1-RC4 是同一旧 room0 合同及其反控，只扣一次）。FP4 是把原共享全管线身份重定为独立边界拒绝目标（目标 +1，非新增存档）；FP1/2/3/5 共享同一 file×fullName（同一合同目标四条输入轴）。原 50 数量门已足，不再补针。三态来源（r11 真实差分）：51 组业务证据未变 + 5 Q10 更新 + 5 FP 更新 = 61。r11（Q-R10-01）收窄：y2 fixture 删除未用回引接口/可选位模式/反查（r10 的 LZSS 扩展位多写 2 bit 被 Codex 严格读流证伪——literal7+回引+literal9 末字节 178 非 9），只保留已严格验证的 literal-only 流 + 0xFFF 终止符；撤回 r10 回引全往返主张。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
@@ -1968,9 +1968,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：合成 STORE 表首格物品 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "962324babdc6ea15b7ab0f974ad1d1415e4d296221c02bd1a7d567d39c822acf",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "ebe308c86065a09adbe40b8bf4da54902b5b4fb25bb8797ce4e80cbebb1acad2",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2025,9 +2025,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：PLAYERROLES 合成表 spriteNum[0] 2→3（合法精灵号）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "3e8d1cb04e097708c9a45bb1add2aced7c4dcc04313cabc538de6cf13aa6fd49",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "6dcc7393b6ac3e3509fc218d3c4ea1f68eec32592244bc7593be00b213d167bf",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2082,9 +2082,9 @@
       "targetNameSubstring": "合成小输入走完事件管线",
       "axis": "输入轴单轴变异：bytecode giveItem 操作数 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "a3cac6ac945cf02e1c5320b5266071b11653df59ab3a46b020aa8757522fd07b",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "014ed33ee4a828c74ce1b547ab317f5fa8b6161d54936ce57845406a32c0254d",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2139,9 +2139,9 @@
       "targetNameSubstring": "合成小输入走完事件管线",
       "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "4fe82026c5a5ec4411f2c7d86f4c95b58bad56b169f86e293ae024fbcd0c9149",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "29068c60973d8c1009d7b14601727deb633a15ef8173844e59404d4bc6e45ae3",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2196,9 +2196,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "eda411b39a14d1d2a86e9e524fda217589a3538cb3fe5c0af18b6533914ebbef",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "97b61dbe98cf5637494166bb3de2aac1890f621aa38db8edcfd22815912b87a9",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -3219,13 +3219,13 @@
     {
       "id": "Q-FP1",
       "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
-      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "targetNameSubstring": "全管线合成输入走到底",
       "axis": "输入轴单轴变异：PAT.MKF 2 chunk→1 chunk（去掉 1536B 日夜调色板；palette written 应 2→1 → toContain('2 chunks') 恰一红，nightColors 断言同红——恰一 fullName 内两断言同例）\n；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "e3f93af00672143b86d01864d7c8d68aa0eea217f4ee8200b83ac991e2d01bcb",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "21e827ebc8751501d20ec32e953f4f8833e5df86c398386262a2e6b0d8d26903",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -3276,13 +3276,13 @@
     {
       "id": "Q-FP2",
       "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
-      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "targetNameSubstring": "全管线合成输入走到底",
       "axis": "输入轴单轴变异：MAP chunk0 合法 YJ2 65536B→空 chunk（合法空档；该 chunk 未被 scene 引用、原本靠非空扫描入集 → tilesets written 2/2→1/1 → toContain('2 / 2') 恰一红；tileset/0.rle exists 断言同例同红）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "9ad3e7dea1f33f6bea3aa9a368e98b55325048e84485e7792db41873b5b8f621",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "ae782913d5694e4c65cc0fa59b71f492a9c1852538ecf9bf80f9180cf779abce",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -3333,13 +3333,13 @@
     {
       "id": "Q-FP3",
       "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
-      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "targetNameSubstring": "全管线合成输入走到底",
       "axis": "输入轴单轴变异：MGO 1→2 个合法 YJ2 sprite chunk（合法；sprite blobs written 1→2 → toContain('0 sprites') 恰一红——注意正控现含 1 sprite 断言须同步）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "4e168f5c46140c89f7d04695fe48a1ebe8a8b31aa0142dffff058853b96fb386",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "9b4cf7d868c6d7302bf65c86cdefc331d9369075198a833cd95ba32cd5d79274",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -3394,9 +3394,9 @@
       "targetNameSubstring": "FBP 截短越界边界拒绝",
       "axis": "输入轴单轴变异：FBP 3→5 chunk（合法 MKF；边界拒绝条件消失 → exit 0，toBe(1) 恰一红）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "2803f6a439eae472b3fb05ad026777bcdd3c2bb64b16e52359faf4bc3fab0459",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "4aea838c41421c20b3b43404a8a649ddcdd2b49ac7f4417dd0014285bda34918",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -3447,13 +3447,13 @@
     {
       "id": "Q-FP5",
       "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
-      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "targetNameSubstring": "全管线合成输入走到底",
       "axis": "输入轴单轴变异：色1 R 输入 1→2（合法 6bit 值；6→8bit 扩展 [4,8,255]→[8,8,255] → toEqual 恰一红）；断言不动。",
       "sha256": {
-        "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-        "mutated": "09f0d87f2fe88f50ab2cebc95e2a3c990fa4052b507f13dc017c5c6abb9606e0",
-        "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+        "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+        "mutated": "8c75159ee4fb77962f3bc93d6c730dc28543d773ccb4aa2c6155554ecafb689f",
+        "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
       },
       "restoredHashUnchanged": true,
       "criteria": {

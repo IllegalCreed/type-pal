@@ -1,1 +1,1 @@
-输入轴单轴变异：MGO 1→2 个合法 YJ2 sprite chunk（合法；sprite blobs written 1→2 → toContain('0 sprites') 恰一红——注意正控现含 1 sprite 断言须同步）；断言不动。
+输入轴单轴变异：MGO 1→2 个合法 YJ2 sprite chunk（合法；sprite blobs written 1→2 sprites → toContain('1 sprites, 0 frames') 恰一红）；断言不动。

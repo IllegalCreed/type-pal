@@ -5,9 +5,9 @@
   "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
   "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
   "sha256": {
-    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-    "mutated": "eda411b39a14d1d2a86e9e524fda217589a3538cb3fe5c0af18b6533914ebbef",
-    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+    "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+    "mutated": "97b61dbe98cf5637494166bb3de2aac1890f621aa38db8edcfd22815912b87a9",
+    "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
   },
   "restoredHashUnchanged": true,
   "criteria": {

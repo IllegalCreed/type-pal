@@ -5,9 +5,9 @@
   "targetNameSubstring": "合成小输入走完事件管线",
   "axis": "输入轴单轴变异：bytecode giveItem 操作数 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
   "sha256": {
-    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-    "mutated": "a3cac6ac945cf02e1c5320b5266071b11653df59ab3a46b020aa8757522fd07b",
-    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+    "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+    "mutated": "014ed33ee4a828c74ce1b547ab317f5fa8b6161d54936ce57845406a32c0254d",
+    "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
   },
   "restoredHashUnchanged": true,
   "criteria": {

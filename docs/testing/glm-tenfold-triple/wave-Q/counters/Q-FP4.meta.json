@@ -5,9 +5,9 @@
   "targetNameSubstring": "FBP 截短越界边界拒绝",
   "axis": "输入轴单轴变异：FBP 3→5 chunk（合法 MKF；边界拒绝条件消失 → exit 0，toBe(1) 恰一红）；断言不动。",
   "sha256": {
-    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
-    "mutated": "2803f6a439eae472b3fb05ad026777bcdd3c2bb64b16e52359faf4bc3fab0459",
-    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
+    "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
+    "mutated": "4aea838c41421c20b3b43404a8a649ddcdd2b49ac7f4417dd0014285bda34918",
+    "restored": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41"
   },
   "restoredHashUnchanged": true,
   "criteria": {
