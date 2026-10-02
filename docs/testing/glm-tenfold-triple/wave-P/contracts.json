@@ -1,6 +1,6 @@
 {
-  "total": 98,
-  "note": "r17 返工：G01-1 开关臂换当前合法共享脚本输入（非空 chunks 无当前 producer）；G01-2 空 id 轴与 G03-1 chunks where 轴撤回（空 party id 被公开 validateStartWorld 拒收、无当前合法 caller；历史见 git 与 counters/P04-C01 退役档）；G02 合法闭合引用夹具、levelUp 伴随免删轴归旧证；G07 经公开投影路径（作者文件→loader→toEditorState→保存校验）补测，无强转。98 执行=directed-vitest.json 真实实跑身份。历史 r9/r14 旧锚口径见 git。",
+  "total": 102,
+  "note": "r18 续批：+P05 首批 4 例（battle-simulator 域 resolver label 两臂/保留路径守卫两臂/试打方案 fieldId 来源/成员精确形态）；102 执行=directed-vitest.json 真实实跑身份。历史口径见 git。",
   "contracts": [
     {
       "batch": "P01",
@@ -1373,6 +1373,62 @@
       "axis": "本合同新轴: 敌人 onDefeated identity 立绘引用 label=敌人 id、locator=enemy、where 精确到 portrait 节点",
       "oracle": "完整断言:\nexpect(references.filter((entry) => entry.locator?.kind === 'enemy')).toMatchObject([\n  { actorId: 'hero', portraitKind: 'default', where: 'enemies[0](enemy-probe).onDefeated[0].cue.identity.portrait', label: '敌人 enemy-probe', locator: { kind: 'enemy', enemyId: 'enemy-probe' } },\n])\n// src/core/actor-references.glm-p.test.ts:370-376",
       "classification": "projection-arm"
+    },
+    {
+      "batch": "P05",
+      "id": "P05-G08-1",
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+      "status": "passed",
+      "condition": "共享 simulatorLibrary() typed 夹具（只读复用）：清空 enemies 表（plan 引用 enemy-a 悬空）/清空 bags 表（bag-a 悬空）；悬空预设引用是解析合法、由 collectSimulatorLibraryIssues 诊断的作者态",
+      "source": "packages/editor/src/core/battle-simulator-library.ts:219-222（resolve 三段 label）",
+      "caller": "resolveBattleSimulatorPlan(library, id)",
+      "oldAssertion": "battle-simulator-library.test.ts › missing preset references remain repairable but cannot be resolved, even when overridden（已证 party 段 我方预设不存在 与 试打方案不存在）——敌方/背包两段 label 未断言",
+      "axis": "本合同新轴: 敌方/背包两段预设缺失错误精确指名（含悬空 presetId）",
+      "oracle": "完整断言:\nexpect(() => resolveBattleSimulatorPlan(enemiesMissing, 'plan-a')).toThrow('敌方预设不存在：enemy-a')\nexpect(() => resolveBattleSimulatorPlan(bagsMissing, 'plan-a')).toThrow('背包预设不存在：bag-a')\n// src/core/battle-simulator.glm-p.test.ts:32-38",
+      "classification": "error-label-arm"
+    },
+    {
+      "batch": "P05",
+      "id": "P05-G09-1",
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+      "status": "passed",
+      "condition": "pEditorState typed manifest（content.locale 分别为 editor/battle-simulator.json/notes.json、editor、editor/notes/other.json）",
+      "source": "packages/editor/src/core/battle-simulator-library.ts:40-43（三匹配臂）",
+      "caller": "assertBattleSimulatorPathAvailable(project)（生产 caller：project-io.ts/clone.ts/open-local.ts 保存前守卫）",
+      "oldAssertion": "battle-simulator-persistence.test.ts › reserved sidecar path collisions are rejected even when no library is being saved（已证精确命中臂（大小写不敏感））——嵌套上下两臂未断言",
+      "axis": "本合同新轴: 保留目录之下声明路径冲突、保留文件位于声明目录之下冲突、近邻路径不冲突放行",
+      "oracle": "完整断言:\nexpect(() => assertBattleSimulatorPathAvailable(projectOf('editor/battle-simulator.json/notes.json'))).toThrow('战斗模拟器保留路径冲突：editor/battle-simulator.json 与 editor/battle-simulator.json/notes.json')\nexpect(() => assertBattleSimulatorPathAvailable(projectOf('editor'))).toThrow('战斗模拟器保留路径冲突：editor/battle-simulator.json 与 editor')\nexpect(() => assertBattleSimulatorPathAvailable(projectOf('editor/notes/other.json'))).not.toThrow()\n// src/core/battle-simulator.glm-p.test.ts:56-66",
+      "classification": "path-guard-arm"
+    },
+    {
+      "batch": "P05",
+      "id": "P05-G10-1",
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+      "status": "passed",
+      "condition": "pEditorState typed 夹具：battleFields 两项（id 3/9 完整 BattleFieldDef）与缺席两态",
+      "source": "packages/editor/src/core/battle-simulator-state.ts:38",
+      "caller": "emptyTrialPlan(state)（试打编辑入口构造初始方案）",
+      "oldAssertion": "battle-simulator-state.wave2.test.ts（emptyTrialPlan 仅作构件传递，fieldId 来源/回退未断言）",
+      "axis": "本合同新轴: 试打方案 fieldId 取 battleFields 首项；表缺席回退 0",
+      "oracle": "完整断言:\nexpect(emptyTrialPlan(withFields).fieldId).toBe(3)\nexpect(emptyTrialPlan(pEditorState()).fieldId).toBe(0)\n// src/core/battle-simulator.glm-p.test.ts:78-79",
+      "classification": "default-source-arm"
+    },
+    {
+      "batch": "P05",
+      "id": "P05-G11-1",
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full",
+      "status": "passed",
+      "condition": "pEditorState typed 夹具；emptyTrialMember('hero')",
+      "source": "packages/editor/src/core/battle-simulator-state.ts:23-32",
+      "caller": "emptyTrialMember(actorId)（试打我方成员初始草稿）",
+      "oldAssertion": "battle-simulator-state.wave2.test.ts（emptyTrialMember 仅作构件，精确值形态未断言）",
+      "axis": "本合同新轴: 初始成员草稿六字段精确值（stats/equipment 空对象、skills inherit、hp/mp full）",
+      "oracle": "完整断言（整对象 toEqual）:\nexpect(emptyTrialMember('hero')).toEqual({ actorId: 'hero', stats: {}, equipment: {}, skills: { kind: 'inherit' }, hp: { kind: 'full' }, mp: { kind: 'full' } })\n// src/core/battle-simulator.glm-p.test.ts:85-93",
+      "classification": "shape-contract"
     }
   ]
 }

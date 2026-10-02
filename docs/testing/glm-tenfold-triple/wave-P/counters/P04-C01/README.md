@@ -8,5 +8,4 @@
 `add()` 是内部 helper，`collectActorReferences` 并非 unknown 输入校验入口；当前 fixture 未证明
 合法 producer，业务信用不接收。未发现当前公开合法临时输入生产链，按原卡停/退该轴。
 
-四份 JSON/raw 三态与 receipt 原字节保留（r17 仅按 P-R17-01 统一 biome 格式，值不变），
-不计活跃、不补旧目标新针、不重新执行不存在目标。
+三份 raw（positive/mutated/restored）与 receipt 对象原字节保留；四份 JSON 对象值与 2cd548a8 完全相同、字节因 r17 按 P-R17-01 统一 biome format 而变（原字节在 2cd548a8 Git）。不计活跃、不补旧目标新针、不重新执行不存在目标、不恢复坏格式。

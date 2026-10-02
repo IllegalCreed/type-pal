@@ -1,0 +1,80 @@
+{
+  "id": "P05-C01",
+  "productFile": "packages/editor/src/core/battle-simulator-library.ts",
+  "findText": "  const enemies = resolve(plan.enemies, parsed.enemies, '敌方')",
+  "replaceText": "  const enemies = resolve(plan.enemies, parsed.enemies, '我方')",
+  "testSpec": "src/core/battle-simulator.glm-p.test.ts",
+  "expectFullname": "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+  "candidateHead": "50695fdce99fde27d7ed3e1f46bf3c3cacfa5f7d",
+  "productSha256Candidate": "0221861a566994861ca5140910704927b5de9491fa3799bf54e0a7360aadd664",
+  "patch": "--- a/packages/editor/src/core/battle-simulator-library.ts\n+++ b/packages/editor/src/core/battle-simulator-library.ts\n@@ -221,7 +221,7 @@\n     return found.config\n   }\n   const party = resolve(plan.party, parsed.allies, '我方')\n-  const enemies = resolve(plan.enemies, parsed.enemies, '敌方')\n+  const enemies = resolve(plan.enemies, parsed.enemies, '我方')\n   const bag = resolve(plan.bag, parsed.bags, '背包')\n   return parseBattleTrialConfig({\n     party: plan.overrides.party ?? party,\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 4,
+    "executedFullNames": [
+      "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+      "P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+      "P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+      "P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 4,
+      "identitySet": [
+        "src/core/battle-simulator.glm-p.test.ts×P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+        "src/core/battle-simulator.glm-p.test.ts×P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+        "src/core/battle-simulator.glm-p.test.ts×P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+        "src/core/battle-simulator.glm-p.test.ts×P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "3043a861f696fbe47de658b12ac9e076e03427a451e60084e9a22648bcba09de",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 4,
+    "executedFullNames": [
+      "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+      "P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+      "P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+      "P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full"
+    ],
+    "failed": [
+      {
+        "fullName": "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+        "message": "AssertionError: expected [Function] to throw error including '敌方预设不存在：enemy-a' but got '我方预设不存在：enemy-a'",
+        "file": "src/core/battle-simulator.glm-p.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+      "message": "AssertionError: expected [Function] to throw error including '敌方预设不存在：enemy-a' but got '我方预设不存在：enemy-a'",
+      "file": "src/core/battle-simulator.glm-p.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 4,
+    "executedFullNames": [
+      "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+      "P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+      "P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+      "P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 4,
+      "identitySet": [
+        "src/core/battle-simulator.glm-p.test.ts×P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+        "src/core/battle-simulator.glm-p.test.ts×P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+        "src/core/battle-simulator.glm-p.test.ts×P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+        "src/core/battle-simulator.glm-p.test.ts×P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full"
+      ]
+    }
+  }
+}

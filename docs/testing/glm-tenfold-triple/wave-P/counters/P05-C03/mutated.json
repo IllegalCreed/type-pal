@@ -1,0 +1,82 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 4,
+  "numPassedTests": 3,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790924774120,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂"],
+          "fullName": "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+          "status": "passed",
+          "title": "敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+          "duration": 4.647042000000056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂"],
+          "fullName": "P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+          "status": "passed",
+          "title": "声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+          "duration": 1.6340420000001359,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P05-G10 emptyTrialPlan 战场 id 来源臂"],
+          "fullName": "P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+          "status": "failed",
+          "title": "battleFields 在场取首项 id；缺席回退 0",
+          "duration": 6.102041000000099,
+          "failureMessages": [
+            "AssertionError: expected 1 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P05-C03-gVXC2z/packages/editor/src/core/battle-simulator.glm-p.test.ts:79:52\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P05-G11 emptyTrialMember 精确形态"],
+          "fullName": "P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full",
+          "status": "passed",
+          "title": "stats/equipment 空对象、skills inherit、hp/mp full",
+          "duration": 0.4647909999998774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790924777441,
+      "endTime": 1790924777453.4648,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P05-C03-gVXC2z/packages/editor/src/core/battle-simulator.glm-p.test.ts"
+    }
+  ]
+}

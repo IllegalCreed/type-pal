@@ -8,20 +8,20 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "r17 返工：测试提交 b6209ef53（合法输入 actor-references 合同+G07 公开投影路径），证据提交 16052761b（counter JSON 格式清零+C01 退役+账本同步）；此后仅 receipt pin docs-only；最终远端候选以推送 tip 为准（head 不引用自身提交）",
+  "headNote": "r18 续批：测试提交 50695fdce（P05 首批）+证据提交；最终远端候选以推送 tip 为准（head 不引用自身提交）",
   "counts": {
-    "contractsExecuted": 98,
-    "workGroups": 25,
-    "countersActive": 16,
+    "contractsExecuted": 102,
+    "workGroups": 29,
+    "countersActive": 19,
     "countersArchived": 2,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
     "browserScreenshots": 66,
     "target": "700/70组/50反控/20流程（不缩）",
     "gap": {
-      "examples": 602,
-      "groups": 45,
-      "counters": 34,
+      "examples": 598,
+      "groups": 41,
+      "counters": 31,
       "flows": 2
     }
   },
@@ -50,10 +50,11 @@
     "P-R13-ledger": "r14 真账续批：G14 五owner(:384-410)/四fallback(:423-442)/两locator(:459,471) 全臂 oracle 补全；G15 截断 oracle 补全+行锚修正(126-128/146-148/151/157-160)；G16-01(:172-184)/G16-03(:240-247) 以 isDefined 之后真实业务断言入账；G16-02 axis 去 use:command 旧称、锚 :194-233",
     "P04-batch": "r14 续批 P04 首批 11 例 5 组：actor-references 开关/空id守卫/detail五值/自援护豁免/分片where + enemy-commands withEnemy 替换/未命中、UpdateEnemy 缺席臂/onDefeated整键删除/构造期快照、AddEnemy invert；+P04-C01/C02 两枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）",
     "P04-batch2": "+P04-G06 敌队稳定 id（enemy-team-commands.ts:77 三行唯一锚）与 P04-C03 反控；G07 dialogue-portrait identity 臂停该组（identity 形 cue 仅作者视图类型合法；旧证强转注入，不复制）——证据与停组理由见 contracts.json note",
-    "P-R17": "①12 份 counter JSON biome format（值不变）+工具 emit 经 biome format；②G01-1 开关臂换当前合法共享脚本；G01-2/G03-1 撤回+C01 退役（validateStartWorld 拒收空 party id、chunks 无当前 producer，历史原字节保留）；G02 合法闭合夹具、levelUp 轴归旧证；③G07 停测撤回，经公开投影路径补 2 例（无强转无新接口）；C02/C03 与七条 enemy/team 合同保留未重采"
+    "P-R17": "①12 份 counter JSON biome format（值不变）+工具 emit 经 biome format；②G01-1 开关臂换当前合法共享脚本；G01-2/G03-1 撤回+C01 退役（validateStartWorld 拒收空 party id、chunks 无当前 producer，历史原字节保留）；G02 合法闭合夹具、levelUp 轴归旧证；③G07 停测撤回，经公开投影路径补 2 例（无强转无新接口）；C02/C03 与七条 enemy/team 合同保留未重采",
+    "P05-batch": "r18 续批 P05 首批 4 例 4 组（resolver label 两臂/保留路径守卫两臂/fieldId 来源/成员形态）+P05-C01/C02/C03 三枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）；C01 退役档措辞按 r18 复核纠正（JSON 值同字节变、raw 原字节未变）"
   },
   "commands": {
-    "directedVitest": "98/98 passed（r17 返工后真实重生，directed-vitest.json，全 11 个 wave-P 文件）",
+    "directedVitest": "102/102 passed（r18 续批真实重生，directed-vitest.json，全 12 个 wave-P 文件）",
     "fullEditorSuite": "518 files / 3872 tests 全绿 exit 0（P03b 8 例入集）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2841 files 0 error / 0 warning / 0 info（r17 最终证据后完整根 lint）",
@@ -82,7 +83,8 @@
     "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ca391c0d7be918227e728e78f7655dc36eb75f7e3a806ca72a2b94c0b6916c90",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter-judge.mjs": "30b27e9639442bc7cf3d6832fc16dd79f776881f3b3c31ffcd8b416918cc1418",
-    "packages/editor/src/core/enemy-team-commands.glm-p.test.ts": "aad43edb0c375b201585e98a91061849d2697412781c62e3f35b6a9efddc95e3"
+    "packages/editor/src/core/enemy-team-commands.glm-p.test.ts": "aad43edb0c375b201585e98a91061849d2697412781c62e3f35b6a9efddc95e3",
+    "packages/editor/src/core/battle-simulator.glm-p.test.ts": "d357d8de7f2fd956a139a6816f422578cddda5ffabc57ae4e2644674158abe15"
   },
   "anchors": {
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
@@ -95,7 +97,7 @@
   },
   "threeStateProvenance": "相对 48ade197：9 旧针三态未变；P02-C08 与 4 枚 P03 针因源/执行集变化重采（P03 又于 r10.5 因合法 cursor 修复再重采 4 枚）；C13 退役保留 r9 原字节存档",
   "finalRemoteCandidate": "cdbc45edde3a142bb4ea563d1a4933544e324c8f（r10.5 闭合：P03b 合法 fixture + G16-02 精确顺序 oracle + 反控重采同提交；其后仅 receipt pin）",
-  "sourceSha256Note": "r17 自最终字节重算 actor-references 测试与 counter 工具摘要（共 13 项）",
+  "sourceSha256Note": "r18 续批自最终字节重算（14 项：12 测试文件 + kit + counter 工具）",
   "countsHistory": {
     "r13": {
       "contractsExecuted": 86,
@@ -138,6 +140,17 @@
         "examples": 602,
         "groups": 45,
         "counters": 33,
+        "flows": 2
+      }
+    },
+    "r17": {
+      "contractsExecuted": 98,
+      "workGroups": 25,
+      "countersActive": 16,
+      "gap": {
+        "examples": 602,
+        "groups": 45,
+        "counters": 34,
         "flows": 2
       }
     }

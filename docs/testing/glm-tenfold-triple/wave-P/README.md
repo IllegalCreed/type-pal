@@ -50,13 +50,27 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 
 | 项 | 数量 | 说明 |
 |---|---:|---|
-| 合法新用例 | **98 / 700**（执行数；r17 返工后：P04 合法 12 例＝开关/合法化 5 例+enemy/team 纯命令 7 例，含 G07 公开投影 2 新例；G01-2/G03-1 已撤） | 98/98 绿（[directed-vitest.json](directed-vitest.json) 全 11 文件真实实跑；逐合同 [contracts.json](contracts.json) 全臂 oracle+当前行锚） |
-| 合同工作组 | 25 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 + P04-G01/G02/G04…G07（G03 撤） |
-| 有效反控 | **16 / 50**（P04-C02 invert整键删除、P04-C03 敌队稳定 id 保留；P04-C01 空 id 守卫针 r17 退役，原字节保留于 counters/P04-C01/；P03-C13 退役档同口径） | 严格判据采样，逐针恰一红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
+| 合法新用例 | **102 / 700**（执行数；r18 续批 +P05 首批 4 例） | 102/102 绿（[directed-vitest.json](directed-vitest.json) 全 12 文件真实实跑；逐合同 [contracts.json](contracts.json) 全臂 oracle+当前行锚） |
+| 合同工作组 | 29 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 + P04-G01/G02/G04…G07 + P05-G08…G11 |
+| 有效反控 | **19 / 50**（r18 +P05-C01 敌方 label、C02 保留目录嵌套臂、C03 fieldId 回退，三个不同目标；P04-C01/P03-C13 退役档不计活跃） | 严格判据采样，逐针恰一红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
 | 浏览器流程 | **18 / 20 完整证明** | F14/F18 如实登记未证，另交视觉阶段（[browser/browser-evidence.json](browser/browser-evidence.json)） |
 | 私有同分母 coverage | 上轮 +32/+16/+2（分母 28489 不变） | r14 续批未重跑，不计入 |
 
-## r17 返工真实改动（相对 2cd548a8b）
+## r18 续批真实改动（相对 0f588c3e9）
+
+- P05 首批（battle-simulator 域，4 组 4 例）：resolver 敌方/背包 label 两臂（party 臂为旧证）、
+  保留路径守卫嵌套上下两臂+近邻放行（精确命中臂为旧证 persistence:288）、emptyTrialPlan
+  fieldId 取首项/缺席回退 0、emptyTrialMember 六字段精确形态。共享 simulatorLibrary()
+  夹具只读复用。
+- +3 枚不同目标反控：P05-C01（library.ts:221 敌方 label）、P05-C02（library.ts:42 保留
+  文件位于声明目录之下臂）、P05-C03（state.ts:38 fieldId 回退）。逐针 git apply+hash
+  独立验证，恰一红 0→1→0。
+- C01 退役档措辞随正常批纠正：四 JSON 对象值与 2cd548a8 相同、字节因 biome format 已变，
+  三份 raw 原字节未变（r18 复核口径）。
+- 未完成（如实登记，不缩围）：**P02 残余与 P04/P05 余族、P06–P10 未开工（598 例缺口）**、
+  反控 31 枚缺口、F14/F18 视觉另阶段。
+
+## r17 返工真实改动（相对 2cd548a8b，历史）
 
 - P-R17-01：P04-C01/C02/C03 十二份 JSON 统一 biome format（值不变）；counter 工具落盘
   JSON 改经 `biome format --stdin-file-path`（后续采样不再产生格式 error）。

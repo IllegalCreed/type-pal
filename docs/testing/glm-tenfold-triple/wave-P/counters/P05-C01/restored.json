@@ -1,0 +1,80 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 4,
+  "numPassedTests": 4,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790924722858,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂"],
+          "fullName": "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+          "status": "passed",
+          "title": "敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+          "duration": 3.603291999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂"],
+          "fullName": "P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+          "status": "passed",
+          "title": "声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+          "duration": 1.737833000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P05-G10 emptyTrialPlan 战场 id 来源臂"],
+          "fullName": "P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+          "status": "passed",
+          "title": "battleFields 在场取首项 id；缺席回退 0",
+          "duration": 0.6680829999995694,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P05-G11 emptyTrialMember 精确形态"],
+          "fullName": "P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full",
+          "status": "passed",
+          "title": "stats/equipment 空对象、skills inherit、hp/mp full",
+          "duration": 2.0781669999996666,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790924729268,
+      "endTime": 1790924729277.0781,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P05-C01-OVvMyy/packages/editor/src/core/battle-simulator.glm-p.test.ts"
+    }
+  ]
+}

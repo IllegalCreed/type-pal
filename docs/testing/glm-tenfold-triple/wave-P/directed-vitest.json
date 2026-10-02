@@ -1,596 +1,620 @@
 {
-  "generatedFrom": "真实 vitest --reporter=json 全 11 个 wave-P 文件实跑（r17 返工：G01-1 换合法共享脚本输入、撤 G01-2/G03-1、G02 合法化、G07 经公开投影路径补测）",
-  "total": 98,
-  "passed": 98,
+  "generatedFrom": "真实 vitest --reporter=json 全 12 个 wave-P 文件实跑（r18 续批：+P05 首批 battle-simulator 4 例）",
+  "total": 102,
+  "passed": 102,
   "failed": 0,
   "tests": [
     {
       "file": "src/core/actor-references.glm-p.test.ts",
       "fullName": "P04-G01 collectActorReferences 选择性扫描 includeScriptCommands:false 仅排除命令扫描臂；当前合法共享脚本输入下实体/入口/敌人条件臂保留",
       "status": "passed",
-      "duration": 1.7975420000002487
+      "duration": 2.78137500000048
     },
     {
       "file": "src/core/actor-references.glm-p.test.ts",
       "fullName": "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护豁免，外部实体引用阻塞（levelUp 伴随免删为旧证，不再重复）",
       "status": "passed",
-      "duration": 0.5457080000001042
+      "duration": 2.21612499999992
     },
     {
       "file": "src/core/actor-references.glm-p.test.ts",
       "fullName": "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确（引用目标闭合合法夹具）",
       "status": "passed",
-      "duration": 0.504624999999578
+      "duration": 1.6072500000000218
     },
     {
       "file": "src/core/actor-references.glm-p.test.ts",
       "fullName": "P04-G07 当前合法投影路径下的 identity 立绘引用 共享脚本 dialog cue：label/locator/where 精确；canonical 投影不产生 scriptChunks",
       "status": "passed",
-      "duration": 31.530416999999943
+      "duration": 61.56929200000013
     },
     {
       "file": "src/core/actor-references.glm-p.test.ts",
       "fullName": "P04-G07 当前合法投影路径下的 identity 立绘引用 敌人 onDefeated dialog cue：label=敌人 id、locator 指向敌人、where 精确到 portrait 节点",
       "status": "passed",
-      "duration": 8.015875000000051
+      "duration": 7.7742920000000595
+    },
+    {
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G08 resolveBattleSimulatorPlan 预设缺失 label 分段臂 敌方与背包各自指名（party 段为旧证 library.test.ts:46）",
+      "status": "passed",
+      "duration": 2.908374999999978
+    },
+    {
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G09 assertBattleSimulatorPathAvailable 保留路径冲突两臂 声明路径位于保留目录之下/保留文件位于声明目录之下；近邻不冲突放行（精确命中臂为旧证 persistence:288）",
+      "status": "passed",
+      "duration": 0.4680840000000899
+    },
+    {
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G10 emptyTrialPlan 战场 id 来源臂 battleFields 在场取首项 id；缺席回退 0",
+      "status": "passed",
+      "duration": 0.1799170000003869
+    },
+    {
+      "file": "src/core/battle-simulator.glm-p.test.ts",
+      "fullName": "P05-G11 emptyTrialMember 精确形态 stats/equipment 空对象、skills inherit、hp/mp full",
+      "status": "passed",
+      "duration": 0.42133300000023155
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G08 editor-asset-reader 契约 readBytes：pending blob 覆盖磁盘，两次读取内容一致（副本语义）",
       "status": "passed",
-      "duration": 5.444208999999773
+      "duration": 11.862957999999708
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G08 editor-asset-reader 契约 readRoleBytes：缺角色 → 指名缺失角色；已登记角色 → 读到非空字节",
       "status": "passed",
-      "duration": 3.284958000000188
+      "duration": 6.4953749999995125
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G08 editor-asset-reader 契约 urlFor：pending blob 直接生成 object URL（携带 record mediaType，不经源读取）",
       "status": "passed",
-      "duration": 3.145542000000205
+      "duration": 6.9320410000000265
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G08 editor-asset-reader 契约 期望 kind 与实际不符 → 拒绝并报出双 kind",
       "status": "passed",
-      "duration": 7.285291000000143
+      "duration": 9.863207999999759
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G08 editor-asset-reader 契约 未知 AssetId → 不在 catalog 拒绝并指名",
       "status": "passed",
-      "duration": 28.002500000000055
+      "duration": 52.922999999999774
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G09 classifyDirectoryPicker 非法 URL 回退轴（其余分类臂与旧测重复已删） localhostOrigin 解析失败 → 回退 http://localhost 提示",
       "status": "passed",
-      "duration": 0.22654199999988123
+      "duration": 0.3486249999996289
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G10 seed 克隆清单残余 palFingerprintPaths：缺省产出默认场景索引且无 maps 条目；自定义 scenes 归一",
       "status": "passed",
-      "duration": 0.19337499999983265
+      "duration": 0.23475000000053114
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G10 seed 克隆清单残余 scenesDir：缺省回默认目录；无斜杠补斜杠；带斜杠原样",
       "status": "passed",
-      "duration": 0.16529199999968114
+      "duration": 0.18045799999981682
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G10 seed 克隆清单残余 克隆清单内容路径重复 → 输出路径重复拒绝并指名",
       "status": "passed",
-      "duration": 0.42200000000002547
+      "duration": 0.4311250000000655
     },
     {
       "file": "src/core/editor-asset-io.glm-p.test.ts",
       "fullName": "P01-G11 另存为证据守卫 带源目录但缺源基线证据 → 校验阶段拒绝且目标零写（读取证据臂为 typed 不可达防御）",
       "status": "passed",
-      "duration": 7.302874999999858
+      "duration": 16.76274999999987
     },
     {
       "file": "src/core/enemy-commands.glm-p.test.ts",
       "fullName": "P04-G04 withEnemy 替换语义与守卫 中位替换：其余条目同引用、替换槽为传入对象本身、原数组不变",
       "status": "passed",
-      "duration": 1.8006249999998545
+      "duration": 3.596292000000176
     },
     {
       "file": "src/core/enemy-commands.glm-p.test.ts",
       "fullName": "P04-G04 withEnemy 替换语义与守卫 未命中 id 与 enemies 表缺席 → 返回同一 state 引用",
       "status": "passed",
-      "duration": 0.21291699999983393
+      "duration": 0.2272080000002461
     },
     {
       "file": "src/core/enemy-commands.glm-p.test.ts",
       "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 AddEnemyCommand invert 按 id 精确移除，保留其余条目原引用",
       "status": "passed",
-      "duration": 0.23050000000012005
+      "duration": 0.23483399999986432
     },
     {
       "file": "src/core/enemy-commands.glm-p.test.ts",
       "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
       "status": "passed",
-      "duration": 0.15974999999980355
+      "duration": 0.16274999999950523
     },
     {
       "file": "src/core/enemy-commands.glm-p.test.ts",
       "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 构造期快照：构造后修改入参 patch 对象不影响命令行为",
       "status": "passed",
-      "duration": 0.07845799999995506
+      "duration": 0.07945899999958783
     },
     {
       "file": "src/core/enemy-commands.glm-p.test.ts",
       "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 缺席 id：apply 与 invert 均原引用返回",
       "status": "passed",
-      "duration": 0.25999999999976353
+      "duration": 0.2189170000001468
     },
     {
       "file": "src/core/enemy-team-commands.glm-p.test.ts",
       "fullName": "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表",
       "status": "passed",
-      "duration": 1.1348749999999654
+      "duration": 2.6675410000007105
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
       "status": "passed",
-      "duration": 3.593499999999949
+      "duration": 8.581500000000233
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
       "status": "passed",
-      "duration": 27.777333
+      "duration": 53.76220900000044
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
       "status": "passed",
-      "duration": 3.6526669999998376
+      "duration": 6.252875000000131
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
       "status": "passed",
-      "duration": 3.2275830000003225
+      "duration": 9.966625000000022
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
       "status": "passed",
-      "duration": 3.733875000000353
+      "duration": 7.535750000000007
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
       "status": "passed",
-      "duration": 4.0406669999997575
+      "duration": 7.7887500000006185
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
       "status": "passed",
-      "duration": 6.79016700000011
+      "duration": 7.858417000000372
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
       "status": "passed",
-      "duration": 4.514749999999822
+      "duration": 7.6536669999995866
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
       "status": "passed",
-      "duration": 5.409042000000227
+      "duration": 11.143292000000656
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
       "status": "passed",
-      "duration": 2.8732500000000982
+      "duration": 3.949583999999959
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
       "status": "passed",
-      "duration": 2.2192909999998847
+      "duration": 5.56183400000009
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
       "status": "passed",
-      "duration": 5.310457999999926
+      "duration": 7.89233299999978
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
       "status": "passed",
-      "duration": 2.4172920000000886
+      "duration": 4.793082999999569
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
       "status": "passed",
-      "duration": 3.483582999999726
+      "duration": 5.994166999999834
     },
     {
       "file": "src/core/project-diagnostics.glm-p.test.ts",
       "fullName": "P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用",
       "status": "passed",
-      "duration": 2.6299589999998716
+      "duration": 4.480457999999999
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
       "status": "passed",
-      "duration": 2.5810840000003736
+      "duration": 5.645166000000245
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
       "status": "passed",
-      "duration": 3.969082999999955
+      "duration": 9.670665999999983
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
       "status": "passed",
-      "duration": 2.571124999999938
+      "duration": 5.876082999999198
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
       "status": "passed",
-      "duration": 1.9930420000000595
+      "duration": 5.982207999999446
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
       "status": "passed",
-      "duration": 28.149959000000308
+      "duration": 49.11637500000052
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
       "status": "passed",
-      "duration": 8.89200000000028
+      "duration": 11.725709000000279
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
       "status": "passed",
-      "duration": 5.467250000000149
+      "duration": 9.182208000000173
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
       "status": "passed",
-      "duration": 1.7874589999996715
+      "duration": 3.6460419999993974
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
       "status": "passed",
-      "duration": 2.0914999999999964
+      "duration": 5.538958000000093
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
       "status": "passed",
-      "duration": 0.3914580000000569
+      "duration": 1.199333000000479
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
       "status": "passed",
-      "duration": 0.1790419999997539
+      "duration": 1.7969579999999041
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
       "status": "passed",
-      "duration": 0.1825420000000122
+      "duration": 0.5421249999999418
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
       "status": "passed",
-      "duration": 0.6770839999999225
+      "duration": 1.1443749999998545
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
       "status": "passed",
-      "duration": 0.10275000000001455
+      "duration": 0.1494589999992968
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
       "status": "passed",
-      "duration": 0.1702500000001237
+      "duration": 0.21354199999950652
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
       "status": "passed",
-      "duration": 31.09958400000005
+      "duration": 119.21183399999973
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
       "status": "passed",
-      "duration": 22.02166699999998
+      "duration": 83.38266600000043
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
       "status": "passed",
-      "duration": 24.958541999999852
+      "duration": 59.12787500000013
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
       "status": "passed",
-      "duration": 0.547874999999749
+      "duration": 1.0915410000006887
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
       "status": "passed",
-      "duration": 21.60379200000034
+      "duration": 62.96270800000002
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
       "status": "passed",
-      "duration": 20.54850000000033
+      "duration": 150.81325000000015
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
       "status": "passed",
-      "duration": 22.429749999999785
+      "duration": 60.299417000000176
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
       "status": "passed",
-      "duration": 14.809332999999697
+      "duration": 52.09045800000058
     },
     {
       "file": "src/core/project-io.glm-p.test.ts",
       "fullName": "P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写",
       "status": "passed",
-      "duration": 3.9795839999997042
+      "duration": 15.635833000000275
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
       "status": "passed",
-      "duration": 0.4639999999999418
+      "duration": 0.8343329999997877
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
       "status": "passed",
-      "duration": 2.1231250000000728
+      "duration": 5.022166999999627
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
       "status": "passed",
-      "duration": 1.497624999999971
+      "duration": 2.341957999999977
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
       "status": "passed",
-      "duration": 4.164792000000034
+      "duration": 8.346916999999848
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
       "status": "passed",
-      "duration": 0.5045830000000251
+      "duration": 0.7132500000002437
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
       "status": "passed",
-      "duration": 0.6747500000000173
+      "duration": 2.4069580000000315
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
       "status": "passed",
-      "duration": 0.733916000000022
+      "duration": 0.9534170000001723
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
       "status": "passed",
-      "duration": 0.45591699999999946
+      "duration": 0.5633330000000569
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
       "status": "passed",
-      "duration": 0.37141700000006495
+      "duration": 0.450666000000183
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
       "status": "passed",
-      "duration": 0.40095899999994344
+      "duration": 0.5683749999998327
     },
     {
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
       "status": "passed",
-      "duration": 1.2118330000000697
+      "duration": 3.8679590000001554
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 hostile.onLose 命令以独立来源走访且路径精确",
       "status": "passed",
-      "duration": 0.6553339999999253
+      "duration": 0.6868749999998727
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 zone 实体（无外观触发区）合法且不产出 behavior/hook 走访",
       "status": "passed",
-      "duration": 0.3396669999999631
+      "duration": 0.34066699999993943
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 共享脚本命令走访携带 shared-script owner 与 body 容器",
       "status": "passed",
-      "duration": 0.5482500000000528
+      "duration": 0.5632089999999152
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 实体 behavior flow 命令携带 entity-behavior owner 与完整 flow 路径",
       "status": "passed",
-      "duration": 3.4197090000000117
+      "duration": 3.1840000000001965
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G16 scheme 引用索引聚合 page-binding entry：按 canonicalBehaviorReferenceKey 聚合 page 引用",
       "status": "passed",
-      "duration": 0.7326249999999845
+      "duration": 0.7743340000001808
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G16 scheme 引用索引聚合 scene-hook entry 以 canonicalSceneHookReferenceKey 聚合",
       "status": "passed",
-      "duration": 0.7727089999999635
+      "duration": 1.671708000000308
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G16 scheme 引用索引聚合 同键引用按走访序精确追加：page-binding 在前、命令 selection 在后",
       "status": "passed",
-      "duration": 0.26595800000006875
+      "duration": 0.27874999999994543
     },
     {
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
       "fullName": "P03-G16 scheme 引用索引聚合 无任何引用来源 → 三索引与 entries 全空",
       "status": "passed",
-      "duration": 0.5574159999999893
+      "duration": 0.4760409999998956
     },
     {
       "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
       "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
       "status": "passed",
-      "duration": 9.337207999999919
+      "duration": 21.93341699999928
     },
     {
       "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
       "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
       "status": "passed",
-      "duration": 64.263375
+      "duration": 33.45383299999958
     },
     {
       "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
       "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
       "status": "passed",
-      "duration": 3.4381250000001273
+      "duration": 13.354416999999557
     },
     {
       "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
       "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
       "status": "passed",
-      "duration": 5.038833999999952
+      "duration": 11.827041999999892
     },
     {
       "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
       "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
       "status": "passed",
-      "duration": 48.6240829999997
+      "duration": 91.76774999999998
     },
     {
       "file": "src/ui/LayerStackControls.glm-p.test.tsx",
       "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
       "status": "passed",
-      "duration": 4.752791000000116
+      "duration": 12.684208000000126
     },
     {
       "file": "src/ui/LayerStackControls.glm-p.test.tsx",
       "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
       "status": "passed",
-      "duration": 26.96462499999984
+      "duration": 33.448917000000165
     },
     {
       "file": "src/ui/LayerStackControls.glm-p.test.tsx",
       "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
       "status": "passed",
-      "duration": 10.664582999999993
+      "duration": 25.35400000000027
     },
     {
       "file": "src/ui/LayerStackControls.glm-p.test.tsx",
       "fullName": "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
       "status": "passed",
-      "duration": 10.403917000000092
+      "duration": 15.59879200000023
     },
     {
       "file": "src/ui/LayerStackControls.glm-p.test.tsx",
       "fullName": "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
       "status": "passed",
-      "duration": 7.795000000000073
+      "duration": 14.077166999999918
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
       "status": "passed",
-      "duration": 12.208082999999988
+      "duration": 26.407874999999876
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
       "status": "passed",
-      "duration": 6.393957999999657
+      "duration": 15.454208000000108
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
       "status": "passed",
-      "duration": 26.912709000000177
+      "duration": 57.33637499999986
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
       "status": "passed",
-      "duration": 4.383624999999938
+      "duration": 14.553208000000268
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
       "status": "passed",
-      "duration": 5.495374999999967
+      "duration": 15.452291999999943
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
       "status": "passed",
-      "duration": 4.701833000000079
+      "duration": 13.484333000000333
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
       "status": "passed",
-      "duration": 6.755583000000115
+      "duration": 17.237291999999798
     },
     {
       "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
       "fullName": "P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出",
       "status": "passed",
-      "duration": 8.71979199999987
+      "duration": 18.31620799999928
     }
   ]
 }
