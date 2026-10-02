@@ -1,22 +1,27 @@
 #!/usr/bin/env node
-/**
- * 清理回归：成功 / 故意失败 / 可捕获中断 后目录与 git worktree 注册零残留。
- * 故意失败只注入生命周期层，不改产品源码、不提交变异。
- */
 import { spawn, spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+/**
+ * 清理回归：成功 / 故意失败 / 可捕获中断 后零残留；
+ * 另自建哨兵证明：未登记同前缀 / 祖先含前缀 / 失效登记 一律拒删且不 rm。
+ */
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { basename, join } from 'node:path'
 import {
   cleanupExact,
   createCounterWorktree,
+  isLegalOwnedTempPath,
   linkNodeModules,
   listPrefixTempsInTmpdir,
   MAX_CONCURRENCY,
   MAX_LIVE_TREES,
   ownedPaths,
   readLiveRegistry,
+  registerOwned,
   resetOwnedForTests,
   scanOrphanPrefixDirs,
+  TEMP_PREFIX,
+  unregisterOwned,
 } from './counter-lifecycle.mjs'
 
 const root = process.cwd()
@@ -24,14 +29,14 @@ const evidenceDir = join(root, 'docs/testing/medium-triple-20261002/cursor/clean
 mkdirSync(evidenceDir, { recursive: true })
 
 const results = []
+/** Only paths this selftest created; always removed in finally-safe helpers. */
+const sentinels = []
 
 function sleepMs(ms) {
   spawnSync(
     process.execPath,
     ['-e', `Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,${ms})`],
-    {
-      stdio: 'ignore',
-    },
+    { stdio: 'ignore' },
   )
 }
 
@@ -48,50 +53,155 @@ function checkZero(label, path, report) {
   if (!ok) throw new Error(`${label} residue: exists=${exists} listed=${stillListed}`)
 }
 
-resetOwnedForTests()
-{
-  const tree = createCounterWorktree(root, 'selftest-ok')
-  linkNodeModules(join(root, 'node_modules'), join(tree, 'node_modules'))
-  const report = cleanupExact(root, tree)
-  checkZero('success-cleanup', tree, report)
+function makeSentinelDir(tag) {
+  const dir = mkdtempSync(join(tmpdir(), `${TEMP_PREFIX}${tag}-`))
+  sentinels.push(dir)
+  writeFileSync(join(dir, 'sentinel.txt'), 'cursor-r2-selftest-only\n')
+  return dir
 }
 
-resetOwnedForTests()
-{
-  const tree = createCounterWorktree(root, 'selftest-fail')
-  try {
-    throw new Error('injected-failure-no-product-mutation')
-  } catch {
+function destroySentinel(dir) {
+  if (dir && existsSync(dir)) rmSync(dir, { recursive: true, force: true })
+}
+
+try {
+  resetOwnedForTests()
+  {
+    const tree = createCounterWorktree(root, 'selftest-ok')
+    linkNodeModules(join(root, 'node_modules'), join(tree, 'node_modules'))
     const report = cleanupExact(root, tree)
-    checkZero('failure-cleanup', tree, report)
+    checkZero('success-cleanup', tree, report)
   }
-}
 
-resetOwnedForTests()
-{
-  const first = createCounterWorktree(root, 'selftest-cap-a')
-  let refused = false
-  try {
-    createCounterWorktree(root, 'selftest-cap-b')
-  } catch (error) {
-    refused = String(error.message).includes('live temp trees at cap')
+  resetOwnedForTests()
+  {
+    const tree = createCounterWorktree(root, 'selftest-fail')
+    try {
+      throw new Error('injected-failure-no-product-mutation')
+    } catch {
+      const report = cleanupExact(root, tree)
+      checkZero('failure-cleanup', tree, report)
+    }
   }
-  const report = cleanupExact(root, first)
-  checkZero('cap-refuse-then-cleanup', first, report)
-  results.push({
-    label: 'max-live-trees',
-    ok: refused && MAX_LIVE_TREES === 1,
-    refused,
-    MAX_LIVE_TREES,
-  })
-  if (!refused) throw new Error('expected second create to refuse')
-}
 
-{
-  const childScript = join(evidenceDir, '_interrupt-child.mjs')
-  writeFileSync(
-    childScript,
-    `import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+  resetOwnedForTests()
+  {
+    const first = createCounterWorktree(root, 'selftest-cap-a')
+    let refused = false
+    try {
+      createCounterWorktree(root, 'selftest-cap-b')
+    } catch (error) {
+      refused = String(error.message).includes('live temp trees at cap')
+    }
+    const report = cleanupExact(root, first)
+    checkZero('cap-refuse-then-cleanup', first, report)
+    results.push({
+      label: 'max-live-trees',
+      ok: refused && MAX_LIVE_TREES === 1,
+      refused,
+      MAX_LIVE_TREES,
+    })
+    if (!refused) throw new Error('expected second create to refuse')
+  }
+
+  // --- R2-02: unregistered same-prefix sentinel must NOT be deleted ---
+  resetOwnedForTests()
+  {
+    const sentinel = makeSentinelDir('unreg')
+    const before = existsSync(sentinel)
+    const report = cleanupExact(root, sentinel)
+    const after = existsSync(sentinel)
+    const ok =
+      before &&
+      after &&
+      report.owned === false &&
+      report.gitRemoveOk === false &&
+      report.dirRemoved === false &&
+      report.error === 'refuse-cleanup-unregistered'
+    results.push({
+      label: 'refuse-unregistered-same-prefix',
+      ok,
+      sentinel,
+      before,
+      after,
+      report,
+    })
+    if (!ok)
+      throw new Error(
+        `unregistered sentinel was deleted or mis-authorized: ${JSON.stringify(report)}`,
+      )
+    destroySentinel(sentinel)
+  }
+
+  // --- R2-02: ancestor-contains-prefix path refused ---
+  resetOwnedForTests()
+  {
+    const nestRoot = mkdtempSync(join(tmpdir(), 'cursor-r2-nest-'))
+    sentinels.push(nestRoot)
+    const nested = join(nestRoot, `${TEMP_PREFIX}nested-leaf`)
+    mkdirSync(nested, { recursive: true })
+    writeFileSync(join(nested, 'x.txt'), 'nest\n')
+    const legal = isLegalOwnedTempPath(nested)
+    const report = cleanupExact(root, nested)
+    const after = existsSync(nested)
+    const ok =
+      legal === false &&
+      after &&
+      report.dirRemoved === false &&
+      (report.error === 'refuse-cleanup-unregistered' ||
+        report.error === 'refuse-cleanup-illegal-path')
+    results.push({ label: 'refuse-ancestor-prefix-path', ok, nested, legal, after, report })
+    if (!ok) throw new Error(`ancestor prefix path mishandled: ${JSON.stringify(report)}`)
+    destroySentinel(nestRoot)
+  }
+
+  // --- R2-02: stale registry entry (registered then path identity broken) ---
+  resetOwnedForTests()
+  {
+    const sentinel = makeSentinelDir('stale')
+    registerOwned(root, sentinel)
+    // Simulate stale: unregister from disk view by removing from set while keeping a fake path
+    // that includes prefix in an ancestor — registerOwned refuses illegal paths, so instead
+    // unregister then point cleanup at a path whose basename matches but parent ≠ tmpdir.
+    unregisterOwned(root, sentinel)
+    const nestRoot = mkdtempSync(join(tmpdir(), 'cursor-r2-stale-'))
+    sentinels.push(nestRoot)
+    const fake = join(nestRoot, basename(sentinel))
+    mkdirSync(fake, { recursive: true })
+    writeFileSync(join(fake, 'y.txt'), 'stale\n')
+    // Force-register bypass is impossible; prove illegal path cannot be registered:
+    let registerRefused = false
+    try {
+      registerOwned(root, fake)
+    } catch {
+      registerRefused = true
+    }
+    const report = cleanupExact(root, fake)
+    const after = existsSync(fake)
+    const ok =
+      registerRefused &&
+      after &&
+      report.owned === false &&
+      report.dirRemoved === false &&
+      report.error === 'refuse-cleanup-unregistered'
+    results.push({
+      label: 'refuse-stale-or-illegal-register',
+      ok,
+      fake,
+      registerRefused,
+      after,
+      report,
+    })
+    if (!ok) throw new Error(`stale/illegal register mishandled: ${JSON.stringify(report)}`)
+    destroySentinel(sentinel)
+    destroySentinel(nestRoot)
+  }
+
+  {
+    const childScript = join(evidenceDir, '_interrupt-child.mjs')
+    writeFileSync(
+      childScript,
+      `import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { cleanupExact, createCounterWorktree } from '../counter-lifecycle.mjs'
 const root = process.cwd()
@@ -121,62 +231,62 @@ tree = createCounterWorktree(root, 'selftest-int')
 writeFileSync(out, JSON.stringify({ phase: 'ready', tree }, null, 2) + '\\n')
 setInterval(() => {}, 1000)
 `,
-  )
-  const readyPath = join(evidenceDir, 'interrupt-child.json')
-  rmSync(readyPath, { force: true })
-  const child = spawn(process.execPath, [childScript], {
-    cwd: root,
-    stdio: ['ignore', 'pipe', 'pipe'],
-  })
-  let ready = null
-  for (let i = 0; i < 200; i++) {
-    sleepMs(50)
-    if (!existsSync(readyPath)) continue
-    try {
-      ready = JSON.parse(readFileSync(readyPath, 'utf8'))
-      if (ready.phase === 'ready' && ready.tree) break
-    } catch {
-      /* retry */
+    )
+    const readyPath = join(evidenceDir, 'interrupt-child.json')
+    rmSync(readyPath, { force: true })
+    const child = spawn(process.execPath, [childScript], {
+      cwd: root,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+    let ready = null
+    for (let i = 0; i < 200; i++) {
+      sleepMs(50)
+      if (!existsSync(readyPath)) continue
+      try {
+        ready = JSON.parse(readFileSync(readyPath, 'utf8'))
+        if (ready.phase === 'ready' && ready.tree) break
+      } catch {
+        /* retry */
+      }
     }
+    if (!ready?.tree) {
+      child.kill('SIGKILL')
+      throw new Error('interrupt child never became ready')
+    }
+    child.kill('SIGTERM')
+    for (let i = 0; i < 100 && child.exitCode === null; i++) sleepMs(50)
+    const after = JSON.parse(readFileSync(readyPath, 'utf8'))
+    const ok =
+      after.reason === 'signal' &&
+      after.existsAfter === false &&
+      after.report?.pathExistsAfter === false &&
+      after.report?.listedInGitWorktreeAfter === false
+    results.push({ label: 'interrupt-sigterm', ok, tree: ready.tree, after })
+    rmSync(childScript, { force: true })
+    if (!ok) throw new Error(`interrupt cleanup failed: ${JSON.stringify(after)}`)
   }
-  if (!ready?.tree) {
-    child.kill('SIGKILL')
-    throw new Error('interrupt child never became ready')
-  }
-  child.kill('SIGTERM')
-  const deadline = Date.now() + 15000
-  while (Date.now() < deadline && child.exitCode === null && !child.killed) sleepMs(50)
-  // wait for exit event
-  spawnSync(process.execPath, ['-e', ''], { timeout: 100 })
-  for (let i = 0; i < 100 && child.exitCode === null; i++) sleepMs(50)
-  const after = JSON.parse(readFileSync(readyPath, 'utf8'))
-  const ok =
-    after.reason === 'signal' &&
-    after.existsAfter === false &&
-    after.report?.pathExistsAfter === false &&
-    after.report?.listedInGitWorktreeAfter === false
-  results.push({ label: 'interrupt-sigterm', ok, tree: ready.tree, after })
-  rmSync(childScript, { force: true })
-  if (!ok) throw new Error(`interrupt cleanup failed: ${JSON.stringify(after)}`)
-}
 
-resetOwnedForTests()
-const summary = {
-  at: new Date().toISOString(),
-  maxConcurrency: MAX_CONCURRENCY,
-  maxLiveTrees: MAX_LIVE_TREES,
-  ownedAfter: ownedPaths(),
-  prefixTemps: listPrefixTempsInTmpdir(),
-  orphansReportOnly: scanOrphanPrefixDirs(),
-  registry: readLiveRegistry(root),
-  results,
-  allOk: results.every((r) => r.ok),
-}
-writeFileSync(join(evidenceDir, 'cleanup-selftest.json'), `${JSON.stringify(summary, null, 2)}\n`)
-if (!summary.allOk) {
-  console.error(JSON.stringify(summary, null, 2))
-  process.exitCode = 1
-} else {
-  console.log(JSON.stringify({ ok: true, cases: results.map((r) => r.label) }, null, 2))
-  process.exitCode = 0
+  resetOwnedForTests()
+  const summary = {
+    at: new Date().toISOString(),
+    maxConcurrency: MAX_CONCURRENCY,
+    maxLiveTrees: MAX_LIVE_TREES,
+    ownedAfter: ownedPaths(),
+    prefixTemps: listPrefixTempsInTmpdir(),
+    orphansReportOnly: scanOrphanPrefixDirs(),
+    registry: readLiveRegistry(root),
+    results,
+    allOk: results.every((r) => r.ok),
+  }
+  writeFileSync(join(evidenceDir, 'cleanup-selftest.json'), `${JSON.stringify(summary, null, 2)}\n`)
+  if (!summary.allOk) {
+    console.error(JSON.stringify(summary, null, 2))
+    process.exitCode = 1
+  } else {
+    console.log(JSON.stringify({ ok: true, cases: results.map((r) => r.label) }, null, 2))
+    process.exitCode = 0
+  }
+} finally {
+  for (const s of sentinels) destroySentinel(s)
+  // Never touch other counter dirs; only our sentinel tags under TEMP_PREFIX*selftest*
 }

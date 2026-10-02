@@ -52,9 +52,15 @@
     "judge": {
       "valid": true,
       "reasons": [],
+      "executed": 1,
       "identitySet": [
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
-      ]
+      ],
+      "target": {
+        "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+        "message": "AssertionError: expected '骑行绘出完整队伍挂载路径。' to contain '骑行只标出载具目标'",
+        "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+      }
     },
     "target": {
       "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
@@ -80,5 +86,6 @@
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
       ]
     }
-  }
+  },
+  "r2RejudgeAt": "2026-10-02T10:14:51.842Z"
 }

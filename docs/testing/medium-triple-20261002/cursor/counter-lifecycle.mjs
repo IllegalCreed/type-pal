@@ -15,7 +15,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import { basename, dirname, join, resolve } from 'node:path'
 
 export const TEMP_PREFIX = 'cursor-mid-counter-'
 export const OWNED_PREFIXES = ['cursor-mid-counter-', 'cursor-mid-patch-']
@@ -24,9 +24,21 @@ export const MAX_CONCURRENCY = 1
 /** Soft ceiling for this Owner's live counter temps (GiB). Refuse new create above this. */
 export const MAX_OWNER_TEMP_GIB = 2
 
+/**
+ * Legal temp path shape: direct child of os.tmpdir() whose basename starts with an owned prefix.
+ * Ancestor-includes-prefix (e.g. /tmp/foo/cursor-mid-counter-x) or bare prefix match is illegal.
+ */
+export function isLegalOwnedTempPath(absolutePath) {
+  const resolved = resolve(absolutePath)
+  const parent = resolve(dirname(resolved))
+  if (parent !== resolve(tmpdir())) return false
+  const base = basename(resolved)
+  return OWNED_PREFIXES.some((prefix) => base.startsWith(prefix))
+}
+
+/** @deprecated use isLegalOwnedTempPath — kept name for register gate */
 function isOwnedPrefixPath(absolutePath) {
-  const base = absolutePath.split(/[/\\]/).pop() || ''
-  return OWNED_PREFIXES.some((prefix) => base.startsWith(prefix) || absolutePath.includes(prefix))
+  return isLegalOwnedTempPath(absolutePath)
 }
 
 /** @type {Set<string>} */
@@ -116,13 +128,15 @@ export function linkNodeModules(from, to) {
 }
 
 /**
- * Remove one exact owned path: git worktree unregister then directory.
- * Returns residue report; never touches non-owned / non-prefix paths.
+ * Remove one exact session-registered path that also has legal temp shape.
+ * Requires register AND legal path — prefix alone never authorizes delete.
+ * Git worktree remove / lock / identity failure keeps error; never rm-fallback.
  */
 export function cleanupExact(candidateRoot, counterTree) {
   const report = {
     path: counterTree,
-    owned: counterTree ? ownedExactPaths.has(resolve(counterTree)) : false,
+    owned: false,
+    legalPath: false,
     gitRemoveOk: false,
     dirRemoved: false,
     pathExistsAfter: null,
@@ -135,12 +149,31 @@ export function cleanupExact(candidateRoot, counterTree) {
     return report
   }
   const resolved = resolve(counterTree)
-  if (!ownedExactPaths.has(resolved) && !isOwnedPrefixPath(resolved)) {
-    report.error = 'refuse-cleanup-unowned-path'
+  report.owned = ownedExactPaths.has(resolved)
+  report.legalPath = isLegalOwnedTempPath(resolved)
+  report.pathExistsAfter = existsSync(resolved)
+  if (!report.owned || !report.legalPath) {
+    report.error = !report.owned ? 'refuse-cleanup-unregistered' : 'refuse-cleanup-illegal-path'
+    if (report.owned && report.legalPath === false) {
+      /* keep registered; caller must fix path identity */
+    }
+    try {
+      if (basename(resolved).startsWith(TEMP_PREFIX)) {
+        const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
+          cwd: candidateRoot,
+          encoding: 'utf8',
+        })
+        report.listedInGitWorktreeAfter = list.includes(resolved)
+      } else {
+        report.listedInGitWorktreeAfter = false
+      }
+    } catch {
+      report.listedInGitWorktreeAfter = null
+    }
     return report
   }
   try {
-    const isGitWorktree = (resolved.split(/[/\\]/).pop() || '').startsWith(TEMP_PREFIX)
+    const isGitWorktree = basename(resolved).startsWith(TEMP_PREFIX)
     if (isGitWorktree) {
       try {
         execFileSync('git', ['worktree', 'remove', '--force', resolved], {
@@ -148,27 +181,59 @@ export function cleanupExact(candidateRoot, counterTree) {
           encoding: 'utf8',
         })
         report.gitRemoveOk = true
-      } catch {
+      } catch (error) {
         report.gitRemoveOk = false
-        if (existsSync(resolved)) rmSync(resolved, { recursive: true, force: true })
+        report.error = error instanceof Error ? error.message : String(error)
+        report.pathExistsAfter = existsSync(resolved)
+        try {
+          const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
+            cwd: candidateRoot,
+            encoding: 'utf8',
+          })
+          report.listedInGitWorktreeAfter = list.includes(resolved)
+        } catch {
+          report.listedInGitWorktreeAfter = null
+        }
+        report.dirRemoved = false
+        return report
       }
-    }
-    if (existsSync(resolved)) rmSync(resolved, { recursive: true, force: true })
-    report.dirRemoved = !existsSync(resolved)
-    report.pathExistsAfter = existsSync(resolved)
-    if (isGitWorktree) {
+      if (existsSync(resolved)) {
+        report.error = 'git-remove-left-residue'
+        report.pathExistsAfter = true
+        report.dirRemoved = false
+        try {
+          const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
+            cwd: candidateRoot,
+            encoding: 'utf8',
+          })
+          report.listedInGitWorktreeAfter = list.includes(resolved)
+        } catch {
+          report.listedInGitWorktreeAfter = null
+        }
+        return report
+      }
+      report.dirRemoved = true
+      report.pathExistsAfter = false
       const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
         cwd: candidateRoot,
         encoding: 'utf8',
       })
       report.listedInGitWorktreeAfter = list.includes(resolved)
-    } else {
-      report.listedInGitWorktreeAfter = false
-      report.gitRemoveOk = true
+      unregisterOwned(candidateRoot, resolved)
+      return report
     }
-    unregisterOwned(candidateRoot, resolved)
+    // Non-git patch temps: primary removal is rm after exact register+legal checks.
+    if (existsSync(resolved)) rmSync(resolved, { recursive: true, force: true })
+    report.gitRemoveOk = true
+    report.dirRemoved = !existsSync(resolved)
+    report.pathExistsAfter = existsSync(resolved)
+    report.listedInGitWorktreeAfter = false
+    if (report.dirRemoved) unregisterOwned(candidateRoot, resolved)
+    else report.error = 'rm-left-residue'
   } catch (error) {
     report.error = error instanceof Error ? error.message : String(error)
+    report.pathExistsAfter = existsSync(resolved)
+    report.dirRemoved = false
   }
   return report
 }

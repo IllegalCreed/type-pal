@@ -1,9 +1,10 @@
 /**
  * Cursor script-preview medium 反控唯一判据（runner 与拒收自测共用）。
  *
- * - collection/runtime 错误始终对照**完整原始 JSON**，不得先删空断言 suite 再判。
- * - declaredFullNames 限定身份/红叶范围；范围外 skip 忽略，范围内必须 passed|failed。
- * - mutant：exit 恰 1、恰一 AssertionError、身份集合与 positive 一致。
+ * - collection/runtime 与顶层计数始终对照**完整原始 JSON**。
+ * - 声明范围用全叶筛选（多重 file×fullName），禁止 find 只取第一条。
+ * - 范围外 skip 可忽略；范围外已执行 failed / 声明叶 pending 等一律拒收。
+ * - mutant：exit 恰 1、恰一 AssertionError、身份多重集合与 positive 一致。
  */
 
 const HARNESS_RED =
@@ -40,7 +41,8 @@ export function collectionErrors(json) {
   return errors
 }
 
-const identitySetOf = (tests) => tests.map((t) => `${t.file}×${t.fullName}`).sort()
+/** Multiset of file×fullName (duplicates preserved). */
+export const identitySetOf = (tests) => tests.map((t) => `${t.file}×${t.fullName}`).sort()
 
 function rawReasons(rawOutput, label) {
   if (typeof rawOutput !== 'string' || !rawOutput) return []
@@ -48,10 +50,31 @@ function rawReasons(rawOutput, label) {
   return []
 }
 
+function topLevelCountReasons(json, allLeaves, label) {
+  const reasons = []
+  if (!json) return reasons
+  const leafCount = allLeaves.length
+  if (typeof json.numTotalTests === 'number' && json.numTotalTests !== leafCount)
+    reasons.push(`${label}:numTotalTests-${json.numTotalTests}!==leaves-${leafCount}`)
+  const parts =
+    (json.numPassedTests ?? 0) +
+    (json.numFailedTests ?? 0) +
+    (json.numPendingTests ?? 0) +
+    (json.numTodoTests ?? 0)
+  if (typeof json.numTotalTests === 'number' && parts > 0 && json.numTotalTests !== parts)
+    reasons.push(`${label}:top-count-parts-${parts}!==numTotalTests-${json.numTotalTests}`)
+  const passedLeaves = allLeaves.filter((t) => t.status === 'passed').length
+  const failedLeaves = allLeaves.filter((t) => t.status === 'failed').length
+  if (typeof json.numPassedTests === 'number' && json.numPassedTests !== passedLeaves)
+    reasons.push(`${label}:numPassedTests-${json.numPassedTests}!==${passedLeaves}`)
+  if (typeof json.numFailedTests === 'number' && json.numFailedTests !== failedLeaves)
+    reasons.push(`${label}:numFailedTests-${json.numFailedTests}!==${failedLeaves}`)
+  return reasons
+}
+
 /**
  * @param {object} options
  * @param {string[] | null | undefined} options.declaredFullNames
- *   非空时只把这些 fullName 纳入身份/红叶；仍对完整 json 跑 collectionErrors。
  */
 export function commonChecks({ json, spawnError, signal, label, rawOutput, declaredFullNames }) {
   const reasons = []
@@ -59,22 +82,32 @@ export function commonChecks({ json, spawnError, signal, label, rawOutput, decla
   if (signal) reasons.push(`${label}:signal-${signal}`)
   if (!json) reasons.push(`${label}:no-json`)
   const allLeaves = json ? leavesOf(json) : []
+  reasons.push(...topLevelCountReasons(json, allLeaves, label))
   const collection = json ? collectionErrors(json) : []
   reasons.push(...collection.map((x) => `${label}:${x}`))
   reasons.push(...rawReasons(rawOutput, label))
 
   let tests
   if (Array.isArray(declaredFullNames) && declaredFullNames.length > 0) {
-    tests = []
+    const declaredSet = new Set(declaredFullNames)
+    // Full multiset of declared leaves — never find()-first-only.
+    tests = allLeaves.filter((t) => declaredSet.has(t.fullName))
     for (const name of declaredFullNames) {
-      const found = allLeaves.find((t) => t.fullName === name)
-      if (!found) {
-        reasons.push(`${label}:missing-declared:${name}`)
-        continue
+      const matches = allLeaves.filter((t) => t.fullName === name)
+      if (matches.length === 0) reasons.push(`${label}:missing-declared:${name}`)
+      for (const match of matches) {
+        if (match.status !== 'passed' && match.status !== 'failed')
+          reasons.push(`${label}:declared-non-passfail:${match.status}`)
       }
-      if (found.status !== 'passed' && found.status !== 'failed')
-        reasons.push(`${label}:declared-non-passfail:${found.status}`)
-      tests.push(found)
+    }
+    for (const leaf of allLeaves) {
+      if (declaredSet.has(leaf.fullName)) continue
+      // Unselected skips outside scope are allowed; executed extras are not.
+      if (leaf.status === 'skipped') continue
+      if (leaf.status === 'failed')
+        reasons.push(`${label}:extra-failed-outside-scope:${leaf.file}×${leaf.fullName}`)
+      else if (leaf.status !== 'passed')
+        reasons.push(`${label}:extra-nonpassfail-outside-scope:${leaf.status}`)
     }
     if (tests.length === 0) reasons.push(`${label}:zero-executed`)
   } else {
@@ -84,7 +117,7 @@ export function commonChecks({ json, spawnError, signal, label, rawOutput, decla
       if (t.status !== 'passed' && t.status !== 'failed')
         reasons.push(`${label}:non-passfail-status:${t.status}`)
   }
-  return { reasons, tests }
+  return { reasons, tests, allLeaves }
 }
 
 export function judgeClean({

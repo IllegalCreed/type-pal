@@ -51,9 +51,15 @@
     "judge": {
       "valid": true,
       "reasons": [],
+      "executed": 1,
       "identitySet": [
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move"
-      ]
+      ],
+      "target": {
+        "fullName": "C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move",
+        "message": "AssertionError: expected [ [ 1, 3, false ], [ 3, 4, false ] ] to deeply equal [ [ 1, 3, false ] ]",
+        "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+      }
     },
     "target": {
       "fullName": "C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move",
@@ -79,5 +85,6 @@
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move"
       ]
     }
-  }
+  },
+  "r2RejudgeAt": "2026-10-02T10:14:51.842Z"
 }

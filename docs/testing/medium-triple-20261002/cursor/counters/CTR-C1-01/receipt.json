@@ -51,9 +51,15 @@
     "judge": {
       "valid": true,
       "reasons": [],
+      "executed": 1,
       "identitySet": [
         "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
-      ]
+      ],
+      "target": {
+        "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+        "message": "AssertionError: expected undefined to be 'null' // Object.is equality",
+        "file": "src/core/script-flow-preview.cursor-mid-1.test.ts"
+      }
     },
     "target": {
       "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
@@ -100,5 +106,6 @@
         "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
       ]
     }
-  }
+  },
+  "r2RejudgeAt": "2026-10-02T10:14:51.842Z"
 }

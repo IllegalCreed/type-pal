@@ -51,9 +51,15 @@
     "judge": {
       "valid": true,
       "reasons": [],
+      "executed": 1,
       "identitySet": [
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制"
-      ]
+      ],
+      "target": {
+        "fullName": "C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+        "message": "AssertionError: expected '虚线表示条件或循环路线；分支后的未知位置不会强行连线。 传送失败时仍继续绘…' to contain '传送结果不确定'",
+        "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+      }
     },
     "target": {
       "fullName": "C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
@@ -79,5 +85,6 @@
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制"
       ]
     }
-  }
+  },
+  "r2RejudgeAt": "2026-10-02T10:14:51.842Z"
 }

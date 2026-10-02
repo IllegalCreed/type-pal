@@ -1,45 +1,44 @@
-# Cursor — TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 证据（R1 窄返工）
+# Cursor — TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 证据（R2 窄返工）
 
-Owner: Cursor · Branch: `codex/cursor-script-preview-medium-r1` · BASE: `f5c7f904a3f623e3ca5b413ab43f78029d99fe11`
+Owner: Cursor · Branch: `codex/cursor-script-preview-medium-r1` · 候选起点: `36e409420018f9c9cea4d70d70186e3c466f3a0b`
 
 ## 导航
 
 | 文件 | 作用 |
 |---|---|
-| [contracts.json](contracts.json) | 逐合同账 + 撤回/不可构造 |
-| [directed-vitest.json](directed-vitest.json) | file×fullName×status（34/34） |
-| [counters.json](counters.json) | 6 枚反控索引（重采后） |
-| [counters/](counters/) | 三态 JSON/raw/scope + receipt + 三态 hash |
-| [counters/_r0-history/](counters/_r0-history/) | 首轮历史单红/零执行旧绿原件 |
-| [counter-judge.selftest.mjs](counter-judge.selftest.mjs) | collection+AssertionError 复合拒收 |
+| [contracts.json](contracts.json) | 逐合同账 + 撤回/cross-check |
+| [directed-vitest.json](directed-vitest.json) | file×fullName×status（执行 34） |
+| [counters.json](counters.json) | 6 枚反控索引 |
+| [counters/](counters/) | 三态 JSON/raw/scope + receipt（原字节保留，R2 仅重判） |
+| [counters/_r0-history/](counters/_r0-history/) | 首轮历史原件 |
+| [counter-judge.selftest.mjs](counter-judge.selftest.mjs) | 五类假绿拒收 + 忠实正样本 |
+| [counter-cleanup.selftest.mjs](counter-cleanup.selftest.mjs) | 精确登记清理 + 哨兵拒删 |
+| [cleanup-evidence/](cleanup-evidence/) | 临时树回收证据（见 [cleanup-evidence/README.md](cleanup-evidence/README.md)） |
 | [receipt.json](receipt.json) | 交付回执 |
 
-## 数量（R1 后）
+## 数量（R2 后）
 
 | 项 | 值 |
 |---|---|
-| 执行 / 净新 | **34 / 34**（不凑回 37） |
+| 执行 / 净新 | **34 / 33**（C4-03 改记 cross-check） |
 | 撤回 existing-proof | C1-04、C1-05 |
-| unreachable | C1-07（空 label 被公开 validator 拒收） |
-| 分组 | C1:4 C2:3 C3:5 C4:5 C5:4 C6:5 C7:4 C8:4 |
-| 反控 | 6/6；old-green/new-red **3**（旧执行 3/12/12，非零） |
+| unreachable | C1-07 |
+| cross-check | C4-03（相对 C4-02） |
+| 分组执行 | C1:4 C2:3 C3:5 C4:5 C5:4 C6:5 C7:4 C8:4 |
+| 反控 | 6/6；old-green/new-red **3**（旧执行 3/12/12，不重采） |
 
-## R1 修复摘要
+## R2 修复摘要
 
-1. **CURSOR-R1-01**：共享 machine 改为非空合法 label；撤 C1-07。
-2. **CURSOR-R1-02**：删 C1-04/C1-05 净新重复。
-3. **CURSOR-R1-03**：旧测不再套用新 case grep；三枚旧绿真实非零。
-4. **CURSOR-R1-04**：原 JSON 落盘；judge 始终对完整报告拒收 collection；声明 scope 另文件；产品/测试三态 hash；selftest 钉复合拒收。
+1. **CURSOR-R2-01**：`commonChecks` 改为全叶多重 file×fullName + 顶层计数闭合；五类拒收自测；六针原 JSON 重判。
+2. **CURSOR-R2-02**：`cleanupExact` 须本会话精确登记 **且** 合法临时父路径；禁止前缀即删 / git 失败 rm 兜底；哨兵拒收自测。
+3. **CURSOR-R2-03**：C4-03 保留执行、净新≤33；本 README 链入 `cleanup-evidence/`（父共享导航仍 Codex）。
 
-## 临时树回收（资源交付硬要求）
+## 临时树回收
 
-- `node_modules`：**symlink**，禁止整仓递归复制。
-- 并发 / 活树：`MAX_CONCURRENCY=1`、`MAX_LIVE_TREES=1`、磁盘软顶 2 GiB。
-- 成功 / 失败 / SIGTERM：`counter-cleanup.selftest.mjs` + `cleanup-evidence/` 零残留实测。
-- 只清本会话精确路径；`live-registry.json` 登记不可捕获终止遗留供核验，不做全局 prune。
+见 [cleanup-evidence/README.md](cleanup-evidence/README.md)。只清本会话精确路径；不清其它 counter 目录。
 
 ## 未完账
 
-1. **DOC-PARENT-NAV**：共享 `medium-triple-20261002/README.md` 链入 `cursor/` 仍属 Codex 只读维护。
+1. **DOC-PARENT-NAV**：共享 `medium-triple-20261002/README.md` 链入 `cursor/` 仍属 Codex。
 
 等待 Codex 独立验收；不合 main、不 done。

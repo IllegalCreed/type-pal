@@ -51,9 +51,15 @@
     "judge": {
       "valid": true,
       "reasons": [],
+      "executed": 1,
       "identitySet": [
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段"
-      ]
+      ],
+      "target": {
+        "fullName": "C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段",
+        "message": "AssertionError: expected [ [ 1, 2, false ], …(2) ] to deeply equal [ [ 1, 2, false ], [ 2, 4, true ] ]",
+        "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+      }
     },
     "target": {
       "fullName": "C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段",
@@ -118,5 +124,6 @@
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段"
       ]
     }
-  }
+  },
+  "r2RejudgeAt": "2026-10-02T10:14:51.842Z"
 }

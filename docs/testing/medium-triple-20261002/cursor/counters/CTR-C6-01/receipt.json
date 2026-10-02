@@ -51,9 +51,15 @@
     "judge": {
       "valid": true,
       "reasons": [],
+      "executed": 1,
       "identitySet": [
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
-      ]
+      ],
+      "target": {
+        "fullName": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+        "message": "AssertionError: expected [ [ 1, 2, false ], [ 2, 5, false ] ] to deeply equal [ [ 1, 2, false ] ]",
+        "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+      }
     },
     "target": {
       "fullName": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
@@ -118,5 +124,6 @@
         "src/core/script-movement-preview.cursor-mid-1.test.ts×C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
       ]
     }
-  }
+  },
+  "r2RejudgeAt": "2026-10-02T10:14:51.842Z"
 }

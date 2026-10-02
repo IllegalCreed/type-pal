@@ -1,7 +1,7 @@
 {
   "taskId": "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
   "owner": "Cursor",
-  "rework": "CURSOR-R1-01～04",
+  "rework": "CURSOR-R2-01～03",
   "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
   "dispatchBase": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
   "branch": "codex/cursor-script-preview-medium-r1",
@@ -15,11 +15,13 @@
   },
   "counts": {
     "executed": 34,
-    "netNew": 34,
+    "netNew": 33,
+    "crossCheck": 1,
     "existingProofWithdrawn": 2,
     "unreachable": 1,
     "blocked": 0,
-    "byGroup": { "C1": 4, "C2": 3, "C3": 5, "C4": 5, "C5": 4, "C6": 5, "C7": 4, "C8": 4 }
+    "byGroup": { "C1": 4, "C2": 3, "C3": 5, "C4": 5, "C5": 4, "C6": 5, "C7": 4, "C8": 4 },
+    "netNewByGroup": { "C1": 4, "C2": 3, "C3": 5, "C4": 4, "C5": 4, "C6": 5, "C7": 4, "C8": 4 }
   },
   "withdrawn": [
     {
@@ -207,12 +209,15 @@
     {
       "id": "C4-03",
       "group": "C4",
-      "classification": "net-new",
+      "classification": "cross-check",
+      "netNew": false,
       "source": "startBattle 三结果臂",
       "caller": "同上",
       "legalInput": "move(2)+startBattle onLose/onFlee",
       "oldProof": "无",
+      "duplicateOf": "C4-02",
       "expected": "[[1,2,f],[2,3,t],[2,5,t]]；虚线 note",
+      "reason": "与本波 C4-02 同为 startBattle 空胜利+两非空结果臂从已知点发散；C4-02 精确向量更强。虚线 note 已由 C4-01/C2-01 公共 alternatives 覆盖。保留执行作 cross-check，不计入净新。",
       "newFullName": "C4 cursor-mid-1 条件结果族 C4-03 startBattle 三结果臂从同一已知点发散，不含胜利实线拼接"
     },
     {

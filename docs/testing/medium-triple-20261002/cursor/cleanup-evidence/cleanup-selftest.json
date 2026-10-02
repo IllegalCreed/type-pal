@@ -1,12 +1,12 @@
 {
-  "at": "2026-10-02T09:42:43.089Z",
+  "at": "2026-10-02T10:15:16.694Z",
   "maxConcurrency": 1,
   "maxLiveTrees": 1,
   "ownedAfter": [],
   "prefixTemps": [],
   "orphansReportOnly": [],
   "registry": {
-    "updatedAt": "2026-10-02T09:42:35.735Z",
+    "updatedAt": "2026-10-02T10:15:09.173Z",
     "prefix": "cursor-mid-counter-",
     "maxLiveTrees": 1,
     "maxConcurrency": 1,
@@ -17,12 +17,13 @@
     {
       "label": "success-cleanup",
       "ok": true,
-      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-H477SB",
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-RaYdlW",
       "exists": false,
       "stillListed": false,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-H477SB",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-RaYdlW",
         "owned": true,
+        "legalPath": true,
         "gitRemoveOk": true,
         "dirRemoved": true,
         "pathExistsAfter": false,
@@ -33,12 +34,13 @@
     {
       "label": "failure-cleanup",
       "ok": true,
-      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-qUAl9a",
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-gRQd4D",
       "exists": false,
       "stillListed": false,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-qUAl9a",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-gRQd4D",
         "owned": true,
+        "legalPath": true,
         "gitRemoveOk": true,
         "dirRemoved": true,
         "pathExistsAfter": false,
@@ -49,12 +51,13 @@
     {
       "label": "cap-refuse-then-cleanup",
       "ok": true,
-      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-DwEs0Z",
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-lp0mHH",
       "exists": false,
       "stillListed": false,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-DwEs0Z",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-lp0mHH",
         "owned": true,
+        "legalPath": true,
         "gitRemoveOk": true,
         "dirRemoved": true,
         "pathExistsAfter": false,
@@ -69,15 +72,67 @@
       "MAX_LIVE_TREES": 1
     },
     {
+      "label": "refuse-unregistered-same-prefix",
+      "ok": true,
+      "sentinel": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-CGmDRA",
+      "before": true,
+      "after": true,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-CGmDRA",
+        "owned": false,
+        "legalPath": true,
+        "gitRemoveOk": false,
+        "dirRemoved": false,
+        "pathExistsAfter": true,
+        "listedInGitWorktreeAfter": false,
+        "error": "refuse-cleanup-unregistered"
+      }
+    },
+    {
+      "label": "refuse-ancestor-prefix-path",
+      "ok": true,
+      "nested": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-kxfkVA/cursor-mid-counter-nested-leaf",
+      "legal": false,
+      "after": true,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-kxfkVA/cursor-mid-counter-nested-leaf",
+        "owned": false,
+        "legalPath": false,
+        "gitRemoveOk": false,
+        "dirRemoved": false,
+        "pathExistsAfter": true,
+        "listedInGitWorktreeAfter": false,
+        "error": "refuse-cleanup-unregistered"
+      }
+    },
+    {
+      "label": "refuse-stale-or-illegal-register",
+      "ok": true,
+      "fake": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-stale-PUMJ4m/cursor-mid-counter-stale-pzUnX8",
+      "registerRefused": true,
+      "after": true,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-stale-PUMJ4m/cursor-mid-counter-stale-pzUnX8",
+        "owned": false,
+        "legalPath": false,
+        "gitRemoveOk": false,
+        "dirRemoved": false,
+        "pathExistsAfter": true,
+        "listedInGitWorktreeAfter": false,
+        "error": "refuse-cleanup-unregistered"
+      }
+    },
+    {
       "label": "interrupt-sigterm",
       "ok": true,
-      "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-SS9ynx",
+      "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
       "after": {
         "reason": "signal",
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-SS9ynx",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
         "report": {
-          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-SS9ynx",
+          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
           "owned": true,
+          "legalPath": true,
           "gitRemoveOk": true,
           "dirRemoved": true,
           "pathExistsAfter": false,
