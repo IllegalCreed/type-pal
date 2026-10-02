@@ -10,7 +10,11 @@
   "netNew": 37,
   "countersValid": 6,
   "oldGreenNewRed": 3,
-  "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"],
+  "oldGreenNewRedIds": [
+    "CTR-C1-01",
+    "CTR-C4-01",
+    "CTR-C6-01"
+  ],
   "gates": {
     "mid1Vitest": "37/37 passed",
     "adjacentOldPreview": "15/15 passed (flow 3 + movement 12)",
@@ -41,5 +45,6 @@
   ],
   "productMutations": false,
   "mainMerge": false,
-  "officialGate": false
+  "officialGate": false,
+  "candidateSha": "\"67ba1515e747f9f3c08a16dc249e0344c8ba1dd0\""
 }
