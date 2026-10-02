@@ -18,6 +18,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **修 bug 默认只修根因**，不为被污染的旧存档做迁移/复原（新档干净即可），除非作者要求。
 - **迁移类 bug 必须先修上游**（2026-07-13 用户拍板）：提取器 / 迁移器 / 数据映射 / 生成脚本 / overlay 有问题时，直接改 `projects/pal` 产物不算修复；必须修真源、全量重迁、验证白名单并确认双跑幂等。详见 [READ-FIRST 铁律 10](docs/phase2/READ-FIRST.md)。
 - **给定范围的批量任务一路做完**，别每步停下问「继续吗」。
+- **剧情知识随E2E回写（用户2026-10-02）**：先读[剧情时间线与流程攻略](docs/lore/timeline.md)对应段，
+  再核当前脚本；每确认/实跑一段，补前因、人物、路线、必需触发与可选对话、后果和停止点。
+  同步[碎片目录](projects/pal/e2e-checkpoints/README.md)，区分作者确认、源码已核与实际跑通；不把未核旧概览或聊天记忆当事实。
 - **报告/审查结论**：复核后的收窄与纠正要合并进正文，别让正文留着未修正的初版结论。
 - **硬性质量零诊断（用户2026-09-27）**：lint/格式/typecheck中的error、warning、info全部清零才可验收。
   不能只报exit0，不能以既有告警豁免；不降低规则、不加忽略或排除逃避。`pnpm lint`经零诊断包装器核完整JSON，
