@@ -10,12 +10,12 @@ Coding Owner: Cursor。本目录为 **TEST-CURSOR-ASSET-UI-LARGE-1** 证据包�
 | artifact | 路径 | 计数 |
 |---|---|---:|
 | 定向 Vitest | [directed-vitest.json](./directed-vitest.json)（原始 [_vitest-raw.json](./_vitest-raw.json)） | **717** 例（717 passed / 0 failed） |
-| 合同账 | [contracts-index.json](./contracts-index.json) + [contracts/C01.json](./contracts/C01.json)…[C10.json](./contracts/C10.json) | **717** 条 passed 合同（按 batch 分片，全文无截断） |
-| 工作组 | C01–C10 × 7（含 C06-G07 StampPreviewCanvas） | **70** |
-| 有效反控 | [counters.json](./counters.json) + [counters/](./counters/) | **52** 枚三态 / **52** 不同目标（净新 **50**；CTR-C09-04/29 为 existing-proof cross-check） |
-| judge 自测 | [judge-selftest.json](./judge-selftest.json) | 四反例拒收 + baseline 收；生成后 biome format |
-| 视觉流程 | [flows/](./flows/README.md) | **12/12**（资源 6 / 设计控件 4 / 异步失败恢复 2；DS01 键盘独立相位） |
-| 净新估算 | contracts `existing-proof` | **708**（717−9；≥700；全量行级排重仍待） |
+| 合同账 | [contracts-index.json](./contracts-index.json) + [contracts/C01.json](./contracts/C01.json)…[C10.json](./contracts/C10.json) + [human overrides](./contract-human-overrides.json) | **717** 条（分片全文；人工核定覆盖重生） |
+| 工作组 | C01–C10 × 7（含 C06-G07） | **70** |
+| 有效反控 | [counters.json](./counters.json) + [counters/](./counters/) | **53** 枚三态 / **53** 不同目标（净新 **50**；cross-check **3**：C09-04/29 + C05-08） |
+| judge 自测 | [judge-selftest.json](./judge-selftest.json) | 四反例拒收 + baseline（R2 已闭，未重做） |
+| 视觉流程 | [flows/](./flows/README.md) | **12/12**（R2 相位保留，本轮未重拍） |
+| 净新估算 | contracts `existing-proof` | **704**（717−13；≥700；全量语义排重仍待） |
 | 私有覆盖 | [coverage-delta.json](./coverage-delta.json) | 74 源中 72 有 private hits（非正式 ratchet；原始 JSON 受根 `.gitignore` 的 `coverage/` 规则忽略，不入库） |
 | 缺陷/未证 | [defects.md](./defects.md) | |
 | 候选回执 | [receipt.json](./receipt.json) | pending Codex |

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-02T01:49:15.600Z",
-  "valid": 52,
-  "distinctTargets": 52,
+  "generatedAt": "2026-10-02T02:43:27.633Z",
+  "valid": 53,
+  "distinctTargets": 53,
   "netNewTargets": 50,
-  "existingProofCrossCheck": 2,
+  "existingProofCrossCheck": 3,
   "counters": [
     {
       "id": "CTR-C03-02",
@@ -49,9 +49,17 @@
       "id": "CTR-C05-08",
       "productFile": "packages/editor/src/core/sprite-actions.ts",
       "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+      "classification": "existing-proof-cross-check",
+      "countsTowardNetNewTargets": false,
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C05-08"
+    },
+    {
+      "id": "CTR-C05-09",
+      "productFile": "packages/editor/src/core/sprite-actions.ts",
+      "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
       "classification": "net-new-target",
       "countsTowardNetNewTargets": true,
-      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C05-08"
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C05-09"
     },
     {
       "id": "CTR-C07-01",

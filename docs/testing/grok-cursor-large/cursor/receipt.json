@@ -7,60 +7,71 @@
   "branch": "codex/cursor-asset-ui-large-r1",
   "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "reviewedCandidate": "f2a1468d844d1678b5304b4ca7a110a480b2d174",
-  "priorEvidenceHead": "2e1f7228dce7059d030c7ef3eec8c8aa6697c0d6",
-  "reworkEvidenceHead": "c9067a8d2d45d36ddcc9b2819f418b1fb5492baa",
-  "candidateSha": "c9067a8d2d45d36ddcc9b2819f418b1fb5492baa",
-  "reworkCloses": ["CURSOR-R2-01", "CURSOR-R2-02", "CURSOR-R2-03", "CURSOR-R2-04"],
-  "priorReworkCloses": ["CURSOR-R1-01", "CURSOR-R1-02", "CURSOR-R1-03", "CURSOR-R1-04"],
+  "reviewedCandidate": "35c977f8407f0e79fa75421df4771fae67b51f27",
+  "priorEvidenceHead": "c9067a8d2d45d36ddcc9b2819f418b1fb5492baa",
+  "reworkEvidenceHead": null,
+  "candidateSha": null,
+  "reworkCloses": ["CURSOR-R3-01", "CURSOR-R3-02"],
+  "priorReworkCloses": [
+    "CURSOR-R1-01",
+    "CURSOR-R1-02",
+    "CURSOR-R1-03",
+    "CURSOR-R1-04",
+    "CURSOR-R2-01",
+    "CURSOR-R2-02",
+    "CURSOR-R2-03",
+    "CURSOR-R2-04"
+  ],
   "counts": {
     "directedTotal": 717,
     "directedPassed": 717,
     "contracts": 717,
-    "existingProof": 9,
-    "netNewEstimate": 708,
+    "existingProof": 13,
+    "netNewEstimate": 704,
     "workGroups": 70,
-    "countersValid": 52,
-    "countersDistinctTargets": 52,
+    "countersValid": 53,
+    "countersDistinctTargets": 53,
     "countersNetNewTargets": 50,
-    "countersExistingProofCrossCheck": 2,
+    "countersExistingProofCrossCheck": 3,
     "visualFlows": 12,
     "visualFlowsPassed": 12,
     "editorFullSuite": 4503,
-    "targetNewCases": 700
+    "targetNewCases": 700,
+    "humanVerifiedOverlays": 433
   },
   "gates": {
     "editorFull": "4503/4503",
     "typecheck": "0 diagnostics",
     "lint": "0/0/0",
-    "judgeSelftest": "pass (4 rejects + baseline ok; biome format after write)",
-    "flows": "12/12 (DS01/DS02 phase evidence refreshed)",
+    "judgeSelftest": "pass (R2 retained)",
+    "flows": "12/12 (not re-run)",
     "docs": "PASS",
     "verifier": "frozenHashesValid; ownerOverlap 0"
   },
-  "commands": {
-    "directed": "node docs/testing/grok-cursor-large/cursor/collect-directed.mjs",
-    "editorFull": "pnpm --filter @type-pal/editor exec vitest run --maxWorkers=1",
-    "typecheck": "pnpm --filter @type-pal/editor run typecheck",
-    "lint": "pnpm lint",
-    "judgeSelftest": "node docs/testing/grok-cursor-large/cursor/judge-selftest.mjs",
-    "rejudge": "node docs/testing/grok-cursor-large/cursor/rejudge-counters.mjs",
-    "counters": "node docs/testing/grok-cursor-large/cursor/run-counters.mjs",
-    "flows": "node docs/testing/grok-cursor-large/cursor/flows/run-flows.mjs",
-    "verifier": "node docs/testing/grok-cursor-large/verify-targets.mjs --owner cursor --base 0704d3de6d3d2a2099475a42f601b654bba08579"
+  "proofGaps": {
+    "oldMatcher-none": 663,
+    "sourceCondition-export-only": 0,
+    "oracle-incomplete": 0,
+    "production-caller-none": 28,
+    "notes": []
   },
-  "artifacts": {
-    "contractsIndex": "docs/testing/grok-cursor-large/cursor/contracts-index.json",
-    "contractsShards": "docs/testing/grok-cursor-large/cursor/contracts/C01.json … C10.json",
-    "directed": "docs/testing/grok-cursor-large/cursor/directed-vitest.json",
-    "counters": "docs/testing/grok-cursor-large/cursor/counters.json",
-    "judgeSelftest": "docs/testing/grok-cursor-large/cursor/judge-selftest.json",
-    "coverageDelta": "docs/testing/grok-cursor-large/cursor/coverage-delta.json",
-    "defects": "docs/testing/grok-cursor-large/cursor/defects.md",
-    "flows": "docs/testing/grok-cursor-large/cursor/flows/"
+  "r3Notes": {
+    "existingProofAdded": ["C05-G01-01", "C06-G07-02", "C06-G07-03", "C06-G07-04"],
+    "counterCrossCheckAdded": ["CTR-C05-08"],
+    "counterNetNewAdded": ["CTR-C05-09"],
+    "counterRetargeted": {
+      "CTR_C08_34": "kind-rewrite; old length green, new kind red"
+    }
   },
   "remainingDebt": [
-    "≈708 contracts still lack line-level old matcher beyond header 排重 / existing-proof (honest none; no invented line numbers)",
-    "full cross-queue semantic dedup across L/M/P/Q/O still incomplete; generator auto-parse only"
-  ]
+    "oldMatcher-none 663 after overlays; full cross-queue semantic dedup incomplete",
+    "sourceCondition-export-only 0; production-caller-none 28; oracle-incomplete 0",
+    "netNew structural 704≥700 but exhaustive dedup still required before accept"
+  ],
+  "artifacts": {
+    "contractsIndex": "docs/testing/grok-cursor-large/cursor/contracts-index.json",
+    "humanOverrides": "docs/testing/grok-cursor-large/cursor/contract-human-overrides.json",
+    "counters": "docs/testing/grok-cursor-large/cursor/counters.json",
+    "defects": "docs/testing/grok-cursor-large/cursor/defects.md"
+  }
 }

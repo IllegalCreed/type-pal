@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790905741511,
+  "startTime": 1790908989426,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
           "status": "passed",
           "title": "C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
-          "duration": 25.523083000000042,
+          "duration": 27.67316699999992,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
           "status": "passed",
           "title": "C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
-          "duration": 4.462040999999999,
+          "duration": 12.163457999999991,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
           "status": "passed",
           "title": "C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
-          "duration": 4.3842500000000655,
+          "duration": 5.0269170000001395,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
           "status": "passed",
           "title": "C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
-          "duration": 2.3460829999999078,
+          "duration": 4.965875000000096,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
           "status": "passed",
           "title": "C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
-          "duration": 2.743708000000197,
+          "duration": 7.018249999999853,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
           "status": "passed",
           "title": "C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
-          "duration": 2.94341600000007,
+          "duration": 2.1274160000000393,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
           "status": "passed",
           "title": "C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
-          "duration": 2.156208000000106,
+          "duration": 2.3556659999999283,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,7 +104,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
           "status": "passed",
           "title": "C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
-          "duration": 2.376916999999821,
+          "duration": 4.897500000000036,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
           "status": "passed",
           "title": "C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
-          "duration": 3.4257500000001073,
+          "duration": 3.7068329999999605,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -124,14 +124,14 @@
           "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
           "status": "passed",
           "title": "C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
-          "duration": 1.7078750000000582,
+          "duration": 2.4936659999998483,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790905742720,
-      "endTime": 1790905742772.7078,
+      "startTime": 1790908991034,
+      "endTime": 1790908991107.4937,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts"

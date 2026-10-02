@@ -2,12 +2,12 @@
   "id": "CTR-C08-34",
   "productFile": "packages/editor/src/core/tileset-references.ts",
   "findText": ".filter((reference) => reference.relation.kind === 'stamp-placement-source')",
-  "replaceText": ".filter(() => false)",
+  "replaceText": ".filter((reference) => reference.relation.kind === 'stamp-placement-source').map((reference) => ({ ...reference, relation: { kind: 'tileset-use' as const } }))",
   "testSpec": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
   "expectFullname": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
-  "candidateHead": "f2a1468d844d1678b5304b4ca7a110a480b2d174",
+  "candidateHead": "35c977f8407f0e79fa75421df4771fae67b51f27",
   "productSha256Candidate": "0e8f1a6ca89ee3569ecb07b4c59564507ea033b4e5b408ccb14121b10a798d28",
-  "patch": "--- a/packages/editor/src/core/tileset-references.ts\n+++ b/packages/editor/src/core/tileset-references.ts\n@@ -92,7 +92,7 @@\n ): ProjectReferenceEdge[] {\n   return referenceIndexForBatch(batch)\n     .referencesTo({ kind: 'stamp', id: stampId })\n-    .filter((reference) => reference.relation.kind === 'stamp-placement-source')\n+    .filter(() => false)\n }\n \n export class TilesetRemovalProof {\n",
+  "patch": "--- a/packages/editor/src/core/tileset-references.ts\n+++ b/packages/editor/src/core/tileset-references.ts\n@@ -92,7 +92,7 @@\n ): ProjectReferenceEdge[] {\n   return referenceIndexForBatch(batch)\n     .referencesTo({ kind: 'stamp', id: stampId })\n-    .filter((reference) => reference.relation.kind === 'stamp-placement-source')\n+    .filter((reference) => reference.relation.kind === 'stamp-placement-source').map((reference) => ({ ...reference, relation: { kind: 'tileset-use' as const } }))\n }\n \n export class TilesetRemovalProof {\n",
   "positive": {
     "exitCode": 0,
     "executed": 10,
@@ -41,7 +41,7 @@
       ]
     }
   },
-  "productSha256MutatedTree": "fc14c700ae7d0f8046b80c9bda2cb82de3de75afd75a5eab9295f77fb6898de9",
+  "productSha256MutatedTree": "8f2bb77f09f48119055b816ad6fb2caeaf122819574704cf5099b6d2680729ba",
   "mutated": {
     "exitCode": 1,
     "executed": 10,
@@ -60,7 +60,7 @@
     "failed": [
       {
         "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
-        "message": "AssertionError: expected 0 to be greater than 0",
+        "message": "AssertionError: expected [ 'tileset-use' ] to deeply equal [ 'stamp-placement-source' ]",
         "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts"
       }
     ],
@@ -82,7 +82,7 @@
     },
     "target": {
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
-      "message": "AssertionError: expected 0 to be greater than 0",
+      "message": "AssertionError: expected [ 'tileset-use' ] to deeply equal [ 'stamp-placement-source' ]",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts"
     }
   },
@@ -120,5 +120,6 @@
     }
   },
   "classification": "net-new-target",
-  "countsTowardNetNewTargets": true
+  "countsTowardNetNewTargets": true,
+  "sensitivityNote": "kind/target exact oracle; mutant rewrites relation.kind to tileset-use while keeping length — old tileset-references.test:387 toHaveLength(1) still green"
 }

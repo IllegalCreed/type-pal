@@ -7,9 +7,9 @@
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:24 export AddStampTemplateCommand — readonly label = '新增图章模板'; private readonly template: StampTemplate; private added = false",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:47 AddStampTemplateCommand; packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:49 AddStampTemplateCommand(…) | production: packages/editor/src/core/stamp-commands.ts:142 AddStampTemplateCommand(…); packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:32 AddStampTemplateCommand — :32 return [this.template.id]; :40 if (state.stamps.some((candidate) => candidate.id === this.template.id)); :41 throw new Error(`图章模板 id \"${this.template.id}\" 已存在。`)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:47 | production: packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: c08StampTemplate('c08-a', C08_TILESET) const command = new AddStampTemplateCommand(template) expect(command.mapReferenceStampIds).toEqual(['c08-a']) }); new AddStampTemplateCommand(template) expect(command.mapReferenceStampIds).toEqual(['c08-a']) }); template=c08StampTemplate('c08-a', C08_TILESET); command=new AddStampTemplateCommand(template)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -24,16 +24,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
       "testSourceLine": 47,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-02",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:78 export ReplaceStampTemplateCommand — readonly label = '更新图章模板'; private readonly template: StampTemplate; private readonly takeOwnership: boolean",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:53 ReplaceStampTemplateCommand; packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:54 ReplaceStampTemplateCommand(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:308 ReplaceStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:203 ReplaceStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:85 ReplaceStampTemplateCommand — :85 return [this.template.id]; :95 if (index < 0) throw new Error(`图章模板 \"${this.template.id}\" 不存在。`); :97 if (current.origin === 'migrated' && !this.takeOwnership)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:53 | production: packages/editor/src/ui/StampLibraryTab.tsx:308 ReplaceStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:203 ReplaceStampTemplateCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: c08StampTemplate('c08-b', C08_TILESET)) expect(command.mapReferenceStampIds).toEqual(['c08-b']) }); new ReplaceStampTemplateCommand(c08StampTemplate('c08-b', C08_TILESET)) expect(command.mapReferenceStampIds).toEqual(['c08-b']) }); command=new ReplaceStampTemplateCommand(c08StampTemplate('c08-b', C08_TILESET))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -48,16 +50,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
       "testSourceLine": 53,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-03",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:121 export DuplicateStampTemplateCommand — readonly label = '复制图章模板'; private readonly sourceId: string; private readonly targetId: string",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:58 DuplicateStampTemplateCommand; packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:59 DuplicateStampTemplateCommand(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:319 DuplicateStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:129 DuplicateStampTemplateCommand — :129 return [this.targetId]; :139 if (!this.delegate) {; :141 if (!source) throw new Error(`图章模板 \"${this.sourceId}\" 不存在。`)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:58 | production: packages/editor/src/ui/StampLibraryTab.tsx:319 DuplicateStampTemplateCommand(…)",
+      "legalInput": "fixtures: new DuplicateStampTemplateCommand('src', 'copy-id') expect(command.mapReferenceStampIds).toEqual(['copy-id']) }); command=new DuplicateStampTemplateCommand('src', 'copy-id')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -72,16 +76,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
       "testSourceLine": 58,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-04",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:24 export AddStampTemplateCommand — readonly label = '新增图章模板'; private readonly template: StampTemplate; private added = false; packages/editor/src/core/stamp-commands.ts:157 export DeleteStampTemplateCommand — readonly label = '删除图章模板'; private readonly templateId: string; private removed: { template: StampTemplate; index: number } | undefined",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:63 DeleteStampTemplateCommand; packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:65 AddStampTemplateCommand(…); packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:67 StampDeletionProof; packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:68 DeleteStampTemplateCommand(…) | production: packages/editor/src/core/stamp-commands.ts:142 AddStampTemplateCommand(…); packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…); packages/editor/src/ui/StampLibraryTab.tsx:332 DeleteStampTemplateCommand(…); packages/editor/src/core/tileset-references.ts:233 StampDeletionProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:32 AddStampTemplateCommand — :32 return [this.template.id]; :40 if (state.stamps.some((candidate) => candidate.id === this.template.id)); :41 throw new Error(`图章模板 id \"${this.template.id}\" 已存在。`)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:63 | production: packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…); packages/editor/src/ui/StampLibraryTab.tsx:332 DeleteStampTemplateCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g04-04') session.dispatch(new AddStampTemplateCommand(c08StampTemplate('c08-del', C08_TILESET))) await session.ensureMapReferencesIndexed() const proof = StampD; new AddStampTemplateCommand(c08StampTemplate('c08-del', C08_TILESET))) await session.ensureMapReferencesIndexed() const proof = StampDeletionProof.fromBatch(session.getMapReference; proof=StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'c08-del'); command=new DeleteStampTemplateCommand('c08-del', proof, (current) =>",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -96,16 +102,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
       "testSourceLine": 63,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-05",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:24 export AddStampTemplateCommand — readonly label = '新增图章模板'; private readonly template: StampTemplate; private added = false",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:77 AddStampTemplateCommand(…) | production: packages/editor/src/core/stamp-commands.ts:142 AddStampTemplateCommand(…); packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:32 AddStampTemplateCommand — :32 return [this.template.id]; :40 if (state.stamps.some((candidate) => candidate.id === this.template.id)); :41 throw new Error(`图章模板 id \"${this.template.id}\" 已存在。`)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:74 | production: packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g04-05') session.getState().manifest.content.stamps = 'content/custom-stamps.json' session.dispatch(new AddStampTemplateCommand(c08StampTemplate('c08-first', C0; new AddStampTemplateCommand(c08StampTemplate('c08-first', C08_TILESET))) expect(session.getState().manifest.content.stamps).toBe('content/custom-stamps.json') })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -120,16 +128,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
       "testSourceLine": 74,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-06",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:78 export ReplaceStampTemplateCommand — readonly label = '更新图章模板'; private readonly template: StampTemplate; private readonly takeOwnership: boolean",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:82 EditSession(…); packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:84 ReplaceStampTemplateCommand(…) | production: packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/ui/App.tsx:5 EditSession(…); packages/editor/src/ui/StampLibraryTab.tsx:308 ReplaceStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:203 ReplaceStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:85 ReplaceStampTemplateCommand — :85 return [this.template.id]; :95 if (index < 0) throw new Error(`图章模板 \"${this.template.id}\" 不存在。`); :97 if (current.origin === 'migrated' && !this.takeOwnership)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:81 | production: packages/editor/src/ui/StampLibraryTab.tsx:308 ReplaceStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:203 ReplaceStampTemplateCommand(…); packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: c08StampTemplate('c08-same', C08_TILESET)])) const before = session.getState().stamps const command = new ReplaceStampTemplateCommand(structuredClone(before[0]!)) const next = comm; new ReplaceStampTemplateCommand(structuredClone(before[0]!)) const next = command.apply(session.getState()) expect(next.stamps).toEqual(before) }); session=new EditSession(emptyState([c08StampTemplate('c08-same', C08_TILESET)])); before=session.getState().stamps",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -144,16 +154,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
       "testSourceLine": 81,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-07",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:121 export DuplicateStampTemplateCommand — readonly label = '复制图章模板'; private readonly sourceId: string; private readonly targetId: string",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:92 EditSession(…); packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:93 DuplicateStampTemplateCommand(…) | production: packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/ui/App.tsx:5 EditSession(…); packages/editor/src/ui/StampLibraryTab.tsx:319 DuplicateStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:129 DuplicateStampTemplateCommand — :129 return [this.targetId]; :139 if (!this.delegate) {; :141 if (!source) throw new Error(`图章模板 \"${this.sourceId}\" 不存在。`)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:89 | production: packages/editor/src/ui/StampLibraryTab.tsx:319 DuplicateStampTemplateCommand(…); packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/ui/App.tsx:5 EditSession(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: c08StampTemplate('c08-src', C08_TILESET) source.name = '原型组合' const session = new EditSession(emptyState([source])) session.dispatch(new DuplicateStampTemplateCommand('c08-src', 'c; new DuplicateStampTemplateCommand('c08-src', 'c08-copy')) expect(session.getState().stamps[1]?.name).toBe('原型组合 副本') }); source=c08StampTemplate('c08-src', C08_TILESET); session=new EditSession(emptyState([source]))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -168,16 +180,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
       "testSourceLine": 89,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-08",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:121 export DuplicateStampTemplateCommand — readonly label = '复制图章模板'; private readonly sourceId: string; private readonly targetId: string",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:98 EditSession(…); packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:100 DuplicateStampTemplateCommand(…) | production: packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/ui/App.tsx:5 EditSession(…); packages/editor/src/ui/StampLibraryTab.tsx:319 DuplicateStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:129 DuplicateStampTemplateCommand — :129 return [this.targetId]; :139 if (!this.delegate) {; :141 if (!source) throw new Error(`图章模板 \"${this.sourceId}\" 不存在。`)",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:97 | production: packages/editor/src/ui/StampLibraryTab.tsx:319 DuplicateStampTemplateCommand(…); packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/ui/App.tsx:5 EditSession(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: c08StampTemplate('c08-src', C08_TILESET)])) expect(() => new DuplicateStampTemplateCommand('c08-src', ' ').apply(session.getState()), ).toThrow() }); new DuplicateStampTemplateCommand('c08-src', ' ').apply(session.getState()), ).toThrow() }); session=new EditSession(emptyState([c08StampTemplate('c08-src', C08_TILESET)]))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -187,21 +201,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Duplicate targetId 空白 trim 后仍走 Add 守卫",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => new DuplicateStampTemplateCommand('c08-src', '   ').apply(session.getState()), ).toThrow()",
       "classification": "new-contract",
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
       "testSourceLine": 97,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-09",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:157 export DeleteStampTemplateCommand — readonly label = '删除图章模板'; private readonly templateId: string; private removed: { template: StampTemplate; index: number } | undefined",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:107 StampDeletionProof; packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:109 DeleteStampTemplateCommand(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:332 DeleteStampTemplateCommand(…); packages/editor/src/core/tileset-references.ts:233 StampDeletionProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:163 DeleteStampTemplateCommand — :163 return [this.templateId]; :176 if (index < 0) return state; :178 if (!this.removed) this.removed = { template: cloneTemplate(state.stamps[index]!), index }",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:104 | production: packages/editor/src/ui/StampLibraryTab.tsx:332 DeleteStampTemplateCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g04-09') await session.ensureMapReferencesIndexed() const proof = StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'missing') const changed = sessio; proof=StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'missing'); changed=session.dispatch(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -216,16 +232,18 @@
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
       "testSourceLine": 104,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G04-10",
       "batch": "C08",
       "group": "G04",
       "primarySource": "packages/editor/src/core/stamp-commands.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:24 export AddStampTemplateCommand — readonly label = '新增图章模板'; private readonly template: StampTemplate; private added = false",
-      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:117 EditSession(…); packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:118 AddStampTemplateCommand(…) | production: packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/ui/App.tsx:5 EditSession(…); packages/editor/src/core/stamp-commands.ts:142 AddStampTemplateCommand(…); packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts:40 AddStampTemplateCommand — :40 if (state.stamps.some((candidate) => candidate.id === this.template.id)); :63 if (this.previousManifestPath === undefined) delete content.stamps; :67 stamps: state.stamps.filter((candidate) => candidate.id !== this.template.id),",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:116 | production: packages/editor/src/ui/StampLibraryTab.tsx:307 AddStampTemplateCommand(…); packages/editor/src/ui/StampTemplateDialog.tsx:200 AddStampTemplateCommand(…); packages/editor/src/main.tsx:141 EditSession(…); packages/editor/src/main.tsx:185 EditSession(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: c08StampTemplate('c08-x', C08_TILESET)) session.dispatch(command) session.undo() expect(session.getState().stamps).toEqual([]) expect(session.getState().manifest.content).not.toHav; new AddStampTemplateCommand(c08StampTemplate('c08-x', C08_TILESET)) session.dispatch(command) session.undo() expect(session.getState().stamps).toEqual([]) expect(session.getState(); session=new EditSession(emptyState()); command=new AddStampTemplateCommand(c08StampTemplate('c08-x', C08_TILESET))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -235,21 +253,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Add invert 后 stamps 为空且 manifest 不含 stamps 键",
-      "oracle": "expect(session.getState().stamps).toEqual([]) | expect(session.getState().manifest.content).not.toHaveProperty('stamps')",
+      "oracle": "expect(session.getState().stamps).toEqual([]) | expect(session.getState().manifest.content).not",
       "classification": "new-contract",
       "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键",
       "testSourceLine": 116,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-01",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:92 export nextStampLayerSlotId — const used = new Set(draft.layers.map(({ id }) => id)); if (!used.has(base)) return base",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:22 nextStampLayerSlotId; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:23 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:24 nextStampLayerSlotId(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…); packages/editor/src/ui/StampContentEditor.tsx:459 nextStampLayerSlotId(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:9 createBlankStampDraft — :9 return Array.from({ length: rows }, () => Array<T>(cols).fill(value)); :18 return Array.from({ length: rows }, (_, row) =>; :24 return `${point.row}:${point.col}`",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:22 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) expect(nextStampLayerSlotId(draft, 'roof')).toBe('roof') }); draft=createBlankStampDraft('d', '草稿', TS)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -264,16 +284,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
       "testSourceLine": 22,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-02",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:92 export nextStampLayerSlotId — const used = new Set(draft.layers.map(({ id }) => id)); if (!used.has(base)) return base",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:27 nextStampLayerSlotId; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:28 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:47 nextStampLayerSlotId(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…); packages/editor/src/ui/StampContentEditor.tsx:459 nextStampLayerSlotId(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:9 createBlankStampDraft — :9 return Array.from({ length: rows }, () => Array<T>(cols).fill(value)); :18 return Array.from({ length: rows }, (_, row) =>; :24 return `${point.row}:${point.col}`",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:27 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) draft = { ...draft, layers: [ ...draft.layers, { id: 'roof', name: 'Roof', tiles: draft.layers[0]!.tiles, sources: draft.layers[0]!.s",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -288,16 +310,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
       "testSourceLine": 27,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-03",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:391 export stampDraftBounds — return {",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:50 stampDraftBounds; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:51 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:52 stampDraftBounds(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:9 createBlankStampDraft — :9 return Array.from({ length: rows }, () => Array<T>(cols).fill(value)); :18 return Array.from({ length: rows }, (_, row) =>; :24 return `${point.row}:${point.col}`",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:50 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) const bounds = stampDraftBounds(draft) expect(bounds.minCol).toBe(-2) expect(bounds.maxCol).toBe(draft.width - 1 + 2) expect(bounds.minRow).toB; draft=createBlankStampDraft('d', '草稿', TS); bounds=stampDraftBounds(draft)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -312,16 +336,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
       "testSourceLine": 50,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-04",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:23 export stampDraftPointKey — return `${point.row}:${point.col}`",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:59 stampDraftPointKey; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:60 stampDraftPointKey(…) | production: packages/editor/src/core/stamp-draft.ts:350 stampDraftPointKey(…); packages/editor/src/core/stamp-draft.ts:364 stampDraftPointKey(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:9 stampDraftPointKey — :9 return Array.from({ length: rows }, () => Array<T>(cols).fill(value)); :18 return Array.from({ length: rows }, (_, row) =>; :24 return `${point.row}:${point.col}`",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:59 | production: packages/editor/src/core/stamp-draft.ts:350 stampDraftPointKey(…) (production); packages/editor/src/core/stamp-draft.ts:364 stampDraftPointKey(…) (production)",
+      "legalInput": "fixtures: stampDraftPointKey({ row: 8, col: 7 })).toBe('8:7') })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -336,16 +362,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
       "testSourceLine": 59,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-05",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:141 export moveStampDraftLayer — draft: StampTemplate,; layerId: string,; direction: -1 | 1,; packages/editor/src/core/stamp-draft.ts:213 export setStampDraftVisual — input: StampTemplate,; layerId: string,; point: GridPointRef,",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:63 moveStampDraftLayer; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:64 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:77 setStampDraftVisual(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:78 setStampDraftVisual(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:79 moveStampDraftLayer(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…); packages/editor/src/ui/StampContentEditor.tsx:315 setStampDraftVisual(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:41 createBlankStampDraft — :41 return {; :51 id: 'base',",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:63 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) draft = { ...draft, layers: [ draft.layers[0]!, { id: 'roof', name: 'Roof', tiles: draft.layers[0]!.tiles, sources: draft.layers[0]!.; moved=moveStampDraftLayer(draft, 'roof', -1)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -360,16 +388,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
       "testSourceLine": 63,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-06",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:213 export setStampDraftVisual — input: StampTemplate,; layerId: string,; point: GridPointRef,; packages/editor/src/core/stamp-draft.ts:334 export moveStampDraftSelection — draft: StampTemplate,; channel: StampDraftChannel,; points: readonly GridPointRef[],",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:83 moveStampDraftSelection; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:85 nudgeIsometricLattice(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:86 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:87 setStampDraftVisual(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:88 moveStampDraftSelection(…) | production: packages/editor/src/core/stamp-draft.ts:343 nudgeIsometricLattice(…); packages/editor/src/ui/map-transform-session.ts:116 nudgeIsometricLattice(…); packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…); packages/editor/src/ui/StampContentEditor.tsx:315 setStampDraftVisual(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:41 createBlankStampDraft — :41 return {; :51 id: 'base',",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:83 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', source, 3, TS, 0) const moved = moveStampDraftSelection( draft, { kind: 'visual', layerSlotId: 'base; source={ row: 8, col: 7 }; target=nudgeIsometricLattice(source, 'right'); moved=moveStampDraftSelection(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -384,16 +414,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
       "testSourceLine": 83,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-07",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:213 export setStampDraftVisual — input: StampTemplate,; layerId: string,; point: GridPointRef,; packages/editor/src/core/stamp-draft.ts:269 export setStampDraftCollision — draft: StampTemplate,; point: GridPointRef,; value: number,; packages/editor/src/core/stamp-draft.ts:334 export moveStampDraftSelection — draft: StampTemplate,; channel: StampDraftChannel,; points: readonly GridPointRef[],",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:99 moveStampDraftSelection; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:101 nudgeIsometricLattice(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:102 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:103 setStampDraftVisual(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:104 setStampDraftCollision(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:105 moveStampDraftSelection(…) | production: packages/editor/src/core/stamp-draft.ts:343 nudgeIsometricLattice(…); packages/editor/src/ui/map-transform-session.ts:116 nudgeIsometricLattice(…); packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…); packages/editor/src/ui/StampContentEditor.tsx:306 setStampDraftCollision(…); packages/editor/src/ui/StampContentEditor.tsx:315 setStampDraftVisual(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:41 createBlankStampDraft — :41 return {; :51 id: 'base',; :57 collision: matrix<number | null>(rows, width, null),",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:99 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', source, 1, TS, 0) draft = setStampDraftCollision(draft, source, 2) const moved = moveStampDraftSelec; source={ row: 8, col: 7 }; target=nudgeIsometricLattice(source, 'down'); moved=moveStampDraftSelection(draft, { kind: 'collision' }, [source], 'down')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -408,16 +440,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
       "testSourceLine": 99,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-08",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:334 export moveStampDraftSelection — draft: StampTemplate,; channel: StampDraftChannel,; points: readonly GridPointRef[],",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:110 moveStampDraftSelection; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:111 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:112 moveStampDraftSelection(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:41 createBlankStampDraft — :41 return {; :57 collision: matrix<number | null>(rows, width, null),",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:110 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) expect(moveStampDraftSelection(draft, { kind: 'collision' }, [], 'up')).toBe(draft) }); draft=createBlankStampDraft('d', '草稿', TS)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -432,16 +466,18 @@
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
       "testSourceLine": 110,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-09",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:213 export setStampDraftVisual — input: StampTemplate,; layerId: string,; point: GridPointRef,; packages/editor/src/core/stamp-draft.ts:334 export moveStampDraftSelection — draft: StampTemplate,; channel: StampDraftChannel,; points: readonly GridPointRef[],",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:115 moveStampDraftSelection; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:117 nudgeIsometricLattice(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:118 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:119 setStampDraftVisual(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:120 setStampDraftVisual(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:123 moveStampDraftSelection(…) | production: packages/editor/src/core/stamp-draft.ts:343 nudgeIsometricLattice(…); packages/editor/src/ui/map-transform-session.ts:116 nudgeIsometricLattice(…); packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…); packages/editor/src/ui/StampContentEditor.tsx:315 setStampDraftVisual(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:41 createBlankStampDraft — :41 return {; :51 id: 'base',",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:115 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', source, 1, TS, 0) draft = setStampDraftVisual(draft, 'base', target, 2, TS, 0) const snapshot = stru; source={ row: 8, col: 7 }; target=nudgeIsometricLattice(source, 'right'); snapshot=structuredClone(draft)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -451,21 +487,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftSelection 视觉目标占用抛错且状态不变",
-      "oracle": "expect(() => | expect(draft).toEqual(snapshot)",
+      "oracle": "expect(() => moveStampDraftSelection(draft, { kind: 'visual', layerSlotId: 'base' }, [source], 'right'), ).toThrow(/已有成员/) | expect(draft).toEqual(snapshot)",
       "classification": "new-contract",
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
       "testSourceLine": 115,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G05-10",
       "batch": "C08",
       "group": "G05",
       "primarySource": "packages/editor/src/core/stamp-draft.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:37 export createBlankStampDraft — const width = 16; const height = 8; const rows = height * 2; packages/editor/src/core/stamp-draft.ts:213 export setStampDraftVisual — input: StampTemplate,; layerId: string,; point: GridPointRef,; packages/editor/src/core/stamp-draft.ts:334 export moveStampDraftSelection — draft: StampTemplate,; channel: StampDraftChannel,; points: readonly GridPointRef[],",
-      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:128 moveStampDraftSelection; packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:129 createBlankStampDraft(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:130 setStampDraftVisual(…); packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:132 moveStampDraftSelection(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…); packages/editor/src/ui/StampContentEditor.tsx:315 setStampDraftVisual(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts:41 createBlankStampDraft — :41 return {; :51 id: 'base',",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:128 | production: packages/editor/src/ui/StampLibraryTab.tsx:288 createBlankStampDraft(…)",
+      "legalInput": "fixtures: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', { row: 0, col: 0 }, 1, TS, 0) expect(() => moveStampDraftSelection( draft, { kind: 'visual', layerSl",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -475,21 +513,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftSelection 越界方向抛错",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => moveStampDraftSelection( draft, { kind: 'visual', layerSlotId: 'base' }, [{ row: 0, col: 0 }], 'up', ), ).toThrow('移动目标超出组合边界。')",
       "classification": "new-contract",
       "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
       "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错",
       "testSourceLine": 128,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-01",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:31 export defaultStampTemplateAnchor — selection: Extract<MapSelection, { kind: 'cells' }>,; ): GridPointRef | undefined {; const points = [",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:30 defaultStampTemplateAnchor; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:31 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:40 defaultStampTemplateAnchor(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:39 defaultStampTemplateAnchor(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:38 defaultStampTemplateAnchor — :38 return points.sort((left, right) => left.row - right.row || latticeU(left) - latticeU(right))[0]; :42 return input; :53 if (!used.has(stem)) return stem",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:30 | production: packages/editor/src/ui/StampTemplateDialog.tsx:39 defaultStampTemplateAnchor(…)",
+      "legalInput": "fixtures: defaultStampTemplateAnchor(selection)).toEqual({ row: 0, col: 2 }) })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -504,16 +544,18 @@
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
       "testSourceLine": 30,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-02",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:31 export defaultStampTemplateAnchor — selection: Extract<MapSelection, { kind: 'cells' }>,; ): GridPointRef | undefined {; const points = [",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:43 defaultStampTemplateAnchor; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:44 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:50 defaultStampTemplateAnchor(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:39 defaultStampTemplateAnchor(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:38 defaultStampTemplateAnchor — :38 return points.sort((left, right) => left.row - right.row || latticeU(left) - latticeU(right))[0]; :42 return input; :53 if (!used.has(stem)) return stem",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:43 | production: packages/editor/src/ui/StampTemplateDialog.tsx:39 defaultStampTemplateAnchor(…)",
+      "legalInput": "fixtures: defaultStampTemplateAnchor(selection)).toBeUndefined() })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -528,16 +570,18 @@
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
       "testSourceLine": 43,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-03",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:68 export buildStampTemplateFromSelection — const { map, selection } = input; if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:53 buildStampTemplateFromSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:55 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:62 buildStampTemplateFromSelection(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:70 buildStampTemplateFromSelection — :70 if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。'); :76 if (selectedVisual.has(key)) continue; :77 if (!isLatticeInside(map, ref)) throw new Error(`视觉槽 ${key} 已超出地图边界。`)",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:53 | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
+      "legalInput": "fixtures: buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 99, col: 0 }, includeCollision: false, }), ).toThrow('组合锚点必须位于当前地图内。') }); map=mapWithObjects()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -547,21 +591,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G06 stamp-template 锚点与拒绝路径 buildStampTemplateFromSelection 锚点出界精确拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 99, col: 0 }, includeCollision: false, }), ).toThrow('组合锚点必须位于当前地图内。')",
       "classification": "new-contract",
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
       "testSourceLine": 53,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-04",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:68 export buildStampTemplateFromSelection — const { map, selection } = input; if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:73 buildStampTemplateFromSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:75 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:82 buildStampTemplateFromSelection(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:79 buildStampTemplateFromSelection — :79 if (!layer) throw new Error(`选区引用的图层 \"${ref.layerId}\" 不存在。`); :70 if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。'); :76 if (selectedVisual.has(key)) continue",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:73 | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
+      "legalInput": "fixtures: buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 0, col: 0 }, includeCollision: false, }), ).toThrow('引用的图层 \"ghost\" 不存在') }); map=mapWithObjects()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -571,21 +617,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G06 stamp-template 锚点与拒绝路径 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 0, col: 0 }, includeCollision: false, }), ).toThrow('引用的图层 \"ghost\" 不存在')",
       "classification": "new-contract",
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
       "testSourceLine": 73,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-05",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:68 export buildStampTemplateFromSelection — const { map, selection } = input; if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:93 buildStampTemplateFromSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:96 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:103 buildStampTemplateFromSelection(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:118 buildStampTemplateFromSelection — :118 if (!tilesetId) throw new Error(`视觉槽 ${visualSlotKey(ref)} 缺少瓦片集来源。`); :70 if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。'); :76 if (selectedVisual.has(key)) continue",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:93 | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
+      "legalInput": "fixtures: buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 1, col: 1 }, includeCollision: false, }), ).toThrow('缺少瓦片集来源') }); map=mapWithObjects()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -595,21 +643,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G06 stamp-template 锚点与拒绝路径 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 1, col: 1 }, includeCollision: false, }), ).toThrow('缺少瓦片集来源')",
       "classification": "new-contract",
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
       "testSourceLine": 93,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-06",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:50 export nextStampTemplateId — const used = new Set(existingIds); const stem = normalizedTemplateId(preferred) || 'stamp'; if (!used.has(stem)) return stem",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:114 nextStampTemplateId; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:115 nextStampTemplateId(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:255 nextStampTemplateId(…); packages/editor/src/ui/StampLibraryTab.tsx:315 nextStampTemplateId(…); packages/editor/src/ui/StampTemplateDialog.tsx:64 nextStampTemplateId(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:53 nextStampTemplateId — :53 if (!used.has(stem)) return stem; :56 if (!used.has(candidate)) return candidate",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:114 | production: packages/editor/src/ui/StampLibraryTab.tsx:255 nextStampTemplateId(…); packages/editor/src/ui/StampLibraryTab.tsx:315 nextStampTemplateId(…); packages/editor/src/ui/StampTemplateDialog.tsx:64 nextStampTemplateId(…)",
+      "legalInput": "fixtures: nextStampTemplateId('屋角 01', [])).toBe('屋角-01') })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -624,16 +674,18 @@
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
       "testSourceLine": 114,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-07",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:50 export nextStampTemplateId — const used = new Set(existingIds); const stem = normalizedTemplateId(preferred) || 'stamp'; if (!used.has(stem)) return stem",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:118 nextStampTemplateId; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:119 nextStampTemplateId(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:255 nextStampTemplateId(…); packages/editor/src/ui/StampLibraryTab.tsx:315 nextStampTemplateId(…); packages/editor/src/ui/StampTemplateDialog.tsx:64 nextStampTemplateId(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:53 nextStampTemplateId — :53 if (!used.has(stem)) return stem; :56 if (!used.has(candidate)) return candidate",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:118 | production: packages/editor/src/ui/StampLibraryTab.tsx:255 nextStampTemplateId(…); packages/editor/src/ui/StampLibraryTab.tsx:315 nextStampTemplateId(…); packages/editor/src/ui/StampTemplateDialog.tsx:64 nextStampTemplateId(…)",
+      "legalInput": "fixtures: nextStampTemplateId('gate', ['gate'])).toBe('gate-2') })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -648,16 +700,18 @@
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
       "testSourceLine": 118,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-08",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:68 export buildStampTemplateFromSelection — const { map, selection } = input; if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:124 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:130 buildStampTemplateFromSelection(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:70 buildStampTemplateFromSelection — :70 if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。'); :76 if (selectedVisual.has(key)) continue; :77 if (!isLatticeInside(map, ref)) throw new Error(`视觉槽 ${key} 已超出地图边界。`)",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:122 | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
+      "legalInput": "fixtures: buildStampTemplateFromSelection({ map, selection, id: 'c08-pack', name: '打包', anchor: { row: 1, col: 1 }, includeCollision: false, }) expect(template.origin).toBe('authored') }); map=mapWithObjects(); template=buildStampTemplateFromSelection({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -672,16 +726,18 @@
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
       "testSourceLine": 122,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-09",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:68 export buildStampTemplateFromSelection — const { map, selection } = input; if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:143 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:149 buildStampTemplateFromSelection(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:15 buildStampTemplateFromSelection — :15 selection: Extract<MapSelection, { kind: 'cells' }>; :28 selection: Extract<MapSelection, { kind: 'cells' }>; :32 selection: Extract<MapSelection, { kind: 'cells' }>,",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:141 | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…); packages/editor/src/core/map-selection.ts:43 <MapSelection; packages/editor/src/core/map-transform.ts:121 <MapSelection; packages/editor/src/core/stamp-group-transform.ts:69 <MapSelection",
+      "legalInput": "fixtures: buildStampTemplateFromSelection({ map, selection, id: 'c08-height', name: '高', anchor: { row: 0, col: 2 }, includeCollision: false, }); map=mapWithObjects(); template=buildStampTemplateFromSelection({; objects=template.layers.find((layer) => layer.id === 'objects')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -696,16 +752,18 @@
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
       "testSourceLine": 141,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G06-10",
       "batch": "C08",
       "group": "G06",
       "primarySource": "packages/editor/src/core/stamp-template.ts",
-      "sourceCondition": "packages/editor/src/core/stamp-template.ts:68 export buildStampTemplateFromSelection — const { map, selection } = input; if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
-      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:164 MapSelection; packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:170 buildStampTemplateFromSelection(…) | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts:70 buildStampTemplateFromSelection — :70 if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。'); :76 if (selectedVisual.has(key)) continue; :77 if (!isLatticeInside(map, ref)) throw new Error(`视觉槽 ${key} 已超出地图边界。`)",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:161 | production: packages/editor/src/ui/StampTemplateDialog.tsx:190 buildStampTemplateFromSelection(…)",
+      "legalInput": "fixtures: buildStampTemplateFromSelection({ map, selection, id: 'c08-no-col', name: '无碰撞', anchor: { row: 1, col: 1 }, includeCollision: false, }) expect(template.collision.flat().every((cel; map=mapWithObjects(); template=buildStampTemplateFromSelection({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -720,16 +778,18 @@
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
       "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null",
       "testSourceLine": 161,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-01",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:150 export UpdateTilesetMetadataCommand — readonly label = '修改瓦片集信息'; private previous: Pick<TilesetDef, 'name' | 'category'> | undefined; constructor(",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:38 UpdateTilesetMetadataCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:161 UpdateTilesetMetadataCommand — :161 if (!current) return state; :162 if (this.patch.name !== undefined && !this.patch.name.trim()); :163 throw new Error('瓦片集名称不能为空')",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:35 | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-01') const before = starter(session.getState()) session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { category: 'interior' })) const after = star; new UpdateTilesetMetadataCommand(C08_TILESET, { category: 'interior' })) const after = starter(session.getState()) expect(after).toEqual({ ...before, category: 'interior' }) expect; before=starter(session.getState()); after=starter(session.getState())",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -744,16 +804,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-01 UpdateTilesetMetadata 只改分类：name 与 asset 不变",
       "testSourceLine": 35,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-02",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:150 export UpdateTilesetMetadataCommand — readonly label = '修改瓦片集信息'; private previous: Pick<TilesetDef, 'name' | 'category'> | undefined; constructor(",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:47 UpdateTilesetMetadataCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:161 UpdateTilesetMetadataCommand — :161 if (!current) return state; :162 if (this.patch.name !== undefined && !this.patch.name.trim()); :163 throw new Error('瓦片集名称不能为空')",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:44 | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-02') const category = starter(session.getState()).category session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { name: '重命名地形' })) expect(starter; new UpdateTilesetMetadataCommand(C08_TILESET, { name: '重命名地形' })) expect(starter(session.getState()).name).toBe('重命名地形') expect(starter(session.getState()).category).toBe(category); category=starter(session.getState()).category",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -768,16 +830,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-02 UpdateTilesetMetadata 只改名称：category 保留",
       "testSourceLine": 44,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-03",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:150 export UpdateTilesetMetadataCommand — readonly label = '修改瓦片集信息'; private previous: Pick<TilesetDef, 'name' | 'category'> | undefined; constructor(",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:55 UpdateTilesetMetadataCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:161 UpdateTilesetMetadataCommand — :161 if (!current) return state; :162 if (this.patch.name !== undefined && !this.patch.name.trim()); :163 throw new Error('瓦片集名称不能为空')",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:52 | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-03') const snapshot = structuredClone(starter(session.getState())) session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { name: 'A', category: 'z'; new UpdateTilesetMetadataCommand(C08_TILESET, { name: 'A', category: 'z' })) expect(session.undo()).toBe(true) expect(starter(session.getState())).toEqual(snapshot) }); snapshot=structuredClone(starter(session.getState()))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -792,16 +856,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-03 UpdateTilesetMetadata undo 精确还原 name+category",
       "testSourceLine": 52,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-04",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:20 export AddTilesetCommand — readonly label = '上传瓦片集'; private readonly def: TilesetDef; private readonly record: AssetRecordV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:60 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:34 AddTilesetCommand — :34 if ((state.tilesets ?? []).some((t) => t.id === this.def.id)); :35 throw new Error(`瓦片集定义 id 已存在: ${this.def.id}`); :37 if (!this.def.asset) throw new Error('瓦片集定义缺 AssetId')",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:60 | production: packages/editor/src/ui/TilesetTab.tsx:482 AddTilesetCommand(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-04') const def: TilesetDef = { id: 'c08-forest', name: '森林', category: 'outdoor', asset: 'tileset.authored.c08forest', } const packed = await appendAuthored; packed=await appendAuthoredTileset(session, def, 2); state=session.getState()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -816,16 +882,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-04 AddTileset 新路径入库后 catalog 与 assetBlobs 同步登记",
       "testSourceLine": 60,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-05",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:20 export AddTilesetCommand — readonly label = '上传瓦片集'; private readonly def: TilesetDef; private readonly record: AssetRecordV1",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:88 AddTilesetCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:482 AddTilesetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:34 AddTilesetCommand — :34 if ((state.tilesets ?? []).some((t) => t.id === this.def.id)); :35 throw new Error(`瓦片集定义 id 已存在: ${this.def.id}`); :37 if (!this.def.asset) throw new Error('瓦片集定义缺 AssetId')",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:76 | production: packages/editor/src/ui/TilesetTab.tsx:482 AddTilesetCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: new AddTilesetCommand(def, record, bytes).apply(state)).toThrow(/资源路径已由/) }); legal=await openC08Legal('c08-g01-05'); state=legal.state; starterDef=state.tilesets?.[0]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -840,16 +908,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-05 AddTileset 路径已被其它 AssetId 占用时整串拒绝",
       "testSourceLine": 76,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-06",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:20 export AddTilesetCommand — readonly label = '上传瓦片集'; private readonly def: TilesetDef; private readonly record: AssetRecordV1",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:101 AddTilesetCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:482 AddTilesetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:37 AddTilesetCommand — :37 if (!this.def.asset) throw new Error('瓦片集定义缺 AssetId'); :34 if ((state.tilesets ?? []).some((t) => t.id === this.def.id)); :35 throw new Error(`瓦片集定义 id 已存在: ${this.def.id}`)",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:91 | production: packages/editor/src/ui/TilesetTab.tsx:482 AddTilesetCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: new AddTilesetCommand(def, packed.record, packed.bytes).apply(legal.state), ).toThrow('瓦片集定义缺 AssetId') }); legal=await openC08Legal('c08-g01-06'); packed=await tilesetRecordFromFrames('assets/authored/tilesets/x.rle', [])",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -859,21 +929,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G01 tileset-commands 会话补丁与资源身份 AddTileset 缺 AssetId 字段精确报错",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => new AddTilesetCommand(def, packed.record, packed.bytes).apply(legal.state), ).toThrow('瓦片集定义缺 AssetId')",
       "classification": "new-contract",
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-06 AddTileset 缺 AssetId 字段精确报错",
       "testSourceLine": 91,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-07",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:20 export AddTilesetCommand — readonly label = '上传瓦片集'; private readonly def: TilesetDef; private readonly record: AssetRecordV1; packages/editor/src/core/tileset-commands.ts:82 export RemoveTilesetCommand — readonly label = '移除瓦片集'; private removed: TilesetDef | undefined; private removedIndex: number | undefined",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:115 AddTilesetCommand(…); packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:124 TilesetRemovalProof; packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:130 RemoveTilesetCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:482 AddTilesetCommand(…); packages/editor/src/ui/TilesetTab.tsx:529 RemoveTilesetCommand(…); packages/editor/src/core/tileset-references.ts:133 TilesetRemovalProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:34 AddTilesetCommand — :34 if ((state.tilesets ?? []).some((t) => t.id === this.def.id)); :35 throw new Error(`瓦片集定义 id 已存在: ${this.def.id}`); :37 if (!this.def.asset) throw new Error('瓦片集定义缺 AssetId')",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:105 | production: packages/editor/src/ui/TilesetTab.tsx:482 AddTilesetCommand(…); packages/editor/src/ui/TilesetTab.tsx:529 RemoveTilesetCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-07') const starterDef = starter(session.getState()) const alias: TilesetDef = { id: 'c08-alias', name: '别名', category: starterDef.category, asset: starterDe; new AddTilesetCommand( alias, structuredClone(session.getState().assetCatalog.assets[starterDef.asset]!), (await legal.source.readBytes( session.getState().assetCatalog.assets[star; new RemoveTilesetCommand('c08-alias', proof, (current) => session.getCurrentMapReferenceBatch(current), ), ) const after = session.getState() expect(after.tilesets?.some((entry) =>; starterDef=starter(session.getState())",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -888,16 +960,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-07 共享 AssetId 追加定义后 Remove 单定义：catalog 仍保留共享资源",
       "testSourceLine": 105,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-08",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:187 export ReplaceTilesetAssetCommand — readonly label = '替换瓦片集图像'; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:150 buildSeedAssets(…); packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:156 TilesetReplacementProof; packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:167 ReplaceTilesetAssetCommand(…) | production: packages/editor/src/core/seed-assets.ts:123 buildSeedAssets(…); packages/editor/src/core/seed.ts:78 buildSeedAssets(…); packages/editor/src/ui/TilesetTab.tsx:459 ReplaceTilesetAssetCommand(…); packages/editor/src/core/tileset-references.ts:214 TilesetReplacementProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:204 ReplaceTilesetAssetCommand — :204 if (!previous) return state; :206 if (previous.kind !== 'tileset') throw new Error('瓦片集替换只能更新 kind=tileset 的资源'); :210 if (pathOwner) throw new Error(`瓦片集替换路径已由 ${pathOwner[0]} 登记`)",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:139 | production: packages/editor/src/ui/TilesetTab.tsx:459 ReplaceTilesetAssetCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-08') const extra: TilesetDef = { id: 'c08-replace-me', name: '可替换', category: 'outdoor', asset: 'tileset.authored.c08replace', } const packed = await append; new ReplaceTilesetAssetCommand( 'c08-replace-me', extra.asset, nextPacked.record, nextPacked.bytes, oldBytes, proof, (current) => session.getCurrentMapReferenceBatch(current),; packed=await appendAuthoredTileset(session, extra, 4); oldRecord=structuredClone(session.getState().assetCatalog.assets[extra.asset]!)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -912,16 +986,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-08 ReplaceTilesetAsset 追加独立 tileset 后替换 bytes：undo 恢复 sha",
       "testSourceLine": 139,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-09",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:150 export UpdateTilesetMetadataCommand — readonly label = '修改瓦片集信息'; private previous: Pick<TilesetDef, 'name' | 'category'> | undefined; constructor(",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:185 UpdateTilesetMetadataCommand(…); packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:186 UpdateTilesetMetadataCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:161 UpdateTilesetMetadataCommand — :161 if (!current) return state; :162 if (this.patch.name !== undefined && !this.patch.name.trim()); :163 throw new Error('瓦片集名称不能为空')",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:182 | production: packages/editor/src/ui/TilesetTab.tsx:277 UpdateTilesetMetadataCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-09') const snapshot = structuredClone(starter(session.getState())) session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { name: '第一次' })) session.; new UpdateTilesetMetadataCommand(C08_TILESET, { name: '第一次' })) session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { name: '第二次' })) expect(starter(session.getState()).; snapshot=structuredClone(starter(session.getState()))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -936,16 +1012,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-09 UpdateTilesetMetadata 连续 dispatch：undo 逐步还原",
       "testSourceLine": 182,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G01-10",
       "batch": "C08",
       "group": "G01",
       "primarySource": "packages/editor/src/core/tileset-commands.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:82 export RemoveTilesetCommand — readonly label = '移除瓦片集'; private removed: TilesetDef | undefined; private removedIndex: number | undefined",
-      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:204 TilesetRemovalProof; packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:209 RemoveTilesetCommand(…) | production: packages/editor/src/ui/TilesetTab.tsx:529 RemoveTilesetCommand(…); packages/editor/src/core/tileset-references.ts:133 TilesetRemovalProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts:99 RemoveTilesetCommand — :99 if (index < 0) return state; :107 if (!this.removed) {; :114 const nextTilesets = list.filter((t) => t.id !== this.tilesetId)",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:194 | production: packages/editor/src/ui/TilesetTab.tsx:529 RemoveTilesetCommand(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08Session('c08-g01-10') await appendAuthoredTileset(session, { id: 'c08-unused', name: '未引用', category: 'outdoor', asset: 'tileset.authored.c08unused', }) const before = sessi; new RemoveTilesetCommand('missing-tileset', proof, (current) => session.getCurrentMapReferenceBatch(current), ).apply(before) expect(next).toBe(before) }); before=session.getState(); proof=TilesetRemovalProof.fromBatch(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -960,16 +1038,18 @@
       "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
       "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-10 RemoveTileset 缺席 id apply 为同一引用",
       "testSourceLine": 194,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-01",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 export tilesetUsageReferences — batch: MapReferenceEdgeBatch,; tilesetId: string,; ): ProjectReferenceEdge[] {",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:104 tilesetUsageReferences; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:110 tilesetUsageReferences(…) | production: packages/editor/src/core/tileset-references.ts:130 tilesetUsageReferences(…); packages/editor/src/core/tileset-references.ts:263 tilesetUsageReferences(…); packages/editor/src/ui/TilesetTab.tsx:310 tilesetUsageReferences(…); packages/editor/src/ui/TilesetTab.tsx:331 tilesetUsageReferences(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 export tilesetUsageReferences — return referenceIndexForBatch(batch)",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:104 tilesetUsageReferences; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:110 tilesetUsageReferences(…) | production: packages/editor/src/core/tileset-references.ts:130 tilesetUsageReferences(…) (production); packages/editor/src/core/tileset-references.ts:263 tilesetUsageReferences(…) (production); packages/editor/src/ui/TilesetTab.tsx:310 tilesetUsageReferences(…) (production); packages/editor/src/ui/TilesetTab.tsx:331 tilesetUsageReferences(…) (production)",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, TILESET_A)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -991,33 +1071,35 @@
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:89 export stampPlacementReferences — batch: MapReferenceEdgeBatch,; stampId: string,; ): ProjectReferenceEdge[] {",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:115 stampPlacementReferences; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:136 stampPlacementReferences(…); packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:141 stampPlacementReferences(…) | production: packages/editor/src/core/tileset-references.ts:226 stampPlacementReferences(…); packages/editor/src/core/tileset-references.ts:308 stampPlacementReferences(…); packages/editor/src/ui/StampLibraryTab.tsx:243 stampPlacementReferences(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:89 export stampPlacementReferences — return referenceIndexForBatch(batch).referencesTo({kind:\"stamp\",id:stampId}).filter(relation.kind===\"stamp-placement-source\")",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts stampPlacementReferences(batch,\"c08-tree\") | production: packages/editor/src/ui/StampLibraryTab.tsx:243 stampPlacementReferences(…); packages/editor/src/core/tileset-references.ts:226 StampDeletionProof",
+      "legalInput": "fixture: buildBlankProjectMap + authoring.stampPlacements[{id:place-tree,sourceStampId:c08-tree}]; stampTemplate(TILESET_A); indexedBatch",
       "oldAssertion": {
         "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/core/tileset-references.test.ts",
+        "oldFullName": "stamp delete permits confirmed snapshot refs but redo rejects a changed placement set",
+        "oldMatcher": "old :387 only toHaveLength(1) — length axis existing; kind/target exact set is net-new (CTR-C08-34 kind-rewrite mutant keeps length, fails kind)",
         "dedupHeader": "排重：tileset-references.test ED-3 异步扫描九例已证 batch 生命周期；本文件补 proof 构造、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-02：非空轴旧证；kind/target 精确集合为新 oracle，针感度已独证"
       },
-      "axis": "C08-G02 tileset-references 边与证明门 stampPlacementReferences 只保留 stamp-placement-source",
-      "oracle": "expect(edges.length).toBeGreaterThan(0) | expect(edges.map((edge) => edge.relation.kind)).toEqual(['stamp-placement-source']) | expect(edges.map((edge) => edge.target)).toEqual([{ kind: 'stamp', id: 'c08-tree' }]) | expect(edges.every((edge) => edge.relation.kind === 'stamp-placement-source')).toBe(true) | expect(stampPlacementReferences(batch, 'missing-stamp')).toEqual([])",
+      "axis": "精确保留 stamp-placement-source kind + stamp target（旧测仅 toHaveLength）",
+      "oracle": "expect(edges.map((edge) => edge.relation.kind)).toEqual([\"stamp-placement-source\"]) | expect(edges.map((edge) => edge.target)).toEqual([{ kind: \"stamp\", id: \"c08-tree\" }]) | expect(edges.length).toBe(1) | expect(stampPlacementReferences(batch, \"missing-stamp\")).toEqual([])",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
       "testSourceLine": 115,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "Diagnostic: kind→tileset-use mutant → old length test green, new kind assert red"
     },
     {
       "id": "C08-G02-03",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:98 export TilesetRemovalProof — readonly tilesetId: string; readonly generation: number; readonly coverage: readonly MapReferenceCoverageEntry[]",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:144 TilesetRemovalProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:148 TilesetRemovalProof | production: packages/editor/src/core/tileset-references.ts:133 TilesetRemovalProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:109 TilesetRemovalProof — :109 if (!definition) throw new Error(`瓦片集定义 ${tilesetId} 已不存在。`); :111 if (!record || record.kind !== 'tileset'); :112 throw new Error(`瓦片集资源 ${definition.asset} 已不存在。`)",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:145 | production: packages/editor/src/core/tileset-references.ts:133 TilesetRemovalProof(…) (production)",
+      "legalInput": "fixtures: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() expect(() => TilesetRemovalProof.; maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMapReferencesIndexed()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1027,21 +1109,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G02 tileset-references 边与证明门 TilesetRemovalProof 有引用时构造期拒绝",
-      "oracle": "expect(() => TilesetRemovalProof.fromBatch(batch, session.getState(), TILESET_A)).toThrow(",
+      "oracle": "expect(() => TilesetRemovalProof.fromBatch(batch, session.getState(), TILESET_A)).toThrow( /不能移除/, )",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
-      "testSourceLine": 144,
-      "status": "passed"
+      "testSourceLine": 145,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-04",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:137 export TilesetReplacementProof — readonly tilesetId: string; readonly frameCount: number; readonly generation: number",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:153 TilesetReplacementProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:159 TilesetReplacementProof | production: packages/editor/src/core/tileset-references.ts:214 TilesetReplacementProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:177 TilesetReplacementProof — :177 if (!Number.isInteger(frameCount) || frameCount <= 0) throw new Error('替换瓦片集必须含帧'); :180 if (!definitions.includes(tilesetId)) throw new Error('共享瓦片集影响范围不含当前定义。'); :181 if (new Set(definitions).size !== definitions.length)",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:154 | production: packages/editor/src/core/tileset-references.ts:214 TilesetReplacementProof(…) (production)",
+      "legalInput": "fixtures: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const record = session.getState(); maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMapReferencesIndexed(); record=session.getState().assetCatalog.assets[TILESET_ASSET]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1051,21 +1135,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G02 tileset-references 边与证明门 TilesetReplacementProof frameCount 非正整数拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => TilesetReplacementProof.fromBatch(batch, TILESET_A, 0, { asset: TILESET_ASSET, previousRecord: record, definitions: [{ id: TILESET_A, asset: TILESET_ASSET }], }), ).toThrow('替换瓦片集必须含帧')",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
-      "testSourceLine": 153,
-      "status": "passed"
+      "testSourceLine": 154,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-05",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:137 export TilesetReplacementProof — readonly tilesetId: string; readonly frameCount: number; readonly generation: number",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:167 TilesetReplacementProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:173 TilesetReplacementProof | production: packages/editor/src/core/tileset-references.ts:214 TilesetReplacementProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:180 TilesetReplacementProof — :180 if (!definitions.includes(tilesetId)) throw new Error('共享瓦片集影响范围不含当前定义。'); :177 if (!Number.isInteger(frameCount) || frameCount <= 0) throw new Error('替换瓦片集必须含帧'); :181 if (new Set(definitions).size !== definitions.length)",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:168 | production: packages/editor/src/core/tileset-references.ts:214 TilesetReplacementProof(…) (production)",
+      "legalInput": "fixtures: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const record = session.getState(); maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMapReferencesIndexed(); record=session.getState().assetCatalog.assets[TILESET_ASSET]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1075,21 +1161,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G02 tileset-references 边与证明门 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => TilesetReplacementProof.fromBatch(batch, TILESET_A, 4, { asset: TILESET_ASSET, previousRecord: record, definitions: [{ id: 'other', asset: TILESET_ASSET }], }), ).toThrow('共享瓦片集影响范围不含当前定义')",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
-      "testSourceLine": 167,
-      "status": "passed"
+      "testSourceLine": 168,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-06",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:237 export assertTilesetRemovalAllowed — state: EditorState,; tilesetId: string,; proof: TilesetRemovalProof | undefined,",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:181 assertTilesetRemovalAllowed; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:184 assertTilesetRemovalAllowed(…) | production: packages/editor/src/core/tileset-commands.ts:100 assertTilesetRemovalAllowed(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:245 assertTilesetRemovalAllowed — :245 throw new Error('移除瓦片集前必须完成全项目引用扫描。'); :244 if (!(proof instanceof TilesetRemovalProof) || proof.tilesetId !== tilesetId); :253 if (",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:182 | production: packages/editor/src/core/tileset-commands.ts:100 assertTilesetRemovalAllowed(…); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx (harness)",
+      "legalInput": "fixtures: openC08RefSession({}) expect(() => assertTilesetRemovalAllowed(state, TILESET_A, undefined, unreachableBatch), ).toThrow('移除瓦片集前必须完成全项目引用扫描') })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1099,21 +1187,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G02 tileset-references 边与证明门 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => assertTilesetRemovalAllowed(state, TILESET_A, undefined, unreachableBatch), ).toThrow('移除瓦片集前必须完成全项目引用扫描')",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
-      "testSourceLine": 181,
-      "status": "passed"
+      "testSourceLine": 182,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-07",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:137 export TilesetReplacementProof — readonly tilesetId: string; readonly frameCount: number; readonly generation: number; packages/editor/src/core/tileset-references.ts:268 export assertTilesetReplacementAllowed — state: EditorState,; tilesetId: string,; asset: string,",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:188 assertTilesetReplacementAllowed; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:193 TilesetReplacementProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:199 assertTilesetReplacementAllowed(…) | production: packages/editor/src/core/tileset-commands.ts:213 assertTilesetReplacementAllowed(…); packages/editor/src/core/tileset-references.ts:214 TilesetReplacementProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:177 TilesetReplacementProof — :177 if (!Number.isInteger(frameCount) || frameCount <= 0) throw new Error('替换瓦片集必须含帧'); :180 if (!definitions.includes(tilesetId)) throw new Error('共享瓦片集影响范围不含当前定义。'); :181 if (new Set(definitions).size !== definitions.length)",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:189 | production: packages/editor/src/core/tileset-commands.ts:213 assertTilesetReplacementAllowed(…) (production); packages/editor/src/core/tileset-references.ts:214 TilesetReplacementProof(…) (production)",
+      "legalInput": "fixtures: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const record = session.getState(); maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMapReferencesIndexed(); record=session.getState().assetCatalog.assets[TILESET_ASSET]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1123,21 +1213,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G02 tileset-references 边与证明门 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => assertTilesetReplacementAllowed( session.getState(), 'other-id', TILESET_ASSET, proof, (current) => session.getCurrentMapReferenceBatch(current), ), ).toThrow('替换瓦片集前必须完成全项目引用扫描')",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
-      "testSourceLine": 188,
-      "status": "passed"
+      "testSourceLine": 189,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-08",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:89 export stampPlacementReferences — batch: MapReferenceEdgeBatch,; stampId: string,; ): ProjectReferenceEdge[] {; packages/editor/src/core/tileset-references.ts:218 export StampDeletionProof — readonly stampId: string; readonly referenceCount: number; readonly generation: number",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:209 StampDeletionProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:214 StampDeletionProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:216 stampPlacementReferences(…) | production: packages/editor/src/core/tileset-references.ts:233 StampDeletionProof(…); packages/editor/src/core/tileset-references.ts:226 stampPlacementReferences(…); packages/editor/src/core/tileset-references.ts:308 stampPlacementReferences(…); packages/editor/src/ui/StampLibraryTab.tsx:243 stampPlacementReferences(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:14 stampPlacementReferences — :14 if (current) return current; :17 return created; :21 if (",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:210 | production: packages/editor/src/ui/StampLibraryTab.tsx:243 stampPlacementReferences(…)",
+      "legalInput": "fixtures: buildBlankProjectMap(1, 1, 'tiles-b'), } const batch = await indexedBatch(maps, [stampTemplate(TILESET_A)]) const proof = StampDeletionProof.fromBatch(batch, 'c08-tree') expect(pro; batch=await indexedBatch(maps, [stampTemplate(TILESET_A)]); proof=StampDeletionProof.fromBatch(batch, 'c08-tree')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1151,17 +1243,19 @@
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
-      "testSourceLine": 209,
-      "status": "passed"
+      "testSourceLine": 210,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-09",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:218 export StampDeletionProof — readonly stampId: string; readonly referenceCount: number; readonly generation: number; packages/editor/src/core/tileset-references.ts:298 export assertStampDeletionAllowed — state: EditorState,; stampId: string,; proof: StampDeletionProof | undefined,",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:219 assertStampDeletionAllowed; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:223 StampDeletionProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:225 assertStampDeletionAllowed(…) | production: packages/editor/src/core/stamp-commands.ts:177 assertStampDeletionAllowed(…); packages/editor/src/core/tileset-references.ts:233 StampDeletionProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:305 StampDeletionProof — :305 throw new Error('删除组合前必须完成全项目引用扫描。'); :14 if (current) return current; :17 return created",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:220 | production: packages/editor/src/core/stamp-commands.ts:177 assertStampDeletionAllowed(…) (production); packages/editor/src/core/tileset-references.ts:233 StampDeletionProof(…) (production)",
+      "legalInput": "fixtures: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps, [stampTemplate(TILESET_A)]) const batch = await session.ensureMapReferencesIndexed() const; maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMapReferencesIndexed(); proof=StampDeletionProof.fromBatch(batch, 'c08-tree')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1171,45 +1265,49 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G02 tileset-references 边与证明门 assertStampDeletionAllowed proof.stampId 不一致拒绝",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => assertStampDeletionAllowed(session.getState(), 'other-stamp', proof, (current) => session.getCurrentMapReferenceBatch(current), ), ).toThrow('删除组合前必须完成全项目引用扫描。')",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
-      "testSourceLine": 219,
-      "status": "passed"
+      "testSourceLine": 220,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C08-G02-10",
       "batch": "C08",
       "group": "G02",
       "primarySource": "packages/editor/src/core/tileset-references.ts",
-      "sourceCondition": "packages/editor/src/core/tileset-references.ts:98 export TilesetRemovalProof — readonly tilesetId: string; readonly generation: number; readonly coverage: readonly MapReferenceCoverageEntry[]",
-      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:231 TilesetRemovalProof; packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:235 TilesetRemovalProof | production: packages/editor/src/core/tileset-references.ts:133 TilesetRemovalProof(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:109 TilesetRemovalProof — :109 if (!definition) throw new Error(`瓦片集定义 ${tilesetId} 已不存在。`); :111 if (!record || record.kind !== 'tileset'); :112 throw new Error(`瓦片集资源 ${definition.asset} 已不存在。`)",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:232 | production: packages/editor/src/core/tileset-references.ts:133 TilesetRemovalProof(…) (production)",
+      "legalInput": "fixtures: buildBlankProjectMap(1, 1, 'tiles-b') } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const proof = TilesetRemovalProof; maps={ 'map-a': buildBlankProjectMap(1, 1, 'tiles-b') }; batch=await session.ensureMapReferencesIndexed(); proof=TilesetRemovalProof.fromBatch(batch, session.getState(), TILESET_A)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "fc79d8a7a6a87143d78a5010ddf974918067a55f",
+        "oldFile": "packages/editor/src/core/tileset-references.wave2.test.ts",
+        "oldFullName": "removal proof rejects a real newer scan generation even when coverage and asset identities stay equal",
+        "oldMatcher": "expect(next.generation).not.toBe(batch.generation) expect(next.coverage).toEqual(batch.coverage) const before = structuredClone(session.getState()) @ :39 (key=\"batch.generation\")",
         "dedupHeader": "排重：tileset-references.test ED-3 异步扫描九例已证 batch 生命周期；本文件补 proof 构造、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C08-G02 tileset-references 边与证明门 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
       "oracle": "expect(proof.generation).toBe(batch.generation) | expect(proof.tilesetId).toBe(TILESET_A) | expect(proof.definitionIds).toEqual([TILESET_A])",
       "classification": "new-contract",
       "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
-      "testSourceLine": 231,
-      "status": "passed"
+      "testSourceLine": 232,
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C08"
     },
     {
       "id": "C08-G07-01",
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx:46 export StampLibraryTab — stamps: readonly StampTemplate[]; tilesets: readonly TilesetDef[]; assetCatalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:41 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx:46 export StampLibraryTab — branches: packages/editor/src/ui/StampLibraryTab.tsx:415 aria-label: 'aria-label': '搜索组合模板',; packages/editor/src/ui/StampLibraryTab.tsx:425 aria-label: aria-label=\"筛选组合标签\"; packages/editor/src/ui/StampLibraryTab.tsx:436 aria-label: aria-label=\"筛选组合来源\"; packages/editor/src/ui/StampLibraryTab.tsx:447 aria-label: <section className=\"stamp-library-list\" aria-label=\"组合模板列表\">; packages/editor/src/ui/StampLibraryTab.tsx:560 aria-label: <nav className=\"stamp-library-pages\" aria-label=\"组合模板分页\">; packages/editor/src/ui/StampLibraryTab.tsx:563 aria-label: aria-label=\"上一页组合模板\"",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:42 mountStampLibrary(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:44 typeDraft(…) | production: packages/editor/src/ui/DataMode.tsx:479 <StampLibraryTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:39 <StampLibraryTab (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:105 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:88 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:28 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:32 typeDraft(…) (harness)",
+      "legalInput": "fixture: mountStampLibrary('c08-g07-01', ['c08-alpha', 'c08-beta'])",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1231,9 +1329,9 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx:46 export StampLibraryTab — stamps: readonly StampTemplate[]; tilesets: readonly TilesetDef[]; assetCatalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:53 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx:46 export StampLibraryTab — const {; stamps,; tilesets,; assetCatalog,",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:54 mountStampLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:479 <StampLibraryTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:39 <StampLibraryTab (harness)",
+      "legalInput": "fixture: mountStampLibrary('c08-g07-02', ['c08-one', 'c08-two'])",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1255,9 +1353,9 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampContentEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampContentEditor.tsx:79 export StampContentEditor — template: StampTemplate; tilesets: readonly TilesetDef[]; assetCatalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:63 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "vi.fn() spies",
+      "sourceCondition": "packages/editor/src/ui/StampContentEditor.tsx:79 export StampContentEditor — branches: packages/editor/src/ui/StampContentEditor.tsx:512 aria-label: aria-label=\"组合名称\"; packages/editor/src/ui/StampContentEditor.tsx:529 aria-label: aria-label=\"组合标签\"; packages/editor/src/ui/StampContentEditor.tsx:547 aria-label: aria-label=\"组合画布宽度\"; packages/editor/src/ui/StampContentEditor.tsx:568 aria-label: aria-label=\"组合画布高度\"",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:64 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:64 c08StampTemplate(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:66 mountStampContentEditor(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:70 typeDraft(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:587 <StampContentEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:107 <StampContentEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:105 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:88 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:28 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:32 typeDraft(…) (harness)",
+      "legalInput": "fixture: c08StampTemplate('c08-edit', C08_TILESET); mountStampContentEditor(template, onChange); vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1279,9 +1377,9 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampContentEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampContentEditor.tsx:79 export StampContentEditor — template: StampTemplate; tilesets: readonly TilesetDef[]; assetCatalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:77 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampContentEditor.tsx:79 export StampContentEditor — branches: packages/editor/src/ui/StampContentEditor.tsx:512 aria-label: aria-label=\"组合名称\"; packages/editor/src/ui/StampContentEditor.tsx:529 aria-label: aria-label=\"组合标签\"; packages/editor/src/ui/StampContentEditor.tsx:547 aria-label: aria-label=\"组合画布宽度\"; packages/editor/src/ui/StampContentEditor.tsx:568 aria-label: aria-label=\"组合画布高度\"",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:78 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:78 c08StampTemplate(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:79 mountStampContentEditor(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:587 <StampContentEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:107 <StampContentEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness)",
+      "legalInput": "fixture: c08StampTemplate('c08-mig', C08_TILESET, 0, { origin: 'migrated' }); mountStampContentEditor(template, () => undefined)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1303,9 +1401,9 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampTemplateDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampTemplateDialog.tsx:27 export StampTemplateDialog — map: ProjectMap; selection: CellsSelection; stamps: readonly StampTemplate[] (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:87 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampTemplateDialog.tsx:27 export StampTemplateDialog — const { map, selection, stamps, session, onClose, onSaved, initialMode, initialTargetId } = props; const compatible = stamps; const suggestedAnchor = defaultStampTemplateAnchor(selection) ?? { row: 0, col: 0 }; const sourceLayers = useMemo(",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:88 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:90 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:98 mountStampTemplateDialog(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:100 typeDraft(…) | production: packages/editor/src/ui/MapMode.tsx:3641 <StampTemplateDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:212 <StampTemplateDialog (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:105 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:88 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:28 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:32 typeDraft(…) (harness)",
+      "legalInput": "fixture: buildBlankProjectMap(2, 2, C08_TILESET); mountStampTemplateDialog({ map, selection })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1327,9 +1425,9 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampTemplateDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampTemplateDialog.tsx:27 export StampTemplateDialog — map: ProjectMap; selection: CellsSelection; stamps: readonly StampTemplate[] (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:107 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampTemplateDialog.tsx:27 export StampTemplateDialog — const { map, selection, stamps, session, onClose, onSaved, initialMode, initialTargetId } = props; const compatible = stamps; const suggestedAnchor = defaultStampTemplateAnchor(selection) ?? { row: 0, col: 0 }; const sourceLayers = useMemo(",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:108 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:110 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:118 mountStampTemplateDialog(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:120 typeDraft(…) | production: packages/editor/src/ui/MapMode.tsx:3641 <StampTemplateDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:212 <StampTemplateDialog (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:105 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:88 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:28 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:32 typeDraft(…) (harness)",
+      "legalInput": "fixture: buildBlankProjectMap(3, 2, C08_TILESET); mountStampTemplateDialog({ map, selection })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1351,9 +1449,9 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx:57 export loadStampPreviewAssets — assetBase: AssetBase,; assetReader: EditorAssetReader,; tileset: TilesetDef, (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:132 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx:265 export StampPreviewCanvas — const { template } = props; const canvasRef = useRef<HTMLCanvasElement>(null); const [hiddenLayerIds, setHiddenLayerIds] = useState<Set<string>>(() => new Set()); const [showCollision, setShowCollision] = useState(true)",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:133 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:133 c08StampTemplate(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:134 mountStampPreview(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:133 mountStampPreview(…) (harness)",
+      "legalInput": "fixture: c08StampTemplate('c08-prev', C08_TILESET); mountStampPreview(template)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1375,8 +1473,8 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx:57 export loadStampPreviewAssets — assetBase: AssetBase,; assetReader: EditorAssetReader,; tileset: TilesetDef,",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:141 loadStampPreviewAssets; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:144 loadStampPreviewAssets(…) | production: packages/editor/src/ui/StampContentEditor.tsx:178 loadStampPreviewAssets(…); packages/editor/src/ui/StampPreviewCanvas.tsx:57 loadStampPreviewAssets(…)",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx:57 export loadStampPreviewAssets — const [palette, frames] = await Promise.all([; cachedPalette(assetBase),; cachedFrames(assetReader, tileset, revision),; ])",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:141 loadStampPreviewAssets; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:142 openC08Session(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:144 loadStampPreviewAssets(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:75 openC08Session(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:57 openC08Session(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:97 openC08Session(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:139 openC08Session(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:203 openC08Session(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:54 openC08Session(…) (harness); packages/editor/src/ui/StampContentEditor.tsx:178 loadStampPreviewAssets(…) (production)",
       "legalInput": "calls: loadStampPreviewAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1399,9 +1497,9 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx:57 export loadStampPreviewAssets — assetBase: AssetBase,; assetReader: EditorAssetReader,; tileset: TilesetDef, (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:154 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx:265 export StampPreviewCanvas — const { template } = props; const canvasRef = useRef<HTMLCanvasElement>(null); const [hiddenLayerIds, setHiddenLayerIds] = useState<Set<string>>(() => new Set()); const [showCollision, setShowCollision] = useState(true)",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:156 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:156 c08StampTemplate(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:166 mountStampPreview(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:133 mountStampPreview(…) (harness)",
+      "legalInput": "fixture: c08StampTemplate('c08-broken', C08_TILESET); mountStampPreview(broken)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1423,40 +1521,42 @@
       "batch": "C08",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx:46 export StampLibraryTab — stamps: readonly StampTemplate[]; tilesets: readonly TilesetDef[]; assetCatalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:173 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx:46 export StampLibraryTab — const {; stamps,; tilesets,; assetCatalog,",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:174 mountStampLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:479 <StampLibraryTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:39 <StampLibraryTab (harness)",
+      "legalInput": "fixture: mountStampLibrary('c08-g07-10', ['c08-a', 'c08-b'], 'c08-b')",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "53b5beb9dfb6d34a9a2430f98823bce614b366f0",
+        "oldFile": "packages/editor/src/ui/StampLibraryTab.test.tsx",
+        "oldFullName": "搜索、标签和来源覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "expect(rows()).toHaveLength(1) expect(rows()[0]?.textContent).toContain('岩石') expect(host.querySelector('.stamp-library-row.selected')).toBeNull() @ :400 (key=\".stamp-library-row.selected\")",
         "dedupHeader": "排重：StampLibraryTab.test 16 项工作流；StampContentEditor.glm-leaf；StampTemplateDialog.glm-l；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C08-G07 Stamp 叶组件合同 StampLibraryTab focusObjectId 初始选中指定模板",
-      "oracle": "expect(mounted.host.querySelector('.stamp-library-row.selected')?.textContent).toContain(",
+      "oracle": "expect(mounted.host.querySelector('.stamp-library-row.selected')?.textContent).toContain( 'c08-b', )",
       "classification": "new-contract",
       "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
       "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-10 StampLibraryTab focusObjectId 初始选中指定模板",
       "testSourceLine": 173,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C08"
     },
     {
       "id": "C08-G03-01",
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:40 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — const {; tilesets,; assetCatalog,; assetReader,",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:41 mountTilesetTab(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:44 C08_TILESET | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-01')",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
+        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
+        "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "expect(rows()).toHaveLength(2) expect(host.querySelector('.tileset-library-row.selected')?.textContent).toContain('待删瓦片') }) @ :236 (key=\")?.textContent).toContain(\")",
         "dedupHeader": "排重：TilesetTab.test 引用删除/检查器 Tab；K04 真实上传链/替换竞态；U2c 重命名与深链——",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C08-G03 TilesetTab 库视图与预览 初始选中 starter 且 h1 含「起始地形」",
       "oracle": "expect(mounted.host.querySelector('h1')?.textContent).toContain('起始地形') | expect(mounted.host.querySelector('.tileset-readonly')?.textContent).toBe(C08_TILESET)",
@@ -1464,23 +1564,25 @@
       "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
       "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-01 初始选中 starter 且 h1 含「起始地形」",
       "testSourceLine": 40,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C08"
     },
     {
       "id": "C08-G03-02",
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:47 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — branches: packages/editor/src/ui/TilesetTab.tsx:86 aria-label: <ul className=\"tileset-frame-grid\" aria-label=\"瓦片帧预览\">; packages/editor/src/ui/TilesetTab.tsx:110 aria-label: <section className=\"tileset-preview-panel\" aria-label=\"瓦片预览\">; packages/editor/src/ui/TilesetTab.tsx:119 aria-label: <nav className=\"tileset-page-actions\" aria-label=\"瓦片预览分页\">; packages/editor/src/ui/TilesetTab.tsx:122 aria-label: aria-label=\"上一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:133 aria-label: aria-label=\"下一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:167 aria-label: aria-label={`瓦片 ${idx}，${frame.width}×${frame.height}`}",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:48 mountTilesetTab(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:49 appendAuthoredTileset(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:57 typeDraft(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:59 typeDraft(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:105 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:88 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:28 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:32 typeDraft(…) (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-02')",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
+        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
+        "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "expect(rows()).toHaveLength(1) expect(rows()[0]?.textContent).toContain('保留瓦片') expect(host.querySelector('.tileset-library-row.selected')).toBeNull() @ :222 (key=\".tileset-library-row\")",
         "dedupHeader": "排重：TilesetTab.test 引用删除/检查器 Tab；K04 真实上传链/替换竞态；U2c 重命名与深链——",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C08-G03 TilesetTab 库视图与预览 搜索瓦片集过滤列表且清空恢复",
       "oracle": "expect(mounted.host.querySelectorAll('.tileset-library-row').length).toBe(1) | expect(mounted.host.querySelectorAll('.tileset-library-row').length).toBeGreaterThan(1)",
@@ -1488,16 +1590,18 @@
       "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
       "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-02 搜索瓦片集过滤列表且清空恢复",
       "testSourceLine": 47,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C08"
     },
     {
       "id": "C08-G03-03",
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:63 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — branches: packages/editor/src/ui/TilesetTab.tsx:86 aria-label: <ul className=\"tileset-frame-grid\" aria-label=\"瓦片帧预览\">; packages/editor/src/ui/TilesetTab.tsx:110 aria-label: <section className=\"tileset-preview-panel\" aria-label=\"瓦片预览\">; packages/editor/src/ui/TilesetTab.tsx:119 aria-label: <nav className=\"tileset-page-actions\" aria-label=\"瓦片预览分页\">; packages/editor/src/ui/TilesetTab.tsx:122 aria-label: aria-label=\"上一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:133 aria-label: aria-label=\"下一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:167 aria-label: aria-label={`瓦片 ${idx}，${frame.width}×${frame.height}`}",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:64 mountTilesetTab(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:65 appendAuthoredTileset(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:75 pickCombobox(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:79 C08_TILESET | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness); packages/editor/src/__tests__/cursor-asset-r1/kit.ts:121 pickCombobox(…) (harness); packages/editor/src/__tests__/glm-m/kit.ts:126 pickCombobox(…) (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-03')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1519,16 +1623,16 @@
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:82 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — const {; tilesets,; assetCatalog,; assetReader,",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:83 mountTilesetTab(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:84 appendAuthoredTileset(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-04')",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
+        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
+        "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "expect(rows()).toHaveLength(2) expect(host.querySelector('.tileset-library-row.selected')?.textContent).toContain('待删瓦片') }) @ :236 (key=\")?.textContent).toContain(\")",
         "dedupHeader": "排重：TilesetTab.test 引用删除/检查器 Tab；K04 真实上传链/替换竞态；U2c 重命名与深链——",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C08-G03 TilesetTab 库视图与预览 点击第二行切换检查器标题到新名称",
       "oracle": "expect(mounted.host.querySelector('h1')?.textContent).toContain('第二套')",
@@ -1536,16 +1640,18 @@
       "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
       "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-04 点击第二行切换检查器标题到新名称",
       "testSourceLine": 82,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C08"
     },
     {
       "id": "C08-G03-05",
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:98 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — const {; tilesets,; assetCatalog,; assetReader,",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:99 mountTilesetTab(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-05')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1567,9 +1673,9 @@
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:104 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — branches: packages/editor/src/ui/TilesetTab.tsx:86 aria-label: <ul className=\"tileset-frame-grid\" aria-label=\"瓦片帧预览\">; packages/editor/src/ui/TilesetTab.tsx:110 aria-label: <section className=\"tileset-preview-panel\" aria-label=\"瓦片预览\">; packages/editor/src/ui/TilesetTab.tsx:119 aria-label: <nav className=\"tileset-page-actions\" aria-label=\"瓦片预览分页\">; packages/editor/src/ui/TilesetTab.tsx:122 aria-label: aria-label=\"上一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:133 aria-label: aria-label=\"下一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:167 aria-label: aria-label={`瓦片 ${idx}，${frame.width}×${frame.height}`}",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:105 mountTilesetTab(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-06')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1579,7 +1685,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G03 TilesetTab 库视图与预览 瓦片预览 panel aria-label 可达",
-      "oracle": "expect(mounted.host.querySelector('section[aria-label=\"瓦片预览\"]')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('section[aria-label=\"瓦片预览\"]')).not",
       "classification": "new-contract",
       "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
       "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-06 瓦片预览 panel aria-label 可达",
@@ -1591,9 +1697,9 @@
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:110 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — branches: packages/editor/src/ui/TilesetTab.tsx:86 aria-label: <ul className=\"tileset-frame-grid\" aria-label=\"瓦片帧预览\">; packages/editor/src/ui/TilesetTab.tsx:110 aria-label: <section className=\"tileset-preview-panel\" aria-label=\"瓦片预览\">; packages/editor/src/ui/TilesetTab.tsx:119 aria-label: <nav className=\"tileset-page-actions\" aria-label=\"瓦片预览分页\">; packages/editor/src/ui/TilesetTab.tsx:122 aria-label: aria-label=\"上一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:133 aria-label: aria-label=\"下一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:167 aria-label: aria-label={`瓦片 ${idx}，${frame.width}×${frame.height}`}",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:111 mountTilesetTab(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:113 typeDraft(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:105 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:88 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:28 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:32 typeDraft(…) (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-07')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1615,9 +1721,9 @@
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:119 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — branches: packages/editor/src/ui/TilesetTab.tsx:86 aria-label: <ul className=\"tileset-frame-grid\" aria-label=\"瓦片帧预览\">; packages/editor/src/ui/TilesetTab.tsx:110 aria-label: <section className=\"tileset-preview-panel\" aria-label=\"瓦片预览\">; packages/editor/src/ui/TilesetTab.tsx:119 aria-label: <nav className=\"tileset-page-actions\" aria-label=\"瓦片预览分页\">; packages/editor/src/ui/TilesetTab.tsx:122 aria-label: aria-label=\"上一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:133 aria-label: aria-label=\"下一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:167 aria-label: aria-label={`瓦片 ${idx}，${frame.width}×${frame.height}`}",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:120 mountTilesetTab(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:123 typeDraft(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:105 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:88 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:28 typeDraft(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:32 typeDraft(…) (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-08')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1639,9 +1745,9 @@
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:131 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — branches: packages/editor/src/ui/TilesetTab.tsx:86 aria-label: <ul className=\"tileset-frame-grid\" aria-label=\"瓦片帧预览\">; packages/editor/src/ui/TilesetTab.tsx:110 aria-label: <section className=\"tileset-preview-panel\" aria-label=\"瓦片预览\">; packages/editor/src/ui/TilesetTab.tsx:119 aria-label: <nav className=\"tileset-page-actions\" aria-label=\"瓦片预览分页\">; packages/editor/src/ui/TilesetTab.tsx:122 aria-label: aria-label=\"上一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:133 aria-label: aria-label=\"下一页瓦片\"; packages/editor/src/ui/TilesetTab.tsx:167 aria-label: aria-label={`瓦片 ${idx}，${frame.width}×${frame.height}`}",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:132 mountTilesetTab(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-09')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1651,7 +1757,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C08-G03 TilesetTab 库视图与预览 瓦片集列表 fieldset aria-label 可达",
-      "oracle": "expect(mounted.host.querySelector('fieldset[aria-label=\"瓦片集列表\"]')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('fieldset[aria-label=\"瓦片集列表\"]')).not",
       "classification": "new-contract",
       "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
       "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-09 瓦片集列表 fieldset aria-label 可达",
@@ -1663,9 +1769,9 @@
       "batch": "C08",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
-      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — tilesets: TilesetDef[]; assetCatalog: AssetCatalogV1; assetReader: EditorAssetReader (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:136 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx:182 export TilesetTab — const {; tilesets,; assetCatalog,; assetReader,",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:137 mountTilesetTab(…) | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production); packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness)",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-10')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",

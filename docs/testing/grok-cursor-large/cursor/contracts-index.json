@@ -1,67 +1,67 @@
 {
   "total": 717,
-  "existingProof": 9,
-  "netNewEstimate": 708,
+  "existingProof": 13,
+  "netNewEstimate": 704,
   "shards": [
     {
       "batch": "C01",
       "path": "contracts/C01.json",
       "count": 70,
-      "bytes": 123164
+      "bytes": 155250
     },
     {
       "batch": "C02",
       "path": "contracts/C02.json",
       "count": 71,
-      "bytes": 141288
+      "bytes": 212265
     },
     {
       "batch": "C03",
       "path": "contracts/C03.json",
       "count": 70,
-      "bytes": 128457
+      "bytes": 215023
     },
     {
       "batch": "C04",
       "path": "contracts/C04.json",
       "count": 70,
-      "bytes": 118381
+      "bytes": 133353
     },
     {
       "batch": "C05",
       "path": "contracts/C05.json",
       "count": 71,
-      "bytes": 140481
+      "bytes": 177611
     },
     {
       "batch": "C06",
       "path": "contracts/C06.json",
       "count": 80,
-      "bytes": 127739
+      "bytes": 176374
     },
     {
       "batch": "C07",
       "path": "contracts/C07.json",
       "count": 70,
-      "bytes": 124070
+      "bytes": 142440
     },
     {
       "batch": "C08",
       "path": "contracts/C08.json",
       "count": 70,
-      "bytes": 128583
+      "bytes": 153358
     },
     {
       "batch": "C09",
       "path": "contracts/C09.json",
       "count": 70,
-      "bytes": 128440
+      "bytes": 160136
     },
     {
       "batch": "C10",
       "path": "contracts/C10.json",
       "count": 75,
-      "bytes": 124371
+      "bytes": 152810
     }
   ],
   "idToShard": {

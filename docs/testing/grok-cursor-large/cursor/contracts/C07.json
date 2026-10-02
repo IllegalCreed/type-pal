@@ -7,9 +7,9 @@
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:37 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:21 encodeFrameAnimationRequest — :21 colorTreatment: 'preserve' | 'project-standard'; :36 return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer; :45 return new Uint8Array(await new Response(output).arrayBuffer())",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:36 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
+      "legalInput": "fixtures: encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 33, colorTreatment: 'preserve', frames: [ { rgba: rgba(1, 0, 0) }, { rgba: rgba(0, 1, 0), durationMs: 50 }, { rgba: rgba(0, 0, 1) }, ; new Uint8Array(rgba(0, 1, 0)); encoded=await encodeFrameAnimationRequest({; parsed=parseFrameSequence(encoded)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -24,23 +24,25 @@
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index",
       "testSourceLine": 36,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-02",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:55 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:55 encodeFrameAnimationRequest — :55 if (!source) throw new Error(`保存帧 ${frameIndex}: 缺旧动画来源`); :56 if (; :61 throw new Error(`保存帧来源索引 ${frameIndex} 越界`)",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:54 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
+      "legalInput": "fixtures: encoded=await encodeFrameAnimationRequest({",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "a81dc140bab5e589a73e160a1e665c6c6c1c66e9",
+        "oldFile": "packages/editor/src/core/frame-animation-codec.test.ts",
+        "oldFullName": "unknown-old-fullName",
+        "oldMatcher": "expect(reopened.index.defaultFrameMs).toBe(50) expect(reopened.index.frames[1]?.durationMs).toBe(75) expect(reopened.index.colorTreatment).toBe('project-standard') @ :66 (key=\"'project-standard'\")",
         "dedupHeader": "排重：codec.test/tpfs.test/worker.test 已证重排往返与块缓存；C04 已证 UI 保存链。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C07 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C07-G03 合成 rgba 编码 colorTreatment project-standard 写入 index",
       "oracle": "expect(parseFrameSequence(encoded).index.colorTreatment).toBe('project-standard')",
@@ -48,16 +50,18 @@
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-02 colorTreatment project-standard 写入 index",
       "testSourceLine": 54,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C07"
     },
     {
       "id": "C07-G03-03",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:66 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:55 encodeFrameAnimationRequest — :55 if (!source) throw new Error(`保存帧 ${frameIndex}: 缺旧动画来源`); :56 if (; :61 throw new Error(`保存帧来源索引 ${frameIndex} 越界`)",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:65 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
+      "legalInput": "fixtures: encoded=await encodeFrameAnimationRequest({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -72,16 +76,18 @@
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-03 单帧最小合成：TPFS 魔数与宽高",
       "testSourceLine": 65,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-04",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:79 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:55 encodeFrameAnimationRequest — :55 if (!source) throw new Error(`保存帧 ${frameIndex}: 缺旧动画来源`); :21 colorTreatment: 'preserve' | 'project-standard'; :36 return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:77 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
+      "legalInput": "fixtures: encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 40, colorTreatment: 'preserve', frames: [{ sourceFrame: 0 }], })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -91,21 +97,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G03 合成 rgba 编码 缺旧源 sourceFrame 拒绝（合成边界）",
-      "oracle": "await expect(",
+      "oracle": "expect( encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 40, colorTreatment: 'preserve', frames: [{ sourceFrame: 0 }], }), ).rejects",
       "classification": "new-contract",
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）",
       "testSourceLine": 77,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-05",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:90 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:98 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:55 encodeFrameAnimationRequest — :55 if (!source) throw new Error(`保存帧 ${frameIndex}: 缺旧动画来源`); :56 if (; :61 throw new Error(`保存帧来源索引 ${frameIndex} 越界`)",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:89 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
+      "legalInput": "fixtures: source=await encodeFrameAnimationRequest({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -115,21 +123,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G03 合成 rgba 编码 越界 sourceFrame 带小数索引拒绝",
-      "oracle": "await expect(",
+      "oracle": "expect( encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 40, colorTreatment: 'preserve', source: source.slice().buffer, frames: [{ sourceFrame: 1.2 }], }), ).rejects",
       "classification": "new-contract",
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-05 越界 sourceFrame 带小数索引拒绝",
       "testSourceLine": 89,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-06",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:110 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:117 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:21 encodeFrameAnimationRequest — :21 colorTreatment: 'preserve' | 'project-standard'; :36 return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer; :45 return new Uint8Array(await new Response(output).arrayBuffer())",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:109 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
+      "legalInput": "fixtures: encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 40, colorTreatment: 'preserve', frames: [{ rgba: rgba(4, 0, 0) }, { rgba: rgba(0, 4, 0) }], }); encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 40, colorTreatment: 'preserve', source: source.slice().buffer, frames: [{ sourceFrame: 1 }, { rgba: rgba(0, 0, 5) }], }); new Uint8Array(rgba(0, 0, 5)); source=await encodeFrameAnimationRequest({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -144,16 +154,18 @@
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原",
       "testSourceLine": 109,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-07",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:137 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:138 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:55 encodeFrameAnimationRequest — :55 if (!source) throw new Error(`保存帧 ${frameIndex}: 缺旧动画来源`); :56 if (; :61 throw new Error(`保存帧来源索引 ${frameIndex} 越界`)",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:129 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: a=await encodeFrameAnimationRequest(request); b=await encodeFrameAnimationRequest(request)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -168,16 +180,18 @@
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致",
       "testSourceLine": 129,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-08",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:103 export quantizeFrameAnimationRequest — request: FrameAnimationQuantizeRequest,; ): ArrayBuffer[] {; return request.frames.map((frame) => {",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:147 quantizeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.worker.ts:36 quantizeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:55 quantizeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:106 quantizeFrameAnimationRequest — :106 return request.frames.map((frame) => {; :114 return rgba.buffer.slice(rgba.byteOffset, rgba.byteOffset + rgba.byteLength) as ArrayBuffer",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:142 | production: packages/editor/src/core/frame-animation-codec.worker.ts:36 quantizeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:55 quantizeFrameAnimationRequest(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: f0=new Uint8Array([255, 0, 0, 255, 255, 0, 0, 255]); f1=new Uint8Array([0, 0, 255, 255, 0, 0, 255, 255]); snap0=f0.slice(); snap1=f1.slice()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -187,21 +201,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G03 合成 rgba 编码 quantize 两帧输出互异且输入 buffer 不被改写",
-      "oracle": "expect(new Uint8Array(out[0]!)).toEqual(snap0) | expect(new Uint8Array(out[1]!)).toEqual(snap1) | expect(f0).toEqual(snap0) | expect(f1).toEqual(snap1) | expect(out[0]).not.toBe(out[1])",
+      "oracle": "expect(new Uint8Array(out[0]!)).toEqual(snap0) | expect(new Uint8Array(out[1]!)).toEqual(snap1) | expect(f0).toEqual(snap0) | expect(f1).toEqual(snap1) | expect(out[0]).not",
       "classification": "new-contract",
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写",
       "testSourceLine": 142,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-09",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:103 export quantizeFrameAnimationRequest — request: FrameAnimationQuantizeRequest,; ): ArrayBuffer[] {; return request.frames.map((frame) => {",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:166 quantizeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.worker.ts:36 quantizeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:55 quantizeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:106 quantizeFrameAnimationRequest — :106 return request.frames.map((frame) => {; :114 return rgba.buffer.slice(rgba.byteOffset, rgba.byteOffset + rgba.byteLength) as ArrayBuffer",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:164 | production: packages/editor/src/core/frame-animation-codec.worker.ts:36 quantizeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:55 quantizeFrameAnimationRequest(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: frame=new Uint8Array([250, 1, 1, 255, 250, 1, 1, 255]).buffer",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -216,16 +232,18 @@
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-09 quantize 输出改色不影响下一帧结果",
       "testSourceLine": 164,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G03-10",
       "batch": "C07",
       "group": "G03",
       "primarySource": "packages/editor/src/core/frame-animation-codec.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:49 export encodeFrameAnimationRequest — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:178 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:196 encodeFrameAnimationRequest(…) | production: packages/editor/src/core/frame-animation-codec.ts:49 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.ts:21 encodeFrameAnimationRequest — :21 colorTreatment: 'preserve' | 'project-standard'; :36 return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer; :44 : stream.pipeThrough(new DecompressionStream('deflate'))",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:177 | production: packages/editor/src/core/frame-animation-codec.worker.ts:43 encodeFrameAnimationRequest(…); packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationRequest(…)",
+      "legalInput": "fixtures: encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 40, colorTreatment: 'preserve', frames: Array.from({ length: 33 }, (_, index) => ({ rgba: rgba(index, 0, 0) })), }); encodeFrameAnimationRequest({ width: W, height: H, defaultFrameMs: 40, colorTreatment: 'preserve', source: source.slice().buffer, frames: [{ sourceFrame: 0 }, { sourceFrame: 32 }], }); source=await encodeFrameAnimationRequest({; Real=DecompressionStream",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -240,16 +258,18 @@
       "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO",
       "testSourceLine": 177,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-01",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:51 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :5 quantizeFrameAnimationRequest,; :16 kind: 'quantize'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:51 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: frame=new Uint8Array(4).fill(11).buffer; post=await nextPost()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -264,16 +284,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-01 quantize 单帧：id 回显且 transfer detach 原缓冲",
       "testSourceLine": 51,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-02",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:71 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :5 quantizeFrameAnimationRequest,; :16 kind: 'quantize'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:71 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: post=await nextPost()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -288,16 +310,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-02 quantize 双帧：transfer 两条",
       "testSourceLine": 71,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-03",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:88 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :5 quantizeFrameAnimationRequest,; :16 kind: 'quantize'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:88 | production: packages/editor/src/core/author-disk-baseline.ts:68 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:116 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:249 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:274 <ArrayBuffer",
+      "legalInput": "fixtures: post=await nextPost()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -312,16 +336,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-03 quantize 空色彩表：error 无 transfer",
       "testSourceLine": 88,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-04",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:99 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :2 encodeFrameAnimationRequest,; :11 kind: 'encode'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:99 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: post=await nextPost(); parsed=parseFrameSequence(new Uint8Array(post.message.bytes!))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -336,16 +362,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-04 encode 异步回 TPFS：bytes transfer detach",
       "testSourceLine": 99,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-05",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:119 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :2 encodeFrameAnimationRequest,; :11 kind: 'encode'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:119 | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixtures: post=await nextPost()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -360,16 +388,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-05 encode 缺源 sourceFrame：error 字符串",
       "testSourceLine": 119,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-06",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:136 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :2 encodeFrameAnimationRequest,; :11 kind: 'encode'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:136 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: post=await nextPost(); parsed=parseFrameSequence(new Uint8Array(post.message.bytes!))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -384,16 +414,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-06 encode 两 rgba 帧：durationMs 写入 index",
       "testSourceLine": 136,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-07",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:156 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :2 encodeFrameAnimationRequest,; :11 kind: 'encode'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:156 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: pixel=new Uint8Array([3, 4, 5, 255]); post=await nextPost(); container=parseFrameSequence(new Uint8Array(post.message.bytes!))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -403,21 +435,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G05 worker handler encode 回帖 bytes 可解码首帧像素",
-      "oracle": "await expect(decodeFrameSequenceFrame(container, 0, inflate)).resolves.toEqual(pixel)",
+      "oracle": "expect(decodeFrameSequenceFrame(container, 0, inflate)).resolves",
       "classification": "new-contract",
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-07 encode 回帖 bytes 可解码首帧像素",
       "testSourceLine": 156,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-08",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:174 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :5 quantizeFrameAnimationRequest,; :16 kind: 'quantize'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:174 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: first=await nextPost(); second=await nextPost()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -432,16 +466,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-08 连续 quantize 消息 id 各自回显",
       "testSourceLine": 174,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-09",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:203 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :5 quantizeFrameAnimationRequest,; :16 kind: 'quantize'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:203 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: post=await nextPost()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -456,16 +492,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-09 quantize floyd-steinberg 单像素吸附",
       "testSourceLine": 203,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G05-10",
       "batch": "C07",
       "group": "G05",
       "primarySource": "packages/editor/src/core/frame-animation-codec.worker.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:222 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-codec.worker.ts:34 map — :34 if (kind === 'quantize') {; :2 encodeFrameAnimationRequest,; :11 kind: 'encode'",
+      "caller": "test: packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts:222 | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixtures: post=await nextPost()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -480,16 +518,18 @@
       "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
       "fullName": "C07-G05 worker handler C07-G05-10 encode 失败回帖不含 bytes 字段",
       "testSourceLine": 222,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-01",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:24 export decodeFrameImage — assertFrameImageFile(file); const bitmap = await createImageBitmap(file); try {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:43 decodeFrameImage; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:46 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:32 decodeFrameImage — :32 if (!context) throw new Error(`${file.name}: 无法创建 2D 画布`); :36 return {",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:43 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: decodeFrameImage(file) expect(frame).toMatchObject({ name: 'a.png', width: 3, height: 2 }) expect(frame.rgba.slice(0, 8)).toEqual(new Uint8Array(rgba.slice(0, 8))) expect(decodePor; rgba=solidRgba(3, 2, [10, 20, 30, 255]); file=pngFileOf('a.png', pngRgba(3, 2, rgba)); frame=await decodeFrameImage(file)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -504,16 +544,18 @@
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-01 decodeFrameImage 真实像素与尺寸来自合成 PNG",
       "testSourceLine": 43,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-02",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:24 export decodeFrameImage — assertFrameImageFile(file); const bitmap = await createImageBitmap(file); try {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:55 decodeFrameImage(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:58 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:32 decodeFrameImage — :32 if (!context) throw new Error(`${file.name}: 无法创建 2D 画布`); :36 return {",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:53 | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:63 pngRgba(…) (harness); packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts:164 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:129 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:82 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:110 solidRgba(…) (harness)",
+      "legalInput": "fixtures: decodeFrameImage(file) const before = frame.rgba[0] frame.rgba[0] = 99 const again = await decodeFrameImage(file) expect(again.rgba[0]).toBe(before) }); file=pngFileOf('b.png', pngRgba(1, 1, solidRgba(1, 1, [1, 2, 3, 255]))); frame=await decodeFrameImage(file); before=frame.rgba[0]",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -528,16 +570,18 @@
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-02 rgba 为独立副本：改返回值不改画布源",
       "testSourceLine": 53,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-03",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:47 export decodeFrameImages — files: readonly File[],; options: { preserveOrder?: boolean } = {},; ): Promise<DecodedImageFrame[]> {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:62 decodeFrameImages; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:65 decodeFrameImages(…) | production: packages/editor/src/core/frame-animation-images.ts:47 decodeFrameImages(…); packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:11 decodeFrameImages — :11 return [...files].sort((left, right) => natural.compare(left.name, right.name)); :15 if (; :21 throw new Error(`${file.name}: 只支持 PNG、JPEG 或 WebP`)",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:62 | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
+      "legalInput": "fixtures: decodeFrameImages([mk('f10.png', 1), mk('f2.png', 2), mk('f1.png', 3)]) expect(frames.map((frame) => frame.name)).toEqual(['f1.png', 'f2.png', 'f10.png']) expect(frames[0]!.rgba[0]; mk=(name: string, r: number) =>; frames=await decodeFrameImages([mk('f10.png', 1), mk('f2.png', 2), mk('f1.png', 3)])",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -552,16 +596,18 @@
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-03 decodeFrameImages 自然排序后批量解码",
       "testSourceLine": 62,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-04",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:47 export decodeFrameImages — files: readonly File[],; options: { preserveOrder?: boolean } = {},; ): Promise<DecodedImageFrame[]> {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:74 decodeFrameImages(…) | production: packages/editor/src/core/frame-animation-images.ts:47 decodeFrameImages(…); packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:11 decodeFrameImages — :11 return [...files].sort((left, right) => natural.compare(left.name, right.name)); :15 if (; :21 throw new Error(`${file.name}: 只支持 PNG、JPEG 或 WebP`)",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:72 | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
+      "legalInput": "fixtures: decodeFrameImages([mk('z.png'), mk('a.png')], { preserveOrder: true }) expect(frames.map((frame) => frame.name)).toEqual(['z.png', 'a.png']) }); mk=(name: string) => pngFileOf(name, pngRgba(1, 1, solidRgba(1, 1, [5, 5, 5, 255]))); frames=await decodeFrameImages([mk('z.png'), mk('a.png')], { preserveOrder: true })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -576,16 +622,18 @@
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-04 preserveOrder 保持输入顺序不排序",
       "testSourceLine": 72,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-05",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:47 export decodeFrameImages — files: readonly File[],; options: { preserveOrder?: boolean } = {},; ): Promise<DecodedImageFrame[]> {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:79 decodeFrameImages(…) | production: packages/editor/src/core/frame-animation-images.ts:47 decodeFrameImages(…); packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:52 decodeFrameImages — :52 if (ordered.length === 0) throw new Error('至少选择一张图片'); :11 return [...files].sort((left, right) => natural.compare(left.name, right.name)); :15 if (",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:78 | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
+      "legalInput": "fixtures: decodeFrameImages([])).rejects.toThrow('至少选择一张图片') })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -595,21 +643,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 空列表拒绝",
-      "oracle": "await expect(decodeFrameImages([])).rejects.toThrow('至少选择一张图片')",
+      "oracle": "expect(decodeFrameImages([])).rejects",
       "classification": "new-contract",
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-05 空列表拒绝",
       "testSourceLine": 78,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-06",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:47 export decodeFrameImages — files: readonly File[],; options: { preserveOrder?: boolean } = {},; ): Promise<DecodedImageFrame[]> {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:85 decodeFrameImages(…) | production: packages/editor/src/core/frame-animation-images.ts:47 decodeFrameImages(…); packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:11 decodeFrameImages — :11 return [...files].sort((left, right) => natural.compare(left.name, right.name)); :15 if (; :21 throw new Error(`${file.name}: 只支持 PNG、JPEG 或 WebP`)",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:82 | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…)",
+      "legalInput": "fixtures: decodeFrameImages([a, b])).rejects.toThrow(/尺寸/) expect(decodePort.closes).toBeGreaterThanOrEqual(1) }); a=pngFileOf('big.png', pngRgba(2, 2, solidRgba(2, 2, [1, 1, 1, 255]))); b=pngFileOf('small.png', pngRgba(1, 1, solidRgba(1, 1, [1, 1, 1, 255])))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -619,21 +669,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 尺寸不一致：第二帧拒绝且首帧已 close",
-      "oracle": "await expect(decodeFrameImages([a, b])).rejects.toThrow(/尺寸/) | expect(decodePort.closes).toBeGreaterThanOrEqual(1)",
+      "oracle": "expect(decodeFrameImages([a, b])).rejects | expect(decodePort.closes).toBeGreaterThanOrEqual(1)",
       "classification": "new-contract",
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-06 尺寸不一致：第二帧拒绝且首帧已 close",
       "testSourceLine": 82,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-07",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:14 export assertFrameImageFile — if (",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:89 assertFrameImageFile; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:91 assertFrameImageFile(…) | production: packages/editor/src/core/frame-animation-images.ts:25 assertFrameImageFile(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:15 assertFrameImageFile — :15 if (; :21 throw new Error(`${file.name}: 只支持 PNG、JPEG 或 WebP`)",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:89 | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:63 pngRgba(…) (harness); packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts:164 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:129 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:82 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:110 solidRgba(…) (harness)",
+      "legalInput": "fixtures: file=pngFileOf('X.PNG', pngRgba(1, 1, solidRgba(1, 1, [0, 0, 0, 255])))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -643,21 +695,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 assertFrameImageFile：扩展名 .PNG 无 MIME 仍过门",
-      "oracle": "expect(() => assertFrameImageFile(file)).not.toThrow()",
+      "oracle": "expect(() => assertFrameImageFile(file)).not",
       "classification": "new-contract",
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-07 assertFrameImageFile：扩展名 .PNG 无 MIME 仍过门",
       "testSourceLine": 89,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-08",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:14 export assertFrameImageFile — if (; packages/editor/src/core/frame-animation-images.ts:24 export decodeFrameImage — assertFrameImageFile(file); const bitmap = await createImageBitmap(file); try {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:94 assertFrameImageFile; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:100 assertFrameImageFile(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:101 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:25 assertFrameImageFile(…); packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:32 decodeFrameImage — :32 if (!context) throw new Error(`${file.name}: 无法创建 2D 画布`); :36 return {",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:94 | production: packages/editor/src/core/author-disk-baseline.ts:68 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:116 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:249 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:274 <ArrayBuffer",
+      "legalInput": "fixtures: decodeFrameImage(bad)).rejects.toThrow('只支持') expect(decodePort.entries).toHaveLength(0) })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -667,21 +721,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 assertFrameImageFile：gif 拒绝且不解码",
-      "oracle": "expect(() => assertFrameImageFile(bad)).toThrow('x.gif') | await expect(decodeFrameImage(bad)).rejects.toThrow('只支持') | expect(decodePort.entries).toHaveLength(0)",
+      "oracle": "expect(() => assertFrameImageFile(bad)).toThrow('x.gif') | expect(decodeFrameImage(bad)).rejects | expect(decodePort.entries).toHaveLength(0)",
       "classification": "new-contract",
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-08 assertFrameImageFile：gif 拒绝且不解码",
       "testSourceLine": 94,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-09",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:10 export sortFrameImageFiles — return [...files].sort((left, right) => natural.compare(left.name, right.name))",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:105 sortFrameImageFiles; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:108 sortFrameImageFiles(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:110 sortFrameImageFiles(…) | production: packages/editor/src/core/frame-animation-images.ts:51 sortFrameImageFiles(…); packages/editor/src/ui/CutsceneTab.tsx:504 sortFrameImageFiles(…); packages/editor/src/ui/CutsceneTab.tsx:538 sortFrameImageFiles(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:11 sortFrameImageFiles — :11 return [...files].sort((left, right) => natural.compare(left.name, right.name)); :15 if (; :21 throw new Error(`${file.name}: 只支持 PNG、JPEG 或 WebP`)",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:105 | production: packages/editor/src/ui/CutsceneTab.tsx:504 sortFrameImageFiles(…); packages/editor/src/ui/CutsceneTab.tsx:538 sortFrameImageFiles(…)",
+      "legalInput": "fixtures: sortFrameImageFiles(input) expect(input).toEqual(copy) expect(sortFrameImageFiles(input).map((file) => file.name)).toEqual(['2.png', '10.png']) }); input=[{ name: '10.png' } as File, { name: '2.png' } as File]; copy=[...input]",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -696,16 +752,18 @@
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-09 sortFrameImageFiles 不 mutate 原数组",
       "testSourceLine": 105,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G02-10",
       "batch": "C07",
       "group": "G02",
       "primarySource": "packages/editor/src/core/frame-animation-images.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:24 export decodeFrameImage — assertFrameImageFile(file); const bitmap = await createImageBitmap(file); try {",
-      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:115 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-images.ts:32 decodeFrameImage — :32 if (!context) throw new Error(`${file.name}: 无法创建 2D 画布`); :36 return {",
+      "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:113 | production: packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:38 Uint8Array(…); packages/editor/src/core/command-asset-record.ts:49 Uint8Array(…)",
+      "legalInput": "fixtures: decodeFrameImage(broken)).rejects.toThrow() expect(decodePort.liveBitmaps()).toBe(0) }); broken=pngFileOf('bad.png', new Uint8Array([0, 1, 2, 3]))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -715,21 +773,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 损坏 PNG：解码失败且 live bitmap 归零",
-      "oracle": "await expect(decodeFrameImage(broken)).rejects.toThrow() | expect(decodePort.liveBitmaps()).toBe(0)",
+      "oracle": "expect(decodeFrameImage(broken)).rejects | expect(decodePort.liveBitmaps()).toBe(0)",
       "classification": "new-contract",
       "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
       "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-10 损坏 PNG：解码失败且 live bitmap 归零",
       "testSourceLine": 113,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-01",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request)",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:78 encodeFrameAnimationInWorker(…); packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:89 encodeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:21 C07 — :21 if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); :26 return new Promise<Uint8Array>((resolve, reject) => {; :32 if (event.data.id !== id) return",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:76 | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: new Uint8Array(4); new Uint8Array([1]); new Uint8Array([2]); p1=encodeFrameAnimationInWorker({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -744,16 +804,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-01 连续两次 encode 分配递增 id",
       "testSourceLine": 76,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-02",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request)",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:106 encodeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationInWorker — :21 if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); :26 return new Promise<Uint8Array>((resolve, reject) => {; :32 if (event.data.id !== id) return",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:103 | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: source=new Uint8Array([9, 9]).buffer; worker=FakeWorker.instances[0]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -768,16 +830,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-02 仅 sourceFrame 时 transfer 不含 rgba",
       "testSourceLine": 103,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-03",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request)",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:131 encodeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationInWorker — :21 if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); :26 return new Promise<Uint8Array>((resolve, reject) => {; :32 if (event.data.id !== id) return",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:119 | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: rgba=new Uint8Array(4).fill(5); snap=rgba.slice()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -792,16 +856,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-03 postMessage 后调用者 source/rgba 仍可读",
       "testSourceLine": 119,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-04",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request)",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:138 encodeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:21 C07 — :21 if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); :26 return new Promise<Uint8Array>((resolve, reject) => {; :32 if (event.data.id !== id) return",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:136 | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: new Uint8Array(4); new Uint8Array(3); promise=encodeFrameAnimationInWorker({; worker=FakeWorker.instances[0]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -816,16 +882,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-04 成功应答 terminate 恰一次",
       "testSourceLine": 136,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-05",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request)",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:154 encodeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:21 C07 — :21 if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); :26 return new Promise<Uint8Array>((resolve, reject) => {; :32 if (event.data.id !== id) return",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:151 | production: packages/editor/src/core/author-disk-baseline.ts:68 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:116 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:249 <ArrayBuffer; packages/editor/src/core/author-save-journal.ts:274 <ArrayBuffer",
+      "legalInput": "fixtures: new Uint8Array(4); new ArrayBuffer(1); promise=encodeFrameAnimationInWorker({; worker=FakeWorker.instances[0]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -840,16 +908,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-05 错误 id 应答被忽略",
       "testSourceLine": 151,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-06",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request)",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:173 encodeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:34 C07 — :34 if (event.data.error) reject(new Error(event.data.error)); :69 if (event.data.error) reject(new Error(event.data.error)); :12 error?: string",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:171 | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: new Uint8Array(4); promise=encodeFrameAnimationInWorker({; worker=FakeWorker.instances[0]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -859,21 +929,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G04 encodeFrameAnimationInWorker error 字符串拒绝并 terminate",
-      "oracle": "await expect(promise).rejects.toThrow('编码失败') | expect(worker.terminated).toBe(1)",
+      "oracle": "expect(promise).rejects | expect(worker.terminated).toBe(1)",
       "classification": "new-contract",
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-06 error 字符串拒绝并 terminate",
       "testSourceLine": 171,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-07",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request)",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:188 encodeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationInWorker — :21 if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); :26 return new Promise<Uint8Array>((resolve, reject) => {; :32 if (event.data.id !== id) return",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:186 | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: promise=encodeFrameAnimationInWorker({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -883,21 +955,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G04 encodeFrameAnimationInWorker onerror 透传并 terminate",
-      "oracle": "await expect(promise).rejects.toThrow('worker crash')",
+      "oracle": "expect(promise).rejects",
       "classification": "new-contract",
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-07 onerror 透传并 terminate",
       "testSourceLine": 186,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-08",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:18 export encodeFrameAnimationInWorker — request: FrameAnimationEncodeRequest,; ): Promise<Uint8Array> {; if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); packages/editor/src/core/frame-animation-worker-client.ts:50 export quantizeFrameAnimationInWorker — request: FrameAnimationQuantizeRequest,; ): Promise<Uint8Array[]> {; if (typeof Worker === 'undefined')",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:201 encodeFrameAnimationInWorker(…); packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:212 quantizeFrameAnimationInWorker | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/ui/CutsceneTab.tsx:479 quantizeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:607 quantizeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:21 encodeFrameAnimationInWorker — :21 if (typeof Worker === 'undefined') return encodeFrameAnimationRequest(request); :26 return new Promise<Uint8Array>((resolve, reject) => {; :32 if (event.data.id !== id) return",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:199 | production: packages/editor/src/ui/CutsceneTab.tsx:491 encodeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:654 encodeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: encoded=await encodeFrameAnimationInWorker({",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -912,16 +986,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-08 无 Worker 降级 encode 产出可解析 TPFS",
       "testSourceLine": 199,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-09",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:50 export quantizeFrameAnimationInWorker — request: FrameAnimationQuantizeRequest,; ): Promise<Uint8Array[]> {; if (typeof Worker === 'undefined')",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:217 quantizeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:479 quantizeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:607 quantizeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:53 quantizeFrameAnimationInWorker — :53 if (typeof Worker === 'undefined'); :54 return Promise.resolve(; :61 return new Promise<Uint8Array[]>((resolve, reject) => {",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:213 | production: packages/editor/src/ui/CutsceneTab.tsx:479 quantizeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:607 quantizeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: f0=new Uint8Array(4).fill(1).buffer; f1=new Uint8Array(4).fill(2).buffer; worker=FakeWorker.instances[0]!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -936,16 +1012,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 quantizeFrameAnimationInWorker C07-G04-09 两帧 transfer 长度为 2",
       "testSourceLine": 213,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G04-10",
       "batch": "C07",
       "group": "G04",
       "primarySource": "packages/editor/src/core/frame-animation-worker-client.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:50 export quantizeFrameAnimationInWorker — request: FrameAnimationQuantizeRequest,; ): Promise<Uint8Array[]> {; if (typeof Worker === 'undefined')",
-      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:235 quantizeFrameAnimationInWorker(…) | production: packages/editor/src/ui/CutsceneTab.tsx:479 quantizeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:607 quantizeFrameAnimationInWorker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-worker-client.ts:53 quantizeFrameAnimationInWorker — :53 if (typeof Worker === 'undefined'); :54 return Promise.resolve(; :61 return new Promise<Uint8Array[]>((resolve, reject) => {",
+      "caller": "test: packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts:232 | production: packages/editor/src/ui/CutsceneTab.tsx:479 quantizeFrameAnimationInWorker(…); packages/editor/src/ui/FrameAnimationEditor.tsx:607 quantizeFrameAnimationInWorker(…); packages/editor/src/core/binary-signature.ts:5 Uint8Array(…); packages/editor/src/core/clone.ts:43 Uint8Array(…)",
+      "legalInput": "fixtures: frame=new Uint8Array([255, 10, 10, 255]).buffer",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -960,16 +1038,18 @@
       "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
       "fullName": "C07-G04 quantizeFrameAnimationInWorker C07-G04-10 无 Worker 降级 quantize 返回 Uint8Array 副本",
       "testSourceLine": 232,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G01-01",
       "batch": "C07",
       "group": "G01",
       "primarySource": "packages/editor/src/core/static-image.ts",
-      "sourceCondition": "packages/editor/src/core/static-image.ts:3 export STATIC_IMAGE_KINDS — export const STATIC_IMAGE_KINDS = [ 'portrait', 'face', 'item-icon',",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:27 STATIC_IMAGE_KINDS; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:28 STATIC_IMAGE_KINDS | production: packages/editor/src/ui/ImageTab.tsx:429 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:471 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:585 STATIC_IMAGE_KINDS",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/static-image.ts:3 STATIC_IMAGE_KINDS — export const STATIC_IMAGE_KINDS = [",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:27 STATIC_IMAGE_KINDS | production: packages/editor/src/core/static-image.ts consumers via kind guards",
+      "legalInput": "fixtures: STATIC_IMAGE_KINDS constant (no runtime args); expect exact ['portrait','face','item-icon','battle-background']",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -984,16 +1064,18 @@
       "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
       "fullName": "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
       "testSourceLine": 27,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C07-G01-01 constant membership"
     },
     {
       "id": "C07-G01-02",
       "batch": "C07",
       "group": "G01",
       "primarySource": "packages/editor/src/core/static-image.ts",
-      "sourceCondition": "packages/editor/src/core/static-image.ts:3 export STATIC_IMAGE_KINDS — export const STATIC_IMAGE_KINDS = [ 'portrait', 'face', 'item-icon',",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:32 STATIC_IMAGE_KINDS; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:34 STATIC_IMAGE_KINDS | production: packages/editor/src/ui/ImageTab.tsx:429 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:471 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:585 STATIC_IMAGE_KINDS",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/static-image.ts:3 export STATIC_IMAGE_KINDS — :4 'portrait',; :5 'face',",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:31 | production: packages/editor/src/core/actor-commands.ts:83 Set(…); packages/editor/src/core/author-disk-baseline.ts:199 Set(…); packages/editor/src/core/author-save-journal.ts:381 Set(…); packages/editor/src/core/author-save-plan.ts:170 Set(…)",
+      "legalInput": "fixtures: set=new Set(STATIC_IMAGE_KINDS)",
       "oldAssertion": {
         "oldTestSha": "72d83bdd3d0f988d5016d59969d3ea7ddf7e89d5",
         "oldFile": "packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts",
@@ -1008,7 +1090,9 @@
       "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
       "fullName": "C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind",
       "testSourceLine": 31,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G01-03",
@@ -1016,8 +1100,8 @@
       "group": "G01",
       "primarySource": "packages/editor/src/ui/ImageAssetPicker.tsx",
       "sourceCondition": "packages/editor/src/ui/ImageAssetPicker.tsx:14 export imageAssets — return Object.entries(catalog.assets)",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:40 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:46 imageAssets(…) | production: packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…); packages/editor/src/ui/ItemTab.tsx:573 imageAssets(…); packages/editor/src/ui/PortraitEditor.tsx:125 imageAssets(…)",
-      "legalInput": "catalogOf typed AssetCatalogV1 fixture; fixture: catalogOf([ ['portrait.a', 'portrait'], ['face.b', 'face'], ['item-icon.c', 'item-icon'], ]); calls: imageAssets(",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:40 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:46 imageAssets(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production); packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…) (production); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…) (production)",
+      "legalInput": "fixture: catalogOf([ ['portrait.a', 'portrait'], ['face.b', 'face'], ['item-icon.c', 'item-icon'], ]); calls: imageAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1040,8 +1124,8 @@
       "group": "G01",
       "primarySource": "packages/editor/src/ui/ImageAssetPicker.tsx",
       "sourceCondition": "packages/editor/src/ui/ImageAssetPicker.tsx:14 export imageAssets — return Object.entries(catalog.assets)",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:49 imageAssets; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:55 imageAssets(…) | production: packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…); packages/editor/src/ui/ItemTab.tsx:573 imageAssets(…); packages/editor/src/ui/PortraitEditor.tsx:125 imageAssets(…)",
-      "legalInput": "catalogOf typed AssetCatalogV1 fixture; fixture: catalogOf([ ['face.z', 'face'], ['face.a', 'face'], ['face.m', 'face'], ]); calls: imageAssets(",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:49 imageAssets; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:55 imageAssets(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production); packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…) (production); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…) (production)",
+      "legalInput": "fixture: catalogOf([ ['face.z', 'face'], ['face.a', 'face'], ['face.m', 'face'], ]); calls: imageAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1051,7 +1135,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G01 static-image 与 imageAssets imageAssets 按 AssetId 字典序排序",
-      "oracle": "expect(imageAssets(catalog, 'face').map((entry) => entry.id)).toEqual([",
+      "oracle": "expect(imageAssets(catalog, 'face').map((entry) => entry.id)).toEqual([ 'face.a', 'face.m', 'face.z', ])",
       "classification": "new-contract",
       "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
       "fullName": "C07-G01 static-image 与 imageAssets C07-G01-04 imageAssets 按 AssetId 字典序排序",
@@ -1064,7 +1148,7 @@
       "group": "G01",
       "primarySource": "packages/editor/src/ui/ImageAssetPicker.tsx",
       "sourceCondition": "packages/editor/src/ui/ImageAssetPicker.tsx:14 export imageAssets — return Object.entries(catalog.assets)",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:63 imageAssets(…) | production: packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…); packages/editor/src/ui/ItemTab.tsx:573 imageAssets(…); packages/editor/src/ui/PortraitEditor.tsx:125 imageAssets(…)",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:63 imageAssets(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production); packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…) (production); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…) (production)",
       "legalInput": "calls: imageAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1088,8 +1172,8 @@
       "group": "G01",
       "primarySource": "packages/editor/src/ui/ImageAssetPicker.tsx",
       "sourceCondition": "packages/editor/src/ui/ImageAssetPicker.tsx:14 export imageAssets — return Object.entries(catalog.assets); packages/editor/src/ui/ImageAssetPicker.tsx:21 export imageAssetLabel — return asset.record.label ? `${asset.record.label} (${asset.id})` : asset.id",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:66 imageAssetLabel; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:68 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:69 imageAssetLabel(…) | production: packages/editor/src/ui/ImageAssetPicker.tsx:194 imageAssetLabel(…); packages/editor/src/ui/ItemTab.tsx:576 imageAssetLabel(…); packages/editor/src/ui/ItemTab.tsx:641 imageAssetLabel(…); packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…); packages/editor/src/ui/ItemTab.tsx:573 imageAssets(…); packages/editor/src/ui/PortraitEditor.tsx:125 imageAssets(…)",
-      "legalInput": "catalogOf typed AssetCatalogV1 fixture; fixture: catalogOf([['portrait.hero', 'portrait', '主角']]); calls: imageAssets(",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:66 imageAssetLabel; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:68 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:69 imageAssetLabel(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production); packages/editor/src/ui/ImageAssetPicker.tsx:194 imageAssetLabel(…) (production); packages/editor/src/ui/ItemTab.tsx:576 imageAssetLabel(…) (production)",
+      "legalInput": "fixture: catalogOf([['portrait.hero', 'portrait', '主角']]); calls: imageAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1112,8 +1196,8 @@
       "group": "G01",
       "primarySource": "packages/editor/src/ui/ImageAssetPicker.tsx",
       "sourceCondition": "packages/editor/src/ui/ImageAssetPicker.tsx:14 export imageAssets — return Object.entries(catalog.assets); packages/editor/src/ui/ImageAssetPicker.tsx:21 export imageAssetLabel — return asset.record.label ? `${asset.record.label} (${asset.id})` : asset.id",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:72 imageAssetLabel; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:75 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:76 imageAssetLabel(…) | production: packages/editor/src/ui/ImageAssetPicker.tsx:194 imageAssetLabel(…); packages/editor/src/ui/ItemTab.tsx:576 imageAssetLabel(…); packages/editor/src/ui/ItemTab.tsx:641 imageAssetLabel(…); packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…); packages/editor/src/ui/ItemTab.tsx:573 imageAssets(…); packages/editor/src/ui/PortraitEditor.tsx:125 imageAssets(…)",
-      "legalInput": "catalogOf typed AssetCatalogV1 fixture; fixture: catalogOf([['face.raw', 'face', '']]); calls: imageAssets(",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:72 imageAssetLabel; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:75 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:76 imageAssetLabel(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production); packages/editor/src/ui/ImageAssetPicker.tsx:194 imageAssetLabel(…) (production); packages/editor/src/ui/ItemTab.tsx:576 imageAssetLabel(…) (production)",
+      "legalInput": "fixture: catalogOf([['face.raw', 'face', '']]); calls: imageAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1136,8 +1220,8 @@
       "group": "G01",
       "primarySource": "packages/editor/src/ui/ImageAssetPicker.tsx",
       "sourceCondition": "packages/editor/src/ui/ImageAssetPicker.tsx:14 export imageAssets — return Object.entries(catalog.assets)",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:84 imageAssets(…) | production: packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…); packages/editor/src/ui/ItemTab.tsx:573 imageAssets(…); packages/editor/src/ui/PortraitEditor.tsx:125 imageAssets(…)",
-      "legalInput": "catalogOf typed AssetCatalogV1 fixture; fixture: catalogOf([ ['battle-background.bg', 'battle-background'], ['portrait.p', 'portrait'], ]); calls: imageAssets(",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:84 imageAssets(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production); packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…) (production); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…) (production)",
+      "legalInput": "fixture: catalogOf([ ['battle-background.bg', 'battle-background'], ['portrait.p', 'portrait'], ]); calls: imageAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1147,7 +1231,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G01 static-image 与 imageAssets battle-background 过滤不含其它 kind",
-      "oracle": "expect(imageAssets(catalog, 'battle-background').map((entry) => entry.id)).toEqual([",
+      "oracle": "expect(imageAssets(catalog, 'battle-background').map((entry) => entry.id)).toEqual([ 'battle-background.bg', ])",
       "classification": "new-contract",
       "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
       "fullName": "C07-G01 static-image 与 imageAssets C07-G01-08 battle-background 过滤不含其它 kind",
@@ -1160,8 +1244,8 @@
       "group": "G01",
       "primarySource": "packages/editor/src/ui/ImageAssetPicker.tsx",
       "sourceCondition": "packages/editor/src/ui/ImageAssetPicker.tsx:14 export imageAssets — return Object.entries(catalog.assets)",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:94 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:95 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:96 imageAssets(…) | production: packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…); packages/editor/src/ui/ItemTab.tsx:573 imageAssets(…); packages/editor/src/ui/PortraitEditor.tsx:125 imageAssets(…)",
-      "legalInput": "catalogOf typed AssetCatalogV1 fixture; fixture: catalogOf([ ['face.one', 'face'], ['item-icon.two', 'item-icon'], ]); calls: imageAssets(",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:94 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:95 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:96 imageAssets(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production); packages/editor/src/ui/ImageAssetPicker.tsx:165 imageAssets(…) (production); packages/editor/src/ui/ImageTab.tsx:444 imageAssets(…) (production)",
+      "legalInput": "fixture: catalogOf([ ['face.one', 'face'], ['item-icon.two', 'item-icon'], ]); calls: imageAssets(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1183,9 +1267,9 @@
       "batch": "C07",
       "group": "G01",
       "primarySource": "packages/editor/src/core/static-image.ts",
-      "sourceCondition": "packages/editor/src/core/static-image.ts:3 export STATIC_IMAGE_KINDS — export const STATIC_IMAGE_KINDS = [ 'portrait', 'face', 'item-icon',",
-      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:99 STATIC_IMAGE_KINDS; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:102 STATIC_IMAGE_KINDS | production: packages/editor/src/ui/ImageTab.tsx:429 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:471 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:585 STATIC_IMAGE_KINDS",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/static-image.ts:3 export STATIC_IMAGE_KINDS — :4 'portrait',; :5 'face',",
+      "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:99 | production: packages/editor/src/ui/ImageTab.tsx:429 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:471 STATIC_IMAGE_KINDS; packages/editor/src/ui/ImageTab.tsx:585 STATIC_IMAGE_KINDS",
+      "legalInput": "fixtures: const forbidden: AssetKind[] = ['frame-animation', 'video', 'music']",
       "oldAssertion": {
         "oldTestSha": "72d83bdd3d0f988d5016d59969d3ea7ddf7e89d5",
         "oldFile": "packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts",
@@ -1200,7 +1284,9 @@
       "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
       "fullName": "C07-G01 static-image 与 imageAssets C07-G01-10 STATIC_IMAGE_KINDS 不含 frame-animation / video",
       "testSourceLine": 99,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; branch+fixture from test/product"
     },
     {
       "id": "C07-G06-01",
@@ -1208,8 +1294,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:74 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:76 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [face], focusObjectId: 'face.c07.a' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1232,8 +1318,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:82 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "calls: loadFilesIntoInput(",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:83 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:89 pngFileOf(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:89 pngRgba(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:89 solidRgba(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:92 loadFilesIntoInput(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:93 pollUntil(…) | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:63 pngRgba(…) (harness); packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts:164 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:129 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:82 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:110 solidRgba(…) (harness)",
+      "legalInput": "fixture: mountImageTab(legal); calls: loadFilesIntoInput(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1256,8 +1342,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:104 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:106 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:107 pollUntil(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait], focusObjectId: 'portrait.c07.meta' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1280,8 +1366,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:116 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:118 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [face] })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1304,8 +1390,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:135 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:137 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait], focusObjectId: 'portrait.c07.d', assetDiagnostics: [ { assetId: 'portrait.c07.d', code: 'missing-file', message: 'C07 诊断', title: 'C07 诊断标题', severity: 'warn', where: 'test', }, ",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1315,7 +1401,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G06 ImageTab 合成字节与 IO 诊断 Tab 只显示当前选中资源的 issue",
-      "oracle": "expect(mounted.host.textContent).toMatch(/1 个警告|警告/) | expect(mounted.host.textContent).not.toContain('隐藏')",
+      "oracle": "expect(mounted.host.textContent).toMatch(/1 个警告|警告/) | expect(mounted.host.textContent).not",
       "classification": "new-contract",
       "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
       "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-05 诊断 Tab 只显示当前选中资源的 issue",
@@ -1328,8 +1414,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:169 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:171 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait], focusObjectId: 'portrait.c07.ref' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1352,8 +1438,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:181 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:182 installImageDecodePort(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:184 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:185 pollUntil(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:186 unmountImageTab(…) | production: packages/editor/src/__tests__/cursor-asset-r1/image-tab-harness.tsx:140 unmountImageTab(…) (harness)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait], focusObjectId: 'portrait.c07.close' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1376,8 +1462,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:192 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:193 installImageDomPorts(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:195 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:196 pollUntil(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:197 unmountImageTab(…) | production: packages/editor/src/__tests__/cursor-asset-r1/image-tab-harness.tsx:140 unmountImageTab(…) (harness)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [a], focusObjectId: 'portrait.c07.a' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1400,8 +1486,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:202 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:203 installImageDecodePort(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:206 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:207 pollUntil(…); packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:215 pollUntil(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [a, b], focusObjectId: 'portrait.c07.a' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1424,8 +1510,8 @@
       "group": "G06",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:219 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx:221 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [face], focusObjectId: 'face.c07.label' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1435,7 +1521,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G06 ImageTab 合成字节与 IO face 资源 hero 标题来自 label",
-      "oracle": "expect(",
+      "oracle": "expect( mounted.host.querySelector('.image-workspace > .ds-object-hero .ds-object-hero__title') ?.textContent, ).toContain('战士脸')",
       "classification": "new-contract",
       "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
       "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-10 face 资源 hero 标题来自 label",
@@ -1448,8 +1534,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:77 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:80 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:81 inputByAriaLabel; packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:82 fillAndBlur(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 fillAndBlur(…) (harness)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [a, b] })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1472,8 +1558,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:87 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:90 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait, face], focusObjectId: 'portrait.c07.one', })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1496,8 +1582,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:98 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "calls: loadFilesIntoInput(",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:99 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:103 type; packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:104 loadFilesIntoInput(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:105 pollUntil(…) | production: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:231 loadFilesIntoInput(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/kit.ts:194 loadFilesIntoInput(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:18 loadFilesIntoInput(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts:216 loadFilesIntoInput(…) (harness); packages/editor/src/ui/__tests__/glm-ui-wave-kit.ts:135 loadFilesIntoInput(…) (harness)",
+      "legalInput": "fixture: mountImageTab(legal); calls: loadFilesIntoInput(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1520,8 +1606,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:109 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "calls: loadFilesIntoInput(",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:110 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:114 loadFilesIntoInput(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:115 pngFileOf(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:115 pngRgba(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:115 solidRgba(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:117 pollUntil(…) | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:63 pngRgba(…) (harness); packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts:164 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:129 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:82 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:110 solidRgba(…) (harness)",
+      "legalInput": "fixture: mountImageTab(legal); calls: loadFilesIntoInput(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1544,8 +1630,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:126 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "calls: loadFilesIntoInput(",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:127 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:130 loadFilesIntoInput(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:131 pngFileOf(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:131 pngRgba(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:131 solidRgba(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:133 pollUntil(…) | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:63 pngRgba(…) (harness); packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts:164 pngRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:129 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:82 solidRgba(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:110 solidRgba(…) (harness)",
+      "legalInput": "fixture: mountImageTab(legal); calls: loadFilesIntoInput(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1568,8 +1654,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:137 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:139 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait], focusObjectId: 'portrait.c07.idline', })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1579,7 +1665,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G07 ImageTab 边界与失败恢复 hero 行展示 AssetId",
-      "oracle": "expect(",
+      "oracle": "expect( mounted.host.querySelector('.image-workspace > .ds-object-hero .ds-object-hero__id') ?.textContent, ).toBe('portrait.c07.idline')",
       "classification": "new-contract",
       "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
       "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-06 hero 行展示 AssetId",
@@ -1592,8 +1678,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:149 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:151 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait], focusObjectId: 'portrait.c07.del', referenceStatus: 'failed', })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1616,8 +1702,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:159 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:161 mountImageTab(…); packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:165 pollUntil(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [portrait], focusObjectId: 'portrait.c07.origin', })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1640,8 +1726,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:172 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:173 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1664,8 +1750,8 @@
       "group": "G07",
       "primarySource": "packages/editor/src/core/binary-signature.ts",
       "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 export sha256Hex — const source = bytes instanceof Uint8Array ? Uint8Array.from(bytes).buffer : bytes; const digest = await crypto.subtle.digest('SHA-256', source); return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('') (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:177 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx:180 mountImageTab(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mountImageTab(legal, { seeds: [a, b], focusObjectId: 'portrait.c07.a' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1675,7 +1761,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C07-G07 ImageTab 边界与失败恢复 双 portrait 切换选择：hero 标题跟随",
-      "oracle": "expect(",
+      "oracle": "expect( mounted.host.querySelector('.image-workspace > .ds-object-hero .ds-object-hero__title') ?.textContent, ).toContain('乙')",
       "classification": "new-contract",
       "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
       "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-10 双 portrait 切换选择：hero 标题跟随",

@@ -7,33 +7,35 @@
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — return Object.entries(sprite?.poses ?? {})",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:51 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — return Object.entries(sprite?.poses ?? {}).sort((left.order ?? MAX) - (right.order ?? MAX) || label.localeCompare || id.localeCompare).map(([id, action], index) => ({ id, action, index }))",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:51 sortedSpriteActions(…) | production: packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…)",
+      "legalInput": "fixture: sprite('s', { far: action('远', 90), near: action('近', 5), mid: action('中', 40) })",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "bb95b95eb21d6413c4097b57e43a2efa1e890200",
+        "oldFile": "packages/editor/src/core/sprite-actions.test.ts",
+        "oldFullName": "按 order/label/id 稳定排序并派生零基显示编号",
+        "oldMatcher": "expect(sortedSpriteActions(...)).toMatchObject([{id:'first',index:0},{id:'late',index:1}]) @ :26-31",
         "dedupHeader": "排重：sprite-actions.test.ts / sprite-actions.wave2.test.ts 已证 order→label→id 三级回退、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "旧单测零基 index；wave2 sprite-actions.wave2.test.ts:38-49 expect(sortedSpriteActions(input)).toEqual(['action','a','b','c','action-2','z'].map((id, index) => ({ id, index, action: input.poses![id] }))) complete id/index/action array"
       },
-      "axis": "C05-G01 sprite-actions 排序与默认目标 index 是排序后的连续位置，与 order 数值大小无关",
-      "oracle": "expect(sorted.map(({ id, index }) => [id, index])).toEqual([",
-      "classification": "new-contract",
+      "axis": "index 是排序后的连续位置，与 order 数值大小无关",
+      "oracle": "expect(sorted.map(({ id, index }) => [id, index])).toEqual([['near', 0], ['mid', 1], ['far', 2]])",
+      "classification": "existing-proof",
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
       "testSourceLine": 45,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified CURSOR-R3-01 existing-proof; multi-line toEqual captured"
     },
     {
       "id": "C05-G01-02",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — return Object.entries(sprite?.poses ?? {})",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:64 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — branches: :18 return Object.entries(sprite?.poses ?? {}); :19 .sort(; :20 ([leftId, left], [rightId, right]) =>; :25 .map(([id, action], index) => ({ id, action, index }))",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:59 case body | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…) (production); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…) (production)",
+      "legalInput": "fixture: const input = sprite('s', {; sortedSpriteActions(input)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -48,16 +50,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
       "testSourceLine": 59,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-03",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — return Object.entries(sprite?.poses ?? {})",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:69 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — branches: :18 return Object.entries(sprite?.poses ?? {}); :20 ([leftId, left], [rightId, right]) =>; :25 .map(([id, action], index) => ({ id, action, index })); :19 .sort(",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:67 case body | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…) (production); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…) (production)",
+      "legalInput": "fixture: const input = sprite('s', { a: action('甲', 0), b: action('乙', 1) }); const sorted = sortedSpriteActions(input); sortedSpriteActions(input)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -72,16 +76,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
       "testSourceLine": 67,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-04",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — return Object.entries(sprite?.poses ?? {})",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:82 sortedSpriteActions(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:89 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — branches: :20 ([leftId, left], [rightId, right]) =>; :25 .map(([id, action], index) => ({ id, action, index })); :18 return Object.entries(sprite?.poses ?? {}); :19 .sort(",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:75 case body | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…) (production); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…) (production)",
+      "legalInput": "fixture: const input = sprite('s', {; const labels = sprite('s', {; sortedSpriteActions(input); sortedSpriteActions(labels)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -96,16 +102,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
       "testSourceLine": 75,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-05",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — return Object.entries(sprite?.poses ?? {})",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:93 sortedSpriteActions(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:94 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:17 export sortedSpriteActions — branches: :18 return Object.entries(sprite?.poses ?? {}); :19 .sort(; :20 ([leftId, left], [rightId, right]) =>; :25 .map(([id, action], index) => ({ id, action, index }))",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:92 case body | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…) (production); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:264 sortedSpriteActions(…) (production); packages/editor/src/ui/command-form-world.tsx:283 sortedSpriteActions(…) (production)",
+      "legalInput": "fixture: sortedSpriteActions(sprite('s', {}); sortedSpriteActions(sprite('s')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -120,16 +128,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
       "testSourceLine": 92,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-06",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:29 export nextSpriteActionId — const ids = new Set(Object.keys(sprite.poses ?? {})); if (!ids.has('action')) return 'action'",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:97 nextSpriteActionId; packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:98 nextSpriteActionId(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:100 nextSpriteActionId(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:103 nextSpriteActionId(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:112 nextSpriteActionId(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:269 nextSpriteActionId(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:38 nextSpriteActionId(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:31 export sprite-actions — branches: :31 if (!ids.has('action')) return 'action'; :34 if (!ids.has(candidate)) return candidate; :49 if (!entity) return undefined; :18 return Object.entries(sprite?.poses ?? {}); :19 .sort(; :20 ([leftId, left], [rightId, right]) =>",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:97 case body | production: packages/editor/src/ui/SpriteActionEditor.tsx:269 nextSpriteActionId(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:38 nextSpriteActionId(…) (production)",
+      "legalInput": "fixture: nextSpriteActionId(sprite('s', { 'action-2': action('二'), 'action-3': action('三') })),; ).toBe('action'); nextSpriteActionId(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -139,21 +149,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G01 sprite-actions 排序与默认目标 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
-      "oracle": "expect(nextSpriteActionId(sprite('s', { 'action-2': action('二') }))).toBe('action') | expect( | expect( | expect(",
+      "oracle": "expect(nextSpriteActionId(sprite('s', { 'action-2': action('二') }))).toBe('action') | expect( nextSpriteActionId(sprite('s', { 'action-2': action('二'), 'action-3': action('三') })), ).toBe('action') | expect( nextSpriteActionId( sprite('s', { action: action('一'), 'action-3': action('三'), 'action-4': action('四'), }), ), ).toBe('action-2') | expect( nextSpriteActionId( sprite('s', { action: action('一'), 'action-2': action('二'), 'action-x': action('非数字'), }), ), ).toBe('action-3')",
       "classification": "new-contract",
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
       "testSourceLine": 97,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-07",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:29 export nextSpriteActionId — const ids = new Set(Object.keys(sprite.poses ?? {})); if (!ids.has('action')) return 'action'",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:122 nextSpriteActionId; packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:126 nextSpriteActionId(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:269 nextSpriteActionId(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:38 nextSpriteActionId(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:31 export sprite-actions — branches: :31 if (!ids.has('action')) return 'action'; :18 return Object.entries(sprite?.poses ?? {}); :25 .map(([id, action], index) => ({ id, action, index })); :53 return sprite && action ? { sprite, action } : undefined; :34 if (!ids.has(candidate)) return candidate; :49 if (!entity) return undefined",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:122 case body | production: packages/editor/src/ui/SpriteActionEditor.tsx:269 nextSpriteActionId(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:38 nextSpriteActionId(…) (production)",
+      "legalInput": "fixture: const id = nextSpriteActionId(sprite('s', poses))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -168,16 +180,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
       "testSourceLine": 122,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-08",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:44 export defaultActionTargetForEntity — entity: EntityDef | undefined,; actors: Readonly<Record<string, ActorDef>>,; sprites: readonly SpriteDef[],",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:137 defaultActionTargetForEntity(…) | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:18 export sprite-actions — branches: :18 return Object.entries(sprite?.poses ?? {}); :31 if (!ids.has('action')) return 'action'; :34 if (!ids.has(candidate)) return candidate; :49 if (!entity) return undefined; :19 .sort(; :20 ([leftId, left], [rightId, right]) =>",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:133 case body | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…) (production)",
+      "legalInput": "fixture: const decoy = sprite('decoy', { first: action('诱饵', 0) }); const target = sprite('target', { b: action('乙', 1), a: action('甲', 0) })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -192,16 +206,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
       "testSourceLine": 133,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-09",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:44 export defaultActionTargetForEntity — entity: EntityDef | undefined,; actors: Readonly<Record<string, ActorDef>>,; sprites: readonly SpriteDef[],",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:147 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:148 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:149 defaultActionTargetForEntity(…) | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:31 export sprite-actions — branches: :31 if (!ids.has('action')) return 'action'; :34 if (!ids.has(candidate)) return candidate; :18 return Object.entries(sprite?.poses ?? {}); :49 if (!entity) return undefined; :19 .sort(; :20 ([leftId, left], [rightId, right]) =>",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:142 case body | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…) (production)",
+      "legalInput": "fixture: const withActions = sprite('has', { a: action('甲', 0) }); const bare = sprite('bare')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -216,16 +232,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
       "testSourceLine": 142,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G01-10",
       "batch": "C05",
       "group": "G01",
       "primarySource": "packages/editor/src/core/sprite-actions.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:44 export defaultActionTargetForEntity — entity: EntityDef | undefined,; actors: Readonly<Record<string, ActorDef>>,; sprites: readonly SpriteDef[],",
-      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:165 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:166 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:167 defaultActionTargetForEntity(…) | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-actions.ts:20 export sprite-actions — branches: :20 ([leftId, left], [rightId, right]) =>; :31 if (!ids.has('action')) return 'action'; :34 if (!ids.has(candidate)) return candidate; :49 if (!entity) return undefined; :18 return Object.entries(sprite?.poses ?? {}); :19 .sort(",
+      "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:152 case body | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…) (production)",
+      "legalInput": "fixture: const left = sprite('left', { l: action('左', 0) }); const right = sprite('right', { r: action('右', 0) })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
@@ -240,16 +258,18 @@
       "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
       "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
       "testSourceLine": 152,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-01",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 export UpdateSpriteCommand — readonly label = '修改精灵'; private readonly spriteId: string; private readonly patch: SpritePatch",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:56 UpdateSpriteCommand(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 class UpdateSpriteCommand — branches: :109 if ('layout' in this.patch || 'poses' in this.patch) {; :123 if ('poses' in this.patch) {; :124 const removedActionIds = Object.keys(sp.poses ?? {}).filter(; :125 (actionId) => !next.poses?.[actionId],",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:51 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…) (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:65 UpdateSpriteCommand(…) (harness)",
+      "legalInput": "fixture: const command = new UpdateSpriteCommand( C05_SPRITE, { label: '联合', layout: { kind: 'directional', framesPerDir: 1 }, poses: { walk: actionOf('走', [1, 2], { order: 0, loopFrom: 0 }) }, }, open.proof, ",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -264,16 +284,18 @@
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-01 layout+poses+label 联合补丁一次落地，invert 同时还原三个字段",
       "testSourceLine": 51,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-02",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 export UpdateSpriteCommand — readonly label = '修改精灵'; private readonly spriteId: string; private readonly patch: SpritePatch",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:82 UpdateSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:91 UpdateSpriteCommand(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 class UpdateSpriteCommand — branches: :118 throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入'); :120 throw new Error('精灵布局证明的实际帧数非法'); :108 if (!sp) return state; :109 if ('layout' in this.patch || 'poses' in this.patch) {",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:79 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…) (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:65 UpdateSpriteCommand(…) (harness)",
+      "legalInput": "fixture: const ok = new UpdateSpriteCommand( C05_SPRITE, { layout: { kind: 'directional', framesPerDir: 2 } }, open.proof, refs, ); const overflow = new UpdateSpriteCommand( C05_SPRITE, { layout: { kind: 'directional', framesPerDir: 2 } }, small.proof, refs, )",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -283,21 +305,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 directional 布局：framesPerDir×4 恰等于实际帧数放行，多 1 帧抛出确切越界帧列表",
-      "oracle": "expect(hero(ok).layout).toEqual({ kind: 'directional', framesPerDir: 2 }) | expect(thrown(() => overflow.apply(small.session.getState())).message).toBe( | expect(hero(small.session.getState()).layout).toEqual({ kind: 'static' })",
+      "oracle": "expect(hero(ok).layout).toEqual({ kind: 'directional', framesPerDir: 2 }) | expect(thrown(() => overflow.apply(small.session.getState())).message).toBe( '布局会新增越界帧 6, 7，资源实际只有 6 帧', ) | expect(hero(small.session.getState()).layout).toEqual({ kind: 'static' })",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-02 directional 布局：framesPerDir×4 恰等于实际帧数放行，多 1 帧抛出确切越界帧列表",
       "testSourceLine": 79,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-03",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 export UpdateSpriteCommand — readonly label = '修改精灵'; private readonly spriteId: string; private readonly patch: SpritePatch",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:115 UpdateSpriteCommand(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 class UpdateSpriteCommand — branches: :108 if (!sp) return state; :109 if ('layout' in this.patch || 'poses' in this.patch) {; :112 if (; :118 throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:103 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…) (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:65 UpdateSpriteCommand(…) (harness)",
+      "legalInput": "fixture: const open = await openC05Core('c05-g02-03'); const state = open.session.getState(); const before = structuredClone(hero(state))",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -312,16 +336,18 @@
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-03 非法布局：loop 与 framesPerDir 为 0/负/小数/NaN 全部以同一布局非法文案拒绝且状态原样",
       "testSourceLine": 103,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-04",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:41 export SpriteInUseError — constructor(; readonly targetLabel: string,; readonly references: readonly ProjectReferenceEdge[], (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:121 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:62 export sprite-commands — branches: :62 throw new Error(`精灵 ${sprite.id} 的布局非法；自动循环请创建预制动作`); :82 throw new Error(`精灵 ${sprite.id} 的预制动作 ${actionId} 非法`); :109 if ('layout' in this.patch || 'poses' in this.patch) {; :120 throw new Error('精灵布局证明的实际帧数非法'); :123 if ('poses' in this.patch) {; :124 const removedActionIds = Object.keys(sp.poses ?? {}).filter(",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:121 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness)",
+      "legalInput": "fixture: const blankLabel = patchPoses(open, { 'spaced-out': { ...actionOf(' ', [0]) } })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -336,16 +362,18 @@
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-04 非法动作：空白名称与空步骤各自以“预制动作 <id> 非法”拒绝，错误指名具体 ActionId",
       "testSourceLine": 121,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-05",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:41 export SpriteInUseError — constructor(; readonly targetLabel: string,; readonly references: readonly ProjectReferenceEdge[], (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:134 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:109 export sprite-commands — branches: :109 if ('layout' in this.patch || 'poses' in this.patch) {; :123 if ('poses' in this.patch) {; :124 const removedActionIds = Object.keys(sp.poses ?? {}).filter(; :165 if ('poses' in this.patch) old.poses = sp.poses ? structuredClone(sp.poses) : undefined; :166 if ('label' in this.patch) old.label = sp.label; :49 .map((reference) => `${reference.source.label} · ${reference.where}`)",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:134 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness)",
+      "legalInput": "fixture: const open = await openC05Core('c05-g02-05'); const state = open.session.getState(); const frameCases: SpriteActionDef[] = [",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -355,21 +383,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 非法数值：帧号负数/小数/NaN 与停留小数/负数/NaN 均拒绝",
-      "oracle": "expect(thrown(() => patchPoses(open, { bad }).apply(state)).message).toBe( | expect(hero(state).poses).toBeUndefined()",
+      "oracle": "expect(thrown(() => patchPoses(open, { bad }).apply(state)).message).toBe( illegalAction('bad'), ) | expect(hero(state).poses).toBeUndefined()",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-05 非法数值：帧号负数/小数/NaN 与停留小数/负数/NaN 均拒绝",
       "testSourceLine": 134,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-06",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:41 export SpriteInUseError — constructor(; readonly targetLabel: string,; readonly references: readonly ProjectReferenceEdge[], (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:154 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:109 export sprite-commands — branches: :109 if ('layout' in this.patch || 'poses' in this.patch) {; :123 if ('poses' in this.patch) {; :124 const removedActionIds = Object.keys(sp.poses ?? {}).filter(; :165 if ('poses' in this.patch) old.poses = sp.poses ? structuredClone(sp.poses) : undefined; :166 if ('label' in this.patch) old.label = sp.label; :49 .map((reference) => `${reference.source.label} · ${reference.where}`)",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:154 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness)",
+      "legalInput": "fixture: const open = await openC05Core('c05-g02-06'); const state = open.session.getState(); const steps = [",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -379,21 +409,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 非法序/循环点/音效：order 负数与小数、loopFrom 负/等于步数/小数、cue 空 asset 均拒绝",
-      "oracle": "expect(thrown(() => patchPoses(open, { shape: bad }).apply(state)).message).toBe( | expect(hero(legal).poses?.edge?.loopFrom).toBe(1)",
+      "oracle": "expect(thrown(() => patchPoses(open, { shape: bad }).apply(state)).message).toBe( illegalAction('shape'), ) | expect(hero(legal).poses?.edge?.loopFrom).toBe(1)",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-06 非法序/循环点/音效：order 负数与小数、loopFrom 负/等于步数/小数、cue 空 asset 均拒绝",
       "testSourceLine": 154,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-07",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:41 export SpriteInUseError — constructor(; readonly targetLabel: string,; readonly references: readonly ProjectReferenceEdge[], (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:180 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:109 export sprite-commands — branches: :109 if ('layout' in this.patch || 'poses' in this.patch) {; :120 throw new Error('精灵布局证明的实际帧数非法'); :123 if ('poses' in this.patch) {; :124 const removedActionIds = Object.keys(sp.poses ?? {}).filter(; :165 if ('poses' in this.patch) old.poses = sp.poses ? structuredClone(sp.poses) : undefined; :411 throw new Error('精灵布局证明的实际帧数非法')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:180 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness)",
+      "legalInput": "fixture: const last = patchPoses(open, { last: actionOf('末帧', [4]) }).apply(state); const beyond = patchPoses(open, { beyond: actionOf('越界', [0, 5]) })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -408,16 +440,18 @@
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-07 新增帧边界：帧号=实际帧数-1 放行，=实际帧数 抛出确切文案",
       "testSourceLine": 180,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-08",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 export UpdateSpriteCommand — readonly label = '修改精灵'; private readonly spriteId: string; private readonly patch: SpritePatch",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:193 UpdateSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:200 UpdateSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:207 UpdateSpriteCommand(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 class UpdateSpriteCommand — branches: :118 throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入'); :109 if ('layout' in this.patch || 'poses' in this.patch) {; :123 if ('poses' in this.patch) {; :124 const removedActionIds = Object.keys(sp.poses ?? {}).filter(",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:189 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…) (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:65 UpdateSpriteCommand(…) (harness)",
+      "legalInput": "fixture: const wrongAsset = new UpdateSpriteCommand( C05_SPRITE, { poses: { a: actionOf('甲', [0]) } }, { ...open.proof, asset: 'sprite.authored.elsewhere' }, refs, ); const missing = new UpdateSpriteCommand( C05_SPRITE, { layout: { kind: 'static' } }, undefined, refs, ); const labelOnly = new UpdateSpriteCommand( C05_SPRITE, { label: '仅改名' }, { ...open.proof, sha256: '0'.repeat(64) }, )",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -432,16 +466,18 @@
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-08 proof.asset 与精灵资产不一致或 proof 缺省均拒绝；仅 label 补丁不受 proof 约束",
       "testSourceLine": 189,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-09",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:41 export SpriteInUseError — constructor(; readonly targetLabel: string,; readonly references: readonly ProjectReferenceEdge[],",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:215 SpriteInUseError; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:224 AddEntityCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:235 SpriteInUseError; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:236 SpriteInUseError; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:237 SpriteInUseError; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:238 SpriteInUseError | production: packages/editor/src/ui/App.tsx:1929 AddEntityCommand(…); packages/editor/src/core/battle-sprite-commands.ts:322 SpriteInUseError(…); packages/editor/src/core/sprite-commands.ts:140 SpriteInUseError(…); packages/editor/src/core/sprite-commands.ts:449 SpriteInUseError(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:449 export sprite-commands — branches: :449 if (references.length) throw new SpriteInUseError(`精灵定义 ${this.spriteId}`, references); :484 throw new Error(`精灵资产 ${this.asset} 仍被定义引用`); :62 throw new Error(`精灵 ${sprite.id} 的布局非法；自动循环请创建预制动作`); :82 throw new Error(`精灵 ${sprite.id} 的预制动作 ${actionId} 非法`); :109 if ('layout' in this.patch || 'poses' in this.patch) {; :118 throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:215 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/App.tsx:1929 AddEntityCommand(…) (production); packages/editor/src/core/battle-sprite-commands.ts:322 SpriteInUseError(…) (production); packages/editor/src/core/sprite-commands.ts:140 SpriteInUseError(…) (production); packages/editor/src/core/sprite-commands.ts:449 SpriteInUseError(…) (production)",
+      "legalInput": "fixture: const remove = patchPoses(open, { idle: actionOf('待机', [0], { order: 0 }) })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -451,21 +487,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 删除被实体页引用的动作：SpriteInUseError 携带目标文案与真实引用边；撤销引用后同命令放行",
-      "oracle": "expect( | expect(error).toBeInstanceOf(SpriteInUseError) | expect(error.name).toBe('SpriteInUseError') | expect((error as SpriteInUseError).targetLabel).toBe(`精灵 ${C05_SPRITE} 的动作 walk`) | expect((error as SpriteInUseError).references).toHaveLength(1) | expect(error.message.startsWith(`精灵 ${C05_SPRITE} 的动作 walk 仍被 1 处引用：\\n`)).toBe(true) | expect(Object.keys(hero(state).poses ?? {})).toEqual(['idle', 'walk']) | expect(open.session.undo()).toBe(true) | expect(Object.keys(hero(released).poses ?? {})).toEqual(['idle'])",
+      "oracle": "expect( open.session.dispatch( new AddEntityCommand('start', { id: 'c05-ref', pos: { col: 3, row: 3, height: 0 }, sprite: C05_SPRITE, pages: [{ animation: { sprite: C05_SPRITE, action: 'walk', loop: true } }], }), ), ).toBe(true) | expect(error).toBeInstanceOf(SpriteInUseError) | expect(error.name).toBe('SpriteInUseError') | expect((error as SpriteInUseError).targetLabel).toBe(`精灵 ${C05_SPRITE} 的动作 walk`) | expect((error as SpriteInUseError).references).toHaveLength(1) | expect(error.message.startsWith(`精灵 ${C05_SPRITE} 的动作 walk 仍被 1 处引用：\\n`)).toBe(true) | expect(Object.keys(hero(state).poses ?? {})).toEqual(['idle', 'walk']) | expect(open.session.undo()).toBe(true) | expect(Object.keys(hero(released).poses ?? {})).toEqual(['idle'])",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-09 删除被实体页引用的动作：SpriteInUseError 携带目标文案与真实引用边；撤销引用后同命令放行",
       "testSourceLine": 215,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-10",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:41 export SpriteInUseError — constructor(; readonly targetLabel: string,; readonly references: readonly ProjectReferenceEdge[],",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:257 AddEntityCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:269 SpriteInUseError; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:270 SpriteInUseError; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:271 SpriteInUseError | production: packages/editor/src/ui/App.tsx:1929 AddEntityCommand(…); packages/editor/src/core/battle-sprite-commands.ts:322 SpriteInUseError(…); packages/editor/src/core/sprite-commands.ts:140 SpriteInUseError(…); packages/editor/src/core/sprite-commands.ts:449 SpriteInUseError(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:62 export sprite-commands — branches: :62 throw new Error(`精灵 ${sprite.id} 的布局非法；自动循环请创建预制动作`); :82 throw new Error(`精灵 ${sprite.id} 的预制动作 ${actionId} 非法`); :109 if ('layout' in this.patch || 'poses' in this.patch) {; :118 throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入'); :120 throw new Error('精灵布局证明的实际帧数非法'); :123 if ('poses' in this.patch) {",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:247 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/App.tsx:1929 AddEntityCommand(…) (production); packages/editor/src/core/battle-sprite-commands.ts:322 SpriteInUseError(…) (production); packages/editor/src/core/sprite-commands.ts:140 SpriteInUseError(…) (production); packages/editor/src/core/sprite-commands.ts:449 SpriteInUseError(…) (production)",
+      "legalInput": "fixture: const open = await openC05Core('c05-g02-10', {; a: actionOf('甲', [0], { order: 0 }),; b: actionOf('乙', [1], { order: 1 }),",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -475,20 +513,22 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 一次删除多个动作时错误文案按 poses 键序列出全部被删 ActionId，仅被引用者计入引用数",
-      "oracle": "expect( | expect(error).toBeInstanceOf(SpriteInUseError) | expect((error as SpriteInUseError).targetLabel).toBe(`精灵 ${C05_SPRITE} 的动作 a、b`) | expect((error as SpriteInUseError).references).toHaveLength(1)",
+      "oracle": "expect( open.session.dispatch( new AddEntityCommand('start', { id: 'c05-ref-b', pos: { col: 4, row: 4, height: 0 }, sprite: C05_SPRITE, pages: [{ animation: { sprite: C05_SPRITE, action: 'b', loop: false } }], }), ), ).toBe(true) | expect(error).toBeInstanceOf(SpriteInUseError) | expect((error as SpriteInUseError).targetLabel).toBe(`精灵 ${C05_SPRITE} 的动作 a、b`) | expect((error as SpriteInUseError).references).toHaveLength(1)",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-10 一次删除多个动作时错误文案按 poses 键序列出全部被删 ActionId，仅被引用者计入引用数",
       "testSourceLine": 247,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G02-11",
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 export UpdateSpriteCommand — readonly label = '修改精灵'; private readonly spriteId: string; private readonly patch: SpritePatch",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:280 UpdateSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:292 UpdateSpriteCommand(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 export UpdateSpriteCommand — readonly label = '修改精灵'; private readonly spriteId: string; private readonly patch: SpritePatch; private oldPatch: SpritePatch | undefined",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:275 openC05Core(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:276 actionOf(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:280 UpdateSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:281 C05_SPRITE; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:284 actionOf(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:285 actionOf(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:292 C05_SPRITE; packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:292 UpdateSpriteCommand(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…) (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:65 UpdateSpriteCommand(…) (harness)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -511,9 +551,9 @@
       "batch": "C05",
       "group": "G02",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 export UpdateSpriteCommand — readonly label = '修改精灵'; private readonly spriteId: string; private readonly patch: SpritePatch",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:300 UpdateSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:303 EditorState | production: packages/editor/src/core/command-contract.ts:4 EditorState(…); packages/editor/src/core/edit-session.ts:43 EditorState(…); packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:90 class UpdateSpriteCommand — branches: :108 if (!sp) return state; :109 if ('layout' in this.patch || 'poses' in this.patch) {; :112 if (; :118 throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts:297 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/core/command-contract.ts:4 EditorState(…) (production); packages/editor/src/core/edit-session.ts:43 EditorState(…) (production); packages/editor/src/core/editor-asset-reader.ts:21 <EditorState (production); packages/editor/src/core/editor-asset-reader.ts:22 <EditorState (production); packages/editor/src/core/editor-asset-reader.ts:24 <EditorState (production); packages/editor/src/core/editor-derived-contract.ts:14 <EditorState (production); packages/editor/src/core/editor-derived-contract.ts:34 <EditorState (production)",
+      "legalInput": "fixture: const renamed = new UpdateSpriteCommand(C05_SPRITE, { label: '甲' }) const afterA = renamed.apply(stateA) expect(hero(afterA).label).toBe('甲') const stateB: EditorState = { ...stateA, sprites: stateA.s",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -528,16 +568,18 @@
       "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
       "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-12 首次 apply 捕获的旧值不被后续 apply 覆盖：对另一状态再 apply 后 invert 仍还原首次旧值",
       "testSourceLine": 297,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-01",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:79 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 class ReplaceSpriteAssetCommand — branches: :283 if (!previous || previous.kind !== 'sprite') throw new Error('待替换精灵资源不在 catalog'); :299 throw new Error('待替换精灵资源已有语义消费者，请重新确认影响范围'); :280 if (this.spriteId && (!target || target.asset !== this.asset)); :281 throw new Error('精灵定义与待替换 AssetId 不一致')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:74 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: const command = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, old, replacementProof(open, 7), )",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -552,16 +594,18 @@
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-01 增帧替换：catalog 与 blob 切到新路径，旧路径 blob 不残留；invert 写回旧字节与旧 catalog",
       "testSourceLine": 74,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-02",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:113 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 class ReplaceSpriteAssetCommand — branches: :285 if (this.proof.asset !== this.asset || this.proof.previousSha256 !== previous.sha256); :280 if (this.spriteId && (!target || target.asset !== this.asset)); :281 throw new Error('精灵定义与待替换 AssetId 不一致'); :283 if (!previous || previous.kind !== 'sprite') throw new Error('待替换精灵资源不在 catalog')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:101 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: const command = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, await previousBytes(open), replacementProof(open, 4, { repairs: { [C05_SPRITE]: repaired }, consumerSnaps",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -576,16 +620,18 @@
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-02 缩帧修复事务成功：全部消费者按显式 repairs 重写，资产与布局同一事务；invert 还原消费者",
       "testSourceLine": 101,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-03",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:142 ReplaceSpriteAssetCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:151 ReplaceSpriteAssetCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:160 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 class ReplaceSpriteAssetCommand — branches: :307 throw new Error('精灵替换不得减少有效帧；缩帧需使用显式布局修复事务'); :285 if (this.proof.asset !== this.asset || this.proof.previousSha256 !== previous.sha256); :280 if (this.spriteId && (!target || target.asset !== this.asset)); :281 throw new Error('精灵定义与待替换 AssetId 不一致')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:135 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: const bare = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, old, replacementProof(open, 3), ); const onlyRepairs = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, old, replacementProof(open, 3, { repairs: { [C05_SPRITE]: { layout: hero.layout } } }), ); const onlySnapshots = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, old, replacementProof(open, 3, { consumerSnapshots: { [C05_SPRITE]: { layout: hero.layout } } }), )",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -600,16 +646,18 @@
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-03 缩帧缺 repairs 或缺 snapshots 任一都以“不得减少有效帧”拒绝，状态不被触碰",
       "testSourceLine": 135,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-04",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:179 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 class ReplaceSpriteAssetCommand — branches: :314 throw new Error('缩帧事务必须显式修复全部共享精灵消费者'); :280 if (this.spriteId && (!target || target.asset !== this.asset)); :281 throw new Error('精灵定义与待替换 AssetId 不一致'); :283 if (!previous || previous.kind !== 'sprite') throw new Error('待替换精灵资源不在 catalog')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:172 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: const command = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, await previousBytes(open), replacementProof(open, 3, { consumerIds: [C05_SPRITE, 'c05-twin'], repairs: { ",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -619,21 +667,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 缩帧时共享资源的第二个消费者未被修复：整笔拒绝，且未修复者保持原布局",
-      "oracle": "expect(thrown(() => command.apply(state)).message).toBe( | expect(state.sprites.map((sprite) => sprite.id).filter((id) => id.startsWith('c05-'))).toEqual([",
+      "oracle": "expect(thrown(() => command.apply(state)).message).toBe( '缩帧事务必须显式修复全部共享精灵消费者', ) | expect(state.sprites.map((sprite) => sprite.id).filter((id) => id.startsWith('c05-'))).toEqual([ C05_SPRITE, 'c05-twin', ])",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-04 缩帧时共享资源的第二个消费者未被修复：整笔拒绝，且未修复者保持原布局",
       "testSourceLine": 172,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-05",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:210 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 class ReplaceSpriteAssetCommand — branches: :323 throw new Error(`缩帧消费者 ${sprite.id} 的布局或姿势已变化，请重新确认`); :299 throw new Error('待替换精灵资源已有语义消费者，请重新确认影响范围'); :301 throw new Error('共享精灵消费者已变化，请重新确认影响范围'); :280 if (this.spriteId && (!target || target.asset !== this.asset))",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:203 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: const command = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, await previousBytes(open), replacementProof(open, 3, { repairs: { [C05_SPRITE]: { layout: { kind: 'static",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -643,21 +693,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 缩帧快照与当前消费者布局/姿势不一致：指名漂移消费者并要求重新确认",
-      "oracle": "expect(thrown(() => command.apply(state)).message).toBe(",
+      "oracle": "expect(thrown(() => command.apply(state)).message).toBe( `缩帧消费者 ${C05_SPRITE} 的布局或姿势已变化，请重新确认`, )",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-05 缩帧快照与当前消费者布局/姿势不一致：指名漂移消费者并要求重新确认",
       "testSourceLine": 203,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-06",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:237 ReplaceSpriteAssetCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:253 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 class ReplaceSpriteAssetCommand — branches: :281 throw new Error('精灵定义与待替换 AssetId 不一致'); :283 if (!previous || previous.kind !== 'sprite') throw new Error('待替换精灵资源不在 catalog'); :286 throw new Error('精灵替换证明已过期，请重新载入资源'); :293 throw new Error('精灵替换证明的帧数非法')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:227 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: const stillDemands = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, old, replacementProof(open, 4, { repairs: { [C05_SPRITE]: { layout: hero.layout, poses: { a: actionO; const illegal = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, next.record, next.bytes, old, replacementProof(open, 4, { repairs: { [C05_SPRITE]: { layout: { kind: 'loop', frameCount: 2 } } }, ",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -667,21 +719,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 缩帧修复后仍超出新帧数，或修复本身是非法布局：各自以确切文案拒绝",
-      "oracle": "expect(thrown(() => stillDemands.apply(state)).message).toBe( | expect(thrown(() => illegal.apply(state)).message).toBe(",
+      "oracle": "expect(thrown(() => stillDemands.apply(state)).message).toBe( `缩帧后 ${C05_SPRITE} 的布局/姿势仍需 5 帧，资源只有 4 帧`, ) | expect(thrown(() => illegal.apply(state)).message).toBe( `精灵 ${C05_SPRITE} 的布局非法；自动循环请创建预制动作`, )",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-06 缩帧修复后仍超出新帧数，或修复本身是非法布局：各自以确切文案拒绝",
       "testSourceLine": 227,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-07",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:276 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 class ReplaceSpriteAssetCommand — branches: :342 if (pathOwner) throw new Error(`精灵替换路径已由 ${pathOwner[0]} 登记`); :280 if (this.spriteId && (!target || target.asset !== this.asset)); :281 throw new Error('精灵定义与待替换 AssetId 不一致'); :283 if (!previous || previous.kind !== 'sprite') throw new Error('待替换精灵资源不在 catalog')",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:269 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: const command = new ReplaceSpriteAssetCommand( C05_SPRITE, C05_ASSET, { ...next.record, path: ownerPath }, next.bytes, await previousBytes(open), replacementProof(open, 4), ); const starter = state.sprites.find((sprite) => sprite.id === 'hero')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -691,21 +745,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 替换记录的路径已被其它资产占用：指名占用者并拒绝",
-      "oracle": "expect(starter).toBeDefined() | expect(thrown(() => command.apply(state)).message).toBe(",
+      "oracle": "expect(starter).toBeDefined() | expect(thrown(() => command.apply(state)).message).toBe( `精灵替换路径已由 ${starter!.asset} 登记`, )",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-07 替换记录的路径已被其它资产占用：指名占用者并拒绝",
       "testSourceLine": 269,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-08",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:297 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…)",
-      "legalInput": "loadCursorSpriteProject isolated sprite project; fixture: loadCursorSpriteProject('c05-g03-08', [ { asset: 'sprite.authored.c05loose', label: '游离', frameCount: 3, definitions: [] }, ]); calls: loadCursorSpriteProject(",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:258 export ReplaceSpriteAssetCommand — readonly label: string; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined; private oldSprites: EditorState['sprites'] | undefined",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:290 loadCursorSpriteProject(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:295 buildC05SpriteResource(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:297 ReplaceSpriteAssetCommand(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness); packages/editor/src/ui/SpriteResourceViewer.tsx:333 ReplaceSpriteAssetCommand(…) (production)",
+      "legalInput": "fixture: loadCursorSpriteProject('c05-g03-08', [ { asset: 'sprite.authored.c05loose', label: '游离', frameCount: 3, definitions: [] }, ]); calls: loadCursorSpriteProject(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -727,9 +783,9 @@
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:181 export AddSpriteCommand — readonly label = '上传精灵'; private readonly def: SpriteDef; private readonly record: AssetRecordV1",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:330 AddSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:333 type | production: packages/editor/src/ui/SpriteUploadWizard.tsx:272 AddSpriteCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:181 class AddSpriteCommand — branches: :195 if (state.sprites.some((s) => s.id === this.def.id)); :196 throw new Error(`精灵定义 id 已存在: ${this.def.id}`); :197 if (!this.def.asset) throw new Error('精灵定义缺 AssetId'); :200 if (existing && !sameAssetRecord(existing, this.record))",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:319 case body | production: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/SpriteUploadWizard.tsx:272 AddSpriteCommand(…) (production); packages/editor/src/core/__tests__/cursor-command-boundary-fixtures.ts:43 AddSpriteCommand(…) (harness)",
+      "legalInput": "fixture: const fresh = await buildC05SpriteResource('sprite.authored.c05new', 3, 9)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -739,21 +795,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 AddSprite 的 record/blob 完整性守卫：kind、mediaType、bytes 长度、sha256、gzip 魔数各有确切文案",
-      "oracle": "expect(run({ ...fresh.record, kind: 'tileset' })).toBe('大世界精灵资源 kind 必须是 sprite') | expect(run({ ...fresh.record, mediaType: 'image/png' })).toBe( | expect(run({ ...fresh.record, bytes: fresh.record.bytes + 1 })).toBe( | expect(run({ ...fresh.record, sha256: 'G'.repeat(64) })).toBe('大世界精灵资源 sha256 非法') | expect(run({ ...fresh.record }, plain.buffer)).toBe('大世界精灵资源必须是 canonical gzip') | expect(state.sprites.some((sprite) => sprite.id === 'c05-new')).toBe(false)",
+      "oracle": "expect(run({ ...fresh.record, kind: 'tileset' })).toBe('大世界精灵资源 kind 必须是 sprite') | expect(run({ ...fresh.record, mediaType: 'image/png' })).toBe( '大世界精灵资源 mediaType 必须是 application/vnd.type-pal.rle', ) | expect(run({ ...fresh.record, bytes: fresh.record.bytes + 1 })).toBe( '大世界精灵资源 bytes 与二进制长度不一致', ) | expect(run({ ...fresh.record, sha256: 'G'.repeat(64) })).toBe('大世界精灵资源 sha256 非法') | expect(run({ ...fresh.record }, plain.buffer)).toBe('大世界精灵资源必须是 canonical gzip') | expect(state.sprites.some((sprite) => sprite.id === 'c05-new')).toBe(false)",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-09 AddSprite 的 record/blob 完整性守卫：kind、mediaType、bytes 长度、sha256、gzip 魔数各有确切文案",
       "testSourceLine": 319,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-10",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:388 export AddSpriteDefinitionCommand — readonly label = '新增精灵用途'; private readonly definition: SpriteDef; private added = false",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:347 AddSpriteDefinitionCommand(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:553 AddSpriteDefinitionCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:388 class AddSpriteDefinitionCommand — branches: :411 throw new Error('精灵布局证明的实际帧数非法'); :401 if (state.sprites.some((sprite) => sprite.id === this.definition.id)); :402 throw new Error(`精灵定义 id 已存在: ${this.definition.id}`); :404 if (",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:344 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/WorldSpriteLibrary.tsx:553 AddSpriteDefinitionCommand(…) (production)",
+      "legalInput": "fixture: const open = await openC05Core('c05-g03-10', { frameCount: 5 }); const state = open.session.getState(); const make = (definition: SpriteDef) => new AddSpriteDefinitionCommand(definition, open.proof)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -763,21 +821,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 AddSpriteDefinition：帧需求恰等于实际帧数放行，姿势帧越界与 loop 布局分别被拒",
-      "oracle": "expect(exact.sprites.at(-1)?.id).toBe('c05-exact') | expect(exact.sprites).toHaveLength(state.sprites.length + 1) | expect(thrown(() => over.apply(state)).message).toBe( | expect(thrown(() => loop.apply(state)).message).toBe('sprites[0].layout: kind 非法(\"loop\")') | expect(over.invert(state)).toBe(state) | expect(loop.invert(state)).toBe(state)",
+      "oracle": "expect(exact.sprites.at(-1)?.id).toBe('c05-exact') | expect(exact.sprites).toHaveLength(state.sprites.length + 1) | expect(thrown(() => over.apply(state)).message).toBe( '精灵用途 c05-over 需要 6 帧，资源实际只有 5 帧', ) | expect(thrown(() => loop.apply(state)).message).toBe('sprites[0].layout: kind 非法(\"loop\")') | expect(over.invert(state)).toBe(state) | expect(loop.invert(state)).toBe(state)",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-10 AddSpriteDefinition：帧需求恰等于实际帧数放行，姿势帧越界与 loop 布局分别被拒",
       "testSourceLine": 344,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-11",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:388 export AddSpriteDefinitionCommand — readonly label = '新增精灵用途'; private readonly definition: SpriteDef; private added = false",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:390 AddSpriteDefinitionCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:397 AddSpriteDefinitionCommand(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:553 AddSpriteDefinitionCommand(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:388 class AddSpriteDefinitionCommand — branches: :409 throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入'); :410 if (!Number.isInteger(this.proof.actualFrameCount) || this.proof.actualFrameCount <= 0); :411 throw new Error('精灵布局证明的实际帧数非法'); :414 if (demand > this.proof.actualFrameCount)",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:379 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/WorldSpriteLibrary.tsx:553 AddSpriteDefinitionCommand(…) (production)",
+      "legalInput": "fixture: const open = await openC05Core('c05-g03-11', { frameCount: 5 }); const state = open.session.getState(); const definition: SpriteDef = {",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -787,21 +847,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 AddSpriteDefinition 拒绝 proof 帧数为 0 与 proof 指向别的资产",
-      "oracle": "expect( | expect(",
+      "oracle": "expect( thrown(() => new AddSpriteDefinitionCommand(definition, { ...open.proof, actualFrameCount: 0 }).apply( state, ), ).message, ).toBe('精灵布局证明的实际帧数非法') | expect( thrown(() => new AddSpriteDefinitionCommand(definition, { ...open.proof, asset: 'sprite.authored.other', }).apply(state), ).message, ).toBe('精灵布局证明缺失或已过期，请等待帧资源重新载入')",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-11 AddSpriteDefinition 拒绝 proof 帧数为 0 与 proof 指向别的资产",
       "testSourceLine": 379,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-12",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:41 export SpriteInUseError — constructor(; readonly targetLabel: string,; readonly references: readonly ProjectReferenceEdge[],; packages/editor/src/core/sprite-commands.ts:432 export RemoveSpriteDefinitionCommand — readonly label = '删除精灵定义'; private removed: SpriteDef | undefined; private removedIndex: number | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:410 AddEntityCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:418 RemoveSpriteDefinitionCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:420 SpriteInUseError; packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:421 SpriteInUseError | production: packages/editor/src/ui/App.tsx:1929 AddEntityCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:601 RemoveSpriteDefinitionCommand(…); packages/editor/src/core/battle-sprite-commands.ts:322 SpriteInUseError(…); packages/editor/src/core/sprite-commands.ts:140 SpriteInUseError(…); packages/editor/src/core/sprite-commands.ts:449 SpriteInUseError(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:432 class RemoveSpriteDefinitionCommand — branches: :449 if (references.length) throw new SpriteInUseError(`精灵定义 ${this.spriteId}`, references); :444 if (index < 0) return state; :450 if (!this.removed) {; :456 sprites: state.sprites.filter((s) => s.id !== this.spriteId),",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:405 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/ui/App.tsx:1929 AddEntityCommand(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:601 RemoveSpriteDefinitionCommand(…) (production); packages/editor/src/core/battle-sprite-commands.ts:322 SpriteInUseError(…) (production); packages/editor/src/core/sprite-commands.ts:140 SpriteInUseError(…) (production); packages/editor/src/core/sprite-commands.ts:449 SpriteInUseError(…) (production)",
+      "legalInput": "fixture: const open = await openC05Core('c05-g03-12', { frameCount: 3 }); for (let index = 0; index < 21; index += 1); open.session.dispatch(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -811,21 +873,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 RemoveSpriteDefinition：21 个实体引用时文案头部报 21 处而正文只列前 20 行；资产保持不动",
-      "oracle": "expect( | expect(error).toBeInstanceOf(SpriteInUseError) | expect(inUse.targetLabel).toBe(`精灵定义 ${C05_SPRITE}`) | expect(inUse.references).toHaveLength(21) | expect(header).toBe(`精灵定义 ${C05_SPRITE} 仍被 21 处引用：`) | expect(lines).toHaveLength(20) | expect(state.assetCatalog.assets[C05_ASSET]).toBeDefined() | expect(command.invert(state)).toBe(state)",
+      "oracle": "expect( open.session.dispatch( new AddEntityCommand('start', { id: `c05-prop-${index}`, pos: { col: index % 7, row: Math.floor(index / 7), height: 0 }, sprite: C05_SPRITE, }), ), ).toBe(true) | expect(error).toBeInstanceOf(SpriteInUseError) | expect(inUse.targetLabel).toBe(`精灵定义 ${C05_SPRITE}`) | expect(inUse.references).toHaveLength(21) | expect(header).toBe(`精灵定义 ${C05_SPRITE} 仍被 21 处引用：`) | expect(lines).toHaveLength(20) | expect(state.assetCatalog.assets[C05_ASSET]).toBeDefined() | expect(command.invert(state)).toBe(state)",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-12 RemoveSpriteDefinition：21 个实体引用时文案头部报 21 处而正文只列前 20 行；资产保持不动",
       "testSourceLine": 405,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G03-13",
       "batch": "C05",
       "group": "G03",
       "primarySource": "packages/editor/src/core/sprite-commands.ts",
-      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:181 export AddSpriteCommand — readonly label = '上传精灵'; private readonly def: SpriteDef; private readonly record: AssetRecordV1; packages/editor/src/core/sprite-commands.ts:432 export RemoveSpriteDefinitionCommand — readonly label = '删除精灵定义'; private removed: SpriteDef | undefined; private removedIndex: number | undefined; packages/editor/src/core/sprite-commands.ts:469 export DeleteUnusedSpriteAssetCommand — readonly label = '删除未使用的精灵资产'; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined",
-      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:434 AddSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:446 RemoveSpriteDefinitionCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:450 DeleteUnusedSpriteAssetCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:464 DeleteUnusedSpriteAssetCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:467 DeleteUnusedSpriteAssetCommand(…) | production: packages/editor/src/ui/SpriteUploadWizard.tsx:272 AddSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:635 DeleteUnusedSpriteAssetCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:601 RemoveSpriteDefinitionCommand(…)",
-      "legalInput": "loadCursorSpriteProject isolated sprite project; fixture: loadCursorSpriteProject('c05-g03-13b', [ { asset: 'sprite.authored.c05disk', label: '磁盘', frameCount: 2, definitions: [] }, ]); calls: loadCursorSpriteProject(",
+      "sourceCondition": "packages/editor/src/core/sprite-commands.ts:181 export AddSpriteCommand — readonly label = '上传精灵'; private readonly def: SpriteDef; private readonly record: AssetRecordV1; private readonly blob: ArrayBuffer; packages/editor/src/core/sprite-commands.ts:432 export RemoveSpriteDefinitionCommand — readonly label = '删除精灵定义'; private removed: SpriteDef | undefined; private removedIndex: number | undefined; constructor(; packages/editor/src/core/sprite-commands.ts:469 export DeleteUnusedSpriteAssetCommand — readonly label = '删除未使用的精灵资产'; private oldCatalog: EditorState['assetCatalog'] | undefined; private oldBlobs: EditorState['assetBlobs'] | undefined; constructor(",
+      "caller": "test: packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:432 openC05Core(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:433 buildC05SpriteResource(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:434 AddSpriteCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:446 RemoveSpriteDefinitionCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:450 DeleteUnusedSpriteAssetCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:459 loadCursorSpriteProject(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:464 DeleteUnusedSpriteAssetCommand(…); packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts:467 DeleteUnusedSpriteAssetCommand(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:184 openC05Core(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness); packages/editor/src/ui/SpriteUploadWizard.tsx:272 AddSpriteCommand(…) (production); packages/editor/src/core/__tests__/cursor-command-boundary-fixtures.ts:43 AddSpriteCommand(…) (harness); packages/editor/src/ui/WorldSpriteLibrary.tsx:635 DeleteUnusedSpriteAssetCommand(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:601 RemoveSpriteDefinitionCommand(…) (production)",
+      "legalInput": "fixture: loadCursorSpriteProject('c05-g03-13b', [ { asset: 'sprite.authored.c05disk', label: '磁盘', frameCount: 2, definitions: [] }, ]); calls: loadCursorSpriteProject(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -835,7 +899,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G03 精灵资产生命周期命令 DeleteUnusedSpriteAsset：invert 还原 apply 前的 blob 表；磁盘已持久资产仅在给出 persistedBytes 时写回字节副本",
-      "oracle": "expect(pendingBytes).toEqual(fresh.bytes) | expect(unused.assetCatalog.assets['sprite.authored.c05tmp']).toBeDefined() | expect(removedPending.assetCatalog.assets['sprite.authored.c05tmp']).toBeUndefined() | expect(fresh.record.path in removedPending.assetBlobs).toBe(false) | expect(restoredPending.assetCatalog).toBe(unused.assetCatalog) | expect(restoredPending.assetBlobs[fresh.record.path]).toBe(pendingBytes) | expect(diskRecord.path in bare.invert(bareRemoved).assetBlobs).toBe(false) | expect(restored.assetBlobs[diskRecord.path]).toEqual(diskBytes) | expect(restored.assetBlobs[diskRecord.path]).not.toBe(diskBytes)",
+      "oracle": "expect(pendingBytes).toEqual(fresh.bytes) | expect(unused.assetCatalog.assets['sprite.authored.c05tmp']).toBeDefined() | expect(removedPending.assetCatalog.assets['sprite.authored.c05tmp']).toBeUndefined() | expect(fresh.record.path in removedPending.assetBlobs).toBe(false) | expect(restoredPending.assetCatalog).toBe(unused.assetCatalog) | expect(restoredPending.assetBlobs[fresh.record.path]).toBe(pendingBytes) | expect(diskRecord.path in bare.invert(bareRemoved).assetBlobs).toBe(false) | expect(restored.assetBlobs[diskRecord.path]).toEqual(diskBytes) | expect(restored.assetBlobs[diskRecord.path]).not",
       "classification": "new-contract",
       "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
       "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-13 DeleteUnusedSpriteAsset：invert 还原 apply 前的 blob 表；磁盘已持久资产仅在给出 persistedBytes 时写回字节副本",
@@ -847,9 +911,9 @@
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:36 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — branches: :98 onCommitPoses?: (poses: Record<string, SpriteActionDef> | undefined) => boolean; :99 onRequestCreate?: () => void; :100 onSelectedActionChange?: (actionId: string | undefined) => void; :101 onOpenReferences?: (actionId: string) => void; :102 onBeforeContextChange?: () => boolean",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:36 case body | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:104 listOptions(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:103 pickActionOption(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:87 searchActions(…) (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g04-01', {; alpha: actionOf('甲', [0], { order: 0 }),; beta: actionOf('乙', [1], { order: 1 }),",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -864,16 +928,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
       "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-01 搜索 ActionId 子串：只保留匹配项且详情仍指向命中动作",
       "testSourceLine": 36,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G04-02",
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:49 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — branches: :98 onCommitPoses?: (poses: Record<string, SpriteActionDef> | undefined) => boolean; :99 onRequestCreate?: () => void; :100 onSelectedActionChange?: (actionId: string | undefined) => void; :101 onOpenReferences?: (actionId: string) => void; :102 onBeforeContextChange?: () => boolean",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:49 case body | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:104 listOptions(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:87 searchActions(…) (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g04-02', {; run: actionOf('RunFast', [0], { order: 0 }),; const host = editorHost(mounted)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -888,16 +954,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
       "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-02 搜索标签大小写不敏感：大写查询仍命中中文标签",
       "testSourceLine": 49,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G04-03",
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:59 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — branches: :98 onCommitPoses?: (poses: Record<string, SpriteActionDef> | undefined) => boolean; :99 onRequestCreate?: () => void; :100 onSelectedActionChange?: (actionId: string | undefined) => void; :101 onOpenReferences?: (actionId: string) => void; :102 onBeforeContextChange?: () => boolean",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:59 case body | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:104 listOptions(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:87 searchActions(…) (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g04-03', {; idle: actionOf('待机', [0], { order: 0 }),; const host = editorHost(mounted)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -912,16 +980,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
       "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-03 无匹配时显示「没有匹配的预制动作」且保留原 poses",
       "testSourceLine": 59,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G04-04",
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:70 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — branches: :98 onCommitPoses?: (poses: Record<string, SpriteActionDef> | undefined) => boolean; :99 onRequestCreate?: () => void; :100 onSelectedActionChange?: (actionId: string | undefined) => void; :101 onOpenReferences?: (actionId: string) => void; :102 onBeforeContextChange?: () => boolean",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:70 case body | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:91 clearSearchEscape(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:104 listOptions(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:87 searchActions(…) (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g04-04', {; a: actionOf('A', [0], { order: 0 }),; b: actionOf('B', [1], { order: 1 }),",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -936,16 +1006,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
       "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-04 Escape 清空搜索框并恢复完整目录",
       "testSourceLine": 70,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G04-05",
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:82 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — const [query, setQuery] = useState(''); const searchRef = useRef<HTMLInputElement>(null); const directoryRef = useRef<HTMLElement>(null); const detailPaneRef = useRef<HTMLDivElement>(null)",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:83 openC05(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:84 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:87 mountActionEditor(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:91 editorHost(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:91 renameAction(…) | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:120 mountActionEditor(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:111 renameAction(…) (harness)",
+      "legalInput": "fixture: mountActionEditor(open, { selectedActionId: 'idle', onCommitPoses: () => false, })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -967,9 +1039,9 @@
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:96 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — const [query, setQuery] = useState(''); const searchRef = useRef<HTMLInputElement>(null); const directoryRef = useRef<HTMLElement>(null); const detailPaneRef = useRef<HTMLDivElement>(null)",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:97 openC05(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:98 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:100 mountActionEditor(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:106 editorHost(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:106 renameAction(…) | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:120 mountActionEditor(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:111 renameAction(…) (harness)",
+      "legalInput": "fixture: mountActionEditor(open, { selectedActionId: 'idle', onCommitPoses: () => { throw new Error('宿主拒绝提交') }, })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -991,9 +1063,9 @@
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:111 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — branches: :98 onCommitPoses?: (poses: Record<string, SpriteActionDef> | undefined) => boolean; :99 onRequestCreate?: () => void; :100 onSelectedActionChange?: (actionId: string | undefined) => void; :101 onOpenReferences?: (actionId: string) => void; :102 onBeforeContextChange?: () => boolean",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:111 case body | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:103 pickActionOption(…) (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g04-07', {; a: actionOf('甲', [0], { order: 0 }),; b: actionOf('乙', [1], { order: 1 }),",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1008,16 +1080,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
       "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-07 onBeforeContextChange 返回 false：切换动作不触发 selection 变化",
       "testSourceLine": 111,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G04-08",
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:126 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — branches: :98 onCommitPoses?: (poses: Record<string, SpriteActionDef> | undefined) => boolean; :99 onRequestCreate?: () => void; :100 onSelectedActionChange?: (actionId: string | undefined) => void; :101 onOpenReferences?: (actionId: string) => void; :102 onBeforeContextChange?: () => boolean",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:126 case body | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g04-08'); const history = mounted.open.session.getHistoryVersion(); await mounted.setOptions({ onBeforeContextChange: () => false })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1032,16 +1106,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
       "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-08 onBeforeContextChange 阻断新建：点击新建零 history",
       "testSourceLine": 126,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G04-09",
       "batch": "C05",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteActionEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — definition: SpriteDef; catalog: AssetCatalogV1; proof: SpriteLayoutEditProof | undefined (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:140 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditor.tsx:85 export SpriteActionEditor — const [query, setQuery] = useState(''); const searchRef = useRef<HTMLInputElement>(null); const directoryRef = useRef<HTMLElement>(null); const detailPaneRef = useRef<HTMLDivElement>(null)",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:141 openC05(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:143 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:144 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:147 mountActionEditor(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:151 editorHost(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:151 listOptions(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:152 editorHost(…); packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx:153 editorHost(…) | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:384 <SpriteActionEditor (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:65 <SpriteActionEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:120 mountActionEditor(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:104 listOptions(…) (harness)",
+      "legalInput": "fixture: mountActionEditor(open, { selectedActionId: 'keep', restrictActionId: 'keep', })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1051,7 +1127,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G04 目录搜索与宿主回调 restrictActionId 只展示单一动作目录项",
-      "oracle": "expect(listOptions(editorHost(mounted))).toHaveLength(1) | expect(editorHost(mounted).textContent).toContain('keep') | expect(editorHost(mounted).textContent).not.toContain('hide')",
+      "oracle": "expect(listOptions(editorHost(mounted))).toHaveLength(1) | expect(editorHost(mounted).textContent).toContain('keep') | expect(editorHost(mounted).textContent).not",
       "classification": "new-contract",
       "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
       "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-09 restrictActionId 只展示单一动作目录项",
@@ -1064,8 +1140,8 @@
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
       "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:37 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:38 openC05(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:39 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:41 mountActionEditor(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:42 editorHost(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:44 controlByLabel | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:120 mountActionEditor(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 controlByLabel(…) (harness)",
+      "legalInput": "fixture: mountActionEditor(open, { selectedActionId: 'idle', proof: null })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1087,9 +1163,9 @@
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:51 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:128 export SpriteFrameWorkbench — branches: :128 aria-label={props.label}; :194 aria-label={props.label}; :230 aria-label={; :313 aria-label={props.ariaLabel ?? '选择源帧'}; :358 <section className=\"sprite-raw-inspector\" aria-label=\"源帧检查器\">; :371 <div className=\"sprite-raw-toolbar\" role=\"toolbar\" aria-label=\"源帧编辑\">",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:52 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:52 openC05Editor(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:54 editorHost(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mounted = await openC05Editor('g05-02', { idle: actionOf('待机', [0], { order: 0 }) }); await mounted.setOptions({ referenceStatus: 'checking' }); const host = editorHost(mounted)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1104,16 +1180,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-02 referenceStatus=checking：删除禁用且文案含「正在检查」",
       "testSourceLine": 51,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G05-03",
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:60 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:30 export SpriteFrameWorkbench — branches: :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return; :157 if (!target || !props.frames.length || !props.steps.length) return",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:61 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:61 openC05Editor(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:63 editorHost(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mounted = await openC05Editor('g05-03', { idle: actionOf('待机', [0], { order: 0 }) }); await mounted.setOptions({ referenceStatus: 'stale' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1128,16 +1206,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-03 referenceStatus=stale：横幅待刷新且删除仍禁用",
       "testSourceLine": 60,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G05-04",
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:66 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:30 export SpriteFrameWorkbench — branches: :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return; :157 if (!target || !props.frames.length || !props.steps.length) return",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:67 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:67 openC05Editor(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:69 editorHost(…) | production: none found in packages/editor/src (excl. *.test.*)",
+      "legalInput": "fixture: mounted = await openC05Editor('g05-04', { idle: actionOf('待机', [0], { order: 0 }) }); await mounted.setOptions({ referenceStatus: 'failed' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1152,16 +1232,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-04 referenceStatus=failed：横幅要求恢复后才能删除",
       "testSourceLine": 66,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G05-05",
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:72 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:119 export SpriteFrameWorkbench — branches: :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return; :157 if (!target || !props.frames.length || !props.steps.length) return; :176 if (!reducedMotion && !position.finished && props.steps.length > 1); :184 if (timer !== undefined) window.clearTimeout(timer); :274 if (typeof requestAnimationFrame === 'function') requestAnimationFrame(focus)",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:72 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 controlByLabel(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 fillAndBlur(…) (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g05-05', { idle: actionOf('待机', [0], { order: 0 }) }); const history = mounted.open.session.getHistoryVersion(); const host = editorHost(mounted)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1171,21 +1253,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G05 proof、引用态与拖拽边界 空名称 blur：aria-invalid 且零 history",
-      "oracle": "expect(host.querySelector('[aria-invalid=\"true\"]')).not.toBeNull() | expect(mounted.open.session.getHistoryVersion()).toBe(history)",
+      "oracle": "expect(host.querySelector('[aria-invalid=\"true\"]')).not | expect(mounted.open.session.getHistoryVersion()).toBe(history)",
       "classification": "new-contract",
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-05 空名称 blur：aria-invalid 且零 history",
       "testSourceLine": 72,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G05-06",
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:86 SPRITE_FRAME_DRAG_MIME | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:30 export SpriteFrameWorkbench — branches: :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return; :157 if (!target || !props.frames.length || !props.steps.length) return",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:81 case body | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:319 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:320 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:321 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:322 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:315 MemoryDataTransfer(…) (harness); packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
+      "legalInput": "fixture: const boundary = host.querySelector('.sprite-action-drop-boundary')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1200,16 +1284,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-06 拖拽非法 JSON：error notice 且 steps 不变",
       "testSourceLine": 81,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G05-07",
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:97 SPRITE_FRAME_DRAG_MIME | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:179 export SpriteFrameWorkbench — branches: :179 Math.max(16, (step?.durationMs ?? 200) - position.elapsedInStepMs),; :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:92 case body | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:319 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:320 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:321 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:322 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:315 MemoryDataTransfer(…) (harness); packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
+      "legalInput": "fixture: const boundary = host.querySelector('.sprite-action-drop-boundary')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1224,16 +1310,18 @@
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-07 拖拽其它 asset：拒绝且零 steps 变化",
       "testSourceLine": 92,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G05-08",
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:108 SPRITE_FRAME_DRAG_MIME | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:179 export SpriteFrameWorkbench — branches: :179 Math.max(16, (step?.durationMs ?? 200) - position.elapsedInStepMs),; :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:103 case body | production: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:319 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:320 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:321 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:322 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:315 MemoryDataTransfer(…) (harness); packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
+      "legalInput": "fixture: const boundary = host.querySelector('.sprite-action-drop-boundary')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1243,21 +1331,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G05 proof、引用态与拖拽边界 合法拖拽 payload：在首步前插入帧 1",
-      "oracle": "expect(heroPoses(mounted)!.idle?.steps).toEqual([ | expect(mounted.mutations.at(-1)).toEqual({ ok: true })",
+      "oracle": "expect(heroPoses(mounted)!.idle?.steps).toEqual([ { frame: 1, durationMs: 250 }, { frame: 0, durationMs: 250 }, ]) | expect(mounted.mutations.at(-1)).toEqual({ ok: true })",
       "classification": "new-contract",
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-08 合法拖拽 payload：在首步前插入帧 1",
       "testSourceLine": 103,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G05-09",
       "batch": "C05",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:119 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:179 export SpriteFrameWorkbench — branches: :179 Math.max(16, (step?.durationMs ?? 200) - position.elapsedInStepMs),; :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:119 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 controlByLabel(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 fillAndBlur(…) (harness)",
+      "legalInput": "fixture: mounted = await openC05Editor('g05-09', { idle: actionOf('待机', [0], { order: 0 }) }); const host = editorHost(mounted); const history = mounted.open.session.getHistoryVersion()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1267,28 +1357,30 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G05 proof、引用态与拖拽边界 步停留小于 1ms：字段 invalid 且 session steps 保持 250",
-      "oracle": "expect(host.querySelector('[aria-invalid=\"true\"]')).not.toBeNull() | expect(mounted.open.session.getHistoryVersion()).toBe(history) | expect(heroPoses(mounted)!.idle?.steps[0]?.durationMs).toBe(250)",
+      "oracle": "expect(host.querySelector('[aria-invalid=\"true\"]')).not | expect(mounted.open.session.getHistoryVersion()).toBe(history) | expect(heroPoses(mounted)!.idle?.steps[0]?.durationMs).toBe(250)",
       "classification": "new-contract",
       "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
       "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-09 步停留小于 1ms：字段 invalid 且 session steps 保持 250",
       "testSourceLine": 119,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G06-01",
       "batch": "C05",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — definition: SpriteDef; liveDefinition?: SpriteDef; catalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:35 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — branches: :75 onSelectedActionChange: (actionId: string | undefined) => void; :76 onSelectedSourceFrameChange: (frame: number) => void; :77 onRequestCreate: () => void; :78 onOpenReferences: (actionId: string) => void; :79 onRequestSave?: () => void",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:35 case body | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:1392 <SpriteActionEditorDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:181 <SpriteActionEditorDialog (harness)",
+      "legalInput": "fixture: dialog = await openC05Dialog('g06-01', { initialMode: 'create' }); const host = editorHost(dialog)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "00e1e7062bc01c409a1bc28e0bea0ff5bd611d32",
+        "oldFile": "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
+        "oldFullName": "52 actions use a virtual single-focus directory without reorder rows",
+        "oldMatcher": "expect(listbox.tabIndex).toBe(-1) expect(search).not.toBeNull() expect(host.querySelectorAll('[role=\"option\"]').length).toBeLessThanOrEqual(20) @ :579 (key=\"[role=\\\"option\\\"]\")",
         "dedupHeader": "排重：glm-l L04 已证 edit 范围漂移自动关窗与 create 模式 Cmd+S 阻断；K03/Dialog.test",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C05 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C05-G06 动作弹窗创建与完成 create 模式：目录只展示待创建的单条动作",
       "oracle": "expect(host.textContent).toContain('新建预制动作') | expect(host.querySelectorAll('[role=\"option\"]').length).toBeLessThanOrEqual(1) | expect(host.textContent).toMatch(/action(-\\d+)?/)",
@@ -1296,16 +1388,18 @@
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-01 create 模式：目录只展示待创建的单条动作",
       "testSourceLine": 35,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C05; C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G06-02",
       "batch": "C05",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — definition: SpriteDef; liveDefinition?: SpriteDef; catalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:43 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — branches: :81 onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void; :75 onSelectedActionChange: (actionId: string | undefined) => void; :76 onSelectedSourceFrameChange: (frame: number) => void; :77 onRequestCreate: () => void; :78 onOpenReferences: (actionId: string) => void",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:43 case body | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:1392 <SpriteActionEditorDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:181 <SpriteActionEditorDialog (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:149 clickDialogButton(…) (harness)",
+      "legalInput": "fixture: dialog = await openC05Dialog('g06-02', { initialMode: 'create' }); const history = dialog.open.session.getHistoryVersion(); await clickDialogButton(editorHost(dialog), '创建动作')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1315,21 +1409,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G06 动作弹窗创建与完成 确认创建：session 写入新 action 且通知 info",
-      "oracle": "expect(dialog.open.session.getHistoryVersion()).toBe(history + 1) | expect(poses && Object.keys(poses).length).toBe(1) | expect(dialog.notices.at(-1)).toEqual({ | expect(editorHost(dialog).textContent).toContain('编辑预制动作')",
+      "oracle": "expect(dialog.open.session.getHistoryVersion()).toBe(history + 1) | expect(poses && Object.keys(poses).length).toBe(1) | expect(dialog.notices.at(-1)).toEqual({ kind: 'info', message: '预制动作已创建，可继续编辑。', }) | expect(editorHost(dialog).textContent).toContain('编辑预制动作')",
       "classification": "new-contract",
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-02 确认创建：session 写入新 action 且通知 info",
       "testSourceLine": 43,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G06-03",
       "batch": "C05",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — definition: SpriteDef; liveDefinition?: SpriteDef; catalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:57 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — branches: :75 onSelectedActionChange: (actionId: string | undefined) => void; :76 onSelectedSourceFrameChange: (frame: number) => void; :77 onRequestCreate: () => void; :78 onOpenReferences: (actionId: string) => void; :79 onRequestSave?: () => void",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:57 case body | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:1392 <SpriteActionEditorDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:181 <SpriteActionEditorDialog (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:149 clickDialogButton(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:111 renameAction(…) (harness)",
+      "legalInput": "fixture: dialog = await openC05Dialog('g06-03', { initialMode: 'create' }); await renameAction(editorHost(dialog), '草稿名'); await clickDialogButton(editorHost(dialog), '取消')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1344,16 +1440,18 @@
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-03 create 改名后点取消：弹出放弃对话框且 session 仍无 poses",
       "testSourceLine": 57,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G06-04",
       "batch": "C05",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — definition: SpriteDef; liveDefinition?: SpriteDef; catalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:66 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — branches: :75 onSelectedActionChange: (actionId: string | undefined) => void; :76 onSelectedSourceFrameChange: (frame: number) => void; :77 onRequestCreate: () => void; :78 onOpenReferences: (actionId: string) => void; :79 onRequestSave?: () => void",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:66 case body | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:1392 <SpriteActionEditorDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:181 <SpriteActionEditorDialog (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:149 clickDialogButton(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:111 renameAction(…) (harness)",
+      "legalInput": "fixture: dialog = await openC05Dialog('g06-04', { initialMode: 'create' }); await renameAction(editorHost(dialog), '草稿名'); await clickDialogButton(editorHost(dialog), '取消')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1368,16 +1466,18 @@
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-04 放弃对话框选继续编辑：alert 关闭且仍可点创建",
       "testSourceLine": 66,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G06-05",
       "batch": "C05",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — definition: SpriteDef; liveDefinition?: SpriteDef; catalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:76 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — branches: :75 onSelectedActionChange: (actionId: string | undefined) => void; :76 onSelectedSourceFrameChange: (frame: number) => void; :77 onRequestCreate: () => void; :78 onOpenReferences: (actionId: string) => void; :79 onRequestSave?: () => void",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:76 case body | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:1392 <SpriteActionEditorDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:181 <SpriteActionEditorDialog (harness)",
+      "legalInput": "fixture: dialog = await openC05Dialog('g06-05', { initialMode: 'create' }); await dialog.setOptions({ liveProofSha256: 'b'.repeat(64) })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1392,16 +1492,18 @@
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-05 create 模式 liveProof 漂移：scopeConflict 文案且不自动 onClose",
       "testSourceLine": 76,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G06-06",
       "batch": "C05",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — definition: SpriteDef; liveDefinition?: SpriteDef; catalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:83 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — const rootRef = useRef<HTMLDivElement>(null); const composingRef = useRef(false); const mutationRejectedRef = useRef(false); const openingScopeRef = useRef({",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:84 openC05(…); packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:85 actionOf(…); packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:87 mountActionDialog(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:1392 <SpriteActionEditorDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:181 <SpriteActionEditorDialog (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:128 mountActionDialog(…) (harness)",
+      "legalInput": "fixture: mountActionDialog(open, { initialMode: 'edit', selectedActionId: 'idle' })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1422,10 +1524,10 @@
       "id": "C05-G06-07",
       "batch": "C05",
       "group": "G06",
-      "primarySource": "packages/editor/src/core/commands.ts",
-      "sourceCondition": "packages/editor/src/core/commands.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:102 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:110 collectCurrentProjectReferenceIndex | production: packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…); packages/editor/src/core/project-reference-adapters.ts:1953 collectCurrentProjectReferenceIndex(…); packages/editor/src/ui/App.tsx:1568 collectCurrentProjectReferenceIndex(…); packages/editor/src/ui/DataMode.tsx:648 collectCurrentProjectReferenceIndex(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:270 create-confirm gate — if (!current || asset drift || historyVersion!==baseline || poses JSON drift || poses[actionId] already exists || proof sha mismatch) reportError(\"项目已变化，新动作尚未创建…\") :280",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:94 mountActionDialog create + preempt UpdateSpriteCommand | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx create confirm path; packages/editor/src/ui/SpriteActionEditor.tsx opens dialog",
+      "legalInput": "fixture: openC05('g06-07'); mountActionDialog({ initialMode: 'create' }); preempt via UpdateSpriteCommand poses[snapshotId]=actionOf('抢占',[0]); click 创建动作",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1440,16 +1542,18 @@
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-07 创建前 session 已被写入同 id：confirm 报错且 history 不再增加",
       "testSourceLine": 94,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay: dialog create race → 项目已变化 (not commands barrel)"
     },
     {
       "id": "C05-G06-08",
       "batch": "C05",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — definition: SpriteDef; liveDefinition?: SpriteDef; catalog: AssetCatalogV1 (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:120 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:61 export SpriteActionEditorDialog — branches: :75 onSelectedActionChange: (actionId: string | undefined) => void; :76 onSelectedSourceFrameChange: (frame: number) => void; :77 onRequestCreate: () => void; :78 onOpenReferences: (actionId: string) => void; :79 onRequestSave?: () => void",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:120 case body | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:1392 <SpriteActionEditorDialog (production); packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx:181 <SpriteActionEditorDialog (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:149 clickDialogButton(…) (harness)",
+      "legalInput": "fixture: dialog = await openC05Dialog('g06-08', {; initialMode: 'edit',; selectedActionId: 'idle',",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1464,16 +1568,18 @@
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-08 edit 模式点完成：onClose 一次且无 create 按钮",
       "testSourceLine": 120,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G06-09",
       "batch": "C05",
       "group": "G06",
-      "primarySource": "packages/editor/src/core/commands.ts",
-      "sourceCondition": "packages/editor/src/core/commands.ts:1 module under test (no export map; export line only)",
-      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:148 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:152 collectCurrentProjectReferenceIndex | production: packages/editor/src/ui/SpriteActionEditor.tsx:223 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:227 UpdateSpriteCommand(…); packages/editor/src/ui/SpriteActionEditorDialog.tsx:286 UpdateSpriteCommand(…); packages/editor/src/ui/WorldSpriteLibrary.tsx:572 UpdateSpriteCommand(…); packages/editor/src/core/project-reference-adapters.ts:1953 collectCurrentProjectReferenceIndex(…); packages/editor/src/ui/App.tsx:1568 collectCurrentProjectReferenceIndex(…); packages/editor/src/ui/DataMode.tsx:648 collectCurrentProjectReferenceIndex(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "primarySource": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteActionEditorDialog.tsx:374-378 SpriteSourceFramePicker onSelect={props.onSelectedSourceFrameChange}; packages/editor/src/ui/SpriteFrameWorkbench.tsx SpriteSourceFramePicker click sets data-source-frame-index",
+      "caller": "test: packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx:130 openC05Dialog edit idle + source frame click | production: packages/editor/src/ui/SpriteActionEditorDialog.tsx:378 onSelect={onSelectedSourceFrameChange}",
+      "legalInput": "fixture: openC05Dialog('g06-09', { initialMode: 'edit', selectedActionId: 'idle' }); seedDialogPoses; click [data-source-frame-index=\"1\"]",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1488,16 +1594,18 @@
       "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
       "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-09 源帧选择器点击：上报 onSelectedSourceFrameChange",
       "testSourceLine": 130,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay: source frame picker callback wiring"
     },
     {
       "id": "C05-G07-01",
       "batch": "C05",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:26 export inspectSpriteFrameDragPayload — dataTransfer: Pick<DataTransfer, 'getData'>,; ): SpriteFrameDragReadResult {; const raw = dataTransfer.getData(SPRITE_FRAME_DRAG_MIME)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:62 inspectSpriteFrameDragPayload(…) | production: packages/editor/src/ui/SpriteActionEditor.tsx:353 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.tsx:44 inspectSpriteFrameDragPayload(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:26 export inspectSpriteFrameDragPayload — :29 const raw = dataTransfer.getData(SPRITE_FRAME_DRAG_MIME); :30 if (!raw) return { kind: 'absent' }",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:61 inspectSpriteFrameDragPayload | production: packages/editor/src/ui/SpriteActionEditor.tsx:353 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.tsx:44 readSpriteFrameDragPayload→inspect",
+      "legalInput": "fixture: inspectSpriteFrameDragPayload({ getData: () => '' }) // empty MIME / empty string",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1512,23 +1620,25 @@
       "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
       "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-01 inspect：缺 MIME 返回 absent",
       "testSourceLine": 61,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay: absent MIME branch"
     },
     {
       "id": "C05-G07-02",
       "batch": "C05",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string; packages/editor/src/ui/SpriteFrameWorkbench.tsx:26 export inspectSpriteFrameDragPayload — dataTransfer: Pick<DataTransfer, 'getData'>,; ): SpriteFrameDragReadResult {; const raw = dataTransfer.getData(SPRITE_FRAME_DRAG_MIME)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:66 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:67 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:67 type | production: packages/editor/src/ui/SpriteActionEditor.tsx:353 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.tsx:44 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:37 export SpriteFrameWorkbench — branches: :37 return { kind: 'invalid' }; :45 return result.kind === 'payload' ? result.value : undefined; :218 <small>{exists ? `${frame?.width ?? 0}×${frame?.height ?? 0}` : '缺失→#0'}</small>; :223 return <figure className={`sprite-frame-cell${exists ? '' : ' missing'}`}>{body}</figure>; :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:65 case body | production: packages/editor/src/ui/SpriteActionEditor.tsx:353 inspectSpriteFrameDragPayload(…) (production); packages/editor/src/ui/SpriteFrameWorkbench.tsx:44 inspectSpriteFrameDragPayload(…) (production); packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "legalInput": "fixture: const result = inspectSpriteFrameDragPayload({; getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '{' : ''),",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "6eab9d1dc55bd4200b3d48b7a6bb75d823dc6b84",
+        "oldFile": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "oldFullName": "共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload",
+        "oldMatcher": "expect( inspectSpriteFrameDragPayload({ getData: () => '{bad' } as Pick<DataTransfer, 'getData'>), ).toEqual({ kind: 'invalid' }) @ :292 (key=\"{ kind: 'invalid' }\")",
         "dedupHeader": "排重：SpriteFrameWorkbench.test 语义架；glm F04b RawFrameInspector；本组只测",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C05 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C05-G07 拖拽协议与源帧选择器 inspect：非法 JSON 返回 invalid",
       "oracle": "expect(result).toEqual({ kind: 'invalid' })",
@@ -1536,23 +1646,25 @@
       "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
       "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-02 inspect：非法 JSON 返回 invalid",
       "testSourceLine": 65,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C05; C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G07-03",
       "batch": "C05",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string; packages/editor/src/ui/SpriteFrameWorkbench.tsx:26 export inspectSpriteFrameDragPayload — dataTransfer: Pick<DataTransfer, 'getData'>,; ): SpriteFrameDragReadResult {; const raw = dataTransfer.getData(SPRITE_FRAME_DRAG_MIME)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:73 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:74 type; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:75 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:75 type | production: packages/editor/src/ui/SpriteActionEditor.tsx:353 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.tsx:44 inspectSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:37 export SpriteFrameWorkbench — branches: :37 return { kind: 'invalid' }; :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:72 case body | production: packages/editor/src/ui/SpriteActionEditor.tsx:353 inspectSpriteFrameDragPayload(…) (production); packages/editor/src/ui/SpriteFrameWorkbench.tsx:44 inspectSpriteFrameDragPayload(…) (production); packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "legalInput": "fixture: const result = inspectSpriteFrameDragPayload({; getData: (type) =>; type === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: C05_ASSET, frame: 1.5 }) : '',",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "6eab9d1dc55bd4200b3d48b7a6bb75d823dc6b84",
+        "oldFile": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "oldFullName": "共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload",
+        "oldMatcher": "expect( inspectSpriteFrameDragPayload({ getData: () => '{bad' } as Pick<DataTransfer, 'getData'>), ).toEqual({ kind: 'invalid' }) @ :292 (key=\"{ kind: 'invalid' }\")",
         "dedupHeader": "排重：SpriteFrameWorkbench.test 语义架；glm F04b RawFrameInspector；本组只测",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C05 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C05-G07 拖拽协议与源帧选择器 inspect：frame 非整数返回 invalid",
       "oracle": "expect(result).toEqual({ kind: 'invalid' })",
@@ -1560,16 +1672,18 @@
       "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
       "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-03 inspect：frame 非整数返回 invalid",
       "testSourceLine": 72,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C05; C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G07-04",
       "batch": "C05",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string; packages/editor/src/ui/SpriteFrameWorkbench.tsx:41 export readSpriteFrameDragPayload — dataTransfer: Pick<DataTransfer, 'getData'>,; ): SpriteFrameDragPayload | undefined {; const result = inspectSpriteFrameDragPayload(dataTransfer)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:80 readSpriteFrameDragPayload; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:81 readSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:82 type; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:83 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:83 type | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:30 export SpriteFrameWorkbench — branches: :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return; :157 if (!target || !props.frames.length || !props.steps.length) return",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:80 case body | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "legalInput": "fixture: const payload = readSpriteFrameDragPayload({; getData: (type) =>; type === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: C05_ASSET, frame: 3 }) : '',",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1584,16 +1698,18 @@
       "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
       "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-04 readSpriteFrameDragPayload：合法 payload 可读回",
       "testSourceLine": 80,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G07-05",
       "batch": "C05",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string; packages/editor/src/ui/SpriteFrameWorkbench.tsx:41 export readSpriteFrameDragPayload — dataTransfer: Pick<DataTransfer, 'getData'>,; ): SpriteFrameDragPayload | undefined {; const result = inspectSpriteFrameDragPayload(dataTransfer)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:88 readSpriteFrameDragPayload; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:90 readSpriteFrameDragPayload(…); packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:91 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:91 type | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:45 export SpriteFrameWorkbench — branches: :45 return result.kind === 'payload' ? result.value : undefined; :218 <small>{exists ? `${frame?.width ?? 0}×${frame?.height ?? 0}` : '缺失→#0'}</small>; :223 return <figure className={`sprite-frame-cell${exists ? '' : ' missing'}`}>{body}</figure>; :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:88 case body | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "legalInput": "fixture: readSpriteFrameDragPayload({; getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '\"nope\"' : ''),; ).toBeUndefined()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1603,21 +1719,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G07 拖拽协议与源帧选择器 readSpriteFrameDragPayload：invalid 时 undefined",
-      "oracle": "expect(",
+      "oracle": "expect( readSpriteFrameDragPayload({ getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '\"nope\"' : ''), }), ).toBeUndefined()",
       "classification": "new-contract",
       "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
       "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-05 readSpriteFrameDragPayload：invalid 时 undefined",
       "testSourceLine": 88,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G07-06",
       "batch": "C05",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:96 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:30 export SpriteFrameWorkbench — branches: :30 if (!raw) return { kind: 'absent' }; :100 if (!context) return; :102 if (!source) return; :119 if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale); :138 if (!query) return; :157 if (!target || !props.frames.length || !props.steps.length) return",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:96 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness)",
+      "legalInput": "fixture: const open = await openC05('g07-06'); renderPicker(open.frames, 999)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1632,7 +1750,9 @@
       "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
       "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-06 选中帧超出范围：安全钳到末帧且 status 播报末索引",
       "testSourceLine": 96,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C05-G07-07",
@@ -1640,7 +1760,7 @@
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
       "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:102 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:103 openC05(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1664,7 +1784,7 @@
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
       "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:14 export SPRITE_FRAME_DRAG_MIME — export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame' export interface SpriteFrameDragPayload { asset: string (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:114 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:115 openC05(…) | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1687,9 +1807,9 @@
       "batch": "C05",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:110 export SpriteFrameCanvas — source: HTMLCanvasElement | undefined; width: number; height: number",
-      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:130 SpriteFrameCanvas; packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:135 SpriteFrameCanvas | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/SpriteFrameWorkbench.tsx:128 export SpriteFrameWorkbench — branches: :128 aria-label={props.label}; :194 aria-label={props.label}; :230 aria-label={; :313 aria-label={props.ariaLabel ?? '选择源帧'}; :358 <section className=\"sprite-raw-inspector\" aria-label=\"源帧检查器\">; :371 <div className=\"sprite-raw-toolbar\" role=\"toolbar\" aria-label=\"源帧编辑\">",
+      "caller": "test: packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx:130 case body | production: packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:183 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:119 openC05(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:127 openC05(…) (harness); packages/editor/src/ui/BattleSpriteLibrary.tsx:1565 <SpriteFrameCanvas (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1618 <SpriteFrameCanvas (production); packages/editor/src/ui/SpriteActionEditor.tsx:655 <SpriteFrameCanvas (production); packages/editor/src/ui/SpriteFrameWorkbench.tsx:215 <SpriteFrameCanvas (production); packages/editor/src/ui/SpriteFrameWorkbench.tsx:410 <SpriteFrameCanvas (production)",
+      "legalInput": "fixture: requireRealCanvas2d(); const open = await openC05('g07-09'); act(() => {",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1704,7 +1824,9 @@
       "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
       "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 像素（互异 RGB 至少 2）",
       "testSourceLine": 130,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     }
   ]
 }

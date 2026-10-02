@@ -6,6 +6,9 @@
  *
  * Full contract bodies live in contracts/C01.json … C10.json (no field clipping).
  * contracts-index.json holds totals + shard paths + id→shard map only.
+ *
+ * Optional human overlays: contract-human-overrides.json (keyed by contract id).
+ * Overlay fields win on every regen and are never overwritten by auto fields.
  */
 import { execSync } from 'node:child_process'
 import {
@@ -23,6 +26,7 @@ const root = process.cwd()
 const cursorDir = resolve(root, 'docs/testing/grok-cursor-large/cursor')
 const contractsDir = resolve(cursorDir, 'contracts')
 const directed = JSON.parse(readFileSync(resolve(cursorDir, 'directed-vitest.json'), 'utf8'))
+const overridesPath = resolve(cursorDir, 'contract-human-overrides.json')
 
 /** Frozen Cursor source anchor for old-test blob SHA (receipt sourceBase sibling). */
 const OLD_TEST_GIT = '6ea1b41ff30e8bf532a78e98af991128947da9df'
@@ -37,11 +41,63 @@ const EXISTING_PROOF_IDS = new Set([
   'C09-G01-04',
   'C07-G01-02',
   'C07-G01-10',
+  'C05-G01-01',
+  'C06-G07-02',
+  'C06-G07-03',
+  'C06-G07-04',
 ])
 
 const idRe = /(C\d{2})-(G\d{2})-(\d{2})\b/
 
 const BATCHES = ['C01', 'C02', 'C03', 'C04', 'C05', 'C06', 'C07', 'C08', 'C09', 'C10']
+
+const ORACLE_BRANCH_KEYWORDS = [
+  'aria-pressed',
+  'aria-label',
+  'visibleMembers',
+  'showCollision',
+  'missingTiles',
+  'hiddenLayerIds',
+  'visualCount',
+  'collisionMembers',
+  'previewMembers',
+  'setShowCollision',
+  'setHiddenLayerIds',
+]
+
+const FIXTURE_CALL_NAMES = [
+  'c08StampTemplate',
+  'buildBlankProjectMap',
+  'loadLegalProject',
+  'mountStampPreview',
+  'mountWorldSpriteLibrary',
+  'mountFrameAnimationEditor',
+  'loadCursorSpriteProject',
+  'catalogOf',
+  'createWavPreviewTransport',
+  'installBrowserHardwarePorts',
+]
+
+function blobSha(repoPath) {
+  for (const rev of [OLD_TEST_GIT, 'HEAD']) {
+    try {
+      return execSync(`git rev-parse "${rev}:${repoPath}"`, {
+        cwd: root,
+        encoding: 'utf8',
+      }).trim()
+    } catch {
+      // try next rev
+    }
+  }
+  try {
+    return execSync(`git hash-object "${repoPath}"`, {
+      cwd: root,
+      encoding: 'utf8',
+    }).trim()
+  } catch {
+    return 'unknown'
+  }
+}
 
 /** @type {Record<string, { oldTestSha: string, oldFile: string, oldFullName: string, oldMatcher: string, proofNote: string }>} */
 const EXISTING_PROOF_OLD = {
@@ -122,30 +178,61 @@ const EXISTING_PROOF_OLD = {
     proofNote:
       '四 kind 闭集已含否定 frame-animation/video/music 的语义。prior-case: same cursor-r1 file case C07-G01-01; oldTestSha = git blob of that file at OLD_TEST_GIT (HEAD/hash-object fallback if missing)',
   },
+  'C05-G01-01': {
+    oldTestSha: blobSha('packages/editor/src/core/sprite-actions.test.ts'),
+    oldFile: 'packages/editor/src/core/sprite-actions.test.ts',
+    oldFullName: '按 order/label/id 稳定排序并派生零基显示编号',
+    oldMatcher:
+      "expect(sortedSpriteActions(...)).toMatchObject([{id:'first',index:0},{id:'late',index:1}]) @ :26-31",
+    proofNote:
+      "旧单测零基 index；wave2 sprite-actions.wave2.test.ts:38-49 expect(sortedSpriteActions(input)).toEqual(['action','a','b','c','action-2','z'].map((id, index) => ({ id, index, action: input.poses![id] }))) complete id/index/action array",
+  },
+  'C06-G07-02': {
+    oldTestSha: blobSha('packages/editor/src/ui/StampPreviewCanvas.test.tsx'),
+    oldFile: 'packages/editor/src/ui/StampPreviewCanvas.test.tsx',
+    oldFullName: '缺 tileId fail-visible，canvas 有文本等价且图层/碰撞可独立切换',
+    oldMatcher: 'collision aria-pressed true→click→false @ :107-109',
+    proofNote: '旧 combined 碰撞叠层 aria-pressed 切换段',
+  },
+  'C06-G07-03': {
+    oldTestSha: blobSha('packages/editor/src/ui/StampPreviewCanvas.test.tsx'),
+    oldFile: 'packages/editor/src/ui/StampPreviewCanvas.test.tsx',
+    oldFullName: '缺 tileId fail-visible，canvas 有文本等价且图层/碰撞可独立切换',
+    oldMatcher: 'layer click → aria-pressed false + text 0 个可见成员 @ :110-115',
+    proofNote: '旧 combined 图层隐藏后可见成员归零段',
+  },
+  'C06-G07-04': {
+    oldTestSha: blobSha('packages/editor/src/ui/StampPreviewCanvas.test.tsx'),
+    oldFile: 'packages/editor/src/ui/StampPreviewCanvas.test.tsx',
+    oldFullName: '缺 tileId fail-visible，canvas 有文本等价且图层/碰撞可独立切换',
+    oldMatcher: "canvas aria-label contains '1 层、1 个视觉成员' @ :101-103",
+    proofNote: '旧 combined canvas aria-label 层数/视觉成员段',
+  },
 }
 
-function blobSha(repoPath) {
-  for (const rev of [OLD_TEST_GIT, 'HEAD']) {
-    try {
-      return execSync(`git rev-parse "${rev}:${repoPath}"`, {
-        cwd: root,
-        encoding: 'utf8',
-      }).trim()
-    } catch {
-      // try next rev
-    }
+/** @type {Record<string, Record<string, unknown>>} */
+const humanOverrides = existsSync(overridesPath)
+  ? JSON.parse(readFileSync(overridesPath, 'utf8'))
+  : {}
+
+/**
+ * Deep-merge: overlay leaf values win; arrays replaced wholesale.
+ * @param {unknown} base
+ * @param {unknown} overlay
+ */
+function deepMerge(base, overlay) {
+  if (overlay === undefined) return base
+  if (overlay === null || typeof overlay !== 'object' || Array.isArray(overlay)) return overlay
+  if (base === null || typeof base !== 'object' || Array.isArray(base)) return overlay
+  /** @type {Record<string, unknown>} */
+  const out = { .../** @type {Record<string, unknown>} */ (base) }
+  for (const [key, value] of Object.entries(/** @type {Record<string, unknown>} */ (overlay))) {
+    out[key] = key in out ? deepMerge(out[key], value) : value
   }
-  try {
-    return execSync(`git hash-object "${repoPath}"`, {
-      cwd: root,
-      encoding: 'utf8',
-    }).trim()
-  } catch {
-    return 'unknown'
-  }
+  return out
 }
 
-/** @type {Map<string, { lines: string[], exports: Map<string, number> }>} */
+/** @type {Map<string, { lines: string[], exports: Map<string, number>, text: string }>} */
 const sourceCache = new Map()
 
 function loadSource(relPath) {
@@ -165,13 +252,165 @@ function loadSource(relPath) {
     const constEx = line.match(/^export const (\w+)/)
     if (constEx) exports.set(constEx[1], i + 1)
   }
-  const entry = { lines, exports }
+  const entry = { lines, exports, text }
   sourceCache.set(key, entry)
   return entry
 }
 
 /**
- * First meaningful body / condition lines after an export binding.
+ * Balance (), [], {} from an opening bracket index; returns index after closer.
+ * @param {string} text
+ * @param {number} openIdx
+ */
+function balanceFrom(text, openIdx) {
+  const pairs = { '(': ')', '[': ']', '{': '}' }
+  const open = text[openIdx]
+  const closer = pairs[open]
+  if (!closer) return openIdx + 1
+  const stack = [closer]
+  let i = openIdx + 1
+  let inStr = /** @type {string | null} */ (null)
+  let escaped = false
+  while (i < text.length && stack.length) {
+    const ch = text[i]
+    if (inStr) {
+      if (escaped) escaped = false
+      else if (ch === '\\') escaped = true
+      else if (ch === inStr) inStr = null
+      i++
+      continue
+    }
+    if (ch === '"' || ch === "'" || ch === '`') {
+      inStr = ch
+      i++
+      continue
+    }
+    if (ch === '(' || ch === '[' || ch === '{') {
+      stack.push(pairs[ch])
+      i++
+      continue
+    }
+    if (ch === ')' || ch === ']' || ch === '}') {
+      if (stack[stack.length - 1] === ch) stack.pop()
+      i++
+      continue
+    }
+    i++
+  }
+  return i
+}
+
+/**
+ * Collapse whitespace outside of string literals only.
+ * @param {string} s
+ */
+function compactOutsideStrings(s) {
+  let out = ''
+  let inStr = /** @type {string | null} */ (null)
+  let escaped = false
+  let pendingSpace = false
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i]
+    if (inStr) {
+      out += ch
+      if (escaped) escaped = false
+      else if (ch === '\\') escaped = true
+      else if (ch === inStr) inStr = null
+      continue
+    }
+    if (ch === '"' || ch === "'" || ch === '`') {
+      if (pendingSpace) {
+        out += ' '
+        pendingSpace = false
+      }
+      inStr = ch
+      out += ch
+      continue
+    }
+    if (/\s/.test(ch)) {
+      pendingSpace = out.length > 0
+      continue
+    }
+    if (pendingSpace) {
+      out += ' '
+      pendingSpace = false
+    }
+    out += ch
+  }
+  return out.trim()
+}
+
+/**
+ * Extract one complete expect(...)[.matcher(...)]* spanning lines.
+ * @param {string} text
+ * @param {number} startIdx index of 'expect'
+ */
+function extractCompleteExpect(text, startIdx) {
+  if (!text.startsWith('expect', startIdx)) return null
+  let i = startIdx + 'expect'.length
+  while (i < text.length && /\s/.test(text[i])) i++
+  if (text[i] !== '(') return null
+  i = balanceFrom(text, i)
+  // Chain .toEqual([...]) / .toThrow() / .rejects... across lines
+  for (;;) {
+    let k = i
+    while (k < text.length && /\s/.test(text[k])) k++
+    if (text[k] !== '.') break
+    k++
+    while (k < text.length && /[A-Za-z0-9_]/.test(text[k])) k++
+    while (k < text.length && /\s/.test(text[k])) k++
+    if (text[k] === '(') {
+      i = balanceFrom(text, k)
+      continue
+    }
+    i = k
+    break
+  }
+  return compactOutsideStrings(text.slice(startIdx, i))
+}
+
+function extractExpectOracle(body) {
+  const expects = []
+  let i = 0
+  while (i < body.length) {
+    const idx = body.indexOf('expect(', i)
+    if (idx < 0) break
+    // avoid false positives like expectTypeOf(
+    if (idx > 0 && /[A-Za-z0-9_]/.test(body[idx - 1])) {
+      i = idx + 6
+      continue
+    }
+    const complete = extractCompleteExpect(body, idx)
+    if (complete) {
+      expects.push(complete)
+      i = idx + complete.length
+    } else {
+      i = idx + 6
+    }
+  }
+  if (expects.length === 0) {
+    return 'no expect() — execution-only or implicit pass'
+  }
+  return expects.join(' | ')
+}
+
+function isOracleIncomplete(oracle) {
+  if (!oracle || oracle.startsWith('no expect()')) return false
+  if (/\(\[\s*$/.test(oracle) || /toEqual\(\[\s*$/.test(oracle)) return true
+  if (/expect\(\(\)\s*=>\s*$/.test(oracle)) return true
+  if (
+    /expect\(\(\)\s*=>/.test(oracle) &&
+    !/\)\s*\.\w+/.test(oracle) &&
+    !/toThrow|toBe|toEqual/.test(oracle)
+  )
+    return true
+  // Truncated mid-chain: ends with `([` or bare `expect(() =>`
+  if (/\[\s*$/.test(oracle) || /expect\(\(\)\s*=>\s*$/.test(oracle)) return true
+  return false
+}
+
+/**
+ * Skip signature/param lines; collect first if/throw/return body conditions.
  * @param {{ lines: string[] }} src
  * @param {number} exportLine 1-based
  * @param {string} sym
@@ -202,23 +441,103 @@ function exportSnippet(src, exportLine, sym) {
   }
 
   if (/^export (?:async )?function /.test(line) || /^export class /.test(line)) {
-    let j = i + 1
-    while (j < src.lines.length && collected.length < 3) {
+    // Find body opening brace (skip signature / param type lines).
+    let j = i
+    let sigDepth = 0
+    let bodyStart = -1
+    while (j < src.lines.length) {
       const raw = src.lines[j]
-      const l = raw.trim()
+      for (let c = 0; c < raw.length; c++) {
+        const ch = raw[c]
+        if (ch === '(' || ch === '<' || ch === '[') sigDepth++
+        else if (ch === ')' || ch === '>' || ch === ']') sigDepth = Math.max(0, sigDepth - 1)
+        else if (ch === '{' && sigDepth === 0) {
+          bodyStart = j
+          break
+        }
+      }
+      if (bodyStart >= 0) break
+      j++
+    }
+    if (bodyStart < 0) {
+      return `(export signature only — condition unresolved) export ${sym}`
+    }
+    j = bodyStart + 1
+    while (j < src.lines.length && collected.length < 4) {
+      const l = src.lines[j].trim()
       j++
       if (!l || l === '{' || l === '}') continue
       if (l.startsWith('//') || l.startsWith('*') || l.startsWith('/*')) continue
+      // Skip remaining param-looking lines if any leaked
+      if (/^[\w?]+\s*:/.test(l) && !/\b(if|return|throw|const|let|var)\b/.test(l)) continue
       collected.push(l)
       if (/\breturn\b|\bthrow\b|\bif\s*\(/.test(l)) break
     }
     if (collected.length === 0) {
-      return `export ${sym} (body not auto-parsed; export line only)`
+      return `(export signature only — condition unresolved) export ${sym}`
     }
     return collected.map((l) => l.replace(/\s+/g, ' ').replace(/;?\s*$/, '')).join('; ')
   }
 
-  return `export ${sym} (export line only; no function/const body snippet)`
+  return `(export signature only — condition unresolved) export ${sym}`
+}
+
+function isReactComponentSym(sym, src) {
+  if (!/^[A-Z]/.test(sym)) return false
+  const line = src.exports.get(sym)
+  if (!line) return false
+  const text = src.lines[line - 1] ?? ''
+  return /export function /.test(text) || /forwardRef/.test(text)
+}
+
+/**
+ * Cite render/state branches touched by oracle keywords for React components.
+ * @param {{ lines: string[] }} src
+ * @param {string} primaryPath
+ * @param {string} oracle
+ * @param {string} body
+ * @param {string} sym
+ * @param {number} exportLine
+ */
+function componentBranchCondition(src, primaryPath, oracle, body, sym, exportLine) {
+  const hay = `${oracle}\n${body}`
+  const hitKeywords = ORACLE_BRANCH_KEYWORDS.filter((kw) => hay.includes(kw))
+  // Also pick Chinese UI labels that map to collision / visible member branches
+  if (/碰撞|aria-pressed/.test(hay) && !hitKeywords.includes('showCollision')) {
+    hitKeywords.push('showCollision', 'aria-pressed')
+  }
+  if (/可见成员|视觉成员|aria-label/.test(hay)) {
+    if (!hitKeywords.includes('visibleMembers')) hitKeywords.push('visibleMembers')
+    if (!hitKeywords.includes('aria-label')) hitKeywords.push('aria-label')
+    if (!hitKeywords.includes('visualCount')) hitKeywords.push('visualCount')
+  }
+  if (/瓦片资源缺失|missing/.test(hay) && !hitKeywords.includes('missingTiles')) {
+    hitKeywords.push('missingTiles')
+  }
+
+  const cites = []
+  const seen = new Set()
+  for (let i = 0; i < src.lines.length; i++) {
+    const line = src.lines[i]
+    for (const kw of hitKeywords) {
+      if (!line.includes(kw)) continue
+      const key = `${i + 1}:${kw}`
+      if (seen.has(key)) continue
+      seen.add(key)
+      cites.push(`${primaryPath}:${i + 1} ${kw}: ${line.trim().replace(/\s+/g, ' ').slice(0, 120)}`)
+      break
+    }
+    if (cites.length >= 6) break
+  }
+  if (cites.length > 0) {
+    return `${primaryPath}:${exportLine} export ${sym} — branches: ${cites.join('; ')}`
+  }
+  const snip = exportSnippet(src, exportLine, sym)
+  if (snip.includes('export signature only')) {
+    return `${primaryPath}:${exportLine} export ${sym} — ${snip}`
+  }
+  // Component body found but no keyword branches — still prefer body over params
+  return `${primaryPath}:${exportLine} export ${sym} — ${snip}`
 }
 
 function jsImportToRepoPath(fromFile, spec) {
@@ -251,6 +570,22 @@ function parseImports(testAbsPath, content) {
       spec.includes('cursor-asset-r1') ||
       spec.includes('__tests__')
     ) {
+      // Still allow harness mounts from __tests__ to map symbols when needed —
+      // skip product path resolution for fixtures, but keep mount* names for caller indexing.
+      if (spec.includes('__tests__')) {
+        if (m[2]) symbols.set(m[2], `harness:${spec}`)
+        else {
+          const names = m[1]
+            .split(',')
+            .map((part) => part.trim())
+            .filter(Boolean)
+          for (const part of names) {
+            const alias = part.match(/^(\w+)(?:\s+as\s+(\w+))?/)
+            if (!alias) continue
+            symbols.set(alias[2] ?? alias[1], `harness:${spec}`)
+          }
+        }
+      }
       continue
     }
     const repo = jsImportToRepoPath(testAbsPath, spec)
@@ -294,6 +629,13 @@ function findUiComponentPath(componentName) {
   return undefined
 }
 
+function usesJsxOrMount(body, componentName) {
+  if (new RegExp(`<${componentName}\\b`).test(body)) return true
+  if (/mountStampPreview\s*\(/.test(body) && componentName === 'StampPreviewCanvas') return true
+  if (/createRoot\s*\(/.test(body) && new RegExp(`<${componentName}\\b`).test(body)) return true
+  return false
+}
+
 function primaryForCase(body, symbols, testRepoPath, fullName) {
   const inferred = inferPrimaryFromFilename(testRepoPath)
   // STATIC_IMAGE_KINDS 常量轴归属 core/static-image，勿因同文件 import imageAssets 漂到 UI。
@@ -301,7 +643,25 @@ function primaryForCase(body, symbols, testRepoPath, fullName) {
     const staticImage = 'packages/editor/src/core/static-image.ts'
     if (existsSync(resolve(root, staticImage))) return staticImage
   }
+  // Prefer React component when JSX / mount harness touches it.
+  for (const name of ['StampPreviewCanvas', 'StampMiniPreview']) {
+    if (
+      (fullName.includes(name) || usesJsxOrMount(body, name) || /mountStampPreview/.test(body)) &&
+      (name === 'StampPreviewCanvas' || usesJsxOrMount(body, name))
+    ) {
+      if (
+        name === 'StampPreviewCanvas' &&
+        (/mountStampPreview/.test(body) || fullName.includes('StampPreviewCanvas'))
+      ) {
+        const ui = findUiComponentPath('StampPreviewCanvas')
+        if (ui) return ui
+      }
+      const ui = findUiComponentPath(name)
+      if (ui) return ui
+    }
+  }
   for (const [sym, repo] of symbols) {
+    if (repo.startsWith('harness:')) continue
     if (fullName.includes(sym)) return repo
   }
   const stamp = fullName.match(/\b(Stamp[A-Z][A-Za-z0-9]+)\b/)
@@ -316,6 +676,7 @@ function primaryForCase(body, symbols, testRepoPath, fullName) {
   }
   const usedPaths = new Set()
   for (const [sym, repo] of symbols) {
+    if (repo.startsWith('harness:')) continue
     if (new RegExp(`\\b${sym}\\b`).test(body)) usedPaths.add(repo)
   }
   if (usedPaths.size === 1) return [...usedPaths][0]
@@ -325,7 +686,7 @@ function primaryForCase(body, symbols, testRepoPath, fullName) {
     const pick = sorted.find((p) => p.includes('/core/') || p.includes('/ui/')) ?? sorted[0]
     if (pick) return pick
   }
-  const prodImports = [...new Set(symbols.values())]
+  const prodImports = [...new Set([...symbols.values()].filter((p) => !p.startsWith('harness:')))]
   if (prodImports.length === 1) return prodImports[0]
   if (inferred) return inferred
   return prodImports[0] ?? 'unknown'
@@ -376,65 +737,90 @@ function findTestBlock(testRepoPath, lines, contractId) {
   return byId.get(contractId)
 }
 
-function extractExpectOracle(body) {
-  const expects = []
-  for (const line of body.split('\n')) {
-    const trimmed = line.trim()
-    if (!trimmed.includes('expect(')) continue
-    expects.push(trimmed.replace(/\s+/g, ' '))
-  }
-  if (expects.length === 0) {
-    const throws = body.match(/await expect\([^)]+\)[\s\S]*?\.(rejects|resolves)[^\n]*/g)
-    if (throws) return throws.map((t) => t.replace(/\s+/g, ' ')).join(' | ')
-    return 'no expect() — execution-only or implicit pass'
-  }
-  return expects.join(' | ')
+/**
+ * Quote a balanced call starting at name( … ) including nested braces/parens.
+ * @param {string} body
+ * @param {string} name
+ */
+function extractBalancedCall(body, name) {
+  const re = new RegExp(`\\b${name}\\s*\\(`)
+  const m = re.exec(body)
+  if (!m) return undefined
+  const openIdx = body.indexOf('(', m.index)
+  if (openIdx < 0) return undefined
+  const end = balanceFrom(body, openIdx)
+  return body.slice(m.index, end).replace(/\s+/g, ' ').trim().slice(0, 220)
 }
 
 function summarizeLegalInput(body) {
   const hints = []
-  if (/\bvi\.fn\b/.test(body)) hints.push('vi.fn() spies')
-  if (/catalogOf\(/.test(body)) hints.push('catalogOf typed AssetCatalogV1 fixture')
-  if (/loadCursorSpriteProject\(/.test(body))
-    hints.push('loadCursorSpriteProject isolated sprite project')
-  if (/mountWorldSpriteLibrary\(/.test(body)) hints.push('mountWorldSpriteLibrary jsdom harness')
-  if (/mountFrameAnimationEditor\(/.test(body)) hints.push('frame editor harness mount')
-  if (/\{ stop: vi\.fn\(\) \}/.test(body)) hints.push('EditorAudioPreviewOwner { stop: mock }')
-  if (/new AudioPreviewCache/.test(body)) hints.push('AudioPreviewCache(limit) in-memory')
-  if (/createWavPreviewTransport\(/.test(body))
-    hints.push('createWavPreviewTransport(stubReader, fakeBackend)')
-  if (/installBrowserHardwarePorts\(/.test(body))
-    hints.push('installBrowserHardwarePorts for real PNG decode')
-
-  // Exact fixture construction hints from the test body (no invented values).
-  const fixtureRes = [
-    /catalogOf\(\[[\s\S]*?\]\)/,
-    /loadCursorSpriteProject\([^)]*\)/,
-    /mountWorldSpriteLibrary\([^)]*\)/,
-    /mountFrameAnimationEditor\([^)]*\)/,
-    /new AudioPreviewCache\([^)]*\)/,
-    /createWavPreviewTransport\([^)]*\)/,
-    /\{\s*stop:\s*vi\.fn\(\)\s*\}/,
-    /installBrowserHardwarePorts\([^)]*\)/,
-  ]
-  for (const re of fixtureRes) {
-    const m = body.match(re)
-    if (!m) continue
-    const compact = m[0].replace(/\s+/g, ' ').trim()
-    hints.push(`fixture: ${compact}`)
+  const fixtureQuotes = []
+  for (const name of FIXTURE_CALL_NAMES) {
+    const quoted = extractBalancedCall(body, name)
+    if (quoted) fixtureQuotes.push(quoted)
   }
+  if (/new AudioPreviewCache\s*\(/.test(body)) {
+    const m = body.match(/new\s+AudioPreviewCache\s*\([^)]*\)/)
+    if (m) fixtureQuotes.push(m[0].replace(/\s+/g, ' ').trim())
+  }
+  if (/\{\s*stop:\s*vi\.fn\(\)\s*\}/.test(body)) {
+    fixtureQuotes.push('{ stop: vi.fn() }')
+  }
+  const stampPlace = body.match(/authoring\.stampPlacements(?:\s*=\s*[^;\n]+)?/)
+  if (stampPlace) fixtureQuotes.push(stampPlace[0].replace(/\s+/g, ' ').trim().slice(0, 160))
+
+  // Broader mount* capture (any mountFoo not already listed)
+  for (const m of body.matchAll(/\b(mount[A-Z]\w*)\s*\(/g)) {
+    if (FIXTURE_CALL_NAMES.includes(m[1])) continue
+    const quoted = extractBalancedCall(body.slice(m.index), m[1])
+    if (quoted && !fixtureQuotes.includes(quoted)) fixtureQuotes.push(quoted)
+  }
+  if (fixtureQuotes.length) {
+    hints.push(`fixture: ${[...new Set(fixtureQuotes)].slice(0, 4).join('; ')}`)
+  }
+
+  if (/\bvi\.fn\b/.test(body)) hints.push('vi.fn() spies')
 
   const calls = [
     ...body.matchAll(/\b(claim|release|stop|load|imageAssets|computePcmPeaks)\w*\(/g),
   ].map((x) => x[0])
   const uniqCalls = [...new Set(calls)].slice(0, 6)
   if (uniqCalls.length) hints.push(`calls: ${uniqCalls.join(', ')}`)
-  return hints.length ? hints.join('; ') : 'inline typed fixtures in test body (see test source)'
+
+  if (hints.length) return hints.join('; ')
+  return 'inline typed fixtures in test body (see test source)'
 }
 
-function sourceConditionFor(primaryPath, body, symbols) {
+function sourceConditionFor(primaryPath, body, symbols, oracle, fullName) {
   const src = loadSource(primaryPath)
   if (!src) return { sourceCondition: 'unknown — primary source missing', callerRefs: [] }
+
+  // Prefer component named in fullName / JSX / mount when primary is that file.
+  const preferredNames = []
+  const stamp = fullName.match(/\b(Stamp[A-Z][A-Za-z0-9]+)\b/)
+  if (stamp) preferredNames.push(stamp[1])
+  const ds = fullName.match(/\b(Ds[A-Z][A-Za-z0-9]+)\b/)
+  if (ds) preferredNames.push(ds[1])
+  for (const [sym] of src.exports) {
+    if (usesJsxOrMount(body, sym) || /mountStampPreview/.test(body)) {
+      if (isReactComponentSym(sym, src)) preferredNames.push(sym)
+    }
+  }
+  if (/mountStampPreview/.test(body) && src.exports.has('StampPreviewCanvas')) {
+    preferredNames.unshift('StampPreviewCanvas')
+  }
+
+  for (const name of preferredNames) {
+    const line = src.exports.get(name)
+    if (!line) continue
+    if (isReactComponentSym(name, src) || /^[A-Z]/.test(name)) {
+      return {
+        sourceCondition: componentBranchCondition(src, primaryPath, oracle, body, name, line),
+        callerRefs: [{ sym: name, line }],
+      }
+    }
+  }
+
   const hits = []
   for (const [sym, repo] of symbols) {
     if (repo !== primaryPath) continue
@@ -442,11 +828,36 @@ function sourceConditionFor(primaryPath, body, symbols) {
     const line = src.exports.get(sym)
     if (line) hits.push({ sym, line })
   }
-  hits.sort((a, b) => a.line - b.line)
+  // Prefer PascalCase component symbols over helper loaders when both hit
+  hits.sort((a, b) => {
+    const aComp = /^[A-Z]/.test(a.sym) ? 0 : 1
+    const bComp = /^[A-Z]/.test(b.sym) ? 0 : 1
+    if (aComp !== bComp) return aComp - bComp
+    return a.line - b.line
+  })
+
   if (hits.length === 0) {
+    // Fall back to first matching export in primary that is a component, else first export
+    for (const [sym, line] of src.exports) {
+      if (
+        isReactComponentSym(sym, src) &&
+        (fullName.includes(sym) || inferredComponentFromPath(primaryPath) === sym)
+      ) {
+        return {
+          sourceCondition: componentBranchCondition(src, primaryPath, oracle, body, sym, line),
+          callerRefs: [{ sym, line }],
+        }
+      }
+    }
     const firstExport = [...src.exports.entries()][0]
     if (firstExport) {
       const [sym, line] = firstExport
+      if (isReactComponentSym(sym, src)) {
+        return {
+          sourceCondition: componentBranchCondition(src, primaryPath, oracle, body, sym, line),
+          callerRefs: [{ sym, line }],
+        }
+      }
       const snip = exportSnippet(src, line, sym)
       return {
         sourceCondition: `${primaryPath}:${line} export ${sym} — ${snip} (inferred; no used export symbol matched in body)`,
@@ -454,17 +865,39 @@ function sourceConditionFor(primaryPath, body, symbols) {
       }
     }
     return {
-      sourceCondition: `${primaryPath}:1 module under test (no export map; export line only)`,
+      sourceCondition: `${primaryPath}:1 module under test (no export map; export signature only — condition unresolved)`,
       callerRefs: [],
     }
   }
+
+  const primaryHit = hits[0]
+  if (isReactComponentSym(primaryHit.sym, src)) {
+    return {
+      sourceCondition: componentBranchCondition(
+        src,
+        primaryPath,
+        oracle,
+        body,
+        primaryHit.sym,
+        primaryHit.line,
+      ),
+      callerRefs: hits,
+    }
+  }
+
   const cond = hits
+    .slice(0, 3)
     .map(({ sym, line }) => {
       const snip = exportSnippet(src, line, sym)
       return `${primaryPath}:${line} export ${sym} — ${snip}`
     })
     .join('; ')
   return { sourceCondition: cond, callerRefs: hits }
+}
+
+function inferredComponentFromPath(primaryPath) {
+  const base = primaryPath.split('/').pop() ?? ''
+  return base.replace(/\.(tsx|ts|jsx|js)$/, '')
 }
 
 function testCallerLines(testRepoPath, body, symbols, testStartLine) {
@@ -475,12 +908,19 @@ function testCallerLines(testRepoPath, body, symbols, testStartLine) {
     for (const sym of symbols.keys()) {
       if (new RegExp(`\\b${sym}\\s*\\(`).test(line)) {
         refs.push(`${testRepoPath}:${testStartLine + i} ${sym}(…)`)
+      } else if (new RegExp(`<${sym}\\b`).test(line)) {
+        refs.push(`${testRepoPath}:${testStartLine + i} <${sym}`)
       } else if (new RegExp(`\\b${sym}\\b`).test(line) && !/^\s*import\b/.test(line)) {
-        // constant / non-call reference inside the case
         if (!refs.some((r) => r.includes(`${testRepoPath}:${testStartLine + i} ${sym}`))) {
           refs.push(`${testRepoPath}:${testStartLine + i} ${sym}`)
         }
       }
+    }
+    if (/\bmountStampPreview\s*\(/.test(line)) {
+      refs.push(`${testRepoPath}:${testStartLine + i} mountStampPreview(…)`)
+    }
+    if (/\bcreateRoot\s*\(/.test(line)) {
+      refs.push(`${testRepoPath}:${testStartLine + i} createRoot(…)`)
     }
     const chain = line.match(/\b([a-zA-Z_]\w*)\.(load|get|play|claim|stop|release)\s*\(/)
     if (chain) {
@@ -494,31 +934,32 @@ function testCallerLines(testRepoPath, body, symbols, testStartLine) {
 let prodCallerIndex = null
 
 function isTestPath(relPath) {
-  return (
-    /\.test\.[jt]sx?$/.test(relPath) ||
-    /\.spec\.[jt]sx?$/.test(relPath) ||
-    relPath.includes('/__tests__/')
-  )
+  return /\.test\.[jt]sx?$/.test(relPath) || /\.spec\.[jt]sx?$/.test(relPath)
 }
 
-function walkEditorSrcFiles(dir, out) {
+function isHarnessPath(relPath) {
+  return relPath.includes('/__tests__/')
+}
+
+function walkEditorSrcFiles(dir, out, { includeHarness = false } = {}) {
   for (const name of readdirSync(dir)) {
     if (name === 'node_modules' || name === 'dist' || name.startsWith('.')) continue
     const abs = join(dir, name)
     const st = statSync(abs)
     if (st.isDirectory()) {
-      walkEditorSrcFiles(abs, out)
+      walkEditorSrcFiles(abs, out, { includeHarness })
       continue
     }
     if (!/\.[jt]sx?$/.test(name)) continue
     const rel = relative(root, abs).replace(/\\/g, '/')
     if (isTestPath(rel)) continue
+    if (isHarnessPath(rel) && !includeHarness) continue
     out.push(rel)
   }
 }
 
 /**
- * One-pass index: symbol → up to many production call/use sites.
+ * One-pass index: symbol → production + harness JSX/call sites.
  * @returns {Map<string, string[]>}
  */
 function buildProductionCallerIndex() {
@@ -527,65 +968,84 @@ function buildProductionCallerIndex() {
   const files = []
   const editorSrc = resolve(root, 'packages/editor/src')
   if (!existsSync(editorSrc)) return index
-  walkEditorSrcFiles(editorSrc, files)
+  walkEditorSrcFiles(editorSrc, files, { includeHarness: false })
+  const harnessFiles = []
+  walkEditorSrcFiles(editorSrc, harnessFiles, { includeHarness: true })
+  const allFiles = [...new Set([...files, ...harnessFiles.filter((p) => isHarnessPath(p))])]
+
   const callRe = /\b([A-Z]?[a-zA-Z_]\w*)\s*\(/g
+  const jsxRe = /<([A-Z][A-Za-z0-9]*)\b/g
   const identRe = /\b([A-Z][A-Z0-9_]*|[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]*)\b/g
-  for (const rel of files) {
+  const skipCalls = new Set([
+    'if',
+    'for',
+    'while',
+    'switch',
+    'catch',
+    'return',
+    'await',
+    'typeof',
+    'new',
+    'function',
+    'expect',
+    'describe',
+    'test',
+    'it',
+    'vi',
+    'useMemo',
+    'useState',
+    'useEffect',
+    'useCallback',
+    'useRef',
+  ])
+
+  for (const rel of allFiles) {
     const text = readFileSync(resolve(root, rel), 'utf8')
     const lines = text.split('\n')
+    const harness = isHarnessPath(rel)
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i]
       if (
         /^\s*import\b/.test(line) ||
-        /^\s*export\s+(type|interface|function|const|class)\b/.test(line)
+        /^\s*export\s+(?:async\s+)?function\b/.test(line) ||
+        /^\s*export\s+const\b/.test(line) ||
+        /^\s*export\s+class\b/.test(line) ||
+        /^\s*export\s+(type|interface)\b/.test(line)
       ) {
-        // Skip import / export definition lines; callers are non-definition uses only.
-        if (/^\s*import\b/.test(line) || /^\s*export\s+(?:async\s+)?function\b/.test(line)) continue
-        if (/^\s*export\s+const\b/.test(line)) continue
-        if (/^\s*export\s+class\b/.test(line)) continue
-        if (/^\s*export\s+(type|interface)\b/.test(line)) continue
+        // Still allow JSX on export default / other lines; skip pure defs.
+        if (!/</.test(line)) continue
       }
-      callRe.lastIndex = 0
-      for (const m of line.matchAll(callRe)) {
+
+      // JSX <ComponentName
+      jsxRe.lastIndex = 0
+      for (const m of line.matchAll(jsxRe)) {
         const sym = m[1]
-        if (!sym || sym.length < 2) continue
-        if (
-          [
-            'if',
-            'for',
-            'while',
-            'switch',
-            'catch',
-            'return',
-            'await',
-            'typeof',
-            'new',
-            'function',
-            'expect',
-            'describe',
-            'test',
-            'it',
-            'vi',
-            'useMemo',
-            'useState',
-            'useEffect',
-            'useCallback',
-            'useRef',
-          ].includes(sym)
-        ) {
-          continue
-        }
-        const entry = `${rel}:${i + 1} ${sym}(…)`
+        const tag = harness ? 'harness' : 'production'
+        const entry = `${rel}:${i + 1} <${sym} (${tag})`
         const list = index.get(sym) ?? []
         if (!list.includes(entry)) list.push(entry)
         index.set(sym, list)
       }
-      // Also index SCREAMING_SNAKE / PascalCase constant uses (non-call).
+
+      callRe.lastIndex = 0
+      for (const m of line.matchAll(callRe)) {
+        const sym = m[1]
+        if (!sym || sym.length < 2 || skipCalls.has(sym)) continue
+        const tag = harness ? 'harness' : 'production'
+        const entry = `${rel}:${i + 1} ${sym}(…) (${tag})`
+        const list = index.get(sym) ?? []
+        if (!list.includes(entry)) list.push(entry)
+        index.set(sym, list)
+      }
+
+      if (harness) continue
+      // SCREAMING_SNAKE / PascalCase constant uses (non-call) — production only
       identRe.lastIndex = 0
       for (const m of line.matchAll(identRe)) {
         const sym = m[1]
         if (!/^[A-Z][A-Z0-9_]+$/.test(sym) && !/^[A-Z][a-zA-Z0-9]+$/.test(sym)) continue
-        if (new RegExp(`\\b${sym}\\s*\\(`).test(line)) continue
+        if (new RegExp(`\\b${sym}\\s*\\(`).test(line) || new RegExp(`<${sym}\\b`).test(line))
+          continue
         const entry = `${rel}:${i + 1} ${sym}`
         const list = index.get(sym) ?? []
         if (!list.includes(entry)) list.push(entry)
@@ -596,9 +1056,26 @@ function buildProductionCallerIndex() {
   return index
 }
 
-function productionCallersFor(symbols, body) {
+function productionCallersFor(symbols, body, primarySource) {
   if (!prodCallerIndex) prodCallerIndex = buildProductionCallerIndex()
-  const used = [...symbols.keys()].filter((sym) => new RegExp(`\\b${sym}\\b`).test(body))
+  const used = [...symbols.keys()].filter((sym) => {
+    if (symbols.get(sym)?.startsWith('harness:')) {
+      return new RegExp(`\\b${sym}\\b`).test(body)
+    }
+    return new RegExp(`\\b${sym}\\b`).test(body) || new RegExp(`<${sym}\\b`).test(body)
+  })
+  // Always include primary component name for JSX lookup
+  const primaryName = inferredComponentFromPath(primarySource)
+  if (primaryName && /^[A-Z]/.test(primaryName) && !used.includes(primaryName)) {
+    used.unshift(primaryName)
+  }
+  if (/mountStampPreview/.test(body) && !used.includes('StampPreviewCanvas')) {
+    used.unshift('StampPreviewCanvas')
+  }
+  if (/mountStampPreview/.test(body) && !used.includes('mountStampPreview')) {
+    used.push('mountStampPreview')
+  }
+
   const refs = []
   for (const sym of used) {
     const list = prodCallerIndex.get(sym) ?? []
@@ -696,11 +1173,28 @@ function parseDirectedId(fullName, file) {
   return undefined
 }
 
+function isExportOnlyCondition(sourceCondition) {
+  return (
+    sourceCondition.includes('export signature only — condition unresolved') ||
+    /\(export signature only/.test(sourceCondition)
+  )
+}
+
+function isOldMatcherNone(oldAssertion) {
+  const m = oldAssertion?.oldMatcher
+  return !m || m === 'none' || String(m).startsWith('none')
+}
+
+function isProductionCallerNone(caller) {
+  return /production:\s*none/.test(caller)
+}
+
 /** @type {string[]} */
-const ledgerDebt = []
+const ledgerDebtNotes = []
 
 const contracts = []
 const fileCache = new Map()
+let overlaysApplied = 0
 
 for (const t of directed.tests ?? []) {
   if (t.status !== 'passed') continue
@@ -715,7 +1209,7 @@ for (const t of directed.tests ?? []) {
   let content = fileCache.get(testRepoPath)
   if (!content) {
     if (!existsSync(testAbs)) {
-      ledgerDebt.push(`${id}: missing test file ${testRepoPath}`)
+      ledgerDebtNotes.push(`${id}: missing test file ${testRepoPath}`)
       content = ''
     } else {
       content = readFileSync(testAbs, 'utf8')
@@ -727,20 +1221,20 @@ for (const t of directed.tests ?? []) {
   const lines = content.split('\n')
   const block = findTestBlock(testRepoPath, lines, id)
   if (!block) {
-    ledgerDebt.push(`${id}: could not locate test block in ${testRepoPath}`)
+    ledgerDebtNotes.push(`${id}: could not locate test block in ${testRepoPath}`)
   }
   const body = block?.body ?? ''
   const symbols = parseImports(testAbs, content)
   const primarySource = primaryForCase(body, symbols, testRepoPath, t.fullName)
-  const { sourceCondition } = sourceConditionFor(primarySource, body, symbols)
-  if (primarySource === 'unknown' || sourceCondition.includes('unknown')) {
-    ledgerDebt.push(`${id}: weak primary/sourceCondition (${primarySource})`)
-  }
   const oracle = extractExpectOracle(body)
+  const { sourceCondition } = sourceConditionFor(primarySource, body, symbols, oracle, t.fullName)
+  if (primarySource === 'unknown' || sourceCondition.includes('unknown')) {
+    ledgerDebtNotes.push(`${id}: weak primary/sourceCondition (${primarySource})`)
+  }
   const legalInput = summarizeLegalInput(body)
   const testRefs =
     block != null ? testCallerLines(testRepoPath, body, symbols, block.startLine) : []
-  const prodRefs = productionCallersFor(symbols, body)
+  const prodRefs = productionCallersFor(symbols, body, primarySource)
   const caller =
     block != null
       ? formatCallerField(testRefs, prodRefs, testRepoPath, block.startLine)
@@ -752,7 +1246,8 @@ for (const t of directed.tests ?? []) {
       .replace(/\s+/g, ' ')
       .trim() || t.fullName
 
-  contracts.push({
+  /** @type {Record<string, unknown>} */
+  let contract = {
     id,
     batch,
     group,
@@ -768,11 +1263,19 @@ for (const t of directed.tests ?? []) {
     fullName: t.fullName,
     testSourceLine: block?.startLine ?? null,
     status: 'passed',
-  })
+  }
+
+  const overlay = humanOverrides[id]
+  if (overlay && typeof overlay === 'object') {
+    contract = /** @type {Record<string, unknown>} */ (deepMerge(contract, overlay))
+    overlaysApplied++
+  }
+
+  contracts.push(contract)
 }
 
 if (contracts.length !== directed.passed) {
-  ledgerDebt.push(
+  ledgerDebtNotes.push(
     `count mismatch: directed passed=${directed.passed} contracts=${contracts.length}`,
   )
 }
@@ -782,8 +1285,9 @@ mkdirSync(contractsDir, { recursive: true })
 /** @type {Record<string, typeof contracts>} */
 const byBatch = Object.fromEntries(BATCHES.map((b) => [b, []]))
 for (const c of contracts) {
-  if (!byBatch[c.batch]) byBatch[c.batch] = []
-  byBatch[c.batch].push(c)
+  const batch = /** @type {string} */ (c.batch)
+  if (!byBatch[batch]) byBatch[batch] = []
+  byBatch[batch].push(c)
 }
 
 /** @type {{ batch: string, path: string, count: number, bytes: number }[]} */
@@ -804,10 +1308,10 @@ for (const batch of BATCHES) {
   writeFileSync(abs, text)
   const bytes = Buffer.byteLength(text, 'utf8')
   if (bytes >= 1024 * 1024) {
-    ledgerDebt.push(`${relPath}: shard size ${bytes} >= 1MiB`)
+    ledgerDebtNotes.push(`${relPath}: shard size ${bytes} >= 1MiB`)
   }
   shardMeta.push({ batch, path: relPath, count: list.length, bytes })
-  for (const c of list) idToShard[c.id] = relPath
+  for (const c of list) idToShard[/** @type {string} */ (c.id)] = relPath
 }
 
 // Remove legacy monolithic ledger if present (Biome 1MiB gate).
@@ -817,6 +1321,18 @@ if (existsSync(legacyMonolith)) {
 }
 
 const existingProof = contracts.filter((c) => c.classification === 'existing-proof').length
+
+const ledgerDebt = {
+  'oldMatcher-none': contracts.filter((c) => isOldMatcherNone(c.oldAssertion)).length,
+  'sourceCondition-export-only': contracts.filter((c) =>
+    isExportOnlyCondition(String(c.sourceCondition ?? '')),
+  ).length,
+  'oracle-incomplete': contracts.filter((c) => isOracleIncomplete(String(c.oracle ?? ''))).length,
+  'production-caller-none': contracts.filter((c) => isProductionCallerNone(String(c.caller ?? '')))
+    .length,
+  notes: ledgerDebtNotes,
+}
+
 const index = {
   total: contracts.length,
   existingProof,
@@ -832,7 +1348,9 @@ const summary = {
   total: contracts.length,
   existingProof,
   netNewEstimate: contracts.length - existingProof,
-  ledgerDebtCount: ledgerDebt.length,
+  overlaysApplied,
+  overlaysAvailable: Object.keys(humanOverrides).length,
+  ledgerDebt,
   shards: shardMeta.map((s) => ({ batch: s.batch, path: s.path, count: s.count, bytes: s.bytes })),
   outIndex: resolve(cursorDir, 'contracts-index.json'),
   outShardsDir: contractsDir,
@@ -840,7 +1358,7 @@ const summary = {
 }
 writeFileSync(
   resolve(cursorDir, 'generate-contracts-last.json'),
-  `${JSON.stringify({ ...summary, ledgerDebt }, null, 2)}\n`,
+  `${JSON.stringify(summary, null, 2)}\n`,
 )
 
 console.log(JSON.stringify(summary, null, 2))

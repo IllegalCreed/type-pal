@@ -7,9 +7,9 @@
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — const frame = draft.frames[frameIndex]; if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`); packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:39 draftDurationMs; packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:40 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:41 draftFrameDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:42 draftFrameDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — branches: :101 if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`); :102 return frame.durationMs ?? draft.defaultFrameMs",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:39 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…) (production)",
+      "legalInput": "fixture: baseDraft() frames with durations defaulting to defaultFrameMs=40 plus override 70 on middle → draftDurationMs=150; draftFrameDurationMs(baseDraft(),0)=40; draftFrameDurationMs(baseDraft(),1)=70",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -24,16 +24,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
       "testSourceLine": 39,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput; refined oracle branch"
     },
     {
       "id": "C04-G07-02",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:163 export insertDraftFrames — draft: FrameAnimationDraft,; at: number,; frames: readonly FrameAnimationDraftFrame[],; packages/editor/src/core/frame-animation-draft.ts:293 export draftFrameMetadata — return draft.frames.map((frame) =>",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:46 insertDraftFrames(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:50 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:51 draftFrameMetadata(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:45 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
+      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 0, [; draftDurationMs(next)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -48,16 +50,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
       "testSourceLine": 45,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-03",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — const frame = draft.frames[frameIndex]; if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`); packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:163 export insertDraftFrames — draft: FrameAnimationDraft,; at: number,; frames: readonly FrameAnimationDraftFrame[],",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:55 insertDraftFrames(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:58 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:59 draftFrameDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — branches: :102 return frame.durationMs ?? draft.defaultFrameMs; :101 if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`)",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:54 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
+      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 3, [; draftDurationMs(next); draftFrameDurationMs(next, 3)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -72,16 +76,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
       "testSourceLine": 54,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-04",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:199 export deleteDraftFrames — draft: FrameAnimationDraft,; frameIndices: readonly number[],; ): FrameAnimationDraft {; packages/editor/src/core/frame-animation-draft.ts:293 export draftFrameMetadata — return draft.frames.map((frame) =>",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:63 deleteDraftFrames(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:65 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:66 draftFrameMetadata(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:62 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production)",
+      "legalInput": "fixture: const trimmed = deleteDraftFrames(baseDraft(), [1]); draftDurationMs(trimmed)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -96,23 +102,25 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
       "testSourceLine": 62,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-05",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:216 export moveDraftFrame — draft: FrameAnimationDraft,; from: number,; to: number,",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:69 moveDraftFrame; packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:70 moveDraftFrame(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:74 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:428 moveDraftFrame(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:69 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:428 moveDraftFrame(…) (production)",
+      "legalInput": "fixture: const moved = moveDraftFrame(baseDraft(), 0, 2); draftDurationMs(moved)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
+        "oldFullName": "unknown-old-fullName",
+        "oldMatcher": "expect( redoDraftHistory(undoDraftHistory(history)).present.frames.map((frame) => frame.id), ).toEqual(['b', 'c', 'a']) @ :89 (key=\"['b', 'c', 'a']\")",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C04 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C04-G07 draft 时长与结构编辑 moveDraftFrame 只换序不改各帧 duration 字段",
       "oracle": "expect(moved.frames.map((f) => f.id)).toEqual(['b', 'c', 'a']) | expect(moved.frames[0]?.durationMs).toBe(70) | expect(moved.frames[2]?.durationMs).toBeUndefined() | expect(draftDurationMs(moved)).toBe(150)",
@@ -120,16 +128,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
       "testSourceLine": 69,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C04; C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-06",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:189 export duplicateDraftFrame — draft: FrameAnimationDraft,; frameIndex: number,; id: string,",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:77 duplicateDraftFrame; packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:78 duplicateDraftFrame(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:81 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:77 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production)",
+      "legalInput": "fixture: const dup = duplicateDraftFrame(baseDraft(), 1, 'b-copy'); draftDurationMs(dup)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -144,16 +154,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
       "testSourceLine": 77,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-07",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — const frame = draft.frames[frameIndex]; if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`); packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:133 export setDraftDefaultFrameMs — draft: FrameAnimationDraft,; defaultFrameMs: number,; ): FrameAnimationDraft {",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:84 setDraftDefaultFrameMs; packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:85 setDraftDefaultFrameMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:86 draftFrameDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:87 draftFrameDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:88 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:895 setDraftDefaultFrameMs(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — branches: :101 if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`); :102 return frame.durationMs ?? draft.defaultFrameMs",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:84 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:895 setDraftDefaultFrameMs(…) (production)",
+      "legalInput": "fixture: const wider = setDraftDefaultFrameMs(baseDraft(), 55); draftFrameDurationMs(wider, 0); draftFrameDurationMs(wider, 1); draftDurationMs(wider)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -168,16 +180,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
       "testSourceLine": 84,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-08",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:148 export setDraftFrameDuration — draft: FrameAnimationDraft,; frameIndex: number,; durationMs?: number,; packages/editor/src/core/frame-animation-draft.ts:293 export draftFrameMetadata — return draft.frames.map((frame) =>",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:91 draftFrameMetadata; packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:92 setDraftFrameDuration(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:93 draftFrameMetadata(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:94 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:911 setDraftFrameDuration(…); packages/editor/src/ui/FrameAnimationEditor.tsx:913 setDraftFrameDuration(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :106 return draft.frames.reduce(; :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:91 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:911 setDraftFrameDuration(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:913 setDraftFrameDuration(…) (production)",
+      "legalInput": "fixture: const cleared = setDraftFrameDuration(baseDraft(), 1, undefined); draftDurationMs(cleared)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -192,16 +206,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
       "testSourceLine": 91,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-09",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:163 export insertDraftFrames — draft: FrameAnimationDraft,; at: number,; frames: readonly FrameAnimationDraftFrame[],; packages/editor/src/core/frame-animation-draft.ts:293 export draftFrameMetadata — return draft.frames.map((frame) =>",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:98 insertDraftFrames(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:102 draftFrameMetadata(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:103 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :106 return draft.frames.reduce(; :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:97 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
+      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 2, [; draftDurationMs(next)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -216,16 +232,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
       "testSourceLine": 97,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G07-10",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — return draft.frames.reduce(; packages/editor/src/core/frame-animation-draft.ts:163 export insertDraftFrames — draft: FrameAnimationDraft,; at: number,; frames: readonly FrameAnimationDraftFrame[],; packages/editor/src/core/frame-animation-draft.ts:199 export deleteDraftFrames — draft: FrameAnimationDraft,; frameIndices: readonly number[],; ): FrameAnimationDraft {; packages/editor/src/core/frame-animation-draft.ts:293 export draftFrameMetadata — return draft.frames.map((frame) =>",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:107 insertDraftFrames(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:110 deleteDraftFrames(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:112 draftFrameMetadata(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:113 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:106 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
+      "legalInput": "fixture: const extended = insertDraftFrames(baseDraft(), 3, [; draftDurationMs(trimmed)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "frame-animation-draft.test.ts",
@@ -240,16 +258,18 @@
       "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
       "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override",
       "testSourceLine": 106,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-01",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:31 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx exposure of frameCount/durationMs/defaultFrameMs from draft (draftDurationMs / frames.length / defaultFrameMs) — initial three-frame draft totals 150ms with defaultFrameMs=40",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:31 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount() // default three-frame draft fixture from test harness",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -264,16 +284,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-01 初始三帧总时长 150ms 且 defaultFrameMs=40",
       "testSourceLine": 31,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput; refined oracle branch"
     },
     {
       "id": "C04-G01-02",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:36 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:36 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -288,16 +310,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-02 改当前帧 override 后 metadata 总时长即时更新",
       "testSourceLine": 36,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-03",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:43 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:43 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -312,16 +336,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-03 全局帧率 blur 后只抬默认帧时长，override 帧不变",
       "testSourceLine": 43,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-04",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:50 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:50 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -336,16 +362,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-04 清空 override 后该帧回到 default 计入总时长",
       "testSourceLine": 50,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-05",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:57 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:57 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -360,16 +388,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-05 仅改时长 frameCount 保持 3",
       "testSourceLine": 57,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-06",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:64 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:64 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -384,16 +414,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-06 两帧 override 后总时长为逐项相加",
       "testSourceLine": 64,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-07",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:73 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:73 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -408,16 +440,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-07 保存重开后 index.frames 保留 override 槽",
       "testSourceLine": 73,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-08",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:84 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:84 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -432,16 +466,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-08 撤销时长编辑 metadata 回到 150",
       "testSourceLine": 84,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-09",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:92 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:92 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -456,16 +492,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-09 重做时长编辑 metadata 回到 310",
       "testSourceLine": 92,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G01-10",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:101 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:101 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -480,16 +518,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G01 总时长 metadata C04-G01-10 非法全局帧率 blur 不改变 default 与总时长",
       "testSourceLine": 101,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-01",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:109 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:109 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -504,16 +544,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-01 选中 override 帧时字段值为 70",
       "testSourceLine": 109,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-02",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:115 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:115 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -528,16 +570,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-02 选中默认帧时字段为空且 placeholder 含 40",
       "testSourceLine": 115,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-03",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:123 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:123 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -552,16 +596,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-03 输入合法正数立即 commit 且 dirty",
       "testSourceLine": 123,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-04",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:131 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:131 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -576,16 +622,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-04 输入非正数不改动总时长",
       "testSourceLine": 131,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-05",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:138 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:138 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -600,16 +648,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-05 切换选中帧字段跟随当前 override",
       "testSourceLine": 138,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-06",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:147 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:147 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -624,16 +674,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-06 改时长后 counter 仍显示当前序号",
       "testSourceLine": 147,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-07",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:154 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :211 () => ({ assetId: asset.id, revision: asset.record.sha256, session }),; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:154 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -648,16 +700,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-07 全局 default 变更后无 override 帧 placeholder 更新",
       "testSourceLine": 154,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-08",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:161 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:161 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -672,16 +726,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-08 连续两次改同一帧 override 以最后一次为准",
       "testSourceLine": 161,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-09",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:169 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :228 const [viewport, setViewport] = useState({ left: 0, width: 600 }); :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:169 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -696,16 +752,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-09 撤销单帧 override 字段回到空",
       "testSourceLine": 169,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G02-10",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:178 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:178 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -720,16 +778,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G02 当前帧时长字段 C04-G02-10 全局帧率 input 未 blur 时不 commit defaultFrameMs",
       "testSourceLine": 178,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-01",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:187 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:187 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -744,16 +804,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-01 PNG 插入后 frameCount+1 且选中新帧",
       "testSourceLine": 187,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-02",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:197 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:197 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -768,16 +830,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-02 插入后总时长增加 default 一帧",
       "testSourceLine": 197,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-03",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:205 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:205 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -792,16 +856,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-03 复制 override 帧保留 durationMs",
       "testSourceLine": 205,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-04",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:214 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:214 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -811,21 +877,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C04-G03 插入与复制 复制后选区仅新 id 且 counter 指向复制帧",
-      "oracle": "expect(h.selectedIds()).toHaveLength(1) | expect(h.selectedIds()[0]).not.toBe(frameId(C04_MAIN, 1)) | expect(h.counter()).toBe('3 / 4') | expect(h.cardPixels()[2]).toEqual(h.cardPixels()[1])",
+      "oracle": "expect(h.selectedIds()).toHaveLength(1) | expect(h.selectedIds()[0]).not | expect(h.counter()).toBe('3 / 4') | expect(h.cardPixels()[2]).toEqual(h.cardPixels()[1])",
       "classification": "new-contract",
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-04 复制后选区仅新 id 且 counter 指向复制帧",
       "testSourceLine": 214,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-05",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:225 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:225 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -840,16 +908,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-05 多选复制插入到最大索引之后",
       "testSourceLine": 225,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-06",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:235 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:235 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -864,16 +934,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-06 末帧插入 PNG 追加到尾部",
       "testSourceLine": 235,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-07",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:244 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:244 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -888,16 +960,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-07 插入后撤销恢复 frameCount 与总时长",
       "testSourceLine": 244,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-08",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:253 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:253 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -912,16 +986,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-08 复制默认帧不携带 override",
       "testSourceLine": 253,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-09",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:261 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:261 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -936,16 +1012,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-09 插入两文件一次增加两帧",
       "testSourceLine": 261,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G03-10",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:270 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:270 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -960,16 +1038,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G03 插入与复制 C04-G03-10 插入后 stable 旧帧 id 不变",
       "testSourceLine": 270,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-01",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:282 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:282 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -979,21 +1059,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C04-G04 删除与选区 删单帧后选区落到同索引位置的下一帧 id",
-      "oracle": "expect(h.ids()).not.toContain(victim) | expect(h.latest()?.frameCount).toBe(2) | expect(h.selectedIds()).toEqual([h.ids()[1]])",
+      "oracle": "expect(h.ids()).not | expect(h.latest()?.frameCount).toBe(2) | expect(h.selectedIds()).toEqual([h.ids()[1]])",
       "classification": "new-contract",
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-01 删单帧后选区落到同索引位置的下一帧 id",
       "testSourceLine": 282,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-02",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:293 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:293 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1008,16 +1090,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-02 删 override 帧后总时长减少 70",
       "testSourceLine": 293,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-03",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:300 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:300 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1032,16 +1116,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-03 多选删除后 counter 显示剩余帧数",
       "testSourceLine": 300,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-04",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:308 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:308 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1056,16 +1142,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-04 全选时删除按钮 disabled",
       "testSourceLine": 308,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-05",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:315 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:315 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:93 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:96 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:337 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:341 px(…) (harness)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1080,16 +1168,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-05 删除首帧后 currentIndex 为 0",
       "testSourceLine": 315,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-06",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:323 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:323 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:93 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:96 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:337 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:341 px(…) (harness)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1104,16 +1194,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-06 删除后撤销恢复像素顺序与 frameCount",
       "testSourceLine": 323,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-07",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:333 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:333 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1128,16 +1220,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-07 删除末帧后仍选中新的末帧",
       "testSourceLine": 333,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-08",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:341 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:341 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1152,16 +1246,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-08 删除中间帧 metadata 立即更新",
       "testSourceLine": 341,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-09",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:348 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:348 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1176,16 +1272,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-09 单选删除后 selectedIds 长度为 1",
       "testSourceLine": 348,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G04-10",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:355 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:355 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1200,16 +1298,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G04 删除与选区 C04-G04-10 删除后 redo 栈清空",
       "testSourceLine": 355,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-01",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:367 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:367 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1224,16 +1324,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-01 拖拽来源不在选区时折叠为仅来源 id",
       "testSourceLine": 367,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-02",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:377 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:377 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1248,16 +1350,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-02 拖拽来源在 multi 选区内保留全集",
       "testSourceLine": 377,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-03",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:386 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:386 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:93 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:96 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:337 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:341 px(…) (harness)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1272,16 +1376,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-03 重排后像素顺序随 cards 变化",
       "testSourceLine": 386,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-04",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:393 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:393 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1296,16 +1402,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-04 重排 override 帧总时长不变",
       "testSourceLine": 393,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-05",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:399 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:399 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1320,16 +1428,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-05 重排后 anchor 与 current 对齐来源索引",
       "testSourceLine": 399,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-06",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:407 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :802 aria-label=\"帧动画预览；滚轮缩放，放大后拖拽平移，按 F 适合窗口，按 0 恢复原始大小\"; :777 onClick={() => travelHistory(undoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:407 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1344,16 +1454,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-06 重排 undo 恢复 id 顺序",
       "testSourceLine": 407,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-07",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:415 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:415 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1368,16 +1480,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-07 重排 redo 再次应用顺序",
       "testSourceLine": 415,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-08",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:424 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:424 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1392,16 +1506,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-08 同位 drop 不改变 ids",
       "testSourceLine": 424,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-09",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:431 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:431 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1416,16 +1532,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-09 重排后选中 id 仍存在于 cards",
       "testSourceLine": 431,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G05-10",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:440 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:440 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1440,16 +1558,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G05 重排与选择归属 C04-G05-10 重排后 metadata frameCount 不变",
       "testSourceLine": 440,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-01",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:448 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:448 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1464,16 +1584,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-01 撤销 PNG 插入后 frameCount 恢复且原 catalog id 仍在时间轴",
       "testSourceLine": 448,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-02",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:459 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:459 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1488,16 +1610,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-02 重做 PNG 插入恢复像素与帧数且选中新 uuid",
       "testSourceLine": 459,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-03",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:472 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:472 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1512,16 +1636,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-03 撤销删除恢复被删 id 且 active id 仍指向原存活帧",
       "testSourceLine": 472,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-04",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:484 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:484 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1536,16 +1662,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-04 撤销重排后 current 跟随原 active id",
       "testSourceLine": 484,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-05",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:494 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:494 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1560,16 +1688,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-05 多选 anchor 在 undo 后仍指向存在 id",
       "testSourceLine": 494,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-06",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:505 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:505 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1584,16 +1714,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-06 时长编辑 undo 不改变当前选中 id",
       "testSourceLine": 505,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-07",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:514 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:514 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1608,16 +1740,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-07 新编辑清空 redo 后 undo 仍可用",
       "testSourceLine": 514,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-08",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:526 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:526 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1632,16 +1766,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-08 撤销末帧复制后 active id 仍指向来源 catalog 帧",
       "testSourceLine": 526,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-09",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:537 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:537 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1656,16 +1792,18 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-09 redo 链恢复最后一次结构编辑选区",
       "testSourceLine": 537,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     },
     {
       "id": "C04-G06-10",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — asset: FrameAnimationAsset; reader: EditorAssetReader; assetBase: AssetBase (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:547 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:547 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1680,7 +1818,9 @@
       "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-10 撤销到 baseline 后 dirty 为 false",
       "testSourceLine": 547,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
     }
   ]
 }

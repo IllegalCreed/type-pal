@@ -134,9 +134,10 @@ describe('C08-G02 tileset-references 边与证明门', () => {
     }
     const batch = await indexedBatch(maps, [stampTemplate(TILESET_A)])
     const edges = stampPlacementReferences(batch, 'c08-tree')
-    expect(edges.length).toBeGreaterThan(0)
+    // 精确关系轴先于非空长度：旧 tileset-references.test:387 仅 toHaveLength(1)。
     expect(edges.map((edge) => edge.relation.kind)).toEqual(['stamp-placement-source'])
     expect(edges.map((edge) => edge.target)).toEqual([{ kind: 'stamp', id: 'c08-tree' }])
+    expect(edges.length).toBe(1)
     expect(edges.every((edge) => edge.relation.kind === 'stamp-placement-source')).toBe(true)
     expect(stampPlacementReferences(batch, 'missing-stamp')).toEqual([])
   })

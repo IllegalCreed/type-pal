@@ -7,9 +7,9 @@
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/card.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/card.tsx:4 export DsCard — title?: ReactNode; actions?: ReactNode; children: ReactNode",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:34 DsCard; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:36 DsCard; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:38 DsCard | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/card.tsx:10 DsCard — :10 return (",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:34 | production: packages/editor/src/design-lab/DesignLab.tsx:242 <DsCard; packages/editor/src/design-lab/DesignLab.tsx:283 <DsCard; packages/editor/src/design-lab/DesignLab.tsx:317 <DsCard; packages/editor/src/design-lab/DesignLab.tsx:351 <DsCard",
+      "legalInput": "fixtures: renderToStaticMarkup( <DsCard title=\"区块\" actions={<button type=\"button\">操作</button>}> 正文 </DsCard>, ); <DsCard title=\"区块\" actions={<button type=\"button\"; html=renderToStaticMarkup(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -24,16 +24,18 @@
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 静态 chrome C10-G06-01 DsCard 渲染 title 与 actions 槽",
       "testSourceLine": 34,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G06-02",
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/list-header.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/list-header.tsx:25 export DsListHeader — title: string; count: number; unit: string",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:45 DsListHeader; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:47 DsListHeader | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/list-header.tsx:45 DsListHeader — :45 return (; :82 if (next) focusFirstOverflowAction(); :83 return next",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:45 | production: packages/editor/src/design-lab/DesignLab.tsx:197 <DsListHeader; packages/editor/src/ui/ActorMode.tsx:411 <DsListHeader; packages/editor/src/ui/App.tsx:2316 <DsListHeader; packages/editor/src/ui/ProjectWorkbenchTab.tsx:411 <DsListHeader",
+      "legalInput": "fixtures: renderToStaticMarkup( <DsListHeader title=\"库\" count={3} unit=\"项\" help={{ label: '说明', content: '帮助正文' }} />, ); <DsListHeader title=\"库\" count={3} unit=\"项\" help={{ label: '说明', content: '帮助正文' }} /; html=renderToStaticMarkup(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -48,23 +50,25 @@
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 静态 chrome C10-G06-02 DsListHeader help 与 count 同排",
       "testSourceLine": 45,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G06-03",
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/choice-controls.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/choice-controls.tsx:6 export DsCheckbox — props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'style' | 'size'> & {; label: ReactNode; indeterminate?: boolean",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:53 DsCheckbox; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:55 DsCheckbox | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/choice-controls.tsx:14 DsCheckbox — :14 const { label, indeterminate = false, size = 'default', className, ...inputProps } = props; :17 if (ref.current) ref.current.indeterminate = indeterminate; :19 return (",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:53 | production: packages/editor/src/design-lab/DesignLab.tsx:285 <DsCheckbox; packages/editor/src/design-lab/DesignLab.tsx:290 <DsCheckbox; packages/editor/src/design-lab/DesignLab.tsx:291 <DsCheckbox; packages/editor/src/ui/App.tsx:2583 <DsCheckbox",
+      "legalInput": "fixtures: render(<DsCheckbox label=\"半选\" indeterminate onChange={() => undefined} />); <DsCheckbox label=\"半选\" indeterminate onChange={() =",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "44b8cc5af0dd9abf6a98a516d56b38f60f6d073d",
+        "oldFile": "packages/editor/src/ui/design-system/choice-controls.test.tsx",
+        "oldFullName": "keeps checkbox and switch identity with aria semantics",
+        "oldMatcher": "expect(checkboxHost.querySelector('input')?.getAttribute('aria-checked')).toBe('mixed') const switchHost = document.createElement('div') @ :15 (key=\"aria-checked\")",
         "dedupHeader": "C10-G06 card/list-header/tabs/choice/help/overflow/floating 叶组件合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C10 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C10-G06 静态 chrome DsCheckbox indeterminate 设 aria-checked=mixed",
       "oracle": "expect(mounted.host.querySelector('input')?.getAttribute('aria-checked')).toBe('mixed')",
@@ -72,15 +76,17 @@
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 静态 chrome C10-G06-03 DsCheckbox indeterminate 设 aria-checked=mixed",
       "testSourceLine": 53,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C10"
     },
     {
       "id": "C10-G06-04",
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/choice-controls.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/choice-controls.tsx:72 export DsSwitch — props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'style'> & {; label: ReactNode; className?: string",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:60 DsSwitch; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:62 DsSwitch | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/choice-controls.tsx:72 export DsSwitch — const { label, className, ...inputProps } = props; return (",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:60 DsSwitch; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:62 <DsSwitch; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:63 dsClick(…) | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:79 dsClick(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:302 <DsSwitch (production); packages/editor/src/ui/ItemTab.tsx:1626 <DsSwitch (production); packages/editor/src/ui/ItemTab.tsx:1817 <DsSwitch (production); packages/editor/src/ui/ItemTab.tsx:1887 <DsSwitch (production); packages/editor/src/ui/ItemTab.tsx:1917 <DsSwitch (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -103,8 +109,8 @@
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/tabs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/tabs.tsx:13 export DsTabs — label: string; items: readonly DsTabItem[]; activeId: string",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:69 DsTabs; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:73 DsTabs | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/tabs.tsx:13 export DsTabs — const refs = useRef(new Map<string, HTMLButtonElement>()); function move(currentId: string, direction: -1 | 1 | 'first' | 'last'): void {; const enabled = props.items.filter((item) => !item.disabled); if (enabled.length === 0) return",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:69 DsTabs; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:73 <DsTabs; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:87 dsKey(…) | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:85 dsKey(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:699 <DsTabs (production); packages/editor/src/ui/ActorMode.tsx:581 <DsTabs (production); packages/editor/src/ui/AmbienceScenePreview.tsx:225 <DsTabs (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1090 <DsTabs (production); packages/editor/src/ui/ImageTab.tsx:582 <DsTabs (production); packages/editor/src/ui/SceneScriptWorkspace.tsx:299 <DsTabs (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:698 <DsTabs (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -127,9 +133,9 @@
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/tabs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/tabs.tsx:13 export DsTabs — label: string; items: readonly DsTabItem[]; activeId: string",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:91 DsTabs; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:94 DsTabs | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/tabs.tsx:19 DsTabs — :19 variant?: 'line' | 'inspector'; :24 const enabled = props.items.filter((item) => !item.disabled); :25 if (enabled.length === 0) return",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:91 | production: packages/editor/src/design-lab/DesignLab.tsx:699 <DsTabs; packages/editor/src/ui/ActorMode.tsx:581 <DsTabs; packages/editor/src/ui/AmbienceScenePreview.tsx:225 <DsTabs; packages/editor/src/ui/BattleSpriteLibrary.tsx:1090 <DsTabs",
+      "legalInput": "fixtures: render( <DsTabs label=\"分区\" variant=\"inspector\" activeId=\"a\" onChange={() => undefined} items={[{ id: 'a', label: 'A' }]} />, ); <DsTabs label=\"分区\" variant=\"inspector\" activeId=\"a\" onChange={() =",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -139,21 +145,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G06 tabs 与 overflow DsTabs inspector variant class",
-      "oracle": "expect(mounted.host.querySelector('.ds-tabs--inspector')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('.ds-tabs--inspector')).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 tabs 与 overflow C10-G06-06 DsTabs inspector variant class",
       "testSourceLine": 91,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G06-07",
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/choice-controls.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/choice-controls.tsx:39 export DsRadioGroup — name: string; label: string; options: readonly DsOption[]",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:106 DsRadioGroup; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:110 DsRadioGroup | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/choice-controls.tsx:14 DsRadioGroup — :14 const { label, indeterminate = false, size = 'default', className, ...inputProps } = props; :17 if (ref.current) ref.current.indeterminate = indeterminate; :19 return (",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:106 | production: packages/editor/src/design-lab/DesignLab.tsx:292 <DsRadioGroup; packages/editor/src/ui/AudioAssetWorkbench.tsx:435 <HTMLInputElement; packages/editor/src/ui/AudioAssetWorkbench.tsx:436 <HTMLInputElement; packages/editor/src/ui/BattleSpriteLibrary.tsx:422 <HTMLInputElement",
+      "legalInput": "fixtures: render(<Harness />); <DsRadioGroup name=\"pick\" label=\"选择\" value={value} options={[ { value: 'x', label; y=[...mounted.host.querySelectorAll('input')].find(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -168,16 +176,18 @@
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 tabs 与 overflow C10-G06-07 DsRadioGroup 选中值随 onChange",
       "testSourceLine": 106,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G06-08",
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/overflow-text.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/overflow-text.tsx:35 export DsOverflowText — const { as: Element = 'span', children, className, ...elementProps } = props; const tooltipId = useId(); const anchorRef = useRef<HTMLElement>(null)",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:130 DsOverflowText; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:133 DsOverflowText | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/overflow-text.tsx:13 DsOverflowText — :13 return values.filter(Boolean).join(' '); :49 const next = Boolean(node && node.clientWidth > 0 && node.scrollWidth > node.clientWidth + 1); :50 if (next === clippedRef.current) return",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:130 | production: packages/editor/src/design-lab/DesignLab.tsx:322 <DsOverflowText; packages/editor/src/design-lab/DesignLab.tsx:328 <DsOverflowText; packages/editor/src/design-lab/DesignLab.tsx:334 <DsOverflowText; packages/editor/src/design-lab/DesignLab.tsx:340 <DsOverflowText",
+      "legalInput": "fixtures: render(<DsOverflowText>短文本</DsOverflowText>); <DsOverflowText",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -192,23 +202,25 @@
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 tabs 与 overflow C10-G06-08 DsOverflowText 未裁剪时不带 tabIndex",
       "testSourceLine": 130,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G06-09",
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/help-tips.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/help-tips.tsx:95 export DsHelpTip — const tooltipId = useId(); const buttonRef = useRef<HTMLButtonElement>(null); const tooltipRef = useRef<HTMLDivElement>(null)",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:137 DsHelpTip; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:140 DsHelpTip; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:142 DsHelpTip | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/help-tips.tsx:23 DsHelpTip — :23 const child = isValidElement<{ 'aria-describedby'?: string }>(props.children); :25 'aria-describedby': classes(props.children.props['aria-describedby'], tooltipId),; :30 if (!open) return",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:137 | production: packages/editor/src/ui/EntityFacingHelp.tsx:21 <DsHelpTip; packages/editor/src/ui/LayerStackControls.tsx:126 <DsHelpTip; packages/editor/src/ui/ProjectWorkbenchTab.tsx:1197 <DsHelpTip; packages/editor/src/ui/ProjectWorkbenchTab.tsx:1587 <DsHelpTip",
+      "legalInput": "fixtures: render( <DsHelpTip label=\"提示\"> <button type=\"button\">目标</button> </DsHelpTip>, ); <DsHelpTip label=\"提示\"",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "713f7ba0f07010f7323a7b4eaefe0a6ca23c0af3",
+        "oldFile": "packages/editor/src/ui/design-system/help-tips.test.tsx",
+        "oldFullName": "keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
+        "oldMatcher": "expect(staticTooltip.className).toBe('ds-visually-hidden') expect(staticTooltip.textContent).toBe('保存') expect(staticButton.getAttribute('aria-describedby')).toBe(staticTooltip.id) @ :25 (key=\"aria-describedby\")",
         "dedupHeader": "C10-G06 card/list-header/tabs/choice/help/overflow/floating 叶组件合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C10 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C10-G06 tabs 与 overflow DsHelpTip 子控件获得 aria-describedby",
       "oracle": "expect(btn.getAttribute('aria-describedby')).toBeTruthy()",
@@ -216,16 +228,18 @@
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 tabs 与 overflow C10-G06-09 DsHelpTip 子控件获得 aria-describedby",
       "testSourceLine": 137,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C10"
     },
     {
       "id": "C10-G06-10",
       "batch": "C10",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/design-system/list-header.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/list-header.tsx:25 export DsListHeader — title: string; count: number; unit: string",
-      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:149 DsListHeader; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:152 DsListHeader | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/list-header.tsx:110 DsListHeader — :110 aria-label=\"更多操作\"; :41 ?.querySelector<HTMLButtonElement>('[role=\"menuitem\"]:not(:disabled)'); :45 return (",
+      "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:149 | production: packages/editor/src/design-lab/DesignLab.tsx:197 <DsListHeader; packages/editor/src/ui/ActorMode.tsx:411 <DsListHeader; packages/editor/src/ui/App.tsx:2316 <DsListHeader; packages/editor/src/ui/ProjectWorkbenchTab.tsx:411 <DsListHeader",
+      "legalInput": "fixtures: render( <DsListHeader title=\"库\" count={1} unit=\"项\" overflowActions={[{ id: 'del', label: '删除', onClick: () => undefined }]} />, ); <DsListHeader title=\"库\" count={1} unit=\"项\" overflowActions={[{ id: 'del', label: '删除', onClic",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -235,21 +249,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G06 tabs 与 overflow DsListHeader overflow 菜单打开可见 menuitem",
-      "oracle": "expect(document.querySelector('[role=\"menuitem\"]')).not.toBeNull()",
+      "oracle": "expect(document.querySelector('[role=\"menuitem\"]')).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
       "fullName": "C10-G06 tabs 与 overflow C10-G06-10 DsListHeader overflow 菜单打开可见 menuitem",
       "testSourceLine": 149,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-01",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/draft-input-state.ts",
-      "sourceCondition": "packages/editor/src/ui/design-system/draft-input-state.ts:26 export draftSource — draftKey: string,; syncToken: string | number | undefined,; value: string,; packages/editor/src/ui/design-system/draft-input-state.ts:34 export useDsDraftController — value: string; error?: string; change(value: string): void",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:43 draftSource; packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:44 draftSource(…); packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:45 draftSource(…); packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:49 useDsDraftController(…) | production: packages/editor/src/ui/design-system/draft-input-state.ts:45 draftSource(…); packages/editor/src/ui/design-system/draft-text-inputs.tsx:42 useDsDraftController(…); packages/editor/src/ui/design-system/draft-text-inputs.tsx:97 useDsDraftController(…); packages/editor/src/ui/design-system/number-inputs.tsx:186 useDsDraftController(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/draft-input-state.ts:31 draftSource — :31 return `${draftKey}\\0${syncToken ?? ''}\\0${value}`; :57 if (draft.source !== source) setDraft({ source, value: canonicalValue }); :62 if (next.source !== source) return true",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:43 | production: packages/editor/src/ui/design-system/draft-input-state.ts:45 draftSource(…) (production); packages/editor/src/ui/design-system/draft-text-inputs.tsx:42 useDsDraftController(…) (production); packages/editor/src/ui/design-system/draft-text-inputs.tsx:97 useDsDraftController(…) (production); packages/editor/src/ui/design-system/number-inputs.tsx:186 useDsDraftController(…) (production)",
+      "legalInput": "fixtures: draftSource('name', 3, 'x'); draftSource('name', undefined, '')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -264,16 +280,18 @@
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 draft-input-state C10-G05-01 draftSource 拼接 draftKey syncToken value",
       "testSourceLine": 43,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-02",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/add-picker.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:58 export DsAddPickerDialog — const instanceId = useId().replace(/:/g, ''); const searchId = `ds-add-picker-${instanceId}-search`; const unavailableId = `ds-add-picker-${instanceId}-unavailable` (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:66 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:49 DsAddPickerDialog — :49 return [; :77 const filteredEnabledCount = filteredOptions.filter((option) => !option.disabledReason).length; :115 if (props.readOnly || props.loading || props.error || props.options.length === 0) return",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:66 | production: packages/editor/src/design-lab/DesignLab.tsx:1321 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1340 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1350 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1367 <DsAddPickerDialog; packages/editor/src/ui/AudioAssetWorkbench.tsx:435 <HTMLInputElement",
+      "legalInput": "fixtures: render(<DraftHarness syncToken={1} canonical=\"旧\" />); render(<DraftHarness syncToken={2} canonical=\"新\" />); input=mounted.host.querySelector<HTMLInputElement>('input')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -288,16 +306,18 @@
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 draft-input-state C10-G05-02 syncToken 变更重置草稿到 canonical",
       "testSourceLine": 66,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-03",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/draft-input-state.ts",
-      "sourceCondition": "packages/editor/src/ui/design-system/draft-input-state.ts:34 export useDsDraftController — value: string; error?: string; change(value: string): void",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:76 useDsDraftController(…); packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:97 DsMultiSelect | production: packages/editor/src/ui/design-system/draft-text-inputs.tsx:42 useDsDraftController(…); packages/editor/src/ui/design-system/draft-text-inputs.tsx:97 useDsDraftController(…); packages/editor/src/ui/design-system/number-inputs.tsx:186 useDsDraftController(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/draft-input-state.ts:31 useDsDraftController — :31 return `${draftKey}\\0${syncToken ?? ''}\\0${value}`; :19 syncToken?: string | number; :28 syncToken: string | number | undefined,",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:74 | production: packages/editor/src/ui/design-system/draft-text-inputs.tsx:42 useDsDraftController(…); packages/editor/src/ui/design-system/draft-text-inputs.tsx:97 useDsDraftController(…); packages/editor/src/ui/design-system/number-inputs.tsx:186 useDsDraftController(…); packages/editor/src/ui/AudioAssetWorkbench.tsx:435 <HTMLInputElement",
+      "legalInput": "fixtures: render(<RejectHarness />); controller=useDsDraftController({; input=mounted.host.querySelector<HTMLInputElement>('input')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -312,16 +332,18 @@
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 draft-input-state C10-G05-03 onCommit 返回 false 时 blur 回滚 canonical",
       "testSourceLine": 74,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-04",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/multi-select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/multi-select.tsx:6 export DsMultiSelect — id?: string; label: string; options: readonly DsOption[]",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:101 DsMultiSelect | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/multi-select.tsx:49 DsMultiSelect — :49 if (props.disabled && open) close(false); :54 if (!option || option.disabled) return; :133 if (!option.disabled) next.add(option.value)",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:98 | production: packages/editor/src/design-lab/DesignLab.tsx:271 <DsMultiSelect; packages/editor/src/ui/BattleSimulatorForms.tsx:288 <DsMultiSelect",
+      "legalInput": "fixtures: render( <DsMultiSelect label=\"标签\" options={options} value={[]} disabled onChange={() => undefined} />, ); <DsMultiSelect label=\"标签\" options={options} value={[]} disabled onChange={() =; trigger=mounted.host.querySelector('button')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -336,16 +358,18 @@
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 DsMultiSelect C10-G05-04 disabled 时 trigger disabled 且无法展开",
       "testSourceLine": 98,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-05",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/multi-select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/multi-select.tsx:6 export DsMultiSelect — id?: string; label: string; options: readonly DsOption[]",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:119 DsMultiSelect | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/multi-select.tsx:49 DsMultiSelect — :49 if (props.disabled && open) close(false); :84 if (event.key === 'Escape' && open) close(false); :21 const [open, setOpen] = useState(false)",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:116 | production: packages/editor/src/design-lab/DesignLab.tsx:271 <DsMultiSelect; packages/editor/src/ui/BattleSimulatorForms.tsx:288 <DsMultiSelect",
+      "legalInput": "fixtures: render( <DsMultiSelect label=\"标签\" options={options} value={[]} onChange={() => undefined} />, ); <DsMultiSelect label=\"标签\" options={options} value={[]} onChange={() =; trigger=mounted.host.querySelector('button')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -360,15 +384,17 @@
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 DsMultiSelect C10-G05-05 打开后 Escape 关闭并回到 trigger",
       "testSourceLine": 116,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-06",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/multi-select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/multi-select.tsx:6 export DsMultiSelect — id?: string; label: string; options: readonly DsOption[]",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:132 DsMultiSelect; packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:142 DsAddPickerDialog | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/multi-select.tsx:6 export DsMultiSelect — const listId = useId(); const triggerRef = useRef<HTMLButtonElement>(null); const layerRef = useRef<HTMLDivElement>(null); const searchRef = useRef<HTMLInputElement>(null)",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:132 <DsMultiSelect; packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:135 dsClick(…); packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:137 dsClick(…); packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:142 DsAddPickerDialog | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:79 dsClick(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:1321 <DsAddPickerDialog (production); packages/editor/src/design-lab/DesignLab.tsx:1340 <DsAddPickerDialog (production); packages/editor/src/design-lab/DesignLab.tsx:1350 <DsAddPickerDialog (production); packages/editor/src/design-lab/DesignLab.tsx:1367 <DsAddPickerDialog (production); packages/editor/src/ui/BattleSimulatorForms.tsx:114 <DsAddPickerDialog (production); packages/editor/src/ui/BattleSimulatorForms.tsx:462 <DsAddPickerDialog (production); packages/editor/src/ui/PortraitEditor.tsx:181 <DsAddPickerDialog (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -391,9 +417,9 @@
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/add-picker.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:58 export DsAddPickerDialog — const instanceId = useId().replace(/:/g, ''); const searchId = `ds-add-picker-${instanceId}-search`; const unavailableId = `ds-add-picker-${instanceId}-unavailable`",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:160 DsAddPickerDialog | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:77 DsAddPickerDialog — :77 const filteredEnabledCount = filteredOptions.filter((option) => !option.disabledReason).length; :135 if (current && !current.disabledReason) return; :150 if (!latest || latest.disabledReason) {",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:159 | production: packages/editor/src/design-lab/DesignLab.tsx:1321 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1340 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1350 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1367 <DsAddPickerDialog",
+      "legalInput": "fixtures: render(<DsAddPickerDialog {...pickerBase} readOnly />); <DsAddPickerDialog {...pickerBase} readOnly /",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -408,16 +434,18 @@
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 DsAddPickerDialog C10-G05-07 readOnly 时触发器 disabled",
       "testSourceLine": 159,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-08",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/add-picker.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:58 export DsAddPickerDialog — const instanceId = useId().replace(/:/g, ''); const searchId = `ds-add-picker-${instanceId}-search`; const unavailableId = `ds-add-picker-${instanceId}-unavailable`",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:165 DsAddPickerDialog | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:49 DsAddPickerDialog — :49 return [; :77 const filteredEnabledCount = filteredOptions.filter((option) => !option.disabledReason).length; :115 if (props.readOnly || props.loading || props.error || props.options.length === 0) return",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:164 | production: packages/editor/src/design-lab/DesignLab.tsx:1321 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1340 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1350 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1367 <DsAddPickerDialog; packages/editor/src/ui/AudioAssetWorkbench.tsx:435 <HTMLInputElement",
+      "legalInput": "fixtures: render(<DsAddPickerDialog {...pickerBase} />); <DsAddPickerDialog {...pickerBase} /; search=document.querySelector<HTMLInputElement>('input[type=\"search\"], input.ds-input')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -427,21 +455,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G05 DsAddPickerDialog 搜索过滤缩小候选列表",
-      "oracle": "expect(document.body.textContent).toContain('候选一') | expect(document.body.textContent).not.toContain('候选二')",
+      "oracle": "expect(document.body.textContent).toContain('候选一') | expect(document.body.textContent).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 DsAddPickerDialog C10-G05-08 搜索过滤缩小候选列表",
       "testSourceLine": 164,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-09",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/add-picker.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:58 export DsAddPickerDialog — const instanceId = useId().replace(/:/g, ''); const searchId = `ds-add-picker-${instanceId}-search`; const unavailableId = `ds-add-picker-${instanceId}-unavailable`",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:174 DsAddPickerDialog | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:77 DsAddPickerDialog — :77 const filteredEnabledCount = filteredOptions.filter((option) => !option.disabledReason).length; :135 if (current && !current.disabledReason) return; :150 if (!latest || latest.disabledReason) {",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:173 | production: packages/editor/src/design-lab/DesignLab.tsx:1321 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1340 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1350 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1367 <DsAddPickerDialog",
+      "legalInput": "fixtures: render(<DsAddPickerDialog {...pickerBase} />); <DsAddPickerDialog {...pickerBase} /; row=[...document.querySelectorAll('button')].find((b) =>; confirm=[...document.querySelectorAll('button')].find((b) =>",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -456,16 +486,18 @@
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 DsAddPickerDialog C10-G05-09 disabledReason 行不可确认",
       "testSourceLine": 173,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G05-10",
       "batch": "C10",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/design-system/add-picker.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:58 export DsAddPickerDialog — const instanceId = useId().replace(/:/g, ''); const searchId = `ds-add-picker-${instanceId}-search`; const unavailableId = `ds-add-picker-${instanceId}-unavailable`",
-      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:194 DsAddPickerDialog | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/add-picker.tsx:122 DsAddPickerDialog — :122 if (!open) return; :128 if (!open || (!props.loading && !props.error && props.options.length > 0)) return; :66 const [open, setOpen] = useState(false)",
+      "caller": "test: packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx:186 | production: packages/editor/src/design-lab/DesignLab.tsx:1321 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1340 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1350 <DsAddPickerDialog; packages/editor/src/design-lab/DesignLab.tsx:1367 <DsAddPickerDialog",
+      "legalInput": "fixtures: render(<Harness />); <DsAddPickerDialog {...pickerBase} scopeKey={scope} /; dialog=document.querySelector('dialog')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -475,20 +507,22 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G05 DsAddPickerDialog scopeKey 变更关闭已开对话框",
-      "oracle": "expect(document.querySelector('dialog[open], dialog[open=\"\"]')).not.toBeNull() | expect(dialog?.hasAttribute('open')).toBe(false)",
+      "oracle": "expect(document.querySelector('dialog[open], dialog[open=\"\"]')).not | expect(dialog?.hasAttribute('open')).toBe(false)",
       "classification": "new-contract",
       "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
       "fullName": "C10-G05 DsAddPickerDialog C10-G05-10 scopeKey 变更关闭已开对话框",
       "testSourceLine": 186,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G04-01",
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/number-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:411 export DsNumberField — props: DsFieldChromeProps &; Omit<DsNumberInputProps, 'className'> & { inputRef?: Ref<HTMLInputElement> },; ) {",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:35 DsNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:39 DsNumberField | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:411 export DsNumberField — branches: packages/editor/src/ui/design-system/number-inputs.tsx:106 aria-label: aria-label={`减少${props.label}`}; packages/editor/src/ui/design-system/number-inputs.tsx:118 aria-label: aria-label={`增加${props.label}`}; packages/editor/src/ui/design-system/number-inputs.tsx:441 aria-label: stepperLabel={controlProps['aria-label'] ?? label}; packages/editor/src/ui/design-system/number-inputs.tsx:477 aria-label: stepperLabel={controlProps['aria-label'] ?? label}",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:35 DsNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:39 <DsNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:51 dsClick(…) | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:79 dsClick(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:485 <DsNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:486 <DsNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:487 <DsNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:488 <DsNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:489 <DsNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:490 <DsNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:508 <DsNumberField (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -511,9 +545,9 @@
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/number-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:411 export DsNumberField — props: DsFieldChromeProps &; Omit<DsNumberInputProps, 'className'> & { inputRef?: Ref<HTMLInputElement> },; ) {",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:59 DsNumberField | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:142 DsNumberField — :142 if (disabled || readOnly || document.activeElement !== input) return; :340 if (disabled || readOnly) return false; :106 aria-label={`减少${props.label}`}",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:56 | production: packages/editor/src/design-lab/DesignLab.tsx:485 <DsNumberField; packages/editor/src/design-lab/DesignLab.tsx:486 <DsNumberField; packages/editor/src/design-lab/DesignLab.tsx:487 <DsNumberField; packages/editor/src/design-lab/DesignLab.tsx:488 <DsNumberField",
+      "legalInput": "fixtures: render( <DsNumberField label=\"数量\" defaultValue={10} min={0} max={10} step={1} />, ); <DsNumberField label=\"数量\" defaultValue={10} min={0} max={10} step={1} /",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -523,20 +557,22 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G04 number inputs 达 max 时 increment disabled",
-      "oracle": "expect(mounted.host.querySelector<HTMLButtonElement>('[aria-label=\"增加数量\"]')!.disabled).toBe(",
+      "oracle": "expect(mounted.host.querySelector<HTMLButtonElement>('[aria-label=\"增加数量\"]')!.disabled).toBe( true, )",
       "classification": "new-contract",
       "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
       "fullName": "C10-G04 number inputs C10-G04-02 达 max 时 increment disabled",
       "testSourceLine": 56,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G04-03",
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/number-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:452 export DsDraftNumberField — const {; id,; label,",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:67 DsDraftNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:71 DsDraftNumberField | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:452 export DsDraftNumberField — const {; id,; label,; layout,",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:67 DsDraftNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:71 <DsDraftNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:82 dsSetInputValue(…) | production: packages/editor/src/design-lab/DesignLab.tsx:478 <DsDraftNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:491 <DsDraftNumberField (production); packages/editor/src/ui/ActorMode.tsx:1368 <DsDraftNumberField (production); packages/editor/src/ui/BattleFieldTab.tsx:434 <DsDraftNumberField (production); packages/editor/src/ui/BattleFieldTab.tsx:450 <DsDraftNumberField (production); packages/editor/src/ui/BattleSimulatorForms.tsx:68 <DsDraftNumberField (production); packages/editor/src/ui/BattleSimulatorForms.tsx:208 <DsDraftNumberField (production); packages/editor/src/ui/BattleSimulatorForms.tsx:497 <DsDraftNumberField (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -559,8 +595,8 @@
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/number-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:452 export DsDraftNumberField — const {; id,; label,",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:91 DsDraftNumberField | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:452 export DsDraftNumberField — const {; id,; label,; layout,",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:91 <DsDraftNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:101 dsSetInputValue(…) | production: packages/editor/src/design-lab/DesignLab.tsx:478 <DsDraftNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:491 <DsDraftNumberField (production); packages/editor/src/ui/ActorMode.tsx:1368 <DsDraftNumberField (production); packages/editor/src/ui/BattleFieldTab.tsx:434 <DsDraftNumberField (production); packages/editor/src/ui/BattleFieldTab.tsx:450 <DsDraftNumberField (production); packages/editor/src/ui/BattleSimulatorForms.tsx:68 <DsDraftNumberField (production); packages/editor/src/ui/BattleSimulatorForms.tsx:208 <DsDraftNumberField (production); packages/editor/src/ui/BattleSimulatorForms.tsx:497 <DsDraftNumberField (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -571,7 +607,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G04 number inputs validate 失败阻止 commit 并保留草稿",
-      "oracle": "expect(onCommit).not.toHaveBeenCalled() | expect(input.value).toBe('9')",
+      "oracle": "expect(onCommit).not | expect(input.value).toBe('9')",
       "classification": "new-contract",
       "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
       "fullName": "C10-G04 number inputs C10-G04-04 validate 失败阻止 commit 并保留草稿",
@@ -583,8 +619,8 @@
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/number-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:452 export DsDraftNumberField — const {; id,; label,",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:111 DsDraftNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:136 DsDialog; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:138 DsDialog | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:452 export DsDraftNumberField — const {; id,; label,; layout,",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:111 <DsDraftNumberField; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:121 dsSetInputValue(…); packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:122 dsKey(…); packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:133 type; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:136 <DsDialog; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:137 type; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:138 DsDialog | production: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:85 dsKey(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:478 <DsDraftNumberField (production); packages/editor/src/design-lab/DesignLab.tsx:491 <DsDraftNumberField (production); packages/editor/src/ui/ActorMode.tsx:1368 <DsDraftNumberField (production); packages/editor/src/ui/BattleFieldTab.tsx:434 <DsDraftNumberField (production); packages/editor/src/ui/BattleFieldTab.tsx:450 <DsDraftNumberField (production); packages/editor/src/ui/BattleSimulatorForms.tsx:68 <DsDraftNumberField (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -607,9 +643,9 @@
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/number-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:297 export DsDraftNumberInput — return <DsDraftNumberControl {...props} /> (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:143 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:38 DsDraftNumberInput — :38 if (value === undefined || Array.isArray(value)) return undefined; :40 return Number.isFinite(parsed) ? parsed : undefined; :45 if (!text.includes('e')) return text.includes('.') ? (text.split('.')[1]?.length ?? 0) : 0",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:143 | production: packages/editor/src/ui/App.tsx:3715 <DsDraftNumberInput; packages/editor/src/ui/App.tsx:3897 <DsDraftNumberInput; packages/editor/src/ui/App.tsx:3909 <DsDraftNumberInput; packages/editor/src/ui/App.tsx:3921 <DsDraftNumberInput",
+      "legalInput": "fixtures: render(<DialogHarness />)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -624,16 +660,18 @@
       "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
       "fullName": "C10-G04 overlays C10-G04-06 打开 overlay 时 body overflow hidden",
       "testSourceLine": 143,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G04-07",
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/number-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:297 export DsDraftNumberInput — return <DsDraftNumberControl {...props} /> (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:149 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/number-inputs.tsx:106 DsDraftNumberInput — :106 aria-label={`减少${props.label}`}; :118 aria-label={`增加${props.label}`}; :441 stepperLabel={controlProps['aria-label'] ?? label}",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:149 | production: packages/editor/src/ui/App.tsx:3715 <DsDraftNumberInput; packages/editor/src/ui/App.tsx:3897 <DsDraftNumberInput; packages/editor/src/ui/App.tsx:3909 <DsDraftNumberInput; packages/editor/src/ui/App.tsx:3921 <DsDraftNumberInput",
+      "legalInput": "fixtures: render(<DialogHarness />); close=document.querySelector<HTMLButtonElement>('[aria-label=\"关闭\"]')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -648,23 +686,25 @@
       "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
       "fullName": "C10-G04 overlays C10-G04-07 关闭 overlay 恢复 body overflow",
       "testSourceLine": 149,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G04-08",
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/overlays.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/overlays.tsx:177 export DsDialog — open: boolean; role?: 'dialog' | 'alertdialog'; title: string",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:161 DsDialog; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:163 DsDialog | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/overlays.tsx:115 DsDialog — :115 if (cycle.finished || cycleRef.current !== cycle || !dialog.open) return; :130 if (!dialog) return; :148 if (!dialog) return",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:158 | production: packages/editor/src/design-lab/DesignLab.tsx:736 <DsDialog; packages/editor/src/design-lab/DesignLab.tsx:1235 <DsDialog; packages/editor/src/ui/AmbienceTab.tsx:701 <DsDialog; packages/editor/src/ui/AmbienceTab.tsx:754 <DsDialog",
+      "legalInput": "fixtures: render( <DsDialog open title=\"说明\" description=\"副标题\" onClose={() => undefined}> 内容 </DsDialog>, ); <DsDialog open title=\"说明\" description=\"副标题\" onClose={() =; dialog=document.querySelector('dialog')!",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "4aff59693bbdf49ae729a1230b19831b8a7c4a43",
+        "oldFile": "packages/editor/src/ui/design-system/overlays.test.tsx",
+        "oldFullName": "uses instance-unique title and description ids for dialogs with the same title",
+        "oldMatcher": "expect(dialogs).toHaveLength(2) const titleIds = dialogs.map((dialog) => dialog.getAttribute('aria-labelledby')) const descriptionIds = dialogs.map((dialog) => dialog.getAttribute('aria-describedby')) @ :61 (key=\"aria-describedby\")",
         "dedupHeader": "C10-G04 number-inputs + overlays：步进/草稿/对话框滚动锁；排 U07 静态快照主路径。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C10 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C10-G04 overlays overlay 带 description 时 aria-describedby 存在",
       "oracle": "expect(dialog.getAttribute('aria-describedby')).toBeTruthy() | expect(document.body.textContent).toContain('副标题')",
@@ -672,16 +712,18 @@
       "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
       "fullName": "C10-G04 overlays C10-G04-08 overlay 带 description 时 aria-describedby 存在",
       "testSourceLine": 158,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C10"
     },
     {
       "id": "C10-G04-09",
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/overlays.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/overlays.tsx:177 export DsDialog — open: boolean; role?: 'dialog' | 'alertdialog'; title: string",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:174 DsDialog; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:176 DsDialog | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/overlays.tsx:202 DsDialog — :202 aria-labelledby={titleId}; :204 aria-label={props.title}; :249 aria-labelledby={titleId}",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:171 | production: packages/editor/src/design-lab/DesignLab.tsx:736 <DsDialog; packages/editor/src/design-lab/DesignLab.tsx:1235 <DsDialog; packages/editor/src/ui/AmbienceTab.tsx:701 <DsDialog; packages/editor/src/ui/AmbienceTab.tsx:754 <DsDialog",
+      "legalInput": "fixtures: render( <DsDialog open dismissible={false} title=\"锁定\" onClose={() => undefined}> 内容 </DsDialog>, ); <DsDialog open dismissible={false} title=\"锁定\" onClose={() =",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -696,16 +738,18 @@
       "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
       "fullName": "C10-G04 overlays C10-G04-09 dismissible=false 时不渲染关闭按钮",
       "testSourceLine": 171,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G04-10",
       "batch": "C10",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/design-system/overlays.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/overlays.tsx:177 export DsDialog — open: boolean; role?: 'dialog' | 'alertdialog'; title: string",
-      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:185 DsDialog; packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:187 DsDialog | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/overlays.tsx:31 DsDialog — :31 if (element.getAttribute('aria-disabled') === 'true') return false; :33 return true; :115 if (cycle.finished || cycleRef.current !== cycle || !dialog.open) return",
+      "caller": "test: packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx:182 | production: packages/editor/src/design-lab/DesignLab.tsx:736 <DsDialog; packages/editor/src/design-lab/DesignLab.tsx:1235 <DsDialog; packages/editor/src/ui/AmbienceTab.tsx:701 <DsDialog; packages/editor/src/ui/AmbienceTab.tsx:754 <DsDialog",
+      "legalInput": "fixtures: render( <DsDialog open ariaBusy title=\"加载\" onClose={() => undefined}> 内容 </DsDialog>, ); <DsDialog open ariaBusy title=\"加载\" onClose={() =",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -720,16 +764,18 @@
       "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
       "fullName": "C10-G04 overlays C10-G04-10 aria-busy 传递到 dialog",
       "testSourceLine": 182,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-01",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/collection-search.ts",
-      "sourceCondition": "packages/editor/src/ui/design-system/collection-search.ts:4 export filterDsCollection — items: readonly T[],; query: string,; getSearchParts: (item: T) => readonly (string | number | null | undefined)[],",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:38 filterDsCollection; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:40 filterDsCollection(…) | production: packages/editor/src/ui/design-system/add-picker.tsx:73 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:167 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:223 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:486 filterDsCollection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/collection-search.ts:10 filterDsCollection — :10 if (!needle) return items; :11 return items.filter((item) =>; :5 items: readonly T[],",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:38 | production: packages/editor/src/ui/design-system/add-picker.tsx:73 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:167 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:223 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:486 filterDsCollection(…)",
+      "legalInput": "fixtures: filterDsCollection(items, ' ', (i) => [i.id]); items=[{ id: 'a' }]",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -739,21 +785,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G07 collection-search 与 index filterDsCollection 空 query 返回原引用",
-      "oracle": "expect(filterDsCollection(items, ' ', (i) => [i.id])).toBe(items)",
+      "oracle": "expect(filterDsCollection(items, '  ', (i) => [i.id])).toBe(items)",
       "classification": "new-contract",
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
       "testSourceLine": 38,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-02",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/collection-search.ts",
-      "sourceCondition": "packages/editor/src/ui/design-system/collection-search.ts:4 export filterDsCollection — items: readonly T[],; query: string,; getSearchParts: (item: T) => readonly (string | number | null | undefined)[],",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:43 filterDsCollection; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:48 filterDsCollection(…) | production: packages/editor/src/ui/design-system/add-picker.tsx:73 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:167 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:223 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:486 filterDsCollection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/collection-search.ts:10 filterDsCollection — :10 if (!needle) return items; :11 return items.filter((item) =>",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:43 | production: packages/editor/src/ui/design-system/add-picker.tsx:73 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:167 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:223 filterDsCollection(…); packages/editor/src/ui/design-system/select.tsx:486 filterDsCollection(…)",
+      "legalInput": "fixtures: filterDsCollection(items, 'ALP', (i) => [i.label]); items=[",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -768,16 +816,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
       "testSourceLine": 43,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-03",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/collection-search.ts",
-      "sourceCondition": "packages/editor/src/ui/design-system/collection-search.ts:2 export DS_OPTION_VIRTUALIZE_ABOVE — export const DS_OPTION_VIRTUALIZE_ABOVE = 80 export function filterDsCollection<T>( items: readonly T[],",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:51 DS_OPTION_VIRTUALIZE_ABOVE; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:52 DS_OPTION_VIRTUALIZE_ABOVE | production: packages/editor/src/ui/design-system/add-picker.tsx:282 DS_OPTION_VIRTUALIZE_ABOVE; packages/editor/src/ui/design-system/select.tsx:175 DS_OPTION_VIRTUALIZE_ABOVE",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/collection-search.ts:2 DS_OPTION_VIRTUALIZE_ABOVE — export const DS_OPTION_VIRTUALIZE_ABOVE = 80",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:51 DS_OPTION_VIRTUALIZE_ABOVE | production: packages/editor/src/ui/design-system/collection-search.ts / select virtualize threshold",
+      "legalInput": "fixtures: DS_OPTION_VIRTUALIZE_ABOVE constant (=80)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -792,16 +842,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
       "testSourceLine": 51,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C10-G07-03 virtualize threshold const"
     },
     {
       "id": "C10-G07-04",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/index.ts",
-      "sourceCondition": "packages/editor/src/ui/design-system/index.ts:13 export EDITOR_DESIGN_SYSTEM_VERSION — export const EDITOR_DESIGN_SYSTEM_VERSION = '2.24.0' as const ",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:55 EDITOR_DESIGN_SYSTEM_VERSION; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:56 EDITOR_DESIGN_SYSTEM_VERSION | production: packages/editor/src/design-lab/DesignLab.tsx:62 EDITOR_DESIGN_SYSTEM_VERSION; packages/editor/src/design-lab/DesignLab.tsx:1469 EDITOR_DESIGN_SYSTEM_VERSION",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/index.ts:13 EDITOR_DESIGN_SYSTEM_VERSION — export const EDITOR_DESIGN_SYSTEM_VERSION = '2.24.0' as const (semver triple consumed by oracle /^\\d+\\.\\d+\\.\\d+$/)",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:55 EDITOR_DESIGN_SYSTEM_VERSION | production: packages/editor/src/ui/design-system/index.ts:13 export const (re-exported design-system barrel)",
+      "legalInput": "fixtures: import { EDITOR_DESIGN_SYSTEM_VERSION } from design-system/index; constant '2.24.0'",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -816,16 +868,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
       "testSourceLine": 55,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C10-G07-04 version const binding"
     },
     {
       "id": "C10-G07-05",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/control-utils.ts",
-      "sourceCondition": "packages/editor/src/ui/design-system/control-utils.ts:1 export classes — return values.filter(Boolean).join(' '); packages/editor/src/ui/design-system/control-utils.ts:5 export describedBy — const value = ids.filter(Boolean).join(' '); return value || undefined",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:59 describedBy; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:60 describedBy(…); packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:61 classes(…) | production: packages/editor/src/ui/design-system/buttons.tsx:14 classes(…); packages/editor/src/ui/design-system/buttons.tsx:43 classes(…); packages/editor/src/ui/design-system/buttons.tsx:69 classes(…); packages/editor/src/ui/design-system/card.tsx:11 classes(…); packages/editor/src/ui/design-system/choice-controls.tsx:21 classes(…); packages/editor/src/ui/design-system/choice-controls.tsx:80 classes(…); packages/editor/src/ui/design-system/feedback.tsx:12 classes(…); packages/editor/src/ui/design-system/feedback.tsx:30 classes(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/control-utils.ts:5 describedBy/classes — :5 export function describedBy(...ids: Array<string | undefined>): string | undefined {; :1 export function classes(...values: Array<string | false | null | undefined>): string {",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:59 describedBy/classes | production: design-system control aria wiring",
+      "legalInput": "fixtures: describedBy('a','b'); classes('a', false, 'b')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -840,16 +894,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
       "testSourceLine": 59,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C10-G07-05 describedBy/classes join"
     },
     {
       "id": "C10-G07-06",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/status-values.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/status-values.tsx:10 export DsTag — props: HTMLAttributes<HTMLSpanElement> & {; tone?: DsTagTone; monospace?: boolean",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:66 DsTag; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:67 DsTag | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/status-values.tsx:4 DsTag — :4 return values.filter(Boolean).join(' '); :7 export type DsTagTone = 'accent' | 'neutral' | 'warning' | 'danger'; :17 return (",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:66 | production: packages/editor/src/design-lab/DesignLab.tsx:1308 <DsTag; packages/editor/src/ui/ActorMode.tsx:503 <DsTag; packages/editor/src/ui/ActorMode.tsx:556 <DsTag; packages/editor/src/ui/ActorMode.tsx:559 <DsTag",
+      "legalInput": "fixtures: renderToStaticMarkup(<DsTag tone=\"danger\">错误</DsTag>); <DsTag tone=\"danger\"; html=renderToStaticMarkup(<DsTag tone=\"danger\">错误</DsTag>)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -864,16 +920,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
       "testSourceLine": 66,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-07",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/status-values.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/status-values.tsx:28 export DsReadonlyValue — props: HTMLAttributes<HTMLSpanElement> & {; as?: 'span' | 'div'; monospace?: boolean",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:71 DsReadonlyValue; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:72 DsReadonlyValue | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/status-values.tsx:4 DsReadonlyValue — :4 return values.filter(Boolean).join(' '); :17 return (; :35 return (",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:71 | production: packages/editor/src/ui/App.tsx:3787 <DsReadonlyValue; packages/editor/src/ui/App.tsx:3832 <DsReadonlyValue; packages/editor/src/ui/App.tsx:4390 <DsReadonlyValue; packages/editor/src/ui/App.tsx:4393 <DsReadonlyValue",
+      "legalInput": "fixtures: renderToStaticMarkup(<DsReadonlyValue monospace>/a/b</DsReadonlyValue>); <DsReadonlyValue monospace; html=renderToStaticMarkup(<DsReadonlyValue monospace>/a/b</DsReadonlyValue>)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -888,16 +946,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
       "testSourceLine": 71,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-08",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/feedback.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/feedback.tsx:4 export DsStatus — tone?: 'neutral' | 'success' | 'warning' | 'error'; children: ReactNode; action?: ReactNode; packages/editor/src/ui/design-system/feedback.tsx:21 export DsEmptyState — title: string; description: string; action?: ReactNode",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:77 DsEmptyState; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:77 DsStatus; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:81 DsStatus; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:82 DsEmptyState | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/feedback.tsx:5 DsStatus — :5 tone?: 'neutral' | 'success' | 'warning' | 'error'; :10 return (; :28 return (",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:77 | production: packages/editor/src/design-lab/DesignLab.tsx:743 <DsStatus; packages/editor/src/design-lab/DesignLab.tsx:1335 <DsStatus; packages/editor/src/design-lab/DesignLab.tsx:1407 <DsStatus; packages/editor/src/design-lab/DesignLab.tsx:1408 <DsStatus; packages/editor/src/design-lab/DesignLab.tsx:1277 <DsEmptyState",
+      "legalInput": "fixtures: render( <> <DsStatus tone=\"warning\">等待</DsStatus> <DsEmptyState title=\"空\" description=\"暂无数据\" /> </>, ); <DsStatus tone=\"warning\"; <DsEmptyState title=\"空\" description=\"暂无数据\" /",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -912,16 +972,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
       "testSourceLine": 77,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-09",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/buttons.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/buttons.tsx:19 export DsButton — export const DsButton = forwardRef< HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & { variant?: DsButtonVariant",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:90 DsButton; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:91 DsButton | production: packages/editor/src/ui/design-system/buttons.tsx:27 DsButton(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/buttons.tsx:49 DsButton — :49 disabled={disabled || busy}; :8 * Unskinned semantic button for rich domain surfaces such as tiles, frames and tree rows.; :12 function DsPressable({ type = 'button', className, ...props }, ref) {",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:90 | production: packages/editor/src/design-lab/DesignLab.tsx:361 <DsButton; packages/editor/src/design-lab/DesignLab.tsx:530 <DsButton; packages/editor/src/design-lab/DesignLab.tsx:531 <DsButton; packages/editor/src/design-lab/DesignLab.tsx:532 <DsButton",
+      "legalInput": "fixtures: render(<DsButton busy>保存</DsButton>); <DsButton busy",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -936,16 +998,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
       "testSourceLine": 90,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-10",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/native-inputs.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/native-inputs.tsx:12 export DsFilePicker — export const DsFilePicker = forwardRef< HTMLInputElement, Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'hidden' | 'className' | 'children'> & { label: ReactNode",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:97 DsFilePicker; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:99 DsFilePicker | production: packages/editor/src/ui/design-system/native-inputs.tsx:19 DsFilePicker(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/native-inputs.tsx:24 DsFilePicker — :24 <input {...inputProps} ref={ref} type=\"file\" disabled={disabled} />; :7 return <input {...props} ref={ref} type=\"file\" hidden />; :19 >(function DsFilePicker({ label, description, className, disabled, ...inputProps }, ref) {",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:97 | production: packages/editor/src/ui/BattleSpriteUploader.tsx:127 <DsFilePicker; packages/editor/src/ui/SpriteUploadWizard.tsx:318 <DsFilePicker",
+      "legalInput": "fixtures: renderToStaticMarkup( <DsFilePicker label=\"上传\" disabled onChange={() => undefined} />, ); <DsFilePicker label=\"上传\" disabled onChange={() =; html=renderToStaticMarkup(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -960,16 +1024,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
       "testSourceLine": 97,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-11",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/recipes.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/recipes.tsx:994 export DsSequenceIndex — value: string | number; accessibleLabel?: string; decorative?: boolean",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:106 DsSequenceIndex; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:108 DsSequenceIndex | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/recipes.tsx:45 DsSequenceIndex — :45 return (; :61 if (!props.host.closest('[data-ds-inspector-host]')); :62 throw new Error('DsInspectorPortal target must be inside a DsInspector host')",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:106 | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1564 <DsSequenceIndex; packages/editor/src/ui/CasualtyEditor.tsx:277 <DsSequenceIndex; packages/editor/src/ui/CasualtyEditor.tsx:349 <DsSequenceIndex; packages/editor/src/ui/EnemyTab.tsx:220 <DsSequenceIndex",
+      "legalInput": "fixtures: render(<DsSequenceIndex value={2} accessibleLabel=\"第 2 帧\" />); <DsSequenceIndex value={2} accessibleLabel=\"第 2 帧\" /",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -984,16 +1050,18 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
       "testSourceLine": 106,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-12",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/recipes.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/recipes.tsx:338 export DsInlineComposer — density: DsControlSize; control: DsSizedRecipeElement; action: DsSizedRecipeElement",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:114 DsInlineComposer; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:117 DsInlineComposer; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:119 DsTextInput; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:120 DsIconButton | production: packages/editor/src/ui/design-system/text-inputs.tsx:14 DsTextInput(…); packages/editor/src/ui/design-system/icon-button.tsx:16 DsIconButton(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/recipes.tsx:42 DsInlineComposer — :42 'aria-label'?: string; :50 aria-label={props['aria-label']}; :77 <section className={`ds-workbench ds-workbench--${props.kind}`} aria-label={props.label}>",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:114 | production: packages/editor/src/design-lab/DesignLab.tsx:558 <DsInlineComposer; packages/editor/src/design-lab/DesignLab.tsx:571 <DsInlineComposer; packages/editor/src/ui/BattleSimulatorForms.tsx:493 <DsInlineComposer; packages/editor/src/ui/BattleSimulatorWorkbench.tsx:411 <DsInlineComposer; packages/editor/src/design-lab/DesignLab.tsx:245 <DsTextInput; packages/editor/src/design-lab/DesignLab.tsx:1179 <DsIconButton",
+      "legalInput": "fixtures: render( <DsInlineComposer density=\"compact\" control={<DsTextInput aria-label=\"名称\" />} action={<DsIconButton label=\"添加\" icon=\"add\" onClick={() => undefined} />} />, ); <DsInlineComposer density=\"compact\" control={<DsTextInput aria-label=\"名称\" /; <DsIconButton label=\"添加\" icon=\"add\" onClick={() =",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1003,21 +1071,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G07 recipes 与 icons DsInlineComposer 渲染 control 与 action 槽",
-      "oracle": "expect(mounted.host.querySelector('[aria-label=\"名称\"]')).not.toBeNull() | expect(mounted.host.querySelector('[aria-label=\"添加\"]')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('[aria-label=\"名称\"]')).not | expect(mounted.host.querySelector('[aria-label=\"添加\"]')).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
       "testSourceLine": 114,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-13",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/icons.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/icons.tsx:200 export DsIcon — const { name, ...svgProps } = props; return (",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:128 DsIcon; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:129 DsIcon | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/icons.tsx:27 DsIcon — :27 | 'save'; :153 save: (; :202 return (",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:128 | production: packages/editor/src/ui/StampLibraryTab.tsx:383 <DsIcon; packages/editor/src/ui/design-system/buttons.tsx:52 <DsIcon; packages/editor/src/ui/design-system/buttons.tsx:76 <DsIcon; packages/editor/src/ui/design-system/icon-button.tsx:40 <DsIcon",
+      "legalInput": "fixtures: renderToStaticMarkup(<DsIcon name=\"save\" />); <DsIcon name=\"save\" /; html=renderToStaticMarkup(<DsIcon name=\"save\" />)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1032,23 +1102,25 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
       "testSourceLine": 128,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G07-14",
       "batch": "C10",
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/buttons.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/buttons.tsx:11 export DsPressable — export const DsPressable = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>( function DsPressable({ type = 'button', className, ...props }, ref) { return ( <button {...props} ref={ref} type={type} className={classes('ds-pressable', className)} />",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:134 DsPressable; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:135 DsPressable | production: packages/editor/src/ui/design-system/buttons.tsx:12 DsPressable(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/buttons.tsx:13 DsPressable — :13 return (; :14 <button {...props} ref={ref} type={type} className={classes('ds-pressable', className)} />; :38 return (",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:134 | production: packages/editor/src/ui/App.tsx:2442 <DsPressable; packages/editor/src/ui/App.tsx:2459 <DsPressable; packages/editor/src/ui/App.tsx:2524 <DsPressable; packages/editor/src/ui/App.tsx:2943 <DsPressable",
+      "legalInput": "fixtures: renderToStaticMarkup(<DsPressable>点</DsPressable>); <DsPressable; html=renderToStaticMarkup(<DsPressable>点</DsPressable>)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "71fe958e22bda182d19fcbefdfd2348d28580ce1",
+        "oldFile": "packages/editor/src/ui/design-system/buttons.test.tsx",
+        "oldFullName": "keeps pressable, button and action-link identity with busy and default chrome",
+        "oldMatcher": "expect(renderToStaticMarkup(<DsButton>保存</DsButton>)).toBe( '<button type=\"button\" class=\"ds-button ds-button--secondary\"><span>保存</span></button>', ) @ :23 (key=\"type=\\\"button\\\"\")",
         "dedupHeader": "C10-G07 collection-search/recipes/feedback/status/buttons/icons/index 剩余合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C10 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C10-G07 recipes 与 icons DsPressable 默认 type=button",
       "oracle": "expect(html).toContain('type=\"button\"') | expect(html).toContain('ds-pressable')",
@@ -1056,7 +1128,9 @@
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
       "fullName": "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
       "testSourceLine": 134,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C10"
     },
     {
       "id": "C10-G07-15",
@@ -1064,7 +1138,7 @@
       "group": "G07",
       "primarySource": "packages/editor/src/ui/design-system/icon-button.tsx",
       "sourceCondition": "packages/editor/src/ui/design-system/icon-button.tsx:7 export DsIconButton — export const DsIconButton = forwardRef< HTMLButtonElement, Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> & { label: string",
-      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:140 DsIconButton; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:143 DsIconButton | production: packages/editor/src/ui/design-system/icon-button.tsx:16 DsIconButton(…)",
+      "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:140 DsIconButton; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:143 <DsIconButton; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:145 dsClick(…) | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:79 dsClick(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:1179 <DsIconButton (production); packages/editor/src/design-lab/DesignLab.tsx:1180 <DsIconButton (production); packages/editor/src/design-lab/DesignLab.tsx:1181 <DsIconButton (production); packages/editor/src/ui/ActorMode.tsx:1202 <DsIconButton (production); packages/editor/src/ui/ActorMode.tsx:1668 <DsIconButton (production); packages/editor/src/ui/App.tsx:2423 <DsIconButton (production); packages/editor/src/ui/App.tsx:2469 <DsIconButton (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1087,9 +1161,9 @@
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert',",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:76 reorderDsItems(…) | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…); packages/editor/src/ui/ActorMode.tsx:1620 reorderDsItems(…); packages/editor/src/ui/CasualtyEditor.tsx:157 reorderDsItems(…); packages/editor/src/ui/CasualtyEditor.tsx:397 reorderDsItems(…); packages/editor/src/ui/CasualtyEditor.tsx:404 reorderDsItems(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:68 reorderDsItems — :68 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :73 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :236 if (sourceKey) projectedKeys.splice(projectedIndex, 0, sourceKey)",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:75 | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…)",
+      "legalInput": "fixtures: reorderDsItems(['a', 'b', 'c'], { fromIndex: 0, toIndex: 1 })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1104,16 +1178,18 @@
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项",
       "testSourceLine": 75,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-02",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert',",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:81 reorderDsItems(…) | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…); packages/editor/src/ui/ActorMode.tsx:1620 reorderDsItems(…); packages/editor/src/ui/CasualtyEditor.tsx:157 reorderDsItems(…); packages/editor/src/ui/CasualtyEditor.tsx:397 reorderDsItems(…); packages/editor/src/ui/CasualtyEditor.tsx:404 reorderDsItems(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:63 reorderDsItems — :63 if (strategy === 'swap') {; :68 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :73 return next.every((item, index) => equal(item, items[index]!)) ? items : next",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:79 | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…)",
+      "legalInput": "fixtures: reorderDsItems(items, { fromIndex: 1, toIndex: 1 }, 'swap'); items=['x', 'y']",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1128,16 +1204,18 @@
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-02 swap 同索引保持原引用",
       "testSourceLine": 79,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-03",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:77 export sameDsSerializableValue — return JSON.stringify(left) === JSON.stringify(right)",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:84 sameDsSerializableValue; packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:85 sameDsSerializableValue(…); packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:86 sameDsSerializableValue(…) | production: packages/editor/src/ui/EnemyTab.tsx:730 sameDsSerializableValue(…); packages/editor/src/ui/ProjectWorkbenchTab.tsx:1426 sameDsSerializableValue(…); packages/editor/src/ui/ProjectWorkbenchTab.tsx:1427 sameDsSerializableValue(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:54 sameDsSerializableValue — :54 if (; :61 return items; :63 if (strategy === 'swap') {",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:84 | production: packages/editor/src/ui/EnemyTab.tsx:730 sameDsSerializableValue(…); packages/editor/src/ui/ProjectWorkbenchTab.tsx:1426 sameDsSerializableValue(…); packages/editor/src/ui/ProjectWorkbenchTab.tsx:1427 sameDsSerializableValue(…)",
+      "legalInput": "fixtures: sameDsSerializableValue([1, 2], [2, 1]); sameDsSerializableValue({ nested: [1] }, { nested: [1] })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1152,15 +1230,17 @@
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感",
       "testSourceLine": 84,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-04",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert', (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:89 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — if ( (inferred; no used export symbol matched in body)",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:97 dsClick(…) | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:79 dsClick(…) (harness)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1183,9 +1263,9 @@
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert', (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:102 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:68 reorderDsItems — :68 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :73 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :236 if (sourceKey) projectedKeys.splice(projectedIndex, 0, sourceKey)",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:102 | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…)",
+      "legalInput": "fixtures: render(<MoveHarness labels={['甲', '乙', '丙']} onReorder={() => true} />); lastFirst=[...mounted.host.querySelectorAll<HTMLButtonElement>('button')].find((b) =>; order=[...mounted.host.querySelectorAll('.ds-reorder-item')].map(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1200,16 +1280,18 @@
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-05 first 按钮把末项移到最前",
       "testSourceLine": 102,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-06",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert', (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:116 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:68 reorderDsItems — :68 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :73 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :236 if (sourceKey) projectedKeys.splice(projectedIndex, 0, sourceKey)",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:116 | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…)",
+      "legalInput": "fixtures: render(<MoveHarness labels={['甲', '乙']} onReorder={() => true} />); up=[...mounted.host.querySelectorAll<HTMLButtonElement>('button')].find((b) =>",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1224,16 +1306,18 @@
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-06 首项 backward 按钮 disabled",
       "testSourceLine": 116,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-07",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert', (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:126 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:68 reorderDsItems — :68 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :73 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :236 if (sourceKey) projectedKeys.splice(projectedIndex, 0, sourceKey)",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:126 | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…)",
+      "legalInput": "fixtures: render( <MoveHarness labels={['甲', '乙']} orientation=\"horizontal\" onReorder={() => true} />, ); forward=[...mounted.host.querySelectorAll<HTMLButtonElement>('button')].find(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1243,21 +1327,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G01 reorder 剩余合同 水平取向 forward 使用 chevron-right 文案轴",
-      "oracle": "expect(mounted.host.querySelector('[data-orientation=\"horizontal\"]')).not.toBeNull() | expect(forward).toBeDefined()",
+      "oracle": "expect(mounted.host.querySelector('[data-orientation=\"horizontal\"]')).not | expect(forward).toBeDefined()",
       "classification": "new-contract",
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-07 水平取向 forward 使用 chevron-right 文案轴",
       "testSourceLine": 126,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-08",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert', (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:146 type | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:68 reorderDsItems — :68 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :73 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :236 if (sourceKey) projectedKeys.splice(projectedIndex, 0, sourceKey)",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:141 | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…)",
+      "legalInput": "fixtures: render(<MoveHarness labels={['甲', '乙']} disabled onReorder={() => true} />); buttons=mounted.host.querySelectorAll<HTMLButtonElement>(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1272,16 +1358,18 @@
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-08 collection disabled 时 move 按钮全 disabled",
       "testSourceLine": 141,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-09",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:48 export reorderDsItems — items: readonly T[],; intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>,; strategy: DsReorderStrategy = 'insert', (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:151 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:68 reorderDsItems — :68 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :73 return next.every((item, index) => equal(item, items[index]!)) ? items : next; :236 if (sourceKey) projectedKeys.splice(projectedIndex, 0, sourceKey)",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:151 | production: packages/editor/src/design-lab/DesignLab.tsx:945 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:993 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1030 reorderDsItems(…); packages/editor/src/design-lab/DesignLab.tsx:1062 reorderDsItems(…)",
+      "legalInput": "fixtures: render(<MoveHarness labels={['甲', '乙']} onReorder={() => false} />); forward=[...mounted.host.querySelectorAll<HTMLButtonElement>('button')].find((b) =>; labels=[...mounted.host.querySelectorAll('.ds-reorder-item__content')].map(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1296,16 +1384,18 @@
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-09 onReorder 返回 false 时顺序不变",
       "testSourceLine": 151,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G01-10",
       "batch": "C10",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/design-system/reorder.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:416 export DsReorderCollection — adoptionId: string; scopeKey: string; entries: readonly DsReorderEntry[]; packages/editor/src/ui/design-system/reorder.tsx:1163 export DsReorderItem — itemKey: string; children: ReactNode; className?: string",
-      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:169 DsReorderCollection; packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:179 DsReorderItem; packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:180 DsReorderCollection | production: packages/editor/src/ui/design-system/reorder.tsx:468 DsReorderCollection(…)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/reorder.tsx:466 DsReorderCollection — :466 if (duplicateKeys.has(entry.key)); :54 if (; :61 return items",
+      "caller": "test: packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:165 | production: packages/editor/src/design-lab/DesignLab.tsx:949 <DsReorderCollection; packages/editor/src/design-lab/DesignLab.tsx:988 <DsReorderCollection; packages/editor/src/design-lab/DesignLab.tsx:1024 <DsReorderCollection; packages/editor/src/design-lab/DesignLab.tsx:1057 <DsReorderCollection; packages/editor/src/design-lab/DesignLab.tsx:960 <DsReorderItem",
+      "legalInput": "fixtures: render( <DsReorderCollection adoptionId=\"c10/dup\" scopeKey=\"s\" entries={[ { key: 'dup', label: 'A' }, { key: 'dup', label: 'B' }, ]} revision={0} onReorder={() => undefined} > <DsReorderItem itemKey=\"; <DsReorderCollection adoptionId=\"c10/dup\" scopeKey=\"s\" entries={[ { key: 'dup', label: 'A'; <DsReorderItem itemKey=\"dup\"",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1315,21 +1405,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G01 reorder 剩余合同 duplicate item key 抛错",
-      "oracle": "expect(() =>",
+      "oracle": "expect(() => act(() => mounted.root.render( <DsReorderCollection adoptionId=\"c10/dup\" scopeKey=\"s\" entries={[ { key: 'dup', label: 'A' }, { key: 'dup', label: 'B' }, ]} revision={0} onReorder={() => undefined} > <DsReorderItem itemKey=\"dup\">A</DsReorderItem> </DsReorderCollection>, ), ), ).toThrow(/unique item keys/)",
       "classification": "new-contract",
       "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-10 duplicate item key 抛错",
       "testSourceLine": 165,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-01",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:616 export DsSelectField — const {; id,; label,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:35 DsSelectField; packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:37 DsSelectField | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:68 DsSelectField — :68 return iterable.find(({ option }) => !option.disabled)?.option.value ?? null; :76 if (!options.length) return null; :82 if (candidate && !candidate.option.disabled) return candidate.option.value",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:35 | production: packages/editor/src/design-lab/DesignLab.tsx:383 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:561 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:574 <DsSelectField; packages/editor/src/ui/AmbienceScenePreview.tsx:306 <DsSelectField",
+      "legalInput": "fixtures: renderToStaticMarkup( <DsSelectField id=\"dir\" label=\"朝向\" required options={baseOptions} value=\"north\" onValueChange={() => undefined} />, ); <DsSelectField id=\"dir\" label=\"朝向\" required options={baseOptions} value=\"north\" onValu; html=renderToStaticMarkup(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1344,16 +1436,18 @@
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-01 DsSelectField 渲染 label 与 required 标记",
       "testSourceLine": 35,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-02",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:616 export DsSelectField — const {; id,; label,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:52 DsSelectField | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:68 DsSelectField — :68 return iterable.find(({ option }) => !option.disabled)?.option.value ?? null; :76 if (!options.length) return null; :82 if (candidate && !candidate.option.disabled) return candidate.option.value",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:50 | production: packages/editor/src/design-lab/DesignLab.tsx:383 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:561 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:574 <DsSelectField; packages/editor/src/ui/AmbienceScenePreview.tsx:306 <DsSelectField",
+      "legalInput": "fixtures: renderToStaticMarkup( <DsSelectField label=\"朝向\" error=\"必选\" options={baseOptions} value=\"\" onValueChange={() => undefined} />, ); <DsSelectField label=\"朝向\" error=\"必选\" options={baseOptions} value=\"\" onValueChange={() =; html=renderToStaticMarkup(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1368,16 +1462,18 @@
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-02 error 传递到 invalid 与 aria-invalid",
       "testSourceLine": 50,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-03",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:616 export DsSelectField — const {; id,; label,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:66 DsSelectField | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:68 DsSelectField — :68 return iterable.find(({ option }) => !option.disabled)?.option.value ?? null; :76 if (!options.length) return null; :82 if (candidate && !candidate.option.disabled) return candidate.option.value",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:64 | production: packages/editor/src/design-lab/DesignLab.tsx:383 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:561 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:574 <DsSelectField; packages/editor/src/ui/AmbienceScenePreview.tsx:306 <DsSelectField",
+      "legalInput": "fixtures: renderToStaticMarkup( <DsSelectField label=\"朝向\" help=\"选择地图朝向\" options={baseOptions} value=\"north\" onValueChange={() => undefined} />, ); <DsSelectField label=\"朝向\" help=\"选择地图朝向\" options={baseOptions} value=\"north\" onValueChange={(); html=renderToStaticMarkup(; match=html.match(/aria-describedby=\"([^\"]+)\"/)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1387,21 +1483,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G02 select Field 与展示合同 help 与 control 共享 describedby",
-      "oracle": "expect(match).not.toBeNull() | expect(html).toContain(match![1]!) | expect(html).toContain('选择地图朝向')",
+      "oracle": "expect(match).not | expect(html).toContain(match![1]!) | expect(html).toContain('选择地图朝向')",
       "classification": "new-contract",
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-03 help 与 control 共享 describedby",
       "testSourceLine": 64,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-04",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:126 export DsSelect — export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function DsSelect(props, ref) { const { options, value,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:83 DsSelect | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:475 DsSelect — :475 aria-label={; :476 buttonProps['aria-label'] ? `筛选${buttonProps['aria-label']}` : undefined; :478 aria-labelledby={",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:80 | production: packages/editor/src/design-lab/DesignLab.tsx:254 <DsSelect; packages/editor/src/design-lab/DesignLab.tsx:262 <DsSelect; packages/editor/src/ui/ActorMode.tsx:458 <DsSelect; packages/editor/src/ui/ActorMode.tsx:849 <DsSelect",
+      "legalInput": "fixtures: render( <DsSelect aria-label=\"朝向\" options={baseOptions} value=\"north\" onValueChange={() => undefined} />, ); <DsSelect aria-label=\"朝向\" options={baseOptions} value=\"north\" onValueChange={() =",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1416,16 +1514,18 @@
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-04 选项 description 渲染在 popover 行内",
       "testSourceLine": 80,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-05",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:126 export DsSelect — export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function DsSelect(props, ref) { const { options, value,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:98 DsSelect | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:475 DsSelect — :475 aria-label={; :476 buttonProps['aria-label'] ? `筛选${buttonProps['aria-label']}` : undefined; :478 aria-labelledby={",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:95 | production: packages/editor/src/design-lab/DesignLab.tsx:254 <DsSelect; packages/editor/src/design-lab/DesignLab.tsx:262 <DsSelect; packages/editor/src/ui/ActorMode.tsx:458 <DsSelect; packages/editor/src/ui/ActorMode.tsx:849 <DsSelect",
+      "legalInput": "fixtures: render( <DsSelect aria-label=\"朝向\" size=\"compact\" options={baseOptions} value=\"south\" onValueChange={() => undefined} />, ); <DsSelect aria-label=\"朝向\" size=\"compact\" options={baseOptions} value=\"south\" on",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1435,21 +1535,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G02 select Field 与展示合同 compact 尺寸 class 挂在 trigger",
-      "oracle": "expect(mounted.host.querySelector('.ds-select--compact')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('.ds-select--compact')).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-05 compact 尺寸 class 挂在 trigger",
       "testSourceLine": 95,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-06",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:126 export DsSelect — export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function DsSelect(props, ref) { const { options, value,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:113 DsSelect | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:475 DsSelect — :475 aria-label={; :476 buttonProps['aria-label'] ? `筛选${buttonProps['aria-label']}` : undefined; :478 aria-labelledby={",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:110 | production: packages/editor/src/design-lab/DesignLab.tsx:254 <DsSelect; packages/editor/src/design-lab/DesignLab.tsx:262 <DsSelect; packages/editor/src/ui/ActorMode.tsx:458 <DsSelect; packages/editor/src/ui/ActorMode.tsx:849 <DsSelect",
+      "legalInput": "fixtures: render( <DsSelect aria-label=\"朝向\" invalid options={baseOptions} value=\"\" onValueChange={() => undefined} />, ); <DsSelect aria-label=\"朝向\" invalid options={baseOptions} value=\"\" onValueChange=",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1459,20 +1561,22 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G02 select Field 与展示合同 invalid prop 无 error 时也标记 aria-invalid",
-      "oracle": "expect(mounted.host.querySelector('[aria-invalid=\"true\"]')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('[aria-invalid=\"true\"]')).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-06 invalid prop 无 error 时也标记 aria-invalid",
       "testSourceLine": 110,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-07",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:126 export DsSelect — export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function DsSelect(props, ref) { const { options, value,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:129 DsSelect | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:126 export DsSelect — branches: packages/editor/src/ui/design-system/select.tsx:475 aria-label: aria-label={; packages/editor/src/ui/design-system/select.tsx:476 aria-label: buttonProps['aria-label'] ? `筛选${buttonProps['aria-label']}` : undefined; packages/editor/src/ui/design-system/select.tsx:478 aria-label: aria-labelledby={; packages/editor/src/ui/design-system/select.tsx:479 aria-label: buttonProps['aria-label']; packages/editor/src/ui/design-system/select.tsx:481 aria-label: : classes(buttonProps['aria-labelledby'], `${searchId}-label`); packages/editor/src/ui/design-system/select.tsx:504 aria-label: aria-label={",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:129 <DsSelect; packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:134 dsKey(…) | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:85 dsKey(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:254 <DsSelect (production); packages/editor/src/design-lab/DesignLab.tsx:262 <DsSelect (production); packages/editor/src/ui/ActorMode.tsx:458 <DsSelect (production); packages/editor/src/ui/ActorMode.tsx:849 <DsSelect (production); packages/editor/src/ui/ActorMode.tsx:883 <DsSelect (production); packages/editor/src/ui/ActorMode.tsx:984 <DsSelect (production); packages/editor/src/ui/ActorMode.tsx:1645 <DsSelect (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1483,7 +1587,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G02 select Field 与展示合同 Tab 离开 closed trigger 不自动展开",
-      "oracle": "expect(button.getAttribute('aria-expanded')).toBe('false') | expect(onValueChange).not.toHaveBeenCalled()",
+      "oracle": "expect(button.getAttribute('aria-expanded')).toBe('false') | expect(onValueChange).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-07 Tab 离开 closed trigger 不自动展开",
@@ -1495,9 +1599,9 @@
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:126 export DsSelect — export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function DsSelect(props, ref) { const { options, value,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:144 type; packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:147 DsSelect | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:475 DsSelect — :475 aria-label={; :476 buttonProps['aria-label'] ? `筛选${buttonProps['aria-label']}` : undefined; :478 aria-labelledby={",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:139 | production: packages/editor/src/design-lab/DesignLab.tsx:254 <DsSelect; packages/editor/src/design-lab/DesignLab.tsx:262 <DsSelect; packages/editor/src/ui/ActorMode.tsx:458 <DsSelect; packages/editor/src/ui/ActorMode.tsx:849 <DsSelect",
+      "legalInput": "fixtures: render(<Harness />); <DsSelect aria-label=\"朝向\" options={baseOptions} value={value} onValueChange={setV; external=[...mounted.host.querySelectorAll('button')].find(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1512,16 +1616,18 @@
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-08 外部 value 变更时 trigger 文案同步",
       "testSourceLine": 139,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-09",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:616 export DsSelectField — const {; id,; label,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:167 DsSelectField | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:68 DsSelectField — :68 return iterable.find(({ option }) => !option.disabled)?.option.value ?? null; :76 if (!options.length) return null; :82 if (candidate && !candidate.option.disabled) return candidate.option.value",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:165 | production: packages/editor/src/design-lab/DesignLab.tsx:383 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:561 <DsSelectField; packages/editor/src/design-lab/DesignLab.tsx:574 <DsSelectField; packages/editor/src/ui/AmbienceScenePreview.tsx:306 <DsSelectField",
+      "legalInput": "fixtures: renderToStaticMarkup( <DsSelectField label=\"朝向\" layout=\"inline\" options={baseOptions} value=\"north\" onValueChange={() => undefined} />, ); <DsSelectField label=\"朝向\" layout=\"inline\" options={baseOptions} value=\"north\" onValueChange={(; html=renderToStaticMarkup(",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1536,16 +1642,18 @@
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-09 layout=inline 时 field 带 inline class",
       "testSourceLine": 165,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G02-10",
       "batch": "C10",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/design-system/select.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:126 export DsSelect — export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function DsSelect(props, ref) { const { options, value,",
-      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:181 DsSelect | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/select.tsx:68 DsSelect — :68 return iterable.find(({ option }) => !option.disabled)?.option.value ?? null; :82 if (candidate && !candidate.option.disabled) return candidate.option.value; :221 if (disabled) return",
+      "caller": "test: packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx:178 | production: packages/editor/src/design-lab/DesignLab.tsx:254 <DsSelect; packages/editor/src/design-lab/DesignLab.tsx:262 <DsSelect; packages/editor/src/ui/ActorMode.tsx:458 <DsSelect; packages/editor/src/ui/ActorMode.tsx:849 <DsSelect",
+      "legalInput": "fixtures: render( <DsSelect aria-label=\"空\" placeholder=\"尚无选项\" options={[]} value=\"\" onValueChange={() => undefined} />, ); <DsSelect aria-label=\"空\" placeholder=\"尚无选项\" options={[]} value=\"\" onValueChange",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1555,21 +1663,23 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G02 select Field 与展示合同 空 options 仍渲染 placeholder 触发器",
-      "oracle": "expect(mounted.host.textContent).toContain('尚无选项') | expect(mounted.host.querySelector('button')?.disabled).not.toBe(true)",
+      "oracle": "expect(mounted.host.textContent).toContain('尚无选项') | expect(mounted.host.querySelector('button')?.disabled).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
       "fullName": "C10-G02 select Field 与展示合同 C10-G02-10 空 options 仍渲染 placeholder 触发器",
       "testSourceLine": 178,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G03-01",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/navigation.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:306 export handleMenuCharacterSearch — event: KeyboardEvent<HTMLElement>,; labels: readonly string[],; ): number | undefined {",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:43 handleMenuCharacterSearch; packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:44 handleMenuCharacterSearch(…) | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:306 handleMenuCharacterSearch — :306 export function handleMenuCharacterSearch(; :313 return index >= 0 ? index : undefined",
+      "caller": "test: packages/editor/src/ui/design-system/navigation.c10-g03.cursor-r1.test.tsx handleMenuCharacterSearch(menuKeyEvent(\"b\"), [\"Alpha\",\"Beta\",\"Gamma\"]) | production: packages/editor/src/ui/design-system/navigation.tsx menu keydown",
+      "legalInput": "fixtures: handleMenuCharacterSearch(menuKeyEvent('b'), ['Alpha', 'Beta', 'Gamma'])",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1584,16 +1694,18 @@
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 navigation 纯函数 C10-G03-01 handleMenuCharacterSearch 匹配首字母索引",
       "testSourceLine": 43,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C10-G03-01 char search index"
     },
     {
       "id": "C10-G03-02",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/navigation.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:306 export handleMenuCharacterSearch — event: KeyboardEvent<HTMLElement>,; labels: readonly string[],; ): number | undefined {",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:47 handleMenuCharacterSearch; packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:48 handleMenuCharacterSearch(…) | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:310 handleMenuCharacterSearch — :310 if (event.key.length !== 1 || event.metaKey || event.ctrlKey || event.altKey) return undefined",
+      "caller": "test: packages/editor/src/ui/design-system/navigation.c10-g03.cursor-r1.test.tsx handleMenuCharacterSearch(menuKeyEvent(\"a\",{meta:true}), [\"Alpha\"]) | production: packages/editor/src/ui/design-system/navigation.tsx menu keydown",
+      "legalInput": "fixtures: handleMenuCharacterSearch(menuKeyEvent('a', { meta: true }), ['Alpha'])",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1608,15 +1720,17 @@
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 navigation 纯函数 C10-G03-02 handleMenuCharacterSearch 修饰键返回 undefined",
       "testSourceLine": 47,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C10-G03-02 modifier short-circuit"
     },
     {
       "id": "C10-G03-03",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/navigation.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:256 export DsToolbar — label: string; groups: readonly (readonly DsToolbarCommand[])[]; trailing?: ReactNode; packages/editor/src/ui/design-system/navigation.tsx:306 export handleMenuCharacterSearch — event: KeyboardEvent<HTMLElement>,; labels: readonly string[],; ): number | undefined {",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:51 handleMenuCharacterSearch; packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:52 handleMenuCharacterSearch(…); packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:56 DsToolbar | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:256 export DsToolbar — const commandButton = (command: DsToolbarCommand): ReactNode => (; <DsTooltip; key={command.id}; label={command.disabledReason ?? command.label}",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:51 handleMenuCharacterSearch; packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:52 handleMenuCharacterSearch(…); packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:56 DsToolbar | production: packages/editor/src/design-lab/DesignLab.tsx:686 <DsToolbar (production); packages/editor/src/ui/EditorAppHeader.tsx:51 <DsToolbar (production); packages/editor/src/ui/PreviewCanvas.tsx:446 <DsToolbar (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1639,9 +1753,9 @@
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/navigation.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:256 export DsToolbar — label: string; groups: readonly (readonly DsToolbarCommand[])[]; trailing?: ReactNode",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:67 DsToolbar | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:31 DsToolbar — :31 if (!previous || previous.section !== item.section) {; :37 return groups; :58 return props.menus.findIndex((menu) => menu.id === id)",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:64 | production: packages/editor/src/design-lab/DesignLab.tsx:686 <DsToolbar; packages/editor/src/ui/EditorAppHeader.tsx:51 <DsToolbar; packages/editor/src/ui/PreviewCanvas.tsx:446 <DsToolbar",
+      "legalInput": "fixtures: render( <DsToolbar label=\"编辑\" groups={[[{ ...saveCmd, busy: true, execute: () => undefined }]]} />, ); <DsToolbar label=\"编辑\" groups={[[{ ...saveCmd, busy: true, execute: () =",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1651,20 +1765,22 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G03 DsToolbar toolbar 按钮 aria-busy 随 busy 传递",
-      "oracle": "expect(mounted.host.querySelector('[aria-busy=\"true\"]')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('[aria-busy=\"true\"]')).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 DsToolbar C10-G03-04 toolbar 按钮 aria-busy 随 busy 传递",
       "testSourceLine": 64,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G03-05",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/navigation.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:256 export DsToolbar — label: string; groups: readonly (readonly DsToolbarCommand[])[]; trailing?: ReactNode",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:80 DsToolbar | production: none found in packages/editor/src (excl. *.test.*)",
+      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:256 export DsToolbar — const commandButton = (command: DsToolbarCommand): ReactNode => (; <DsTooltip; key={command.id}; label={command.disabledReason ?? command.label}",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:80 <DsToolbar; packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:88 dsClick(…) | production: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:79 dsClick(…) (harness); packages/editor/src/design-lab/DesignLab.tsx:686 <DsToolbar (production); packages/editor/src/ui/EditorAppHeader.tsx:51 <DsToolbar (production); packages/editor/src/ui/PreviewCanvas.tsx:446 <DsToolbar (production)",
       "legalInput": "vi.fn() spies",
       "oldAssertion": {
         "oldTestSha": "none",
@@ -1675,7 +1791,7 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G03 DsToolbar disabled 命令不可点击",
-      "oracle": "expect(btn.disabled).toBe(true) | expect(execute).not.toHaveBeenCalled()",
+      "oracle": "expect(btn.disabled).toBe(true) | expect(execute).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 DsToolbar C10-G03-05 disabled 命令不可点击",
@@ -1687,9 +1803,9 @@
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/navigation.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:256 export DsToolbar — label: string; groups: readonly (readonly DsToolbarCommand[])[]; trailing?: ReactNode",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:95 DsToolbar; packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:105 DsVirtualListbox; packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:113 DsVirtualListbox | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/navigation.tsx:31 DsToolbar — :31 if (!previous || previous.section !== item.section) {; :37 return groups; :58 return props.menus.findIndex((menu) => menu.id === id)",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:92 | production: packages/editor/src/design-lab/DesignLab.tsx:686 <DsToolbar; packages/editor/src/ui/EditorAppHeader.tsx:51 <DsToolbar; packages/editor/src/ui/PreviewCanvas.tsx:446 <DsToolbar",
+      "legalInput": "fixtures: render( <DsToolbar label=\"编辑\" groups={[[{ ...saveCmd, showLabel: true, execute: () => undefined }]]} />, ); <DsToolbar label=\"编辑\" groups={[[{ ...saveCmd, showLabel: true, execute: () =",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1699,28 +1815,30 @@
         "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C10-G03 DsToolbar showLabel 时按钮带 ds-button class",
-      "oracle": "expect(mounted.host.querySelector('.ds-button')).not.toBeNull()",
+      "oracle": "expect(mounted.host.querySelector('.ds-button')).not",
       "classification": "new-contract",
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 DsToolbar C10-G03-06 showLabel 时按钮带 ds-button class",
       "testSourceLine": 92,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G03-07",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/virtual-list.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:89 export DsVirtualList — label: string; items: readonly T[]; itemHeight: number (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:139 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:386 DsVirtualListbox — :386 if (activeIndex >= 0) owner.setAttribute('aria-activedescendant', optionId(activeIndex)); :391 if (previousActive == null) owner.removeAttribute('aria-activedescendant'); :168 aria-label={props.label}",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:139 | production: packages/editor/src/design-lab/DesignLab.tsx:1250 <DsVirtualListbox; packages/editor/src/ui/SpriteActionEditor.tsx:437 <DsVirtualListbox; packages/editor/src/ui/design-system/add-picker.tsx:275 <DsVirtualListbox; packages/editor/src/ui/AudioAssetWorkbench.tsx:435 <HTMLInputElement",
+      "legalInput": "fixtures: render(<TrayHarness />); owner=mounted.host.querySelector<HTMLInputElement>('[aria-label=\"托盘宿主\"]')!",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "8e15939f4251ca1877c8bb09498dbb166cd5d199",
+        "oldFile": "packages/editor/src/ui/design-system/virtual-list.test.tsx",
+        "oldFullName": "keeps navigation on an external search focus owner without copying the state machine",
+        "oldMatcher": "expect(document.activeElement).toBe(search) expect( document.getElementById(search.getAttribute('aria-activedescendant')!)?.textContent, @ :177 (key=\"aria-activedescendant\")",
         "dedupHeader": "C10-G03 virtual-list + navigation：外部 keyboardOwner、菜单检索、toolbar；排 leaf-wave 主键盘路径。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "CURSOR-R3-01 batch C10 high-confidence shared expect fragment; not auto-reclassified"
       },
       "axis": "C10-G03 DsVirtualListbox keyboardOwner keyboardOwner 聚焦时 ArrowDown 更新 activedescendant",
       "oracle": "expect(owner.getAttribute('aria-activedescendant')).toMatch(/option-1/)",
@@ -1728,16 +1846,18 @@
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-07 keyboardOwner 聚焦时 ArrowDown 更新 activedescendant",
       "testSourceLine": 139,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "enrich-batch-human C10"
     },
     {
       "id": "C10-G03-08",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/virtual-list.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:89 export DsVirtualList — label: string; items: readonly T[]; itemHeight: number (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:147 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:178 DsVirtualListbox — :178 else if (event.key === 'Enter' || event.key === ' ') activate(activeIndex, true, false); :168 aria-label={props.label}; :404 aria-label={props.label}",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:147 | production: packages/editor/src/design-lab/DesignLab.tsx:1250 <DsVirtualListbox; packages/editor/src/ui/SpriteActionEditor.tsx:437 <DsVirtualListbox; packages/editor/src/ui/design-system/add-picker.tsx:275 <DsVirtualListbox; packages/editor/src/ui/AudioAssetWorkbench.tsx:435 <HTMLInputElement",
+      "legalInput": "fixtures: render(<TrayHarness />); owner=mounted.host.querySelector<HTMLInputElement>('[aria-label=\"托盘宿主\"]')!",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1752,16 +1872,18 @@
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-08 keyboardOwner Enter 触发 onSelect",
       "testSourceLine": 147,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G03-09",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/virtual-list.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:89 export DsVirtualList — label: string; items: readonly T[]; itemHeight: number (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:156 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:33 DsVirtualListbox — :33 if (!virtual) return { start: 0, end: options.count }; :37 return { start, end }; :41 if (!options.fill) {",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:156 | production: packages/editor/src/design-lab/DesignLab.tsx:1250 <DsVirtualListbox; packages/editor/src/ui/SpriteActionEditor.tsx:437 <DsVirtualListbox; packages/editor/src/ui/design-system/add-picker.tsx:275 <DsVirtualListbox",
+      "legalInput": "fixtures: render(<TrayHarness />); indices=[...mounted.host.querySelectorAll('[data-virtual-index]')].map((node) =>",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1776,16 +1898,18 @@
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-09 12 项低于 virtualizeAbove 时可见窗口含首末索引",
       "testSourceLine": 156,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     },
     {
       "id": "C10-G03-10",
       "batch": "C10",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/design-system/virtual-list.tsx",
-      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:89 export DsVirtualList — label: string; items: readonly T[]; itemHeight: number (inferred; no used export symbol matched in body)",
-      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:165 test invoke | production: none found in packages/editor/src (excl. *.test.*)",
-      "legalInput": "inline typed fixtures in test body (see test source)",
+      "sourceCondition": "packages/editor/src/ui/design-system/virtual-list.tsx:168 DsVirtualListbox — :168 aria-label={props.label}; :404 aria-label={props.label}; :33 if (!virtual) return { start: 0, end: options.count }",
+      "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:165 | production: packages/editor/src/design-lab/DesignLab.tsx:1250 <DsVirtualListbox; packages/editor/src/ui/SpriteActionEditor.tsx:437 <DsVirtualListbox; packages/editor/src/ui/design-system/add-picker.tsx:275 <DsVirtualListbox",
+      "legalInput": "fixtures: render(<TrayHarness />); listbox=mounted.host.querySelector('[role=\"listbox\"]')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
@@ -1800,7 +1924,9 @@
       "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
       "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-10 listbox role 与 label 可达",
       "testSourceLine": 165,
-      "status": "passed"
+      "status": "passed",
+      "humanVerified": true,
+      "notes": "humanVerified C06-C10 overlay; real branch+fixture"
     }
   ]
 }
