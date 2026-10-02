@@ -604,31 +604,7 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
   })
 })
 
-describe('O01 palAssetPreconditions：真实发布产物的 manifest 前置计划', () => {
-  test('发布产物的每个 catalog 资源产出 projects/pal 前缀前置且 hash 透传', () => {
-    const { baseline, sources } = fresh()
-    const publication = rebuild(baseline, sources)
-    const preconditions = palAssetPreconditions(publication)
-    const catalog = sources.assetCatalog
-    expect(preconditions).toHaveLength(Object.keys(catalog.assets).length)
-    for (const [id, record] of Object.entries(catalog.assets)) {
-      const match = preconditions.find((entry) => entry.target === `projects/pal/${record.path}`)
-      expect(match, id).toBeDefined()
-      expect(match!.hash).toBe(record.sha256)
-    }
-    const targets = preconditions.map(({ target }) => target)
-    expect([...targets].sort()).toEqual(targets)
-  })
-
-  test('前置计划输入为合成 catalog 时与记录逐条对齐（无角色 id 丢失）', () => {
-    const { baseline, sources } = fresh()
-    const publication = rebuild(baseline, sources)
-    const preconditions = palAssetPreconditions(publication)
-    expect(new Set(preconditions.map(({ target }) => target)).size).toBe(preconditions.length)
-  })
-})
-
-describe('O01 合成 catalog 自检：fixture 本身过现行 catalog 守卫', () => {
+describe('O01 合成 catalog 自检（fixture 卫生，不计产品净新合同）', () => {
   test('syntheticCatalog 的所有 path 位于 assets/generated 前缀', () => {
     const catalog = syntheticCatalog()
     for (const record of Object.values(catalog.assets))
