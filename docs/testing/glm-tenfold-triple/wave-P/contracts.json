@@ -1168,7 +1168,7 @@
       "batch": "P03",
       "id": "P03-G16-02",
       "file": "src/core/script-editor.p03b.glm-p.test.ts",
-      "fullName": "P03-G16 scheme 引用索引聚合 命令 selection 命中以 use:command 入索引；同键多引用按序追加",
+      "fullName": "P03-G16 scheme 引用索引聚合 同键引用按走访序精确追加：page-binding 在前、命令 selection 在后",
       "status": "passed",
       "condition": "同 fixture + buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
       "source": "packages/editor/src/core/script-editor.ts",
