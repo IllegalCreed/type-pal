@@ -19,7 +19,7 @@
  *   runtime-world/兜底内容引用）与失效 scene-entity/scene 引用的保守回退；scene-page owner 同样解析实例行为。
  * - 无 auto 实例的布局分类：loop→「用途自动循环」、directional→「四向场景实例」（读实体朝向）。
  * - unavailable preview 精确形状；合法可证脚本在 actualFrameCount 缺席/零/非整数时不伪装 cycle。
- * - chance 采样 48 tick 预算耗尽 → note 披露「此示例在安全预算处截断」，仍报 variants 不伪装唯一循环。
+ * - chance 采样 48 tick 预算耗尽 → note 披露「仅展示已分析的部分」，仍报 variants 不伪装唯一循环。
  * - projectCanonicalSpritePreviewState 边界：无 canonical 对应的 scene/entity 原引用保留、无 auto 的
  *   canonical 实体保留 shell 页字段、scriptChunks 注入共享 chunk 且不动既有键、输入隔离。
  * - collectAutomaticScriptSpriteInstanceSites：真实 loader 状态 + 真实命令实体；未知 actor 跳过；全字段精确。
@@ -525,7 +525,7 @@ describe('K03 describeSpriteReferenceBehavior 引用归属边界', () => {
       expect(variant.steps.map((step) => step.frame)).toEqual(
         Array.from({ length: 48 }, (_, index) => index + 1),
       )
-      expect(variant.note).toBe('50% 为各判断的局部命中率；此示例在安全预算处截断')
+      expect(variant.note).toBe('50% 为各判断的局部命中率；仅展示已分析的部分')
     }
     // 命中率语义正控：miss 全程未命中（停留默认 200ms），hit 全程命中（wait 10ms 夹到 60ms）。
     const byId = new Map(result.preview.variants.map((variant) => [variant.id, variant]))

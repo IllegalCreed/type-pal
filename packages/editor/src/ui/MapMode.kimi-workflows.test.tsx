@@ -157,9 +157,15 @@ let currentSession: EditSession
 /** 真实资产链路就绪见证：fit 后缩放读数精确等于独立复算的 fit 公式。 */
 async function waitStageReady(): Promise<void> {
   const expected = `${Math.round(currentView().zoom * 100)}%`
-  await vi.waitFor(() => {
-    expect(zoomStatusText()).toBe(expected)
-  })
+  const deadline = Date.now() + 1000
+  // 真实读取/解压跨过首次 render 的 act；每轮等待覆盖异步 ready、fit 与浮层布局更新，
+  // 再在 act flush 后观察 DOM。把整个 DOM 轮询放进一个 act 会阻止待验的提交完成。
+  while (zoomStatusText() !== expected && Date.now() < deadline) {
+    await act(async () => {
+      await new Promise<void>((resolve) => setTimeout(resolve, 10))
+    })
+  }
+  expect(zoomStatusText()).toBe(expected)
 }
 
 async function mount(): Promise<Mounted> {

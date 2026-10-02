@@ -72,7 +72,142 @@ function behavior(
   )
 }
 
+function deepFrameChain(depth: number, prefix: Command[] = []) {
+  const chunk: ScriptChunkV1 = { version: 1, id: 'deep-chain', scripts: {} }
+  for (let level = 1; level <= depth; level++) {
+    chunk.scripts[`level-${level}`] =
+      level === depth
+        ? [
+            { kind: 'setEntityFrame', entity: 'e001', frame: 1 },
+            { kind: 'setEntityFrame', entity: 'e001', frame: 2 },
+          ]
+        : [{ kind: 'callScript', ref: { chunk: chunk.id, id: `level-${level + 1}` } }]
+  }
+  return state(
+    [{ body: [...prefix, { kind: 'callScript', ref: { chunk: chunk.id, id: 'level-1' } }] }],
+    { [chunk.id]: chunk },
+  )
+}
+
 describe('describeSpriteReferenceBehavior', () => {
+  test.each([15, 16])('预算内 %i 层调用仍展示真实帧序，且不修改输入', (depth) => {
+    const input = deepFrameChain(depth)
+    const before = structuredClone(input)
+    const result = describeSpriteReferenceBehavior(input, reference, definition, 16)
+
+    expect(result.preview).toMatchObject({
+      kind: 'cycle',
+      cycle: [{ frame: 1 }, { frame: 2 }],
+    })
+    expect(result.detail).toContain('#1 → #2')
+    expect(input).toEqual(before)
+  })
+
+  test('17 层调用在真实帧出现前耗尽预算时不可伪造默认帧', () => {
+    const input = deepFrameChain(17)
+    const before = structuredClone(input)
+    const result = describeSpriteReferenceBehavior(input, reference, definition, 16)
+
+    expect(result.preview).toMatchObject({ kind: 'unavailable' })
+    expect(result.detail).toBe('暂时无法推断这段脚本的帧序，请到场景中播放确认。')
+    expect(result.detail).not.toContain('#0')
+    expect(result.detail).not.toContain('检测到')
+    expect(input).toEqual(before)
+  })
+
+  test('预算截断的单一路径保留已采样前缀，不折叠或声称完整循环', () => {
+    const input = deepFrameChain(
+      17,
+      [3, 4, 3, 4].map((frame) => ({ kind: 'setEntityFrame', entity: 'e001', frame })),
+    )
+    const result = describeSpriteReferenceBehavior(input, reference, definition, 16)
+
+    expect(result.preview?.kind).toBe('variants')
+    if (result.preview?.kind !== 'variants') throw new Error('应保留截断采样片段')
+    expect(result.preview.variants).toHaveLength(1)
+    expect(result.preview.variants[0]?.steps.map((step) => step.frame)).toEqual([3, 4, 3, 4])
+    expect(result.preview.variants[0]?.note).toContain('仅展示已分析的部分')
+    expect(result.detail).toBe('目前只能推断部分帧序，请到场景中播放确认。')
+    expect(result.label).toBe('自动脚本部分帧序')
+  })
+
+  test('真正执行到的帧 #0 可保留为截断前缀，正常定帧 #0 仍可证明循环', () => {
+    const frame: Command = { kind: 'setEntityFrame', entity: 'e001', frame: 0 }
+    const result = describeSpriteReferenceBehavior(
+      deepFrameChain(17, [frame]),
+      reference,
+      definition,
+      16,
+    )
+    expect(result.preview).toMatchObject({
+      kind: 'variants',
+      variants: [{ steps: [{ frame: 0 }] }],
+    })
+    expect(behavior([{ body: [frame] }]).preview).toMatchObject({
+      kind: 'cycle',
+      cycle: [{ frame: 0 }],
+    })
+  })
+
+  test('完整路径与截断路径帧序相同时，去重仍保留截断说明', () => {
+    const input = deepFrameChain(17)
+    input.scenes[0]!.entities[0]!.pages![0]!.auto = {
+      stages: [
+        {
+          body: [
+            { kind: 'setEntityFrame', entity: 'e001', frame: 3 },
+            {
+              kind: 'branch',
+              cond: { kind: 'chance', percent: 50 },
+              then: [{ kind: 'callScript', ref: { chunk: 'deep-chain', id: 'level-1' } }],
+            },
+          ],
+        },
+      ],
+    }
+    const result = describeSpriteReferenceBehavior(input, reference, definition, 16)
+    expect(result.preview?.kind).toBe('variants')
+    if (result.preview?.kind !== 'variants') throw new Error('应保留截断采样片段')
+    expect(result.preview.variants).toHaveLength(1)
+    expect(result.preview.variants[0]?.steps.map((step) => step.frame)).toEqual([3])
+    expect(result.preview.variants[0]?.note).toContain('仅展示已分析的部分')
+    expect(result.detail).toBe('目前只能推断部分帧序，请到场景中播放确认。')
+  })
+
+  test('48 tick 截断后即使所有策略帧序相同也不声称完整循环', () => {
+    const result = behavior(
+      [
+        {
+          body: [
+            { kind: 'animEntity', entity: 'e001' },
+            { kind: 'branch', cond: { kind: 'chance', percent: 0 }, then: [] },
+          ],
+        },
+      ],
+      {},
+      64,
+    )
+    expect(result.preview?.kind).toBe('variants')
+    if (result.preview?.kind !== 'variants') throw new Error('应保留截断采样片段')
+    expect(result.preview.variants).toHaveLength(1)
+    expect(result.preview.variants[0]?.steps.map((step) => step.frame)).toEqual(
+      Array.from({ length: 48 }, (_, index) => index + 1),
+    )
+    expect(result.preview.variants[0]?.note).toBe('0% 为各判断的局部命中率；仅展示已分析的部分')
+  })
+
+  test('无帧的跳转耗尽命令预算也不造帧；仅朝向脚本保持不可确定帧序', () => {
+    const ref = { chunk: 'empty', id: 'loop' }
+    const result = behavior([{ body: [{ kind: 'jumpScript', ref }] }], {
+      empty: { version: 1, id: 'empty', scripts: { loop: [{ kind: 'jumpScript', ref }] } },
+    })
+    expect(result.preview).toMatchObject({ kind: 'unavailable' })
+    expect(result.detail).toBe('暂时无法推断这段脚本的帧序，请到场景中播放确认。')
+    expect(
+      behavior([{ body: [{ kind: 'setEntityFacing', entity: 'e001', facing: 'left' }] }]).preview,
+    ).toMatchObject({ kind: 'unavailable' })
+  })
+
   test('a conditional edge indirectly reaching completion cannot be advertised as a proven loop', () => {
     const stages = projectCanonicalScriptFlowPreview(
       {
