@@ -3,7 +3,8 @@
   "phase": "ready",
   "label": "战斗上传：非法文件失败与恢复（异步）",
   "oracle": {
-    "status": "idle"
+    "status": "idle",
+    "uploadError": null
   },
   "canvas2d": {
     "ok": true,

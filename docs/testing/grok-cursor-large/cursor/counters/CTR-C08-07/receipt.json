@@ -66,7 +66,19 @@
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键"
+      ]
     },
     "target": {
       "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",

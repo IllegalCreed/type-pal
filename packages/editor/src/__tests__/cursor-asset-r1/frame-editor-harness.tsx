@@ -292,16 +292,14 @@ export async function mountFrameEditor(options: C04Options = {}) {
       if (blur) input.dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
     })
   }
+  /** 默认可观察就绪：不扩 timeout/interval，靠 drawn/cards 条件收敛。 */
   const wait = (condition: () => void) =>
-    vi.waitFor(
-      async () => {
-        await act(async () => {
-          await new Promise((resolve) => setTimeout(resolve, 0))
-        })
-        condition()
-      },
-      { timeout: 3000, interval: 5 },
-    )
+    vi.waitFor(async () => {
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+      condition()
+    })
   /** drawFrame 把画布设为帧尺寸后才算真正绘制（默认 300x150 不算）。 */
   const drawn = (canvas: HTMLCanvasElement | null) => canvas?.width === 2 && canvas.height === 1
   const ready = () =>

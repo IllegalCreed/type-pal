@@ -12,8 +12,10 @@ Coding Owner: Cursor。本目录为 **TEST-CURSOR-ASSET-UI-LARGE-1** 证据包�
 | 定向 Vitest | [directed-vitest.json](./directed-vitest.json)（原始 [_vitest-raw.json](./_vitest-raw.json)） | **707** 例（707 passed / 0 failed） |
 | 合同账 | [contracts.json](./contracts.json) | **707** 条 passed 合同 |
 | 工作组 | C01–C10 × 7 | **70** |
-| 有效反控 | [counters.json](./counters.json) + [counters/](./counters/) | **50** 枚三态 receipt |
-| 视觉流程 | [flows/](./flows/README.md) | **12**（资源 6 / 设计控件 4 / 异步失败恢复 2） |
+| 有效反控 | [counters.json](./counters.json) + [counters/](./counters/) | **50** 枚三态 / **50** 不同目标 |
+| judge 自测 | [judge-selftest.json](./judge-selftest.json) | 四反例拒收 + baseline 收 |
+| 视觉流程 | [flows/](./flows/README.md) | **12/12**（资源 6 / 设计控件 4 / 异步失败恢复 2） |
+| 净新估算 | contracts `existing-proof` | **698**（9 existing-proof；全量排重仍待） |
 | 私有覆盖 | [coverage-delta.json](./coverage-delta.json) | 74 源中 72 有 private hits（非正式 ratchet；原始 JSON 受根 `.gitignore` 的 `coverage/` 规则忽略，不入库） |
 | 缺陷/未证 | [defects.md](./defects.md) | |
 | 候选回执 | [receipt.json](./receipt.json) | pending Codex |
@@ -23,8 +25,9 @@ Coding Owner: Cursor。本目录为 **TEST-CURSOR-ASSET-UI-LARGE-1** 证据包�
 | 用途 | 脚本 / 目录 |
 |---|---|
 | 采集 directed JSON | [collect-directed.mjs](./collect-directed.mjs) |
-| 生成 contracts | [generate-contracts.mjs](./generate-contracts.mjs) |
+| 生成 contracts | [generate-contracts.mjs](./generate-contracts.mjs)（逐例解析测试源 + 产品导出行；末次摘要 [generate-contracts-last.json](./generate-contracts-last.json)） |
 | 反控 runner | [counter.mjs](./counter.mjs) · [counter-judge.mjs](./counter-judge.mjs) · [run-counters.mjs](./run-counters.mjs) |
+| judge 拒收自测 / 重判 | [judge-selftest.mjs](./judge-selftest.mjs) · [rejudge-counters.mjs](./rejudge-counters.mjs) |
 | 反控索引重建 | [rebuild-counters-index.mjs](./rebuild-counters-index.mjs) |
 | 三态原证据 | [counters/](./counters/) |
 | **12 功能视觉流程** | [flows/](./flows/README.md)（Playwright + 6013+ 隔离宿主） |

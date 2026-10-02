@@ -66,7 +66,19 @@
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-03 AudioPreviewCache 拒绝 loader 时不写入条目",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-04 AudioPreviewCache.get 刷新 LRU 顺序",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-05 transport.play 未 load 抛错",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-06 readBytes 使用 sound kind",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-07 不同 cacheKey 触发第二次 readBytes",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-08 dispose 后 load 以 AbortError 拒绝",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-09 seek 到时长末端不再 start 源",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-10 snapshot 在未 load 时 duration 为 0"
+      ]
     },
     "target": {
       "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket",

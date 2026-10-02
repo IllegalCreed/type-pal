@@ -3,7 +3,7 @@
   "category": "async-fail-recover",
   "title": "战斗上传非法文件失败与 PNG 恢复",
   "contract": "upload-invalid-then-recover",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 1000,
@@ -14,13 +14,28 @@
       "height": 640
     }
   },
-  "expect": "非法文件后 status≠applied；合法 PNG 后 status 含 applied",
+  "expect": "bad 阶段 uploadError 非空；恢复后 status 含 applied",
   "before": {
     "flowId": "FLOW-AR01",
     "phase": "ready",
     "label": "战斗上传：非法文件失败与恢复（异步）",
     "oracle": {
-      "status": "idle"
+      "status": "idle",
+      "uploadError": null
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "afterBad": {
+    "flowId": "FLOW-AR01",
+    "phase": "ready",
+    "label": "战斗上传：非法文件失败与恢复（异步）",
+    "oracle": {
+      "status": "idle",
+      "uploadError": "The source image could not be decoded."
     },
     "canvas2d": {
       "ok": true,
@@ -33,7 +48,8 @@
     "phase": "ready",
     "label": "战斗上传：非法文件失败与恢复（异步）",
     "oracle": {
-      "status": "applied:1"
+      "status": "applied:1",
+      "uploadError": null
     },
     "canvas2d": {
       "ok": true,
@@ -41,7 +57,7 @@
       "note": "real Canvas2D readback"
     }
   },
-  "steps": ["upload bad.txt", "upload 1x1 png"],
+  "steps": ["upload bad.txt", "upload 1x1 png + apply"],
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-AR01/wide-invalid.png",
@@ -51,7 +67,7 @@
     },
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-AR01/narrow-recovered.png",
-      "sha256": "852eb532b35c6d151873702b53968081e9f6d67cf9a44a85237a259be9599f78",
+      "sha256": "d52a69bfb519ecb0a855b18b8847c747184311fb4faf66d93541fd9d65cd83ff",
       "width": 820,
       "height": 640
     }
@@ -98,5 +114,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:19.060Z"
+  "recordedAt": "2026-10-01T23:58:06.431Z"
 }

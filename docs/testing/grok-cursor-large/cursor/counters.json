@@ -1,6 +1,7 @@
 {
-  "generatedAt": "2026-10-01T15:46:54.722Z",
+  "generatedAt": "2026-10-01T23:36:59.476Z",
   "valid": 50,
+  "distinctTargets": 50,
   "counters": [
     {
       "id": "CTR-C03-02",
@@ -29,7 +30,7 @@
     {
       "id": "CTR-C05-07",
       "productFile": "packages/editor/src/core/sprite-actions.ts",
-      "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
       "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C05-07"
     },
     {
@@ -95,7 +96,7 @@
     {
       "id": "CTR-C08-15",
       "productFile": "packages/editor/src/core/stamp-template.ts",
-      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
       "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-15"
     },
     {
@@ -161,7 +162,7 @@
     {
       "id": "CTR-C09-06",
       "productFile": "packages/editor/src/core/audio-preview.ts",
-      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
+      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-03 AudioPreviewCache 拒绝 loader 时不写入条目",
       "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-06"
     },
     {
@@ -245,7 +246,7 @@
     {
       "id": "CTR-C09-37",
       "productFile": "packages/editor/src/core/audio-preview.ts",
-      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket",
+      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-10 snapshot 在未 load 时 duration 为 0",
       "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-37"
     },
     {
@@ -287,19 +288,19 @@
     {
       "id": "CTR-C10-11",
       "productFile": "packages/editor/src/ui/design-system/reorder.tsx",
-      "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感",
+      "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-02 swap 同索引保持原引用",
       "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-11"
     },
     {
       "id": "CTR-C10-12",
-      "productFile": "packages/editor/src/ui/design-system/control-utils.ts",
-      "expectFullname": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+      "productFile": "packages/editor/src/ui/design-system/status-values.tsx",
+      "expectFullname": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
       "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-12"
     },
     {
       "id": "CTR-C10-14",
-      "productFile": "packages/editor/src/ui/design-system/collection-search.ts",
-      "expectFullname": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+      "productFile": "packages/editor/src/ui/design-system/index.ts",
+      "expectFullname": "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
       "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-14"
     }
   ]

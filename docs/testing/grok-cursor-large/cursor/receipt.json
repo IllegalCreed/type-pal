@@ -2,27 +2,42 @@
   "campaign": "TEST-GROK-CURSOR-LARGE-20261001",
   "taskId": "TEST-CURSOR-ASSET-UI-LARGE-1",
   "owner": "cursor",
-  "status": "candidate-pending-codex-review",
+  "status": "rework-candidate-pending-codex-review",
   "notDone": true,
   "branch": "codex/cursor-asset-ui-large-r1",
   "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "sourceBase": "5cbe5c08b43a3e53b9b7109bc26ab2f913df969e",
-  "headAtReceiptDraft": "6a16751e7a12e1e1a3734fb749dcfe7547226dfd",
-  "headNote": "final evidence commit before docs pin; push follows",
+  "reviewedCandidate": "6ea1b41ff30e8bf532a78e98af991128947da9df",
+  "priorEvidenceHead": "6a16751e7a12e1e1a3734fb749dcfe7547226dfd",
+  "reworkCloses": ["CURSOR-R1-01", "CURSOR-R1-02", "CURSOR-R1-03", "CURSOR-R1-04"],
   "counts": {
     "directedTotal": 707,
     "directedPassed": 707,
     "contracts": 707,
+    "existingProof": 9,
+    "netNewEstimate": 698,
     "workGroups": 70,
     "countersValid": 50,
+    "countersDistinctTargets": 50,
     "visualFlows": 12,
+    "visualFlowsPassed": 12,
+    "editorFullSuite": 4493,
     "targetNewCases": 700
+  },
+  "gates": {
+    "editorFull": "4493/4493",
+    "typecheck": "0 diagnostics",
+    "lint": "0/0/0",
+    "judgeSelftest": "pass (4 rejects + baseline ok)",
+    "flows": "12/12"
   },
   "commands": {
     "directed": "pnpm --filter @type-pal/editor exec vitest run --maxWorkers=1 cursor-r1",
+    "editorFull": "pnpm --filter @type-pal/editor exec vitest run --maxWorkers=1",
     "typecheck": "pnpm --filter @type-pal/editor run typecheck",
-    "coverage": "vitest run --coverage cursor-r1 → coverage/raw/coverage-final.json",
+    "lint": "pnpm lint",
+    "judgeSelftest": "node docs/testing/grok-cursor-large/cursor/judge-selftest.mjs",
+    "rejudge": "node docs/testing/grok-cursor-large/cursor/rejudge-counters.mjs",
     "counters": "node docs/testing/grok-cursor-large/cursor/run-counters.mjs",
     "flows": "node docs/testing/grok-cursor-large/cursor/flows/run-flows.mjs",
     "verifier": "node docs/testing/grok-cursor-large/verify-targets.mjs --owner cursor --base 0704d3de6d3d2a2099475a42f601b654bba08579"
@@ -31,9 +46,13 @@
     "contracts": "docs/testing/grok-cursor-large/cursor/contracts.json",
     "directed": "docs/testing/grok-cursor-large/cursor/directed-vitest.json",
     "counters": "docs/testing/grok-cursor-large/cursor/counters.json",
+    "judgeSelftest": "docs/testing/grok-cursor-large/cursor/judge-selftest.json",
     "coverageDelta": "docs/testing/grok-cursor-large/cursor/coverage-delta.json",
     "defects": "docs/testing/grok-cursor-large/cursor/defects.md",
     "flows": "docs/testing/grok-cursor-large/cursor/flows/"
   },
-  "candidateSha": "6a16751e7a12e1e1a3734fb749dcfe7547226dfd"
+  "remainingDebt": [
+    "net-new shortfall ≥2 vs 700 after 9 existing-proof; full semantic dedup incomplete",
+    "≈698 contracts still lack line-level old matcher beyond header 排重 / existing-proof"
+  ]
 }

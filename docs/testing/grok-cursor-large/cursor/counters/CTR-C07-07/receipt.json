@@ -66,7 +66,19 @@
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-02 colorTreatment project-standard 写入 index",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-03 单帧最小合成：TPFS 魔数与宽高",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-05 越界 sourceFrame 带小数索引拒绝",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-09 quantize 输出改色不影响下一帧结果",
+        "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts×C07-G03 合成 rgba 编码 C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO"
+      ]
     },
     "target": {
       "fullName": "C07-G03 合成 rgba 编码 C07-G03-02 colorTreatment project-standard 写入 index",

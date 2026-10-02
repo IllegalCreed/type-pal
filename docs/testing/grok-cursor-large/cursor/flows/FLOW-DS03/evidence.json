@@ -3,7 +3,7 @@
   "category": "design-system",
   "title": "DsNumberField Escape 取消草稿",
   "contract": "number-escape-draft-oracle",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 800,
@@ -14,14 +14,16 @@
       "height": 520
     }
   },
-  "expect": "Escape 后 committed value 仍为 2",
+  "expect": "编辑中 midDraft=true；Escape 后 value 仍为 2",
   "before": {
     "flowId": "FLOW-DS03",
     "phase": "ready",
-    "label": "DsNumberField：Escape 取消草稿（设计控件）",
+    "label": "DsDraftNumberField：Escape 取消草稿（设计控件）",
     "oracle": {
       "value": 2,
-      "draftNote": "committed"
+      "draftNote": "committed",
+      "inputValue": "2",
+      "midDraft": false
     },
     "canvas2d": {
       "ok": true,
@@ -32,10 +34,28 @@
   "after": {
     "flowId": "FLOW-DS03",
     "phase": "ready",
-    "label": "DsNumberField：Escape 取消草稿（设计控件）",
+    "label": "DsDraftNumberField：Escape 取消草稿（设计控件）",
     "oracle": {
       "value": 2,
-      "draftNote": "committed"
+      "draftNote": "cancelled",
+      "inputValue": "2",
+      "midDraft": false
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "mid": {
+    "flowId": "FLOW-DS03",
+    "phase": "ready",
+    "label": "DsDraftNumberField：Escape 取消草稿（设计控件）",
+    "oracle": {
+      "value": 2,
+      "draftNote": "committed",
+      "inputValue": "17",
+      "midDraft": true
     },
     "canvas2d": {
       "ok": true,
@@ -47,13 +67,13 @@
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS03/wide-escape.png",
-      "sha256": "ac6f4782edcd39fd8c1c91047150a0112ad12460eca2f243ce4d117aef245c8e",
+      "sha256": "09cde2ad4d2cc7b68ddede0bfb392791db3216e4d4a030106d72955630baaeba",
       "width": 800,
       "height": 600
     },
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS03/narrow-escape.png",
-      "sha256": "71fe41f72cbb5358fa0789ef87c0f312accad24e1e3d707218cd599bdb1668cf",
+      "sha256": "78d1d223afc407aedb2ff0575c4820644d58c5c11a577ee58257b2039c0502cb",
       "width": 640,
       "height": 520
     }
@@ -87,36 +107,18 @@
           "attributable": true,
           "note": ""
         }
-      },
-      {
-        "type": "error",
-        "text": "Unknown event handler property `%s`. It will be ignored. onValueChange",
-        "classification": {
-          "bucket": "error",
-          "attributable": false,
-          "note": "Unknown event handler property `%s`. It will be ignored. onValueChange"
-        }
-      },
-      {
-        "type": "error",
-        "text": "You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.",
-        "classification": {
-          "bucket": "error",
-          "attributable": false,
-          "note": "You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `r"
-        }
       }
     ],
     "failedRequests": [],
     "counts": {
-      "total": 5,
-      "error": 2,
+      "total": 3,
+      "error": 0,
       "warning": 0,
       "pageerror": 0
     },
-    "unattributedConsoleCount": 2,
+    "unattributedConsoleCount": 0,
     "unattributedNetworkCount": 0,
-    "consoleAttested": false
+    "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:14.512Z"
+  "recordedAt": "2026-10-01T23:58:00.960Z"
 }

@@ -66,7 +66,19 @@
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-02 swap 同索引保持原引用",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-04 forward 按钮下移中间项",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-05 first 按钮把末项移到最前",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-06 首项 backward 按钮 disabled",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-07 水平取向 forward 使用 chevron-right 文案轴",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-08 collection disabled 时 move 按钮全 disabled",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-09 onReorder 返回 false 时顺序不变",
+        "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx×C10-G01 reorder 剩余合同 C10-G01-10 duplicate item key 抛错"
+      ]
     },
     "target": {
       "fullName": "C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项",

@@ -99,28 +99,51 @@ const FLOW_DEFS = [
       await page.goto(`${baseUrl}?flow=FLOW-R01`, { waitUntil: 'networkidle' })
       await page.waitForSelector('[data-surface="world-sprite"]', { timeout: 120_000 })
       const before = await readSnapshot(page)
-      const search = page.getByPlaceholder('名称 / id')
+      const search = page.getByRole('textbox', { name: '过滤大世界精灵库' })
       await search.fill('Beta')
+      await page.waitForFunction(
+        () => {
+          const rows = window.__cursorFlow?.getSnapshot?.()?.oracle?.visibleAssetIds ?? []
+          return rows.length === 1 && rows[0] === 'sprite.flow.beta'
+        },
+        null,
+        { timeout: 10_000 },
+      )
       const betaValue = await search.inputValue()
+      const afterBeta = await readSnapshot(page)
       const shotWide = await captureShot(page, resolve(outDir, 'wide-filtered.png'))
       await page.setViewportSize({ width: 720, height: 640 })
       await search.fill('')
       await search.fill('Alpha')
+      await page.waitForFunction(
+        () => {
+          const rows = window.__cursorFlow?.getSnapshot?.()?.oracle?.visibleAssetIds ?? []
+          return rows.length === 1 && rows[0] === 'sprite.flow.alpha'
+        },
+        null,
+        { timeout: 10_000 },
+      )
       const alphaValue = await search.inputValue()
       const after = await readSnapshot(page)
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-filtered.png'))
+      const betaRows = afterBeta?.oracle?.visibleAssetIds ?? []
+      const alphaRows = after?.oracle?.visibleAssetIds ?? []
       return {
         contract: 'dom-filter-oracle',
-        expect: '搜索框读回 Beta/Alpha 且 definitionCount≥2',
+        expect: 'Beta/Alpha 过滤后 visibleAssetIds 精确匹配单资产行',
         before,
         after,
         steps: ['wide: fill Beta', 'narrow: fill Alpha'],
         shots: [shotWide, shotNarrow],
-        actual: { betaValue, alphaValue, definitionCount: after?.oracle?.definitionCount },
+        actual: { betaValue, alphaValue, betaRows, alphaRows },
         pass:
           betaValue.includes('Beta') &&
           alphaValue.includes('Alpha') &&
-          (after?.oracle?.definitionCount ?? 0) >= 2,
+          betaRows.length === 1 &&
+          betaRows[0] === 'sprite.flow.beta' &&
+          alphaRows.length === 1 &&
+          alphaRows[0] === 'sprite.flow.alpha' &&
+          (before?.oracle?.visibleAssetIds?.length ?? 0) >= 2,
       }
     },
   },
@@ -136,27 +159,68 @@ const FLOW_DEFS = [
       await page.waitForSelector('[aria-label="用途筛选"]', { timeout: 120_000 })
       const before = await readSnapshot(page)
       const select = page.getByRole('combobox', { name: '用途筛选' })
-      await select.click()
-      const opts = page.getByRole('option')
-      const optCount = await opts.count()
-      if (optCount > 1) await opts.nth(1).click()
+      await select.focus()
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('Enter')
+      await page.waitForFunction(
+        () => {
+          const oracle = window.__cursorFlow?.getSnapshot?.()?.oracle
+          const rows = oracle?.visibleAssetIds ?? []
+          return (
+            oracle?.purposeFilter === 'enemy' &&
+            rows.includes('battle-sprite.flow.enemy-pack') &&
+            !rows.includes('battle-sprite.flow.player-pack')
+          )
+        },
+        null,
+        { timeout: 30_000 },
+      )
       const afterFilter = await readSnapshot(page)
       const shotWide = await captureShot(page, resolve(outDir, 'wide-purpose.png'))
       await page.setViewportSize({ width: 900, height: 720 })
-      await select.click()
-      if (optCount > 0) await opts.nth(0).click()
+      await select.focus()
+      await page.keyboard.press('Home')
+      await page.keyboard.press('Enter')
+      await page.waitForFunction(
+        () => {
+          const rows = window.__cursorFlow?.getSnapshot?.()?.oracle?.visibleAssetIds ?? []
+          return (
+            rows.includes('battle-sprite.flow.enemy-pack') &&
+            rows.includes('battle-sprite.flow.player-pack')
+          )
+        },
+        null,
+        { timeout: 30_000 },
+      )
       const after = await readSnapshot(page)
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-purpose-reset.png'))
+      const filtered = afterFilter?.oracle?.visibleAssetIds ?? []
+      const reset = after?.oracle?.visibleAssetIds ?? []
+      const beforeRows = before?.oracle?.visibleAssetIds ?? []
       return {
         contract: 'select-purpose-oracle',
-        expect: 'purposeFilter 随 select 变化且 battleSpriteCount>0',
+        expect: '敌人筛选含 enemy-pack 且不含 player-pack；重置后两包均可见',
         before,
         after,
-        steps: ['change purpose select', 'reset to index 0 at narrow width'],
+        steps: ['purpose=敌人', 'narrow reset 全部'],
         shots: [shotWide, shotNarrow],
+        actual: {
+          purposeFilter: afterFilter?.oracle?.purposeFilter,
+          filtered,
+          reset,
+          battleSpriteCount: afterFilter?.oracle?.battleSpriteCount,
+        },
         pass:
-          (afterFilter?.oracle?.battleSpriteCount ?? 0) > 0 &&
-          after?.oracle?.purposeFilter !== undefined,
+          afterFilter?.oracle?.purposeFilter === 'enemy' &&
+          filtered.includes('battle-sprite.flow.enemy-pack') &&
+          !filtered.includes('battle-sprite.flow.player-pack') &&
+          beforeRows.includes('battle-sprite.flow.enemy-pack') &&
+          beforeRows.includes('battle-sprite.flow.player-pack') &&
+          reset.includes('battle-sprite.flow.enemy-pack') &&
+          reset.includes('battle-sprite.flow.player-pack') &&
+          (afterFilter?.oracle?.battleSpriteCount ?? 0) >= 2,
       }
     },
   },
@@ -171,10 +235,18 @@ const FLOW_DEFS = [
       await page.goto(`${baseUrl}?flow=FLOW-R03`, { waitUntil: 'networkidle' })
       await page.waitForSelector('[data-flow-id="FLOW-R03"]', { timeout: 60_000 })
       const before = await readSnapshot(page)
+      await page.waitForSelector('[data-flow-id="FLOW-R03"] .image-asset-list .ds-catalog-row', {
+        timeout: 60_000,
+      })
       const firstRow = page
-        .locator('[data-flow-id="FLOW-R03"] button, [data-flow-id="FLOW-R03"] [role="row"]')
+        .locator('[data-flow-id="FLOW-R03"] .image-asset-list .ds-catalog-row')
         .first()
-      if (await firstRow.count()) await firstRow.click()
+      await firstRow.click()
+      await page.waitForFunction(
+        () => window.__cursorFlow?.getSnapshot?.()?.oracle?.focusObjectId === 'image.flow.alpha',
+        null,
+        { timeout: 10_000 },
+      )
       const after = await readSnapshot(page)
       const shotWide = await captureShot(page, resolve(outDir, 'wide-focus.png'))
       await page.setViewportSize({ width: 800, height: 700 })
@@ -183,14 +255,15 @@ const FLOW_DEFS = [
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-keyboard.png'))
       return {
         contract: 'focus-object-oracle',
-        expect: '点击后 focusObjectId 非 null 或 catalogSize>0',
+        expect: '点击目录行后 focusObjectId 为 image.flow.alpha',
         before,
         after: afterKb,
         steps: ['click first catalog row', 'Tab at narrow width'],
         shots: [shotWide, shotNarrow],
         pass:
-          (after?.oracle?.catalogSize ?? 0) >= 0 &&
-          (after?.oracle?.focusObjectId != null || before?.oracle?.catalogSize >= 0),
+          before?.oracle?.focusObjectId == null &&
+          after?.oracle?.focusObjectId === 'image.flow.alpha' &&
+          (after?.oracle?.catalogSize ?? 0) >= 2,
       }
     },
   },
@@ -220,20 +293,26 @@ const FLOW_DEFS = [
         }
       }
       await page.waitForFunction(
-        () => window.__cursorFlow?.getSnapshot?.()?.oracle?.opaqueSampleOk === true,
+        () =>
+          window.__cursorFlow?.getSnapshot?.()?.oracle?.productPreview === true &&
+          window.__cursorFlow?.getSnapshot?.()?.oracle?.opaqueSampleOk === true,
         null,
-        { timeout: 10_000 },
+        { timeout: 120_000 },
       )
       const after = await readSnapshot(page)
       const shot = await captureShot(page, resolve(outDir, 'pixel-sample.png'))
       return {
         contract: 'canvas2d-pixel-oracle',
-        expect: 'centerPixel alpha=255',
+        expect: '产品 PreviewCanvas 就绪且主画布有不透明像素',
         before,
         after,
-        steps: ['draw sample rect on canvas'],
+        steps: ['mount PreviewCanvas', 'wait ready + opaque sample'],
         shots: [shot],
-        pass: after?.oracle?.opaqueSampleOk === true,
+        pass:
+          after?.oracle?.productPreview === true &&
+          after?.oracle?.opaqueSampleOk === true &&
+          (after?.oracle?.opaqueCount ?? 0) > 50 &&
+          (after?.oracle?.canvasWidth ?? 0) >= 80,
       }
     },
   },
@@ -249,20 +328,35 @@ const FLOW_DEFS = [
       await page.waitForSelector('[data-flow-id="FLOW-R05"]', { timeout: 90_000 })
       const before = await readSnapshot(page)
       const shotWide = await captureShot(page, resolve(outDir, 'wide-tileset.png'))
+      await page.waitForSelector('[data-flow-id="FLOW-R05"] .tileset-library-row .mono', {
+        timeout: 90_000,
+      })
+      await page
+        .locator('[data-flow-id="FLOW-R05"] .tileset-library-row')
+        .filter({ hasText: 'flow-tileset' })
+        .click()
+      await page.waitForFunction(
+        () => window.__cursorFlow?.getSnapshot?.()?.oracle?.selectedTileset === 'flow-tileset',
+        null,
+        { timeout: 30_000 },
+      )
+      const afterSelect = await readSnapshot(page)
       await page.setViewportSize({ width: 760, height: 680 })
       const after = await readSnapshot(page)
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-tileset.png'))
       return {
         contract: 'tileset-selection-oracle',
-        expect: 'tilesetIds 含 flow-tileset 且 selectedTileset=flow-tileset',
+        expect: '初始未选 flow-tileset；点击后 selectedTileset=flow-tileset',
         before,
         after,
-        steps: ['load tileset tab with seeded tileset', 'narrow viewport'],
+        steps: ['wide before select', 'click flow-tileset row', 'narrow viewport'],
         shots: [shotWide, shotNarrow],
+        actual: { afterSelect: afterSelect?.oracle?.selectedTileset },
         pass:
+          before?.oracle?.selectedTileset == null &&
+          after?.oracle?.selectedTileset === 'flow-tileset' &&
           Array.isArray(after?.oracle?.tilesetIds) &&
-          after.oracle.tilesetIds.includes('flow-tileset') &&
-          after.oracle.selectedTileset === 'flow-tileset',
+          after.oracle.tilesetIds.includes('flow-tileset'),
       }
     },
   },
@@ -276,25 +370,42 @@ const FLOW_DEFS = [
     async run(page, baseUrl, outDir) {
       await page.goto(`${baseUrl}?flow=FLOW-R06`, { waitUntil: 'networkidle' })
       await page.waitForSelector('[data-surface="sound-tab"]', { timeout: 60_000 })
+      await page.waitForFunction(
+        () => window.__cursorFlow?.getSnapshot?.()?.oracle?.showsMissing === true,
+        null,
+        { timeout: 60_000 },
+      )
       const before = await readSnapshot(page)
       const shotMissing = await captureShot(page, resolve(outDir, 'wide-missing.png'))
-      const combo = page.locator('[data-surface="sound-tab"] [role="combobox"]').first()
-      if (await combo.count()) {
-        await combo.click()
-        const option = page.getByRole('option').first()
-        if (await option.count()) await option.click()
-      }
+      const validId = before?.oracle?.validSoundId ?? 'sound.flow.valid'
+      await page.evaluate((id) => {
+        const row = [
+          ...document.querySelectorAll(
+            '[data-surface="sound-tab"] .audio-library-outliner .ds-catalog-row',
+          ),
+        ].find((node) => node.textContent?.includes(id))
+        if (row instanceof HTMLElement) row.click()
+      }, validId)
+      await page.waitForFunction(
+        () => window.__cursorFlow?.getSnapshot?.()?.oracle?.showsMissing === false,
+        null,
+        { timeout: 30_000 },
+      )
       await page.setViewportSize({ width: 820, height: 700 })
       const after = await readSnapshot(page)
       const shotRecovered = await captureShot(page, resolve(outDir, 'narrow-recovered.png'))
       return {
         contract: 'missing-asset-warning-oracle',
-        expect: '初始 showsMissing 或缺失文案；选择有效项后恢复',
+        expect: 'ghost 深链缺失 → 点击合法音效后 showsMissing=false',
         before,
         after,
-        steps: ['capture missing ghost asset', 'pick first valid combobox option at narrow width'],
+        steps: ['capture missing ghost focus', 'click valid sound row'],
         shots: [shotMissing, shotRecovered],
-        pass: before?.oracle?.focusAsset === 'sound.ghost.missing',
+        pass:
+          before?.oracle?.showsMissing === true &&
+          before?.oracle?.focusAsset === 'sound.ghost.missing' &&
+          after?.oracle?.showsMissing === false &&
+          after?.oracle?.focusAsset === validId,
       }
     },
   },
@@ -309,20 +420,37 @@ const FLOW_DEFS = [
       await page.goto(`${baseUrl}?flow=FLOW-DS01`, { waitUntil: 'networkidle' })
       await page.waitForSelector('[data-ds-reorder-handle="true"]', { timeout: 30_000 })
       const before = await readSnapshot(page)
-      await page.getByRole('button', { name: '前移 B' }).click()
+      const handleB = page.locator(
+        '[data-flow-id="FLOW-DS01"] [data-ds-reorder-handle="true"][data-reorder-key="b"]',
+      )
+      await handleB.focus()
+      await page.keyboard.press('Enter')
+      await page.keyboard.press('ArrowUp')
+      await page.keyboard.press('Enter')
       await page.waitForTimeout(150)
-      const after = await readSnapshot(page)
+      let after = await readSnapshot(page)
+      if (after?.oracle?.order?.[0] !== 'b') {
+        await page
+          .locator('[data-flow-id="FLOW-DS01"]')
+          .getByRole('button', { name: /前移 B/ })
+          .click()
+        await page.waitForTimeout(150)
+        after = await readSnapshot(page)
+      }
       const shotWide = await captureShot(page, resolve(outDir, 'wide-reorder.png'))
       await page.setViewportSize({ width: 640, height: 560 })
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-reorder.png'))
       return {
         contract: 'reorder-order-oracle',
-        expect: 'order 从 a,b,c 变为 b,a,c（或等价前移）',
+        expect: '手柄聚焦后 ArrowUp（或前移按钮）将 b 移到首位',
         before,
         after,
-        steps: ['focus item b', 'ArrowUp'],
+        steps: ['focus handle b', 'ArrowUp', 'fallback move button'],
         shots: [shotWide, shotNarrow],
-        pass: Array.isArray(after?.oracle?.order) && after.oracle.order[0] === 'b',
+        pass:
+          JSON.stringify(before?.oracle?.order) === JSON.stringify(['a', 'b', 'c']) &&
+          Array.isArray(after?.oracle?.order) &&
+          after.oracle.order[0] === 'b',
       }
     },
   },
@@ -337,20 +465,32 @@ const FLOW_DEFS = [
       await page.goto(`${baseUrl}?flow=FLOW-DS02`, { waitUntil: 'networkidle' })
       await page.waitForSelector('[data-flow-select]', { timeout: 30_000 })
       const before = await readSnapshot(page)
-      await page.locator('[data-flow-id="FLOW-DS02"] .ds-select').click()
-      await page.getByRole('option', { name: 'Option C' }).click()
+      const combo = page.getByRole('combobox', { name: 'flow select' })
+      await combo.focus()
+      await page.keyboard.press('Space')
+      await page.waitForTimeout(100)
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('Enter')
+      await page.waitForFunction(
+        () => window.__cursorFlow?.getSnapshot?.()?.oracle?.value === 'c',
+        null,
+        { timeout: 10_000 },
+      )
       const after = await readSnapshot(page)
       const shotWide = await captureShot(page, resolve(outDir, 'wide-select.png'))
       await page.setViewportSize({ width: 640, height: 520 })
-      await page.keyboard.press('ArrowDown')
+      await combo.click()
+      await page.waitForTimeout(80)
+      await page.keyboard.press('ArrowUp')
+      await page.keyboard.press('Enter')
       const afterKb = await readSnapshot(page)
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-select.png'))
       return {
         contract: 'select-value-oracle',
-        expect: 'value 从 b 变为 c（或键盘导航后的 enabled 值）',
+        expect: '打开列表后 ArrowDown+Enter 将 value 从 b 变为 c',
         before,
         after: afterKb,
-        steps: ['focus select', 'ArrowDown+Enter', 'narrow ArrowDown'],
+        steps: ['open select', 'ArrowDown+Enter → c', 'narrow ArrowUp+Enter'],
         shots: [shotWide, shotNarrow],
         pass: before?.oracle?.value === 'b' && after?.oracle?.value === 'c',
       }
@@ -374,19 +514,27 @@ const FLOW_DEFS = [
       const before = await readSnapshot(page)
       await input.click()
       await input.fill('17')
+      await page.waitForTimeout(150)
+      const mid = await readSnapshot(page)
       await page.keyboard.press('Escape')
+      await page.waitForTimeout(150)
       const after = await readSnapshot(page)
       const shotWide = await captureShot(page, resolve(outDir, 'wide-escape.png'))
       await page.setViewportSize({ width: 640, height: 520 })
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-escape.png'))
       return {
         contract: 'number-escape-draft-oracle',
-        expect: 'Escape 后 committed value 仍为 2',
+        expect: '编辑中 midDraft=true；Escape 后 value 仍为 2',
         before,
         after,
+        mid,
         steps: ['edit draft 17', 'Escape'],
         shots: [shotWide, shotNarrow],
-        pass: after?.oracle?.value === 2,
+        pass:
+          before?.oracle?.value === 2 &&
+          mid?.oracle?.midDraft === true &&
+          after?.oracle?.value === 2 &&
+          after?.oracle?.inputValue === '2',
       }
     },
   },
@@ -445,7 +593,7 @@ const FLOW_DEFS = [
       const input = page.locator('input[type="file"]').first()
       await input.setInputFiles(bad)
       await page.waitForTimeout(800)
-      const _afterBad = await readSnapshot(page)
+      const afterBad = await readSnapshot(page)
       const shotFail = await captureShot(page, resolve(outDir, 'wide-invalid.png'))
       const png = resolve(outDir, 'tiny.png')
       writeFileSync(
@@ -465,12 +613,15 @@ const FLOW_DEFS = [
       const shotRecover = await captureShot(page, resolve(outDir, 'narrow-recovered.png'))
       return {
         contract: 'upload-invalid-then-recover',
-        expect: '非法文件后 status≠applied；合法 PNG 后 status 含 applied',
+        expect: 'bad 阶段 uploadError 非空；恢复后 status 含 applied',
         before,
+        afterBad,
         after,
-        steps: ['upload bad.txt', 'upload 1x1 png'],
+        steps: ['upload bad.txt', 'upload 1x1 png + apply'],
         shots: [shotFail, shotRecover],
         pass:
+          Boolean(afterBad?.oracle?.uploadError) &&
+          !String(afterBad?.oracle?.status ?? '').includes('applied') &&
           String(after?.oracle?.status ?? '').includes('applied') &&
           !String(before?.oracle?.status ?? '').includes('applied'),
       }
@@ -497,12 +648,16 @@ const FLOW_DEFS = [
       const shotGood = await captureShot(page, resolve(outDir, 'narrow-recovered.png'))
       return {
         contract: 'decode-fail-then-switch-asset',
-        expect: '损坏资产 loadProof=error；切换 good 后 error=false',
+        expect: '损坏资产 loadProof=error；切换 good 后 error=false 且 loadProof 含 frames:',
         before,
         after,
         steps: ['load corrupt asset', 'click 正常'],
         shots: [shotBad, shotGood],
-        pass: afterBad?.oracle?.error === true && after?.oracle?.error === false,
+        pass:
+          afterBad?.oracle?.error === true &&
+          afterBad?.oracle?.loadProof === 'error' &&
+          after?.oracle?.error === false &&
+          String(after?.oracle?.loadProof ?? '').startsWith('frames:'),
       }
     },
   },
@@ -523,8 +678,12 @@ async function main() {
   try {
     await waitForServer(baseUrl)
     const browser = await chromium.launch({ channel: 'chrome', headless: true })
+    const only = process.env.CURSOR_FLOW_ONLY?.split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+    const selectedDefs = only?.length ? FLOW_DEFS.filter((def) => only.includes(def.id)) : FLOW_DEFS
     const summary = []
-    for (const def of FLOW_DEFS) {
+    for (const def of selectedDefs) {
       const outDir = resolve(here, def.id)
       mkdirSync(outDir, { recursive: true })
       const consoleLog = []

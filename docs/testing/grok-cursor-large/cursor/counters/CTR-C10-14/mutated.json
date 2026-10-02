@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790869320636,
+  "startTime": 1790897753998,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
           "status": "passed",
           "title": "C10-G07-01 filterDsCollection 空 query 返回原引用",
-          "duration": 8.102959000000055,
+          "duration": 9.403125000000045,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
           "status": "passed",
           "title": "C10-G07-02 filterDsCollection 大小写不敏感子串",
-          "duration": 2.385874999999942,
+          "duration": 2.600291000000084,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -52,22 +52,22 @@
         {
           "ancestorTitles": ["C10-G07 collection-search 与 index"],
           "fullName": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
-          "status": "failed",
+          "status": "passed",
           "title": "C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
-          "duration": 5.234124999999949,
-          "failureMessages": [
-            "AssertionError: expected 81 to be 80 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-14-M72yCX/packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:52:40\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
-          ],
+          "duration": 1.1664580000000342,
+          "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["C10-G07 collection-search 与 index"],
           "fullName": "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
-          "status": "passed",
+          "status": "failed",
           "title": "C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
-          "duration": 0.8675000000000637,
-          "failureMessages": [],
+          "duration": 3.9513750000000982,
+          "failureMessages": [
+            "AssertionError: expected '2.24' to match /^\\d+\\.\\d+\\.\\d+$/\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-14-uYJ0Q4/packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:56:42\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
           "meta": {},
           "tags": []
         },
@@ -76,7 +76,7 @@
           "fullName": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
           "status": "passed",
           "title": "C10-G07-05 control-utils describedBy 合并多 id",
-          "duration": 1.3517499999998108,
+          "duration": 1.2684580000000096,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -86,7 +86,7 @@
           "fullName": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
           "status": "passed",
           "title": "C10-G07-06 DsTag tone 渲染 modifier class",
-          "duration": 3.9231250000000273,
+          "duration": 5.38858300000004,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -96,7 +96,7 @@
           "fullName": "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
           "status": "passed",
           "title": "C10-G07-07 DsReadonlyValue monospace class",
-          "duration": 1.6325000000001637,
+          "duration": 0.9020000000000437,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -106,7 +106,7 @@
           "fullName": "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
           "status": "passed",
           "title": "C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
-          "duration": 11.00529100000017,
+          "duration": 9.190500000000043,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -116,7 +116,7 @@
           "fullName": "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
           "status": "passed",
           "title": "C10-G07-09 DsButton busy 禁用并显示处理中",
-          "duration": 8.417832999999973,
+          "duration": 10.090417000000002,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -126,7 +126,7 @@
           "fullName": "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
           "status": "passed",
           "title": "C10-G07-10 DsFilePicker disabled 加 is-disabled",
-          "duration": 8.940667000000076,
+          "duration": 1.1812079999999696,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -136,7 +136,7 @@
           "fullName": "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
           "status": "passed",
           "title": "C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
-          "duration": 8.348250000000007,
+          "duration": 1.8812500000000227,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -146,7 +146,7 @@
           "fullName": "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
           "status": "passed",
           "title": "C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
-          "duration": 13.712540999999874,
+          "duration": 7.661709000000087,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -156,7 +156,7 @@
           "fullName": "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
           "status": "passed",
           "title": "C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
-          "duration": 4.383874999999989,
+          "duration": 1.743249999999989,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -166,7 +166,7 @@
           "fullName": "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
           "status": "passed",
           "title": "C10-G07-14 DsPressable 默认 type=button",
-          "duration": 2.0372910000000957,
+          "duration": 1.0572499999999536,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -176,17 +176,17 @@
           "fullName": "C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
           "status": "passed",
           "title": "C10-G07-15 DsIconButton 点击触发 onClick",
-          "duration": 4.274541999999883,
+          "duration": 4.639332999999965,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790869321905,
-      "endTime": 1790869321990.2747,
+      "startTime": 1790897754821,
+      "endTime": 1790897754883.6394,
       "status": "failed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-14-M72yCX/packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-14-uYJ0Q4/packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
     }
   ]
 }

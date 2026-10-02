@@ -4,7 +4,7 @@
   "label": "资源查看器：损坏解码失败与切换恢复（异步）",
   "oracle": {
     "asset": "sprite.flow.good",
-    "loadProof": "error",
+    "loadProof": "frames:1",
     "error": false
   },
   "canvas2d": {

@@ -3,7 +3,7 @@
   "category": "resource",
   "title": "预览 Canvas2D 像素采样",
   "contract": "canvas2d-pixel-oracle",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 800,
@@ -14,16 +14,21 @@
       "height": 600
     }
   },
-  "expect": "centerPixel alpha=255",
+  "expect": "产品 PreviewCanvas 就绪且主画布有不透明像素",
   "before": {
     "flowId": "FLOW-R04",
     "phase": "ready",
-    "label": "预览画布像素探针（资源 / Canvas2D）",
+    "label": "预览画布像素探针（资源 / 产品 PreviewCanvas）",
     "oracle": {
-      "centerPixel": [51, 102, 153, 255],
-      "opaqueSampleOk": true,
       "blocked": false,
-      "reason": "real Canvas2D readback"
+      "reason": "real Canvas2D readback",
+      "productPreview": true,
+      "previewReady": true,
+      "opaqueCount": 307200,
+      "centerPixel": [104, 158, 74, 255],
+      "opaqueSampleOk": true,
+      "canvasWidth": 640,
+      "canvasHeight": 480
     },
     "canvas2d": {
       "ok": true,
@@ -34,12 +39,17 @@
   "after": {
     "flowId": "FLOW-R04",
     "phase": "ready",
-    "label": "预览画布像素探针（资源 / Canvas2D）",
+    "label": "预览画布像素探针（资源 / 产品 PreviewCanvas）",
     "oracle": {
-      "centerPixel": [51, 102, 153, 255],
-      "opaqueSampleOk": true,
       "blocked": false,
-      "reason": "real Canvas2D readback"
+      "reason": "real Canvas2D readback",
+      "productPreview": true,
+      "previewReady": true,
+      "opaqueCount": 307200,
+      "centerPixel": [104, 158, 74, 255],
+      "opaqueSampleOk": true,
+      "canvasWidth": 640,
+      "canvasHeight": 480
     },
     "canvas2d": {
       "ok": true,
@@ -47,11 +57,11 @@
       "note": "real Canvas2D readback"
     }
   },
-  "steps": ["draw sample rect on canvas"],
+  "steps": ["mount PreviewCanvas", "wait ready + opaque sample"],
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R04/pixel-sample.png",
-      "sha256": "fd86b3526942e5bd3d371db60ac74e1280fe934c75cc547f80a68a308d317ecd",
+      "sha256": "c39e88e3528a7cd625dc01698d29069bea5276889bea8274b225afb91073b8df",
       "width": 800,
       "height": 600
     }
@@ -85,18 +95,27 @@
           "attributable": true,
           "note": ""
         }
+      },
+      {
+        "type": "warning",
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "classification": {
+          "bucket": "warning",
+          "attributable": true,
+          "note": ""
+        }
       }
     ],
     "failedRequests": [],
     "counts": {
-      "total": 3,
+      "total": 4,
       "error": 0,
-      "warning": 0,
+      "warning": 1,
       "pageerror": 0
     },
     "unattributedConsoleCount": 0,
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:09.638Z"
+  "recordedAt": "2026-10-01T23:57:50.102Z"
 }

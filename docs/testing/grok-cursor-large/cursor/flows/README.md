@@ -9,7 +9,7 @@ Playwright + 自有 [browser-host](./browser-host/README.md)（vite **6013+**，
 node docs/testing/grok-cursor-large/cursor/flows/run-flows.mjs
 ```
 
-汇总索引：[flow-index.json](./flow-index.json)（末次跑：`6020` 端口，**12/12 pass**）。
+汇总索引：[flow-index.json](./flow-index.json)（Playwright 驱动；`CURSOR_FLOW_ONLY=FLOW-*` 可只跑子集；末次全量 **12/12 pass**）。
 
 每目录典型产物：`before.json`、`after.json`、`evidence.json`（含 `shots[].sha256` 与 `console` 分类）、`*.png`。
 

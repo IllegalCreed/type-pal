@@ -66,7 +66,19 @@
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-01 首次 claim 不调用 stop",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-03 新 owner 停止旧 owner",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-04 release 活动 owner 后 isOwner 为 false",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-05 release 非活动 owner 不影响当前 owner",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-06 stop 在无 owner 时安全",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-07 stop 后新 claim 可立即生效",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-08 三连 claim 只停止上一个",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-09 release 后 stop 不再调用已释放 owner",
+        "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-10 stop 对活动 owner 只 stop 一次"
+      ]
     },
     "target": {
       "fullName": "C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等",

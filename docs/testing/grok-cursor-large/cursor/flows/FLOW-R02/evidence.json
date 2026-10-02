@@ -3,7 +3,7 @@
   "category": "resource",
   "title": "战斗精灵用途筛选",
   "contract": "select-purpose-oracle",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 1280,
@@ -14,14 +14,19 @@
       "height": 720
     }
   },
-  "expect": "purposeFilter 随 select 变化且 battleSpriteCount>0",
+  "expect": "敌人筛选含 enemy-pack 且不含 player-pack；重置后两包均可见",
   "before": {
     "flowId": "FLOW-R02",
     "phase": "ready",
     "label": "战斗精灵库：用途筛选（资源）",
     "oracle": {
       "battleSpriteCount": 3,
-      "purposeFilter": ""
+      "purposeFilter": "all",
+      "visibleAssetIds": [
+        "battle-sprite.flow.enemy-pack",
+        "battle-sprite.flow.player-pack",
+        "battle-sprite.generated.starter"
+      ]
     },
     "canvas2d": {
       "ok": true,
@@ -35,7 +40,12 @@
     "label": "战斗精灵库：用途筛选（资源）",
     "oracle": {
       "battleSpriteCount": 3,
-      "purposeFilter": ""
+      "purposeFilter": "all",
+      "visibleAssetIds": [
+        "battle-sprite.flow.enemy-pack",
+        "battle-sprite.flow.player-pack",
+        "battle-sprite.generated.starter"
+      ]
     },
     "canvas2d": {
       "ok": true,
@@ -43,21 +53,31 @@
       "note": "real Canvas2D readback"
     }
   },
-  "steps": ["change purpose select", "reset to index 0 at narrow width"],
+  "steps": ["purpose=敌人", "narrow reset 全部"],
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R02/wide-purpose.png",
-      "sha256": "6136a489e5f872bc87dfb53e12efe5013595129662da94dacb6335d7df5ceef2",
+      "sha256": "358470d1bb41bdea190e525c3eacf15929f0739763189771b52918edd2803b2a",
       "width": 1280,
       "height": 900
     },
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R02/narrow-purpose-reset.png",
-      "sha256": "0274865a81d7156c96996ce404137260a4f85b75b9399003b943d9efce1e43b8",
+      "sha256": "f65f9bbcc1e4c4b51ea987c33b0fe248a707dad3f63b08b9aaba43678e78f356",
       "width": 900,
       "height": 720
     }
   ],
+  "actual": {
+    "purposeFilter": "enemy",
+    "filtered": ["battle-sprite.flow.enemy-pack"],
+    "reset": [
+      "battle-sprite.flow.enemy-pack",
+      "battle-sprite.flow.player-pack",
+      "battle-sprite.generated.starter"
+    ],
+    "battleSpriteCount": 3
+  },
   "pass": true,
   "console": {
     "entries": [
@@ -100,5 +120,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:07.821Z"
+  "recordedAt": "2026-10-01T23:57:46.564Z"
 }

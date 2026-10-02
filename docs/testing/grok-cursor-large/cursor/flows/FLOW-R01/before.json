@@ -4,7 +4,8 @@
   "label": "世界精灵库：搜索过滤（资源）",
   "oracle": {
     "definitionCount": 3,
-    "filterText": ""
+    "filterText": "",
+    "visibleAssetIds": ["sprite.flow.alpha", "sprite.flow.beta", "sprite.generated.starter"]
   },
   "canvas2d": {
     "ok": true,

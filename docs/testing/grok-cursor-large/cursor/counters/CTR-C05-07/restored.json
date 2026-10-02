@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790867613577,
+  "startTime": 1790897805930,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
           "status": "passed",
           "title": "C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
-          "duration": 1.5122920000000022,
+          "duration": 2.274958999999967,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
           "status": "passed",
           "title": "C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
-          "duration": 0.25466599999998607,
+          "duration": 0.2963330000000042,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
           "status": "passed",
           "title": "C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
-          "duration": 0.18037500000002638,
+          "duration": 0.1839170000000081,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
           "status": "passed",
           "title": "C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
-          "duration": 8.072666000000027,
+          "duration": 7.308917000000008,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
           "status": "passed",
           "title": "C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
-          "duration": 0.6535420000000158,
+          "duration": 0.2356669999999781,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
           "status": "passed",
           "title": "C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
-          "duration": 0.41195799999997007,
+          "duration": 0.1904580000000351,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
           "status": "passed",
           "title": "C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
-          "duration": 0.241375000000005,
+          "duration": 0.15329200000002174,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,7 +104,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
           "status": "passed",
           "title": "C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
-          "duration": 0.2566669999999931,
+          "duration": 0.21008299999999736,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
           "status": "passed",
           "title": "C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
-          "duration": 0.42091699999997445,
+          "duration": 0.4073750000000018,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -124,17 +124,17 @@
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
           "status": "passed",
           "title": "C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
-          "duration": 0.5177079999999705,
+          "duration": 0.2813330000000178,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790867614007,
-      "endTime": 1790867614019.5178,
+      "startTime": 1790897806399,
+      "endTime": 1790897806410.4075,
       "status": "passed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-07-VAjxtY/packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-07-dsJ5bg/packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts"
     }
   ]
 }

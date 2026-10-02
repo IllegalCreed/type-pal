@@ -3,7 +3,7 @@
   "category": "resource",
   "title": "音效缺失警告与组合框恢复",
   "contract": "missing-asset-warning-oracle",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 1280,
@@ -14,14 +14,17 @@
       "height": 700
     }
   },
-  "expect": "初始 showsMissing 或缺失文案；选择有效项后恢复",
+  "expect": "ghost 深链缺失 → 点击合法音效后 showsMissing=false",
   "before": {
     "flowId": "FLOW-R06",
     "phase": "ready",
     "label": "音效：缺失资产警告与恢复（资源）",
     "oracle": {
       "focusAsset": "sound.ghost.missing",
-      "showsMissing": true
+      "validSoundId": "sound.flow.valid",
+      "soundCatalogIds": ["sound.flow.valid"],
+      "showsMissing": true,
+      "visibleSoundIds": ["sound.flow.valid"]
     },
     "canvas2d": {
       "ok": true,
@@ -34,8 +37,11 @@
     "phase": "ready",
     "label": "音效：缺失资产警告与恢复（资源）",
     "oracle": {
-      "focusAsset": "sound.ghost.missing",
-      "showsMissing": true
+      "focusAsset": "sound.flow.valid",
+      "validSoundId": "sound.flow.valid",
+      "soundCatalogIds": ["sound.flow.valid"],
+      "showsMissing": false,
+      "visibleSoundIds": ["sound.flow.valid"]
     },
     "canvas2d": {
       "ok": true,
@@ -43,17 +49,17 @@
       "note": "real Canvas2D readback"
     }
   },
-  "steps": ["capture missing ghost asset", "pick first valid combobox option at narrow width"],
+  "steps": ["capture missing ghost focus", "click valid sound row"],
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R06/wide-missing.png",
-      "sha256": "7a335be36a5c1c44a8afdd5229afc3f1c30296512aa346f430050effbef5aad4",
+      "sha256": "946356865342743f2ed09a014f8ef0c07ebf19481ea50157b6e649190c084226",
       "width": 1280,
       "height": 820
     },
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R06/narrow-recovered.png",
-      "sha256": "46d16dc59fb0c4ef4212046ad941964ce0d6dd033fdec4a8fe78b56c573066ae",
+      "sha256": "940bdea5669e55c7aeb09af89462cca668dec166012bbc7f9516ed92d267e90b",
       "width": 820,
       "height": 700
     }
@@ -100,5 +106,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:11.484Z"
+  "recordedAt": "2026-10-01T23:57:55.018Z"
 }

@@ -3,7 +3,7 @@
   "category": "design-system",
   "title": "DsReorder 键盘前移",
   "contract": "reorder-order-oracle",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 900,
@@ -14,7 +14,7 @@
       "height": 560
     }
   },
-  "expect": "order 从 a,b,c 变为 b,a,c（或等价前移）",
+  "expect": "手柄聚焦后 ArrowUp（或前移按钮）将 b 移到首位",
   "before": {
     "flowId": "FLOW-DS01",
     "phase": "ready",
@@ -41,17 +41,17 @@
       "note": "real Canvas2D readback"
     }
   },
-  "steps": ["focus item b", "ArrowUp"],
+  "steps": ["focus handle b", "ArrowUp", "fallback move button"],
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS01/wide-reorder.png",
-      "sha256": "035ff5cd9280d6cc4f35f4eeb7860667967db9528cfcd7e81e51328b5d911fed",
+      "sha256": "5f2f2af7063289d0f6e4456b421bd34223aee443d4052c1372e11be59c70f182",
       "width": 900,
       "height": 600
     },
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS01/narrow-reorder.png",
-      "sha256": "16e975abf35f7a32512ffcb3483afae45610003c14587c75be348e705e2b8141",
+      "sha256": "505752832770da4883941e5c36097414738eaf854a577cb0b87d09595a2d6865",
       "width": 640,
       "height": 560
     }
@@ -98,5 +98,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:12.596Z"
+  "recordedAt": "2026-10-01T23:57:56.866Z"
 }

@@ -2,7 +2,8 @@
  * TEST-CURSOR-ASSET-UI-LARGE-1 合成小工程浏览器宿主（?flow=FLOW-*）。
  * 真实 editor 组件 + 真实 EditSession/loader/命令；仅 docs 侧证据，不进产品。
  */
-import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
+import type { AssetId, AssetRecordV1 } from '@type-pal/content'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { createRoot } from 'react-dom/client'
 import type { CursorBattleSpec } from '../../../../../../packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
 import {
@@ -10,27 +11,48 @@ import {
   loadCursorBattleProject,
   playerProfile,
 } from '../../../../../../packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
+import { UpsertAssetCommand } from '../../../../../../packages/editor/src/core/asset-commands.js'
 import { EditSession } from '../../../../../../packages/editor/src/core/edit-session.js'
 import { createEditorAssetReader } from '../../../../../../packages/editor/src/core/editor-asset-reader.js'
+import { Playback } from '../../../../../../packages/editor/src/core/playback.js'
 import { collectCurrentProjectReferenceIndex } from '../../../../../../packages/editor/src/core/project-reference-adapters.js'
 
 const FLOW_R02_SPECS: readonly CursorBattleSpec[] = [
   {
-    asset: 'battle-sprite.flow.shared',
-    label: 'Flow Shared',
+    asset: 'battle-sprite.flow.player-pack',
+    label: 'Player Pack',
     frameCount: 8,
-    definitions: [
-      { id: 'flow-fighter', label: 'Flow Fighter', profile: playerProfile() },
-      { id: 'flow-enemy', label: 'Flow Enemy', profile: enemyProfile(2, 1, 3) },
-    ],
+    definitions: [{ id: 'flow-player', label: 'Flow Player', profile: playerProfile() }],
+  },
+  {
+    asset: 'battle-sprite.flow.enemy-pack',
+    label: 'Enemy Pack',
+    frameCount: 8,
+    colorOffset: 1,
+    definitions: [{ id: 'flow-enemy', label: 'Flow Enemy', profile: enemyProfile(2, 1, 3) }],
   },
 ]
+
+const MINIMAL_PNG_B64 =
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
+
+function minimalPngBytes(): ArrayBuffer {
+  const binary = atob(MINIMAL_PNG_B64)
+  const bytes = new Uint8Array(binary.length)
+  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index)
+  return bytes.buffer
+}
+
+async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', bytes)
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
+}
 
 import { loadCursorSpriteProject } from '../../../../../../packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.js'
 import { collectEditorAssetDiagnostics } from '../../../../../../packages/editor/src/core/asset-diagnostics.js'
 import { BattleSpriteLibrary } from '../../../../../../packages/editor/src/ui/BattleSpriteLibrary.js'
 import { BattleSpriteUploader } from '../../../../../../packages/editor/src/ui/BattleSpriteUploader.js'
-import { DsNumberField } from '../../../../../../packages/editor/src/ui/design-system/number-inputs.js'
+import { DsDraftNumberField } from '../../../../../../packages/editor/src/ui/design-system/number-inputs.js'
 import {
   DsReorderCollection,
   type DsReorderEntry,
@@ -40,6 +62,7 @@ import {
 import { DsSelect } from '../../../../../../packages/editor/src/ui/design-system/select.js'
 import { DsVirtualList } from '../../../../../../packages/editor/src/ui/design-system/virtual-list.js'
 import { ImageTab } from '../../../../../../packages/editor/src/ui/ImageTab.js'
+import { PreviewCanvas } from '../../../../../../packages/editor/src/ui/PreviewCanvas.js'
 import { SoundTab } from '../../../../../../packages/editor/src/ui/SoundTab.js'
 import { SpriteResourceViewer } from '../../../../../../packages/editor/src/ui/SpriteResourceViewer.js'
 import { TilesetTab } from '../../../../../../packages/editor/src/ui/TilesetTab.js'
@@ -49,7 +72,18 @@ import { type LegalProject, loadLegalProject, openFlowSession } from './legal-pr
 import '../../../../../../packages/editor/src/ui/design-system/index.css'
 import '../../../../../../packages/editor/src/ui/editor.css'
 import '../../../../../../packages/editor/src/ui/design-system/form-scope.css'
+import { encodeWavPcm16 } from './flow-audio-bytes.js'
 import { installFlowBridge, patchOracle, probeCanvas2d, setFlowSnapshot } from './flow-bridge.js'
+import {
+  readNumberFieldDraft,
+  readPurposeFilterValue,
+  readUploaderError,
+  readWorldFilterText,
+  sampleProductPreviewCanvas,
+  scrapeAudioCatalogIds,
+  scrapeBattleSpriteVisibleAssets,
+  scrapeWorldSpriteVisibleAssets,
+} from './flow-dom-oracles.js'
 
 const FLOW = new URLSearchParams(location.search).get('flow') ?? 'FLOW-MENU'
 
@@ -96,10 +130,9 @@ function FlowR01WorldFilter() {
     ]).then(setCtx)
   }, [])
   if (!ctx) return <p>loading…</p>
-  const session = new EditSession(ctx.state)
   return (
     <WorldFlowInner
-      session={session}
+      initialState={ctx.state}
       assetBase={ctx.assetBase}
       source={ctx.source}
       flowId="FLOW-R01"
@@ -108,27 +141,32 @@ function FlowR01WorldFilter() {
 }
 
 function WorldFlowInner(props: {
-  session: EditSession
+  initialState: import('../../../../../../packages/editor/src/core/edit-session.js').EditorState
   assetBase: import('@type-pal/reforge').AssetBase
   source: import('@type-pal/reforge').FileSource
   flowId: string
 }) {
-  useSessionVersion(props.session)
+  const sessionRef = useRef<EditSession | null>(null)
+  if (!sessionRef.current) sessionRef.current = new EditSession(structuredClone(props.initialState))
+  const session = sessionRef.current
+  useSessionVersion(session)
   const reader = useMemo(
-    () => createEditorAssetReader(props.source, () => props.session.getState()),
-    [props.session, props.source],
+    () => createEditorAssetReader(props.source, () => session.getState()),
+    [session, props.source],
   )
-  const current = props.session.getState()
-  const [view, setView] = useState<'definition' | 'asset'>('definition')
+  const current = session.getState()
+  // 资源过滤轴落在 asset 视图目录行；definition 视图不暴露源资源行集。
+  const [view, setView] = useState<'definition' | 'asset'>('asset')
   useEffect(() => {
-    patchOracle({
-      definitionCount: current.sprites.length,
-      filterText:
-        document.querySelector<HTMLInputElement>(
-          '[data-surface="world-sprite"] input[type="search"]',
-        )?.value ?? '',
-    })
-  })
+    const timer = window.setInterval(() => {
+      patchOracle({
+        definitionCount: current.sprites.length,
+        filterText: readWorldFilterText(),
+        visibleAssetIds: scrapeWorldSpriteVisibleAssets(),
+      })
+    }, 50)
+    return () => window.clearInterval(timer)
+  }, [current.sprites.length])
   return (
     <Shell flowId="FLOW-R01" label="世界精灵库：搜索过滤（资源）">
       <div data-surface="world-sprite">
@@ -137,7 +175,7 @@ function WorldFlowInner(props: {
           catalog={current.assetCatalog}
           assetBase={props.assetBase}
           assetReader={reader}
-          session={props.session}
+          session={session}
           tabBar={null}
           view={view}
           onViewChange={setView}
@@ -158,28 +196,33 @@ function FlowR02BattlePurpose() {
     void loadCursorBattleProject('flow-r02', [...FLOW_R02_SPECS]).then(setCtx)
   }, [])
   if (!ctx) return <p>loading…</p>
-  const session = new EditSession(ctx.state)
-  return <BattleFlowInner session={session} project={ctx} />
+  return <BattleFlowInner initialState={ctx.state} project={ctx} />
 }
 
 function BattleFlowInner(props: {
-  session: EditSession
+  initialState: import('../../../../../../packages/editor/src/core/edit-session.js').EditorState
   project: Awaited<ReturnType<typeof loadCursorBattleProject>>
 }) {
-  useSessionVersion(props.session)
+  const sessionRef = useRef<EditSession | null>(null)
+  if (!sessionRef.current) sessionRef.current = new EditSession(structuredClone(props.initialState))
+  const session = sessionRef.current
+  useSessionVersion(session)
   const reader = useMemo(
-    () => createEditorAssetReader(props.project.source, () => props.session.getState()),
-    [props.project.source, props.session],
+    () => createEditorAssetReader(props.project.source, () => session.getState()),
+    [props.project.source, session],
   )
-  const current = props.session.getState()
-  const [view, setView] = useState<'definition' | 'asset'>('definition')
+  const current = session.getState()
+  const [view, setView] = useState<'definition' | 'asset'>('asset')
   useEffect(() => {
-    patchOracle({
-      battleSpriteCount: current.battleSprites.length,
-      purposeFilter:
-        document.querySelector<HTMLSelectElement>('[aria-label="用途筛选"]')?.value ?? '',
-    })
-  })
+    const timer = window.setInterval(() => {
+      patchOracle({
+        battleSpriteCount: current.battleSprites.length,
+        purposeFilter: readPurposeFilterValue(),
+        visibleAssetIds: scrapeBattleSpriteVisibleAssets(),
+      })
+    }, 50)
+    return () => window.clearInterval(timer)
+  }, [current.battleSprites.length])
   return (
     <Shell flowId="FLOW-R02" label="战斗精灵库：用途筛选（资源）">
       <BattleSpriteLibrary
@@ -187,7 +230,7 @@ function BattleFlowInner(props: {
         catalog={current.assetCatalog}
         assetBase={props.project.assetBase}
         assetReader={reader}
-        session={props.session}
+        session={session}
         tabBar={null}
         view={view}
         onViewChange={setView}
@@ -203,18 +246,50 @@ function BattleFlowInner(props: {
 
 function FlowR03ImageFocus() {
   const [ctx, setCtx] = useState<Awaited<ReturnType<typeof loadLegalProject>> | null>(null)
-  const [focus, setFocus] = useState<string | undefined>(undefined)
   useEffect(() => {
     void loadLegalProject('flow-r03').then(setCtx)
   }, [])
   if (!ctx) return <p>loading…</p>
-  const session = new EditSession(ctx.state)
-  return <ImageFlowInner session={session} legal={ctx} focus={focus} onFocus={setFocus} />
+  return <ImageFlowInner legal={ctx} />
 }
 
-function ImageFlowInner(props: {
-  session: EditSession
+function ImageFlowInner(props: { legal: LegalProject }) {
+  const [session, setSession] = useState<EditSession | null>(null)
+  const [focus, setFocus] = useState<string | undefined>(undefined)
+  useEffect(() => {
+    void (async () => {
+      const next = new EditSession(structuredClone(props.legal.state))
+      const png = minimalPngBytes()
+      const sha256 = await sha256Hex(png)
+      const alphaId = 'image.flow.alpha' as AssetId
+      const betaId = 'image.flow.beta' as AssetId
+      const alphaRecord: AssetRecordV1 = {
+        kind: 'portrait',
+        path: `assets/authored/portraits/${sha256}-alpha.png`,
+        mediaType: 'image/png',
+        bytes: png.byteLength,
+        sha256,
+        label: 'Flow Alpha Image',
+        origin: { kind: 'authored', ref: 'alpha.png' },
+      }
+      const betaRecord: AssetRecordV1 = {
+        ...alphaRecord,
+        path: `assets/authored/portraits/${sha256}-beta.png`,
+        label: 'Flow Beta Image',
+        origin: { kind: 'authored', ref: 'beta.png' },
+      }
+      next.dispatch(new UpsertAssetCommand(alphaId, alphaRecord, png))
+      next.dispatch(new UpsertAssetCommand(betaId, betaRecord, png))
+      setSession(next)
+    })()
+  }, [props.legal])
+  if (!session) return <p>loading…</p>
+  return <ImageFlowReady legal={props.legal} session={session} focus={focus} onFocus={setFocus} />
+}
+
+function ImageFlowReady(props: {
   legal: LegalProject
+  session: EditSession
   focus: string | undefined
   onFocus: (id: string | undefined) => void
 }) {
@@ -226,10 +301,11 @@ function ImageFlowInner(props: {
   const current = props.session.getState()
   useEffect(() => {
     patchOracle({
-      catalogSize: Object.keys(current.assetCatalog).length,
+      catalogSize: Object.keys(current.assetCatalog.assets).length,
       focusObjectId: props.focus ?? null,
+      catalogImageIds: ['image.flow.alpha', 'image.flow.beta'],
     })
-  }, [props.focus, current.assetCatalog])
+  }, [props.focus, current.assetCatalog, props.session])
   return (
     <Shell flowId="FLOW-R03" label="静态图资源：对象聚焦（资源）">
       <ImageTab
@@ -278,7 +354,7 @@ function TilesetFlowInner(props: { session: EditSession; legal: LegalProject }) 
     [props.legal.source, props.session],
   )
   const current = props.session.getState()
-  const [focus, setFocus] = useState<string | undefined>('flow-tileset')
+  const [focus, setFocus] = useState<string | undefined>(undefined)
   useEffect(() => {
     patchOracle({
       tilesetIds: current.tilesets.map((t) => t.id),
@@ -308,37 +384,76 @@ function FlowR06SoundRecover() {
     void loadLegalProject('flow-r06').then(setCtx)
   }, [])
   if (!ctx) return <p>loading…</p>
-  const session = new EditSession(ctx.state)
-  return <SoundFlowInner session={session} legal={ctx} />
+  return <SoundFlowInner legal={ctx} />
 }
 
-function SoundFlowInner(props: { session: EditSession; legal: LegalProject }) {
+function SoundFlowInner(props: { legal: LegalProject }) {
+  const [session, setSession] = useState<EditSession | null>(null)
+  const ghostId = 'sound.ghost.missing' as AssetId
+  const validId = 'sound.flow.valid' as AssetId
+  const [focus, setFocus] = useState<AssetId>(ghostId)
+  useEffect(() => {
+    void (async () => {
+      const next = new EditSession(structuredClone(props.legal.state))
+      const wav = encodeWavPcm16([0, 0.25, -0.25, 0])
+      const sha256 = await sha256Hex(wav)
+      const record: AssetRecordV1 = {
+        kind: 'sound',
+        path: `assets/authored/${sha256}.wav`,
+        mediaType: 'audio/wav',
+        bytes: wav.byteLength,
+        sha256,
+        label: 'Flow Valid Sound',
+        origin: { kind: 'authored', ref: 'flow-valid.wav' },
+      }
+      next.dispatch(new UpsertAssetCommand(validId, record, wav))
+      setSession(next)
+    })()
+  }, [props.legal])
+  if (!session) return <p>loading…</p>
+  return (
+    <SoundFlowReady
+      legal={props.legal}
+      session={session}
+      ghostId={ghostId}
+      validId={validId}
+      focus={focus}
+      onFocus={setFocus}
+    />
+  )
+}
+
+function SoundFlowReady(props: {
+  legal: LegalProject
+  session: EditSession
+  ghostId: AssetId
+  validId: AssetId
+  focus: AssetId
+  onFocus: (id: AssetId) => void
+}) {
   useSessionVersion(props.session)
   const reader = useMemo(
     () => createEditorAssetReader(props.legal.source, () => props.session.getState()),
     [props.legal.source, props.session],
   )
   const current = props.session.getState()
-  const ghostId = 'sound.ghost.missing' as import('@type-pal/content').AssetId
-  const catalog = {
-    ...current.assetCatalog,
-    [ghostId]: {
-      kind: 'sound' as const,
-      path: 'assets/missing/ghost.wav',
-      mediaType: 'audio/wav',
-      bytes: 0,
-      sha256: '0'.repeat(64),
-      label: 'Ghost',
-      origin: { kind: 'authored' as const },
-    },
-  }
+  const catalog = current.assetCatalog
+  const soundIds = Object.entries(catalog.assets)
+    .filter(([, record]) => record.kind === 'sound')
+    .map(([id]) => id)
   useEffect(() => {
-    const warn = document.querySelector('[data-surface="sound-tab"]')?.textContent ?? ''
-    patchOracle({
-      focusAsset: ghostId,
-      showsMissing: warn.includes('缺失') || warn.includes('ghost'),
-    })
-  })
+    const timer = window.setInterval(() => {
+      const showsMissing = Boolean(props.focus && !catalog.assets[props.focus])
+      patchOracle({
+        focusAsset: props.focus,
+        validSoundId: props.validId,
+        soundCatalogIds: soundIds,
+        showsMissing,
+        visibleSoundIds: scrapeAudioCatalogIds(),
+      })
+    }, 50)
+    return () => window.clearInterval(timer)
+  }, [props.focus, soundIds.join('|'), props.validId, catalog.assets])
   return (
     <Shell flowId="FLOW-R06" label="音效：缺失资产警告与恢复（资源）">
       <div data-surface="sound-tab">
@@ -347,8 +462,10 @@ function SoundFlowInner(props: { session: EditSession; legal: LegalProject }) {
           reader={reader}
           session={props.session}
           tabBar={null}
-          focusObjectId={ghostId}
-          onObjectFocus={() => {}}
+          focusObjectId={props.focus}
+          onObjectFocus={(id) => {
+            if (typeof id === 'string' && id.length > 0) props.onFocus(id as AssetId)
+          }}
           assetDiagnostics={collectEditorAssetDiagnostics(catalog, [])}
           referenceIndex={collectCurrentProjectReferenceIndex(current)}
           referenceStatus="current"
@@ -361,15 +478,19 @@ function SoundFlowInner(props: { session: EditSession; legal: LegalProject }) {
 
 function FlowR04PreviewPixel() {
   const canvas2d = probeCanvas2d()
+  const [legal, setLegal] = useState<LegalProject | null>(null)
+  useEffect(() => {
+    void loadLegalProject('flow-r04').then(setLegal)
+  }, [])
   useEffect(() => {
     setFlowSnapshot({
       flowId: 'FLOW-R04',
-      phase: canvas2d.ok ? 'ready' : 'error',
-      label: '预览画布像素探针（资源 / Canvas2D）',
-      oracle: { blocked: !canvas2d.ok, reason: canvas2d.note },
+      phase: canvas2d.ok && legal ? 'ready' : canvas2d.ok ? 'boot' : 'error',
+      label: '预览画布像素探针（资源 / 产品 PreviewCanvas）',
+      oracle: { blocked: !canvas2d.ok, reason: canvas2d.note, productPreview: true },
       canvas2d,
     })
-  }, [])
+  }, [canvas2d.ok, legal])
   if (!canvas2d.ok) {
     return (
       <Shell flowId="FLOW-R04" label="预览画布像素：Canvas2D blocked">
@@ -379,26 +500,86 @@ function FlowR04PreviewPixel() {
       </Shell>
     )
   }
+  if (!legal)
+    return (
+      <Shell flowId="FLOW-R04" label="预览画布像素采样（资源）">
+        loading…
+      </Shell>
+    )
   return (
-    <Shell flowId="FLOW-R04" label="预览画布像素采样（资源）">
-      <canvas id="flow-r04-canvas" width="32" height="32" data-surface="preview-canvas" />
-      <FlowR04Draw />
+    <Shell flowId="FLOW-R04" label="预览画布像素采样（资源 / PreviewCanvas）">
+      <div data-surface="preview-canvas" style={{ width: 640, height: 480 }}>
+        <FlowR04PreviewCanvas legal={legal} />
+      </div>
     </Shell>
   )
 }
 
-function FlowR04Draw() {
+function FlowR04PreviewCanvas(props: { legal: LegalProject }) {
+  const sessionRef = useRef<EditSession | null>(null)
+  if (!sessionRef.current) sessionRef.current = new EditSession(structuredClone(props.legal.state))
+  const session = sessionRef.current
+  const scene = props.legal.state.scenes?.[0]
+  const playbackRef = useRef<Playback | null>(null)
+  if (scene && !playbackRef.current) playbackRef.current = new Playback(scene)
+  const playback = playbackRef.current
+  const [, setUiTick] = useState(0)
   useEffect(() => {
-    const canvas = document.getElementById('flow-r04-canvas') as HTMLCanvasElement | null
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    ctx.fillStyle = '#336699'
-    ctx.fillRect(4, 4, 12, 12)
-    const px = [...ctx.getImageData(8, 8, 1, 1).data]
-    patchOracle({ centerPixel: px, opaqueSampleOk: px[3] === 255 })
+    if (!playback) return
+    playback.onUi = () => setUiTick((value) => value + 1)
+    return () => {
+      playback.onUi = undefined
+    }
+  }, [playback])
+  const reader = useMemo(
+    () => createEditorAssetReader(props.legal.source, () => session.getState()),
+    [props.legal.source, session],
+  )
+  const state = session.getState()
+  useEffect(() => {
+    const tick = (): void => {
+      const hostReady =
+        document.querySelector('[data-flow-id="FLOW-R04"]')?.textContent?.includes('就绪') === true
+      const sample = sampleProductPreviewCanvas()
+      patchOracle({
+        productPreview: true,
+        previewReady: hostReady,
+        opaqueCount: sample.opaqueCount,
+        centerPixel: sample.centerPixel,
+        opaqueSampleOk: hostReady && sample.ok,
+        canvasWidth: sample.width,
+        canvasHeight: sample.height,
+      })
+      if (!hostReady || !sample.ok) window.requestAnimationFrame(tick)
+    }
+    window.requestAnimationFrame(tick)
   }, [])
-  return null
+  if (!scene || !playback) return <p>无可用场景</p>
+  return (
+    <PreviewCanvas
+      scene={scene}
+      stages={[]}
+      sourceKey={`scene:${scene.id}:flow-r04`}
+      playIdentity={{
+        projectId: state.manifest.id,
+        workspaceId: '11111111-1111-4111-8111-111111111111',
+        source: 'http',
+      }}
+      focusEntityId={undefined}
+      sprites={state.sprites ?? []}
+      actorsById={Object.fromEntries((state.actors ?? []).map((actor) => [actor.id, actor]))}
+      leaderSpriteId={undefined}
+      assetBase={props.legal.assetBase}
+      assetCatalog={state.assetCatalog}
+      assetReader={reader}
+      projectMaps={state.maps ?? {}}
+      mapIndex={state.mapIndex}
+      tilesets={state.tilesets ?? []}
+      locale={state.locale ?? {}}
+      playback={playback}
+      sceneFraming
+    />
+  )
 }
 
 function FlowDs01Reorder() {
@@ -467,19 +648,31 @@ function FlowDs03Number() {
   const [value, setValue] = useState(2)
   const [draftNote, setDraftNote] = useState('committed')
   useEffect(() => {
-    patchOracle({ value, draftNote })
+    const id = window.setInterval(() => {
+      const draft = readNumberFieldDraft('FLOW-DS03')
+      patchOracle({
+        value,
+        draftNote,
+        inputValue: draft.inputValue,
+        midDraft: draft.inputValue !== '' && draft.inputValue !== String(value),
+      })
+    }, 100)
+    return () => window.clearInterval(id)
   }, [value, draftNote])
   return (
-    <Shell flowId="FLOW-DS03" label="DsNumberField：Escape 取消草稿（设计控件）">
-      <DsNumberField
+    <Shell flowId="FLOW-DS03" label="DsDraftNumberField：Escape 取消草稿（设计控件）">
+      <DsDraftNumberField
         label="尺寸"
+        draftKey="flow-ds03-size"
         min={0}
         max={99}
+        integer
         value={value}
-        onValueChange={(next) => {
-          setValue(next)
+        onCommit={(next) => {
+          setValue(next ?? 0)
           setDraftNote('committed')
         }}
+        onCancel={() => setDraftNote('cancelled')}
       />
       <p data-draft-state={draftNote}>{draftNote}</p>
     </Shell>
@@ -536,7 +729,13 @@ function FlowAr01Uploader() {
     void loadLegalProject('flow-ar01').then(setCtx)
   }, [])
   useEffect(() => {
-    patchOracle({ status })
+    const id = window.setInterval(() => {
+      patchOracle({
+        status,
+        uploadError: readUploaderError() || null,
+      })
+    }, 120)
+    return () => window.clearInterval(id)
   }, [status])
   if (!ctx) return <p>loading…</p>
   return (
@@ -597,7 +796,11 @@ function FlowAr02ResourceViewer() {
         consumers={ctx.state.sprites.filter((entry) => entry.asset === asset)}
         session={session}
         onLoaded={(proof) =>
-          patchOracle({ loadProof: proof?.kind ?? 'error', asset, error: !proof })
+          patchOracle({
+            loadProof: proof ? `frames:${proof.actualFrameCount}` : 'error',
+            asset,
+            error: !proof,
+          })
         }
         onStatusNotice={(notice) => patchOracle({ statusNotice: notice?.message ?? null })}
       />

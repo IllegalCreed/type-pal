@@ -4,7 +4,12 @@
   "label": "战斗精灵库：用途筛选（资源）",
   "oracle": {
     "battleSpriteCount": 3,
-    "purposeFilter": ""
+    "purposeFilter": "all",
+    "visibleAssetIds": [
+      "battle-sprite.flow.enemy-pack",
+      "battle-sprite.flow.player-pack",
+      "battle-sprite.generated.starter"
+    ]
   },
   "canvas2d": {
     "ok": true,

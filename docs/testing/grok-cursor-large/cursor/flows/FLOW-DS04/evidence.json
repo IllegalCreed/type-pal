@@ -3,7 +3,7 @@
   "category": "design-system",
   "title": "DsVirtualList 滚动窗口",
   "contract": "virtual-scroll-oracle",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 900,
@@ -97,5 +97,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:15.695Z"
+  "recordedAt": "2026-10-01T23:58:02.514Z"
 }

@@ -1,13 +1,13 @@
 {
   "id": "CTR-C09-06",
   "productFile": "packages/editor/src/core/audio-preview.ts",
-  "findText": "return { kind: 'pcm-peaks', duration: Math.max(0, duration), minimums, maximums }",
-  "replaceText": "return { kind: 'pcm-peaks', duration: Math.max(0, duration + 1), minimums, maximums }",
+  "findText": "      .finally(() => this.#inflight.delete(key))\n    this.#inflight.set(key, promise)",
+  "replaceText": "      .catch((error: unknown) => {\n        this.#values.set(key, 0 as T)\n        throw error\n      })\n      .finally(() => this.#inflight.delete(key))\n    this.#inflight.set(key, promise)",
   "testSpec": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
-  "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
-  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-03 AudioPreviewCache 拒绝 loader 时不写入条目",
+  "candidateHead": "6ea1b41ff30e8bf532a78e98af991128947da9df",
   "productSha256Candidate": "a107171577b9fe12367709c83b497a547c70a25f071b24526262a404ba0c63c1",
-  "patch": "--- a/packages/editor/src/core/audio-preview.ts\n+++ b/packages/editor/src/core/audio-preview.ts\n@@ -60,7 +60,7 @@\n   const minimums = Array.from({ length: count }, () => 0)\n   const maximums = Array.from({ length: count }, () => 0)\n   if (!frameCount || !channels.length)\n-    return { kind: 'pcm-peaks', duration: Math.max(0, duration), minimums, maximums }\n+    return { kind: 'pcm-peaks', duration: Math.max(0, duration + 1), minimums, maximums }\n \n   for (let bucket = 0; bucket < count; bucket++) {\n     const start = Math.floor((bucket / count) * frameCount)\n",
+  "patch": "--- a/packages/editor/src/core/audio-preview.ts\n+++ b/packages/editor/src/core/audio-preview.ts\n@@ -322,6 +322,10 @@\n           this.#values.delete(oldest)\n         }\n         return value\n+      })\n+      .catch((error: unknown) => {\n+        this.#values.set(key, 0 as T)\n+        throw error\n       })\n       .finally(() => this.#inflight.delete(key))\n     this.#inflight.set(key, promise)\n",
   "positive": {
     "exitCode": 0,
     "executed": 10,
@@ -41,7 +41,7 @@
       ]
     }
   },
-  "productSha256MutatedTree": "2c893cf201464f5ba6eb3c08a0709b29d8ee0307eba0cc1cfc3e891ee70a1210",
+  "productSha256MutatedTree": "1abd67a07799e7bcce6f911e6efd4a1eaf136cbd93ba785ce4b051724b54e114",
   "mutated": {
     "exitCode": 1,
     "executed": 10,
@@ -59,18 +59,30 @@
     ],
     "failed": [
       {
-        "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
-        "message": "AssertionError: expected 1 to be +0 // Object.is equality",
+        "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-03 AudioPreviewCache 拒绝 loader 时不写入条目",
+        "message": "AssertionError: expected +0 to be undefined",
         "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts"
       }
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-03 AudioPreviewCache 拒绝 loader 时不写入条目",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-04 AudioPreviewCache.get 刷新 LRU 顺序",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-05 transport.play 未 load 抛错",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-06 readBytes 使用 sound kind",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-07 不同 cacheKey 触发第二次 readBytes",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-08 dispose 后 load 以 AbortError 拒绝",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-09 seek 到时长末端不再 start 源",
+        "src/core/audio-preview.c09-g01.cursor-r1.test.ts×C09-G01 audio-preview IO 与峰值 C09-G01-10 snapshot 在未 load 时 duration 为 0"
+      ]
     },
     "target": {
-      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
-      "message": "AssertionError: expected 1 to be +0 // Object.is equality",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-03 AudioPreviewCache 拒绝 loader 时不写入条目",
+      "message": "AssertionError: expected +0 to be undefined",
       "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts"
     }
   },

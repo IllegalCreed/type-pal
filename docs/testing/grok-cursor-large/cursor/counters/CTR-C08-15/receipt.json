@@ -1,13 +1,13 @@
 {
   "id": "CTR-C08-15",
   "productFile": "packages/editor/src/core/stamp-template.ts",
-  "findText": "throw new Error('组合锚点必须位于当前地图内。')",
-  "replaceText": "throw new Error('组合锚点必须位于当前地图外。')",
+  "findText": "if (!layer) throw new Error(`选区引用的图层 \"${ref.layerId}\" 不存在。`)",
+  "replaceText": "if (!layer) throw new Error(`选区图层 \"${ref.layerId}\" 缺失。`)",
   "testSpec": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
-  "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
-  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+  "candidateHead": "6ea1b41ff30e8bf532a78e98af991128947da9df",
   "productSha256Candidate": "6a1da2f3ae5633b245cf9d855d0b234d75016bb0af03bbeead2ae3eed0e1640f",
-  "patch": "--- a/packages/editor/src/core/stamp-template.ts\n+++ b/packages/editor/src/core/stamp-template.ts\n@@ -67,7 +67,7 @@\n  */\n export function buildStampTemplateFromSelection(input: BuildStampTemplateInput): StampTemplate {\n   const { map, selection } = input\n-  if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')\n+  if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图外。')\n \n   const layerById = new Map(map.layers.map((layer) => [layer.id, layer] as const))\n   const selectedVisual = new Map<string, { layerId: string; row: number; col: number }>()\n",
+  "patch": "--- a/packages/editor/src/core/stamp-template.ts\n+++ b/packages/editor/src/core/stamp-template.ts\n@@ -76,7 +76,7 @@\n     if (selectedVisual.has(key)) continue\n     if (!isLatticeInside(map, ref)) throw new Error(`视觉槽 ${key} 已超出地图边界。`)\n     const layer = layerById.get(ref.layerId)\n-    if (!layer) throw new Error(`选区引用的图层 \"${ref.layerId}\" 不存在。`)\n+    if (!layer) throw new Error(`选区图层 \"${ref.layerId}\" 缺失。`)\n     const tileId = layer.tiles[ref.row]?.[ref.col]\n     if (tileId !== null && tileId !== undefined) selectedVisual.set(key, { ...ref })\n   }\n",
   "positive": {
     "exitCode": 0,
     "executed": 10,
@@ -41,7 +41,7 @@
       ]
     }
   },
-  "productSha256MutatedTree": "f31b2f1e078b1ab8bfab03bbbf98fcde34bf3598e59860075eda119dc43a021a",
+  "productSha256MutatedTree": "d1039bfffb9e0f08082c1da1b30c6212989b4c52bb51a4951c2e7418f03a5f03",
   "mutated": {
     "exitCode": 1,
     "executed": 10,
@@ -59,18 +59,30 @@
     ],
     "failed": [
       {
-        "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
-        "message": "AssertionError: expected [Function] to throw error including '组合锚点必须位于当前地图内。' but got '组合锚点必须位于当前地图外。'",
+        "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+        "message": "AssertionError: expected [Function] to throw error including '引用的图层 \"ghost\" 不存在' but got '选区图层 \"ghost\" 缺失。'",
         "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts"
       }
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null"
+      ]
     },
     "target": {
-      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
-      "message": "AssertionError: expected [Function] to throw error including '组合锚点必须位于当前地图内。' but got '组合锚点必须位于当前地图外。'",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+      "message": "AssertionError: expected [Function] to throw error including '引用的图层 \"ghost\" 不存在' but got '选区图层 \"ghost\" 缺失。'",
       "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts"
     }
   },

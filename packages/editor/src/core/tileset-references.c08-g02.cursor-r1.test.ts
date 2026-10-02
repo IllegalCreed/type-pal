@@ -3,12 +3,12 @@
  * 排重：tileset-references.test ED-3 异步扫描九例已证 batch 生命周期；本文件补 proof 构造、
  * assert*Allowed 失配文案与 stamp/tileset 边过滤的新轴。
  */
-import type { MapIndexV1, ProjectMap, StampTemplate } from '@type-pal/content'
+import type { ProjectMap, StampTemplate } from '@type-pal/content'
 import { buildBlankProjectMap } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { loadLegalProject } from '../__tests__/cursor-asset-r1/kit.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
-import type { MapReferenceEdgeBatch } from './map-reference-facts.js'
 import {
   assertStampDeletionAllowed,
   assertTilesetRemovalAllowed,
@@ -19,6 +19,10 @@ import {
   TilesetReplacementProof,
   tilesetUsageReferences,
 } from './tileset-references.js'
+
+const TILESET_A = 'tiles-a'
+const TILESET_ASSET = 'tileset.a'
+const TILESET_PATH = 'assets/authored/tilesets/a.rle'
 
 function stampTemplate(tilesetId: string): StampTemplate {
   return {
@@ -34,46 +38,35 @@ function stampTemplate(tilesetId: string): StampTemplate {
   }
 }
 
-function editorState(maps: Record<string, ProjectMap>, stamps: StampTemplate[] = []): EditorState {
-  const mapIndex: MapIndexV1 = {
-    version: 1,
-    maps: Object.keys(maps).map((id) => ({
-      id,
-      name: id,
-      path: `content/maps/${id}.json`,
-    })),
-  }
-  return {
-    manifest: {
-      id: 'c08-ref',
-      name: 'c08',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: { maps: 'content/maps.json' },
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [],
-    },
-    scenes: [],
-    sceneIndex: { version: 1, scenes: [] },
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
+/** 合法 blank 工程态上叠加本例地图/瓦片集/组合，完整 typed，无双桥。 */
+async function openC08RefSession(
+  maps: Record<string, ProjectMap>,
+  stamps: StampTemplate[] = [],
+): Promise<{ session: EditSession; state: EditorState }> {
+  const legal = await loadLegalProject(`c08-g02-${Object.keys(maps).sort().join('-') || 'empty'}`)
+  const state: EditorState = {
+    ...legal.state,
     maps,
-    mapIndex,
-    tilesets: [{ id: 'tiles-a', name: 'A', category: 'test', asset: 'tileset.a' }],
-    tilesetBlobs: {},
+    mapIndex: {
+      version: 1,
+      maps: Object.keys(maps).map((id) => ({
+        id,
+        name: id,
+        path: `content/maps/${id}.json`,
+      })),
+    },
+    tilesets: [
+      ...(legal.state.tilesets ?? []).filter((entry) => entry.id !== TILESET_A),
+      { id: TILESET_A, name: 'A', category: 'test', asset: TILESET_ASSET },
+    ],
     stamps,
     assetCatalog: {
-      version: 1,
+      ...legal.state.assetCatalog,
       assets: {
-        'tileset.a': {
+        ...legal.state.assetCatalog.assets,
+        [TILESET_ASSET]: {
           kind: 'tileset',
-          path: 'assets/authored/tilesets/a.rle',
+          path: TILESET_PATH,
           mediaType: 'application/vnd.type-pal.rle',
           bytes: 2,
           sha256: 'a'.repeat(64),
@@ -81,103 +74,112 @@ function editorState(maps: Record<string, ProjectMap>, stamps: StampTemplate[] =
         },
       },
     },
-    assetBlobs: { 'assets/authored/tilesets/a.rle': new Uint8Array([1, 2]).buffer },
-    scriptChunks: {},
-  } as unknown as EditorState
+    assetBlobs: {
+      ...legal.state.assetBlobs,
+      [TILESET_PATH]: new Uint8Array([1, 2]).buffer,
+    },
+  }
+  const byId = maps
+  const session = new EditSession(state, {
+    loadMap: async (id: string) => {
+      const map = byId[id]
+      if (!map) throw new Error(`map missing: ${id}`)
+      return map
+    },
+  })
+  return { session, state: session.getState() }
 }
 
 async function indexedBatch(maps: Record<string, ProjectMap>, stamps: StampTemplate[] = []) {
-  const byId: Record<string, ProjectMap> = maps
-  const session = new EditSession(editorState(byId, stamps), {
-    loadMap: async (id: string) => byId[id]!,
-  })
+  const { session } = await openC08RefSession(maps, stamps)
   return session.ensureMapReferencesIndexed()
+}
+
+/** 缺 proof 时 assert* 不得调用 currentBatch；触及即失败。 */
+function unreachableBatch(): never {
+  throw new Error('currentBatch must not be called when proof is missing')
 }
 
 describe('C08-G02 tileset-references 边与证明门', () => {
   test('C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系', async () => {
     const maps = {
-      'map-a': buildBlankProjectMap(1, 1, 'tiles-a'),
+      'map-a': buildBlankProjectMap(1, 1, TILESET_A),
       'map-b': buildBlankProjectMap(1, 1, 'tiles-b'),
     }
-    const batch = await indexedBatch(maps, [stampTemplate('tiles-a')])
-    const edges = tilesetUsageReferences(batch, 'tiles-a')
+    const batch = await indexedBatch(maps, [stampTemplate(TILESET_A)])
+    const edges = tilesetUsageReferences(batch, TILESET_A)
     expect(edges.every((edge) => edge.relation.kind === 'tileset-use')).toBe(true)
     expect(edges.map((edge) => edge.source.owner.kind).sort()).toEqual(['map', 'stamp'])
   })
 
   test('C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source', async () => {
-    const maps = { 'map-a': buildBlankProjectMap(1, 1, 'tiles-a') }
+    const maps = { 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }
     maps['map-a'].layers[0]!.tiles[0]![0] = 0
     maps['map-a'].layers[0]!.sources[0]![0] = 0
-    const batch = await indexedBatch(maps, [stampTemplate('tiles-a')])
+    const batch = await indexedBatch(maps, [stampTemplate(TILESET_A)])
     const edges = stampPlacementReferences(batch, 'c08-tree')
     expect(edges.every((edge) => edge.relation.kind === 'stamp-placement-source')).toBe(true)
   })
 
   test('C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝', async () => {
-    const maps = { 'map-a': buildBlankProjectMap(1, 1, 'tiles-a') }
-    const byId: Record<string, ProjectMap> = maps
-    const session = new EditSession(editorState(byId), { loadMap: async (id: string) => byId[id]! })
+    const maps = { 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }
+    const { session } = await openC08RefSession(maps)
     const batch = await session.ensureMapReferencesIndexed()
-    expect(() => TilesetRemovalProof.fromBatch(batch, session.getState(), 'tiles-a')).toThrow(
+    expect(() => TilesetRemovalProof.fromBatch(batch, session.getState(), TILESET_A)).toThrow(
       /不能移除/,
     )
   })
 
   test('C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝', async () => {
-    const maps = { 'map-a': buildBlankProjectMap(1, 1, 'tiles-a') }
-    const byId: Record<string, ProjectMap> = maps
-    const session = new EditSession(editorState(byId), { loadMap: async (id: string) => byId[id]! })
+    const maps = { 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }
+    const { session } = await openC08RefSession(maps)
     const batch = await session.ensureMapReferencesIndexed()
-    const record = session.getState().assetCatalog.assets['tileset.a']!
+    const record = session.getState().assetCatalog.assets[TILESET_ASSET]!
     expect(() =>
-      TilesetReplacementProof.fromBatch(batch, 'tiles-a', 0, {
-        asset: 'tileset.a',
+      TilesetReplacementProof.fromBatch(batch, TILESET_A, 0, {
+        asset: TILESET_ASSET,
         previousRecord: record,
-        definitions: [{ id: 'tiles-a', asset: 'tileset.a' }],
+        definitions: [{ id: TILESET_A, asset: TILESET_ASSET }],
       }),
     ).toThrow('替换瓦片集必须含帧')
   })
 
   test('C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝', async () => {
-    const maps = { 'map-a': buildBlankProjectMap(1, 1, 'tiles-a') }
-    const byId: Record<string, ProjectMap> = maps
-    const session = new EditSession(editorState(byId), { loadMap: async (id: string) => byId[id]! })
+    const maps = { 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }
+    const { session } = await openC08RefSession(maps)
     const batch = await session.ensureMapReferencesIndexed()
-    const record = session.getState().assetCatalog.assets['tileset.a']!
+    const record = session.getState().assetCatalog.assets[TILESET_ASSET]!
     expect(() =>
-      TilesetReplacementProof.fromBatch(batch, 'tiles-a', 4, {
-        asset: 'tileset.a',
+      TilesetReplacementProof.fromBatch(batch, TILESET_A, 4, {
+        asset: TILESET_ASSET,
         previousRecord: record,
-        definitions: [{ id: 'other', asset: 'tileset.a' }],
+        definitions: [{ id: 'other', asset: TILESET_ASSET }],
       }),
     ).toThrow('共享瓦片集影响范围不含当前定义')
   })
 
-  test('C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝', () => {
-    const state = editorState({})
+  test('C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝', async () => {
+    const { state } = await openC08RefSession({})
     expect(() =>
-      assertTilesetRemovalAllowed(state, 'tiles-a', undefined, () => ({}) as MapReferenceEdgeBatch),
+      assertTilesetRemovalAllowed(state, TILESET_A, undefined, unreachableBatch),
     ).toThrow('移除瓦片集前必须完成全项目引用扫描')
   })
 
   test('C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝', async () => {
-    const maps = { 'map-a': buildBlankProjectMap(1, 1, 'tiles-a') }
-    const byId: Record<string, ProjectMap> = maps
-    const session = new EditSession(editorState(byId), { loadMap: async (id: string) => byId[id]! })
+    const maps = { 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }
+    const { session } = await openC08RefSession(maps)
     const batch = await session.ensureMapReferencesIndexed()
-    const record = session.getState().assetCatalog.assets['tileset.a']!
-    const proof = TilesetReplacementProof.fromBatch(batch, 'tiles-a', 4, {
-      asset: 'tileset.a',
+    const record = session.getState().assetCatalog.assets[TILESET_ASSET]!
+    const proof = TilesetReplacementProof.fromBatch(batch, TILESET_A, 4, {
+      asset: TILESET_ASSET,
       previousRecord: record,
-      definitions: [{ id: 'tiles-a', asset: 'tileset.a' }],
+      definitions: [{ id: TILESET_A, asset: TILESET_ASSET }],
     })
     expect(() =>
       assertTilesetReplacementAllowed(
         session.getState(),
         'other-id',
-        'tileset.a',
+        TILESET_ASSET,
         proof,
         (current) => session.getCurrentMapReferenceBatch(current),
       ),
@@ -188,18 +190,15 @@ describe('C08-G02 tileset-references 边与证明门', () => {
     const maps: Record<string, ProjectMap> = {
       'map-a': buildBlankProjectMap(1, 1, 'tiles-b'),
     }
-    const batch = await indexedBatch(maps, [stampTemplate('tiles-a')])
+    const batch = await indexedBatch(maps, [stampTemplate(TILESET_A)])
     const proof = StampDeletionProof.fromBatch(batch, 'c08-tree')
     expect(proof.referenceCount).toBe(0)
     expect(stampPlacementReferences(batch, 'c08-tree')).toEqual([])
   })
 
   test('C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝', async () => {
-    const maps = { 'map-a': buildBlankProjectMap(1, 1, 'tiles-a') }
-    const byId: Record<string, ProjectMap> = maps
-    const session = new EditSession(editorState(byId, [stampTemplate('tiles-a')]), {
-      loadMap: async (id: string) => byId[id]!,
-    })
+    const maps = { 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }
+    const { session } = await openC08RefSession(maps, [stampTemplate(TILESET_A)])
     const batch = await session.ensureMapReferencesIndexed()
     const proof = StampDeletionProof.fromBatch(batch, 'c08-tree')
     expect(() =>
@@ -211,12 +210,11 @@ describe('C08-G02 tileset-references 边与证明门', () => {
 
   test('C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch', async () => {
     const maps = { 'map-a': buildBlankProjectMap(1, 1, 'tiles-b') }
-    const byId: Record<string, ProjectMap> = maps
-    const session = new EditSession(editorState(byId), { loadMap: async (id: string) => byId[id]! })
+    const { session } = await openC08RefSession(maps)
     const batch = await session.ensureMapReferencesIndexed()
-    const proof = TilesetRemovalProof.fromBatch(batch, session.getState(), 'tiles-a')
+    const proof = TilesetRemovalProof.fromBatch(batch, session.getState(), TILESET_A)
     expect(proof.generation).toBe(batch.generation)
-    expect(proof.tilesetId).toBe('tiles-a')
-    expect(proof.definitionIds).toEqual(['tiles-a'])
+    expect(proof.tilesetId).toBe(TILESET_A)
+    expect(proof.definitionIds).toEqual([TILESET_A])
   })
 })

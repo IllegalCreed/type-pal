@@ -4,7 +4,7 @@
   "label": "瓦片集：选择切换（资源）",
   "oracle": {
     "tilesetIds": ["starter", "flow-tileset"],
-    "selectedTileset": "flow-tileset"
+    "selectedTileset": null
   },
   "canvas2d": {
     "ok": true,

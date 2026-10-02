@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790867760551,
+  "startTime": 1790897732272,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
           "status": "passed",
           "title": "C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
-          "duration": 1.2636669999999413,
+          "duration": 1.0110830000000988,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
           "status": "passed",
           "title": "C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
-          "duration": 0.27312499999993634,
+          "duration": 0.19791699999996126,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
           "status": "passed",
           "title": "C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
-          "duration": 1.0787089999998898,
+          "duration": 0.8061249999998381,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
           "status": "passed",
           "title": "C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
-          "duration": 0.23824999999987995,
+          "duration": 0.21662500000002183,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
           "status": "passed",
           "title": "C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
-          "duration": 0.29083300000002055,
+          "duration": 0.2836660000000393,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
           "status": "passed",
           "title": "C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
-          "duration": 1.1967079999999441,
+          "duration": 1.064916999999923,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
           "status": "passed",
           "title": "C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
-          "duration": 0.27579199999991033,
+          "duration": 0.32920800000010786,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,7 +104,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
           "status": "passed",
           "title": "C08-G06-08 build 输出 origin 恒为 authored",
-          "duration": 0.6630420000001322,
+          "duration": 0.6700419999999667,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
           "status": "passed",
           "title": "C08-G06-09 build 保留 height 矩阵于 objects 层",
-          "duration": 0.5225840000000517,
+          "duration": 0.5241249999999127,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -124,14 +124,14 @@
           "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null",
           "status": "passed",
           "title": "C08-G06-10 build includeCollision=false 时 collision 全 null",
-          "duration": 0.17050000000017462,
+          "duration": 0.1656669999999849,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790867762196,
-      "endTime": 1790867762203.1704,
+      "startTime": 1790897733565,
+      "endTime": 1790897733571.1658,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts"

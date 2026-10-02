@@ -3,8 +3,11 @@
   "phase": "ready",
   "label": "音效：缺失资产警告与恢复（资源）",
   "oracle": {
-    "focusAsset": "sound.ghost.missing",
-    "showsMissing": true
+    "focusAsset": "sound.flow.valid",
+    "validSoundId": "sound.flow.valid",
+    "soundCatalogIds": ["sound.flow.valid"],
+    "showsMissing": false,
+    "visibleSoundIds": ["sound.flow.valid"]
   },
   "canvas2d": {
     "ok": true,

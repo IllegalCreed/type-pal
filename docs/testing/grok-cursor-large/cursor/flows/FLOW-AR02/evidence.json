@@ -3,7 +3,7 @@
   "category": "async-fail-recover",
   "title": "SpriteResourceViewer 损坏解码与切换恢复",
   "contract": "decode-fail-then-switch-asset",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 1100,
@@ -14,7 +14,7 @@
       "height": 680
     }
   },
-  "expect": "损坏资产 loadProof=error；切换 good 后 error=false",
+  "expect": "损坏资产 loadProof=error；切换 good 后 error=false 且 loadProof 含 frames:",
   "before": {
     "flowId": "FLOW-AR02",
     "phase": "ready",
@@ -36,7 +36,7 @@
     "label": "资源查看器：损坏解码失败与切换恢复（异步）",
     "oracle": {
       "asset": "sprite.flow.good",
-      "loadProof": "error",
+      "loadProof": "frames:1",
       "error": false
     },
     "canvas2d": {
@@ -102,5 +102,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:23.036Z"
+  "recordedAt": "2026-10-01T23:58:10.794Z"
 }

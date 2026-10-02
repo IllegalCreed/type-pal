@@ -3,7 +3,7 @@
   "category": "resource",
   "title": "静态图资源对象聚焦",
   "contract": "focus-object-oracle",
-  "host": "http://127.0.0.1:6020/",
+  "host": "http://127.0.0.1:6013/",
   "viewport": {
     "wide": {
       "width": 1200,
@@ -14,14 +14,15 @@
       "height": 700
     }
   },
-  "expect": "点击后 focusObjectId 非 null 或 catalogSize>0",
+  "expect": "点击目录行后 focusObjectId 为 image.flow.alpha",
   "before": {
     "flowId": "FLOW-R03",
     "phase": "ready",
     "label": "静态图资源：对象聚焦（资源）",
     "oracle": {
-      "catalogSize": 2,
-      "focusObjectId": null
+      "catalogSize": 6,
+      "focusObjectId": null,
+      "catalogImageIds": ["image.flow.alpha", "image.flow.beta"]
     },
     "canvas2d": {
       "ok": true,
@@ -34,8 +35,9 @@
     "phase": "ready",
     "label": "静态图资源：对象聚焦（资源）",
     "oracle": {
-      "catalogSize": 2,
-      "focusObjectId": null
+      "catalogSize": 6,
+      "focusObjectId": "image.flow.alpha",
+      "catalogImageIds": ["image.flow.alpha", "image.flow.beta"]
     },
     "canvas2d": {
       "ok": true,
@@ -47,13 +49,13 @@
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R03/wide-focus.png",
-      "sha256": "82e31e01fec945f921dad3d4afe7877e93b37e1d58ebfc69b77940d066f0b79d",
+      "sha256": "7168139686ea1d3d2a018f0421fcceb50f2da0c23787325ba3f8d4620f3037a6",
       "width": 1200,
       "height": 800
     },
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R03/narrow-keyboard.png",
-      "sha256": "56bdb68ac0accd5e1a8009c69ac5ea4fe1c937c81063be2408db9766a2b95950",
+      "sha256": "fe960475149242a1fdf61379765ef0b6659450f35b2d91f14644464c3c0b8d25",
       "width": 800,
       "height": 700
     }
@@ -100,5 +102,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T16:27:08.803Z"
+  "recordedAt": "2026-10-01T23:57:48.524Z"
 }

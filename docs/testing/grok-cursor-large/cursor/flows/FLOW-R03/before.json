@@ -3,8 +3,9 @@
   "phase": "ready",
   "label": "静态图资源：对象聚焦（资源）",
   "oracle": {
-    "catalogSize": 2,
-    "focusObjectId": null
+    "catalogSize": 6,
+    "focusObjectId": null,
+    "catalogImageIds": ["image.flow.alpha", "image.flow.beta"]
   },
   "canvas2d": {
     "ok": true,

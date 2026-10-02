@@ -66,7 +66,19 @@
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch"
+      ]
     },
     "target": {
       "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",

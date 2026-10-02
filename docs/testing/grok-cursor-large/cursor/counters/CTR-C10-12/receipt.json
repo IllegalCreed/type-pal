@@ -1,13 +1,13 @@
 {
   "id": "CTR-C10-12",
-  "productFile": "packages/editor/src/ui/design-system/control-utils.ts",
-  "findText": "  const value = ids.filter(Boolean).join(' ')",
-  "replaceText": "  const value = ids.filter(Boolean).join(',')",
+  "productFile": "packages/editor/src/ui/design-system/status-values.tsx",
+  "findText": "className={classes('ds-tag', `ds-tag--${tone}`, monospace && 'ds-tag--monospace', className)}",
+  "replaceText": "className={classes('ds-tag', `ds-tag__${tone}`, monospace && 'ds-tag--monospace', className)}",
   "testSpec": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
-  "expectFullname": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
-  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
-  "productSha256Candidate": "3e0d9a0a07e6804fce5f4ef0ad4a4d70f4596a1489b71df5d02e13c976bc22b5",
-  "patch": "--- a/packages/editor/src/ui/design-system/control-utils.ts\n+++ b/packages/editor/src/ui/design-system/control-utils.ts\n@@ -3,6 +3,6 @@\n }\n \n export function describedBy(...ids: Array<string | undefined>): string | undefined {\n-  const value = ids.filter(Boolean).join(' ')\n+  const value = ids.filter(Boolean).join(',')\n   return value || undefined\n }\n",
+  "expectFullname": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+  "candidateHead": "6ea1b41ff30e8bf532a78e98af991128947da9df",
+  "productSha256Candidate": "fef08ab290a004613eed62cb23b0cbdf91e38485af8f72dcfef36724dac72104",
+  "patch": "--- a/packages/editor/src/ui/design-system/status-values.tsx\n+++ b/packages/editor/src/ui/design-system/status-values.tsx\n@@ -17,7 +17,7 @@\n   return (\n     <span\n       {...rest}\n-      className={classes('ds-tag', `ds-tag--${tone}`, monospace && 'ds-tag--monospace', className)}\n+      className={classes('ds-tag', `ds-tag__${tone}`, monospace && 'ds-tag--monospace', className)}\n     >\n       {children}\n     </span>\n",
   "positive": {
     "exitCode": 0,
     "executed": 15,
@@ -51,7 +51,7 @@
       ]
     }
   },
-  "productSha256MutatedTree": "1d6f58555d26d9034e5454d3c0506298563eee98b0ca8cc88cb665cbb4f88a6a",
+  "productSha256MutatedTree": "a3ad1cbd6cfe49339e1a6dc5729101a13267d403c12f90d5d4d2ace7bf0328e3",
   "mutated": {
     "exitCode": 1,
     "executed": 15,
@@ -74,18 +74,35 @@
     ],
     "failed": [
       {
-        "fullName": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
-        "message": "AssertionError: expected 'a,b' to be 'a b' // Object.is equality",
+        "fullName": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+        "message": "AssertionError: expected '<span class=\"ds-tag ds-tag__danger\">错…' to contain 'ds-tag--danger'",
         "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
       }
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled"
+      ]
     },
     "target": {
-      "fullName": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
-      "message": "AssertionError: expected 'a,b' to be 'a b' // Object.is equality",
+      "fullName": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+      "message": "AssertionError: expected '<span class=\"ds-tag ds-tag__danger\">错…' to contain 'ds-tag--danger'",
       "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
     }
   },

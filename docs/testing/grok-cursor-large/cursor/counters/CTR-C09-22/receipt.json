@@ -66,7 +66,19 @@
     ],
     "judge": {
       "valid": true,
-      "reasons": []
+      "reasons": [],
+      "identitySet": [
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-01 assertWave 接受合法 RIFF/WAVE",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-02 assertWave 拒绝 RIFF 无 WAVE",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-03 assertWave 拒绝过短文件",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-04 authoredSoundId 只取 hash 前 16 hex",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-05 同 hash 两次 authoredSoundId 相等",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-06 authoredWaveRecord kind 为 sound",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-07 authoredWaveRecord path 含 sha256",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-08 authoredWaveRecord 空 label 时用文件名",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-09 authoredWaveRecord origin.ref 保留源文件名",
+        "src/ui/SoundTab.c09-g04.cursor-r1.test.ts×C09-G04 SoundTab 策略纯函数 C09-G04-10 authoredWaveRecord bytes 字段等于 buffer 长度"
+      ]
     },
     "target": {
       "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-09 authoredWaveRecord origin.ref 保留源文件名",
