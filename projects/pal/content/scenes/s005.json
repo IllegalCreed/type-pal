@@ -12,6 +12,7 @@
   "entities": [
     {
       "id": "e115",
+      "label": "盛渔村出口",
       "pos": {
         "col": 111,
         "row": 99,
@@ -33,7 +34,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "从码头返回盛渔村",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -54,7 +55,8 @@
                         "evidenceId": "pal-load-scene-1393"
                       }
                     }
-                  ]
+                  ],
+                  "label": "回到村外街"
                 }
               ]
             }
@@ -4441,6 +4443,7 @@
     },
     {
       "id": "e123",
+      "label": "张四",
       "pos": {
         "col": 116,
         "row": 56,
@@ -4464,7 +4467,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "仙女传闻前：抱怨风浪与鱼货",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -4498,13 +4501,14 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "复读：风浪太大没有鱼货"
                 }
               ]
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "听过仙女传闻后：回应仙灵岛与催回店",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -4609,6 +4613,74 @@
                           "kind": "use",
                           "value": "legacy-003"
                         }
+                      }
+                    }
+                  ],
+                  "label": "回应仙灵岛传闻并开启回村报信",
+                  "next": "return-to-inn"
+                },
+                {
+                  "id": "return-to-inn",
+                  "label": "提醒逍遥回店帮忙",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张四",
+                          "portrait": {
+                            "asset": "portrait.pal.039",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.524"
+                          },
+                          {
+                            "text": "dlg.525"
+                          },
+                          {
+                            "text": "dlg.526"
+                          },
+                          {
+                            "text": "dlg.527"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "next": "pray-for-catch"
+                },
+                {
+                  "id": "pray-for-catch",
+                  "label": "复读：祈求出海有鱼获",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张四",
+                          "portrait": {
+                            "asset": "portrait.pal.039",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.529"
+                          },
+                          {
+                            "text": "dlg.530"
+                          },
+                          {
+                            "text": "dlg.531"
+                          }
+                        ]
                       }
                     }
                   ]
@@ -5280,6 +5352,7 @@
     },
     {
       "id": "e124",
+      "label": "水生叔",
       "pos": {
         "col": 122,
         "row": 57,
@@ -5303,7 +5376,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "闲聊仙灵岛上的仙女",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5437,7 +5510,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "初谈仙女并让张四接话"
                 },
                 {
                   "id": "legacy-002",
@@ -5462,7 +5536,8 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "复读：坚持亲眼见过仙女"
                 }
               ]
             }
@@ -5924,6 +5999,7 @@
     },
     {
       "id": "e127",
+      "label": "鱼嫂",
       "pos": {
         "col": 114,
         "row": 67,
@@ -5948,7 +6024,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "买鲜虾时：告知无货并推荐鲜鱼",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5981,7 +6057,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "告知风浪大、鲜虾无货"
                 },
                 {
                   "id": "legacy-002",
@@ -6002,7 +6079,8 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "复读：推荐买鲜鱼煮汤"
                 }
               ]
             }
@@ -6080,7 +6158,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "摊前朝左站定",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -6105,7 +6183,8 @@
                         "entity": "e127"
                       }
                     }
-                  ]
+                  ],
+                  "label": "保持摊前站姿"
                 }
               ]
             }

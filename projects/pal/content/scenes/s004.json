@@ -2164,6 +2164,7 @@
     },
     {
       "id": "e83",
+      "label": "丁香兰",
       "pos": {
         "col": 157,
         "row": 50,
@@ -7216,6 +7217,7 @@
     },
     {
       "id": "e94",
+      "label": "客栈入口",
       "pos": {
         "col": 95,
         "row": 14,
@@ -7237,7 +7239,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "进入客栈大厅",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -7258,7 +7260,8 @@
                         "evidenceId": "pal-load-scene-44"
                       }
                     }
-                  ]
+                  ],
+                  "label": "从村外街进入客栈"
                 }
               ]
             }
@@ -7268,6 +7271,7 @@
     },
     {
       "id": "e95",
+      "label": "码头市集入口",
       "pos": {
         "col": 140,
         "row": 26,
@@ -7289,7 +7293,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "前往码头市集",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -7310,7 +7314,8 @@
                         "evidenceId": "pal-load-scene-1389"
                       }
                     }
-                  ]
+                  ],
+                  "label": "从村外街走向码头"
                 }
               ]
             }
