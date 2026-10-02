@@ -1,0 +1,1 @@
+产品源码变异（r18 重采）：cli.ts loadBattleMkf catch 回退臂对 raw 附加一字节（decompressed = new Uint8Array([...raw, 0])）——raw 回退 blob 保真断言 gunzip==[0,0] 恰一红（sprite/帧计数与 manifest 不受影响，YJ2 臂不受影响）。原 r17 输入轴 BA1 按 Q-R18-01 退役（raw 2B→3B 与 golden 同在回退域=输入/golden 错配非业务判别），证据保留于 Q-BA1.retired.meta.json。

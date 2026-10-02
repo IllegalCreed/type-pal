@@ -1,0 +1,65 @@
+{
+  "id": "Q-FL1",
+  "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+  "mutationKind": "product-source",
+  "productFile": "packages/pal-extract/src/font/bdf-to-json.ts",
+  "targetFullName": " Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+  "targetNameSubstring": "BDF 接线正向",
+  "sha256": {
+    "testFile": "2b08b93bc126cb2a6a57a5c004e9c1f496b8ad9eb27c063b8a63b3c92dd6d966",
+    "original": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20",
+    "mutated": {
+      "numTotalTests": 2,
+      "numPassedTests": 1,
+      "numFailedTests": 1,
+      "success": false
+    },
+    "restored": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20"
+  },
+  "restoredHashUnchanged": true,
+  "testFileHashStable": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'font glyphs written: 2'",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "productRestoredEqualsCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FL1.positive.json",
+      "raw": "Q-FL1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-FL1.mutant.json",
+      "raw": "Q-FL1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FL1.restored.json",
+      "raw": "Q-FL1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

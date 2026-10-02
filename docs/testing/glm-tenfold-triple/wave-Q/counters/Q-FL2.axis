@@ -1,0 +1,1 @@
+产品源码变异：cli.ts lookup 写盘 words.json 载荷 words→messages（接线互换）——words.json 不再是 Words 结构，flat 长度/分类切片断言恰一红（strings.json 与 BDF 例不受影响）。红证明 lookup 载荷 oracle 的判别力。

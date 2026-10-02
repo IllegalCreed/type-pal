@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 145
+    "total": 147
   },
   "contracts": [
     {
@@ -1954,36 +1954,36 @@
       "id": "C140",
       "batch": "Q10",
       "package": "pal-extract",
-      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
-      "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+      "file": "pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
       "status": "passed",
-      "source": "pal-extract src/cli.ts main()（REPO_ROOT/RAW/OUT 派生 → 事件管线 → 数据表段 → 图像段边界）",
-      "caller": "mkdtemp 复制模块树（src/package.json 拷贝 + node_modules symlink）+ 合成最小合法输入（SSS 5 chunk/WORD.DAT 565×10B/M.MSG/DATA.MKF 15 chunk）+ tsx 子进程实跑",
-      "oldAssertion": "corpus 0 命中（cli.ts 此前零直测；io/×、events/×、resources/× 旧测覆盖各解析器单元，不覆盖 CLI 总装与落盘）",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
+      "source": "pal-extract src/font/bdf-to-json.ts parseBdf（:14-67 STARTCHAR 块解析：ENCODING/BBX/BITMAP hex 行 → BdfGlyph[]，codepoint>0 准入门）+ glyphsToJson（base64 bitmap）+ cli.ts:872-879 写 data/font/glyphs.json",
+      "caller": "生产 caller = main() BDF 分支（existsSync(RAW/unifont-cn.bdf) → parseBdf → glyphsToJson → writeJson）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 全管线例「stderr toContain unifont-cn.bdf 缺,跳过 font」——仅缺文件 warn 路径；bdf-to-json 单元测不覆盖 CLI 写盘接线",
+      "axis": "产品源码变异 Q-FL1：parseBdf 准入门 codepoint>0 → >65（丢弃 ASCII 字形保留 CJK）——计数/内容断言恰一红",
+      "oracle": "stdout 'BDF → JSON font glyphs …' + 'font glyphs written: 2'；glyphs.json == {count:2,glyphs:[{codepoint:65,width:8,height:16,bitmapBase64:base64(16B 首行 0xFF)},{codepoint:19970,width:16,height:16,bitmapBase64:base64(32B 首行 FF FF)}]}；stderr 不含缺文件 warn",
+      "classification": "new contract（BDF 正向接线首证；corpus glyphs.json 0 命中）"
     },
     {
       "id": "C141",
       "batch": "Q10",
       "package": "pal-extract",
-      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
-      "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+      "file": "pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
       "status": "passed",
-      "source": "pal-extract src/cli.ts main()（REPO_ROOT/RAW/OUT 派生 → 事件管线 → 数据表段 → 图像段边界）",
-      "caller": "mkdtemp 复制模块树（src/package.json 拷贝 + node_modules symlink）+ 合成最小合法输入（SSS 5 chunk/WORD.DAT 565×10B/M.MSG/DATA.MKF 15 chunk）+ tsx 子进程实跑",
-      "oldAssertion": "corpus 0 命中（cli.ts 此前零直测；io/×、events/×、resources/× 旧测覆盖各解析器单元，不覆盖 CLI 总装与落盘）",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
+      "source": "pal-extract src/cli.ts:869-870 lookup 写盘（words=parseWordDat 输出 {persons,items,spells,enemies,scenes,flat,system,battleUi}；messages=parseMessages(M.MSG, offsets)）",
+      "caller": "生产 caller = main() lookup 段（事件管线产物直写 lookup/words.json 与 lookup/strings.json）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例断言 scene 文件与「词表注记」stdout，未断言 lookup/words.json 或 lookup/strings.json 任何内容",
+      "axis": "产品源码变异 Q-FL2：cli.ts words.json 载荷 words→messages（lookup 接线互换）——flat 长度/切片断言恰一红",
+      "oracle": "words.json flat 长 565、flat[0]==''（空格剥除）、flat[61]=='ITEMNAME'（尾标 '1' 剥除）、items[0]=='ITEMNAME'（物品段首条）、persons 长 6；strings.json ==['HELLO MSG']（偏移 [0,9] 唯一消息）",
+      "classification": "new contract（lookup 产物内容首证）"
     },
     {
       "id": "C142",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
-      "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+      "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
       "status": "passed",
       "source": "pal-extract src/cli.ts main()（REPO_ROOT/RAW/OUT 派生 → 事件管线 → 数据表段 → 图像段边界）",
       "caller": "mkdtemp 复制模块树（src/package.json 拷贝 + node_modules symlink）+ 合成最小合法输入（SSS 5 chunk/WORD.DAT 565×10B/M.MSG/DATA.MKF 15 chunk）+ tsx 子进程实跑",
@@ -1997,6 +1997,34 @@
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts main()（REPO_ROOT/RAW/OUT 派生 → 事件管线 → 数据表段 → 图像段边界）",
+      "caller": "mkdtemp 复制模块树（src/package.json 拷贝 + node_modules symlink）+ 合成最小合法输入（SSS 5 chunk/WORD.DAT 565×10B/M.MSG/DATA.MKF 15 chunk）+ tsx 子进程实跑",
+      "oldAssertion": "corpus 0 命中（cli.ts 此前零直测；io/×、events/×、resources/× 旧测覆盖各解析器单元，不覆盖 CLI 总装与落盘）",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
+    },
+    {
+      "id": "C144",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts main()（REPO_ROOT/RAW/OUT 派生 → 事件管线 → 数据表段 → 图像段边界）",
+      "caller": "mkdtemp 复制模块树（src/package.json 拷贝 + node_modules symlink）+ 合成最小合法输入（SSS 5 chunk/WORD.DAT 565×10B/M.MSG/DATA.MKF 15 chunk）+ tsx 子进程实跑",
+      "oldAssertion": "corpus 0 命中（cli.ts 此前零直测；io/×、events/×、resources/× 旧测覆盖各解析器单元，不覆盖 CLI 总装与落盘）",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
+    },
+    {
+      "id": "C145",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
       "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "status": "passed",
       "source": "pal-extract src/cli.ts main() 全管线尾段：MAP/GOP tileset（合法自包含 YJ2 65536B MAP + encodeSpriteChunk GOP）、PAT 调色板（768/1536B 6bit 0..63 → 8bit 扩展）、MGO/F/ABC dump-all、FBP 全空 chunk skip、lookup、asset-manifest（cli.ts:631-891）",
@@ -2007,7 +2035,7 @@
       "classification": "new full-pipeline contract target（r10 合法化重写；FP4 已独立为另一目标——见边界合同 override）"
     },
     {
-      "id": "C144",
+      "id": "C146",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -2021,7 +2049,7 @@
       "classification": "boundary-rejection contract（r10 新目标；如实登记为边界拒绝，不冒称合法正向资源）"
     },
     {
-      "id": "C145",
+      "id": "C147",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",

@@ -1,0 +1,3 @@
+      } catch {
+        decompressed = new Uint8Array([...raw, 0])
+      }

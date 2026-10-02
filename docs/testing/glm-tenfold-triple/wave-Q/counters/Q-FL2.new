@@ -1,0 +1,1 @@
+  writeJson(resolve(OUT, 'lookup', 'words.json'), messages)

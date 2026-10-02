@@ -1,9 +1,9 @@
 {
-  "source": "final-run (vitest run glm-q --reporter=json；reforge 沿用 r12 实跑（源未变），game r16 / pal-extract r17 实跑)",
+  "source": "final-run (vitest run glm-q --reporter=json；reforge 沿用 r12 实跑（源未变），game r16 / pal-extract r18 实跑)",
   "counts": {
-    "files": 22,
-    "total": 145,
-    "passed": 145,
+    "files": 23,
+    "total": 147,
+    "passed": 147,
     "failed": 0
   },
   "cases": [
@@ -1131,7 +1131,7 @@
       "title": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 822.366833
+      "duration": 1797.84325
     },
     {
       "file": "pal-extract/src/cli-battle-assets.glm-q.test.ts",
@@ -1139,7 +1139,23 @@
       "title": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 848.9537499999999
+      "duration": 2255.0040829999994
+    },
+    {
+      "file": "pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+      "title": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 1903.807292
+    },
+    {
+      "file": "pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+      "title": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 2790.3615420000006
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1147,7 +1163,7 @@
       "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 944.515833
+      "duration": 1800.7908750000001
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1155,7 +1171,7 @@
       "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 736.981
+      "duration": 2595.688083
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1163,7 +1179,7 @@
       "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 538.4802080000002
+      "duration": 905.8092499999993
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1171,7 +1187,7 @@
       "title": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 419.631042
+      "duration": 944.5160829999995
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1179,7 +1195,7 @@
       "title": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 387.11233300000004
+      "duration": 1090.1369999999997
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1187,7 +1203,7 @@
       "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 351.8094579999997
+      "duration": 935.6160829999999
     }
   ]
 }

@@ -1,13 +1,40 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r17 续批4）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r18 续批5）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r17 候选**（r16 复核：自卫集成两例 accept、AP 分区口径确立；
-**当前 145 执行 / 结构净新上限 144 / 缺口至少 556**；r16 候选 2bdb69cfd/pin ee3eea871
+本文件描述 **r18 候选**（r17 复核：两 CLI 合同 accept、BA1 输入/golden 错配 counter；
+**当前 147 执行 / 结构净新上限 146 / 缺口至少 554**；r17 候选 210356180/pin c1ec0482d
 保留供独立复核）。不合 main、不标 done。
+
+## r18 相对 r17 的改动（Q-R18-01 闭 + Q10 字形/lookup 新批）
+
+1. **Q-R18-01 关闭——BA1 重采为产品源变异**：原 r17 BA1（raw 2B→3B 保留 golden 2B）
+   确为输入/golden 错配（两者同在 YJ2 失败/raw 回退域，正确产品返回 3B），退役登记
+   （retired + .retired.meta.json，原证据保留）。重采 **Q-BA1P**：产品源变异 cli.ts
+   catch 回退臂 `decompressed = new Uint8Array([...raw, 0])`（Codex r18 已独证的最小
+   变异）——blob 保真断言恰一红、计数/manifest/YJ2 臂不受影响，三相 0/1/0、产品源
+   hash 恢复一致（counter-run-prod.sh v3：变异目标与测试文件分离）。
+2. **新批 `cli-font-lookup.glm-q.test.ts`（2 例）+ 共享 fixture 模块
+   `__tests__/glm-q/cli-pipeline-inputs.ts`**（Q 专属纯构造器，前两文件本地夹具冻结
+   不动、零针重采）：
+   ① **BDF 接线正向**——合成最小合法 unifont-cn.bdf（8×16 ASCII 65 + 16×16 CJK
+   19970）：stdout 'font glyphs written: 2'、glyphs.json == {count:2, glyphs:[…完整
+   codepoint/width/height/base64 bitmap…]}、stderr 无缺文件 warn。旧例只断言过 warn
+   路径。
+   ② **lookup 产物**——words.json flat 长 565、flat[0]==''（空格剥除）、flat[61]==
+   'ITEMNAME'（尾标 '1' 剥除）、items[0]=='ITEMNAME'（物品段首条）、persons 长 6；
+   strings.json == ['HELLO MSG']。旧事件例未断言 lookup 内容。
+3. **反控 FL1/2（产品源码变异，均新执行目标）**：FL1 parseBdf 准入门 codepoint>0 →
+   >65（ASCII 字形被弃）→ 计数/内容断言恰一红；FL2 cli.ts words.json 载荷 words→
+   messages（接线互换）→ flat 断言恰一红。
+4. **账目**：147 执行（145 + 2 新）/ 扣 room0 旧合同（历史 C114 编号）后**结构净新
+   上限 146 / 缺口至少 554**；反控 **71 存档（69 − BA1 + BA1P + FL1/FL2 两新）/ 62
+   不同执行目标 / 净新合同目标结构上限 61**。700/50 组不缩，仅部分交付。
+5. 门禁：pal-extract 定向 10/10 + 全包 367/367 / typecheck ×3 / 根 lint 完整 0/0/0
+   （pin 后复跑）/ docs / diff / verifier；game 2812 / reforge 2150 源未变明确复用。
 
 ## r17 相对 r16 的改动（Q10 战斗资产段新批）
 

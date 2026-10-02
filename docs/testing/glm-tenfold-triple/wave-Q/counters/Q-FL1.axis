@@ -1,0 +1,1 @@
+产品源码变异：bdf-to-json.ts parseBdf 字形准入门 codepoint>0 → >65——ASCII 65 字形被丢弃（CJK 19970 保留），stdout 计数 2→1 与 glyphs.json 内容断言恰一红（lookup 例不受影响）。红证明 BDF 接线 oracle 对准入门的判别力。
