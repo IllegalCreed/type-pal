@@ -98,9 +98,12 @@ export function parseTestTitles(source) {
     const before = i === 0 ? '' : masked[i - 1]
     if (before && !/[\s{;,(=]/.test(before)) continue
     const isDescribe = masked.startsWith('describe(', i)
-    const isTest = masked.startsWith('test(', i) || masked.startsWith('it(', i)
+    const isIt = masked.startsWith('it(', i)
+    const isTest = masked.startsWith('test(', i) || isIt
     if (!isDescribe && !isTest) continue
-    let p = i + (isDescribe ? 9 : 5)
+    // O-NEXT-01：it( 只有 3 字符，test( 5、describe( 9——此前统一按 5 推进，
+    // it( 的标题起点被跳进字符串内部两位，导致真实 it 合同解析为 0。
+    let p = i + (isDescribe ? 9 : isIt ? 3 : 5)
     // 空白跳过必须在原文上进行（masked 中标题串本身已被抹成空白）；
     // 再用 masked[p]===' ' 校验该引号确为字符串起点而非代码标识符。
     while (p < source.length && isWs(source[p])) p++
