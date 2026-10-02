@@ -152,7 +152,7 @@
     "p13-tail": "p13 尾项随正常批闭合：①receipt pin 格式修复（最终根 lint 3233 文件 0/0/0 含最后 SHA 编辑后复验）；②caller 分路——恢复路径 21 行接 migrate-content.mts:53（load/plan 之前无条件 recover）、提交路径 13 行接 :116-125→:126、project-io 8 行接 :65/:69/:109/:136-140 真实链（hashUnmanaged/assertHashMapsEqual 当前 CLI 未消费如实登记）；③migration-plan 域删重 7 行+11 臂真账；O02-CC4 目标删重连带退役，O02-CC5 等未变针保留"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED",
+  "remoteFinalCandidate": "9637813ea9129f8f056244ba42582e9a94da0019",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
