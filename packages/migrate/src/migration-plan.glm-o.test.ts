@@ -132,6 +132,17 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     expect(plan.summary.managed).toBe(plan.target.size)
   })
 
+  test('incoming-only 新托管文件进入 writes 且值为精确正文（更新/删除臂由旧 boundaries:30-64 证）', () => {
+    // 窄轴（O-R17-01 恢复）：base/ours 均无该文件，theirs 新增托管文件
+    // → migration-plan.ts:195-197 `!ours.files.has(file)` 分支 writes.set 精确值。
+    const base = snap([])
+    const ours = snap([])
+    const theirs = snap([['content/new-file.json', { added: true, n: 7 }]])
+    const plan = createMigrationPlan(base, ours, theirs)
+    expect(plan.conflicts).toEqual([])
+    expect(plan.writes.get('content/new-file.json')).toEqual({ added: true, n: 7 })
+  })
+
   test('ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes', () => {
     const base = snap([[DOC, { v: 1 }]])
     const ours = snap([
