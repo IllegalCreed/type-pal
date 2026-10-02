@@ -6,6 +6,7 @@ import { existsSync } from 'node:fs'
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
 import process from 'node:process'
+import { isApprovedTestRetirement } from './approved-test-retirements.mjs'
 import {
   baselinePath,
   coverageExcludes,
@@ -410,7 +411,7 @@ async function readBaselineFromGit(ref) {
   return JSON.parse(text)
 }
 
-function assertCandidateDoesNotLowerProtectedBaseline(candidate, protectedBaseline) {
+async function assertCandidateDoesNotLowerProtectedBaseline(candidate, protectedBaseline) {
   assertComparableProvider(candidate, protectedBaseline)
   const comparison = compareCoverage(candidate, protectedBaseline, { allowNewPackages: true })
   if (comparison.regressions.length > 0)
@@ -430,9 +431,32 @@ function assertCandidateDoesNotLowerProtectedBaseline(candidate, protectedBaseli
       (entry.kind === 'test-file' || entry.kind === 'test-count') &&
       existsSync(resolve(repoRoot, entry.value)),
   )
-  if (removedTestsInExistingFiles.length > 0)
+  const unapprovedRemovals = []
+  const testEntry = (snapshot, file) =>
+    Object.values(snapshot.packages)
+      .flatMap((item) => item.fastTests.fileEntries)
+      .find((item) => item.file === file)
+  for (const removal of removedTestsInExistingFiles) {
+    const fileSha256 = createHash('sha256')
+      .update(await readFile(resolve(repoRoot, removal.value)))
+      .digest('hex')
+    if (
+      !isApprovedTestRetirement({
+        removal,
+        previous: testEntry(protectedBaseline, removal.value),
+        current: testEntry(candidate, removal.value),
+        fileSha256,
+      })
+    )
+      unapprovedRemovals.push(removal)
+    else
+      console.log(
+        `已核精确历史退役保护账: ${removal.value} ${removal.previous} -> ${removal.current}`,
+      )
+  }
+  if (unapprovedRemovals.length > 0)
     throw new Error(
-      `候选 baseline 删除仍存在文件中的 fast tests:\n- ${removedTestsInExistingFiles
+      `候选 baseline 删除仍存在文件中的 fast tests:\n- ${unapprovedRemovals
         .slice(0, 8)
         .map((entry) => `${entry.kind}: ${entry.value}`)
         .join('\n- ')}`,
@@ -493,7 +517,8 @@ async function main() {
   const protectedRef = process.env.TYPE_PAL_COVERAGE_BASE_REF?.trim()
   if (protectedRef) {
     const protectedBaseline = await readBaselineFromGit(protectedRef)
-    if (protectedBaseline) assertCandidateDoesNotLowerProtectedBaseline(baseline, protectedBaseline)
+    if (protectedBaseline)
+      await assertCandidateDoesNotLowerProtectedBaseline(baseline, protectedBaseline)
     else console.log(`\n目标分支 ${protectedRef} 尚无 coverage 设施；允许本次唯一 bootstrap。`)
   }
 

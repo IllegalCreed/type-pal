@@ -11,6 +11,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| QUALITY-OPQ-RETIREMENT-1 | [历史测试退役保护账](tasks/QUALITY-OPQ-RETIREMENT-1.md) | build | Codex / 精确五文件判据与全仓门 | 用户仅批准历史净减少16例，比例/生产范围/其它测试保护不变 |
 | TEST-GLM-WAVE-O-1 | [供应/内容守卫冻结收口](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | Codex / 历史身份保护账窄准入 | 470保留回归；check/ratchet过，5旧文件16身份缩减拒收；不作者续派 |
 | TEST-GLM-WAVE-P-1 | [Editor冻结收口](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | Codex / 同一全仓保护账 | 114保留/四新反控有效；18/20未证分列，不追量、不作者返工 |
 | TEST-GLM-WAVE-Q-1 | [runtime/解码冻结收口](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | Codex / 同一全仓保护账 | 175保留；产品draft独立，未main/done/清树，不续派 |
