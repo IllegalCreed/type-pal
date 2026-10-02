@@ -1,7 +1,18 @@
 /** TEST-GLM-WAVE-O-1 O02：迁移计划（createMigrationPlan/snapshotOf）的原子地图
- *  hash-only 选取、冲突分类与输入不可变合同。旧证：migration-plan.test.ts 覆盖常规
- *  写/删/冲突计数；本卡补齐 gap-map 缺口：hashVersion、delete-modify/add-add 分类、
- *  hash-only 正文回填与“只有 hash 缺正文”fail-loud。
+ *  hash-only 选取与冲突分类残余合同。
+ *  existing-proof 扣除（O-p13 续批逐行旧正文裁决，删重 7 行不计净新）：
+ *  - base hash-only + ours 同 hash + theirs 更新→采纳：旧 :453-463 首段（hashOnlyBase/
+ *    ours v1 全文/theirs v2 → update.writes=v2）同条件同答案；
+ *  - theirs 新增 writes/删除 deletes/summary：boundaries:30-64 精确 toEqual 全 summary；
+ *  - 重放零计划：旧 :48-72 重放段（writes/deletes/conflicts 全零 toMatchObject）；
+ *  - 输入不可变：boundaries:99-130（三侧 files 值/managedFiles/hashes 深快照不变）；
+ *  - kept/generated 方向：boundaries:65（kept 不产生 write）+ :30（theirs 改→generated）；
+ *  - 原子地图 ours=base 接收迁移：旧 :453 首段（即上第一条，两行同锚）；
+ *  - 冲突时零写盘：旧 :131-139「冲突时严格零写盘计划」+ boundaries:74-98（更严：
+ *    含无关净改与待删除文件清空、target 仍含作者值）。
+ *  保留臂：hash-only 双侧回填、缺正文 fail-loud、hash 版冲突快照形状、delete-modify/
+ *  add-add 分类、双文件独立吸收无 write、ours 独有保留、snapshotOf 专用格式化、
+ *  target 无别名、merged 计数、三方托管并集。
  */
 import { describe, expect, test } from 'vitest'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
@@ -53,14 +64,6 @@ describe('O02 createMigrationPlan：原子地图 hash-only 与冲突分类', () 
     expect(plan.target.get(MAP)).toEqual(mapV(1))
   })
 
-  test('base hash-only、ours 同 hash 正文、theirs 更新 → 采纳 theirs 更新', () => {
-    const base = snap([[MAP, mapV(1)]], [MAP])
-    const ours = snap([[MAP, mapV(1)]])
-    const theirs = snap([[MAP, mapV(2)]])
-    const plan = createMigrationPlan(base, ours, theirs)
-    expect(plan.conflicts).toEqual([])
-    expect(plan.target.get(MAP)).toEqual(mapV(2))
-  })
 
   test('base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud', () => {
     const base = snap([[MAP, mapV(1)]], [MAP])
@@ -130,24 +133,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     expect(plan.summary.managed).toBe(plan.target.size)
   })
 
-  test('theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes', () => {
-    const base = snap([
-      [DOC, { v: 1 }],
-      ['content/extra.json', { old: true }],
-    ])
-    const ours = snap([
-      [DOC, { v: 1 }],
-      ['content/extra.json', { old: true }],
-    ])
-    const theirs = snap([
-      [DOC, { v: 2 }],
-      ['content/new.json', { added: true }],
-    ])
-    const plan = createMigrationPlan(base, ours, theirs)
-    expect(plan.writes.has('content/new.json')).toBe(true)
-    expect(plan.deletes).toEqual(['content/extra.json'])
-    expect(plan.target.has('content/extra.json')).toBe(false)
-  })
 
   test('ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes', () => {
     const base = snap([[DOC, { v: 1 }]])
@@ -161,15 +146,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     expect(plan.target.get('content/extra.json')).toEqual({ keep: true })
   })
 
-  test('重放同一 publication：writes/deletes/conflicts 全零', () => {
-    const base = snap([[DOC, { v: 1 }]])
-    const ours = snap([[DOC, { v: 1 }]])
-    const theirs = snap([[DOC, { v: 2 }]])
-    const first = createMigrationPlan(base, ours, theirs)
-    const published = { files: new Map(first.target), managedFiles: new Set(first.target.keys()) }
-    const replay = createMigrationPlan(snapshotOf(published), snapshotOf(published), theirs)
-    expect(replay.summary).toMatchObject({ writes: 0, deletes: 0, conflicts: 0 })
-  })
 
   test('snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化', () => {
     const snapshot = snap([
@@ -181,29 +157,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     expect(withHashes.hashes!.has(MAP)).toBe(true)
   })
 
-  test('createMigrationPlan 不修改三个输入快照（输入不可变）', () => {
-    const base = snap([[DOC, { v: 1 }]])
-    const ours = snap([[DOC, { v: 1 }]])
-    const theirs = snap([[DOC, { v: 2 }]])
-    const before = JSON.stringify([
-      [...base.files],
-      [...ours.files],
-      [...theirs.files],
-      [...base.managedFiles],
-      [...ours.managedFiles],
-      [...theirs.managedFiles],
-    ])
-    createMigrationPlan(base, ours, theirs)
-    const after = JSON.stringify([
-      [...base.files],
-      [...ours.files],
-      [...theirs.files],
-      [...base.managedFiles],
-      [...ours.managedFiles],
-      [...theirs.managedFiles],
-    ])
-    expect(after).toBe(before)
-  })
 
   test('计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）', () => {
     const base = snap([[DOC, { v: 1 }]])
@@ -216,15 +169,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
 })
 
 describe('O02 createMigrationPlan：summary 计数与冲突停线', () => {
-  test('只有 theirs（生成侧）改动 → generated；只有 ours（作者侧）改动 → kept', () => {
-    const base = snap([[DOC, { v: 1 }]])
-    const oursOnly = createMigrationPlan(base, snap([[DOC, { v: 2 }]]), snap([[DOC, { v: 1 }]]))
-    expect(oursOnly.summary.kept).toBe(1)
-    expect(oursOnly.summary.generated).toBe(0)
-    const theirsOnly = createMigrationPlan(base, snap([[DOC, { v: 1 }]]), snap([[DOC, { v: 3 }]]))
-    expect(theirsOnly.summary.generated).toBe(1)
-    expect(theirsOnly.summary.kept).toBe(0)
-  })
 
   test('双方各自改动同一普通文件的不同字段 → merged 计数', () => {
     const base = snap([[DOC, { v: 1, w: 0 }]])
@@ -236,23 +180,7 @@ describe('O02 createMigrationPlan：summary 计数与冲突停线', () => {
     expect(plan.summary.merged).toBe(1)
   })
 
-  test('原子地图 ours 改、theirs 同 base → theirs 更新进入 writes', () => {
-    const base = snap([[MAP, mapV(1)]])
-    const ours = snap([[MAP, mapV(1)]])
-    const theirs = snap([[MAP, mapV(5)]])
-    const plan = createMigrationPlan(base, ours, theirs)
-    expect(plan.conflicts).toEqual([])
-    expect(plan.writes.has(MAP)).toBe(true)
-  })
 
-  test('存在冲突时 writes/deletes 全空（停线）', () => {
-    const base = snap([[DOC, { v: 1 }]])
-    const plan = createMigrationPlan(base, snap([[DOC, { v: 2 }]]), snap([[DOC, { v: 3 }]]))
-    expect(plan.conflicts).toHaveLength(1)
-    expect(plan.writes.size).toBe(0)
-    expect(plan.deletes).toEqual([])
-    expect(plan.summary.conflicts).toBe(1)
-  })
 
   test('summary.managed = 三方托管并集（含仅存在于单方的文件）', () => {
     const base = snap([['a.json', {}]])
