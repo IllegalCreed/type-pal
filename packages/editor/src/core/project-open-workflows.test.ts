@@ -1,5 +1,5 @@
 /** Real creation/open/save flows; only browser storage, picker, fetch and FSA are test boundaries. */
-import type { CurrentManifest } from '@type-pal/content'
+import type { AuthorCommand, CurrentManifest } from '@type-pal/content'
 import { PROJECT_SAVE_STATE_PATH } from '@type-pal/reforge'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
@@ -117,6 +117,76 @@ async function saveNextEdit(opened: Opened, target: ReturnType<typeof memoryAuth
   expect(next.project.actorsById.hero!.battler!.baseStats.maxHP).toBe(237)
   expect(next.workspace.workspaceId).toBe(opened.workspace.workspaceId)
 }
+
+test.each([
+  { name: 'default', target: {} },
+  { name: 'named', target: { entryId: 'door' } },
+  { name: 'coordinate', target: { pos: { col: 2, row: 3, height: 0 } } },
+] as const)('$name loadScene facing survives the bound writer and is absent after clearing and reopening', async ({
+  target,
+}) => {
+  const disk = memoryAuthorDirectory(await buildBlankProject('scene-facing-writer'))
+  let opened = await finishOpen(disk.dir)
+  const workspaceId = opened.workspace.workspaceId
+  for (const facing of ['right', undefined] as const) {
+    const scene = opened.scenes[0]!
+    scene.entries = {
+      door: { label: '正门', pos: { col: 1, row: 2, height: 0 }, facing: 'up' },
+    }
+    const expected: AuthorCommand = {
+      kind: 'loadScene',
+      scene: scene.id,
+      ...target,
+      ...(facing === undefined ? {} : { facing }),
+      transition: {
+        kind: 'source',
+        outMs: 80,
+        inMs: 120,
+        color: 'black',
+        evidenceId: 'fixture.facing-writer',
+      },
+    }
+    scene.hooks = {
+      onEnter: {
+        variants: {
+          arrival: {
+            label: '切场景',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'main',
+              stages: [{ id: 'main', body: [structuredClone(expected)] }],
+            },
+          },
+        },
+      },
+    }
+    const scenePath = opened.project.sceneIndex.scenes.find((entry) => entry.id === scene.id)!.path
+    const files = await serializeProjectWithMapCopies(
+      toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps),
+      opened.project.source,
+    )
+    disk.resetChanges()
+    await writeProject(
+      await authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+      files,
+    )
+    expect(disk.changes.closes).toContain(scenePath)
+    expect(disk.json(scenePath).hooks.onEnter.variants.arrival.flow.stages[0].body).toEqual([
+      expected,
+    ])
+    expect(disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('committed')
+
+    opened = await finishOpen(disk.dir)
+    const saved = opened.scenes.find((entry) => entry.id === scene.id)!.hooks!.onEnter!.variants
+      .arrival!.flow
+    if (saved.kind !== 'stages') throw new Error('expected reopened arrival stages')
+    expect(saved.stages[0]!.body).toEqual([expected])
+    if (facing === undefined) expect(saved.stages[0]!.body[0]).not.toHaveProperty('facing')
+    else expect(saved.stages[0]!.body[0]).toHaveProperty('facing', facing)
+    expect(opened.workspace.workspaceId).toBe(workspaceId)
+  }
+})
 
 test.each([
   ['blank', false],
