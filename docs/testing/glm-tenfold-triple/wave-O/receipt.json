@@ -147,7 +147,7 @@
     "O-R10-02": "partial：真账外置 contracts-overrides.json（75/485 行：merge 28 + transaction 29 + rewards/ambience/grid/rich-text；修正审核点名错锚 4 枚——单侧重复id 原指 :102 add-add、共存正控原指 :244、快照保真原指 :59、键级 delete-modify 原指 :59；equal-invalid 原指 :244 一并修正）；merge 域复核再删 2 行旧证同条件重复（:318/:244，O02-CC2 退役）；「多级独立掷骰」改计数 rng 可证伪 oracle（calls=12、maxHP=10+17 非两倍同端）；其余 410 空条件/247 token 锚按域待补，不以旧 join 当 closed"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED-R11",
+  "remoteFinalCandidate": "b7af4b5e45e7f991633d318585b3f4fd3b5f29bb",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
