@@ -362,8 +362,12 @@ describe('WorldSpriteLibrary', () => {
     const row = [...host.querySelectorAll<HTMLButtonElement>('.ds-reference-row')].find(
       (candidate) => candidate.textContent?.includes('场景 deep-scene · 实体 deep-entity'),
     )!
-    expect(row.textContent).toContain('安全预算')
-    expect(row.textContent).toContain(withPrefix ? '尚未确定完整帧序' : '尚未确定帧序')
+    expect(row.textContent).toContain(
+      withPrefix
+        ? '目前只能推断部分帧序，请到场景中播放确认。'
+        : '暂时无法推断这段脚本的帧序，请到场景中播放确认。',
+    )
+    expect(row.textContent).not.toMatch(/安全预算|采样|截断/)
     expect(row.textContent).not.toContain('检测到 #0')
     await act(async () => row.click())
     expect(onJumpAutomaticScriptInstance).toHaveBeenCalledWith(

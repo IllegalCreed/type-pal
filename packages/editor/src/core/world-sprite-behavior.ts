@@ -1014,7 +1014,7 @@ function sampleChanceStageGraph(
       id: strategy.id,
       label: strategy.label,
       steps,
-      note: `${chanceNote ? `${chanceNote} 为各判断的局部命中率` : '确定性控制流'}${bounded ? '；此示例在安全预算处截断' : ''}`,
+      note: `${chanceNote ? `${chanceNote} 为各判断的局部命中率` : '确定性控制流'}${bounded ? '；仅展示已分析的部分' : ''}`,
     },
   }
 }
@@ -1071,7 +1071,7 @@ function collectSafeScriptProjection(
     return bounded
       ? {
           kind: 'unavailable',
-          reason: '自动脚本预览已达到安全预算，尚未确定帧序；请在场景中播放确认。',
+          reason: '暂时无法推断这段脚本的帧序，请到场景中播放确认。',
         }
       : undefined
   if (variants.length === 1 && !bounded && !unsampled)
@@ -1086,9 +1086,7 @@ function collectSafeScriptProjection(
     variants,
     note:
       variants.length === 1
-        ? bounded
-          ? '此示例在安全预算处截断，尚未确定完整帧序；请在场景中播放确认。'
-          : '部分执行路径未采样到可见帧，尚未确定完整帧序；请在场景中播放确认。'
+        ? '目前只能推断部分帧序，请到场景中播放确认。'
         : '下列是脚本的代表性合法分支示例，不是完整概率分布，也不是唯一循环。',
   }
 }
@@ -1136,10 +1134,10 @@ function describeAutomaticEntityBehavior(
   if (preview?.kind === 'variants')
     return {
       kind: 'script',
-      label: preview.variants.length === 1 ? '自动脚本采样片段' : '自动脚本随机切帧',
+      label: preview.variants.length === 1 ? '自动脚本部分帧序' : '自动脚本随机切帧',
       detail:
         preview.variants.length === 1
-          ? `已采样 1 条路径；${preview.note}`
+          ? preview.note
           : `${preview.variants.length} 条可能路径；${preview.note}`,
       preview,
     }
