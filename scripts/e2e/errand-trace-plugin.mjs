@@ -2,7 +2,36 @@ import assert from 'node:assert/strict'
 import ts from 'typescript'
 import { instrumentMealTrace, MEAL_TRACE_TARGETS } from './meal-trace-plugin.mjs'
 
+export const ERRAND_TRACE_TARGETS = [...MEAL_TRACE_TARGETS, 'packages/game/src/shell/bootstrap.ts']
+
 export function instrumentErrandTrace(source, file) {
+  if (file.endsWith('/game/src/shell/bootstrap.ts')) {
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true),
+      functions = []
+    const visit = (node) => {
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'loadGameFromSlot')
+        functions.push(node)
+      ts.forEachChild(node, visit)
+    }
+    visit(ast)
+    assert.equal(functions.length, 1, 'actual game restore owner changed')
+    const owner = functions[0],
+      tail = owner.body.statements.slice(-3).map((s) => s.getText(ast))
+    assert.deepEqual(
+      tail,
+      [
+        'await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })',
+        'gs.palette = restoredPalette',
+        'gs.needToFadeIn = true',
+      ],
+      'actual game restore successful tail changed',
+    )
+    const at = owner.body.end - 1
+    return {
+      code: `${source.slice(0, at)}\nglobalThis.__errandGameRestored?.(gs);\n${source.slice(at)}`,
+      anchors: { actualGameRestore: 1 },
+    }
+  }
   const result = instrumentMealTrace(source, file)
   result.code = result.code.replaceAll('__meal', '__errand')
   if (file.endsWith('/reforge/src/main.ts')) {
@@ -34,7 +63,7 @@ export function errandTracePlugin() {
     enforce: 'pre',
     apply: 'serve',
     transform(code, id) {
-      const file = MEAL_TRACE_TARGETS.find((file) => id.endsWith(`/${file}`))
+      const file = ERRAND_TRACE_TARGETS.find((file) => id.endsWith(`/${file}`))
       if (!file) return null
       const result = instrumentErrandTrace(code, file)
       return { code: result.code, map: null }

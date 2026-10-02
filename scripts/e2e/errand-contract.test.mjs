@@ -4,14 +4,13 @@ import test from 'node:test'
 import vm from 'node:vm'
 import ts from 'typescript'
 import {
+  ERRAND_PHASE_ROWS,
   errandArguments,
   errandScene,
-  ERRAND_PHASE_ROWS,
   validateErrandPredecessor,
 } from './errand-contract.mjs'
 import { installErrandObserver, readErrandGame } from './errand-observer.mjs'
-import { instrumentErrandTrace } from './errand-trace-plugin.mjs'
-import { MEAL_TRACE_TARGETS } from './meal-trace-plugin.mjs'
+import { ERRAND_TRACE_TARGETS, instrumentErrandTrace } from './errand-trace-plugin.mjs'
 import { assertMealDialogue } from './meal-contract.mjs'
 
 test('005 scene identity covers both village and docks, not kitchen two-scene fallback', () => {
@@ -101,7 +100,7 @@ test('005 full dialogue checker rejects missing, repeated and wrong-speaker page
     assert.throws(() => assertMealDialogue({ pages }, 'game', contract))
 })
 test('005 isolated instrumentation parses every actual hook target without production edits', () => {
-  for (const file of MEAL_TRACE_TARGETS) {
+  for (const file of ERRAND_TRACE_TARGETS) {
     const source = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8')
     const result = instrumentErrandTrace(source, file)
     assert.equal(

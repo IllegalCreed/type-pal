@@ -3,8 +3,14 @@ import { writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import {
+  assertErrandCollector,
+  assertErrandRestored,
+  assertErrandStory,
+  ERRAND_GUARD_ROWS,
   ERRAND_PHASE_ROWS,
   errandArguments,
+  errandArmed,
+  errandSaveView,
   errandScene,
   readErrandContract,
   readErrandPredecessor,
@@ -28,11 +34,6 @@ export async function runErrandJourney(engine) {
   const options = errandArguments(process.argv.slice(2)),
     predecessor = await readErrandPredecessor(options.from, engine),
     contract = await readErrandContract()
-  assert.equal(
-    options.case,
-    'story',
-    'first candidate only implements story; specialist cases must not silently pass',
-  )
   await runBrowserJourney({
     name: `${engine}-005-${options.case}`,
     packageName: `@type-pal/${engine}`,
@@ -56,10 +57,13 @@ export async function runErrandJourney(engine) {
         core: { status: 'running', rows: [], sourceHashes: contract.hashes },
         route: { status: 'running', inputs: [], legs: [] },
         milestones: {},
+        contextTraces: [],
       })
       let page,
         phase = 'bootstrap',
-        phaseOrder = -1
+        phaseOrder = -1,
+        contextLabel = '004-saves-real-predecessor'
+      const shownAll = new Map()
       const read = engine === 'game' ? readErrandGame : readErrandReforge
       const snapshot = () => page.evaluate(read)
       const evidence = () => page.evaluate(() => window.__readErrandEvidence())
@@ -81,8 +85,10 @@ export async function runErrandJourney(engine) {
         phaseOrder = (await drive()).order
         console.log(`[${engine}-005] ${label}`)
       }
-      const bootstrap = async (bytes) => {
-        page = await newPage('004-saves-real-predecessor')
+      const bootstrap = async (bytes, label = '004-saves-real-predecessor') => {
+        contextLabel = label
+        phaseOrder = -1
+        page = await newPage(label)
         if (engine === 'reforge') {
           await page.route('**/__errand-checkpoint.json', (route) =>
             route.fulfill({ contentType: 'application/json', body: bytes }),
@@ -156,6 +162,15 @@ export async function runErrandJourney(engine) {
           await until(snapshot, ready, 'actual predecessor restored', 60000)
         }
       }
+      const saveTrace = async (label) => {
+        const trace = await evidence()
+        const bytes = JSON.stringify(trace, null, 2),
+          path = `${label}.trace.json`
+        await writeFile(resolve(out, path), bytes)
+        report.contextTraces.push({ context: contextLabel, path, sha256: sha256(bytes) })
+        assertErrandCollector(trace)
+        return trace
+      }
       const navigate = async (sid, destination, finished) => {
         const startOrder = (await drive()).order
         await (engine === 'game' ? navigateMealRoute : navigateInnRoute)({
@@ -216,7 +231,7 @@ export async function runErrandJourney(engine) {
         await until(snapshot, (s) => !ready(s), 'interaction starts')
       }
       const dialogue = async (sid, label) => {
-        const rows = ERRAND_PHASE_ROWS[label],
+        const rows = ERRAND_PHASE_ROWS[label] ?? ERRAND_GUARD_ROWS[label],
           expected = {
             ...contract,
             rows: rows.map((id) => contract.rows.find((row) => row.id === `dlg.${id}`)),
@@ -232,6 +247,7 @@ export async function runErrandJourney(engine) {
           if (ready(s)) {
             assertMealDialogue(trace, engine, expected)
             report.core.rows.push(...shown.keys())
+            for (const [key, value] of shown) shownAll.set(key, value)
             report.checks[label] = 'passed'
             report.milestones[label] = { state: s, order: trace.order }
             await page.screenshot({ path: resolve(out, `005-${label}-end.png`) })
@@ -256,6 +272,54 @@ export async function runErrandJourney(engine) {
           await new Promise((done) => setTimeout(done, 50))
         }
       }
+      const capture = async () => {
+        await press('Escape', 'prove normal manual-menu availability')
+        await until(
+          snapshot,
+          (s) => (engine === 'game' ? s.mode === 'menu' : s.runtime?.menuActive),
+          'normal save-eligible menu',
+        )
+        await press('Escape', 'close normal menu')
+        await until(snapshot, ready, 'normal menu closed')
+        let bytes, payload
+        if (engine === 'game') {
+          const before = await evidence()
+          await press('F5', 'formal quick-save after manual-menu availability')
+          await until(
+            evidence,
+            (trace) => trace.saveCompletions.length === before.saveCompletions.length + 1,
+            'formal save acknowledgement',
+          )
+          bytes = await page.evaluate(async () => {
+            const { Save } = await import('/src/core/save/api.ts'),
+              { serializeSave } = await import('/src/tools/save-io.ts')
+            return serializeSave(await Save.loadSlot(1))
+          })
+          payload = JSON.parse(bytes)
+          const trace = await evidence(),
+            captures = trace.saveCaptures.slice(before.saveCaptures.length),
+            completions = trace.saveCompletions.slice(before.saveCompletions.length)
+          assert.equal(captures.length, 1)
+          assert.equal(completions.length, 1)
+          assert.equal(captures[0].slot, 1)
+          assert.equal(completions[0].captureSeq, captures[0].seq)
+          assert(completions[0].order > captures[0].order)
+          assert.deepEqual(
+            errandSaveView(captures[0].payload, engine),
+            errandSaveView(payload, engine),
+            'save differs from synchronous actual input',
+          )
+          report.saveCapture = {
+            order: captures[0].order,
+            acknowledgementOrder: completions[0].order,
+          }
+        } else {
+          payload = await page.evaluate(() => window.__tpE2e.dumpSave())
+          bytes = JSON.stringify(payload)
+        }
+        await writeFile(resolve(out, '005.end.save.json'), bytes)
+        return { payload, bytes }
+      }
       try {
         await bootstrap(predecessor.bytes)
         if (engine === 'game')
@@ -267,6 +331,17 @@ export async function runErrandJourney(engine) {
         await interact('s001', 'e19')
         await dialogue('s001', 'aunt')
         assert.equal((await snapshot()).cash, 550)
+        assert.equal(
+          errandArmed((await evidence()).final, engine),
+          false,
+          'aunt prematurely armed report',
+        )
+        if (options.case === 'guards') {
+          await begin('auntRepeat')
+          await interact('s001', 'e19')
+          await dialogue('s001', 'auntRepeat')
+          assert.equal((await snapshot()).cash, 550, 'aunt repeat grants duplicate money')
+        }
         await begin('kitchen-exit')
         await touch('s001', 'e18', (s) => inScene(s, 's003') && ready(s))
         await begin('inn-exit')
@@ -276,12 +351,33 @@ export async function runErrandJourney(engine) {
         await begin('fish')
         await interact('s005', 'e127')
         await dialogue('s005', 'fish')
+        assert.equal(
+          errandArmed((await evidence()).final, engine),
+          false,
+          'fish prematurely armed report',
+        )
         await begin('water')
         await touch('s005', 'e124', (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue))
         await dialogue('s005', 'water')
+        assert.equal(
+          errandArmed((await evidence()).final, engine),
+          false,
+          'water prematurely armed report',
+        )
         await begin('zhang')
         await touch('s005', 'e123', (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue))
         await dialogue('s005', 'zhang')
+        assert.equal(
+          errandArmed((await evidence()).final, engine),
+          true,
+          'specific ZhangSi response did not arm report',
+        )
+        if (options.case === 'guards')
+          for (const label of ['zhangReminder', 'zhangPrayer']) {
+            await begin(label)
+            await interact('s005', 'e123')
+            await dialogue('s005', label)
+          }
         await begin('news')
         await touch(
           's005',
@@ -319,12 +415,51 @@ export async function runErrandJourney(engine) {
         )
         report.storyEndWorldHash = sha256(JSON.stringify(report.storyEndWorld))
         report.endFrame = await waitForOpeningFrame(page, until)
+        assertErrandStory(await evidence(), engine, shownAll)
+        report.checks.causality = 'passed'
+        report.checks.end = 'passed'
+        if (options.case === 'saves') {
+          await begin('end-save')
+          const saved = await capture()
+          report.checkpoint = {
+            path: '005.end.save.json',
+            sha256: sha256(saved.bytes),
+            source:
+              engine === 'game'
+                ? 'formal F5 following genuine 004 and complete 005'
+                : 'formal dumpSave following genuine 004 and complete 005',
+          }
+          report.endWorld = errandSaveView(saved.payload, engine)
+          report.endWorldHash = sha256(JSON.stringify(report.endWorld))
+          report.endFrame = await waitForOpeningFrame(page, until)
+          await page.screenshot({ path: resolve(out, '005-save.png') })
+          await saveTrace('005-before-restore')
+          await bootstrap(saved.bytes, '005-fresh-formal-restore')
+          report.restoredWorld = assertErrandRestored(await evidence(), saved.payload, engine)
+          report.restoredWorldHash = sha256(JSON.stringify(report.restoredWorld))
+          report.restoredFrame = await waitForOpeningFrame(page, until)
+          await page.screenshot({ path: resolve(out, '005-restored.png') })
+          report.frameContract =
+            'dynamic village: full persistent state equality at atomic restore commit; actual nonblack restored frame and actors; no whole-canvas pixel equality claim'
+          const restoredState = await snapshot(),
+            position = restoredState.actors.e83.position
+          assert(inScene(restoredState, 's004') && ready(restoredState))
+          const continued = await until(
+            snapshot,
+            (s) => JSON.stringify(s.actors.e83.position) !== JSON.stringify(position),
+            'actual Xianglan background return continues after fresh restore',
+            10000,
+          )
+          assert(ready(continued), 'background return took foreground control')
+          report.backgroundContinuation = { from: position, to: continued.actors.e83.position }
+          report.checks.endRestore = 'passed'
+          report.checks.backgroundContinuation = 'passed'
+        }
         report.core.status = 'passed'
         report.route.status = 'passed'
       } finally {
         report.lastPhase = phase
-        if (page)
-          await writeFile(resolve(out, '005.trace.json'), JSON.stringify(await evidence(), null, 2))
+        if (page) await saveTrace('005-latest')
         const after = await readErrandContract()
         report.sourceHashesStable = JSON.stringify(after.hashes) === JSON.stringify(contract.hashes)
         assert.deepEqual(after.hashes, contract.hashes, '005 sources changed during run')

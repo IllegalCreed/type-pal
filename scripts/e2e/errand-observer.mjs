@@ -3,6 +3,9 @@ export function installErrandObserver() {
   const events = [],
     pages = [],
     restoreCommits = [],
+    gameRestores = [],
+    saveCaptures = [],
+    saveCompletions = [],
     errors = [],
     inputs = []
   const prior = new Map(),
@@ -82,6 +85,20 @@ export function installErrandObserver() {
   globalThis.__errandError = fail
   globalThis.__errandRestoreCommitted = (payload) =>
     append(restoreCommits, { payload, source: 'commit:restorePayload' }, 1)
+  const gamePayload = (gs) => ({ format: 'type-pal-save', gs: JSON.parse(JSON.stringify(gs)) })
+  globalThis.__errandGameRestored = (gs) =>
+    append(gameRestores, { payload: gamePayload(gs), source: 'commit:loadGameFromSlot' }, 1)
+  globalThis.__errandGameSaving = (slot, gs) => {
+    const seq = saveCaptures.length
+    append(
+      saveCaptures,
+      { slot, payload: gamePayload(gs), source: 'before:Save.saveSlot:deepClone' },
+      3,
+    )
+    return seq
+  }
+  globalThis.__errandGameSaved = (captureSeq) =>
+    append(saveCompletions, { captureSeq, source: 'commit:Save.saveSlot' }, 3)
   globalThis.__errandRendered = (page) =>
     rendered('reforge', page && page.phase !== 'typing' ? page : null)
   globalThis.__errandGame = (gs, source) => {
@@ -172,6 +189,9 @@ export function installErrandObserver() {
       events,
       pages,
       restoreCommits,
+      gameRestores,
+      saveCaptures,
+      saveCompletions,
       inputs,
       errors,
       overflow,
