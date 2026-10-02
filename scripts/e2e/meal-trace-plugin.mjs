@@ -28,6 +28,44 @@ export function instrumentMealTrace(source, file) {
   const walk = (node) => {
     if (
       file.endsWith('/reforge/src/main.ts') &&
+      ts.isCallExpression(node) &&
+      node.expression.getText(ast) === 'activeScene.commit'
+    ) {
+      assert.equal(node.arguments.length, 1, 'meal scene materialization arguments changed')
+      assert.equal(
+        node.arguments[0].getText(ast),
+        'plan',
+        'meal scene materialization plan changed',
+      )
+      const statement = node.parent
+      assert(
+        ts.isExpressionStatement(statement),
+        'meal scene materialization is not a direct statement',
+      )
+      const block = statement.parent,
+        owner = block.parent
+      assert(
+        ts.isBlock(block) &&
+          ts.isFunctionDeclaration(owner) &&
+          owner.name?.text === 'commitSceneSwitch' &&
+          owner.body === block,
+        'meal scene materialization owner changed',
+      )
+      const noAwait = (child) => {
+        assert(
+          !ts.isAwaitExpression(child),
+          'meal scene materialization commit became asynchronous',
+        )
+        ts.forEachChild(child, noAwait)
+      }
+      noAwait(owner.body)
+      anchors.push('actualSceneMaterialization')
+      // Successful synchronous scene replacement is a real placement commit. Do not move this
+      // into finally: a throwing engine commit must remain a failed run, not a successful sample.
+      edits.push({ at: statement.end, text: '\n__openingPoint("commit:scene-materialization");\n' })
+    }
+    if (
+      file.endsWith('/reforge/src/main.ts') &&
       ts.isIfStatement(node) &&
       node.expression.getText(ast) === 'menus.active'
     ) {
@@ -74,7 +112,7 @@ export function instrumentMealTrace(source, file) {
   }
   walk(ast)
   const expected = file.endsWith('/reforge/src/main.ts')
-    ? ['actualReforgeMenuRender']
+    ? ['actualSceneMaterialization', 'actualReforgeMenuRender']
     : file.endsWith('/menu-session.ts')
       ? ['actualReforgeItemDispatch']
       : file.endsWith('/game/src/core/event-system.ts')

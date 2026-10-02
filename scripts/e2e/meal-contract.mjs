@@ -288,6 +288,7 @@ export async function readMealContract(root = repoRoot) {
     'packages/reforge/src/runtime-script-runner.ts',
     'packages/reforge/src/script-activity-lineage.ts',
     'packages/reforge/src/script-host-adapter.ts',
+    'packages/reforge/src/active-scene.ts',
     'packages/content/src/command-validation-options.ts',
     'packages/content/src/runtime-script.ts',
     'packages/content/src/author-script.ts',

@@ -320,6 +320,7 @@ test('004 freezes its actual compiler, validation guard, runtime runner and acti
     'packages/reforge/src/runtime-script-runner.ts',
     'packages/reforge/src/script-activity-lineage.ts',
     'packages/reforge/src/script-host-adapter.ts',
+    'packages/reforge/src/active-scene.ts',
     'packages/content/src/command-validation-options.ts',
     'packages/content/src/runtime-script.ts',
     'packages/content/src/author-script.ts',
@@ -412,4 +413,68 @@ test('004 gift dependencies reject early disappearance or double consumption eve
   const doubled = structuredClone(trace)
   doubled.events.push({ ...doubled.events[1], order: 7 })
   assert.throws(() => assertMealPhase(doubled, 'reforge', shown, 'wine-gift', -1), /exactly once/)
+})
+test('004 observes actual synchronous materialization before player placement and preserves original throws', () => {
+  const file = 'packages/reforge/src/main.ts',
+    source = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8')
+  const transformed = instrumentMealTrace(source, file)
+  assert.equal(transformed.anchors.actualSceneMaterialization, 1)
+  const execute = (code, fails) => {
+    const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
+    const functions = []
+    const find = (node) => {
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'commitSceneSwitch')
+        functions.push(node)
+      ts.forEachChild(node, find)
+    }
+    find(ast)
+    assert.equal(functions.length, 1)
+    const body = ts.transpileModule(functions[0].getText(ast), {
+      compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+    }).outputText
+    return new Function(
+      'fails',
+      `
+      const points=[], failure=new Error('actual commit failed'), player={pos:{col:1,row:1}},
+        spriteCache={prune:()=>{}}, resetFrameAnimationPresentation=()=>{},
+        activeScene={scene:{id:'old'},commit(plan){this.scene={id:'new'};if(fails)throw failure}},
+        seedFormationTrail=()=>[], followerFrozen=[], followerPos=[], followerAuth=new Map(),
+        motion={resetCadence:()=>{}}, updateCamera=()=>{}, bgm={stop:()=>{},play:()=>{}},
+        __openingPoint=source=>points.push({source,scene:activeScene.scene.id,pos:{...player.pos}});
+      let facing='up',partyLayer=8,walking=true,stepFrame=2,trail=[],caught;
+      ${body}
+      try{commitSceneSwitch({neededSprites:[],spawn:{pos:{col:2,row:3},facing:'down'},def:{}},{})}catch(error){caught=error}
+      return {points,state:{pos:player.pos,facing,partyLayer,walking,stepFrame,trail},sameThrow:caught===failure};
+    `,
+    )(fails)
+  }
+  for (const fails of [false, true]) {
+    const original = execute(source, fails),
+      instrumented = execute(transformed.code, fails)
+    assert.deepEqual(instrumented.state, original.state)
+    assert.equal(instrumented.sameThrow, original.sameThrow)
+    const success = instrumented.points.filter((p) => p.source === 'commit:scene-materialization')
+    if (fails)
+      assert.deepEqual(success, [], 'throwing materialization cannot emit a successful commit')
+    else
+      assert.deepEqual(success, [
+        { source: 'commit:scene-materialization', scene: 'new', pos: { col: 1, row: 1 } },
+      ])
+  }
+  assert.throws(
+    () =>
+      instrumentMealTrace(
+        source.replace('activeScene.commit(plan)', 'activeScene.changed(plan)'),
+        file,
+      ),
+    /census/,
+  )
+  assert.throws(
+    () =>
+      instrumentMealTrace(
+        source.replace('activeScene.commit(plan)', 'await activeScene.commit(plan)'),
+        file,
+      ),
+    /asynchronous|parse|census|not a direct statement/,
+  )
 })
