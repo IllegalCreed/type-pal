@@ -125,6 +125,10 @@ Branch: codex/editor-entity-names
 - 超时只读核验：既有audit缓存AST/模块闭包且有循环保护；DsField早已有children证明，设计控件导入不解析其实现；
   5efe迁移前后DsField+DsHelpTip调用数12→12，没有引入循环或新解析路径。并行多工作树和主机内存压力是强替代解释，
   不修改15秒门；具体反证/结果随最终验收补记。
+- C3 e111a273e：贡献者仅改四薄表单实现及新增CommandForm.entity-names测试，原family硬门红2→绿，
+  五文件24项、editor双typecheck及Biome局部门绿。Root直接读取全部四源和真blank-loader夹具后代码accept：
+  父CommandForm唯一持有locale，World/Actor生产入口仅两处，callback只返回显示文本；value/onChange仍为ID。
+  不修改原family规则。最终editor全套在此源冻结点重跑，不以此前失败计数冒称成功。
 
 ## 下一位 Agent 提示词
 

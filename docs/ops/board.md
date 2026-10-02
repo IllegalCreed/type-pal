@@ -8,7 +8,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-ENTITY-NAMES-1 | [实体名称与稳定身份分离](tasks/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | rework | 贡献者 / 条件展示C1 | 实体名已接；独立发现branch门槛/中文名回退，6012未更新 |
+| EDITOR-ENTITY-NAMES-1 | [实体名称与稳定身份分离](tasks/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | rework | 贡献者 / 薄表单接口C3 | C1/C2与存量字段已闭合；改名/保存/轨迹真验，6012待接收 |
 | E2E-SCRIPT-NAMES-1 | [随剧情命名方案与步骤](tasks/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 用户 / 命名与步骤界面体验 | 5方案22步骤补名；独立accept、静态零诊断，6012保持 |
 | EDITOR-SCRIPT-PREVIEW-1 | [可读指令、选中步骤播放与移动轨迹](tasks/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 用户 / 体验验收 | 独立counter闭合；editor3721绿、静态零诊断；6012保持 |
 | OPENING-HANDOFF-1 | [视频结束不露旧菜单](tasks/OPENING-HANDOFF-1-no-stale-title-frame.md) | review | 用户 / 体验验收 | 真实撤层像素红→绿、RF001绿；Root独立接收 |
