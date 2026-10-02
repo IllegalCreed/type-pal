@@ -10,18 +10,18 @@
   "head": "(见下方 headNote：回执不引用自身提交)",
   "headNote": "r14 续批：测试提交 d98768b3f（P04 首批+ledger 真账），证据随其后提交；最终远端候选以推送 tip 为准（head 不引用自身提交）",
   "counts": {
-    "contractsExecuted": 97,
-    "workGroups": 24,
-    "countersActive": 16,
+    "contractsExecuted": 98,
+    "workGroups": 25,
+    "countersActive": 17,
     "countersArchived": 1,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
     "browserScreenshots": 66,
     "target": "700/70组/50反控/20流程（不缩）",
     "gap": {
-      "examples": 603,
-      "groups": 46,
-      "counters": 34,
+      "examples": 602,
+      "groups": 45,
+      "counters": 33,
       "flows": 2
     }
   },
@@ -48,10 +48,11 @@
     "P-R13-01": "directed-vitest.json 自最终代码真实重生（86/86，G16-02 新标题身份对齐）；G16-02/G08-02/G14-04 oracle 补完整 matcher 与 expected（不再截断）；receipt anchors 区分真实 r12 代码锚 8130cd18f 与历史锚",
     "P-R13-02": "C13 四历史文件（positive.json/raw、mutated.json/raw）从 31995d09 恢复 r9-tip 原字节（positive 1353a9be 复核一致，12/1/12 三相一致）；新失败尝试不再保留（覆盖即弃，无 attempt 目录）；采集规则：仅 active 注册针，退役目录不再被扫描覆盖；22 判据自测不重做",
     "P-R13-ledger": "r14 真账续批：G14 五owner(:384-410)/四fallback(:423-442)/两locator(:459,471) 全臂 oracle 补全；G15 截断 oracle 补全+行锚修正(126-128/146-148/151/157-160)；G16-01(:172-184)/G16-03(:240-247) 以 isDefined 之后真实业务断言入账；G16-02 axis 去 use:command 旧称、锚 :194-233",
-    "P04-batch": "r14 续批 P04 首批 11 例 5 组：actor-references 开关/空id守卫/detail五值/自援护豁免/分片where + enemy-commands withEnemy 替换/未命中、UpdateEnemy 缺席臂/onDefeated整键删除/构造期快照、AddEnemy invert；+P04-C01/C02 两枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）"
+    "P04-batch": "r14 续批 P04 首批 11 例 5 组：actor-references 开关/空id守卫/detail五值/自援护豁免/分片where + enemy-commands withEnemy 替换/未命中、UpdateEnemy 缺席臂/onDefeated整键删除/构造期快照、AddEnemy invert；+P04-C01/C02 两枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）",
+    "P04-batch2": "+P04-G06 敌队稳定 id（enemy-team-commands.ts:77 三行唯一锚）与 P04-C03 反控；G07 dialogue-portrait identity 臂停该组（identity 形 cue 仅作者视图类型合法；旧证强转注入，不复制）——证据与停组理由见 contracts.json note"
   },
   "commands": {
-    "directedVitest": "97/97 passed（r14 真实重生，directed-vitest.json，全 10 个 wave-P 文件）",
+    "directedVitest": "98/98 passed（r14 续批二真实重生，directed-vitest.json，全 11 个 wave-P 文件）",
     "fullEditorSuite": "518 files / 3872 tests 全绿 exit 0（P03b 8 例入集）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2825 files 0/0/0",
@@ -79,7 +80,8 @@
     "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "855efe4f06f46b54d3b325078821fe831868a2a9d5adddcd08e861efd1189287",
     "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ae62f15652dbd1b8a2869758914a1c551a8040c06123ed619c1b6991ba5ae5be",
-    "docs/testing/glm-tenfold-triple/wave-P/tools/counter-judge.mjs": "30b27e9639442bc7cf3d6832fc16dd79f776881f3b3c31ffcd8b416918cc1418"
+    "docs/testing/glm-tenfold-triple/wave-P/tools/counter-judge.mjs": "30b27e9639442bc7cf3d6832fc16dd79f776881f3b3c31ffcd8b416918cc1418",
+    "packages/editor/src/core/enemy-team-commands.glm-p.test.ts": "aad43edb0c375b201585e98a91061849d2697412781c62e3f35b6a9efddc95e3"
   },
   "anchors": {
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
@@ -92,7 +94,7 @@
   },
   "threeStateProvenance": "相对 48ade197：9 旧针三态未变；P02-C08 与 4 枚 P03 针因源/执行集变化重采（P03 又于 r10.5 因合法 cursor 修复再重采 4 枚）；C13 退役保留 r9 原字节存档",
   "finalRemoteCandidate": "cdbc45edde3a142bb4ea563d1a4933544e324c8f（r10.5 闭合：P03b 合法 fixture + G16-02 精确顺序 oracle + 反控重采同提交；其后仅 receipt pin）",
-  "sourceSha256Note": "r14 自最终字节重算：十个测试文件 + kit fixture + counter/counter-judge 工具，共 13 项",
+  "sourceSha256Note": "r14 续批二自最终字节重算（13 项：10 测试文件 + kit + counter/counter-judge）",
   "countsHistory": {
     "r13": {
       "contractsExecuted": 86,
@@ -113,6 +115,17 @@
         "examples": 633,
         "groups": 56,
         "counters": 40,
+        "flows": 2
+      }
+    },
+    "r14-批一": {
+      "contractsExecuted": 97,
+      "workGroups": 24,
+      "countersActive": 16,
+      "gap": {
+        "examples": 603,
+        "groups": 46,
+        "counters": 34,
         "flows": 2
       }
     }

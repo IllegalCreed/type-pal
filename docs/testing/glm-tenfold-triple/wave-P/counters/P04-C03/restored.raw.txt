@@ -1,0 +1,10 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P04-C03-1XhK1A/packages/editor
+
+ ✓ src/core/enemy-team-commands.glm-p.test.ts (1 test) 2ms
+{"numTotalTestSuites":2,"numPassedTestSuites":2,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":1,"numPassedTests":1,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790918971127,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["P04-G06 UpdateEnemyTeam 稳定 id 合同"],"fullName":"P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表","status":"passed","title":"patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表","duration":1.3453329999999823,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790918972308,"endTime":1790918972309.3452,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P04-C03-1XhK1A/packages/editor/src/core/enemy-team-commands.glm-p.test.ts"}]}
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  14:29:31
+   Duration  1.17s (transform 922ms, setup 0ms, import 1.10s, tests 2ms, environment 0ms)

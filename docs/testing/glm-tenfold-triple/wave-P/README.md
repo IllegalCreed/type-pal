@@ -50,9 +50,9 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 
 | 项 | 数量 | 说明 |
 |---|---:|---|
-| 合法新用例 | **97 / 700**（执行数；r14 续批 P04 首批 11 例已含） | 97/97 绿（[directed-vitest.json](directed-vitest.json) 全 10 文件真实实跑；逐合同 [contracts.json](contracts.json) 全臂 oracle+当前行锚） |
-| 合同工作组 | 24 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 + P04-G01…G05 |
-| 有效反控 | **16 / 50**（+P04-C01 空id守卫、P04-C02 invert整键删除两个不同目标；P03-C13 退役档不计活跃） | 严格判据采样，逐针恰一红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
+| 合法新用例 | **98 / 700**（执行数；r14 续批 P04 共 12 例已含） | 98/98 绿（[directed-vitest.json](directed-vitest.json) 全 11 文件真实实跑；逐合同 [contracts.json](contracts.json) 全臂 oracle+当前行锚） |
+| 合同工作组 | 25 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 + P04-G01…G06 |
+| 有效反控 | **17 / 50**（+P04-C01 空id守卫、P04-C02 invert整键删除、P04-C03 敌队稳定 id，三个不同目标；P03-C13 退役档不计活跃） | 严格判据采样，逐针恰一红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
 | 浏览器流程 | **18 / 20 完整证明** | F14/F18 如实登记未证，另交视觉阶段（[browser/browser-evidence.json](browser/browser-evidence.json)） |
 | 私有同分母 coverage | 上轮 +32/+16/+2（分母 28489 不变） | r14 续批未重跑，不计入 |
 
@@ -69,8 +69,15 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
   battle-data-delete-commands.test.ts 删除门禁例（旧 fullName 见 contracts.json）。
 - 反控 +2（不同目标）：P04-C01（actor-references.ts:48 空 id 守卫）、
   P04-C02（enemy-commands.ts:69 invert 整键删除）。逐针 git apply+hash 独立验证。
-- 未完成（如实登记，不缩围）：**P02 残余与 P04 余族、P05–P10 未开工（603 例缺口）**、
-  反控 34 枚缺口、F14/F18 视觉另阶段。
+- 续批二：+P04-G06 敌队稳定 id 合同与 P04-C03 反控（enemy-team-commands.ts:77，
+  三行唯一锚，恰一红 0→1→0）。
+- 停组登记（不缩围，待 Codex 裁决）：G07 collectEditorDialoguePortraitReferences
+  敌人/共享库 identity 立绘臂——identity 形 dialog cue 仅在作者视图
+  （ScriptEditorState）类型合法；EditorState 的 sharedScripts/enemies 为运行时形
+  （DialogueCue 无 identity 字段），旧证经 as unknown 强转注入
+  （actor-dialogue-commands.test.ts fixture），本波不复制强转。
+- 未完成（如实登记，不缩围）：**P02 残余与 P04 余族、P05–P10 未开工（602 例缺口）**、
+  反控 33 枚缺口、F14/F18 视觉另阶段。
 
 ## r3 rework 轮真实改动（相对 8fb38fcc，历史）
 

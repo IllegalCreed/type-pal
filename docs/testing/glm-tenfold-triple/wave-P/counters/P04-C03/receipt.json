@@ -1,0 +1,65 @@
+{
+  "id": "P04-C03",
+  "productFile": "packages/editor/src/core/enemy-team-commands.ts",
+  "findText": "      ...this.next,\n      id: this.teamId,\n      slots: this.next.slots.slice(0, 5),",
+  "replaceText": "      ...this.next,\n      id: this.next.id,\n      slots: this.next.slots.slice(0, 5),",
+  "testSpec": "src/core/enemy-team-commands.glm-p.test.ts",
+  "expectFullname": "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表",
+  "candidateHead": "fab1da854ca3925fb40b8cae4da8019093da71cf",
+  "productSha256Candidate": "8a2a7434bfe2e9ce2c9efd1d0411cbec0e03356b529e9b2d0de3a093faf5ff73",
+  "patch": "--- a/packages/editor/src/core/enemy-team-commands.ts\n+++ b/packages/editor/src/core/enemy-team-commands.ts\n@@ -74,7 +74,7 @@\n     if (!this.previous) this.previous = structuredClone(team)\n     return withEnemyTeam(state, this.teamId, {\n       ...this.next,\n-      id: this.teamId,\n+      id: this.next.id,\n       slots: this.next.slots.slice(0, 5),\n     })\n   }\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/enemy-team-commands.glm-p.test.ts×P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "2309621e3cbf82e38113e377d8ae7adb36313535d101d4901730160eaef1b61e",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 1,
+    "executedFullNames": [
+      "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表"
+    ],
+    "failed": [
+      {
+        "fullName": "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表",
+        "message": "AssertionError: expected [ { id: 'other', …(1) } ] to deeply equal [ { id: 'team-c1', …(1) } ]",
+        "file": "src/core/enemy-team-commands.glm-p.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表",
+      "message": "AssertionError: expected [ { id: 'other', …(1) } ] to deeply equal [ { id: 'team-c1', …(1) } ]",
+      "file": "src/core/enemy-team-commands.glm-p.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/enemy-team-commands.glm-p.test.ts×P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表"
+      ]
+    }
+  }
+}
