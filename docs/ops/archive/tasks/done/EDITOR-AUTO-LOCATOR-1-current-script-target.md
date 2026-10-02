@@ -1,6 +1,6 @@
 # EDITOR-AUTO-LOCATOR-1 — 精灵引用跳转到实际自动方案
 
-Status: review
+Status: done
 Phase: phase2
 Owner: Codex Root
 Coding Owner: pre005_editor_edges
@@ -9,7 +9,7 @@ Visual Verification Timing: dev-functional
 
 ## 实际缺陷与准入
 
-本卡归[005前清账](PRE-005-DEBT-1-current-edge-closeout.md)。Root在6014隔离合法工程实际点击
+本卡归[005前清账](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)。Root在6014隔离合法工程实际点击
 精灵库引用行“编辑自动脚本”，虽然到了正确实体，却选中“交互脚本”，显示尚未创建；不是自动行为。
 刷新后依旧，用户6012未动。这是现行功能可达性缺陷，不是17层测试输入才有的运行时限制。
 

@@ -1,6 +1,6 @@
 # EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0
 
-Status: review
+Status: done
 Owner: pre005_sprite_preview（实现）；Codex Root（独立验收）
 Phase: phase2
 Capability: editor-authoring / world-sprite-preview
@@ -8,7 +8,7 @@ Visual Verification Timing: dev-functional（实施时最小核预览文案）
 
 ## 已核前提与证据
 
-2026-10-02用户清边角准入见[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)。
+2026-10-02用户清边角准入见[PRE-005-DEBT-1](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)。
 Root与独立核验复读当前真实链：core:612/988/995/1057/1103。随后真实caller复核纠正：
 WorldSpriteLibrary:254过滤直接auto引用，:1243自动引用行仍硬编码通用说明；:1271普通引用行才消费detail。
 需最小接通既有scene-entity引用的解释detail并测试真实引用页；不杜撰actor间接引用的帧序。

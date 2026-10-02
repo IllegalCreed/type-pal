@@ -25,7 +25,7 @@ Branch: codex/pre-005-cleanup
 | 地图清选通知残留 | 真正Esc清选和Inspector清空均给既有清空通知，其它Esc取消语义不变 | pre005_editor_edges |
 | 深链预览伪造帧0 | 无真实采样不造帧；预算截断不伪装完整循环，当前真实资源UI可解释 | pre005_sprite_preview |
 | 001–004录制与音轨 | 原声小样已核，按[E2E-CAPTURE-1](E2E-CAPTURE-1-local-001-004-media.md)建设正常剧情录制 | pre005_media_probe |
-| 自动脚本引用定位 | 实际“编辑自动脚本”到auto方案，非错误交互页；[窄卡](EDITOR-AUTO-LOCATOR-1-current-script-target.md) | pre005_editor_edges |
+| 自动脚本引用定位 | 实际“编辑自动脚本”到auto方案，非错误交互页；[窄卡](../archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md) | pre005_editor_edges |
 | 已验收任务与过期文档 | 按用户批准/独立证据闭合对应卡；历史失败不改写，当前文档不再宣称仅001/002或旧版本 | Root |
 | 旧证据/分支/worktree | 先保全真实checkpoint/trace/截图和来源，再仅清理确认退役的精确对象 | Root |
 
@@ -119,3 +119,16 @@ Root/current pre005和外部GLM/Cursor/Grok/未知counter工作树不在退休�
 codex/e2e-004@554b8a0552db30294a9050b4466659c4a14549f8、codex/e2e-004-continuity@523cf97d0a33768dbb91b345ddece7fb26b7c7d6。
 三者远端ref不存在，提交仍在main历史，可按原SHA恢复分支；SCRIPT-AUTHOR-2改记Root当前工作分支，母治理不关闭。
 本轮此时累计8工作树、12本地分支退休；不含尚在验收的新pre005包。
+
+## 编辑器四项最终接收
+
+本轮完整`pnpm check`通过：七包10989项（1255/128/2773/357/2239/3785/452）、七包types、
+docs37/覆盖工具30/质量工具27/E2E工具136及严格lint2758文件0 error/warning/info。
+日志`build/pre005/full-check.log`；保留JSDOM一条“不实现跨Document导航”的宿主提示，不称测试stdout/stderr绝对空，
+静态硬门确为零诊断。追加自动方案定位`fcada709a`后Root独立48项无stderr、editor两段types零诊断；
+后续录制接入后的E2E工具174、严格lint2762文件0/0/0、docs821文档/4344链接/260任务0问题。
+普通004 verify补跑`reforge-004-story-2026-10-02T09-09-41-529Z`passed，不受capture选项影响。
+
+四编辑器卡按既定目标技术done归档：真实三朝向弹层/完整writer、两清选入口、实际帧序说明和自动方案定位
+均已独立验证；没有新产品取舍或未解counter。临时6014及合成工程链接已清理，真实6012不关闭。
+本轮没有改任何PAL正文、NPC路线或剧情方案，17层仅边界测试；普通作者编排保持原样。

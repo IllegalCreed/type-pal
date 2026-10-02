@@ -30,6 +30,6 @@ editor TC、五正控+五反控、Biome全部通过。首次全仓失败为本�
 已等价改为TS辅助文件；不改扫描器/旧测试，原失败日志保留在[回执](../../../../testing/codex-command-forms/README.md)。
 之后串行check9438→ratchet→保护7bd8f064的单次strict8946通过；全仓45477/63178，净增173B。
 701生产文件/所有分母/其它六包baseline对象不变。产品/旧测试/配置/资产零改。
-切场景朝向保持缺陷已用原红/隔离oracle绿证明，归[独立卡](../../../tasks/EDITOR-SCENE-FACING-1-clear-override.md)，
+切场景朝向保持缺陷已用原红/隔离oracle绿证明，归[独立卡](EDITOR-SCENE-FACING-1-clear-override.md)，
 不随本批关闭。当前模式无固定三席，本席不冒称独立他席；纯测试批done准入满足，母卡继续build。
 无下一位Agent提示词，Codex提交推送并继续下一整批。

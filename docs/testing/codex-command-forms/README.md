@@ -2,7 +2,7 @@
 
 [测试入口](../README.md) / [任务卡](../../ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md) /
 [机账](evidence.json) / [五针工具](mutants.mjs)（[配置](mutants.config.mjs)） /
-[朝向缺陷修复卡](../../ops/tasks/EDITOR-SCENE-FACING-1-clear-override.md)
+[朝向缺陷修复卡](../../ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md)
 
 2026-10-02：本页以下计数与红绿结论为原补测批历史。朝向保持缺陷已由当前产品回归覆盖，
 旧`FORM_DIAGNOSTIC_FIX`加载时替换oracle与独立应红测试退役；原文件可从Git `523cf97d`恢复。
@@ -54,7 +54,7 @@ node docs/testing/codex-command-forms/mutants.mjs
   不改扫描器/既有测试/排除列表。原日志`/tmp/codex-forms-check.log`保留，修后完整门另行记录。
 - 另有真实**loadScene朝向清除失败**：原树实际输出仍带left，预期缺席；`FORM_DIAGNOSTIC_FIX=true`
   仅在隔离Vite load中改保持选项调用，原断言转绿，源文件hash不变。保留普通失败诊断，
-  不加入官方绿套件，也不改产品。修复归[独立卡](../../ops/tasks/EDITOR-SCENE-FACING-1-clear-override.md)。
+  不加入官方绿套件，也不改产品。修复归[独立卡](../../ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md)。
 
 历史原红/隔离oracle绿命令随专属诊断退役；历史证据仍在原任务卡与Git，未将历史红改写成绿。
 

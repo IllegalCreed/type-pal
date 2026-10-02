@@ -10,10 +10,6 @@
 |---|---|---|
 | [E2E-CAPTURE-1 — 已验001–004本地原声录像](E2E-CAPTURE-1-local-001-004-media.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-AUTO-LOCATOR-1 — 精灵引用跳转到实际自动方案](EDITOR-AUTO-LOCATOR-1-current-script-target.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](PRE-005-DEBT-1-current-edge-closeout.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -145,18 +141,22 @@
 | [ED-TEXT-OVERFLOW-1 - 编辑器文本截断与完整值披露合同](../archive/tasks/done/ED-TEXT-OVERFLOW-1-editor-text-overflow-and-reveal-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零](../archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORLD-VARIABLES-1 - 世界变量定义表与作者工作台](../archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-AUTO-LOCATOR-1 — 精灵引用跳转到实际自动方案](../archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-CONDITION-INPARTY-1 — 队伍成员条件选择角色](../archive/tasks/done/EDITOR-CONDITION-INPARTY-1-actor-picker.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离](../archive/tasks/done/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性](../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-ITEM-AUTHORING-1 - 物品作者记录与脚本引用身份](../archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](../archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](../archive/tasks/done/EDITOR-PREVIEW-STEP-1-command-gates.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](../archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐](../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮](../archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹](../archive/tasks/done/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](../archive/tasks/done/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [JS1 - 酒神一生九次限用与移除(持久化计数器)](../archive/tasks/done/JS1-jiu-shen-nine-use-limit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [M3 - 迁移脚本去内联、按场景分片与体积门禁](../archive/tasks/done/M3-wander-arm-explosion.md) | done | 完成证据、历史签字与交接见原卡。 |

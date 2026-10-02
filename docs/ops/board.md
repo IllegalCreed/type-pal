@@ -10,12 +10,9 @@
 |---|---|---|---|---|
 | PRE-005-DEBT-1 | [005前边角与验收欠账](tasks/PRE-005-DEBT-1-current-edge-closeout.md) | build | Codex / 三独立包及统一收口 | 005暂停；三编辑器缺陷、录制/台账/退役清理；素材库按发布阶段 |
 | E2E-CAPTURE-1 | [001–004本地原声录像](tasks/E2E-CAPTURE-1-local-001-004-media.md) | build | Codex / 集中八段 | 两P1独立闭合，正式本地录制准入 |
-| EDITOR-AUTO-LOCATOR-1 | [自动脚本引用定位](tasks/EDITOR-AUTO-LOCATOR-1-current-script-target.md) | review | Codex / 共享门与交付 | 实际引用入口直达auto方案，独立48项/类型通过 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 窄返工 | r2 尚有3双强转、非法短色板、旧JSON及RC1哈希不符 |
-| EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | review | Codex / 统一质量门 | 合成边界不造帧，实际引用页直白提示；导航另卡 |
-| EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | review | Codex / 统一质量门 | Esc/Inspector实测通过，旧act警告已清 |
 
 **当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 
@@ -107,7 +104,6 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / capture；005待用户定范围 | 两引擎各自001→004链已核，非同revision汇总；母卡未收口 |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
-| EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | review | Codex / 统一质量门 | 三落点真实表单和完整writer重开通过；不冒称原生OS保存 |
 
 2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：
 正常出房至e56、20正文/500文/三人实际进房、真实002新上下文全量World与Canvas恢复均通过。
