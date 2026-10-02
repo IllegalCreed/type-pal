@@ -69,7 +69,14 @@ Branch: TBD（本卡仅登记，不开放产品写入）
 
 ## 交接日志
 
-- 2026-10-02 Codex：用户只给Kimi少量工作，已开[限额只读子审查](AUDIT-KIMI-OPENING-LOAD-SMALL-1.md)，
+- 2026-10-02 Codex：Kimi限额短审7faa9e7b2df4a15c3d863063b5a53a9fe1ce319d独立接收并done归档。
+  [报告](../../testing/kimi-opening-load-small-report.md)核三个await无承接、无在飞守卫、迟到bitmap及close归属，
+  两方案/三回归仅设计。旧红诊断是当时content20/SAVE8，本次固定content21/SAVE10仅静读，未新复跑。
+  本母卡仍draft：优先评估菜单内局部承接、不因瞬态IO失败拆菜单，具体失败通知/重试策略须用户定；
+  Store open失败缓存拒绝、在飞与bitmap生命周期的工程范围由Codex后续准入，不扩授权给Q或Kimi。
+  不续派Kimi、不产品实现、无main/覆盖结算。
+
+- 2026-10-02 Codex：用户只给Kimi少量工作，已开[限额只读子审查](../archive/tasks/done/AUDIT-KIMI-OPENING-LOAD-SMALL-1.md)，
   固定main849255a49ca795dae9259c3f12a44a2714e39e53，独占报告≤两页/≤两方案，
   不实施、不浏览器、不真实存档、不全包/coverage。源码当前只新增退场黑底cleanup，
   void enterLoad仍无catch；母卡继续draft/产品build blocked，不把子卡文档准入当母卡产品准入。

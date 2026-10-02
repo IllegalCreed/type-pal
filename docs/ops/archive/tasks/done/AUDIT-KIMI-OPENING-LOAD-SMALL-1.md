@@ -1,6 +1,6 @@
 # AUDIT-KIMI-OPENING-LOAD-SMALL-1 — 单一读档错误边界短审
 
-Status: build
+Status: done
 Owner: Kimi（只写独占审查报告）
 Reviewer: Codex（独立接收）
 Phase: ops
@@ -10,7 +10,7 @@ Visual Verification Timing: N/A（本卡不操作浏览器）
 ## 目标与额度约束
 
 用户2026-10-02报告Kimi/Grok均约剩1/3额度，只安排一轮小任务：
-为[标题读档IO缺陷](REFORGE-OPENING-LOAD-ERROR-1.md)提供错误承接/资源归属的短审，
+为[标题读档IO缺陷](../../../tasks/REFORGE-OPENING-LOAD-ERROR-1.md)提供错误承接/资源归属的短审，
 最多两页报告、最多两种建议方案。**不实现、不跑全包/覆盖率、不自动续派**。
 不是恢复三贤人强制签字，也不是产品build准入或UI取舍授权。
 
@@ -38,7 +38,7 @@ Visual Verification Timing: N/A（本卡不操作浏览器）
 固定源`opening-menu.ts:122-130`await listMeta/getThumb/createImageBitmap，`:147`仍void enterLoad。
 `save/store.ts:116-139`真实req.onerror可reject；`main.ts:471,508-525`有实际Store/菜单caller。
 既有合法current payload/PNG + getThumb边界拒绝的独立红诊断见母卡及
-[Q r2机器证据](../../testing/glm-tenfold-triple/codex-q-r2-review-20261001.json)。
+[Q r2机器证据](../../../../testing/glm-tenfold-triple/codex-q-r2-review-20261001.json)。
 最强反证：当前真实入口已有catch/Promise桥或Store永不reject；本次直接源码未见，但要求Kimi独立核。
 一次新的失败不能反推save/schema损坏，不能恢复旧开发存档兼容。
 
@@ -68,9 +68,22 @@ Codex独立核报告并决定母卡后续；本卡交付即停，保留余量。
 
 - Codex：前提与单一证据Owner已核，**build allowed仅独占报告**，2026-10-02。
 - Kimi：pending；实现文件/配置/旧测/官方baseline/数据/共享文档/GLM/Grok/Cursor树全部只读。
-- Codex报告accept：pending；母卡产品build与用户体验选择仍未开放。
+- Codex报告accept：2026-10-02，固定7faa9e7b2df4a15c3d863063b5a53a9fe1ce319d，独立核直接源与旧红证据；母卡产品build与用户体验选择仍未开放。
 
-## 下一位Kimi提示词
+## Codex独立接收与收口（2026-10-02）
+
+原报告仅一个独占文件，未写产品/配置/旧测/数据。主要Promise承接、重复/迟到与bitmap归属结论accept，
+两方案/三回归及未定UI问题在限额范围内。固定源四文件与849255a49完全不变，本次只静读，
+不冒称新复现、全包或当前SAVE10绿回归。旧D-Q01-1是当时content20/SAVE8合法红证据，
+接收副本只澄清其时点、接入导航并追加Codex注记；作者原Git报告/hash保存。
+
+[接收报告](../../../../testing/kimi-opening-load-small-report.md)、
+[独立复核与机器记录](../../../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md)。
+作者docs轻门仅缺根导航一项由Codex接线，diff零；审核分支完整静态/docs/diff零后报告任务done归档。
+母卡仍draft，未错误界面/重试策略/产品build准入、未main产品合并或覆盖结算。
+无下一位Kimi提示词：本轮收口并停止，不自动续派或扩量；下方派发提示词保留为历史。
+
+## 原派发Kimi提示词（历史，不再执行）
 
 ```text
 接手AUDIT-KIMI-OPENING-LOAD-SMALL-1，当前build仅短审报告，你是唯一报告Owner。只一轮：≤两页报告、≤两方案，不全包/覆盖率/浏览器，不自动下一任务。工作树/Users/zhangxu/.codex/worktrees/kimi-opening-load-audit-small/type-pal，分支codex/kimi-opening-load-audit-small-r1，源基点849255a49ca795dae9259c3f12a44a2714e39e53。先从审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal读docs/ops/tasks/AUDIT-KIMI-OPENING-LOAD-SMALL-1.md、母卡REFORGE-OPENING-LOAD-ERROR-1.md及其中合法IO红诊断，再独立读opening-menu/store/browser-state和main相关片段。核listMeta/getThumb/decode拒绝的Promise承接、重复/迟到/退出、rAF/键盘/bitmap归属；给最小承接层≤两备选、三条回归方向及仍需产品选择。当前main仍void enterLoad，别把旧source行号或摘要当独立证据；最多补读四个直接测试/证据，可选仅一条自有合成公开入口诊断，已成立红证据优先复用，不重复走剧情。仅docs/testing/kimi-opening-load-small-report.md可提交，放testing根不创建新子目录/README；其它全部只读，不安装依赖、不修产品/旧测/配置/save/schema/真实数据或共享卡。报告给premise verified/counter+file:line/反证/实际已跑未跑，commit/push完整SHA后停止。不得母卡build/done、合main、官方门或清树。

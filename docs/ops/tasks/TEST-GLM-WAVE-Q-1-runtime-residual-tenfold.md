@@ -349,7 +349,29 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r13；覆盖旧交接）
++## Codex r14独立复核（2026-10-02，最新；覆盖旧交接）
+
+固定39412086e25574910e6c33f1b388e433cf047a62，测试9b3e82348ce1ced945e464ddc9e802243bbc9234。
+新158定向相邻/typecheck零，3050文件静态0/0/0、docs/diff/716冻结/734白名单通过；140身份按
+当前game与未变另两包独立报告对应，未新game全包/全140/全65变异。旧63三态保持，不重开fizzle。
+**Q-R14-01/02 counter，原卡rework**：新enemy baseDamage0独立挡E1，删caster guard新两例仍绿、
+仅旧657红，恢复3全绿；旧205-239已更强证队员单体血+数字。EI1只改初始HP却留旧常量答案拒收业务针，
+EI2旧合同cross-check不净新。撤回两伪证/重复和两针新信用，原证据退役保留，不要求替代凑针。
+删重后回138/净新结构上限137/≥563缺口、63/54目标/净新53保持，700/50组/50目标不缩，
+继续原Q07/Q08合法生命周期/Q10临时合成CLI与真实旧matcher/oracle账，不只交窄返工回执。
+
+[独立裁决与当前提示词](../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.json)。
+Kimi/Grok限额子卡done不续派，D-Q01-1产品母卡仍draft；未main/done本大卡/官方门/覆盖结算。
+用户手动选GLM-5.3后发送代码提示，未UI/模型操作。
+
+### 下一位GLM Q提示词（当前；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal，分支codex/glm-wave-q-runtime-residual-r1，固定39412086e25574910e6c33f1b388e433cf047a62。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md/json。158定向相邻/typecheck/静态3050文件0/0/0/docs/diff/verifier过，但仅闭Q-R14-01/02后继续：新enemy例baseDamage0独立挡住E1，删caster guard新两例仍绿、只有旧657例红；旧magic-inline-damage:657-675已证正伤害敌不自伤，:205-239更强队员落血+完整数字。撤回该伪证/同输入唯一差异及两净新信用，别造产品机制或再换数值复制旧合同；没有独立合法新轴就删重该新文件。EI1改初始HP80→90保留expect80仅错答案，不是guard业务反控；EI2为旧player-inline交叉验证，不计新目标。两组完整原三态/meta/raw/patch保留退役登记，不改日志、不替代凑针；旧63有效证据及fizzle/slot/投影/CLI关闭项保持、不全重采。撤回后138执行/净新结构上限137/缺口≥563、63存档54目标净新上限53，700/50组和原50目标不缩；正常批同步历史当前数字，不只交窄修回执。直接续Q07/Q08合法typed生命周期与Q10 mkdtemp合成公共CLI、逐条件生产caller/合法输入/旧fullName完整matcher锚/精确oracle，避让Grok46；game/extract与Reforge分阶段。D-Q01-1仍另draft，Kimi短审不授权产品修复，不learnedSpells/capture新机制、不PAL剧情/世界后门。只原Q新测/fixture/wave-Q可写，其它Owner/产品/旧测/配置/baseline/真实数据/共享文档只读，派发冻结不变、不擅迁main新版本。每批定向相邻/typecheck提交推送后继续，只有源/执行集真变才重采受影响合法活跃针；末批三包全测/静态0/0/0/docs/diff/verifier、真实完整SHA与准确余账。不得合main、done、官方门或清原树。
+```
+
+## Codex r13独立复核（2026-10-02，历史）
 
 固定2ae2a10030b93cfe99a4770f6df29ba4e7258061，证据8fb2f3de3ce7af2256dc7871ca902f803bd77274。
 Q-R12代码证据accept：两个合法真实runScript+0x41 fizzle/no-warning/队列/失败旗/动画通过，

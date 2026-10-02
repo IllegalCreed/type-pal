@@ -246,7 +246,29 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r12；覆盖旧交接）
++## Codex r13独立复核（2026-10-02，最新；覆盖旧窄返工）
+
+固定691e33ccfeacd3d1192b41875aebb5771f97d018，本地/远端真实一致，相对r12只7个wave-P证据文件。
+**P-R13窄项accept，整卡仍partial/rework**：directed与合同身份86/86、三处完整expected匹配代码，
+C13七历史原文件与31995d09逐字节相等，14活跃证据99文件未变。无新增合同，不再重开fixture、
+顺序、默认等待、22判据、退役针或全针重采。全2673运行/依赖/配置文件不变，复用独立121/121、
+typecheck零及22自测，不冒称新跑Editor全包；新lint2826文件0/0/0、docs/diff/716冻结/196白名单过。
+当前86/19组/14针/18流程，至少614例/51组/36目标/F14-F18未完；700/70组/50目标/20流程不缩。
+G14多臂只记首臂、G16首isDefined/旧use称及漂移锚仍属原真账未完，直接原合法余族连续补，不再仅交证据完成。
+旧README/receipt数字与SHA随正常批分清历史/当前，源版本漂移仅由Codex正式核。
+
+[详细接收与最新提示词](../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.json)。
+Kimi短审同时接收done，产品母卡仍draft，不扩量；未main/done本大卡/官方门/覆盖结算。
+用户手动选GLM-5.3后发代码提示，视觉另阶段Flash，不自动UI/模型操作。
+
+### 下一位GLM P提示词（当前；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal，分支codex/glm-wave-p-editor-residual-r1，固定已审核691e33ccfeacd3d1192b41875aebb5771f97d018。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md/json。P-R13定向86/86身份、三处截断expected与C13七历史原字节恢复已accept；合法fixture/精确顺序/14活跃针/22判据/默认等待保持，不再重做窄修、归档重跑或全针重采。本轮新合同0、仍86例/19组/14针/18流程，至少614例/51组/36针/F14-F18未完，原700/70组/50不同合法目标/20流程不缩。直接连续原P02残余/P03-P10合法余族和逐合同真账：源守卫/生产caller/合法输入/旧完整fullName与matcher行/全部业务oracle及expected，G14多臂别只首臂，G16聚合别只isDefined，去use:command误称和漂移行锚；保留真实人工值，不靠统一脚本标verified，先排重再按真缺口补测。README/receipt旧数与SHA随正常批同步为历史/当前分列，不再只交证据或数字完成回执。避让Cursor74新增主合同保留源；派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原P白名单新测/fixture/wave-P证据可写，其它Owner/产品/旧测/配置/baseline/真实数据/共享文档只读，不擅迁main新版本。此为代码阶段，不启动浏览器或源码代读F14/F18；视觉另阶段。每批定向相邻/typecheck提交推送后直接下一合法组，只有源/执行集真变才重采受影响针且采集只选择active；末批Editor全包/静态完整0/0/0/docs/diff/verifier、真实完整SHA及准确余账。不得合main、done、官方门或清原树。
+```
+
+## Codex r12独立复核（2026-10-02，历史）
 
 固定12e0349af6b43375c96cac508b19c414f18393fc，证据cdbc45edde3a142bb4ea563d1a4933544e324c8f。
 四实际factory公开准入/真实空scheme索引/完整page-before-command顺序代码accept，不重开旧输入反例。

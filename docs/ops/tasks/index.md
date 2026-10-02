@@ -9,8 +9,6 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [AUDIT-GROK-WRITE-PLAN-SIX-1 — 六条写入计划合同短审](AUDIT-GROK-WRITE-PLAN-SIX-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [AUDIT-KIMI-OPENING-LOAD-SMALL-1 — 单一读档错误边界短审](AUDIT-KIMI-OPENING-LOAD-SMALL-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-002-1 — 正常出房路线、e56 演出与脚本编排审查](E2E-002-1-inn-route-and-trio.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -56,6 +54,8 @@
 | [ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器](../archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检](../archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](../archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [AUDIT-GROK-WRITE-PLAN-SIX-1 — 六条写入计划合同短审](../archive/tasks/done/AUDIT-GROK-WRITE-PLAN-SIX-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [AUDIT-KIMI-OPENING-LOAD-SMALL-1 — 单一读档错误边界短审](../archive/tasks/done/AUDIT-KIMI-OPENING-LOAD-SMALL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10-1 - 混乱敌人攻击同伴](../archive/tasks/done/B10-1-enemy-confused-attack.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)](../archive/tasks/done/B10-poison-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）](../archive/tasks/done/B11-1-player-casualty-scripts.md) | done | 完成证据、历史签字与交接见原卡。 |

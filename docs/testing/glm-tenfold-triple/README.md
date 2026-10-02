@@ -1,5 +1,16 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
+2026-10-02最新：[O/P r13、Q r14与Kimi/Grok限额短审独立接收](codex-p13-kimi-review-20261002.md)、
+[机器证据](codex-p13-kimi-review-20261002.json)。P定向86/86/三处expected/C13历史字节窄项accept，
+本轮新增合同0，原700卡仍partial/rework，直接连续合法余族与真账，不再只交窄返工。
+未变源独立121/typecheck/22判据明确复用，新完整lint2826文件0/0/0/docs/diff/verifier过。
+Kimi/Grok限额短审接收done不续派，产品母卡仍draft；Grok表第1行map路径委派新轴经Codex反证保留，
+不误删整例，第6行诊断后缀pending纳入O真账；未main/正式覆盖结算。
+
+O新35相邻绿/65结构针/静态零，但无caller误记与快照旧证明、误删恢复目录新轴仍counter；
+Q新158相邻绿/静态零但enemy-inline两例伪证/重复、EI1错初始答案、EI2旧cross-check仍counter。
+闭合项不重做、原700配额不缩，撤回新增伪证后继续真实合法余量，不凑针或只交数字轮。
+
 2026-10-02当前：[O r12/P r12/Q r13/Cursor r5独立复核及四份直接交接](codex-opqc-r13-review-20261002.md)、
 [机器证据](codex-opqc-r13-review-20261002.json)。O/Q本轮窄代码证据accept，P公开合法性/顺序代码accept，
 但定向标题/旧oracle/C13退役历史混相仍counter；Cursor中间空洞新轴独证/50目标数量门关闭，

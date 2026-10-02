@@ -8,6 +8,9 @@
 
 ## 文档与附件
 
+- [Kimi标题读档错误边界短审](kimi-opening-load-small-report.md)（2026-10-02；独立接收，限额子卡done，母卡仍draft，不续派或冒称新SAVE10复现）。
+- [Grok写入计划六合同短审](grok-write-plan-six-report.md)（2026-10-02；Codex合并地图委派反证裁决，短审done不续派，旧400accept保持）。
+
 - [Kimi / Grok限额短审](limited-budget/README.md)（2026-10-02；各一轮≤两页，不派大包，不全包/覆盖/浏览器，不自动续派）。
 
 - [Grok / Cursor 两条独立大包](grok-cursor-large/README.md)（2026-10-01；46/74源独占，400/700合法新例目标，40/50反控，十批连续；GLM P/Q新合同避让，未交付/未正式结算）。

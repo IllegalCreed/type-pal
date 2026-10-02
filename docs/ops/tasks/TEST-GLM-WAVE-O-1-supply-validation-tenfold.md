@@ -227,7 +227,30 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r12；覆盖旧交接）
++## Codex r13独立复核（2026-10-02，最新；覆盖旧交接）
+
+固定d5bc5b748f6627825adeb398442c7cf2e99ade2f，测试a41cc887710286646e71d919ed4871d121ccf584，
+证据74b094c89e0b5f451832b24faa50757ccc7be321。本轮35定向相邻绿/typecheck零，3233文件静态0/0/0、
+docs/diff/716冻结/786路径白名单过；469身份按当前15新跑+未变454独立报告对应，不冒称新全包。
+65三态/hash/完整身份再判过，62未变+3重采，五旧例删除accept；整卡仍counter/rework。
+O-R13-01：新增15账误记无生产caller（真实CLI:116-125），两快照拒收漏旧next-wave:73-81、
+排序漏旧scenes/z；map路径委派新轴与删除无content+null保留，非null标题未证，诊断合同pending分列。
+O-R13-02：第六删除误去恢复目录清理合法新轴，旧28全绿仅被删目录断言红、恢复29全绿已独证；
+只补回窄轴，不重做其余五旧轴。当前469/作者上限468，扣两旧快照后上限≤466/缺口≥234，
+补回窄轴后最终重算；371空条件/214token与原700/60组/50仍部分，不再只交真账闭合回执。
+
+[独立接收与当前提示词](../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.json)。
+Grok小审接收正文已合并地图新轴反证，不按其原全旧建议误删；Kimi/Grok子卡done不续派。
+未作者/main写入、未官方门/覆盖结算；GLM代码由用户手动选GLM-5.3。
+
+### 下一位GLM O提示词（当前；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal，分支codex/glm-wave-o-supply-validation-r1，固定d5bc5b748f6627825adeb398442c7cf2e99ade2f。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md最新段、同树docs/testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md/json和docs/testing/grok-write-plan-six-report.md接收正文。新35绿/静态零/65三态最终身份hash关闭，五旧例删重接受，不重做旧窄项或全针重采。只闭O-R13-01/02后直接续原合法余族：15真账caller不能写无生产调用方，真实migrate-content.mts:116-125及:69-89须登记；两快照拒收与next-wave:73-81完全旧证扣新，排序旧boundaries:57-64/旧test:166-171纳入；map路径委派新轴保留，不按Grok原稿误删；删除无content+null新轴保留、非null标题未证补或撤回；非法retirement守卫旧证/诊断合同pending分列。误删的中断恢复事务目录清理仅恢复窄新轴：recover之后真实transactions/id目录不存在，旧正文补完/journal/幂等不重新计新；Codex旧28全绿仅该目录断言红已独证，不能拿保留的正常commit例替代recover。当前469执行扣两个快照旧例净新上限≤466/缺口≥234，恢复窄轴后从最终树重算；371空条件/214token与700/60组/50目标仍未完。保留核定值，逐合同真实条件/生产caller/合法输入/旧完整fullName-matcher行/全部业务oracle，不模板verified。修后连续write-plan/plan/合法深域，不只交工具/删重/数字回执；旧摘要随正常批历史当前分列。仅原O新测/fixture/wave-O可写，其它Owner/产品/旧测/配置/baseline/真实数据/共享文档只读，派发冻结不变、不擅迁main新版本。每批定向相邻/typecheck推送后继续，执行集真变只重采受影响O03三针，其它未变保留；末批三包全测/静态0/0/0/docs/diff/verifier/真实完整SHA与准确余账。不得合main/done/官方门/清原树，不再给Grok派工作或写其报告。
+```
+
+## Codex r12独立复核（2026-10-02，历史）
 
 固定c36119a887a839df561e293ea5dccf5c70d2188f，证据97651e002252e3e7299e5844f1debcf30890acc3。
 O-R12窄代码证据accept：65/65最终三态身份/hash、3受影响针更新、IO10删重/残余收窄、标题/pin过。

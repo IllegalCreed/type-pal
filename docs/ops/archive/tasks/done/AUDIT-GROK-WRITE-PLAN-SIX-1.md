@@ -1,6 +1,6 @@
 # AUDIT-GROK-WRITE-PLAN-SIX-1 — 六条写入计划合同短审
 
-Status: build
+Status: done
 Owner: Grok（只写独占六行审查报告）
 Reviewer: Codex（独立接收）
 Phase: ops
@@ -26,8 +26,8 @@ Visual Verification Timing: N/A（不做视觉）
   `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；不扩写入Owner或替O修卡。
 
 任务卡/最新审核从审核树`/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal`读取：
-[O卡](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md)、
-[最新独立结论](../../testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.md)。
+[O卡](../../../tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md)、
+[派发时独立结论](../../../../testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.md)。
 仅参考其中已裁决的project-io六条，**本任务是另六条write-plan，不重复那个旧审计**。
 
 ## 指定六条（不扩量）
@@ -69,9 +69,24 @@ mixed例逐子轴分开，别整例草率全新/全旧；无合法构造或旧�
 
 - Codex：固定范围、前提/旧证入口与单一报告Owner已核，**build allowed仅独占报告**。
 - Grok：pending；旧400例accept保持，此卡独立、无新产品/测试写授权。
-- Codex报告独立accept：pending；O原卡rework和正式质量/覆盖结算权不转交。
+- Codex报告独立接收：2026-10-02，固定3d5fbce3301d4f8576ca3c85c6027928a9a4159d；O原卡rework和正式质量/覆盖结算权不转交。
 
-## 下一位Grok提示词
+## Codex独立接收（2026-10-02）
+
+原报告只有独占一文件，八个直接源blob与派发及最新已核O c36119a8一致。
+读审第2/3/5行旧证明成立；第4行删除无content并传null为新轴，非null标题未证；
+第1行排序旧证，但**地图路径委派不是旧证**：Codex自有树去掉序列化path参数后，
+旧18全绿、仅新地图例红，控制/恢复19全绿，20未选中明确不计执行，源精确恢复。
+第6行旧守卫与新增诊断断言强度分列，后者待生产合同核定，不自动给净新信用。
+接收正文合并这两处裁决，原作者Git报告/hash保留，避免把全旧建议误传O。
+
+[接收报告](../../../../testing/grok-write-plan-six-report.md)、
+[机账/独立诊断](../../../../testing/glm-tenfold-triple/codex-p13-kimi-review-20261002.md)。
+报告任务接收done归档；共享导航由Codex接线，完整静态/docs/diff零后提交。
+不要求Grok返工或续派，保留额度；旧400包accept不重开，O原700卡仍部分，未正式覆盖结算。
+无下一位Grok提示词：本轮完成并停止。下方派发保留历史，不再执行。
+
+## 原派发Grok提示词（历史）
 
 ```text
 接手AUDIT-GROK-WRITE-PLAN-SIX-1，你是唯一短审报告Owner，当前build仅报告。只审六条，≤两页，交付一次即停；不新增测试、不反控/全包/coverage/浏览器/迁移。工作树/Users/zhangxu/.codex/worktrees/grok-write-plan-audit-small/type-pal，分支codex/grok-write-plan-audit-small-r1，固定O源a295f42c09cb8c6272849adb7d86c96beb16040f。先从审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal读docs/ops/tasks/AUDIT-GROK-WRITE-PLAN-SIX-1.md及O卡/最新独立报告，只按该卡指定migration-write-plan.glm-o.test.ts前六test，读实际产品条件、migrate-content.mts caller、旧test/boundaries/next-wave与必要fixture，最多八个直接文件。交六行：真实新fullName/源码条件/caller合法输入/旧blob-fullName-matcher行/精确新oracle差异/new-axis或existing-proof或unreachable或pending；mixed按子轴，不凭关键词或换数字裁新。缺证写pending，不伪造行号/SHA、不标自动humanVerified。仅docs/testing/grok-write-plan-six-report.md可提交，放testing根不创建新子目录/README；GLM O树/代码/证据/共享卡及全部产品/旧测/配置/baseline/真实数据只读；不用已accept旧400树，不改O配额/状态。docs/diff轻门后commit/push完整SHA并停止，不合main、不done、不官方门、不清树；旧400accept保持，Codex独立接收后决定如何供O续批参考。
