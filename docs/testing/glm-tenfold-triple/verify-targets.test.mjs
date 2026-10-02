@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { allowedNewPath } from './verify-targets.mjs'
+import { allowedNewPath, deliveryClosurePolicy } from './verify-targets.mjs'
 
 const cases = [
   ['O migrate test', 'O', 'packages/migrate/src/transaction.glm-o.test.ts', true],
@@ -40,3 +40,43 @@ for (const [name, wave, path, expected] of cases) {
     assert.equal(allowedNewPath(wave, path), expected)
   })
 }
+
+const closure = {
+  mode: 'frozen-existing-delivery',
+  historicalQuantityTargetsOnly: true,
+  allowNewAuthorWork: false,
+  userAuthorizedDate: '2026-10-02',
+  manifest: 'docs/testing/glm-tenfold-triple/codex-opq-frozen-delivery-20261002.json',
+  heads: { O: '1'.repeat(40), P: '2'.repeat(40), Q: '3'.repeat(40) },
+}
+
+test('frozen closure reports retired quantity gates and forbids new author work', () => {
+  assert.equal(deliveryClosurePolicy({ deliveryClosure: closure }).allowNewAuthorWork, false)
+  assert.equal(
+    deliveryClosurePolicy({ deliveryClosure: closure }).quantityTargetsHistoricalOnly,
+    true,
+  )
+})
+test('historical candidate targets without closure remain readable', () => {
+  assert.deepEqual(deliveryClosurePolicy({}), { mode: 'historical-author-dispatch' })
+})
+test('freeze policy refuses silent author resumption or incomplete heads', () => {
+  assert.throws(() =>
+    deliveryClosurePolicy({ deliveryClosure: { ...closure, allowNewAuthorWork: true } }),
+  )
+  assert.throws(() =>
+    deliveryClosurePolicy({ deliveryClosure: { ...closure, heads: { O: '1'.repeat(40) } } }),
+  )
+})
+test('freeze policy refuses malformed candidates and missing quantity retirement', () => {
+  assert.throws(() =>
+    deliveryClosurePolicy({
+      deliveryClosure: { ...closure, historicalQuantityTargetsOnly: false },
+    }),
+  )
+  assert.throws(() =>
+    deliveryClosurePolicy({
+      deliveryClosure: { ...closure, heads: { ...closure.heads, Q: 'no-sha' } },
+    }),
+  )
+})

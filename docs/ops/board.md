@@ -2,7 +2,9 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
-2026-09-30 L/M/N代码accept，统一ratchet因migrate退役后的比率门阻塞，仍review、未done。
+2026-10-02 用户明确[冻结O/P/Q现有交付收口](../testing/glm-tenfold-triple/codex-opq-freeze-20261002.md)：不再补700/组数/反控/视觉配额，三卡转review，仅Codex固定清单审查与正式门接入；旧数量/连续续派仅历史，不是done条件。未main/done/85%结算，质量规则不变。
+
+2026-09-30 历史：L/M/N代码accept，统一ratchet因migrate退役后的比率门阻塞，仍review、未done。
 用户要求每卡十倍后，新增[O/P/Q三条独立测试大包](../testing/glm-tenfold-triple/README.md)：
 各700合法未重复用例目标/50有效反控，716源冻结、包目录独占；O优先补migrate门。
 从含L/M/N的同一派发提交各建新分支/worktree；不改产品/官方门，不接E2E-R4/002。
@@ -31,9 +33,9 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | Codex / 下一合法范围与接入 | 4568e2db NEXT2返工accept；84/1441/四最终针过、零IO/真往返闭合；472/净新上限297，原卡仍部分 |
-| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | Codex / 核下一合法范围与接入 | b2cbb41f NEXT2十二合同accept，41相邻/四代表针过；3898+两旧PAL环境红局部恢复，114/700、18/20保持，作者无需返工 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | Codex / 下一合法范围与接入 | 5dbf72d7 NEXT2返工accept；48/2164/四最终针与两G-B敏感度针有效；175/净新上限172，原卡仍部分 |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫冻结收口](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | review | Codex / 固定交付审核与接入 | 4568e2db冻结；472执行/结构上限297如实，停止补数/续派，质量门后才done |
+| TEST-GLM-WAVE-P-1 | [Editor交付冻结收口](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | review | Codex / 固定交付审核与接入 | b2cbb41f冻结；114执行、18/20视觉未证分列，不追配额/截图，正式门后收口 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码交付冻结收口](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | review | Codex / 固定交付审核与接入 | 5dbf72d7冻结；175执行/结构上限172，停止续派，产品draft不夹修，正式门后收口 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待失败通知与恢复产品选择、窄准入 | Kimi短审已接收不续派；旧SAVE8合法红/当前SAVE10静读分列，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |

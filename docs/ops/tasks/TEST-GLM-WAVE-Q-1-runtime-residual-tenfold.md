@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-Q-1 — 两阶段runtime与解码残余合同十倍测试包
 
-Status: rework
+Status: review
 Phase: mixed（Reforge phase2；game/pal-extract phase1，严格分段）
 Capability: runtime-residual / test-coverage
 Coding Owner: GLM Q（仅新测试与专属证据）
@@ -8,7 +8,13 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex NEXT2 返工独立接收（2026-10-02，当前优先）
+## 用户冻结收口裁决（2026-10-02，当前唯一执行边界）
+
+用户明确要求冻结现有交付，禁止无限持续。固定5dbf72d78f8df9939a76407c0f17ad10455bbbb5，**撤销补满700/50组/50针/10流程及所有旧连续续派准入，转review仅Codex审核收口**。数量作历史，不再是done门；原175执行/净新结构上限172保留，不自动等于全语义accept。
+作者无新任务、不写树、不补数或重采旧针。D-Q01-1产品draft不夹修；仅Codex独占树核现有交付、必要当前类型窄适配/选择性集成，串行check→official ratchet→protected strict-fast后才done/清树，不退产品版本/降门/假绿/声称85%。
+[有限终点与未证项](../../testing/glm-tenfold-triple/codex-opq-freeze-20261002.md)、[固定文件/身份/hash最大范围](../../testing/glm-tenfold-triple/codex-opq-frozen-delivery-20261002.json)。本节覆盖下面全部旧准入/提示词；无下一位GLM Q提示词，等Codex收口，不开NEXT3。
+
+## Codex NEXT2 返工独立接收（2026-10-02，历史接收保持）
 
 固定5dbf72d78f8df9939a76407c0f17ad10455bbbb5，e5bc9a0da后仅receipt pin。**NEXT2代码/证据accept，R1-01～02全闭合，无作者返工；原700卡partial/rework保持。**
 02同ID的G/B独立合法轴在最终完整48范围实采分别恰一02 AssertionError、0-1-0与恢复重建hash有效；四代表01/03/09/11最终重采有效，旧71不改。06/14扣列、旧五针已闭误记撤回；48/全包2164与Reforge112交付身份、typecheck/3098静态完整0/0/0/docs/diff/716冻结/838白名单过。

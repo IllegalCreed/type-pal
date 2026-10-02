@@ -35,6 +35,34 @@ export function allowedNewPath(wave, path) {
   })
 }
 
+/** User-approved scope retirement changes only quantity policy, never source/path/quality guards. */
+export function deliveryClosurePolicy(targets) {
+  const closure = targets.deliveryClosure
+  if (closure === undefined) return { mode: 'historical-author-dispatch' }
+  if (
+    closure.mode !== 'frozen-existing-delivery' ||
+    closure.historicalQuantityTargetsOnly !== true ||
+    closure.allowNewAuthorWork !== false ||
+    closure.userAuthorizedDate !== '2026-10-02' ||
+    closure.manifest !== `${campaignPath}/codex-opq-frozen-delivery-20261002.json`
+  )
+    throw new Error('invalid user-approved delivery closure policy')
+  if (
+    Object.keys(closure.heads ?? {})
+      .sort()
+      .join(',') !== 'O,P,Q'
+  )
+    throw new Error('incomplete frozen delivery heads')
+  for (const head of Object.values(closure.heads))
+    if (!/^[a-f0-9]{40}$/.test(head)) throw new Error('invalid frozen delivery commit')
+  return {
+    mode: closure.mode,
+    quantityTargetsHistoricalOnly: true,
+    allowNewAuthorWork: false,
+    heads: closure.heads,
+  }
+}
+
 function verifySources(targets, failures) {
   if (targets.schemaVersion !== 1 || !Array.isArray(targets.waves))
     throw new Error('unsupported targets schema')
@@ -102,6 +130,7 @@ function verifySources(targets, failures) {
   )
     failures.push('candidate coverage census mismatch')
   return {
+    deliveryClosure: deliveryClosurePolicy(targets),
     productionFreeze: targets.productionFreeze,
     waves: summaries,
     totalSources: claimed.size,

@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-O-1 — 当前供应链、内容守卫与migrate门十倍测试包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: supply-validation / test-coverage
 Coding Owner: GLM O（仅新测试与专属证据）
@@ -10,7 +10,13 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex NEXT2 返工独立接收（2026-10-02，当前优先）
+## 用户冻结收口裁决（2026-10-02，当前唯一执行边界）
+
+用户明确要求冻结现有交付，禁止无限持续。固定4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d，**撤销补满700/60组/50针及所有旧连续续派准入，转review仅Codex审核收口**。原数字作历史记录，不再是done数量门；不能降低质量、自动accept旧合同或伪写覆盖达85%。
+472作者执行/原净新上限297保留；实际接收/剔除由固定清单裁决。作者无新任务、不写树、不补数、不重采旧针。仅Codex在独占树做现有交付审查、必要窄适配和选择性集成，串行check→official ratchet→protected strict-fast后才done/清树。
+[本轮有限收口终点与未证项](../../testing/glm-tenfold-triple/codex-opq-freeze-20261002.md)、[固定文件/身份/hash最大范围](../../testing/glm-tenfold-triple/codex-opq-frozen-delivery-20261002.json)。本节覆盖下面全部旧准入/提示词；无下一位GLM O提示词，等Codex收口，不重新开NEXT3。
+
+## Codex NEXT2 返工独立接收（2026-10-02，历史接收保持）
 
 固定4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d，234a041c5后仅回执锚/pin。**NEXT2代码/证据accept，R1-01～04全闭合，无作者返工；原700卡partial/rework保持。**
 局部真实类型桥无新ignore；01/02提前frame0诊断如今两AssertionError、原/恢复两绿；03两帧停止证明、09真压缩解全部33帧、12旧证扣列均成立。84定向/1441全包、typecheck、3239静态完整0/0/0/docs/diff/716冻结/792白名单通过；最终四代表针84身份/指定单红/0-1-0/恢复重建hash有效，旧64不改。

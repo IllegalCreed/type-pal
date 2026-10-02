@@ -13,6 +13,19 @@
     "total": 58773
   },
   "candidateIsOfficial": false,
+  "deliveryClosure": {
+    "mode": "frozen-existing-delivery",
+    "userAuthorizedDate": "2026-10-02",
+    "historicalQuantityTargetsOnly": true,
+    "allowNewAuthorWork": false,
+    "manifest": "docs/testing/glm-tenfold-triple/codex-opq-frozen-delivery-20261002.json",
+    "doneRequires": "fixed delivery disposition, selective current-main integration and unchanged official quality gates",
+    "heads": {
+      "O": "4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d",
+      "P": "b2cbb41f39d59928d9a4ecbf3d1a4abfd1deba31",
+      "Q": "5dbf72d78f8df9939a76407c0f17ad10455bbbb5"
+    }
+  },
   "selectionCaveat": "Residual-contract pool, not reachability proof or promised gain. Older sources may recur only after exact old-assertion deduplication; L/M/N tests are already in the dispatch base.",
   "waves": [
     {

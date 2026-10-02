@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-P-1 — Editor全域残余工作流十倍测试包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: editor-workflows / test-coverage
 Coding Owner: GLM P（仅新测试与专属证据）
@@ -8,7 +8,13 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
-## Codex NEXT2 独立接收（2026-10-02，当前优先）
+## 用户冻结收口裁决（2026-10-02，当前唯一执行边界）
+
+用户明确要求冻结现有交付，禁止无限持续。固定b2cbb41f39d59928d9a4ecbf3d1a4abfd1deba31，**撤销补满700/70组/50针/20完整流程及所有旧连续续派准入，转review仅Codex审核收口**。原数字作历史，不再是done数量门；P18/20保持，F14/F18未证明确留账，不追做或改写通过。
+114作者执行/原净新结构上限114保留，不代表整包已最终接入。作者无新任务、不写树、不补数/截图或重采旧针。仅Codex在独占树审查现有交付、必要当前类型窄适配/选择性集成，串行check→official ratchet→protected strict-fast后才done/清树，不降质量或假绿。
+[有限收口终点](../../testing/glm-tenfold-triple/codex-opq-freeze-20261002.md)、[固定文件/身份/hash最大范围](../../testing/glm-tenfold-triple/codex-opq-frozen-delivery-20261002.json)。本节覆盖下面所有旧准入/提示词；无下一位GLM P提示词，等Codex收口，不开NEXT3。
+
+## Codex NEXT2 独立接收（2026-10-02，历史接收保持）
 
 固定 b2cbb41f39d59928d9a4ecbf3d1a4abfd1deba31，本地/远端一致且作者树干净。**NEXT2 12合同代码/证据accept，无作者返工；原700卡仍partial/rework，不main/done/正式结算。**
 合法seed→文件级多图→公开loader→懒state→保存门链与实际IO成立，新12/相邻41绿；四代表产品针每相完整41身份/指定唯一AssertionError/exit0-1-0/恢复与重建hash有效，旧19档案/102账保持。新typecheck/2858静态完整0/0/0/docs/diff/716冻结/255白名单过。
