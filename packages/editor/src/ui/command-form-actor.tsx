@@ -1,4 +1,4 @@
-import type { CarryableStatusId, Locale, SceneDef, WalkSpeed } from '@type-pal/content'
+import type { CarryableStatusId, EntityDef, SceneDef, WalkSpeed } from '@type-pal/content'
 import {
   ACTOR_STATUS_DEFINITIONS,
   type ActorDef,
@@ -38,7 +38,7 @@ export interface ActorCommandFormProps {
   command: ActorCommand
   scene: SceneDef
   actors?: Record<string, ActorDef>
-  locale?: Locale
+  entityLabel?: (entity: EntityDef) => string
   references: ScriptReferenceCatalog
   showRawJson: boolean
   reorderScopeKey: string
@@ -397,8 +397,7 @@ export function ActorCommandForm(props: ActorCommandFormProps) {
             <EntitySel
               value={cmd.entity}
               scene={scene}
-              actors={actors}
-              locale={props.locale}
+              entityLabel={props.entityLabel}
               onChange={(id) => set({ entity: id })}
             />
           </Row>
@@ -415,8 +414,7 @@ export function ActorCommandForm(props: ActorCommandFormProps) {
             <EntitySel
               value={cmd.entity}
               scene={scene}
-              actors={actors}
-              locale={props.locale}
+              entityLabel={props.entityLabel}
               onChange={(id) => set({ entity: id })}
             />
           </Row>

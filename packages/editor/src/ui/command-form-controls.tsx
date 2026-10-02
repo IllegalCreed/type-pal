@@ -1,6 +1,5 @@
 import type {
-  ActorDef,
-  Locale,
+  EntityDef,
   SceneDef,
   WorldVariableKindV1,
   WorldVariableRegistryV1,
@@ -127,13 +126,12 @@ export function WorldVariablePicker(props: {
 export function EntitySel(props: {
   value: string
   scene: SceneDef
-  actors?: Record<string, ActorDef>
-  locale?: Locale
+  entityLabel?: (entity: EntityDef) => string
   onChange: (id: string) => void
 }) {
   const options = props.scene.entities.map((entity) => ({
     value: entity.id,
-    label: entityDisplayLabel(entity, props.actors, props.locale),
+    label: props.entityLabel?.(entity) ?? entityDisplayLabel(entity),
   }))
   if (!props.scene.entities.some((entity) => entity.id === props.value))
     options.push({ value: props.value, label: `${props.value}(不在场)` })

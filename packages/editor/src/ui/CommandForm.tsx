@@ -13,6 +13,7 @@ import type {
   AmbienceDef,
   AssetCatalogV1,
   BattleSpriteDef,
+  EntityDef,
   Locale,
   SceneDef,
   ScriptIndexV1,
@@ -22,6 +23,7 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { entityDisplayLabel } from '../core/entity-display.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { ActorCommandForm } from './command-form-actor.js'
 import type { CommandFormCommand } from './command-form-contract.js'
@@ -106,6 +108,8 @@ export function CommandForm(props: CommandFormProps) {
     reorderScopeKey = `command-form:${cmd.kind}`,
     onChange,
   } = props
+  // 名称解析留在拥有locale的父层；family只消费窄显示契约，不扩张语言数据依赖。
+  const entityLabel = (entity: EntityDef): string => entityDisplayLabel(entity, actors, locale)
   switch (cmd.kind) {
     case 'dialog':
       return (
@@ -149,7 +153,7 @@ export function CommandForm(props: CommandFormProps) {
         <WorldCommandForm
           command={cmd}
           scene={scene}
-          locale={locale}
+          entityLabel={entityLabel}
           scenes={scenes}
           actors={actors}
           battleSprites={battleSprites}
@@ -172,7 +176,7 @@ export function CommandForm(props: CommandFormProps) {
         <ActorCommandForm
           command={cmd}
           scene={scene}
-          locale={locale}
+          entityLabel={entityLabel}
           actors={actors}
           references={references}
           showRawJson={showRawJson}
