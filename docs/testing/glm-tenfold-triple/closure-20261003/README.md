@@ -12,3 +12,5 @@ raw原字节保留新门、旧原证与预检；历史正控复用说明明确�
 原机器receipt是先前16计数阻塞的历史快照，保留不改写；当前以retirement.json为准。未更换原main保护SHA、未回调ratchet新基线、未改产品或两旧测试。单包诊断同136源/11278分母将唯一漂移定位到splash-fallback:155的透明像素臂，旧I06透明仙鹤随机全屏外会漏执行。当前main GitHub Coverage另有PAL头像缺ignored资产五旧红，原日志保存，不能用本机资产齐备的绿替代CI。
 
 原作者树只读保留，可恢复bundle/ignored档已重新逐条核验；没有实际删除。无GLM后续提示词。[两旧输入窄准入draft](../../../ops/tasks/QUALITY-TEST-INPUTS-1.md)未获build授权；其它保护不变，须先解决新counter才能main/done/退休。
+
+本轮保护基点与CI原件均为1b3bffb7/content21/SAVE10；并行main收口时已推进8efe0486/content22/SAVE11。原件保持旧基点，不能据此宣布新主线通过或强行merge旧产品。Kimi16同样须补最新主线接入验证，不把本轮2489结果冒称22/11。

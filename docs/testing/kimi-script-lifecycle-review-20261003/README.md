@@ -13,3 +13,5 @@ Codex自有当前源副本定向50/50：新16、main相邻22、Q相邻12；作�
 四枚真实业务反控M01/M02/M06/L03：每相完整50个file×fullName，变异恰一指定新AssertionError、34旧全绿、15其它新全绿；恢复50/50，原/变异/恢复源码及全部测试/fixture/config哈希逐一对应。作者不承担新反控工具返工；原件随本次Codex收口证据保存，不要求作者重采。没有真实PAL/浏览器/剧情操作。
 
 本轮补齐自有副本ignored资产并构建canvas后，当前Reforge全包2489/2489、零failed/pending/todo；typecheck零诊断。正式check/ratchet/protected接入仍分别登记后才能done，O/P/Q主线不夹入两新文件。作者原full五缺头像红保留原报告，不冒称当时全绿或CI已绿。净新16为合同账申报，四反控仅证明指定新oracle，不泛化为全部16语义唯一性证明。
+
+本轮自有副本为1b3bffb7/content21/SAVE10；收口时另一任务已推进main8efe0486/content22/SAVE11。上述结果保持原基点，未在新主线重跑；两主模块仍须连同已变coordinator/caller作新main接入核验，不将已关闭M01重新派给作者或重开配额。

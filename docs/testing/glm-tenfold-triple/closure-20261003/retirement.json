@@ -136,8 +136,17 @@
     "diagnosticHits": 3,
     "cause": "transparent crane fixture keeps real random start position; all cranes may be offscreen; opacity false arm not deterministically reached",
     "diagnostic": "one game-only read-only run, not a substitute for strict; exact same 136 source/11278 branch denominator",
-    "currentMainCI": "https://github.com/IllegalCreed/type-pal/actions/runs/37022144308",
+    "reviewedBaseCI": "https://github.com/IllegalCreed/type-pal/actions/runs/37022144308",
     "ciCause": "pal-meal-shell.test.ts five failures: missing ignored assets/migrated/faces/li-xiaoyao.png",
     "noMainPushOrDoneOrRetirement": true
+  },
+  "mainAdvancedAfterRuns": {
+    "head": "8efe048610fab7aa4a257a716b91ece30194eba8",
+    "content": 22,
+    "save": 11,
+    "owner": "independent unified-step task; not this integration",
+    "originalReportsKeep21And10Context": true,
+    "latestMainAdmissionPending": true,
+    "noCompatibilityOrUnboundedAuthorRework": true
   }
 }

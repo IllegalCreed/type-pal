@@ -27,3 +27,5 @@ D-Q01-1另属[标题读档IO错误产品draft](REFORGE-OPENING-LOAD-ERROR-1.md)�
 全仓85%尚未达，不是本卡继续工作的条件；不存在下一波无限补量。
 
 无下一位GLM提示词，固定175交付是本卡终点。产品draft另行窄准入，不夹修。
+
+本轮门基于1b3bffb7/content21/SAVE10。并行main已升级8efe0486/content22/SAVE11；第一阶段/稳定IO合同与二阶段过期模型分开筛选，不用旧model兼容或新配额留住过期合同。上述CI是1b原件，不能冒称8efe失败/通过。

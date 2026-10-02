@@ -26,3 +26,5 @@ Visual Verification Timing: N/A
 不恢复退役原版转换器，不改变PAL作者内容，不运行真实工程migrate含dry-run。场景机制、资源真值或产品缺陷均不在本卡新增范围。
 
 无下一位GLM提示词；只由Codex完成现有正式门、main及可恢复退休。该固定交付是本卡终点，不继续700。
+
+本轮门基于1b3bffb7/content21/SAVE10。并行main已升级8efe0486/content22/SAVE11，须重新只读筛选现行可接入合同；旧schema失效项剔除保留历史，不恢复兼容、不派作者无限改写。以上CI失败指1b基点原件，不冒称8efe新CI结论。

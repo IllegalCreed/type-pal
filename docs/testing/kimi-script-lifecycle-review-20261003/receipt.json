@@ -2,7 +2,7 @@
   "task": "TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2",
   "candidate": "42b3d303de3f2178e249b4ccbabf967e0affd194",
   "testsAndEvidence": "95ddc3adcb289ccfab7cd8ca916d80a6b502f139",
-  "codeVerdict": "accept; current full Reforge and typecheck passed; official main admission pending separately",
+  "codeVerdict": "accept on fixed 1b3bffb7/content21/SAVE10 context; full Reforge/typecheck passed; latest content22/SAVE11 main admission pending separately",
   "directed": {
     "actual": 50,
     "new": 16,

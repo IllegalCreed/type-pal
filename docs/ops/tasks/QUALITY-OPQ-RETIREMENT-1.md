@@ -32,3 +32,5 @@ Visual Verification Timing: N/A
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词；Codex连续执行有限收口，不转交作者新任务。
+
+本轮验证固定1b3bffb7/21/10；并行主线8efe0486已升级22/11，最新main接入仍待核。原16精确账闭合不追溯撤回，也不把旧pool门冒充新版本门或覆盖并行main。
