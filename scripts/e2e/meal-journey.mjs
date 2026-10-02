@@ -27,6 +27,98 @@ import { installMealObserver, readMealGame, readMealReforge } from './meal-obser
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { appendBounded } from './opening-policy.mjs'
 
+/** Target touch may acquire its script between two reads, before dialogue or scene load is visible. */
+export async function navigateMealRoute({
+  keyboard,
+  map,
+  read,
+  until,
+  health,
+  grid,
+  inScene,
+  ready,
+  destination,
+  finished,
+  onInput,
+  onProgress,
+  boundaryCommitted = () => false,
+}) {
+  let heldKey
+  const release = async (reason) => {
+    if (heldKey === undefined) return
+    const key = heldKey
+    await keyboard.up(key)
+    heldKey = undefined
+    onInput({ kind: 'up', key, reason })
+  }
+  const cleanup = async () => {
+    try {
+      await release('route end or failure')
+    } catch (error) {
+      await release('retry failed release')
+      throw error
+    }
+  }
+  try {
+    for (let n = 0; n < 120; n++) {
+      health()
+      const state = await read()
+      if (finished(state)) return
+      const atTarget = inScene(state) && destination(...grid(state))
+      if (atTarget || (await boundaryCommitted())) {
+        await release('verified target touch/scene boundary')
+        await until(read, finished, 'actual expected target transition settles')
+        return
+      }
+      assert(inScene(state), 'route entered unexpected scene without target landing')
+      assert(ready(state), 'unexpected script/dialogue outside target boundary')
+      const path = planInnRoute(map, grid(state), destination, state.routeActors)
+      assert(path.length > 0)
+      const key = path[0]
+      if (key !== heldKey) {
+        await release('turn')
+        heldKey = key
+        await keyboard.down(key)
+        onInput({ kind: 'down', key, reason: 'normal held route' })
+      }
+      const before = state.position
+      const observed = await until(
+        read,
+        (next) =>
+          JSON.stringify(next.position) !== JSON.stringify(before) ||
+          !inScene(next) ||
+          !ready(next) ||
+          finished(next),
+        'normal input committed progress',
+        5000,
+      )
+      onProgress({ key, from: before, to: observed.position })
+      if (finished(observed)) return
+      const targetObserved = inScene(observed) && destination(...grid(observed))
+      if (targetObserved || (await boundaryCommitted())) {
+        await release('verified target effect')
+        await until(read, finished, 'actual expected target transition settles')
+        return
+      }
+      assert(inScene(observed), 'route entered unexpected scene without target landing')
+      assert(ready(observed), 'unexpected script/dialogue outside target boundary')
+    }
+    throw new Error('normal meal route action budget exhausted')
+  } finally {
+    await cleanup()
+  }
+}
+
+/** Only real first-stage player input commits in this leg can prove an already-left touch cell. */
+export function mealGameBoundaryCommitted(trace, startOrder, scene, destination) {
+  return committedInnMoves(trace, startOrder).some(
+    (event) =>
+      event.scene === scene &&
+      event.source === 'commit:tickSceneInput' &&
+      destination(...kitchenGrid(event.state.position, 'game')),
+  )
+}
+
 export async function runMealJourney(engine) {
   const options = mealArguments(process.argv.slice(2)),
     predecessor = await readMealPredecessor(options['--from'], engine),
@@ -228,7 +320,8 @@ export async function runMealJourney(engine) {
       }
       const navigate = async (sid, destination, finished) => {
         const startOrder = await evidenceOrder()
-        await navigateInnRoute({
+        const navigateDriver = engine === 'game' ? navigateMealRoute : navigateInnRoute
+        await navigateDriver({
           keyboard: page.keyboard,
           map: maps[sid],
           read: snapshot,
@@ -239,6 +332,10 @@ export async function runMealJourney(engine) {
           ready,
           destination,
           finished,
+          boundaryCommitted: () =>
+            evidence().then((trace) =>
+              mealGameBoundaryCommitted(trace, startOrder, sid, destination),
+            ),
           onInput: (input) => {
             const a = { scene: sid, phase, context: contextLabel, atMs: Date.now(), ...input }
             appendBounded(report.route.inputs, a, 600)

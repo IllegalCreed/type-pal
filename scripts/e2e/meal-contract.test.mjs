@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import ts from 'typescript'
 import { sha256 } from './browser-journey.mjs'
+import { navigateInnRoute } from './inn-navigation.mjs'
 import { planInnRoute } from './inn-route.mjs'
 import {
   assertMealCollector,
@@ -19,6 +20,7 @@ import {
   readMealContract,
   validateMealPredecessor,
 } from './meal-contract.mjs'
+import { mealGameBoundaryCommitted, navigateMealRoute } from './meal-journey.mjs'
 import { installMealObserver } from './meal-observer.mjs'
 import { instrumentMealTrace, MEAL_TRACE_TARGETS } from './meal-trace-plugin.mjs'
 
@@ -613,4 +615,174 @@ test('004 actual Save.saveSlot preserves input/write semantics and emits no succ
     () => instrumentMealTrace(source.replace('deepClone(gs)', 'deepClone(other)'), file),
     /cloned another source/,
   )
+})
+test('004 target ready -> event-before-dialog transition releases held input and awaits the original full destination', async () => {
+  const map = JSON.parse(
+    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
+  )
+  const exercise = async (navigate) => {
+    const states = [
+      { scene: 's003', position: [133, 44], ready: true, dialog: null },
+      { scene: 's003', position: [133, 43], ready: true, dialog: null },
+      { scene: 's003', position: [133, 43], ready: false, dialog: null, ip: 215 },
+      { scene: 's001', position: [108, 30], ready: true, dialog: null },
+    ]
+    let index = 0
+    const held = new Set(),
+      actions = []
+    const read = async () => states[Math.min(index++, states.length - 1)]
+    const keyboard = {
+      down: async (key) => {
+        held.add(key)
+        actions.push(['down', key])
+      },
+      up: async (key) => {
+        held.delete(key)
+        actions.push(['up', key])
+      },
+    }
+    const until = async (observe, accept) => {
+      for (let n = 0; n < 5; n++) {
+        const state = await observe()
+        if (accept(state)) return state
+      }
+      throw new Error('bounded test endpoint did not settle')
+    }
+    let error
+    try {
+      await navigate({
+        keyboard,
+        map,
+        read,
+        until,
+        health: () => {},
+        grid: (s) => s.position,
+        inScene: (s) => s.scene === 's003',
+        ready: (s) => s.ready,
+        destination: (c, r) => c === 133 && r === 43,
+        finished: (s) => s.scene === 's001' && s.ready,
+        onInput: () => {},
+        onProgress: () => {},
+      })
+    } catch (caught) {
+      error = caught
+    }
+    return { error, actions, held, index }
+  }
+  const old = await exercise(navigateInnRoute)
+  assert.match(old.error.message, /unexpected script/)
+  const current = await exercise(navigateMealRoute)
+  assert.equal(current.error, undefined)
+  assert.deepEqual(current.actions, [
+    ['down', 'ArrowUp'],
+    ['up', 'ArrowUp'],
+  ])
+  assert.equal(current.held.size, 0)
+  assert.equal(current.index, 4, 'event without dialogue must not count as the full endpoint')
+})
+test('004 rejects a script outside the goal without current-leg ordinary landing proof and leaves all input up', async () => {
+  const map = JSON.parse(
+    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
+  )
+  for (const initiallyBusy of [false, true]) {
+    const start = { scene: 's003', position: [133, 44], ready: !initiallyBusy },
+      outside = { scene: 's003', position: [133, 44], ready: false }
+    let reads = 0
+    const held = new Set()
+    await assert.rejects(
+      navigateMealRoute({
+        keyboard: { down: async (key) => held.add(key), up: async (key) => held.delete(key) },
+        map,
+        read: async () => (reads++ === 0 ? start : outside),
+        until: async (read, accept) => {
+          const s = await read()
+          assert(accept(s))
+          return s
+        },
+        health: () => {},
+        grid: (s) => s.position,
+        inScene: (s) => s.scene === 's003',
+        ready: (s) => s.ready,
+        destination: (c, r) => c === 133 && r === 43,
+        finished: (s) => s.scene === 's001' && s.ready,
+        onInput: () => {},
+        onProgress: () => {},
+      }),
+      /outside target boundary/,
+    )
+    assert.equal(held.size, 0)
+  }
+})
+test('004 game boundary proof rejects scripted placement, old legs, other scenes and no displacement', () => {
+  const event = {
+    order: 11,
+    kind: 'actor',
+    id: 'party',
+    scene: 's003',
+    source: 'commit:tickSceneInput',
+    before: { position: [1424, 1416] },
+    state: { position: [1440, 1408] },
+  }
+  const goal = (c, r) => c === 133 && r === 43
+  const trace = (value) => ({ events: [value], errors: [], overflow: false })
+  assert.equal(mealGameBoundaryCommitted(trace(event), 10, 's003', goal), true)
+  for (const patch of [
+    { source: 'commit:applyRawOpcode' },
+    { source: 'commit:player.pos' },
+    { order: 10 },
+    { scene: 's001' },
+    { before: event.state },
+  ])
+    assert.equal(mealGameBoundaryCommitted(trace({ ...event, ...patch }), 10, 's003', goal), false)
+})
+test('004 game observed script after a real current-leg landing waits without any further direction input', async () => {
+  const map = JSON.parse(
+    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
+  )
+  const states = [
+    { scene: 's003', position: [133, 44], ready: true },
+    { scene: 's003', position: [134, 43], ready: false },
+    { scene: 's001', position: [108, 30], ready: true },
+  ]
+  const held = new Set(),
+    actions = []
+  let reads = 0,
+    committed = false
+  const read = async () => states[Math.min(reads++, states.length - 1)]
+  await navigateMealRoute({
+    keyboard: {
+      down: async (key) => {
+        held.add(key)
+        actions.push(['down', key])
+        committed = true
+      },
+      up: async (key) => {
+        held.delete(key)
+        actions.push(['up', key])
+      },
+    },
+    map,
+    read,
+    until: async (observe, accept) => {
+      for (let n = 0; n < 4; n++) {
+        const s = await observe()
+        if (accept(s)) return s
+      }
+      throw new Error('expected endpoint missing')
+    },
+    health: () => {},
+    grid: (s) => s.position,
+    inScene: (s) => s.scene === 's003',
+    ready: (s) => s.ready,
+    destination: (c, r) => c === 133 && r === 43,
+    finished: (s) => s.scene === 's001' && s.ready,
+    onInput: () => {},
+    onProgress: () => {},
+    boundaryCommitted: () => committed,
+  })
+  assert.deepEqual(actions, [
+    ['down', 'ArrowUp'],
+    ['up', 'ArrowUp'],
+  ])
+  assert.equal(held.size, 0)
 })
