@@ -1,6 +1,7 @@
 # O/Q NEXT2 Codex 独立原始证据
 
 [审核与一次合并提示词](../codex-oq-next2-review-20261002.md)、[机器审核](../codex-oq-next2-review-20261002.json)、[运行/源与支持文件 hash 清单](manifest.json)、[O09 真实解压复现](o09-probe.json)。
+[Q返工独立G/B合法输入2/2](../codex-q-next2-r1-input-preflight-20261002.json)另保留真实命令与输出 `q-input-preflight.run.json.raw.txt`；只运行公开函数，未变异产品、不计有效针或新例。
 
 每个实际执行的 `NAME.json.raw.txt` 是原始 Vitest JSON 字节，`NAME.run.json.raw.txt` 保留命令、cwd、exit/signal/spawn、完整 stdout/stderr 与执行前完整源码快照。清单中的 SHA256 对应原字节，不是格式化报告 hash。
 机器审核中每针标清正控实际复用的最近恢复报告；它是同一固定源/测试/fixture/config 的真实运行，不冒称另外启动一遍。

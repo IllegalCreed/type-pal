@@ -1,0 +1,38 @@
+{
+  "source": "packages/reforge/src/dither-transition.ts",
+  "sourceSha256": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+  "purpose": "legal literal G-only/B-only input preflight for repair; no source mutation, not valid-red counter evidence",
+  "passed": 2,
+  "results": [
+    {
+      "component": "G",
+      "palette5": [10, 0, 0],
+      "palette6": [10, 10, 0],
+      "other254Colors": [255, 255, 255],
+      "input": [10, 9, 0, 255],
+      "actual": 6,
+      "expected": 6,
+      "manuallyDerivedDistances": {
+        "index5": 81,
+        "index6": 1,
+        "omitThisComponentBoth": 0
+      },
+      "mutatedProductActuallyRerun": false
+    },
+    {
+      "component": "B",
+      "palette5": [10, 0, 0],
+      "palette6": [10, 0, 10],
+      "other254Colors": [255, 255, 255],
+      "input": [10, 0, 9, 255],
+      "actual": 6,
+      "expected": 6,
+      "manuallyDerivedDistances": {
+        "index5": 81,
+        "index6": 1,
+        "omitThisComponentBoth": 0
+      },
+      "mutatedProductActuallyRerun": false
+    }
+  ]
+}
