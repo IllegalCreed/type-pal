@@ -48,7 +48,7 @@
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
-    "fullEditorSuite": "517 files / 3864 tests 全绿 exit 0",
+    "fullEditorSuite": "518 files / 3872 tests 全绿 exit 0（P03b 8 例入集）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2825 files 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
@@ -67,7 +67,7 @@
     "packages/editor/src/core/project-diagnostics.glm-p.test.ts": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
     "packages/editor/src/core/editor-asset-io.glm-p.test.ts": "c333f92de0cc84bff36aca4a6aa70bdb12ace8e00f1bc54e36046a737e738e83",
     "packages/editor/src/core/script-editor.p03.glm-p.test.ts": "4f19e7f7e1920832de7e3ec29c7009f0b2dfb4fd486a6afec1a4468d152ab672",
-    "packages/editor/src/core/script-editor.p03b.glm-p.test.ts": "bbc2a20e9264150512716afc27ca30f365df0ecef7ce839acd0cf8da01781b7e",
+    "packages/editor/src/core/script-editor.p03b.glm-p.test.ts": "b35c02bd755c6f125fb5734b7c80b5f9131f34b9e5f17c8e37f9bc82036ab575",
     "packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
     "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
     "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "855efe4f06f46b54d3b325078821fe831868a2a9d5adddcd08e861efd1189287",

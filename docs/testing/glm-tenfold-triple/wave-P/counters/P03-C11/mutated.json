@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790901571714,
+  "startTime": 1790912102698,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
           "status": "passed",
           "title": "页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
-          "duration": 4.152750000000026,
+          "duration": 3.941665999999998,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
           "status": "passed",
           "title": "嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
-          "duration": 1.4698750000000018,
+          "duration": 1.2616250000000377,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,9 +54,9 @@
           "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
           "status": "failed",
           "title": "合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
-          "duration": 2.5774580000000356,
+          "duration": 2.2646669999999745,
           "failureMessages": [
-            "AssertionError: expected undefined to be defined\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C11-LT0sQe/packages/editor/src/core/script-editor.p03.glm-p.test.ts:274:21\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected undefined to be defined\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C11-nFaU1s/packages/editor/src/core/script-editor.p03.glm-p.test.ts:274:21\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ],
           "meta": {},
           "tags": []
@@ -66,7 +66,7 @@
           "fullName": "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
           "status": "passed",
           "title": "不存在的 behaviorId → 空引用列表（只读收集不抛错）",
-          "duration": 0.48741699999999355,
+          "duration": 0.4773330000000442,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -76,7 +76,7 @@
           "fullName": "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
           "status": "passed",
           "title": "hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
-          "duration": 0.6171669999999949,
+          "duration": 0.5816669999999817,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -86,7 +86,7 @@
           "fullName": "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
           "status": "passed",
           "title": "真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
-          "duration": 0.691791999999964,
+          "duration": 0.6483339999999771,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -96,7 +96,7 @@
           "fullName": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
           "status": "passed",
           "title": "destinationExists 三臂：command/entity-page/scene-hook-initial",
-          "duration": 0.5599580000000515,
+          "duration": 0.5178750000000036,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -108,7 +108,7 @@
           "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
           "status": "passed",
           "title": "五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
-          "duration": 0.408375000000035,
+          "duration": 0.3902079999999728,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -120,7 +120,7 @@
           "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
           "status": "passed",
           "title": "悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
-          "duration": 1.2527499999999918,
+          "duration": 0.9681249999999864,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -132,7 +132,7 @@
           "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
           "status": "passed",
           "title": "describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
-          "duration": 0.4244160000000079,
+          "duration": 0.36529100000001336,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -144,17 +144,17 @@
           "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
           "status": "passed",
           "title": "describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
-          "duration": 0.36104199999999764,
+          "duration": 0.3575829999999769,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790901572126,
-      "endTime": 1790901572139.361,
+      "startTime": 1790912103133,
+      "endTime": 1790912103145.3652,
       "status": "failed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C11-LT0sQe/packages/editor/src/core/script-editor.p03.glm-p.test.ts"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P03-C11-nFaU1s/packages/editor/src/core/script-editor.p03.glm-p.test.ts"
     }
   ]
 }

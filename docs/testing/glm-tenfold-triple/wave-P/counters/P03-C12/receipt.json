@@ -5,7 +5,7 @@
   "replaceText": "        path: `scenes.${target.scene}.entities.${target.entity}.PAGE.${page.id}.${channel}`,",
   "testSpec": "src/core/script-editor.p03.glm-p.test.ts",
   "expectFullname": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
-  "candidateHead": "183e4fa9b4f17f4abb3113d57dabac0e830fa18c",
+  "candidateHead": "8130cd18fc64a8e72ab1932af5566b2043ea9fee",
   "productSha256Candidate": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
   "patch": "--- a/packages/editor/src/core/script-editor.ts\n+++ b/packages/editor/src/core/script-editor.ts\n@@ -697,7 +697,7 @@\n     if (page[channel] === behaviorId)\n       references.push({\n         kind: 'page',\n-        path: `scenes.${target.scene}.entities.${target.entity}.pages.${page.id}.${channel}`,\n+        path: `scenes.${target.scene}.entities.${target.entity}.PAGE.${page.id}.${channel}`,\n         locator: {\n           kind: 'entity-page',\n           sceneId: target.scene,\n",
   "positive": {

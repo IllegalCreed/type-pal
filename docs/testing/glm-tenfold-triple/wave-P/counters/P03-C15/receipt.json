@@ -5,7 +5,7 @@
   "replaceText": "  return false",
   "testSpec": "src/core/script-editor.p03.glm-p.test.ts",
   "expectFullname": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
-  "candidateHead": "183e4fa9b4f17f4abb3113d57dabac0e830fa18c",
+  "candidateHead": "8130cd18fc64a8e72ab1932af5566b2043ea9fee",
   "productSha256Candidate": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
   "patch": "--- a/packages/editor/src/core/script-editor.ts\n+++ b/packages/editor/src/core/script-editor.ts\n@@ -1031,10 +1031,7 @@\n         ?.entities.find((entity) => entity.id === locator.entityId)\n         ?.pages?.some((page) => page.id === locator.pageId),\n     )\n-  return (\n-    state.scenes.find((scene) => scene.id === locator.sceneId)?.hooks?.[locator.slot]?.initial ===\n-    locator.hookId\n-  )\n+  return false\n }\n \n export function describeScriptCommandOwner(\n",
   "positive": {

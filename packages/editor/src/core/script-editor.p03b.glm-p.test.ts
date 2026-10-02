@@ -16,11 +16,11 @@
 import type { AuthorCommand, AuthorSceneDef, AuthorScriptFlow } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
-  ScriptEditSession,
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalScriptCommandVisit,
   collectCanonicalScriptCommandVisits,
   type ScriptEditorState,
+  ScriptEditSession,
 } from './script-editor.js'
 
 const target = { scene: 's001', entity: 'e1' }

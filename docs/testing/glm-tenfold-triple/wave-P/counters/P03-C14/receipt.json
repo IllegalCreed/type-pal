@@ -5,7 +5,7 @@
   "replaceText": "    return [`场景 ${owner.sceneId}`, `实体 ${owner.entityId}`, '战败脚本'].join(' / ')",
   "testSpec": "src/core/script-editor.p03.glm-p.test.ts",
   "expectFullname": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
-  "candidateHead": "183e4fa9b4f17f4abb3113d57dabac0e830fa18c",
+  "candidateHead": "8130cd18fc64a8e72ab1932af5566b2043ea9fee",
   "productSha256Candidate": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
   "patch": "--- a/packages/editor/src/core/script-editor.ts\n+++ b/packages/editor/src/core/script-editor.ts\n@@ -1062,7 +1062,7 @@\n     ].join(' / ')\n   }\n   if (owner.kind === 'entity-hostile-on-lose')\n-    return [`场景 ${owner.sceneId}`, `实体 ${owner.entityId}`, '战败后脚本'].join(' / ')\n+    return [`场景 ${owner.sceneId}`, `实体 ${owner.entityId}`, '战败脚本'].join(' / ')\n   if (owner.kind === 'item-private-script') {\n     const item = state.items.find((candidate) => candidate.id === owner.itemId)\n     return [\n",
   "positive": {
