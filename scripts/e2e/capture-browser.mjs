@@ -330,7 +330,8 @@ export function installLocalCapture() {
         throw new Error('video failed to decode a frame within capture budget')
       }
       // The known native video layer is black before decode, never the stale canvas below it.
-      // A tainted source must fail now rather than create a silent/empty artifact later.
+      // Reject tainted output before publication; intro checks at preparation and
+      // finalization avoid a synchronous readback on its first video frame.
       if (visual !== lastVisual) {
         if (!intro || phase === 'armed') drawing.getImageData(0, 0, 1, 1)
         event('visual-source', { surface: video ? 'video' : 'canvas', frame: renderedFrames })

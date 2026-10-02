@@ -8,7 +8,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| PRE-005-DEBT-1 | [005前边角与验收欠账](tasks/PRE-005-DEBT-1-current-edge-closeout.md) | build | Codex / 三独立包及统一收口 | 005暂停；三编辑器缺陷、录制/台账/退役清理；素材库按发布阶段 |
+| PRE-005-DEBT-1 | [005前边角与验收欠账](tasks/PRE-005-DEBT-1-current-edge-closeout.md) | review | Codex / 最终提交与退役清理 | 四编辑器修复已发布；录制代码/限空间短样已验，不补整片 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 窄返工 | r2 尚有3双强转、非法短色板、旧JSON及RC1哈希不符 |
@@ -105,7 +105,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / capture；005待用户定范围 | 两引擎各自001→004链已核，非同revision汇总；母卡未收口 |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 005待用户定范围 | 两引擎001→004链及本地录制工具已核；录像已按用户存储约束删除，非系列capture-ready |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
 
 2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：

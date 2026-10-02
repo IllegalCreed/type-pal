@@ -1,6 +1,6 @@
 # PRE-005-DEBT-1 — 005前当前边角与验收欠账收口
 
-Status: build
+Status: review
 Phase: ops
 Owner: Codex Root
 Coding Owner: 各独立包见白名单，Root统一接收
@@ -155,3 +155,17 @@ Root按磁盘约束删除自身14个旧合成/探针音视频（均在两个已�
 合并前后board、OPS-CURSOR-TEMP-CLEANUP-1原件及用户.zcodeignore SHA逐项不变；磁盘清理归另一任务，不计为本卡释放量。
 6012更新前真实DOM保存disabled/底栏已保存；HMR后仍s003同URL、已保存，原服务保留。
 未验收的录制首部代码没有随编辑器先行包发布。Root工作分支已合入main，保留双方提交与文档。
+
+## 本轮技术收口与明确边界
+
+四编辑器修复及十二历史卡验收归档已完成；录制工具的晚期健康、局部音源与首部三类counter全部闭合。
+首部`71b363073`已独立accept，Root工具182/182、lint2762文件0/0/0；两个生产模块小样源码哈希逐一匹配，
+临时媒体383611字节且已删除。Root最后只纠正一条taint检查的代码注释，语义不变，不冒称该注释已在旧小样运行。
+小型证据按同卷rename保存在主树`build/evidence-archive/pre005-20261002/intro-prime-small/`及
+`intro-analysis-small/`，总159318字节，`small-evidence-moves.json`保留原→现路径/哈希，无媒体复制。
+当前raw素材逐文件核对与main一致：raw266（含重复raw/raw）、extracted2906、migrated1933、runtime1，
+故退役工作树不丢独有输入；必要build证据收尾时同卷移动，不再复制大备份。
+
+本轮不启动005、不改PAL剧情、不开服务器版本化素材库，也不借此关闭后期语义命名/全游戏Q1/Q2/外部补测。
+用户已删整片，交付是代码与小型回执；修订后没有再次完整录制RF001，不对已删视频做媒体验收承诺。
+下一步仅最终Git交付和本轮已退役工作树清理，无需用户代跑技术测试。

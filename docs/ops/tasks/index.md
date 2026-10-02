@@ -9,7 +9,7 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](PRE-005-DEBT-1-current-edge-closeout.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](PRE-005-DEBT-1-current-edge-closeout.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
