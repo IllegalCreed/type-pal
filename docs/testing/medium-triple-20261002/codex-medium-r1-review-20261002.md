@@ -66,7 +66,8 @@ G02-D01/D04/D08/D13/D14直接断言icon键0/1及精确像素/遮罩。D07证成�
 
 ## KIMI-R1-02 — 单红判据、执行范围与原raw
 
-`counters/mutants.mjs:80-96`先过滤passed/failed，再认executed1；独立原函数反例“指定AssertionError + pending兄弟”被误收。现10拒收自测未含这一叠加反例。
+`counters/mutants.mjs:80-96`先过滤passed/failed，再认executed1；独立原函数反例“同一登记file×fullName的一红 + pending重复叶子”被误收，两条均在exact-name声明范围内。现10拒收自测未含这一叠加反例。
+另保留历史不同名pending探针，但它可能是name-filter排除叶子，单凭该探针不作counter；不能将范围外未选中状态误判为必修业务红。
 clean和restored只检查退出及部分计数，未同判据核完整状态/身份；正控和每次恢复UNION85，target只执行1（其余pending），三枚same-field实执行67/50，三态原范围不同。
 三枚same-field的旧35/18确实非零且全绿、仅新1红；不是Cursor的零执行旧绿，不撤回其业务方向。
 四生产original/restored与最终源、重建mutant、repoHashes新旧测试hash均对应；但逐针未落测试三态SHA。

@@ -20,6 +20,8 @@
   "mainMerged": false,
   "done": false,
   "localEvidenceParent": "/private/tmp/codex-medium-r1-review.UvmjTG",
+  "ownedDetachedReviewCopiesRemoved": 3,
+  "localRawAndReportsRetained": true,
   "firstGates": {
     "grok": [
       {
@@ -1273,7 +1275,27 @@
       {
         "owner": "kimi",
         "probe": "target assertion red plus pending sibling",
-        "unexpectedlyAccepted": true
+        "unexpectedlyAccepted": true,
+        "notSufficientAloneForCounter": "Different-name pending may be explicitly unselected by an anchored name filter"
+      },
+      {
+        "owner": "kimi",
+        "probe": "same registered file/fullName assertion red plus pending duplicate inside the declared exact-name scope",
+        "unexpectedlyAccepted": true,
+        "input": [
+          {
+            "file": "/candidate.test.ts",
+            "fullName": "exact",
+            "status": "failed",
+            "failureMessages": ["AssertionError: business difference"]
+          },
+          {
+            "file": "/candidate.test.ts",
+            "fullName": "exact",
+            "status": "pending",
+            "failureMessages": []
+          }
+        ]
       },
       {
         "owner": "cursor",
