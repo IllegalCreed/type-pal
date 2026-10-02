@@ -42,6 +42,7 @@ const EXISTING_PROOF_IDS = new Set([
   'C07-G01-02',
   'C07-G01-10',
   'C05-G01-01',
+  'C05-G01-02',
   'C06-G07-02',
   'C06-G07-03',
   'C06-G07-04',
@@ -186,6 +187,15 @@ const EXISTING_PROOF_OLD = {
       "expect(sortedSpriteActions(...)).toMatchObject([{id:'first',index:0},{id:'late',index:1}]) @ :26-31",
     proofNote:
       "旧单测零基 index；wave2 sprite-actions.wave2.test.ts:38-49 expect(sortedSpriteActions(input)).toEqual(['action','a','b','c','action-2','z'].map((id, index) => ({ id, index, action: input.poses![id] }))) complete id/index/action array",
+  },
+  'C05-G01-02': {
+    oldTestSha: blobSha('packages/editor/src/core/sprite-actions.wave2.test.ts'),
+    oldFile: 'packages/editor/src/core/sprite-actions.wave2.test.ts',
+    oldFullName: '按 order/label/id 稳定排序并派生零基显示编号',
+    oldMatcher:
+      "expect(sortedSpriteActions(input)).toEqual(['action','a','b','c','action-2','z'].map(...)) @ :38-49 — action.order=0 before missing-order action-2/z",
+    proofNote:
+      'wave2 完整数组直证 order=0 排在缺省 order 之前；同 patch 亦令 CTR-C05-09 与 wave2 共红，故转 existing-proof/cross-check',
   },
   'C06-G07-02': {
     oldTestSha: blobSha('packages/editor/src/ui/StampPreviewCanvas.test.tsx'),
@@ -490,6 +500,25 @@ function isReactComponentSym(sym, src) {
   return /export function /.test(text) || /forwardRef/.test(text)
 }
 
+/** Prop/callback type lines must not be cited as sourceCondition branches. */
+function isPropsTypeLine(trimmed) {
+  if (!trimmed) return false
+  if (/^export function \w+\(props\s*:/.test(trimmed)) return true
+  // onFoo?: (…)=> void / foo: Type
+  if (
+    /^\w+\??\s*:\s*(\(|readonly\s+|boolean\b|string\b|number\b|ReactNode\b|undefined\b)/.test(
+      trimmed,
+    )
+  )
+    return true
+  if (
+    /=>\s*(void|Promise<|boolean|string|number|undefined)\b/.test(trimmed) &&
+    !/\b(if|return|throw)\b/.test(trimmed)
+  )
+    return true
+  return false
+}
+
 /**
  * Cite render/state branches touched by oracle keywords for React components.
  * @param {{ lines: string[] }} src
@@ -519,12 +548,15 @@ function componentBranchCondition(src, primaryPath, oracle, body, sym, exportLin
   const seen = new Set()
   for (let i = 0; i < src.lines.length; i++) {
     const line = src.lines[i]
+    const trimmed = line.trim()
+    // Props/type signatures are not runtime conditions (R4 honesty).
+    if (isPropsTypeLine(trimmed)) continue
     for (const kw of hitKeywords) {
       if (!line.includes(kw)) continue
       const key = `${i + 1}:${kw}`
       if (seen.has(key)) continue
       seen.add(key)
-      cites.push(`${primaryPath}:${i + 1} ${kw}: ${line.trim().replace(/\s+/g, ' ').slice(0, 120)}`)
+      cites.push(`${primaryPath}:${i + 1} ${kw}: ${trimmed.replace(/\s+/g, ' ').slice(0, 120)}`)
       break
     }
     if (cites.length >= 6) break
@@ -1076,16 +1108,20 @@ function productionCallersFor(symbols, body, primarySource) {
     used.push('mountStampPreview')
   }
 
-  const refs = []
+  const production = []
+  const harness = []
   for (const sym of used) {
     const list = prodCallerIndex.get(sym) ?? []
     for (const entry of list) {
-      if (!refs.includes(entry)) refs.push(entry)
-      if (refs.length >= 8) break
+      if (/\(harness\)/.test(entry)) {
+        if (!harness.includes(entry)) harness.push(entry)
+      } else if (!production.includes(entry)) {
+        production.push(entry)
+      }
     }
-    if (refs.length >= 8) break
   }
-  return refs.slice(0, 8)
+  // Production first; harness appended only as separate non-production evidence.
+  return [...production.slice(0, 6), ...harness.slice(0, 2)]
 }
 
 function formatCallerField(testRefs, prodRefs, testRepoPath, testStartLine) {
@@ -1093,11 +1129,21 @@ function formatCallerField(testRefs, prodRefs, testRepoPath, testStartLine) {
     testRefs.length > 0
       ? `test: ${testRefs.join('; ')}`
       : `test: ${testRepoPath}:${testStartLine} test invoke`
+  const productionOnly = []
+  const harnessOnly = []
+  for (const ref of prodRefs) {
+    if (/\(harness\)/.test(ref) || /harness:/.test(ref)) harnessOnly.push(ref)
+    else productionOnly.push(ref)
+  }
   const prodPart =
-    prodRefs.length > 0
-      ? `production: ${prodRefs.join('; ')}`
-      : 'production: none found in packages/editor/src (excl. *.test.*)'
-  return `${testPart} | ${prodPart}`
+    productionOnly.length > 0
+      ? `production: ${productionOnly.join('; ')}`
+      : 'production: none found in packages/editor/src (excl. *.test.* / harness)'
+  const harnessPart =
+    harnessOnly.length > 0
+      ? `harness: ${harnessOnly.join('; ')}`
+      : 'harness: none (not a production caller)'
+  return `${testPart} | ${prodPart} | ${harnessPart}`
 }
 
 function oldAssertionFor(id, dedupHeader) {
@@ -1267,7 +1313,22 @@ for (const t of directed.tests ?? []) {
 
   const overlay = humanOverrides[id]
   if (overlay && typeof overlay === 'object') {
-    contract = /** @type {Record<string, unknown>} */ (deepMerge(contract, overlay))
+    // Never promote tool candidates into ledger oldAssertion via merge.
+    const { toolOldAssertionCandidate, ...overlayRest } = /** @type {Record<string, unknown>} */ (
+      overlay
+    )
+    contract = /** @type {Record<string, unknown>} */ (deepMerge(contract, overlayRest))
+    if (toolOldAssertionCandidate) {
+      contract.toolOldAssertionCandidate = toolOldAssertionCandidate
+    }
+    // Honesty: humanVerified only when explicitly human-ledger (not tool-string-match).
+    if (
+      overlayRest.verification === 'tool-string-match' ||
+      (overlayRest.humanVerified === true && overlayRest.verification !== 'human-ledger')
+    ) {
+      contract.humanVerified = false
+      contract.verification = String(overlayRest.verification ?? 'tool-string-match')
+    }
     overlaysApplied++
   }
 

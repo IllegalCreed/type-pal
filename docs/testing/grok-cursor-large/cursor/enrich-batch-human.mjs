@@ -143,19 +143,21 @@ for (const batch of batches) {
     }
     if (!best || !bestPath) continue
     if (best.key.length < 12) continue
+    // R4: tool string match is a candidate only — never humanVerified.
     pack[c.id] = {
       ...(pack[c.id] ?? {}),
-      humanVerified: true,
+      humanVerified: false,
+      verification: 'tool-string-match',
       classification: c.classification,
-      oldAssertion: {
+      toolOldAssertionCandidate: {
         oldTestSha: blobSha(bestPath),
         oldFile: bestPath,
         oldFullName: describeFullName(loadOld(bestPath), best.line),
         oldMatcher: `${best.text} @ :${best.line} (key=${JSON.stringify(best.key)})`,
         dedupHeader: c.oldAssertion?.dedupHeader ?? '',
-        note: `CURSOR-R3-01 batch ${batch} high-confidence shared expect fragment; not auto-reclassified`,
+        note: `enrich-batch-human ${batch} shared expect fragment candidate; not human-accepted`,
       },
-      notes: `enrich-batch-human ${batch}`,
+      notes: `enrich-batch-human ${batch}; tool-string-match ≠ humanVerified`,
     }
     written++
   }

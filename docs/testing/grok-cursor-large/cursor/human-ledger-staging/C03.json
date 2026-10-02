@@ -1,0 +1,1125 @@
+{
+  "batch": "C03",
+  "overlays": {
+    "C03-G06-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:94-95 prepareAuthoredImage — sourceBytes=file.arrayBuffer(); :136-147 record.path `assets/authored/${kind}/${hash}.png`",
+      "legalInput": "fixture: const rgba = solidRgba(4, 4, [40, 80, 120, 255]) const bytes = pngRgba(4, 4, rgba) const file = pngFileOf('hero-face.png', bytes) const prepared = await prepareAuthoredImage(file, 'portrait')",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:42 prepared | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage; packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(prepared.width).toBe(4) | expect(prepared.height).toBe(4) | expect(new Uint8Array(prepared.bytes)).toEqual(new Uint8Array(bytes)) | expect(prepared.hash).toBe(await sha256Hex(bytes.slice().buffer)) | expect(prepared.record.kind).toBe('portrait') | expect(prepared.record.path).toBe(`assets/authored/portrait/${prepared.hash}.png`) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait"
+    },
+    "C03-G06-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:110 if (kind === \"battle-background\") quantize branch; face/portrait skip → effectPreviewBytes undefined",
+      "legalInput": "fixture: const file = pngFileOf('face.png', pngRgba(2, 2, solidRgba(2, 2, [1, 2, 3, 255]))) const prepared = await prepareAuthoredImage(file, 'face', undefined, '表情')",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:55 prepared | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage; packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(prepared.effectPreviewBytes).toBeUndefined() | expect(prepared.record.label).toBe('表情') | expect(prepared.record.origin).toEqual({ kind: 'authored', ref: 'face.png' }) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId face 直传不产生 effectPreviewBytes"
+    },
+    "C03-G06-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:150 label: label || file.name.replace(/\\.png$/i, \"\")",
+      "legalInput": "fixture: const file = pngFileOf('Sword.Icon.png', pngRgba(3, 3, solidRgba(3, 3, [9, 9, 9, 255]))) const prepared = await prepareAuthoredImage(file, 'item-icon')",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:63 prepared | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage; packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(prepared.record.label).toBe('Sword.Icon') | expect(prepared.record.mediaType).toBe('image/png') | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId item-icon label 缺省剥扩展名"
+    },
+    "C03-G06-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:56 if (!name.toLowerCase().endsWith(\".png\")) throw",
+      "legalInput": "fixture: const file = { name: 'a.jpeg', type: 'image/jpeg', arrayBuffer: async () => new ArrayBuffer(8) } as File; prepareAuthoredImage(file, 'portrait')",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:70 prepareAuthoredImage | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage; packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: await expect(prepareAuthoredImage(file, 'portrait')).rejects.toThrow('只允许导入 PNG 文件') | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId 非 .png 扩展名拒绝"
+    },
+    "C03-G06-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:58-60 PNG signature expected[137,80,78,71…] mismatch throw `${name}: 不是有效 PNG`",
+      "legalInput": "fixture: const file = pngFileOf('broken.png', new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7]))",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:79 prepareAuthoredImage | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage; packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: await expect(prepareAuthoredImage(file, 'portrait')).rejects.toThrow(/broken\\.png/) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId 坏 PNG 签名：错误带文件名"
+    },
+    "C03-G06-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:161-162 nextAuthoredImageId — if (!catalog.assets[base]) return base",
+      "legalInput": "fixture: const hash = 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789'",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:84 test case body | production: packages/editor/src/ui/ImageTab.tsx:526 nextAuthoredImageId; packages/editor/src/ui/ItemTab.tsx:1230 nextAuthoredImageId",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(nextAuthoredImageId(emptyCatalog(), 'portrait', hash)).toBe( `portrait.authored.${hash.slice(0, 16)}`, ) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId nextAuthoredImageId：base 空闲直接返回 hash 前 16"
+    },
+    "C03-G06-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:163-166 suffix loop `${base}-${suffix}` until catalog slot free",
+      "legalInput": "fixture: const catalog = emptyCatalog() const hash = 'a'.repeat(64) const base = nextAuthoredImageId(catalog, 'face', hash) const second = nextAuthoredImageId(catalog, 'face', hash)",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:91 test case body | production: packages/editor/src/ui/ImageTab.tsx:526 nextAuthoredImageId; packages/editor/src/ui/ItemTab.tsx:1230 nextAuthoredImageId",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(second).toBe(`${base}-2`) | expect(nextAuthoredImageId(catalog, 'face', hash)).toBe(`${base}-3`) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId base 占用递增 -2/-3 后缀"
+    },
+    "C03-G06-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:55-60 assertPng — !name.endsWith(.png) throw; PNG signature bytes check",
+      "legalInput": "fixture: const hash = 'b'.repeat(64) const portraitId = nextAuthoredImageId(emptyCatalog(), 'portrait', hash) const catalog = emptyCatalog() const faceId = nextAuthoredImageId(catalog, 'face', hash)",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:110 test case body | production: packages/editor/src/ui/ImageTab.tsx:526 nextAuthoredImageId; packages/editor/src/ui/ItemTab.tsx:1230 nextAuthoredImageId",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(faceId).toBe(`face.authored.${hash.slice(0, 16)}`) | expect(faceId).not.toBe(portraitId) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId 同 hash 不同 kind 的 base 互不占用"
+    },
+    "C03-G06-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:138 return { sourceBytes, bytes, … } preserves original buffer",
+      "legalInput": "fixture: const payload = pngRgba(5, 5, solidRgba(5, 5, [3, 3, 3, 255])) const file = pngFileOf('keep-src.png', payload) const prepared = await prepareAuthoredImage(file, 'item-icon')",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:128 prepared | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage; packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(prepared.sourceBytes.byteLength).toBe(payload.byteLength) | expect(new Uint8Array(prepared.sourceBytes)).toEqual(new Uint8Array(payload)) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId sourceBytes 保留原始文件缓冲引用长度"
+    },
+    "C03-G06-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/image-import.ts",
+      "sourceCondition": "packages/editor/src/core/image-import.ts:146 path uses kind segment portrait vs face",
+      "legalInput": "fixture: const payload = pngRgba(2, 2, solidRgba(2, 2, [7, 7, 7, 255])) const file = pngFileOf('same.png', payload) const portrait = await prepareAuthoredImage(file, 'portrait') const face = await prepareAuthoredImage(file, 'face')",
+      "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:136 prepareAuthoredImage | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage; packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas"
+      },
+      "notes": "oracle: expect(portrait.hash).toBe(face.hash) | expect(portrait.record.path).toContain('/portrait/') | expect(face.record.path).toContain('/face/') | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分"
+    },
+    "C03-G05-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: mounted = await mountUploader(project.assetBase) const atlas = solidAtlasPng(16, 16, atlasColors(3)) await bsuPick(m().host, pngFileOf('row.png', atlas.bytes)) await act(async () => bsuButton(m().host, '应用外观')!.click())",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:64 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）')) | expect(bsuNumber(m().host, '战斗精灵帧宽').value).toBe('16') | expect(bsuThumbs(m().host)).toBe(3) | expect(m().applies).toHaveLength(1)) | expect(m().applies[0]!.frameCount).toBe(3) | expect(m().applies[0]!.blob.byteLength).toBeGreaterThan(0) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 横排 3 帧：缺省帧尺寸猜测、预览数与应用 gzip 帧带"
+    },
+    "C03-G05-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: mounted = await mountUploader(project.assetBase) const atlas = gridAtlasPng(2, 2, 16, 16, atlasColors(4)) await bsuPick(m().host, atlasFile('grid.png', atlas)) await typeDraft(bsuNumber(m().host, '战斗精灵帧宽'), '16') await typeDraft(bsuNumber(m().host, '战斗精灵帧高'), '16')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:77 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuSummary(m().host)).toBe('共 4 帧（横排逐行切）')) | expect(bsuThumbs(m().host)).toBe(4) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 2×2 网格图：16×16 帧切 4 帧"
+    },
+    "C03-G05-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: mounted = await mountUploader(project.assetBase) const atlas = solidAtlasPng(16, 16, atlasColors(3)) await bsuPick(m().host, pngFileOf('row.png', atlas.bytes)) await typeDraft(bsuNumber(m().host, '战斗精灵帧宽'), '10')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:87 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）')) | expect(bsuSummary(m().host)).toBe('图 48×16 切不开（宽高须整除）') | expect(bsuButton(m().host, '应用外观')!.disabled).toBe(true) | expect(bsuThumbs(m().host)).toBe(0) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 整除破坏：精确文案、预览消失且应用禁用"
+    },
+    "C03-G05-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: mounted = await mountUploader(project.assetBase) const atlas = solidAtlasPng(16, 16, atlasColors(2)) await bsuPick(m().host, pngFileOf('pair.png', atlas.bytes)) await act(async () => bsuButton(m().host, '取消')!.click())",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:98 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuThumbs(m().host)).toBe(2)) | expect(mounted.cancels).toHaveLength(1) | expect(m().applies).toEqual([]) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 取消零提交；有预览时也不触发 onApply"
+    },
+    "C03-G05-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: const { assetBase, hold } = gatePalette(project.assetBase) mounted = await mountUploader(assetBase) const atlas = solidAtlasPng(16, 16, atlasColors(1)) await bsuPick(m().host, pngFileOf('late.png', atlas.bytes)) await act(async () => { await Promise.resolve() await act(async () => bsuButton(m().host, '应用外观')!.click())",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:108 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuThumbs(m().host)).toBe(0) | expect(bsuThumbs(m().host)).toBe(1)) | expect(m().applies).toHaveLength(1)) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 色盘迟到：预览空白，放行后出现缩略图并可应用"
+    },
+    "C03-G05-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: const broken = failingPalette(project.assetBase, 'bsu-palette-down') mounted = await mountUploader(broken) await vi.waitFor(() => { await mounted.setAssetBase(project.assetBase) const atlas = solidAtlasPng(16, 16, atlasColors(1)) await bsuPick(m().host, pngFileOf('ok.png', atlas.bytes)) await act(async () => bsuButton(",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:123 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(mounted!.host.querySelector('.bsu .err')?.textContent).toBe('bsu-palette-down') | expect(mounted!.host.querySelector('.bsu .err')).toBeNull()) | expect(bsuThumbs(m().host)).toBe(1)) | expect(m().applies).toHaveLength(1)) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 色盘失败回显 err；换合法 assetBase 并重选后可应用"
+    },
+    "C03-G05-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: const gate = installGatedCompressPort() mounted = await mountUploader(project.assetBase) const atlas = solidAtlasPng(16, 16, atlasColors(1)) await bsuPick(m().host, pngFileOf('one.png', atlas.bytes)) const apply = bsuButton(m().host, '应用外观')! await act(async () => apply.click())",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:138 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuThumbs(m().host)).toBe(1)) | expect(apply.disabled).toBe(true)) | expect(bsuButton(m().host, '取消')!.disabled).toBe(true) | expect(m().applies).toHaveLength(0) | expect(m().applies).toHaveLength(1)) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 应用在途：compress 扣留期间按钮禁用且最终只 apply 一次"
+    },
+    "C03-G05-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: mounted = await mountUploader(project.assetBase) await bsuPick(m().host, pngFileOf('bad.png', new Uint8Array([1, 2, 3])))",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:154 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(m().host.querySelector('.bsu .err')).not.toBeNull()) | expect(bsuThumbs(m().host)).toBe(0) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 坏文件字节：err 回显且无预览网格"
+    },
+    "C03-G05-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: mounted = await mountUploader(project.assetBase) const good = solidAtlasPng(16, 16, atlasColors(1)) await bsuPick(m().host, pngFileOf('good.png', good.bytes)) await bsuPick(m().host, pngFileOf('bad.png', new Uint8Array([0]))) await act(async () => bsuButton(m().host, '取消')!.click())",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:161 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuThumbs(m().host)).toBe(1)) | expect(m().host.querySelector('.bsu .err')).not.toBeNull()) | expect(m().applies).toEqual([]) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 合法预览后重选坏文件：err 回显且仍可取消零提交"
+    },
+    "C03-G05-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteUploader.tsx:74-75 slice grid — if (rgba.w % frameW !== 0 || rgba.h % frameH !== 0) return []",
+      "legalInput": "fixture: mounted = await mountUploader(project.assetBase, async () => { const atlas = solidAtlasPng(16, 16, atlasColors(1)) await bsuPick(m().host, pngFileOf('one.png', atlas.bytes)) await act(async () => bsuButton(m().host, '应用外观')!.click()) await vi.waitFor(() => {",
+      "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:172 mounted | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader; packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader; packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；"
+      },
+      "notes": "oracle: expect(bsuThumbs(m().host)).toBe(1)) | expect(m().host.querySelector('.bsu .err')?.textContent).toBe('apply-rejected') | expect(bsuButton(m().host, '应用外观')!.disabled).toBe(false) | expect(m().applies).toHaveLength(1) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 onApply 拒绝：err 回显且提交门复位可再点"
+    },
+    "C03-G03-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-01', VIEW_SPECS) mounted = await mountViewer(project, { await waitMeta(m().host, 4, 2)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:66 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(m().proofs.at(-1)).toEqual({ asset: 'sprite.view.alpha', revision: project.seeded.get('sprite.view.alpha')!.sha256, actualFrameCount: 4, }) | expect(m().framesLog.at(-1)).toHaveLength(4) | expect(m().host.textContent).toContain('由 2 个用途共享') | classification: new-contract; axis: C03-G03 真实解码与切帧 真实解码：帧数/用途元数据、onLoaded proof 与 onFramesLoaded 长度一致"
+    },
+    "C03-G03-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:355 index=min(selectedFrame, frames-1) drives large canvas aria-label frame index",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-02', VIEW_SPECS) mounted = await mountViewer(project, { await waitMeta(m().host, 4, 2) await act(async () => toolbarButton(m().host, '下一帧').click()) await vi.waitFor(() => {",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:82 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(m().host.textContent).toContain('8 × 8 px') | expect(currentFrameLabel(m().host)).toBe('#0') | expect(mounted!.host.querySelector('canvas[aria-label=\"Alpha 显示 第 1 帧\"]')).not.toBeNull() | expect(frameCounter(m().host)).toMatch(/2\\s*\\/\\s*4/) | classification: new-contract; axis: C03-G03 真实解码与切帧 工具栏「下一帧」循环读数与 canvas aria-label 同步"
+    },
+    "C03-G03-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-03', VIEW_SPECS) mounted = await mountViewer(project, { await waitMeta(m().host, 4, 2) await selectFrame(m().host, 3)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:98 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer; packages/editor/src/ui/SpriteResourceViewer.tsx:221 selectFrame; packages/editor/src/ui/SpriteResourceViewer.tsx:249 selectFrame",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(m().selectedLog.at(-1)).toBe(3) | expect(m().host.querySelector('canvas[aria-label=\"Alpha 显示 第 3 帧\"]')).not.toBeNull() | expect(frameCell(m().host, 3).classList.contains('selected')).toBe(true) | classification: new-contract; axis: C03-G03 真实解码与切帧 源帧网格点选：selectedLog 记录且大图切到对应帧"
+    },
+    "C03-G03-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-04', VIEW_SPECS) mounted = await mountViewer(project, { await waitMeta(m().host, 4, 2) await m().setFrame(2) await vi.waitFor(() => {",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:111 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(m().selectedLog.at(-1)).toBe(2) | expect(mounted!.host.querySelector('canvas[aria-label=\"Alpha 显示 第 2 帧\"]')).not.toBeNull() | classification: new-contract; axis: C03-G03 真实解码与切帧 受控 selectedFrame：外部 setFrame 驱动 viewer 与回调"
+    },
+    "C03-G03-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-05', VIEW_SPECS) mounted = await mountViewer(project, { await waitMeta(m().host, 4, 2) await m().setAsset('sprite.view.beta', 'Beta 显示') await waitMeta(m().host, 2, 1)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:127 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(m().host.textContent).toContain('Beta 显示') | expect(m().host.textContent).toContain('2 帧 · 1 个用途定义') | expect(m().proofs.at(-1)?.asset).toBe('sprite.view.beta') | classification: new-contract; axis: C03-G03 真实解码与切帧 切到第二资源：标题/帧数/用途计数整体换为 beta"
+    },
+    "C03-G03-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-06', VIEW_SPECS) mounted = await mountViewer(project, { await waitMeta(m().host, 4, 2) await selectFrame(m().host, 3) await m().setAsset('sprite.view.beta', 'Beta 显示') await waitMeta(m().host, 2, 1)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:141 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer; packages/editor/src/ui/SpriteResourceViewer.tsx:221 selectFrame; packages/editor/src/ui/SpriteResourceViewer.tsx:249 selectFrame",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(m().host.querySelector('canvas[aria-label=\"Beta 显示 第 0 帧\"]')).not.toBeNull() | expect(m().selectedLog.at(-1)).toBe(0) | classification: new-contract; axis: C03-G03 真实解码与切帧 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）"
+    },
+    "C03-G03-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx — semantic-frame-shelf renders 默认使用 #0 + per-consumer .semantic-frame-row buttons",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-07', [ mounted = await mountViewer(project, { await waitMeta(m().host, 3, 2) const shelf = m().host.querySelector('.semantic-frame-shelf')",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:155 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "多帧源容器的默认布局只解释 #0，其它帧可组成独立循环动作",
+        "oldMatcher": "semantic-frame-shelf text contains '默认使用 #0'; .semantic-frame-row length 2 after action pick @ :273-285",
+        "note": "old mock-load DOM shelf axis matches new real-decode semantic shelf case"
+      },
+      "notes": "oracle: expect(shelf?.textContent).toContain('默认使用 #0') | expect(shelf?.textContent).toContain('Alpha 用途') | expect(shelf?.textContent).toContain('Alpha 副用途') | expect(m().host.querySelectorAll('.semantic-frame-row')).toHaveLength(2) | classification: new-contract; axis: C03-G03 真实解码与切帧 语义 shelf 展示两用途默认定格行与默认 #0 提示"
+    },
+    "C03-G03-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-08', VIEW_SPECS) const revision = project.seeded.get('sprite.view.alpha')!.sha256 mounted = await mountViewer(project, { await waitMeta(m().host, 4, 2) await m().setAsset('sprite.view.beta', 'Beta 显示') await waitMeta(m().host, 2, 1) await m().setAsset('sprite.view.",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:180 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(m().proofs.at(-1)).toEqual({ asset: 'sprite.view.alpha', revision, actualFrameCount: 4, }) | classification: new-contract; axis: C03-G03 真实解码与切帧 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变"
+    },
+    "C03-G03-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-09', VIEW_SPECS) mounted = await mountViewer(project, { await waitMeta(m().host, 2, 1) await act(async () => toolbarButton(m().host, '下一帧').click()) await vi.waitFor(() => {",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:199 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(mounted!.host.querySelector('canvas[aria-label=\"Beta 显示 第 1 帧\"]')).not.toBeNull() | classification: new-contract; axis: C03-G03 真实解码与切帧 「下一帧」从 #0 进入 #1"
+    },
+    "C03-G03-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:220-249 load effect — if (previousAssetRef.current !== props.asset) reset; selectFrame(min(selected, frames-1)) on success",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g03-10', VIEW_SPECS) mounted = await mountViewer(project, { await vi.waitFor(() => {",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:212 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与"
+      },
+      "notes": "oracle: expect(mounted!.host.querySelector('[data-testid=\"viewer-no-record\"]')).not.toBeNull() | expect(m().proofs).toEqual([]) | classification: new-contract; axis: C03-G03 真实解码与切帧 catalog 无记录时 harness 显示占位且不触发 proof"
+    },
+    "C03-G04-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 role=alert error surface; load catch sets error while preserving workspace shell",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-01', PAIR) const gated = gatedFileSource(project.source) const slowPath = project.seeded.get('sprite.late.a')!.path const hold = gated.gate(slowPath) mounted = await mountViewer(project, { await mounted.setAsset('sprite.late.b', '快 B') await waitMeta(mounted.host, ",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:67 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；"
+      },
+      "notes": "oracle: expect(mounted.host.textContent).toContain('正在解析帧资源 sprite.late.a') | expect(mounted.host.textContent).toContain('快 B') | expect(mounted.host.textContent).toContain('1 帧') | expect(mounted.host.textContent).not.toContain('3 帧') | expect(mounted.proofs.at(-1)?.asset).toBe('sprite.late.b') | classification: new-contract; axis: C03-G04 迟到、失败与恢复 磁盘 readBytes 迟到：先切走资源，旧读完成不覆盖新资源帧数"
+    },
+    "C03-G04-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 div.insp-empty.error role=alert renders decode/load failure message",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-02', [ mounted = await mountViewer(project, { await vi.waitFor(() => {",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:87 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
+        "oldMatcher": "failed.content querySelector('[role=\"alert\"]') text contains '损坏的精灵资源' @ :229",
+        "note": "same load-failure alert axis (new uses real corrupt bytes not mock reject)"
+      },
+      "notes": "oracle: expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull() | expect(mounted.proofs.at(-1)).toBeUndefined() | expect(mounted.framesLog.at(-1)).toEqual([]) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 损坏字节真实解码失败：role=alert 且 onLoaded 末次为 undefined"
+    },
+    "C03-G04-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 div.insp-empty.error role=alert renders decode/load failure message",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-03', [ mounted = await mountViewer(project, { await mounted.setAsset('sprite.late.b', '好 B') await waitMeta(mounted.host, 1, 1)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:108 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
+        "oldMatcher": "alert contains '损坏的精灵资源' @ :229",
+        "note": "workspace preserved + alert text — old mock reject, new real decode failure"
+      },
+      "notes": "oracle: expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull()) | expect(mounted.host.querySelector('[role=\"alert\"]')).toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 失败后切到合法资源：清 alert 并给出 proof"
+    },
+    "C03-G04-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/binary-signature.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 role=alert error surface; load catch sets error while preserving workspace shell",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-04', PAIR) mounted = await mountViewer(project, { await waitMeta(mounted.host, 1, 1) const record = mounted.session.getState().assetCatalog.assets['sprite.late.b']! const prevBytes = project.seeded.get('sprite.late.b')!.bytes const palette = await loadStandardPalet",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:130 loadCursorSpriteProject | production: packages/editor/src/core/author-save-journal.ts:258 sha256Hex; packages/editor/src/core/author-save-journal.ts:467 sha256Hex; packages/editor/src/core/battle-sprite-import.ts:89 sha256Hex",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；"
+      },
+      "notes": "oracle: expect(mounted!.proofs.at(-1)?.revision).toBe(sha) | expect(mounted!.proofs.at(-1)?.actualFrameCount).toBe(3) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 增帧 Replace 后会话 revision 更新且 viewer 读到 3 帧"
+    },
+    "C03-G04-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 role=alert error surface; load catch sets error while preserving workspace shell",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-05', PAIR) const gated = gatedFileSource(project.source) const hold = gated.gate(project.seeded.get('sprite.late.a')!.path) mounted = await mountViewer(project, { await unmountHost(mounted) await vi.waitFor(() => mounted = undefined",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:182 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；"
+      },
+      "notes": "oracle: expect(gated.completed).toContain(project.seeded.get('sprite.late.a')!.path), ) | expect(mounted.proofs.at(-1)).toBeUndefined() | classification: new-contract; axis: C03-G04 迟到、失败与恢复 解码在途卸载：不抛错且末次 proof 为 undefined"
+    },
+    "C03-G04-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 role=alert error surface; load catch sets error while preserving workspace shell",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-06', PAIR) const { assetBase, hold } = gatePalette(project.assetBase) mounted = await mountViewer(project, { await waitMeta(mounted.host, 1, 1)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:200 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "toolOldAssertionCandidate axis mismatch: CURSOR-R3-01 batch C03 high-confidence shared expect fragment; not auto-reclassified"
+      },
+      "notes": "oracle: expect(mounted!.host.textContent).toContain('正在解析')) | expect(mounted.host.querySelector('.sprite-resource-frame-grid')).not.toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 色盘 I/O 迟到：放行后才出现帧网格与 proof"
+    },
+    "C03-G04-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 role=alert error surface; load catch sets error while preserving workspace shell",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-07', PAIR) mounted = await mountViewer(project, { await waitMeta(mounted.host, 3, 1) await mounted.setAsset('sprite.late.b', 'B') await waitMeta(mounted.host, 1, 1) await mounted.setAsset('sprite.late.a', 'A2') await waitMeta(mounted.host, 3, 1)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:215 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；"
+      },
+      "notes": "oracle: expect(mounted.proofs.at(-1)).toMatchObject({ asset: 'sprite.late.a', actualFrameCount: 3, }) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 连续快速切换 A→B→A：最终 proof 仍指向 A 且帧数 3"
+    },
+    "C03-G04-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 div.insp-empty.error role=alert renders decode/load failure message",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-08', [ mounted = await mountViewer(project, { const first = mounted.host.querySelector('[role=\"alert\"]')!.textContent await mounted.setAsset('sprite.late.bad2', '坏2') await vi.waitFor(() => { const next = mounted!.host.querySelector('[role=\"alert\"]')!.textContent",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:232 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
+        "oldMatcher": "alert contains '损坏的精灵资源' @ :229",
+        "note": "alert axis only; new adds alive/workspace revision specifics"
+      },
+      "notes": "oracle: expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull()) | expect(next).not.toBe(first) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 失败后再切仍失败：alert 更新为第二次错误文案"
+    },
+    "C03-G04-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 role=alert error surface; load catch sets error while preserving workspace shell",
+      "legalInput": "fixture: await installGatedBitmapPort() const project = await loadCursorSpriteProject('c03-g04-09', PAIR) mounted = await mountViewer(project, { await waitMeta(mounted.host, 1, 1) await loadFilesIntoInput(appendInput(mounted.host), [ const message = await waitEditorMessage(mounted.host)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:262 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；"
+      },
+      "notes": "oracle: expect(message.classList.contains('error')).toBe(true) | expect(mounted.session.getHistoryVersion()).toBe(0) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 追加帧选非 PNG 字节：editor message 报错且零历史"
+    },
+    "C03-G04-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 role=alert error surface; load catch sets error while preserving workspace shell",
+      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-10', PAIR) mounted = await mountViewer(project, { await waitMeta(mounted.host, 3, 1) mounted.host.querySelectorAll('.sprite-resource-frame-grid [aria-label^=\"选择源帧 \"]'),",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:278 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；"
+      },
+      "notes": "oracle: expect(mounted.framesLog.at(-1)).toHaveLength(3) | expect( mounted.host.querySelectorAll('.sprite-resource-frame-grid [aria-label^=\"选择源帧 \"]'), ).toHaveLength(3) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 合法资源加载后 framesLog 与网格 aria 数一致"
+    },
+    "C03-G01-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const colors = atlasColors(12) const atlas = gridAtlasPng(3, 4, 8, 8, colors) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('walk-sheet.png', atlas)) await wizardWaitReady(mounted.host) await wizardClickSubmit(mounted.host) await waitDone(mounted.done) const state = mounted.scope.session",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:70 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardReadout(mounted.host)).toContain('3×4 帧 · 每帧 8×8') | expect(wizardThumbCount(mounted.host)).toBe(12) | expect(mounted.done).toEqual(['walk-sheet']) | expect(def.layout).toEqual({ kind: 'directional', framesPerDir: 3 }) | expect(frames).toHaveLength(12) | expect([...frames[index]!.pixels], `帧 ${index} 像素`).toEqual([...want.pixels]) | expect([...frames[index]!.opaque], `帧 ${index} 不透明`).toEqual([...want.opaque]) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望"
+    },
+    "C03-G01-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const atlas = gridAtlasPng(3, 4, 4, 4, atlasColors(12)) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('Hero Sheet_01.PNG', atlas)) await wizardWaitReady(mounted.host)",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:93 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardField(mounted.host, 'sprite-upload-id').value).toBe('hero-sheet-01') | expect(wizardField(mounted.host, 'sprite-upload-label').value).toBe('hero-sheet-01') | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除"
+    },
+    "C03-G01-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const atlas = gridAtlasPng(3, 4, 4, 4, atlasColors(12)) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('.png', atlas)) await wizardWaitReady(mounted.host) await wizardClickSubmit(mounted.host) await waitDone(mounted.done) const def = mounted.scope.session.getState().sprites.find((entry) =",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:102 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardField(mounted.host, 'sprite-upload-id').value).toBe('sprite') | expect(wizardField(mounted.host, 'sprite-upload-label').value).toBe('新精灵') | expect(def.label).toBe('新精灵') | expect(mounted.scope.session.getState().assetCatalog.assets[def.asset]?.label).toBe( '精灵资源 新精灵', ) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义"
+    },
+    "C03-G01-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const colors = atlasColors(4) const atlas = gridAtlasPng(2, 2, 8, 8, colors) mounted = await mountWizard(project) await wizardChooseKind(mounted.host, '默认定格') await wizardPick(mounted.host, atlasFile('lamp.png', atlas)) await wizardWaitReady(mounted.host) await wizardSetNumber(mounted.host, 'sprite-source-cols', 2) awa",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:118 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardReadout(mounted.host)).toContain('2×2 帧 · 每帧 8×8') | expect(wizardThumbCount(mounted.host)).toBe(4) | expect(def.layout).toEqual({ kind: 'static' }) | expect(frames).toHaveLength(4) | expect([...frames[index]!.pixels]).toEqual([...expectedFrame(palette, 8, 8, color).pixels]) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static"
+    },
+    "C03-G01-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const colors = atlasColors(10) const atlas = gridAtlasPng(2, 5, 8, 8, colors) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('mage.png', atlas)) await wizardWaitDecoded(mounted.host) await wizardSetNumber(mounted.host, 'sprite-upload-frames-per-direction', 2) await wizardSetNumber(mounted",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:139 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardReadout(mounted.host)).toContain('2×5 帧 · 每帧 8×8') | expect(mounted.host.textContent).toContain('动作1') | expect(def.layout).toEqual({ kind: 'directional', framesPerDir: 2 }) | expect(await decodeStoredSprite(mounted.scope.session, def.asset)).toHaveLength(10) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir"
+    },
+    "C03-G01-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const atlas = gridAtlasPng(1, 6, 8, 8, atlasColors(6)) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('rows.png', atlas)) await wizardWaitDecoded(mounted.host) await wizardSetNumber(mounted.host, 'sprite-upload-frames-per-direction', 1) await wizardSetNumber(mounted.host, 'sprite-upload-a",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:156 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(labels).toEqual(['下', '左', '上', '右', '动作1', '动作2']) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 四向方向标签按行序下/左/上/右，动作行续号为动作1..K"
+    },
+    "C03-G01-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const colors: Array<[number, number, number, number]> = atlasColors(12) const atlas = gridAtlasPng(3, 4, 8, 8, colors) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('holes.png', atlas)) await wizardWaitReady(mounted.host) await wizardClickSubmit(mounted.host) await waitDone(mounted.done)",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:169 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(new Set(frames[5]!.opaque)).toEqual(new Set([0])) | expect(new Set(frames[4]!.opaque)).toEqual(new Set([1])) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 透明格量化后整帧不透明位全 0；不透明格全 1"
+    },
+    "C03-G01-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const atlas = gridAtlasPng(4, 3, 8, 8, atlasColors(12)) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('multi.png', atlas)) await wizardWaitDecoded(mounted.host) await wizardSetNumber(mounted.host, 'sprite-upload-frames-per-direction', 4) await wizardSetNumber(mounted.host, 'sprite-upload",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:184 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardReadout(mounted.host)).toContain('4×4 帧 · 每帧 8×6') | expect(wizardThumbCount(mounted.host)).toBe(16) | expect(wizardError(mounted.host)).toContain('图片尺寸无法按当前行列切分') | expect(wizardThumbCount(mounted.host)).toBe(0) | expect(wizardError(mounted.host)).toBeNull() | expect(wizardReadout(mounted.host)).toContain('4×1 帧 · 每帧 8×24') | expect(wizardReadout(mounted.host)).toContain('multi.png · 32×24') | expect(wizardReadout(mounted.host)).toContain('1×1 帧 · 每帧 32×24') | expect(wizardThumbCount(mounted.host)).toBe(1) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留"
+    },
+    "C03-G01-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const atlas = gridAtlasPng(3, 4, 4, 4, atlasColors(12)) mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('good.png', atlas)) await wizardWaitReady(mounted.host) await wizardSetText(mounted.host, 'sprite-upload-id', 'a/b') await wizardClickSubmit(mounted.host) await wizardSetText(mounted.hos",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:206 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardError(mounted.host)).toBe(\"id 不能为空且不得含 '/'\") | expect(mounted.done).toEqual([]) | expect(mounted.scope.session.getHistoryVersion()).toBe(0) | expect(mounted.done).toEqual(['a-b']) | expect(mounted.scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库"
+    },
+    "C03-G01-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:221-274 submit — early return if submittingRef/!draft/quantized empty; dispatch AddSpriteCommand + onDone(id)",
+      "legalInput": "fixture: const atlas = gridAtlasPng(3, 4, 4, 4, atlasColors(12)) mounted = await mountWizard(project) const existing = mounted.scope.session.getState().sprites[0]!.id await wizardPick(mounted.host, atlasFile('fresh.png', atlas)) await wizardWaitReady(mounted.host) await wizardSetText(mounted.host, 'sprite-upload-id', ' ') await",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx:223 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test（静态 4×1 多帧 / 入库锁重复提交）、selection.test（换选竞态/"
+      },
+      "notes": "oracle: expect(wizardError(mounted.host)).toBe(\"id 不能为空且不得含 '/'\") | expect(wizardError(mounted.host)).toBe(`id \"${existing}\" 已存在`) | expect(mounted.scope.session.getHistoryVersion()).toBe(0) | expect(wizardSubmit(mounted.host).disabled).toBe(false) | classification: new-contract; axis: C03-G01 真实导入管线与用途布局 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点"
+    },
+    "C03-G02-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: mounted = await mountWizard(project) wizardCancel(mounted.host).click()",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:78 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(wizardCancel(mounted.host).disabled).toBe(false) | expect(mounted.done).toEqual([null]) | expect(mounted.scope.session.getHistoryVersion()).toBe(0) | expect(mounted.scope.session.getState().sprites).toEqual(project.state.sprites) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 未选文件直接取消：onDone(null) 恰好一次，会话零历史"
+    },
+    "C03-G02-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: mounted = await mountWizard(project) const hold = port.gate('slow.png') await wizardPick(mounted.host, atlasFile('slow.png', walkAtlas())) wizardCancel(mounted.host).click() await vi.waitFor(() => { await flush()",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:87 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(port.started).toEqual(['slow.png']) | expect(wizardBusy(mounted.host)).toBe('true') | expect(wizardCancel(mounted.host).disabled).toBe(false) | expect(mounted.done).toEqual([null]) | expect(port.closes('slow.png')).toBe(1) | expect(port.decoded).toEqual(['slow.png']) | expect(mounted.host.querySelector('.sprite-upload-submit')).toBeNull() | expect(wizardReadout(mounted.host)).toBe('') | expect(mounted.scope.session.getHistoryVersion()).toBe(0) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库"
+    },
+    "C03-G02-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: const wizard = await mountWizard(project) const hold = port.gate('gone.png') await wizardPick(wizard.host, atlasFile('gone.png', walkAtlas())) await unmountHost(wizard) await vi.waitFor(() => { await flush() mounted = undefined",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:107 mountWizard | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(port.closes('gone.png')).toBe(1) | expect(wizard.scope.session.getHistoryVersion()).toBe(0) | expect(wizard.done).toEqual([]) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入"
+    },
+    "C03-G02-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: const { assetBase, hold } = gatePalette(project.assetBase) mounted = await mountWizard(project, { assetBase }) await wizardPick(mounted.host, atlasFile('late-palette.png', walkAtlas())) await wizardWaitDecoded(mounted.host) await wizardClickSubmit(mounted.host) await wizardWaitReady(mounted.host) await wizardClickSubmi",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:122 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(wizardReadout(mounted.host)).toContain('late-palette.png') | expect(wizardReadout(mounted.host)).toContain('3×4 帧') | expect(wizardThumbCount(mounted.host)).toBe(0) | expect(wizardSubmit(mounted.host).disabled).toBe(true) | expect(mounted.done).toEqual([]) | expect(wizardThumbCount(mounted.host)).toBe(12) | expect(mounted.done).toEqual(['late-palette']) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库"
+    },
+    "C03-G02-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: const broken = failingPalette(project.assetBase, 'palette-io-down') mounted = await mountWizard(project, { assetBase: broken }) await vi.waitFor(() => { await wizardPick(mounted.host, atlasFile('x.png', walkAtlas())) await wizardWaitDecoded(mounted.host) await wizardClickSubmit(mounted.host) await mounted.setScope({ se",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:141 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(wizardError(mounted!.host)).toBe('palette-io-down') | expect(wizardThumbCount(mounted.host)).toBe(0) | expect(wizardSubmit(mounted.host).disabled).toBe(true) | expect(mounted.scope.session.getHistoryVersion()).toBe(0) | expect(wizardError(mounted!.host)).toBeNull() | expect(mounted.host.querySelector('.sprite-upload-submit')).toBeNull() | expect(mounted.done).toEqual(['x']) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库"
+    },
+    "C03-G02-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: mounted = await mountWizard(project) const oldSession = mounted.scope.session await wizardPick(mounted.host, atlasFile('first.png', walkAtlas())) await wizardWaitReady(mounted.host) const nextSession = new EditSession(project.state) await mounted.setScope({ session: nextSession, assetBase: project.assetBase }) await wi",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:166 mounted | production: packages/editor/src/main.tsx:141 EditSession; packages/editor/src/main.tsx:185 EditSession; packages/editor/src/ui/App.tsx:5 EditSession",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(mounted.host.querySelector('.sprite-upload-submit')).toBeNull() | expect(wizardReadout(mounted.host)).toBe('') | expect(mounted.done).toEqual(['second']) | expect(nextSession.getState().sprites.some((entry) => entry.id === 'second')).toBe(true) | expect(oldSession.getHistoryVersion()).toBe(0) | expect(oldSession.getState().sprites.some((entry) => entry.id === 'second')).toBe(false) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史"
+    },
+    "C03-G02-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: mounted = await mountWizard(project) await wizardPick(mounted.host, pngFileOf('broken.png', new Uint8Array([1, 2, 3, 4, 5]))) await vi.waitFor(() => { await wizardPick(mounted.host, atlasFile('ok.png', walkAtlas())) await wizardWaitReady(mounted.host) await wizardClickSubmit(mounted.host) await waitDone(mounted.done)",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:186 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(wizardError(mounted!.host)).not.toBeNull() | expect(wizardError(mounted.host)!.length).toBeGreaterThan(0) | expect(mounted.host.querySelector('.sprite-upload-submit')).toBeNull() | expect(wizardBusy(mounted.host)).toBe('false') | expect(wizardError(mounted.host)).toBeNull() | expect(mounted.done).toEqual(['ok']) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库"
+    },
+    "C03-G02-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: const seeded = await loadCursorSpriteProject('c03-g02-08', [ mounted = await mountWizard(seeded) await wizardChooseKind(mounted.host, '默认定格') await wizardPick( mounted.host, await wizardWaitReady(mounted.host) await wizardClickSubmit(mounted.host) await waitDone(mounted.done) const state = mounted.scope.session.getStat",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:203 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(wizardField(mounted.host, 'sprite-upload-id').value).toBe('pick') | expect(def.asset).toBe('sprite.pick.3') | expect(state.assetCatalog.assets['sprite.pick']!.sha256).toBe( seeded.seeded.get('sprite.pick')!.sha256, ) | expect(state.assetCatalog.assets['sprite.pick.2']!.sha256).toBe( seeded.seeded.get('sprite.pick.2')!.sha256, ) | expect(await decodeStoredSprite(mounted.scope.session, def.asset)).toHaveLength(1) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3"
+    },
+    "C03-G02-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: const seeded = await loadCursorSpriteProject('c03-g02-09', [ mounted = await mountWizard(seeded) const before = mounted.scope.session.getState() await wizardChooseKind(mounted.host, '默认定格') await wizardPick(mounted.host, atlasFile('twin.png', gridAtlasPng(2, 1, 8, 8, atlasColors(2)))) await wizardWaitDecoded(mounted.ho",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:240 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(def.asset).toBe('sprite.authored.shared-src') | expect(Object.keys(after.assetCatalog.assets)).toEqual(Object.keys(before.assetCatalog.assets)) | expect(after.assetCatalog.assets['sprite.authored.shared-src']).toEqual( before.assetCatalog.assets['sprite.authored.shared-src'], ) | expect(Object.keys(after.assetBlobs)).toEqual(Object.keys(before.assetBlobs)) | expect(mounted.scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob"
+    },
+    "C03-G02-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/edit-session.ts",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:533-537 cancel — if (!submittingRef.current) { selection.active=false; onDone(null) } | packages/editor/src/core/edit-session.ts:356 getHistoryVersion — past.length accounting",
+      "legalInput": "fixture: mounted = await mountWizard(project) await wizardPick(mounted.host, atlasFile('once.png', walkAtlas())) await wizardWaitReady(mounted.host) await wizardClickSubmit(mounted.host) await waitDone(mounted.done) await mounted.setSpritesOverride('empty') await wizardClickSubmit(mounted.host) await vi.waitFor(() => { await wi",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:269 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：selection.test 已证换选竞态（A-B/B-A 归属、旧失败/旧色盘不覆盖新 scope、同内容去重）；"
+      },
+      "notes": "oracle: expect(mounted.done).toEqual(['once']) | expect(mounted.scope.session.getHistoryVersion()).toBe(1) | expect(wizardError(mounted!.host)).toContain('精灵定义 id 已存在: once') | expect(wizardBusy(mounted.host)).toBe('false') | expect(wizardSubmit(mounted.host).disabled).toBe(false) | expect(mounted.done).toEqual(['once', 'twice']) | expect(wizardError(mounted.host)).toBeNull() | expect(mounted.scope.session.getHistoryVersion()).toBe(2) | expect(state.sprites.find((entry) => entry.id === 'twice')!.asset).toBe( state.sprites.find((entry) => entry.id === 'once')!.asset, ) | classification: new-contract; axis: C03-G02 取消、迟到释放与恢复 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功"
+    },
+    "C03-G07-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const colors = atlasColors(4) const atlas = gridAtlasPng(4, 1, 8, 8, colors) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('strip.png', atlas)) await wizardSetNumber(m().host, 'sprite-source-cols', 4) await wizardSetNumber(m().host, 'sprite-source-row",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:69 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(wizardReadout(m().host)).toContain('4×1 帧') | expect(wizardThumbCount(m().host)).toBe(4) | expect(m().scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）"
+    },
+    "C03-G07-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const gate = installGatedCompressPort() const atlas = gridAtlasPng(2, 1, 8, 8, atlasColors(2)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('lock.png', atlas)) await wizardWaitReady(m().host) await act(async () => { wizardSubmit(m().host).click() wiz",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:85 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "6b9c11e7306cd73de63b3320a2fdfd8812cffef7",
+        "oldFile": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+        "oldFullName": "入库期间锁住重复提交和取消，完成后只写入一次",
+        "oldMatcher": "submit.disabled true; cancel.disabled true; aria-busy true during compress @ :172-174",
+        "note": "in-flight submit lock axis; new uses real PNG pipeline not mock compress"
+      },
+      "notes": "oracle: expect(gate.calls).toBe(1) | expect(wizardSubmit(m().host).disabled).toBe(true) | expect(wizardCancel(m().host).disabled).toBe(true) | expect(m().host.querySelector('.sprite-upload-wizard')?.getAttribute('aria-busy')).toBe('true') | expect(m().done).toEqual(['lock']) | expect(m().scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 compress 在途：双点提交仅一次 gzip，取消禁用"
+    },
+    "C03-G07-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const gate = installGatedCompressPort() const atlas = gridAtlasPng(1, 1, 8, 8, atlasColors(1)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('hold.png', atlas)) await wizardWaitReady(m().host) await act(async () => wizardSubmit(m().host).click()) awai",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:107 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(wizardCancel(m().host).disabled).toBe(true) | expect(m().done).toEqual(['hold']) | expect(m().scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 compress 在途：取消与 kind 均禁用，放行后恰好一次 onDone"
+    },
+    "C03-G07-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const atlas = gridAtlasPng(2, 1, 8, 8, atlasColors(2)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('first.png', atlas)) await wizardSetNumber(m().host, 'sprite-source-cols', 2) await wizardWaitReady(m().host) await wizardClickSubmit(m().host) await ",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:123 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(m().done).toEqual(['first', 'second-def']) | expect(m().scope.session.getHistoryVersion()).toBe(2) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 首次入库成功后同挂载再选：第二 id 入库且历史 +1"
+    },
+    "C03-G07-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const atlas = gridAtlasPng(1, 1, 8, 8, atlasColors(1)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('a.png', atlas)) await wizardWaitReady(m().host) await wizardSetText(m().host, 'sprite-upload-id', 'author-a') await wizardSetText(m().host, 'sprite-u",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:142 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(def.label).toBe('作者标签') | classification: new-contract; axis: C03-G07 入库锁与上传后重选 重选前改的 id/label 在首次合法入库后落到定义"
+    },
+    "C03-G07-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const atlas = gridAtlasPng(2, 1, 8, 8, atlasColors(2)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('shared.png', atlas)) await wizardSetNumber(m().host, 'sprite-source-cols', 2) await wizardWaitReady(m().host) await wizardClickSubmit(m().host) await",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:158 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(Object.keys(afterSecond.assetCatalog.assets)).toEqual( Object.keys(afterFirst.assetCatalog.assets), ) | expect(second.asset).toBe(first.asset) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 同内容第二次入库：共享 assetId，catalog 条目不增"
+    },
+    "C03-G07-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const atlas = gridAtlasPng(1, 1, 8, 8, atlasColors(1)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('once.png', atlas)) await wizardWaitReady(m().host) await wizardClickSubmit(m().host) await waitDone(m().done)",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:183 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "6b9c11e7306cd73de63b3320a2fdfd8812cffef7",
+        "oldFile": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+        "oldFullName": "入库期间锁住重复提交和取消，完成后只写入一次",
+        "oldMatcher": "aria-busy true + submit/cancel disabled during submit @ :172-174",
+        "note": "same submit-lock axis as G07-02"
+      },
+      "notes": "oracle: expect(m().host.querySelector('.sprite-upload-wizard')?.getAttribute('aria-busy')).toBe('false') | expect(wizardSubmit(m().host).disabled).toBe(false) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 入库完成后提交门复位：busy false 且可再点"
+    },
+    "C03-G07-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const atlas = gridAtlasPng(1, 1, 8, 8, atlasColors(1)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('dup.png', atlas)) await wizardWaitReady(m().host) await wizardClickSubmit(m().host) await waitDone(m().done) await wizardPick(m().host, atlasFile('du",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:195 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(wizardError(mounted!.host)).toBe('id \"dup\" 已存在') | expect(m().done).toEqual(['dup']) | expect(m().scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 第二次入库 id 撞车：精确报错且历史不增"
+    },
+    "C03-G07-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const atlas = gridAtlasPng(1, 1, 8, 8, atlasColors(1)) mounted = await mountWizard(project) await wizardChooseKind(m().host, '默认定格') await wizardPick(m().host, atlasFile('one.png', atlas)) await wizardWaitReady(m().host) await wizardClickSubmit(m().host) await waitDone(m().done) await wizardPick(m().host, atlasFile('tw",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:214 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(m().done).toEqual(['one', 'two']) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 改 id 后第二次可成功且 onDone 两次"
+    },
+    "C03-G07-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "sourceCondition": "packages/editor/src/ui/SpriteUploadWizard.tsx:286 aria-busy={submitting||decoding}; :240-279 submit lock submittingRef + session.dispatch",
+      "legalInput": "fixture: const gate = installGatedCompressPort() const atlas = gridAtlasPng(3, 4, 4, 4, atlasColors(12)) mounted = await mountWizard(project) await wizardPick(m().host, atlasFile('dir.png', atlas)) await wizardWaitReady(m().host) await act(async () => wizardSubmit(m().host).click()) const kindButtons = [ await waitDone(m().done",
+      "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:230 mounted | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
+        "note": "no old test proves same business axis; 排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；"
+      },
+      "notes": "oracle: expect(kindButtons.every((button) => button.disabled)).toBe(true) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 四向用途入库锁期间 kind 切换禁用（不可打断提交）"
+    }
+  }
+}

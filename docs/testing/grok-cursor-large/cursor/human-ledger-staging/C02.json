@@ -1,0 +1,1142 @@
+{
+  "batch": "C02",
+  "overlays": {
+    "C02-G01-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:455-458 proofReady; :1647 apply disabled",
+      "legalInput": "fixture: C02-G01-01; const m = await suite.mount('c02-g01-01', { focus: 'shared-fighter-a' }); buildExternalReplace; renameUsage; assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:455-458 proofReady; :1647 apply disabled",
+      "legalInput": "fixture: C02-G01-02; const m = await suite.mount('c02-g01-02', { focus: 'shared-fighter-a' }); buildExternalReplace; renameUsage",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx: steal slot draft cleared when frames shrink",
+      "legalInput": "fixture: C02-G01-03; const m = await suite.mount('c02-g01-03', { focus: 'shared-fighter-a' }); buildExternalReplace",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:455-458 proofReady; :1647 apply disabled",
+      "legalInput": "fixture: C02-G01-04; const m = await suite.mount('c02-g01-04', { focus: 'shared-fighter-a' }); buildExternalSharedSummon; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/binary-signature.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:455-458 proofReady; :1647 apply disabled",
+      "legalInput": "fixture: C02-G01-05; const m = await suite.mount('c02-g01-05', { focus: 'shared-fighter-a' }); buildExternalSharedSummon; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sourceCondition": "packages/editor/src/core/battle-sprite-commands.ts:234-235 if (JSON.stringify(entry.profile) !== JSON.stringify(snapshot.profile)) throw Error('缩帧消费者 … profile 已变化，请重新确认')",
+      "legalInput": "fixture: suite.mount('c02-g01-06', { focus: 'shared-fighter-a' }); waitProof(12,2); selectSourceFrame(11); confirm dispatches UpdateBattleSpriteDefinitionCommand during 删除当前帧",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx | production: packages/editor/src/ui/BattleSpriteLibrary.tsx delete-frame UI; packages/editor/src/core/battle-sprite-commands.ts shrink snapshot gate",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sourceCondition": "packages/editor/src/core/battle-sprite-commands.ts:203-204 if (proof.previousSha256 !== previous.sha256) throw new Error('战斗精灵替换证明已过期，请重新载入资源')",
+      "legalInput": "fixture: C02-G01-07; const project = await loadCursorBattleProject('c02-g01-07', STANDARD_SPECS); const mounted = await suite.mountProject(project); buildExternalReplace",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/binary-signature.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G01-08; const m = await suite.mount('c02-g01-08', { focus: 'shared-fighter-a' }); buildExternalReplace; renameUsage",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G01-09; const m = await suite.mount('c02-g01-09', { focus: 'shared-fighter-a' }); assertProjectSaveValid; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G01-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G01-10; const m = await suite.mount('c02-g01-10', { focus: 'summon-fox' }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1233-1295 upload panel onCancel",
+      "legalInput": "fixture: C02-G02-01; const m = await suite.mount('c02-g02-01'); openImportPanel",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1233-1295 upload panel onCancel",
+      "legalInput": "fixture: C02-G02-02; const m = await suite.mount('c02-g02-02'); openImportPanel; assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1233-1295 upload panel onCancel",
+      "legalInput": "fixture: C02-G02-03; const m = await suite.mount('c02-g02-03'); openImportPanel",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G02-04; const m = await suite.mount('c02-g02-04'); openImportPanel; assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />; packages/editor/src/core/project-io.ts:268 assertProjectSaveValid(…)",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/binary-signature.ts",
+      "sourceCondition": "packages/editor/src/core/binary-signature.ts sha256Hex catalog bytes",
+      "legalInput": "fixture: C02-G02-05; const m = await suite.mount('c02-g02-05'); openImportPanel",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G02-06; const m = await suite.mount('c02-g02-06'); openImportPanel; assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/project-diagnostics.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G02-07; const m = await suite.mount('c02-g02-07'); openImportPanel; assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G02-08; const m = await suite.mount('c02-g02-08'); openImportPanel",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G02-09; const m = await suite.mount('c02-g02-09'); openImportPanel",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G02-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G02-10; const m = await suite.mount('c02-g02-10'); openImportPanel",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G03-01; const m = await suite.mount('c02-g03-01')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G03-02; const m = await suite.mount('c02-g03-02', { view: 'asset', focus: A_IDLE })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G03-03; const m = await suite.mount('c02-g03-03')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G03-04; const m = await suite.mount('c02-g03-04', { focus: 'shared-fighter-a' }); openImportPanel",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G03-05; const m = await suite.mount('c02-g03-05', { focus: 'shared-fighter-b' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G03-06; const m = await suite.mount('c02-g03-06', { focus: 'enemy-red' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G03-07; const m = await suite.mount('c02-g03-07', { focus: 'shared-fighter-a' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G03-08; const m = await suite.mount('c02-g03-08', { focus: 'shared-fighter-a' }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G03-09; const m = await suite.mount('c02-g03-09', { focus: 'shared-fighter-a' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sourceCondition": "packages/editor/src/core/battle-sprite-commands.ts DeleteUnusedBattleSpriteAssetCommand removes catalog asset; packages/editor/src/ui/BattleSpriteLibrary.tsx:480-488 effect repoints selectedAsset to assets[0] when record missing",
+      "legalInput": "fixture: suite.mount('c02-g03-10', { view: 'asset', focus: A_IDLE }); session.dispatch(DeleteUnusedBattleSpriteAssetCommand(A_IDLE, …))",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G03-11": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G03-11; const m = await suite.mount('c02-g03-11', { focus: 'enemy-red' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1188-1214 replace vs delete gating",
+      "legalInput": "fixture: C02-G04-01; const m = await suite.mount('c02-g04-01', { focus: 'shared-fighter-a' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1188-1214 replace vs delete gating",
+      "legalInput": "fixture: C02-G04-02; const m = await suite.mount('c02-g04-02', { view: 'asset', focus: A_IDLE }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/project-diagnostics.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G04-03; const m = await suite.mount('c02-g04-03', { view: 'asset', focus: A_IDLE }); assertProjectSaveValid; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/binary-signature.ts",
+      "sourceCondition": "packages/editor/src/core/binary-signature.ts:2 sha256Hex(bytes) — test expects await sha256Hex(blob.slice(0)) === record.sha256 after delete undo restores assetBlobs",
+      "legalInput": "fixture: suite.mount('c02-g04-04', { view: 'asset', focus: A_SPARE }); deleteSelectedAsset + session.undo(); sha256Hex(blob) vs catalog sha256; decodeBattleAsset frames length 3",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G04-05; const m = await suite.mount('c02-g04-05', { view: 'asset', focus: A_IDLE }); assertProjectSaveValid; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />; packages/editor/src/core/project-io.ts:268 assertProjectSaveValid(…)",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G04-06; const m = await suite.mount('c02-g04-06', {; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/binary-signature.ts",
+      "sourceCondition": "packages/editor/src/core/binary-signature.ts sha256Hex catalog bytes",
+      "legalInput": "fixture: C02-G04-07; const project = await loadCursorBattleProject('c02-g04-07', STANDARD_SPECS); const m = await suite.mountProject(project, { view: 'asset', focus: A_SPARE, source: corrupt }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G04-08; const m = await suite.mount('c02-g04-08', { view: 'asset', focus: A_IDLE }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/project-diagnostics.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G04-09; const m = await suite.mount('c02-g04-09', { focus: 'enemy-red' }); assertProjectSaveValid; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G04-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G04-10; const m = await suite.mount('c02-g04-10'); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-01; const m = await suite.mount('c02-g05-01', { focus: 'shared-fighter-a' }); renameUsage; assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-02; const m = await suite.mount('c02-g05-02', { focus: 'shared-fighter-a' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-03; const m = await suite.mount('c02-g05-03', { focus: 'shared-fighter-a' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-04; const m = await suite.mount('c02-g05-04', { focus: 'shared-fighter-a' }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-05; const m = await suite.mount('c02-g05-05', { focus: 'shared-fighter-a' }); renameUsage",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/binary-signature.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-06; const m = await suite.mount('c02-g05-06', { focus: 'shared-fighter-a' }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-07; const m = await suite.mount('c02-g05-07', { focus: 'shared-fighter-a' }); renameUsage; confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-08; const m = await suite.mount('c02-g05-08', { focus: 'shared-fighter-a' }); renameUsage",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-09; const m = await suite.mount('c02-g05-09', { focus: 'shared-fighter-a' }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G05-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/project-diagnostics.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G05-10; const m = await suite.mount('c02-g05-10', { focus: 'shared-fighter-a' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx: catalog roving tabindex + arrow navigation",
+      "legalInput": "fixture: C02-G06-01; const m = await suite.mount('c02-g06-01')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx: catalog roving tabindex + arrow navigation",
+      "legalInput": "fixture: C02-G06-02; const m = await suite.mount('c02-g06-02')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G06-03; const m = await suite.mount('c02-g06-03')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G06-04; const m = await suite.mount('c02-g06-04')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:461-474 focus sync; unconfigured asset view",
+      "legalInput": "fixture: C02-G06-05; const m = await suite.mount('c02-g06-05', { focus: 'shared-fighter-a' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G06-06; const m = await suite.mount('c02-g06-06')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G06-07; const m = await suite.mount('c02-g06-07')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G06-08; const m = await suite.mount('c02-g06-08')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G06-09; const m = await suite.mount('c02-g06-09')",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G06-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx: catalog roving tabindex + arrow navigation",
+      "legalInput": "fixture: C02-G06-10; const m = await suite.mount('c02-g06-10', { focus: 'shared-fighter-a' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G07-01; const m = await suite.mount('c02-g07-01', { focus: 'shared-fighter-a' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx: steal slot draft cleared when frames shrink",
+      "legalInput": "fixture: C02-G07-02; const m = await suite.mount('c02-g07-02', { focus: 'shared-fighter-a' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />; packages/editor/src/core/project-io.ts:268 assertProjectSaveValid(…)",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/project-diagnostics.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G07-03; const m = await suite.mount('c02-g07-03', { focus: 'shared-fighter-a' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G07-04; const m = await suite.mount('c02-g07-04', { focus: 'enemy-red' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G07-05; const m = await suite.mount('c02-g07-05', { focus: 'enemy-red' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/project-diagnostics.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G07-06; const m = await suite.mount('c02-g07-06', { focus: 'enemy-red' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/core/project-diagnostics.ts",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G07-07; const m = await suite.mount('c02-g07-07', { focus: 'enemy-red' })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:1008-1012 draftChanged; packages/editor/src/core/project-diagnostics.ts:823 save gate",
+      "legalInput": "fixture: C02-G07-08; const m = await suite.mount('c02-g07-08', { focus: 'summon-fox' }); renameUsage",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G07-09; const m = await suite.mount('c02-g07-09', { focus: 'shared-fighter-a' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C02-G07-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteLibrary.tsx:373-377 spine",
+      "legalInput": "fixture: C02-G07-10; const m = await suite.mount('c02-g07-10', { focus: 'enemy-red' }); assertProjectSaveValid",
+      "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx suite.mount(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    }
+  },
+  "count": 71
+}

@@ -7,16 +7,16 @@
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — branches: :101 if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`); :102 return frame.durationMs ?? draft.defaultFrameMs",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:39 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…) (production)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce; :99-102 draftFrameDurationMs frame.durationMs ?? defaultFrameMs",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:39 baseDraft | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs; packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs",
       "legalInput": "fixture: baseDraft() frames with durations defaulting to defaultFrameMs=40 plus override 70 on middle → draftDurationMs=150; draftFrameDurationMs(baseDraft(),0)=40; draftFrameDurationMs(baseDraft(),1)=70",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 初始 draftDurationMs 累加默认与 override：40+70+40=150",
       "oracle": "expect(draftDurationMs(baseDraft())).toBe(150) | expect(draftFrameDurationMs(baseDraft(), 0)).toBe(40) | expect(draftFrameDurationMs(baseDraft(), 1)).toBe(70)",
@@ -26,23 +26,24 @@
       "testSourceLine": 39,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput; refined oracle branch"
+      "notes": "oracle: expect(draftDurationMs(baseDraft())).toBe(150) | expect(draftFrameDurationMs(baseDraft(), 0)).toBe(40) | expect(draftFrameDurationMs(baseDraft(), 1)).toBe(70) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-02",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:45 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
-      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 0, [; draftDurationMs(next)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:45 insertDraftFrames | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs; packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames",
+      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 0, [",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 头部 insert 带 override 帧：顺序与总时长同时更新",
       "oracle": "expect(next.frames.map((f) => f.id)).toEqual(['x', 'a', 'b', 'c']) | expect(draftDurationMs(next)).toBe(175) | expect(draftFrameMetadata(next)).toEqual([{ durationMs: 25 }, {}, { durationMs: 70 }, {}])",
@@ -52,23 +53,24 @@
       "testSourceLine": 45,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(next.frames.map((f) => f.id)).toEqual(['x', 'a', 'b', 'c']) | expect(draftDurationMs(next)).toBe(175) | expect(draftFrameMetadata(next)).toEqual([{ durationMs: 25 }, {}, { durationMs: 70 }, {}]) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 头部 insert 带 override 帧：顺序与总时长同时更新",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-03",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — branches: :102 return frame.durationMs ?? draft.defaultFrameMs; :101 if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`)",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:54 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
-      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 3, [; draftDurationMs(next); draftFrameDurationMs(next, 3)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:54 insertDraftFrames | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs; packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs",
+      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 3, [",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 尾部 insert 无 override 继承 defaultFrameMs",
       "oracle": "expect(draftDurationMs(next)).toBe(190) | expect(draftFrameDurationMs(next, 3)).toBe(40)",
@@ -78,23 +80,24 @@
       "testSourceLine": 54,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(draftDurationMs(next)).toBe(190) | expect(draftFrameDurationMs(next, 3)).toBe(40) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 尾部 insert 无 override 继承 defaultFrameMs",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-04",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:62 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production)",
-      "legalInput": "fixture: const trimmed = deleteDraftFrames(baseDraft(), [1]); draftDurationMs(trimmed)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:62 deleteDraftFrames | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames; packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs",
+      "legalInput": "fixture: const trimmed = deleteDraftFrames(baseDraft(), [1])",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 删除中间 override 帧后总时长回落且 metadata 对齐",
       "oracle": "expect(trimmed.frames.map((f) => f.id)).toEqual(['a', 'c']) | expect(draftDurationMs(trimmed)).toBe(80) | expect(draftFrameMetadata(trimmed)).toEqual([{}, {}])",
@@ -104,23 +107,24 @@
       "testSourceLine": 62,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(trimmed.frames.map((f) => f.id)).toEqual(['a', 'c']) | expect(draftDurationMs(trimmed)).toBe(80) | expect(draftFrameMetadata(trimmed)).toEqual([{}, {}]) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 删除中间 override 帧后总时长回落且 metadata 对齐",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-05",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:69 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:428 moveDraftFrame(…) (production)",
-      "legalInput": "fixture: const moved = moveDraftFrame(baseDraft(), 0, 2); draftDurationMs(moved)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:216-228 moveDraftFrame reorder frames array without mutating durationMs fields",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:69 baseDraft | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:428 moveDraftFrame",
+      "legalInput": "fixture: const moved = moveDraftFrame(baseDraft(), 0, 2)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
-        "oldFullName": "unknown-old-fullName",
-        "oldMatcher": "expect( redoDraftHistory(undoDraftHistory(history)).present.frames.map((frame) => frame.id), ).toEqual(['b', 'c', 'a']) @ :89 (key=\"['b', 'c', 'a']\")",
+        "oldFullName": "一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称",
+        "oldMatcher": "moveDraftFrame(base,0,2) then redoDraftHistory(undoDraftHistory(history)).present.frames.map(id) @ :89-91 → [\"b\",\"c\",\"a\"]",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "CURSOR-R3-01 batch C04 high-confidence shared expect fragment; not auto-reclassified"
+        "note": "same frame reorder axis as new moveDraftFrame direct assert; old via undo/redo chain"
       },
       "axis": "C04-G07 draft 时长与结构编辑 moveDraftFrame 只换序不改各帧 duration 字段",
       "oracle": "expect(moved.frames.map((f) => f.id)).toEqual(['b', 'c', 'a']) | expect(moved.frames[0]?.durationMs).toBe(70) | expect(moved.frames[2]?.durationMs).toBeUndefined() | expect(draftDurationMs(moved)).toBe(150)",
@@ -130,23 +134,32 @@
       "testSourceLine": 69,
       "status": "passed",
       "humanVerified": true,
-      "notes": "enrich-batch-human C04; C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(moved.frames.map((f) => f.id)).toEqual(['b', 'c', 'a']) | expect(moved.frames[0]?.durationMs).toBe(70) | expect(moved.frames[2]?.durationMs).toBeUndefined() | expect(draftDurationMs(moved)).toBe(150) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 moveDraftFrame 只换序不改各帧 duration 字段",
+      "verification": "human-ledger",
+      "toolOldAssertionCandidate": {
+        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
+        "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
+        "oldFullName": "unknown-old-fullName",
+        "oldMatcher": "expect( redoDraftHistory(undoDraftHistory(history)).present.frames.map((frame) => frame.id), ).toEqual(['b', 'c', 'a']) @ :89 (key=\"['b', 'c', 'a']\")",
+        "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
+        "note": "CURSOR-R3-01 batch C04 high-confidence shared expect fragment; not auto-reclassified"
+      }
     },
     {
       "id": "C04-G07-06",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:77 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production)",
-      "legalInput": "fixture: const dup = duplicateDraftFrame(baseDraft(), 1, 'b-copy'); draftDurationMs(dup)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:77 baseDraft | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs",
+      "legalInput": "fixture: const dup = duplicateDraftFrame(baseDraft(), 1, 'b-copy')",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 duplicateDraftFrame 复制 override 与像素源",
       "oracle": "expect(dup.frames.map((f) => f.id)).toEqual(['a', 'b', 'b-copy', 'c']) | expect(dup.frames[2]?.durationMs).toBe(70) | expect(draftDurationMs(dup)).toBe(220)",
@@ -156,23 +169,24 @@
       "testSourceLine": 77,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(dup.frames.map((f) => f.id)).toEqual(['a', 'b', 'b-copy', 'c']) | expect(dup.frames[2]?.durationMs).toBe(70) | expect(draftDurationMs(dup)).toBe(220) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 duplicateDraftFrame 复制 override 与像素源",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-07",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:99 export draftFrameDurationMs — branches: :101 if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`); :102 return frame.durationMs ?? draft.defaultFrameMs",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:84 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:895 setDraftDefaultFrameMs(…) (production)",
-      "legalInput": "fixture: const wider = setDraftDefaultFrameMs(baseDraft(), 55); draftFrameDurationMs(wider, 0); draftFrameDurationMs(wider, 1); draftDurationMs(wider)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:84 baseDraft | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs; packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs",
+      "legalInput": "fixture: const wider = setDraftDefaultFrameMs(baseDraft(), 55)",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
       "oracle": "expect(draftFrameDurationMs(wider, 0)).toBe(55) | expect(draftFrameDurationMs(wider, 1)).toBe(70) | expect(draftDurationMs(wider)).toBe(180)",
@@ -182,23 +196,24 @@
       "testSourceLine": 84,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(draftFrameDurationMs(wider, 0)).toBe(55) | expect(draftFrameDurationMs(wider, 1)).toBe(70) | expect(draftDurationMs(wider)).toBe(180) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-08",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :106 return draft.frames.reduce(; :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:91 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:911 setDraftFrameDuration(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:913 setDraftFrameDuration(…) (production)",
-      "legalInput": "fixture: const cleared = setDraftFrameDuration(baseDraft(), 1, undefined); draftDurationMs(cleared)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:91 baseDraft | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:911 setDraftFrameDuration",
+      "legalInput": "fixture: const cleared = setDraftFrameDuration(baseDraft(), 1, undefined)",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 清除 override 后 draftFrameMetadata 该槽回到 {}",
       "oracle": "expect(draftFrameMetadata(cleared)[1]).toEqual({}) | expect(draftDurationMs(cleared)).toBe(120)",
@@ -208,23 +223,24 @@
       "testSourceLine": 91,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(draftFrameMetadata(cleared)[1]).toEqual({}) | expect(draftDurationMs(cleared)).toBe(120) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 清除 override 后 draftFrameMetadata 该槽回到 {}",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-09",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :106 return draft.frames.reduce(; :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:97 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
-      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 2, [; draftDurationMs(next)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:97 insertDraftFrames | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs; packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames",
+      "legalInput": "fixture: const next = insertDraftFrames(baseDraft(), 2, [",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 一次 insert 多帧混合 override：metadata 逐槽精确",
       "oracle": "expect(draftFrameMetadata(next)).toEqual([{}, { durationMs: 70 }, { durationMs: 11 }, {}, {}]) | expect(draftDurationMs(next)).toBe(201)",
@@ -234,23 +250,24 @@
       "testSourceLine": 97,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(draftFrameMetadata(next)).toEqual([{}, { durationMs: 70 }, { durationMs: 11 }, {}, {}]) | expect(draftDurationMs(next)).toBe(201) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 一次 insert 多帧混合 override：metadata 逐槽精确",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G07-10",
       "batch": "C04",
       "group": "G07",
       "primarySource": "packages/editor/src/core/frame-animation-draft.ts",
-      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105 export draftDurationMs — branches: :107 (total, _frame, index) => total + draftFrameDurationMs(draft, index),; :106 return draft.frames.reduce(",
-      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:106 case body | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:196 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:859 insertDraftFrames(…) (production)",
-      "legalInput": "fixture: const extended = insertDraftFrames(baseDraft(), 3, [; draftDurationMs(trimmed)",
+      "sourceCondition": "packages/editor/src/core/frame-animation-draft.ts:105-109 draftDurationMs reduce+draftFrameDurationMs; :163-174 insertDraftFrames at bounds; :199-213 deleteDraftFrames remove Set",
+      "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:106 insertDraftFrames | production: packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames; packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs; packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs",
+      "legalInput": "fixture: const extended = insertDraftFrames(baseDraft(), 3, [ const trimmed = deleteDraftFrames(extended, [0, 2])",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、"
       },
       "axis": "C04-G07 draft 时长与结构编辑 连续 delete 非相邻帧保留剩余 override",
       "oracle": "expect(trimmed.frames.map((f) => f.id)).toEqual(['b', 'd']) | expect(draftFrameMetadata(trimmed)).toEqual([{ durationMs: 70 }, { durationMs: 90 }]) | expect(draftDurationMs(trimmed)).toBe(160)",
@@ -260,23 +277,24 @@
       "testSourceLine": 106,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(trimmed.frames.map((f) => f.id)).toEqual(['b', 'd']) | expect(draftFrameMetadata(trimmed)).toEqual([{ durationMs: 70 }, { durationMs: 90 }]) | expect(draftDurationMs(trimmed)).toBe(160) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 连续 delete 非相邻帧保留剩余 override",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-01",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx exposure of frameCount/durationMs/defaultFrameMs from draft (draftDurationMs / frames.length / defaultFrameMs) — initial three-frame draft totals 150ms with defaultFrameMs=40",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:31 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount() // default three-frame draft fixture from test harness",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:31 h.latest | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 初始三帧总时长 150ms 且 defaultFrameMs=40",
       "oracle": "expect(h.latest()).toMatchObject({ frameCount: 3, durationMs: 150, defaultFrameMs: 40 })",
@@ -286,23 +304,24 @@
       "testSourceLine": 31,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput; refined oracle branch"
+      "notes": "oracle: expect(h.latest()).toMatchObject({ frameCount: 3, durationMs: 150, defaultFrameMs: 40 }) | classification: new-contract; axis: C04-G01 总时长 metadata 初始三帧总时长 150ms 且 defaultFrameMs=40",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-02",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:36 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:36 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '100')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 改当前帧 override 后 metadata 总时长即时更新",
       "oracle": "expect(h.latest()?.durationMs).toBe(210)",
@@ -312,23 +331,24 @@
       "testSourceLine": 36,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(210) | classification: new-contract; axis: C04-G01 总时长 metadata 改当前帧 override 后 metadata 总时长即时更新",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-03",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:43 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:43 h.number | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.number('全局帧率', '20', true)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 全局帧率 blur 后只抬默认帧时长，override 帧不变",
       "oracle": "expect(h.latest()?.defaultFrameMs).toBe(50) | expect(h.latest()?.durationMs).toBe(170)",
@@ -338,23 +358,24 @@
       "testSourceLine": 43,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.defaultFrameMs).toBe(50) | expect(h.latest()?.durationMs).toBe(170) | classification: new-contract; axis: C04-G01 总时长 metadata 全局帧率 blur 后只抬默认帧时长，override 帧不变",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-04",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:50 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:50 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.number('当前帧时长（ms）', '')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 清空 override 后该帧回到 default 计入总时长",
       "oracle": "expect(h.latest()?.durationMs).toBe(120)",
@@ -364,23 +385,24 @@
       "testSourceLine": 50,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(120) | classification: new-contract; axis: C04-G01 总时长 metadata 清空 override 后该帧回到 default 计入总时长",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-05",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:57 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:57 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(2) await h.number('当前帧时长（ms）', '33')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 仅改时长 frameCount 保持 3",
       "oracle": "expect(h.latest()?.frameCount).toBe(3)",
@@ -390,23 +412,24 @@
       "testSourceLine": 57,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(3) | classification: new-contract; axis: C04-G01 总时长 metadata 仅改时长 frameCount 保持 3",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-06",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:64 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:64 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '10') await h.select(2) await h.number('当前帧时长（ms）', '20')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 两帧 override 后总时长为逐项相加",
       "oracle": "expect(h.latest()?.durationMs).toBe(100)",
@@ -416,23 +439,24 @@
       "testSourceLine": 64,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(100) | classification: new-contract; axis: C04-G01 总时长 metadata 两帧 override 后总时长为逐项相加",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-07",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:73 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:73 h.withoutWorker | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() h.withoutWorker() await h.select(1) await h.number('当前帧时长（ms）', '88') await h.click('保存动画') const { index } = await h.saved()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 保存重开后 index.frames 保留 override 槽",
       "oracle": "expect(index.frames).toEqual([{}, { durationMs: 88 }, {}]) | expect(h.latest()?.durationMs).toBe(168)",
@@ -442,23 +466,24 @@
       "testSourceLine": 73,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(index.frames).toEqual([{}, { durationMs: 88 }, {}]) | expect(h.latest()?.durationMs).toBe(168) | classification: new-contract; axis: C04-G01 总时长 metadata 保存重开后 index.frames 保留 override 槽",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-08",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:84 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:84 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '200') await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 撤销时长编辑 metadata 回到 150",
       "oracle": "expect(h.latest()?.durationMs).toBe(150)",
@@ -468,23 +493,24 @@
       "testSourceLine": 84,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(150) | classification: new-contract; axis: C04-G01 总时长 metadata 撤销时长编辑 metadata 回到 150",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-09",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:92 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:92 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '200') await h.click('撤销帧编辑') await h.click('重做帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 重做时长编辑 metadata 回到 310",
       "oracle": "expect(h.latest()?.durationMs).toBe(310)",
@@ -494,23 +520,24 @@
       "testSourceLine": 92,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(310) | classification: new-contract; axis: C04-G01 总时长 metadata 重做时长编辑 metadata 回到 310",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G01-10",
       "batch": "C04",
       "group": "G01",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:101 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(draft) in metadata; setDraftFrameDuration via number field commit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:101 h.number | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.number('全局帧率', '0', true)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G01 总时长 metadata 非法全局帧率 blur 不改变 default 与总时长",
       "oracle": "expect(h.latest()).toMatchObject({ defaultFrameMs: 40, durationMs: 150 })",
@@ -520,23 +547,24 @@
       "testSourceLine": 101,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()).toMatchObject({ defaultFrameMs: 40, durationMs: 150 }) | classification: new-contract; axis: C04-G01 总时长 metadata 非法全局帧率 blur 不改变 default 与总时长",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-01",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:109 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:109 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 选中 override 帧时字段值为 70",
       "oracle": "expect(h.field('当前帧时长（ms）').value).toBe('70')",
@@ -546,23 +574,24 @@
       "testSourceLine": 109,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.field('当前帧时长（ms）').value).toBe('70') | classification: new-contract; axis: C04-G02 当前帧时长字段 选中 override 帧时字段值为 70",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-02",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:115 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:115 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) const input = h.field('当前帧时长（ms）')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 选中默认帧时字段为空且 placeholder 含 40",
       "oracle": "expect(input.value).toBe('') | expect(input.placeholder).toContain('40')",
@@ -572,23 +601,24 @@
       "testSourceLine": 115,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(input.value).toBe('') | expect(input.placeholder).toContain('40') | classification: new-contract; axis: C04-G02 当前帧时长字段 选中默认帧时字段为空且 placeholder 含 40",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-03",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:123 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:123 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '55')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 输入合法正数立即 commit 且 dirty",
       "oracle": "expect(h.latest()?.durationMs).toBe(165) | expect(h.dirty.mock.lastCall).toEqual([true])",
@@ -598,23 +628,24 @@
       "testSourceLine": 123,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(165) | expect(h.dirty.mock.lastCall).toEqual([true]) | classification: new-contract; axis: C04-G02 当前帧时长字段 输入合法正数立即 commit 且 dirty",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-04",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:131 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:131 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '-5')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 输入非正数不改动总时长",
       "oracle": "expect(h.latest()?.durationMs).toBe(150)",
@@ -624,23 +655,24 @@
       "testSourceLine": 131,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(150) | classification: new-contract; axis: C04-G02 当前帧时长字段 输入非正数不改动总时长",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-05",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:138 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:138 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.select(0) await h.select(1)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 切换选中帧字段跟随当前 override",
       "oracle": "expect(h.field('当前帧时长（ms）').value).toBe('') | expect(h.field('当前帧时长（ms）').value).toBe('70')",
@@ -650,23 +682,24 @@
       "testSourceLine": 138,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.field('当前帧时长（ms）').value).toBe('') | expect(h.field('当前帧时长（ms）').value).toBe('70') | classification: new-contract; axis: C04-G02 当前帧时长字段 切换选中帧字段跟随当前 override",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-06",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:147 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:147 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(2) await h.number('当前帧时长（ms）', '99')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 改时长后 counter 仍显示当前序号",
       "oracle": "expect(h.counter()).toBe('3 / 3')",
@@ -676,23 +709,24 @@
       "testSourceLine": 147,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.counter()).toBe('3 / 3') | classification: new-contract; axis: C04-G02 当前帧时长字段 改时长后 counter 仍显示当前序号",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-07",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :211 () => ({ assetId: asset.id, revision: asset.record.sha256, session }),; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:154 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:154 h.number | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.number('全局帧率', '25', true) await h.select(0)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 全局 default 变更后无 override 帧 placeholder 更新",
       "oracle": "expect(h.field('当前帧时长（ms）').placeholder).toContain('40')",
@@ -702,23 +736,24 @@
       "testSourceLine": 154,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.field('当前帧时长（ms）').placeholder).toContain('40') | classification: new-contract; axis: C04-G02 当前帧时长字段 全局 default 变更后无 override 帧 placeholder 更新",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-08",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:161 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:161 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.number('当前帧时长（ms）', '80') await h.number('当前帧时长（ms）', '90')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 连续两次改同一帧 override 以最后一次为准",
       "oracle": "expect(h.latest()?.durationMs).toBe(170)",
@@ -728,23 +763,24 @@
       "testSourceLine": 161,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(170) | classification: new-contract; axis: C04-G02 当前帧时长字段 连续两次改同一帧 override 以最后一次为准",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-09",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :228 const [viewport, setViewport] = useState({ left: 0, width: 600 }); :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:169 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:169 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '60') await h.click('撤销帧编辑') await h.select(0)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 撤销单帧 override 字段回到空",
       "oracle": "expect(h.field('当前帧时长（ms）').value).toBe('')",
@@ -754,23 +790,24 @@
       "testSourceLine": 169,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.field('当前帧时长（ms）').value).toBe('') | classification: new-contract; axis: C04-G02 当前帧时长字段 撤销单帧 override 字段回到空",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G02-10",
       "batch": "C04",
       "group": "G02",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:178 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:906-907 duration input value={frames[selectedIndex]?.durationMs ?? \"\"}",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:178 h.number | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.number('全局帧率', '10')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G02 当前帧时长字段 全局帧率 input 未 blur 时不 commit defaultFrameMs",
       "oracle": "expect(h.latest()?.defaultFrameMs).toBe(40) | expect(h.latest()?.durationMs).toBe(150)",
@@ -780,23 +817,24 @@
       "testSourceLine": 178,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.defaultFrameMs).toBe(40) | expect(h.latest()?.durationMs).toBe(150) | classification: new-contract; axis: C04-G02 当前帧时长字段 全局帧率 input 未 blur 时不 commit defaultFrameMs",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-01",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:187 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:187 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.chooseFiles('insert', [h.png('ins.png', 9)]) await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 PNG 插入后 frameCount+1 且选中新帧",
       "oracle": "expect(h.latest()?.frameCount).toBe(4) | expect(h.counter()).toBe('2 / 4') | expect(h.mainPixels()).toEqual(h.solid(9))",
@@ -806,23 +844,24 @@
       "testSourceLine": 187,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(4) | expect(h.counter()).toBe('2 / 4') | expect(h.mainPixels()).toEqual(h.solid(9)) | classification: new-contract; axis: C04-G03 插入与复制 PNG 插入后 frameCount+1 且选中新帧",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-02",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:197 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:197 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.chooseFiles('insert', [h.png('ins.png', 9)]) await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 插入后总时长增加 default 一帧",
       "oracle": "expect(h.latest()?.durationMs).toBe(190)",
@@ -832,23 +871,24 @@
       "testSourceLine": 197,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(190) | classification: new-contract; axis: C04-G03 插入与复制 插入后总时长增加 default 一帧",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-03",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:205 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:205 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.click('复制选中帧') await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 复制 override 帧保留 durationMs",
       "oracle": "expect(h.latest()?.frameCount).toBe(4) | expect(h.latest()?.durationMs).toBe(220)",
@@ -858,23 +898,24 @@
       "testSourceLine": 205,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(4) | expect(h.latest()?.durationMs).toBe(220) | classification: new-contract; axis: C04-G03 插入与复制 复制 override 帧保留 durationMs",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-04",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:214 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:214 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.click('复制选中帧') await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 复制后选区仅新 id 且 counter 指向复制帧",
       "oracle": "expect(h.selectedIds()).toHaveLength(1) | expect(h.selectedIds()[0]).not | expect(h.counter()).toBe('3 / 4') | expect(h.cardPixels()[2]).toEqual(h.cardPixels()[1])",
@@ -884,23 +925,24 @@
       "testSourceLine": 214,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.selectedIds()).toHaveLength(1) | expect(h.selectedIds()[0]).not.toBe(frameId(C04_MAIN, 1)) | expect(h.counter()).toBe('3 / 4') | expect(h.cardPixels()[2]).toEqual(h.cardPixels()[1]) | classification: new-contract; axis: C04-G03 插入与复制 复制后选区仅新 id 且 counter 指向复制帧",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-05",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:225 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:225 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.select(2, { shiftKey: true }) await h.click('复制选中帧') await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 多选复制插入到最大索引之后",
       "oracle": "expect(h.latest()?.frameCount).toBe(6) | expect(h.counter()).toBe('4 / 6 · 已选 3')",
@@ -910,23 +952,24 @@
       "testSourceLine": 225,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(6) | expect(h.counter()).toBe('4 / 6 · 已选 3') | classification: new-contract; axis: C04-G03 插入与复制 多选复制插入到最大索引之后",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-06",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:235 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:235 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(2) await h.chooseFiles('insert', [h.png('tail.png', 4)]) await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 末帧插入 PNG 追加到尾部",
       "oracle": "expect(h.counter()).toBe('4 / 4') | expect(h.ids()[3]).toBeDefined()",
@@ -936,23 +979,24 @@
       "testSourceLine": 235,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.counter()).toBe('4 / 4') | expect(h.ids()[3]).toBeDefined() | classification: new-contract; axis: C04-G03 插入与复制 末帧插入 PNG 追加到尾部",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-07",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:244 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:244 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.chooseFiles('insert', [h.png('ins.png', 9)]) await h.ready() await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 插入后撤销恢复 frameCount 与总时长",
       "oracle": "expect(h.latest()).toMatchObject({ frameCount: 3, durationMs: 150 })",
@@ -962,23 +1006,24 @@
       "testSourceLine": 244,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()).toMatchObject({ frameCount: 3, durationMs: 150 }) | classification: new-contract; axis: C04-G03 插入与复制 插入后撤销恢复 frameCount 与总时长",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-08",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:253 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:253 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.click('复制选中帧') await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 复制默认帧不携带 override",
       "oracle": "expect(h.latest()?.durationMs).toBe(190)",
@@ -988,23 +1033,24 @@
       "testSourceLine": 253,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(190) | classification: new-contract; axis: C04-G03 插入与复制 复制默认帧不携带 override",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-09",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:261 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:261 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.chooseFiles('insert', [h.png('a.png', 10), h.png('b.png', 11)]) await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 插入两文件一次增加两帧",
       "oracle": "expect(h.latest()?.frameCount).toBe(5) | expect(h.counter()).toBe('3 / 5')",
@@ -1014,23 +1060,24 @@
       "testSourceLine": 261,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(5) | expect(h.counter()).toBe('3 / 5') | classification: new-contract; axis: C04-G03 插入与复制 插入两文件一次增加两帧",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G03-10",
       "batch": "C04",
       "group": "G03",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current)",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:270 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:581 insertDraftFrames(draft, selectedIndex+1, frames); :859 tail insert at index",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:270 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const before = h.ids() await h.select(0) await h.chooseFiles('insert', [h.png('ins.png', 9)]) await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G03 插入与复制 插入后 stable 旧帧 id 不变",
       "oracle": "expect(h.ids().slice(2)).toEqual(before.slice(1)) | expect(h.ids()[0]).toBe(frameId(C04_MAIN, 0))",
@@ -1040,23 +1087,24 @@
       "testSourceLine": 270,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids().slice(2)).toEqual(before.slice(1)) | expect(h.ids()[0]).toBe(frameId(C04_MAIN, 0)) | classification: new-contract; axis: C04-G03 插入与复制 插入后 stable 旧帧 id 不变",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-01",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:282 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:282 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const victim = h.ids()[1] await h.select(1) await h.click('删除选中帧') await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 删单帧后选区落到同索引位置的下一帧 id",
       "oracle": "expect(h.ids()).not | expect(h.latest()?.frameCount).toBe(2) | expect(h.selectedIds()).toEqual([h.ids()[1]])",
@@ -1066,23 +1114,24 @@
       "testSourceLine": 282,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids()).not.toContain(victim) | expect(h.latest()?.frameCount).toBe(2) | expect(h.selectedIds()).toEqual([h.ids()[1]]) | classification: new-contract; axis: C04-G04 删除与选区 删单帧后选区落到同索引位置的下一帧 id",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-02",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:293 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:293 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.click('删除选中帧')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 删 override 帧后总时长减少 70",
       "oracle": "expect(h.latest()?.durationMs).toBe(80)",
@@ -1092,23 +1141,24 @@
       "testSourceLine": 293,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(80) | classification: new-contract; axis: C04-G04 删除与选区 删 override 帧后总时长减少 70",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-03",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:300 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:300 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.select(1, { shiftKey: true }) await h.click('删除选中帧')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 多选删除后 counter 显示剩余帧数",
       "oracle": "expect(h.counter()).toBe('1 / 1')",
@@ -1118,23 +1168,24 @@
       "testSourceLine": 300,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.counter()).toBe('1 / 1') | classification: new-contract; axis: C04-G04 删除与选区 多选删除后 counter 显示剩余帧数",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-04",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:308 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx — delete/reorder controls gated when selection would remove all frames",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:308 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.select(2, { shiftKey: true })",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 全选时删除按钮 disabled",
       "oracle": "expect(h.button('删除选中帧').disabled).toBe(true)",
@@ -1144,23 +1195,24 @@
       "testSourceLine": 308,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.button('删除选中帧').disabled).toBe(true) | classification: new-contract; axis: C04-G04 删除与选区 全选时删除按钮 disabled",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-05",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:315 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:93 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:96 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:337 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:341 px(…) (harness)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:315 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.click('删除选中帧')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 删除首帧后 currentIndex 为 0",
       "oracle": "expect(h.currentIndex()).toBe(0) | expect(h.mainPixels()).toEqual([...px(1)])",
@@ -1170,23 +1222,24 @@
       "testSourceLine": 315,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.currentIndex()).toBe(0) | expect(h.mainPixels()).toEqual([...px(1)]) | classification: new-contract; axis: C04-G04 删除与选区 删除首帧后 currentIndex 为 0",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-06",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:323 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:93 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:96 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:337 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:341 px(…) (harness)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:323 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.click('删除选中帧') await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 删除后撤销恢复像素顺序与 frameCount",
       "oracle": "expect(h.latest()?.frameCount).toBe(3) | expect(h.ids()).toContain(frameId(C04_MAIN, 1)) | expect(h.mainPixels()).toEqual([...px(2)])",
@@ -1196,23 +1249,24 @@
       "testSourceLine": 323,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(3) | expect(h.ids()).toContain(frameId(C04_MAIN, 1)) | expect(h.mainPixels()).toEqual([...px(2)]) | classification: new-contract; axis: C04-G04 删除与选区 删除后撤销恢复像素顺序与 frameCount",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-07",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:333 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:333 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(2) await h.click('删除选中帧')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 删除末帧后仍选中新的末帧",
       "oracle": "expect(h.currentIndex()).toBe(1) | expect(h.counter()).toBe('2 / 2')",
@@ -1222,23 +1276,24 @@
       "testSourceLine": 333,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.currentIndex()).toBe(1) | expect(h.counter()).toBe('2 / 2') | classification: new-contract; axis: C04-G04 删除与选区 删除末帧后仍选中新的末帧",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-08",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:341 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:341 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.click('删除选中帧')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 删除中间帧 metadata 立即更新",
       "oracle": "expect(h.latest()?.durationMs).toBe(80)",
@@ -1248,23 +1303,24 @@
       "testSourceLine": 341,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(80) | classification: new-contract; axis: C04-G04 删除与选区 删除中间帧 metadata 立即更新",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-09",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:348 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:872 deleteDraftFrames(draft, actionIndices) after selection guard",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:348 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.click('删除选中帧')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 单选删除后 selectedIds 长度为 1",
       "oracle": "expect(h.selectedIds()).toHaveLength(1)",
@@ -1274,23 +1330,24 @@
       "testSourceLine": 348,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.selectedIds()).toHaveLength(1) | classification: new-contract; axis: C04-G04 删除与选区 单选删除后 selectedIds 长度为 1",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G04-10",
       "batch": "C04",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:355 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx redoDraftHistory reapplies undone draft edit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:355 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '50') await h.click('撤销帧编辑') await h.select(1) await h.click('删除选中帧')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G04 删除与选区 删除后 redo 栈清空",
       "oracle": "expect(h.button('重做帧编辑').disabled).toBe(true)",
@@ -1300,23 +1357,24 @@
       "testSourceLine": 355,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.button('重做帧编辑').disabled).toBe(true) | classification: new-contract; axis: C04-G04 删除与选区 删除后 redo 栈清空",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-01",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:367 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:367 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.select(2, { shiftKey: true }) const sourceId = h.ids()[0]! await h.dragFrame(0, 2)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 拖拽来源不在选区时折叠为仅来源 id",
       "oracle": "expect(h.selectedIds()).toEqual([sourceId]) | expect(h.currentIndex()).toBe(2)",
@@ -1326,23 +1384,24 @@
       "testSourceLine": 367,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.selectedIds()).toEqual([sourceId]) | expect(h.currentIndex()).toBe(2) | classification: new-contract; axis: C04-G05 重排与选择归属 拖拽来源不在选区时折叠为仅来源 id",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-02",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:377 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:377 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.select(2, { shiftKey: true }) const selected = new Set(h.selectedIds()) await h.dragFrame(0, 2)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 拖拽来源在 multi 选区内保留全集",
       "oracle": "expect(new Set(h.selectedIds())).toEqual(selected)",
@@ -1352,23 +1411,24 @@
       "testSourceLine": 377,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(new Set(h.selectedIds())).toEqual(selected) | classification: new-contract; axis: C04-G05 重排与选择归属 拖拽来源在 multi 选区内保留全集",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-03",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:386 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:93 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:96 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:337 px(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:341 px(…) (harness)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:386 h.dragFrame | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.dragFrame(0, 2)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 重排后像素顺序随 cards 变化",
       "oracle": "expect(h.cardPixels()[0]).toEqual([...px(1)]) | expect(h.cardPixels()[2]).toEqual([...px(0)])",
@@ -1378,23 +1438,24 @@
       "testSourceLine": 386,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.cardPixels()[0]).toEqual([...px(1)]) | expect(h.cardPixels()[2]).toEqual([...px(0)]) | classification: new-contract; axis: C04-G05 重排与选择归属 重排后像素顺序随 cards 变化",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-04",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:393 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:393 h.dragFrame | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.dragFrame(1, 0)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 重排 override 帧总时长不变",
       "oracle": "expect(h.latest()?.durationMs).toBe(150)",
@@ -1404,23 +1465,24 @@
       "testSourceLine": 393,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.durationMs).toBe(150) | classification: new-contract; axis: C04-G05 重排与选择归属 重排 override 帧总时长不变",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-05",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:399 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:399 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.dragFrame(1, 0)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 重排后 anchor 与 current 对齐来源索引",
       "oracle": "expect(h.currentIndex()).toBe(0) | expect(h.selectedIds()).toEqual([h.ids()[0]])",
@@ -1430,23 +1492,24 @@
       "testSourceLine": 399,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.currentIndex()).toBe(0) | expect(h.selectedIds()).toEqual([h.ids()[0]]) | classification: new-contract; axis: C04-G05 重排与选择归属 重排后 anchor 与 current 对齐来源索引",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-06",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :802 aria-label=\"帧动画预览；滚轮缩放，放大后拖拽平移，按 F 适合窗口，按 0 恢复原始大小\"; :777 onClick={() => travelHistory(undoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:407 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:407 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const before = h.ids() await h.dragFrame(0, 2) await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 重排 undo 恢复 id 顺序",
       "oracle": "expect(h.ids()).toEqual(before)",
@@ -1456,23 +1519,24 @@
       "testSourceLine": 407,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids()).toEqual(before) | classification: new-contract; axis: C04-G05 重排与选择归属 重排 undo 恢复 id 顺序",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-07",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:415 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx redoDraftHistory reapplies undone draft edit",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:415 h.dragFrame | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.dragFrame(0, 1) const after = h.ids() await h.click('撤销帧编辑') await h.click('重做帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 重排 redo 再次应用顺序",
       "oracle": "expect(h.ids()).toEqual(after)",
@@ -1482,23 +1546,24 @@
       "testSourceLine": 415,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids()).toEqual(after) | classification: new-contract; axis: C04-G05 重排与选择归属 重排 redo 再次应用顺序",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-08",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:424 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:424 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const before = h.ids() await h.dragFrame(1, 1)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 同位 drop 不改变 ids",
       "oracle": "expect(h.ids()).toEqual(before)",
@@ -1508,23 +1573,24 @@
       "testSourceLine": 424,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids()).toEqual(before) | classification: new-contract; axis: C04-G05 重排与选择归属 同位 drop 不改变 ids",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-09",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause)); :185 if (busy) {; :274 if (!alive) return",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:431 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:431 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const picked = h.ids()[1]! await h.select(1) await h.dragFrame(1, 2)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 重排后选中 id 仍存在于 cards",
       "oracle": "expect(h.ids()).toContain(picked) | expect(h.selectedIds()).toContain(picked)",
@@ -1534,23 +1600,24 @@
       "testSourceLine": 431,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids()).toContain(picked) | expect(h.selectedIds()).toContain(picked) | classification: new-contract; axis: C04-G05 重排与选择归属 重排后选中 id 仍存在于 cards",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G05-10",
       "batch": "C04",
       "group": "G05",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:440 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:428-433 moveDraftFrame + frameSelectionAfterReorder updates selectedFrameIds",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:440 h.dragFrame | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.dragFrame(2, 0)",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G05 重排与选择归属 重排后 metadata frameCount 不变",
       "oracle": "expect(h.latest()?.frameCount).toBe(3)",
@@ -1560,23 +1627,24 @@
       "testSourceLine": 440,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(3) | classification: new-contract; axis: C04-G05 重排与选择归属 重排后 metadata frameCount 不变",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-01",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :709 const onFileInput = (event: ChangeEvent<HTMLInputElement>, mode: 'insert' | 'replace'): void => {; :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :838 onClick={() => insertRef.current?.click()}; :952 onChange={(event) => onFileInput(event, 'insert')}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:448 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:448 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const anchor = h.ids()[0]! await h.select(0) await h.chooseFiles('insert', [h.png('ins.png', 9)]) await h.ready() await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 撤销 PNG 插入后 frameCount 恢复且原 catalog id 仍在时间轴",
       "oracle": "expect(h.latest()?.frameCount).toBe(3) | expect(h.ids()).toContain(anchor)",
@@ -1586,23 +1654,24 @@
       "testSourceLine": 448,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(3) | expect(h.ids()).toContain(anchor) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 撤销 PNG 插入后 frameCount 恢复且原 catalog id 仍在时间轴",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-02",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:459 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:459 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.chooseFiles('insert', [h.png('ins.png', 9)]) await h.ready() await h.click('撤销帧编辑') await h.click('重做帧编辑') await h.ready()",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 重做 PNG 插入恢复像素与帧数且选中新 uuid",
       "oracle": "expect(h.latest()?.frameCount).toBe(4) | expect(h.cardPixels().some((pixels) => pixels.join() === h.solid(9).join())).toBe(true) | expect(h.button('重做帧编辑').disabled).toBe(true)",
@@ -1612,23 +1681,24 @@
       "testSourceLine": 459,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.latest()?.frameCount).toBe(4) | expect(h.cardPixels().some((pixels) => pixels.join() === h.solid(9).join())).toBe(true) | expect(h.button('重做帧编辑').disabled).toBe(true) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 重做 PNG 插入恢复像素与帧数且选中新 uuid",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-03",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:472 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:472 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const victim = h.ids()[1]! const survivor = h.ids()[2]! await h.select(1) await h.click('删除选中帧') await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 撤销删除恢复被删 id 且 active id 仍指向原存活帧",
       "oracle": "expect(h.ids()).toContain(victim) | expect(h.selectedIds()).toEqual([survivor]) | expect(h.currentIndex()).toBe(2)",
@@ -1638,23 +1708,24 @@
       "testSourceLine": 472,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids()).toContain(victim) | expect(h.selectedIds()).toEqual([survivor]) | expect(h.currentIndex()).toBe(2) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 撤销删除恢复被删 id 且 active id 仍指向原存活帧",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-04",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:484 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:484 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const active = h.ids()[1]! await h.select(1) await h.dragFrame(1, 0) await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 撤销重排后 current 跟随原 active id",
       "oracle": "expect(h.selectedIds()).toEqual([active]) | expect(h.currentIndex()).toBe(1)",
@@ -1664,23 +1735,24 @@
       "testSourceLine": 484,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.selectedIds()).toEqual([active]) | expect(h.currentIndex()).toBe(1) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 撤销重排后 current 跟随原 active id",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-05",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:494 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:494 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.select(2, { shiftKey: true }) await h.click('复制选中帧') await h.ready() await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 多选 anchor 在 undo 后仍指向存在 id",
       "oracle": "expect(h.ids()).toHaveLength(3) | expect(h.selectedIds().every((id) => h.ids().includes(id))).toBe(true)",
@@ -1690,23 +1762,24 @@
       "testSourceLine": 494,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.ids()).toHaveLength(3) | expect(h.selectedIds().every((id) => h.ids().includes(id))).toBe(true) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 多选 anchor 在 undo 后仍指向存在 id",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-06",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:505 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:505 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const id = h.ids()[1]! await h.select(1) await h.number('当前帧时长（ms）', '120') await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 时长编辑 undo 不改变当前选中 id",
       "oracle": "expect(h.selectedIds()).toEqual([id])",
@@ -1716,23 +1789,24 @@
       "testSourceLine": 505,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.selectedIds()).toEqual([id]) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 时长编辑 undo 不改变当前选中 id",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-07",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:514 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:514 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(0) await h.number('当前帧时长（ms）', '50') await h.click('撤销帧编辑') await h.select(1) await h.number('当前帧时长（ms）', '80') await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 新编辑清空 redo 后 undo 仍可用",
       "oracle": "expect(h.button('重做帧编辑').disabled).toBe(true) | expect(h.latest()?.durationMs).toBe(150)",
@@ -1742,23 +1816,24 @@
       "testSourceLine": 514,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.button('重做帧编辑').disabled).toBe(true) | expect(h.latest()?.durationMs).toBe(150) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 新编辑清空 redo 后 undo 仍可用",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-08",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:526 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:526 h.ids | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() const source = h.ids()[2]! await h.select(2) await h.click('复制选中帧') await h.ready() await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 撤销末帧复制后 active id 仍指向来源 catalog 帧",
       "oracle": "expect(h.selectedIds()[0]).toBe(source) | expect(h.latest()?.frameCount).toBe(3)",
@@ -1768,23 +1843,24 @@
       "testSourceLine": 526,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.selectedIds()[0]).toBe(source) | expect(h.latest()?.frameCount).toBe(3) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 撤销末帧复制后 active id 仍指向来源 catalog 帧",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-09",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :777 onClick={() => travelHistory(undoDraftHistory)}; :784 onClick={() => travelHistory(redoDraftHistory)}; :83 if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID(); :97 if (!context) return; :160 if (alive && canvasRef.current); :164 if (alive) onError(frameAnimationError(cause))",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:537 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:537 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.click('删除选中帧') const survivor = h.selectedIds()[0]! await h.click('撤销帧编辑') await h.click('重做帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 redo 链恢复最后一次结构编辑选区",
       "oracle": "expect(h.selectedIds()).toEqual([survivor])",
@@ -1794,23 +1870,24 @@
       "testSourceLine": 537,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.selectedIds()).toEqual([survivor]) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 redo 链恢复最后一次结构编辑选区",
+      "verification": "human-ledger"
     },
     {
       "id": "C04-G06-10",
       "batch": "C04",
       "group": "G06",
       "primarySource": "packages/editor/src/ui/FrameAnimationEditor.tsx",
-      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:200 export FrameAnimationEditor — branches: :776 disabled={!history.past.length || Boolean(busy)}; :783 disabled={!history.future.length || Boolean(busy)}; :789 disabled={!dirty}; :837 disabled={Boolean(busy)}; :844 disabled={Boolean(busy)}; :852 disabled={Boolean(busy)}",
-      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:547 mount(…) | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor (production)",
-      "legalInput": "fixture: const h = await mount()",
+      "sourceCondition": "packages/editor/src/ui/FrameAnimationEditor.tsx:777 travelHistory(undoDraftHistory) restores prior draft snapshot",
+      "caller": "test: packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx:547 h.select | production: packages/editor/src/ui/CutsceneTab.tsx:714 <FrameAnimationEditor",
+      "legalInput": "fixture: const h = await mount() await h.select(1) await h.number('当前帧时长（ms）', '99') await h.click('撤销帧编辑')",
       "oldAssertion": {
         "oldTestSha": "none",
         "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFullName": "none",
+        "oldMatcher": "none",
         "dedupHeader": "排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "no old test proves same business axis; 排重：codex-frame-editor 六套已证载入/基础编辑/播放/视口/保存/异步归属；reorder.test 三项"
       },
       "axis": "C04-G06 undo/redo 选择 id 归属 撤销到 baseline 后 dirty 为 false",
       "oracle": "expect(h.dirty.mock.lastCall).toEqual([false]) | expect(h.button('保存动画').disabled).toBe(true)",
@@ -1820,7 +1897,8 @@
       "testSourceLine": 547,
       "status": "passed",
       "humanVerified": true,
-      "notes": "C01-C05 human overlay fill sourceCondition/legalInput"
+      "notes": "oracle: expect(h.dirty.mock.lastCall).toEqual([false]) | expect(h.button('保存动画').disabled).toBe(true) | classification: new-contract; axis: C04-G06 undo/redo 选择 id 归属 撤销到 baseline 后 dirty 为 false",
+      "verification": "human-ledger"
     }
   ]
 }
