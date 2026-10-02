@@ -95,12 +95,12 @@
       "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:135 waitProof(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:136 atlasColors(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:136 solidAtlasPng(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:138 clickButtonByText(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:142 pickImportFile(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:142 pngFileOf(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:148 buildExternalSharedSummon(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:151 A_SHARED; packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:160 A_SHARED; packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:161 A_SHARED; packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:161 seeded.get(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:164 waitProof(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx:67 <BattleSpriteLibrary (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:224 clickButtonByText(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
-        "oldFile": "BattleSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "54659a1536bee923ab4cbcb86f0d8398bb403b0f",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "oldFullName": "替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+        "oldMatcher": "clickButton(host, '替换源文件'); expect(host.textContent).toContain('替换当前共享帧源') @ :512-514",
         "dedupHeader": "排重：BattleSpriteLibrary.test.tsx 已证引用 fail-closed / 缩短帧收紧（mock 预览）；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same replace-shared-source panel open copy axis (sub-step of longer new case)"
       },
       "axis": "外部新增共享消费者使替换面板关闭且零提交；重开后确认文案按最新 3 个用途重算",
       "oracle": "expect(m.host.textContent).toContain('替换当前共享帧源') | expect(m.host.textContent).toContain('共 13 帧（横排逐行切）') | expect(m.host.textContent).not.toContain('替换当前共享帧源') | expect(m.session.getHistoryVersion()).toBe(1) | expect(m.session.getState().assetCatalog.assets[A_SHARED]?.sha256).toBe( m.project.seeded.get(A_SHARED)!.sha256, ) | expect(confirm).toHaveBeenCalledWith(expect.stringContaining('替换共享帧源会影响 3 个用途')) | expect(m.host.textContent).not.toContain('替换当前共享帧源') | expect(noticeErrors(m.notices)).toEqual([]) | expect(decoded.frames).toHaveLength(13) | expect( m.session .getState() .battleSprites.filter((e) => e.asset === A_SHARED) .map((e) => e.id), ).toEqual(['shared-fighter-a', 'shared-fighter-b', 'late-fox'])",
@@ -111,8 +111,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new adds external-consumer auto-close; panel headline matcher shared."
     },
     {
       "id": "C02-G01-05",
@@ -263,12 +263,12 @@
       "caller": "test: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:355 waitProof(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:356 selectSourceFrame(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:358 clickButtonByText(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:359 waitRawMessage(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:361 waitProof(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:365 decodeBattleAsset(…); packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:372 waitProof(…) | production: packages/editor/src/ui/DataMode.tsx:689 <BattleSpriteLibrary (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx:67 <BattleSpriteLibrary (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:224 clickButtonByText(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
-        "oldFile": "BattleSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "54659a1536bee923ab4cbcb86f0d8398bb403b0f",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "oldFullName": "替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+        "oldMatcher": "expect(message.textContent).toBe('删除战斗精灵原始帧 #0；可使用撤销恢复。') @ :475",
         "dedupHeader": "排重：BattleSpriteLibrary.test.tsx 已证引用 fail-closed / 缩短帧收紧（mock 预览）；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same delete-raw-frame success message template (#index varies by selection)"
       },
       "axis": "召唤用途删帧无需槽位重排：全帧语义随实际帧数收缩，undo 回到 5 帧",
       "oracle": "expect(message.textContent).toBe('删除战斗精灵原始帧 #2；可使用撤销恢复。') | expect(m.session.getState().battleSprites.find((d) => d.id === 'summon-fox')?.profile).toEqual({ kind: 'summon', }) | expect(decoded.frames).toHaveLength(4) | expect(m.session.undo()).toBe(true)",
@@ -279,8 +279,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new summon #2 delete; old enemy #0 — message class axis, not slot semantics."
     },
     {
       "id": "C02-G02-01",

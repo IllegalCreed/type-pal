@@ -711,12 +711,12 @@
       "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:94 mountEntityPageAnimation(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: none (not a production caller)",
       "legalInput": "fixture: mountEntityPageAnimation(spriteA)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "从实体页启用复合动作并编辑循环、相位与反跳",
+        "oldMatcher": "preset checkbox click → expect(changes.at(-1)).toEqual({ sprite: 'sprite-77', action: 'loop', loop: true }) @ :90-91",
         "dedupHeader": "TEST-CURSOR-ASSET-UI-LARGE-1 C06-G06：EntityPageAnimationFields 选择恢复 / 失效清理 / 草稿归属。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "enable preset writes binding; new uses walk/loop false fixture"
       },
       "axis": "启用后默认选中 walk 且 loop=false",
       "oracle": "expect(mounted.changes.at(-1)).toEqual({ sprite: 'sprite.c06.a', action: 'walk', loop: false })",
@@ -727,8 +727,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; mixed default action/loop values, same enable→onChange axis"
     },
     {
       "id": "C06-G06-02",
@@ -979,12 +979,12 @@
       "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:177 mountEntityPageAnimation(…); packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:182 type | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
       "legalInput": "fixture: mountEntityPageAnimation({ ...spriteA, id: 'sprite.c06.empty', poses: {}, })",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "无可解析精灵时开关与说明仍归入统一属性值列",
+        "oldMatcher": "expect(presetRow.querySelector<HTMLInputElement>('.ds-check-control')?.disabled).toBe(true) @ :154-159",
         "dedupHeader": "TEST-CURSOR-ASSET-UI-LARGE-1 C06-G06：EntityPageAnimationFields 选择恢复 / 失效清理 / 草稿归属。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "preset toggle disabled when no resolvable actions; new uses empty poses sprite"
       },
       "axis": "无动作 pose：开关禁用",
       "oracle": "expect(mounted.host.querySelector<HTMLInputElement>('input[type=\"checkbox\"]')?.disabled).toBe( true, )",
@@ -995,8 +995,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified",
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; rejected R3 :87 enabled-checkbox fragment (enabled path); promoted disabled preset sub-axis aligned with G06-09",
       "toolOldAssertionCandidate": {
         "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
         "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
@@ -1547,12 +1547,12 @@
       "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:168 mountPortraitEditor(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
       "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [{ id: 'portrait.c06.red', label: '红', ...red }], actorPatch: { portraits: { default: 'portrait.c06.red', expressions: { 旧名: 'portrait.c06.red' } }, }, })",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "bfd1ee2670f083bae629866ea7b73cac3fc8e9f1",
+        "oldFile": "packages/editor/src/ui/PortraitEditor.test.tsx",
+        "oldFullName": "表情名称走共享草稿边界，Enter 与随后 blur 只提交一次",
+        "oldMatcher": "setInputValue(input, '开心') → Enter → blur → getHistoryVersion() 1; expressions 键 '开心' @ :185-199",
         "dedupHeader": "TEST-CURSOR-ASSET-UI-LARGE-1 C06-G05：PortraitEditor 立绘真实 PNG 像素 / 切换清理 / 选择恢复。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same expression-name draft commit axis; new renames existing key 旧名→新名"
       },
       "axis": "重命名表情：键名更新且资源 id 不变",
       "oracle": "expect(mounted.session.getState().actors[0]?.portraits?.expressions?.新名).toBe( 'portrait.c06.red', )",
@@ -1563,8 +1563,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; mixed fixture keys, same blur/Enter single-commit sub-axis"
     },
     {
       "id": "C06-G05-09",
@@ -1603,12 +1603,12 @@
       "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:209 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:217 controlByAriaLabel; packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:218 pickCombobox(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/kit.ts:121 pickCombobox(…) (harness)",
       "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [ { id: 'portrait.c06.red', label: '红', ...red }, { id: 'portrait.c06.blue', label: '蓝', ...blue }, ], actorPatch: { portraits: { default: 'portrait.c06.red' } }, })",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "bfd1ee2670f083bae629866ea7b73cac3fc8e9f1",
+        "oldFile": "packages/editor/src/ui/PortraitEditor.test.tsx",
+        "oldFullName": "没有立绘组时从标题动作选择主立绘，不再静默采用目录第一项",
+        "oldMatcher": "expect(session.getHistoryVersion()).toBe(1) after confirmed picker @ :181",
         "dedupHeader": "TEST-CURSOR-ASSET-UI-LARGE-1 C06-G05：PortraitEditor 立绘真实 PNG 像素 / 切换清理 / 选择恢复。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "history bumps on portrait catalog mutation; old sets default via dialog, new switches default combobox"
       },
       "axis": "切换默认立绘增加 history",
       "oracle": "expect(mounted.session.getHistoryVersion()).toBeGreaterThan(before)",
@@ -1619,8 +1619,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; partial same historyVersion sub-axis"
     },
     {
       "id": "C06-G05-11",

@@ -488,11 +488,11 @@
       "legalInput": "fixture: createWavPreviewTransport( stubReader(() => hold.promise), fakeBackend(), ); calls: load(",
       "oldAssertion": {
         "oldTestSha": "f9c5999db64d38fb5c0188f84dac6dded17b1926",
-        "oldFile": "audio-preview.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/core/audio-preview.test.ts",
+        "oldFullName": "stop invalidates a pending AudioContext resume so playback cannot arrive late",
+        "oldMatcher": "await expect(playing).rejects.toMatchObject({ name: 'AbortError' }) @ :187",
         "dedupHeader": "C09-G01：audio-preview transport/缓存 IO（排重 audio-preview.test.ts 已证 LRU/播放链）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "dispose/stop invalidates in-flight load/play; new uses transport.dispose after load start"
       },
       "axis": "C09-G01 audio-preview IO 与峰值 dispose 后 load 以 AbortError 拒绝",
       "oracle": "expect(loading).rejects.toMatchObject({ name: 'AbortError' })",
@@ -503,8 +503,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/core/audio-preview.c09-g01.cursor-r1.test.ts:115; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; same AbortError rejection sub-axis"
     },
     {
       "id": "C09-G01-09",
@@ -607,12 +607,12 @@
       "caller": "test: packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:58 mountAudioWorkbench(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:59 mockSoundStrategy(…) | production: packages/editor/src/ui/MusicTab.tsx:83 <AudioAssetWorkbench (production); packages/editor/src/ui/SoundTab.tsx:80 <AudioAssetWorkbench (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c09-audio-harness.tsx:145 <AudioAssetWorkbench (harness)",
       "legalInput": "fixture: mountAudioWorkbench( mockSoundStrategy(() => transportOf(2, 0)), { focusObjectId: 'sound.hit', }, )",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "recovers when A→B→A reuses an inflight A that is then canceled",
+        "oldMatcher": "audio-player__state '就绪'; audio-player__time contains '0:00 / 0:09' @ :140-142",
         "dedupHeader": "C09-G05：AudioAssetWorkbench 亚秒/搜索/播放器 DOM（排重 0:534 端点、A→B→A 迟到链）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "whole-second clock formatting + ready state; new uses 0:02 duration fixture"
       },
       "axis": "C09-G05 AudioAssetWorkbench 时间轴与目录 整秒长音不显示百分秒",
       "oracle": "expect(mounted!.host.querySelector('.audio-player__state')?.textContent).toBe('就绪') | expect(mounted!.host.querySelector('.audio-player__time')?.textContent).toBe('0:00 / 0:02')",
@@ -623,8 +623,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:57; R5 honesty: staging-draft≠humanVerified",
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; mixed duration, same non-subsecond display sub-axis",
       "toolOldAssertionCandidate": {
         "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
         "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
@@ -815,12 +815,12 @@
       "caller": "test: packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:124 mountAudioWorkbench(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:125 mockSoundStrategy(…) | production: packages/editor/src/ui/MusicTab.tsx:83 <AudioAssetWorkbench (production); packages/editor/src/ui/SoundTab.tsx:80 <AudioAssetWorkbench (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c09-audio-harness.tsx:145 <AudioAssetWorkbench (harness)",
       "legalInput": "fixture: mountAudioWorkbench( mockSoundStrategy(() => transportOf(1)), { focusObjectId: 'sound.hit', }, )",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "recovers when A→B→A reuses an inflight A that is then canceled",
+        "oldMatcher": "expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('开场音乐') @ :145",
         "dedupHeader": "C09-G05：AudioAssetWorkbench 亚秒/搜索/播放器 DOM（排重 0:534 端点、A→B→A 迟到链）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "catalog row switch updates hero title; new uses sound fixture labels"
       },
       "axis": "C09-G05 AudioAssetWorkbench 时间轴与目录 切换目录行更新 hero 标题",
       "oracle": "expect(mounted!.host.querySelector('.ds-object-hero__title')?.textContent).toBe('命中音效') | expect(mounted!.host.querySelector('.ds-object-hero__title')?.textContent).toBe('治疗音效')",
@@ -831,8 +831,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:123; R5 honesty: staging-draft≠humanVerified",
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; mixed catalog labels, same hero title sub-axis",
       "toolOldAssertionCandidate": {
         "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
         "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
@@ -887,12 +887,12 @@
       "caller": "test: packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:151 AudioTimeline; packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:152 <AudioTimeline; packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:155 AudioWorkbenchTransport; packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:159 mockSoundStrategy(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:159 mountAudioWorkbench(…) | production: packages/editor/src/ui/MusicTab.tsx:83 <AudioAssetWorkbench (production); packages/editor/src/ui/SoundTab.tsx:80 <AudioAssetWorkbench (production); packages/editor/src/ui/AudioAssetWorkbench.tsx:51 <AudioTimeline (production); packages/editor/src/ui/AudioAssetWorkbench.tsx:170 <AudioTimeline (production); packages/editor/src/ui/AudioAssetWorkbench.tsx:173 <AudioTimeline (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c09-audio-harness.tsx:145 <AudioAssetWorkbench (harness)",
       "legalInput": "fixture: mountAudioWorkbench(mockSoundStrategy(() => transport)); vi.fn() spies",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "renders a fractional short sound at the exact visual and slider endpoint",
+        "oldMatcher": "await vi.waitFor(() => expect(host.querySelector('.audio-player__state')?.textContent).toBe('就绪')) @ :193-195",
         "dedupHeader": "C09-G05：AudioAssetWorkbench 亚秒/搜索/播放器 DOM（排重 0:534 端点、A→B→A 迟到链）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "player state reaches 就绪 after transport load; new also asserts 正在读取… transient"
       },
       "axis": "C09-G05 AudioAssetWorkbench 时间轴与目录 读取中状态文案",
       "oracle": "expect(mounted!.host.querySelector('.audio-player__state')?.textContent).toBe('正在读取…') | expect(mounted!.host.querySelector('.audio-player__state')?.textContent).toBe('就绪')",
@@ -903,8 +903,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx:150; R5 honesty: staging-draft≠humanVerified",
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; partial ready-state sub-axis only",
       "toolOldAssertionCandidate": {
         "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
         "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
@@ -1063,12 +1063,12 @@
       "caller": "test: packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:154 mockSoundStrategy(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:154 mountAudioWorkbench(…) | production: packages/editor/src/ui/MusicTab.tsx:83 <AudioAssetWorkbench (production); packages/editor/src/ui/SoundTab.tsx:80 <AudioAssetWorkbench (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c09-audio-harness.tsx:145 <AudioAssetWorkbench (harness)",
       "legalInput": "fixture: mountAudioWorkbench(mockSoundStrategy(mockTransport), { referenceIndex: undefined, referenceStatus: 'failed', })",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "recovers when A→B→A reuses an inflight A that is then canceled",
+        "oldMatcher": "expect(host.querySelector('.audio-player__state')?.textContent).toBe('就绪') @ :140",
         "dedupHeader": "C09-G06：strategy/reader IO 与删除引用 re-verify（排重 staleIndex 异步删旧测，改 music+成功路径）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "workbench player state surface; new adds referenceStatus failed + confirm.disabled"
       },
       "axis": "C09-G06 AudioAssetWorkbench IO 与引用核验 referenceStatus failed 阻断对话框确认删除",
       "oracle": "expect(mounted!.host.querySelector('.audio-player__state')?.textContent).toBe('就绪') | expect(confirm.disabled).toBe(true) | expect(mounted!.host.textContent).toContain('引用扫描失败')",
@@ -1079,8 +1079,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:153; R5 honesty: staging-draft≠humanVerified",
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; partial — only shared 就绪 read, not delete-guard axis",
       "toolOldAssertionCandidate": {
         "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
         "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",

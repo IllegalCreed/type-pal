@@ -10,7 +10,7 @@
 - **existing-proof（14）** / **净新结构上限 703**（717−14）。全量语义排重未完，不得仅凭 ≥700 签 accept。
 - **真账（R5）**：
   - `humanVerified` 仅 `verification: human-ledger`（当前 **17**）；staging/script 批赋值为 `staging-draft`（**700**），≠ 人工核定。
-  - 工具候选 `toolOldAssertionCandidate` 与已晋升 `oldAssertion` 分离；同轴晋升见 staging `R5-oldmatcher-*.json`（本轮 +44 候选写入，账上 none **653**）。
+  - 工具候选 `toolOldAssertionCandidate` 与已晋升 `oldAssertion` 分离；同轴晋升见 staging `R5-oldmatcher-*.json`（本轮 +44 候选写入，账上 none **612**）。
   - `caller` 分栏 production|harness；props 类型不进 sourceCondition。
   - C03-G04-02/03 oracle 已补完整 `.not.toBeNull()` matcher。
   - 禁止凭同函数名/关键词裁新旧；mixed 按子轴注明。

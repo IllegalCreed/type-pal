@@ -1195,12 +1195,12 @@
       "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:40 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:46 imageAssets(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production) | harness: none (not a production caller)",
       "legalInput": "fixture: catalogOf([ ['portrait.a', 'portrait'], ['face.b', 'face'], ['item-icon.c', 'item-icon'], ]); calls: imageAssets(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba9539db64f5f97bb09e24dc32b87c0a2679f31c",
+        "oldFile": "packages/editor/src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx",
+        "oldFullName": "filters by kind, sorts by id and renders label with id fallback",
+        "oldMatcher": "expect(imageAssets(catalog, 'portrait').map((asset) => asset.id)).toEqual([...]) @ :107-108",
         "dedupHeader": "排重：ImageTab.test 已证 UI 级 kind Tab；本组只证 STATIC_IMAGE_KINDS 常量与 imageAssets 纯函数。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "kind-filtered catalog rows; new uses minimal catalogOf fixture"
       },
       "axis": "C07-G01 static-image 与 imageAssets imageAssets(portrait) 只保留 portrait 记录",
       "oracle": "expect(imageAssets(catalog, 'portrait').map((entry) => entry.id)).toEqual(['portrait.a'])",
@@ -1211,8 +1211,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G01-03; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; same imageAssets(portrait) filter axis"
     },
     {
       "id": "C07-G01-04",
@@ -1223,12 +1223,12 @@
       "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:49 imageAssets; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:55 imageAssets(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production) | harness: none (not a production caller)",
       "legalInput": "fixture: catalogOf([ ['face.z', 'face'], ['face.a', 'face'], ['face.m', 'face'], ]); calls: imageAssets(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba9539db64f5f97bb09e24dc32b87c0a2679f31c",
+        "oldFile": "packages/editor/src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx",
+        "oldFullName": "filters by kind, sorts by id and renders label with id fallback",
+        "oldMatcher": "expect(portraits.map((asset) => asset.id)).toEqual(['portrait.lab.001', 'portrait.lab.002']) @ :108",
         "dedupHeader": "排重：ImageTab.test 已证 UI 级 kind Tab；本组只证 STATIC_IMAGE_KINDS 常量与 imageAssets 纯函数。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "AssetId lexicographic sort within kind"
       },
       "axis": "C07-G01 static-image 与 imageAssets imageAssets 按 AssetId 字典序排序",
       "oracle": "expect(imageAssets(catalog, 'face').map((entry) => entry.id)).toEqual([ 'face.a', 'face.m', 'face.z', ])",
@@ -1239,8 +1239,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G01-04; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b"
     },
     {
       "id": "C07-G01-05",
@@ -1279,12 +1279,12 @@
       "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:66 imageAssetLabel; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:68 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:69 imageAssetLabel(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production) | harness: none (not a production caller)",
       "legalInput": "fixture: catalogOf([['portrait.hero', 'portrait', '主角']]); calls: imageAssets(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba9539db64f5f97bb09e24dc32b87c0a2679f31c",
+        "oldFile": "packages/editor/src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx",
+        "oldFullName": "filters by kind, sorts by id and renders label with id fallback",
+        "oldMatcher": "expect(imageAssetLabel(portraits[0]!)).toBe('实验立绘甲 (portrait.lab.001)') @ :110",
         "dedupHeader": "排重：ImageTab.test 已证 UI 级 kind Tab；本组只证 STATIC_IMAGE_KINDS 常量与 imageAssets 纯函数。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "label + parenthetical id formatting"
       },
       "axis": "C07-G01 static-image 与 imageAssets imageAssetLabel 有 label 时带括号 id",
       "oracle": "expect(imageAssetLabel(asset!)).toBe('主角 (portrait.hero)')",
@@ -1295,8 +1295,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G01-06; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b"
     },
     {
       "id": "C07-G01-07",
@@ -1307,12 +1307,12 @@
       "caller": "test: packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:72 imageAssetLabel; packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:75 imageAssets(…); packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts:76 imageAssetLabel(…) | production: packages/editor/src/ui/ActorMode.tsx:1051 <ImageAssetPicker (production); packages/editor/src/ui/BattleFieldTab.tsx:413 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:89 <ImageAssetPicker (production); packages/editor/src/ui/PortraitEditor.tsx:237 <ImageAssetPicker (production); packages/editor/src/ui/command-form-dialogue.tsx:399 <ImageAssetPicker (production); packages/editor/src/ui/command-form-world.tsx:507 <ImageAssetPicker (production) | harness: none (not a production caller)",
       "legalInput": "fixture: catalogOf([['face.raw', 'face', '']]); calls: imageAssets(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba9539db64f5f97bb09e24dc32b87c0a2679f31c",
+        "oldFile": "packages/editor/src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx",
+        "oldFullName": "filters by kind, sorts by id and renders label with id fallback",
+        "oldMatcher": "imageAssetLabel({ ...record.label: undefined }) → asset.id only @ :111-113",
         "dedupHeader": "排重：ImageTab.test 已证 UI 级 kind Tab；本组只证 STATIC_IMAGE_KINDS 常量与 imageAssets 纯函数。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "missing label falls back to id"
       },
       "axis": "C07-G01 static-image 与 imageAssets imageAssetLabel 无 label 时仅 id",
       "oracle": "expect(imageAssetLabel(asset!)).toBe('face.raw')",
@@ -1323,8 +1323,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G01-07; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b"
     },
     {
       "id": "C07-G01-08",

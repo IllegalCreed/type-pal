@@ -96,11 +96,11 @@
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
+        "oldFullName": "以结构共享完成完整帧编辑和撤销重做",
+        "oldMatcher": "const trimmed = deleteDraftFrames(moved, [1]); expect(trimmed.frames.map((frame) => frame.id)).toEqual(['a', 'copy']); expect(draftDurationMs(trimmed)).toBe(160) @ :57-59",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same deleteDraftFrames middle index drops frame and recomputes draftDurationMs"
       },
       "axis": "C04-G07 draft 时长与结构编辑 删除中间 override 帧后总时长回落且 metadata 对齐",
       "oracle": "expect(trimmed.frames.map((f) => f.id)).toEqual(['a', 'c']) | expect(draftDurationMs(trimmed)).toBe(80) | expect(draftFrameMetadata(trimmed)).toEqual([{}, {}])",
@@ -111,8 +111,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(trimmed.frames.map((f) => f.id)).toEqual(['a', 'c']) | expect(draftDurationMs(trimmed)).toBe(80) | expect(draftFrameMetadata(trimmed)).toEqual([{}, {}]) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 删除中间 overrid"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new deletes override frame b → ['a','c'] duration 80; operation class shared."
     },
     {
       "id": "C04-G07-05",
@@ -160,11 +160,11 @@
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
+        "oldFullName": "以结构共享完成完整帧编辑和撤销重做",
+        "oldMatcher": "moveDraftFrame(duplicateDraftFrame(changed, 0, 'copy'), 1, 2) @ :55-56",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same duplicateDraftFrame copies source + durationMs before reorder"
       },
       "axis": "C04-G07 draft 时长与结构编辑 duplicateDraftFrame 复制 override 与像素源",
       "oracle": "expect(dup.frames.map((f) => f.id)).toEqual(['a', 'b', 'b-copy', 'c']) | expect(dup.frames[2]?.durationMs).toBe(70) | expect(draftDurationMs(dup)).toBe(220)",
@@ -175,8 +175,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(dup.frames.map((f) => f.id)).toEqual(['a', 'b', 'b-copy', 'c']) | expect(dup.frames[2]?.durationMs).toBe(70) | expect(draftDurationMs(dup)).toBe(220) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 duplicateDraftF"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new duplicates frame b as b-copy; old copy id 'copy' — duplicateDraftFrame axis."
     },
     {
       "id": "C04-G07-07",

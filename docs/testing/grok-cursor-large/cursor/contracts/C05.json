@@ -123,12 +123,12 @@
       "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:93 sortedSpriteActions(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:94 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…) (production); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "oldFullName": "action order falls through label then stable id, missing orders sort last without rewriting poses",
+        "oldMatcher": "expect(sortedSpriteActions(undefined)).toEqual([]) @ :49",
         "dedupHeader": "排重：sprite-actions.test.ts / sprite-actions.wave2.test.ts 已证 order→label→id 三级回退、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same empty sort result for missing/empty poses container"
       },
       "axis": "C05-G01 sprite-actions 排序与默认目标 空 poses 容器与缺省 poses 同样得到空序列",
       "oracle": "expect(sortedSpriteActions(sprite('s', {}))).toEqual([]) | expect(sortedSpriteActions(sprite('s'))).toEqual([])",
@@ -139,8 +139,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new adds explicit poses:{} case; wave2 undefined→[] same empty-sequence axis."
     },
     {
       "id": "C05-G01-06",
@@ -235,12 +235,12 @@
       "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:147 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:148 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:149 defaultActionTargetForEntity(…) | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "oldFullName": "default action rejects missing actor/sprite/poses rather than borrowing another definition",
+        "oldMatcher": "expect(defaultActionTargetForEntity(entity, {}, [definition])).toBeUndefined(); ... poses: undefined → undefined @ :76-80",
         "dedupHeader": "排重：sprite-actions.test.ts / sprite-actions.wave2.test.ts 已证 order→label→id 三级回退、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same fail-closed default when actor map empty or sprite lacks poses"
       },
       "axis": "C05-G01 sprite-actions 排序与默认目标 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
       "oracle": "expect(defaultActionTargetForEntity(dangling, {}, [withActions, bare])).toBeUndefined() | expect(defaultActionTargetForEntity(onBare, {}, [withActions, bare])).toBeUndefined() | expect(defaultActionTargetForEntity(onBare, {}, [bare, { ...bare, poses: {} }])).toBeUndefined()",
@@ -251,8 +251,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new prop ghost/bare ids; wave2 actor-missing + poses-stripped sub-axis."
     },
     {
       "id": "C05-G01-10",
@@ -263,12 +263,12 @@
       "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:165 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:166 defaultActionTargetForEntity(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:167 defaultActionTargetForEntity(…) | production: packages/editor/src/ui/command-form-world.tsx:273 defaultActionTargetForEntity(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "bb95b95eb21d6413c4097b57e43a2efa1e890200",
+        "oldFile": "packages/editor/src/core/sprite-actions.test.ts",
+        "oldFullName": "actor 实体经角色表解析；没有动作时明确返回 undefined",
+        "oldMatcher": "expect(defaultActionTargetForEntity(entity, actors, sprites)?.action.id).toBe('first'); expect(..., [sprites[0]!]).toBeUndefined() @ :54-55",
         "dedupHeader": "排重：sprite-actions.test.ts / sprite-actions.wave2.test.ts 已证 order→label→id 三级回退、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same actor→spriteId→sorted first action; undefined when resolved sprite not in list"
       },
       "axis": "C05-G01 sprite-actions 排序与默认目标 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
       "oracle": "expect(defaultActionTargetForEntity(at('hero'), actors, [left, right])?.action.id).toBe('l') | expect(defaultActionTargetForEntity(at('other'), actors, [left, right])?.action.id).toBe('r') | expect(defaultActionTargetForEntity(at('hero'), actors, [right])).toBeUndefined()",
@@ -279,8 +279,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new dual actor left/right; old hero-actor first-action + wrong-sprite undefined."
     },
     {
       "id": "C05-G02-01",

@@ -243,12 +243,12 @@
       "caller": "test: packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:137 DsHelpTip; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:140 <DsHelpTip; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:141 type; packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:142 DsHelpTip | production: packages/editor/src/ui/EntityFacingHelp.tsx:21 <DsHelpTip (production); packages/editor/src/ui/LayerStackControls.tsx:126 <DsHelpTip (production); packages/editor/src/ui/ProjectWorkbenchTab.tsx:1197 <DsHelpTip (production); packages/editor/src/ui/ProjectWorkbenchTab.tsx:1587 <DsHelpTip (production); packages/editor/src/ui/ProjectWorkbenchTab.tsx:1867 <DsHelpTip (production); packages/editor/src/ui/ProjectWorkbenchTab.tsx:2021 <DsHelpTip (production) | harness: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "713f7ba0f07010f7323a7b4eaefe0a6ca23c0af3",
+        "oldFile": "packages/editor/src/ui/design-system/help-tips.test.tsx",
+        "oldFullName": "keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
+        "oldMatcher": "expect(staticButton.getAttribute('aria-describedby')).toBe(staticTooltip.id) @ :25-28",
         "dedupHeader": "C10-G06 card/list-header/tabs/choice/help/overflow/floating 叶组件合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "help control wires aria-describedby to visually-hidden tip id"
       },
       "axis": "C10-G06 tabs 与 overflow DsHelpTip 子控件获得 aria-describedby",
       "oracle": "expect(btn.getAttribute('aria-describedby')).toBeTruthy()",
@@ -259,8 +259,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx:137; R5 honesty: staging-draft≠humanVerified",
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b",
       "toolOldAssertionCandidate": {
         "oldTestSha": "713f7ba0f07010f7323a7b4eaefe0a6ca23c0af3",
         "oldFile": "packages/editor/src/ui/design-system/help-tips.test.tsx",
@@ -2067,12 +2067,12 @@
       "caller": "test: packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:151 dsKey(…); packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:152 dsKey(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx:85 dsKey(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "8e15939f4251ca1877c8bb09498dbb166cd5d199",
+        "oldFile": "packages/editor/src/ui/design-system/virtual-list.test.tsx",
+        "oldFullName": "keeps navigation on an external search focus owner without copying the state machine",
+        "oldMatcher": "keyboardOwner Enter → expect(onSelect).toHaveBeenCalledWith(2, 2) @ :184-186",
         "dedupHeader": "C10-G03 virtual-list + navigation：外部 keyboardOwner、菜单检索、toolbar；排 leaf-wave 主键盘路径。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "external owner Enter commits activedescendant option; new asserts aria-selected on item 1"
       },
       "axis": "C10-G03 DsVirtualListbox keyboardOwner keyboardOwner Enter 触发 onSelect",
       "oracle": "expect(mounted.host.querySelector('[aria-selected=\"true\"]')?.textContent).toContain('项 1')",
@@ -2083,8 +2083,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx:147; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "CURSOR-R5-02 batch-b; mixed selected item index, same keyboardOwner Enter→onSelect axis"
     },
     {
       "id": "C10-G03-09",

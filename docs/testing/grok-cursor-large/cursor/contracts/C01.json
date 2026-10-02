@@ -96,11 +96,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { view: 'asset', focus: 'sprite.authored.c01gamma', })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "按源文件只列一项，目录只保留名称、AssetId 与异常",
+        "oldMatcher": "expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('待定义') @ :651",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same 待定义 surface on catalog row for asset without usage definitions"
       },
       "axis": "C01-G01 目录选择与视图归属 目录行 aria-label 对无用途资产追加「待定义」标记",
       "oracle": "expect(row?.getAttribute('aria-label')).toContain('待定义') | expect(row?.querySelector('.ds-tag')?.textContent).toBe('待定义')",
@@ -111,8 +111,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified",
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: old asset-centric list proves 待定义 copy; new asserts aria-label + ds-tag on gamma row.",
       "toolOldAssertionCandidate": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
         "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
@@ -160,11 +160,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-alpha-idle' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "await act(async () => button('战斗').click()); expect(onBattleDomain).toHaveBeenCalledTimes(1) @ :610-611",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same battle-domain tab invokes onBattleDomain exactly once"
       },
       "axis": "C01-G01 目录选择与视图归属 战斗域页签点击触发 onBattleDomain 恰一次且不改当前用途选择",
       "oracle": "expect(battle, '战斗域 tab').toBeDefined() | expect(mounted.battleDomainCalls).toHaveLength(1) | expect(mounted.host.querySelector('.who')?.textContent).toBe(before)",
@@ -175,8 +175,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new adds who unchanged assert; battle callback sub-axis aligned."
     },
     {
       "id": "C01-G01-07",
@@ -580,11 +580,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "chooseSelectOption(..., '无用途'); expect(rows()).toHaveLength(1) @ :622-623",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same 无用途 kind filter narrows catalog"
       },
       "axis": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） 无用途过滤只保留 gamma",
       "oracle": "expect(catalogMetas(mounted!.host)).toEqual(['sprite.authored.c01gamma'])",
@@ -595,8 +595,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new oracle names gamma asset id; old row-count proof same filter axis."
     },
     {
       "id": "C01-G03-02",
@@ -608,11 +608,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "chooseSelectOption(..., '含四向'); expect(rows()).toHaveLength(1) @ :612-613",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same 含四向 kind filter axis"
       },
       "axis": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） 含四向过滤保留 alpha 排除 beta/gamma",
       "oracle": "expect(metas).toContain('sprite.authored.c01alpha') | expect(metas).not.toContain('sprite.authored.c01beta') | expect(metas).not.toContain('sprite.authored.c01gamma')",
@@ -623,8 +623,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: per-id fixture differs; filter predicate shared."
     },
     {
       "id": "C01-G03-03",
@@ -636,11 +636,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "chooseSelectOption(..., '含默认定格'); expect(rows()).toHaveLength(1) @ :614-615",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same 含默认定格 kind filter axis"
       },
       "axis": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） 含默认定格过滤保留 alpha 与 beta",
       "oracle": "expect(metas).toEqual( expect.arrayContaining(['sprite.authored.c01alpha', 'sprite.authored.c01beta']), ) | expect(metas).not.toContain('sprite.authored.c01gamma')",
@@ -651,8 +651,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new asserts two asset metas; old single-row narrow proof."
     },
     {
       "id": "C01-G03-04",
@@ -664,11 +664,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "chooseSelectOption(..., '含预制动作'); expect(rows()).toHaveLength(0) @ :616-617",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same 含预制动作 filter gate; fixture in old defs lacks poses (0 rows) vs new seeded alpha"
       },
       "axis": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） 含预制动作过滤只保留有 poses 的 alpha",
       "oracle": "expect(catalogMetas(mounted!.host)).toEqual(['sprite.authored.c01alpha'])",
@@ -679,8 +679,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: partial same-axis (filter application); row outcome differs by fixture richness."
     },
     {
       "id": "C01-G03-05",
@@ -692,11 +692,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "预制循环动作与实例自动脚本保持两套独立筛选语义",
+        "oldMatcher": "chooseSelectOption(..., '含循环动作'); expect(...sprite-resource-row).toHaveLength(1) @ :1143-1144",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same 含循环动作 filter hits loopFrom pose"
       },
       "axis": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） 含循环动作过滤命中 loopFrom 姿态所在资产",
       "oracle": "expect(catalogMetas(mounted!.host)).toEqual(['sprite.authored.c01alpha'])",
@@ -707,8 +707,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: old adds loopDefinition entry; new c01-alpha loopFrom axis matches."
     },
     {
       "id": "C01-G03-06",
@@ -720,11 +720,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "chooseSelectOption(..., '全部'); expect(rows()).toHaveLength(2) @ :633-634",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same 全部 filter restores full authored catalog after narrow filter"
       },
       "axis": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） 全部过滤恢复 authored 三资产",
       "oracle": "expect(catalogMetas(mounted!.host)).toHaveLength(1) | expect(catalogMetas(mounted!.host)).toEqual( expect.arrayContaining([ 'sprite.authored.c01alpha', 'sprite.authored.c01beta', 'sprite.authored.c01gamma', ]), )",
@@ -735,8 +735,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new expects three c01 assets; old two-definition harness — restore-all sub-axis."
     },
     {
       "id": "C01-G03-07",
@@ -776,11 +776,11 @@
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
       "oldAssertion": {
         "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "setCatalogSearch(search, '共享'); ... chooseSelectOption(..., '含四向'); expect(rows()).toHaveLength(1) @ :626-629",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same text filter ∩ kind filter intersection axis"
       },
       "axis": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） kind=含四向 与文本 c01alpha 交集仍为 alpha",
       "oracle": "expect(catalogMetas(mounted!.host)).toEqual(['sprite.authored.c01alpha'])",
@@ -791,8 +791,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new uses c01alpha token; old 共享 string — combined filter semantics shared."
     },
     {
       "id": "C01-G03-09",
@@ -1651,12 +1651,12 @@
       "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx:1054 seeded.get(…); packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx:1055 mountWorldSpriteLibrary(…); packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx:1060 clickButtonByText(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx:47 <WorldSpriteLibrary (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts:224 clickButtonByText(…) (harness)",
       "legalInput": "fixture: mountWorldSpriteLibrary(project, { view: 'asset', focus: 'sprite.authored.c01gamma', })",
       "oldAssertion": {
-        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
-        "oldFile": "WorldSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "187481da798ff1aedba6d797a2b353c8e5690753",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "oldFullName": "删除未使用源资源：磁盘端口捕获 undo 字节，撤销后 catalog 与 blob 完整还原",
+        "oldMatcher": "undo(); expect(restored).toMatchObject({ sha256: seeded.sha256 }); expect(await sha256Hex(blob)).toBe(seeded.sha256) @ :509-525",
         "dedupHeader": "排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same delete-unused-asset undo restores catalog sha256 + blob bytes"
       },
       "axis": "C01-G06 删除用途确认取消/成功与引用门控 删除源资源后 undo 恢复 catalog 记录与 sha",
       "oracle": "expect( mounted!.session.getState().assetCatalog.assets['sprite.authored.c01gamma'], ).toBeUndefined() | expect(restored?.sha256).toBe(seeded.sha256)",
@@ -1667,8 +1667,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new c01gamma harness; old K02Free disk-port proof same recovery axis."
     },
     {
       "id": "C01-G06-10",

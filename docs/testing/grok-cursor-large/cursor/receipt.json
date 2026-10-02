@@ -39,24 +39,24 @@
     "countersExistingProofCrossCheck": 4,
     "visualFlows": 12,
     "visualFlowsPassed": 12,
-    "editorFullSuite": "pending",
+    "editorFullSuite": 4503,
     "targetNewCases": 700,
     "humanVerifiedOverlays": 17,
     "stagingDraftOverlays": 700,
-    "oldMatcherPromotedR5": 44,
-    "oldMatcherNone": 653
+    "oldMatcherPromotedR5": 85,
+    "oldMatcherNone": 612
   },
   "gates": {
-    "editorFull": "pending",
-    "typecheck": "pending",
-    "lint": "pending",
+    "editorFull": "4503/4503",
+    "typecheck": "0 diagnostics",
+    "lint": "0/0/0 (biome check docs/testing/grok-cursor-large/cursor)",
     "judgeSelftest": "pass (R2 retained)",
     "flows": "12/12 (not re-run)",
-    "docs": "pending",
-    "verifier": "pending"
+    "docs": "PASS",
+    "verifier": "frozenHashesValid; ownerOverlap 0"
   },
   "proofGaps": {
-    "oldMatcher-none": 653,
+    "oldMatcher-none": 612,
     "sourceCondition-export-only": 19,
     "oracle-incomplete": 0,
     "production-caller-none": 104,
@@ -79,7 +79,7 @@
     ]
   },
   "remainingDebt": [
-    "oldMatcher-none 653; continue same-axis reads; mixed by sub-axis",
+    "oldMatcher-none 612; continue same-axis reads; mixed by sub-axis",
     "netNew structural 703≥700 but exhaustive dedup required before accept",
     "production-caller-none 104 / sourceCondition-export-only 19 after lean overrides",
     "not done / not official ratchet / not merge main"

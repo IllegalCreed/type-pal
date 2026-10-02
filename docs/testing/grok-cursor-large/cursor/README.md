@@ -16,7 +16,7 @@ Coding Owner: Cursor。本目录为 **TEST-CURSOR-ASSET-UI-LARGE-1** 证据包�
 | 有效反控 | [counters.json](./counters.json) + [counters/](./counters/) | **54** 枚三态 / **54** 不同目标（净新 **50**；cross-check **4**：C09-04/29 + C05-08/09） |
 | judge 自测 | [judge-selftest.json](./judge-selftest.json) | 四反例拒收 + baseline（R2 已闭，未重做） |
 | 视觉流程 | [flows/](./flows/README.md) | **12/12**（R2 相位保留，本轮未重拍） |
-| 净新估算 | contracts `existing-proof` | **703**（717−14；≥700；oldMatcher-none **653** 仍待全量同轴排重） |
+| 净新估算 | contracts `existing-proof` | **703**（717−14；≥700；oldMatcher-none **612** 仍待全量同轴排重） |
 | 私有覆盖 | [coverage-delta.json](./coverage-delta.json) | 74 源中 72 有 private hits（非正式 ratchet；原始 JSON 受根 `.gitignore` 的 `coverage/` 规则忽略，不入库） |
 | 缺陷/未证 | [defects.md](./defects.md) | |
 | 候选回执 | [receipt.json](./receipt.json) | pending Codex |

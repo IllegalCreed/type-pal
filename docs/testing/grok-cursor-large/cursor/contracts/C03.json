@@ -11,12 +11,12 @@
       "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:43 solidRgba(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:44 pngRgba(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:45 pngFileOf(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:46 prepareAuthoredImage(…) | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage(…) (production); packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "非 battle-background kind 直传源字节（不解码量化）；record 字段完整",
+        "oldMatcher": "expect(prepared.width).toBe(4); expect(prepared.height).toBe(4); bytes equal source snapshot @ :279-281",
         "dedupHeader": "排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same portrait direct-transfer preserves PNG dimensions and bytes"
       },
       "axis": "C03-G06 真实 PNG 导入与 AssetId portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
       "oracle": "expect(prepared.width).toBe(4) | expect(prepared.height).toBe(4) | expect(new Uint8Array(prepared.bytes)).toEqual(new Uint8Array(bytes)) | expect(prepared.hash).toBe(await sha256Hex(bytes.slice().buffer)) | expect(prepared.record.kind).toBe('portrait') | expect(prepared.record.path).toBe(`assets/authored/portrait/${prepared.hash}.png`)",
@@ -27,8 +27,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(prepared.width).toBe(4) | expect(prepared.height).toBe(4) | expect(new Uint8Array(prepared.bytes)).toEqual(new Uint8Array(bytes)) | expect(prepared.hash).toBe(await sha256Hex(bytes.slice().buffer)) | expect(prepared.record.ki"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new uses installBrowserHardwarePorts; stages canvas host same gate."
     },
     {
       "id": "C03-G06-02",
@@ -39,12 +39,12 @@
       "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:56 pngFileOf(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:56 pngRgba(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:56 solidRgba(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:57 prepareAuthoredImage(…) | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage(…) (production); packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "非 battle-background kind 直传源字节（不解码量化）；record 字段完整",
+        "oldMatcher": "expect(prepared.effectPreviewBytes).toBeUndefined() @ :282",
         "dedupHeader": "排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same non-battle-background kinds skip effectPreviewBytes"
       },
       "axis": "C03-G06 真实 PNG 导入与 AssetId face 直传不产生 effectPreviewBytes",
       "oracle": "expect(prepared.effectPreviewBytes).toBeUndefined() | expect(prepared.record.label).toBe('表情') | expect(prepared.record.origin).toEqual({ kind: 'authored', ref: 'face.png' })",
@@ -55,8 +55,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(prepared.effectPreviewBytes).toBeUndefined() | expect(prepared.record.label).toBe('表情') | expect(prepared.record.origin).toEqual({ kind: 'authored', ref: 'face.png' }) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 "
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new case uses face kind; stages portrait documents undefined preview axis."
     },
     {
       "id": "C03-G06-03",
@@ -151,12 +151,12 @@
       "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:84 nextAuthoredImageId; packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:86 nextAuthoredImageId(…) | production: packages/editor/src/ui/ImageTab.tsx:526 nextAuthoredImageId(…) (production); packages/editor/src/ui/ItemTab.tsx:1230 nextAuthoredImageId(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "base 未占用直接返回；占用后 -2/-3 递增；同 hash 不同 kind 互不占用",
+        "oldMatcher": "expect(nextAuthoredImageId(catalog(), 'portrait', hash)).toBe(`portrait.authored.${hash.slice(0, 16)}`) @ :396",
         "dedupHeader": "排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same free-base id = kind.authored.{hash16}"
       },
       "axis": "C03-G06 真实 PNG 导入与 AssetId nextAuthoredImageId：base 空闲直接返回 hash 前 16",
       "oracle": "expect(nextAuthoredImageId(emptyCatalog(), 'portrait', hash)).toBe( `portrait.authored.${hash.slice(0, 16)}`, )",
@@ -167,8 +167,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(nextAuthoredImageId(emptyCatalog(), 'portrait', hash)).toBe( `portrait.authored.${hash.slice(0, 16)}`, ) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId nextAuthoredImageId：base 空闲直接返回 hash 前 16; R5 honesty: "
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: promote nextAuthoredImageId vacant-base sub-axis from stages C2 block."
     },
     {
       "id": "C03-G06-07",
@@ -179,12 +179,12 @@
       "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:94 nextAuthoredImageId(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:104 nextAuthoredImageId(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:107 nextAuthoredImageId(…) | production: packages/editor/src/ui/ImageTab.tsx:526 nextAuthoredImageId(…) (production); packages/editor/src/ui/ItemTab.tsx:1230 nextAuthoredImageId(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "base 未占用直接返回；占用后 -2/-3 递增；同 hash 不同 kind 互不占用",
+        "oldMatcher": "expect(nextAuthoredImageId(catalog(base), 'portrait', hash)).toBe(`${base}-2`); ... `-3` @ :397-398",
         "dedupHeader": "排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same -2/-3 suffix allocation when base occupied"
       },
       "axis": "C03-G06 真实 PNG 导入与 AssetId base 占用递增 -2/-3 后缀",
       "oracle": "expect(second).toBe(`${base}-2`) | expect(nextAuthoredImageId(catalog, 'face', hash)).toBe(`${base}-3`)",
@@ -195,8 +195,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(second).toBe(`${base}-2`) | expect(nextAuthoredImageId(catalog, 'face', hash)).toBe(`${base}-3`) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId base 占用递增 -2/-3 后缀; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new uses face base; stages portrait catalog same occupancy rules."
     },
     {
       "id": "C03-G06-08",
@@ -207,12 +207,12 @@
       "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:112 nextAuthoredImageId(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:123 nextAuthoredImageId(…) | production: packages/editor/src/ui/ImageTab.tsx:526 nextAuthoredImageId(…) (production); packages/editor/src/ui/ItemTab.tsx:1230 nextAuthoredImageId(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "base 未占用直接返回；占用后 -2/-3 递增；同 hash 不同 kind 互不占用",
+        "oldMatcher": "expect(nextAuthoredImageId(catalog(base), 'face', hash)).toBe(`face.authored.${hash.slice(0, 16)}`) @ :399-401",
         "dedupHeader": "排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same kind-specific base namespaces do not cross-occupy"
       },
       "axis": "C03-G06 真实 PNG 导入与 AssetId 同 hash 不同 kind 的 base 互不占用",
       "oracle": "expect(faceId).toBe(`face.authored.${hash.slice(0, 16)}`) | expect(faceId).not.toBe(portraitId)",
@@ -223,8 +223,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(faceId).toBe(`face.authored.${hash.slice(0, 16)}`) | expect(faceId).not.toBe(portraitId) | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId 同 hash 不同 kind 的 base 互不占用; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new portrait+face pair; stages dual-kind isolation proof."
     },
     {
       "id": "C03-G06-09",
@@ -291,12 +291,12 @@
       "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:65 mountUploader(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:66 atlasColors(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:66 solidAtlasPng(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:67 pngFileOf(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:67 bsuPick(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:68 bsuSummary(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:69 bsuNumber(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:70 bsuThumbs(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:71 bsuButton(…) | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader (production); packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:320 <BattleSpriteUploader (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:59 atlasColors(…) (harness)",
       "legalInput": "fixture: mountUploader(project.assetBase)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "0dd01a7a0d13c2665dc52007f6bf6d760891def2",
+        "oldFile": "packages/editor/src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+        "oldFullName": "合法小图集真实解码：缺省帧宽高猜测、逐帧预览、应用产出帧带",
+        "oldMatcher": "expect(summaryText()).toBe('共 3 帧（横排逐行切）'); frame width value '16'; thumbs length 3 @ :89-93",
         "dedupHeader": "排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same default row atlas guess → 3×16×16 preview summary"
       },
       "axis": "C03-G05 战斗精灵上传叶 横排 3 帧：缺省帧尺寸猜测、预览数与应用 gzip 帧带",
       "oracle": "expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）') | expect(bsuNumber(m().host, '战斗精灵帧宽').value).toBe('16') | expect(bsuThumbs(m().host)).toBe(3) | expect(m().applies).toHaveLength(1) | expect(m().applies[0]!.frameCount).toBe(3) | expect(m().applies[0]!.blob.byteLength).toBeGreaterThan(0)",
@@ -307,8 +307,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）')) | expect(bsuNumber(m().host, '战斗精灵帧宽').value).toBe('16') | expect(bsuThumbs(m().host)).toBe(3) | expect(m().applies).toHaveLength(1)) | expect(m().applies[0]!.frameCount).toBe(3) | "
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new adds gzip apply oracle; glm mock-host summary/thumb axis aligned."
     },
     {
       "id": "C03-G05-02",
@@ -347,12 +347,12 @@
       "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:88 mountUploader(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:89 atlasColors(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:89 solidAtlasPng(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:90 pngFileOf(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:90 bsuPick(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:91 bsuSummary(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:92 typeDraft(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:92 bsuNumber(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:93 bsuSummary(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:94 bsuButton(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:95 bsuThumbs(…) | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader (production); packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:320 <BattleSpriteUploader (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:59 atlasColors(…) (harness)",
       "legalInput": "fixture: mountUploader(project.assetBase)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "0dd01a7a0d13c2665dc52007f6bf6d760891def2",
+        "oldFile": "packages/editor/src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+        "oldFullName": "帧宽破坏整除 → 精确失败文案与应用禁用；取消零提交",
+        "oldMatcher": "expect(summaryText()).toBe('图 48×16 切不开（宽高须整除）'); applyButton().disabled; grid null @ :123-125",
         "dedupHeader": "排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same non-divisible dimension fail-closed summary + apply disabled"
       },
       "axis": "C03-G05 战斗精灵上传叶 整除破坏：精确文案、预览消失且应用禁用",
       "oracle": "expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）') | expect(bsuSummary(m().host)).toBe('图 48×16 切不开（宽高须整除）') | expect(bsuButton(m().host, '应用外观')!.disabled).toBe(true) | expect(bsuThumbs(m().host)).toBe(0)",
@@ -363,8 +363,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）')) | expect(bsuSummary(m().host)).toBe('图 48×16 切不开（宽高须整除）') | expect(bsuButton(m().host, '应用外观')!.disabled).toBe(true) | expect(bsuThumbs(m().host)).toBe(0) | classification: new-cont"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new uses bsu helpers; exact copy matches glm-next-wave."
     },
     {
       "id": "C03-G05-04",
@@ -599,12 +599,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:83 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:84 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:88 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:90 currentFrameLabel(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:91 toolbarButton(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:95 frameCounter(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g03-02', VIEW_SPECS); mountViewer(project, { asset: 'sprite.view.alpha', label: 'Alpha 显示', }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+        "oldMatcher": "click('[aria-label=\"下一帧\"]'); expect(canvas[aria-label=\"测试精灵 第 1 帧\"]).not.toBeNull() @ :140-143",
         "dedupHeader": "排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same next-frame toolbar advances large canvas aria-label"
       },
       "axis": "C03-G03 真实解码与切帧 工具栏「下一帧」循环读数与 canvas aria-label 同步",
       "oracle": "expect(m().host.textContent).toContain('8 × 8 px') | expect(currentFrameLabel(m().host)).toBe('#0') | expect(mounted!.host.querySelector('canvas[aria-label=\"Alpha 显示 第 1 帧\"]')).not.toBeNull() | expect(frameCounter(m().host)).toMatch(/2\\s*\\/\\s*4/)",
@@ -615,8 +615,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(m().host.textContent).toContain('8 × 8 px') | expect(currentFrameLabel(m().host)).toBe('#0') | expect(mounted!.host.querySelector('canvas[aria-label=\"Alpha 显示 第 1 帧\"]')).not.toBeNull() | expect(frameCounter(m().host)).toMatch"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new real decode + 8×8 px readout; navigation sub-axis from mock suite."
     },
     {
       "id": "C03-G03-03",
@@ -627,12 +627,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:99 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:100 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:104 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:105 selectFrame(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:108 frameCell(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production); packages/editor/src/ui/SpriteResourceViewer.tsx:221 selectFrame(…) (production); packages/editor/src/ui/SpriteResourceViewer.tsx:249 selectFrame(…) (production); packages/editor/src/ui/SpriteResourceViewer.tsx:395 selectFrame(…) (production); packages/editor/src/ui/SpriteResourceViewer.tsx:424 selectFrame(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g03-03', VIEW_SPECS); mountViewer(project, { asset: 'sprite.view.alpha', label: 'Alpha 显示', }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+        "oldMatcher": "click('[aria-label^=\"选择源帧 2，\"]'); expect(canvas[aria-label=\"测试精灵 第 2 帧\"]) @ :147-149",
         "dedupHeader": "排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same source-frame grid selection drives hero canvas frame index"
       },
       "axis": "C03-G03 真实解码与切帧 源帧网格点选：selectedLog 记录且大图切到对应帧",
       "oracle": "expect(m().selectedLog.at(-1)).toBe(3) | expect(m().host.querySelector('canvas[aria-label=\"Alpha 显示 第 3 帧\"]')).not.toBeNull() | expect(frameCell(m().host, 3).classList.contains('selected')).toBe(true)",
@@ -643,8 +643,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(m().selectedLog.at(-1)).toBe(3) | expect(m().host.querySelector('canvas[aria-label=\"Alpha 显示 第 3 帧\"]')).not.toBeNull() | expect(frameCell(m().host, 3).classList.contains('selected')).toBe(true) | classification: new-contract;"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R5-b: new logs selectedLog; old canvas aria proof same pick-frame axis."
     },
     {
       "id": "C03-G03-04",
