@@ -8,6 +8,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 | [确认队列/脚本活动生命周期中包](tasks/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | build | Kimi / 16候选完整处置 | source8990f0cd、14冻结；预计12–18/封顶24，Q12/原32不重领；四反控归Codex |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 窄返工 | r2 尚有3双强转、非法短色板、旧JSON及RC1哈希不符 |

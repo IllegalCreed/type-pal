@@ -1,0 +1,129 @@
+{
+  "task": "TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2",
+  "sourceBase": "8990f0cde3edfe6feb908234aeafcc937daaec52",
+  "canonical": {
+    "content": 21,
+    "save": 10
+  },
+  "owner": "Kimi",
+  "branch": "codex/kimi-script-lifecycle-medium-r1",
+  "worktree": "/Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal",
+  "maxNewCases": 24,
+  "expectedNewCases": "12–18，预算非配额，16候选全部处置",
+  "newTests": [
+    "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+    "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts"
+  ],
+  "fixturePrefix": "packages/reforge/src/__tests__/kimi-lifecycle-mid-2/",
+  "evidencePrefix": "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/",
+  "frozen": [
+    {
+      "path": "packages/reforge/src/script-confirm-modal.ts",
+      "blob": "d528b62e73e892759bbfea407d6986295a798507",
+      "sha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5"
+    },
+    {
+      "path": "packages/reforge/src/script-activity-lineage.ts",
+      "blob": "ae8736f1beeea9db859dd0ff41a6c42a4ada6e77",
+      "sha256": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c"
+    },
+    {
+      "path": "packages/reforge/src/script-world.ts",
+      "blob": "193ac309c575e4556d12c95f0c3f7f42fc283a01",
+      "sha256": "c561967e56d45e4838b893cfd6bff473363d2ca50ee296b27b81cdca38479b5e"
+    },
+    {
+      "path": "packages/reforge/src/runtime-script-project.ts",
+      "blob": "b2adf96737489d7fa4a820b2044309cdf1d47273",
+      "sha256": "50d4d7fbad9ac34e199fefa5c1f07f1ca0290c6f03aba91cc4320c8e695eb0c2"
+    },
+    {
+      "path": "packages/reforge/src/script-project-core.ts",
+      "blob": "e40c2f8ffac8ad0222a06133914c9ff14e8cee31",
+      "sha256": "29b0305a1e9dd16e7abc3d804e0b18c443cd5e5943b197b97e46bd5492031238"
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "blob": "58b7d67f69aa6e9c41f85986c7f9a89880a16c40",
+      "sha256": "fd39ef6b1a73df34e9102a3afed79c1abd73da2c3798ae3bfd8be9d089ff24be"
+    },
+    {
+      "path": "package.json",
+      "blob": "72f4afae0b8420b38981dd6884b255e1fd50c52b",
+      "sha256": "b0c63469ebc5b295f902960a3c37176b3d3b159932961b2175b76c2d8761cad1"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "381986b81661d8a69d77deeb308ea098e6b768ae",
+      "sha256": "3628449b53e456fb8354a43beafe5d05da8a65698170e476bddf7aaeb3b69a5e"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "blob": "18ec407efca710b5d0d1e19dd3e34a27ac6716a1",
+      "sha256": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7"
+    },
+    {
+      "path": "biome.json",
+      "blob": "347f429933764c8ae9b581bd9abcd774fdb60ca4",
+      "sha256": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "blob": "efd4626ba17712f711eb564f95c1d891b24622c4",
+      "sha256": "d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3"
+    },
+    {
+      "path": "packages/reforge/package.json",
+      "blob": "fac996f1869362e89c342a477da33b9b484c6c15",
+      "sha256": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c"
+    },
+    {
+      "path": "packages/reforge/tsconfig.json",
+      "blob": "a86e2592ea565009fd88be9fe00dd78fe2a60543",
+      "sha256": "259b6b195023b3c2ae163a8c58b35016156b5e9db9a57523f7609aad966cd3d3"
+    },
+    {
+      "path": "packages/reforge/vite.config.ts",
+      "blob": "c1b1333c097bf9a0cea4e45fad98d1c68a5bc258",
+      "sha256": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa"
+    }
+  ],
+  "dedup": [
+    {
+      "role": "main",
+      "sha": "8990f0cde3edfe6feb908234aeafcc937daaec52"
+    },
+    {
+      "role": "Kimi-medium-1",
+      "sha": "43a3849bae2cbe02c43a28287fb0945e5d03ac4f"
+    },
+    {
+      "role": "Q",
+      "sha": "5dbf72d78f8df9939a76407c0f17ad10455bbbb5"
+    },
+    {
+      "role": "O",
+      "sha": "4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d"
+    },
+    {
+      "role": "P",
+      "sha": "b2cbb41f39d59928d9a4ecbf3d1a4abfd1deba31"
+    },
+    {
+      "role": "Grok-large",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73"
+    },
+    {
+      "role": "Grok-medium",
+      "sha": "d03cba2c23c858526bc514a5389347177794861c"
+    },
+    {
+      "role": "Cursor-large",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067"
+    },
+    {
+      "role": "Cursor-medium",
+      "sha": "ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685"
+    }
+  ]
+}

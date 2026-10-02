@@ -14,6 +14,7 @@
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 — 确认队列与脚本活动权限生命周期中包](TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

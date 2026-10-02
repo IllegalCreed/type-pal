@@ -1,0 +1,27 @@
+{
+  "label": "Codex public-API legal input preflight, not accepted contributor tests or mutation evidence",
+  "sourceBase": "8990f0cde3edfe6feb908234aeafcc937daaec52",
+  "passed": 3,
+  "records": [
+    {
+      "id": "KM-LIFE-M03",
+      "publicInput": "real queue/AbortController, default No, latch before frames, toggle+submit+submitNo",
+      "passed": true
+    },
+    {
+      "id": "KM-LIFE-M05",
+      "publicInput": "three real queued promises, abort middle before activation so queue index=1, preserve first/third token and FIFO",
+      "passed": true
+    },
+    {
+      "id": "KM-LIFE-L03",
+      "publicInput": "two actual coordinator-minted leases, exact key/signal, latest lease closed while its scope finally still pending",
+      "passed": true
+    }
+  ],
+  "hashes": {
+    "packages/reforge/src/script-confirm-modal.ts": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5",
+    "packages/reforge/src/script-activity-lineage.ts": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c",
+    "packages/reforge/src/script-world.ts": "c561967e56d45e4838b893cfd6bff473363d2ca50ee296b27b81cdca38479b5e"
+  }
+}
