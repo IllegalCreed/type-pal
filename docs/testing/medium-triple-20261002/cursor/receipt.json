@@ -14,7 +14,11 @@
   "countersValid": 6,
   "oldGreenNewRed": 3,
   "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"],
-  "oldExecuted": { "CTR-C1-01": 3, "CTR-C4-01": 12, "CTR-C6-01": 12 },
+  "oldExecuted": {
+    "CTR-C1-01": 3,
+    "CTR-C4-01": 12,
+    "CTR-C6-01": 12
+  },
   "gates": {
     "mid1Vitest": "34/34 passed",
     "adjacentOldPreview": "15/15 passed",
@@ -23,7 +27,10 @@
     "rootLint": "PASS 2845 files; 0/0/0",
     "docs": "FAIL shared parent nav only (Codex-owned)",
     "diffCheck": "PASS",
-    "verify": { "frozenHashesValid": true, "scopeValid": true }
+    "verify": {
+      "frozenHashesValid": true,
+      "scopeValid": true
+    }
   },
   "unfinished": [
     {
@@ -33,5 +40,6 @@
   ],
   "productMutations": false,
   "mainMerge": false,
-  "officialGate": false
+  "officialGate": false,
+  "testsCommit": "\"2d1aa57cf55177176b9bd307c7a7e3019b77954e\""
 }
