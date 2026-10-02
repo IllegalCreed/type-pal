@@ -12,7 +12,7 @@
     "tests": "ea8e28cec800915966b74bfbe041b2554a0c9fac — M01改async: 保存enqueue返回answer, 全部原断言保留; 末尾经公开submitNo+两次presented结算, await false, 断言pendingCount=0/view undefined",
     "docs": "口径校正: 作者定向=新16+main旧22=38实执行, Q十二例仅按固定git对象blob对照排重不在执行集; L07自有reason身份仅适用预取消轴, gate等待轴返回coordinator规范化AbortError('script activation aborted')"
   },
-  "candidateHead": "PENDING-PIN",
+  "candidateHead": "95ddc3adcb289ccfab7cd8ca916d80a6b502f139",
   "delivered": {
     "newCases": 16,
     "netNew": 16,
