@@ -156,8 +156,7 @@ export function judgePhase(run, spec, phase, ownerPackage) {
   const target = failed[0]
   const wantedPath = normalizeTestPath(`packages/${ownerPackage}/${spec.test.file}`)
   const targetPath = normalizeTestPath(target.file)
-  if (targetPath !== wantedPath)
-    throw new Error(`红例文件不符: ${targetPath} 期望 ${wantedPath}`)
+  if (targetPath !== wantedPath) throw new Error(`红例文件不符: ${targetPath} 期望 ${wantedPath}`)
   if (!isExactTarget(target.fullName, spec.test))
     throw new Error(
       `红例 fullName 不符（精确完整目标匹配，spec.test.target=${JSON.stringify(spec.test.target ?? spec.test.title)}）: ${target.fullName}`,

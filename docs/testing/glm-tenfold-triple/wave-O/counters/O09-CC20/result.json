@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC20",
+  "contract": "标记内容非贪婪（同名嵌套取首个闭合）",
+  "target": {
+    "file": "src/rich-text-residual.glm-o.test.ts",
+    "title": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 9,
+    "passed": 8,
+    "failed": 1,
+    "failedFullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+    "failureMessageHead": "AssertionError: expected [ { text: 'a' }, …(1) ] to deeply equal [ { text: 'a' }, …(2) ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+    "mutated": "ae3432fbe58d8a617689185ef5be02f37b74f2085d1bf1a342923d3afabf34df",
+    "restored": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+    "rebuilt": "ae3432fbe58d8a617689185ef5be02f37b74f2085d1bf1a342923d3afabf34df"
+  },
+  "patchRebuiltAndVerified": true
+}

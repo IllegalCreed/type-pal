@@ -28,18 +28,17 @@ describe('O09 lerpTint：t 夹取与分量四舍五入', () => {
 
 describe('O09 resolveSkillExecution / authoredSkillExecutionLayers', () => {
   const animation: SkillAnimation = { effectSprite: 1 }
-  const skill = (execution?: SkillData['execution']): SkillData =>
-    ({
-      id: 's1',
-      name: 'skill.s1',
-      desc: '',
-      cost: {},
-      usableOutsideBattle: false,
-      target: 'oneEnemy',
-      effects: [{ kind: 'damage', power: 1, elemental: 0 }],
-      animation,
-      ...(execution ? { execution } : {}),
-    })
+  const skill = (execution?: SkillData['execution']): SkillData => ({
+    id: 's1',
+    name: 'skill.s1',
+    desc: '',
+    cost: {},
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [{ kind: 'damage', power: 1, elemental: 0 }],
+    animation,
+    ...(execution ? { execution } : {}),
+  })
 
   test('无 override：两侧都回退公共 effects/animation，prepare 为空', () => {
     const base = skill()

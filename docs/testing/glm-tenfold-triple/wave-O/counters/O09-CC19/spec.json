@@ -1,0 +1,15 @@
+{
+  "id": "O09-CC19",
+  "contract": "COLOR_TAGS 白名单含 redAlt（交替序不截断）",
+  "package": "content",
+  "test": {
+    "file": "src/rich-text-residual.glm-o.test.ts",
+    "title": "redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+    "target": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）"
+  },
+  "mutation": {
+    "file": "src/rich-text.ts",
+    "find": "const COLOR_TAGS = ['cyan', 'red', 'redAlt', 'yellow'] as const",
+    "replace": "const COLOR_TAGS = ['cyan', 'red', 'yellow'] as const"
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "total": 64,
-  "uniqueIds": 64,
-  "distinctTargets": 62,
+  "total": 66,
+  "uniqueIds": 66,
+  "distinctTargets": 64,
   "rule": "三态（counter-judge.mjs 唯一判据）；62 枚重采 + 7 枚新批次（O09-CC14~18、O08-CC10/11）",
   "retired": [
     "O08-CC8",
@@ -2254,11 +2254,81 @@
         "rebuilt": "60c5b8d0dcaf79c8dfc9e70e11a327657f9725172ce389f0116e5fd02cf9c9f2"
       },
       "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC19",
+      "contract": "COLOR_TAGS 白名单含 redAlt（交替序不截断）",
+      "target": {
+        "file": "src/rich-text-residual.glm-o.test.ts",
+        "title": "redAlt 与 red 交替序区分（redAlt 不被截成 red）"
+      },
+      "control": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "executed": 9,
+        "passed": 8,
+        "failed": 1,
+        "failedFullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+        "failureMessageHead": "AssertionError: expected [ { text: '<redAlt>x</redAlt>' } ] to deeply equal [ { text: 'x', color: 'redAlt' } ]"
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+        "mutated": "d8f34445bfcb42320a88cc3747260849c23ce91645bd085415a67867a2188eef",
+        "restored": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+        "rebuilt": "d8f34445bfcb42320a88cc3747260849c23ce91645bd085415a67867a2188eef"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC20",
+      "contract": "标记内容非贪婪（同名嵌套取首个闭合）",
+      "target": {
+        "file": "src/rich-text-residual.glm-o.test.ts",
+        "title": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）"
+      },
+      "control": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "executed": 9,
+        "passed": 8,
+        "failed": 1,
+        "failedFullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+        "failureMessageHead": "AssertionError: expected [ { text: 'a' }, …(1) ] to deeply equal [ { text: 'a' }, …(2) ]"
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+        "mutated": "ae3432fbe58d8a617689185ef5be02f37b74f2085d1bf1a342923d3afabf34df",
+        "restored": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+        "rebuilt": "ae3432fbe58d8a617689185ef5be02f37b74f2085d1bf1a342923d3afabf34df"
+      },
+      "patchRebuiltAndVerified": true
     }
   ],
   "reAdjudication": {
     "judge": "counter-judge.mjs@729d554d0（O-R9-01 判据）",
-    "result": "64/64 live pass（re-adjudication.json；CC10/CC16 于 a89e49d73 去重后重采；8 枚退役）",
+    "result": "66/66 live pass（re-adjudication.json；CC10/CC16 重采；CC19/CC20 新采；8 枚退役）",
     "evidence": "re-adjudication.json"
   }
 }

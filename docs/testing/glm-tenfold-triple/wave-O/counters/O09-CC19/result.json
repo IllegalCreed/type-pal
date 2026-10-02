@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC19",
+  "contract": "COLOR_TAGS 白名单含 redAlt（交替序不截断）",
+  "target": {
+    "file": "src/rich-text-residual.glm-o.test.ts",
+    "title": "redAlt 与 red 交替序区分（redAlt 不被截成 red）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 9,
+    "passed": 8,
+    "failed": 1,
+    "failedFullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+    "failureMessageHead": "AssertionError: expected [ { text: '<redAlt>x</redAlt>' } ] to deeply equal [ { text: 'x', color: 'redAlt' } ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+    "mutated": "d8f34445bfcb42320a88cc3747260849c23ce91645bd085415a67867a2188eef",
+    "restored": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+    "rebuilt": "d8f34445bfcb42320a88cc3747260849c23ce91645bd085415a67867a2188eef"
+  },
+  "patchRebuiltAndVerified": true
+}

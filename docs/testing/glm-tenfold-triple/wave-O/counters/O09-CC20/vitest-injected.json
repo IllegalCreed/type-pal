@@ -1,0 +1,132 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 8,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790898931514,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+          "status": "passed",
+          "title": "未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+          "duration": 1.1705840000000194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 错配闭合 → 按纯文本（反向引用要求同名开闭）",
+          "status": "passed",
+          "title": "错配闭合 → 按纯文本（反向引用要求同名开闭）",
+          "duration": 0.24516700000000924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 空标记内容 → 产出带色的空 span（非空数组语义保持）",
+          "status": "passed",
+          "title": "空标记内容 → 产出带色的空 span（非空数组语义保持）",
+          "duration": 0.18433399999997846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+          "status": "passed",
+          "title": "相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+          "duration": 0.12887500000002206,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+          "status": "failed",
+          "title": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+          "duration": 3.5428750000000093,
+          "failureMessages": [
+            "AssertionError: expected [ { text: 'a' }, …(1) ] to deeply equal [ { text: 'a' }, …(2) ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/packages/content/src/rich-text-residual.glm-o.test.ts:32:61\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+          "status": "passed",
+          "title": "redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+          "duration": 0.17849999999998545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 大小写敏感：<CYAN> 不识别 → 纯文本",
+          "status": "passed",
+          "title": "大小写敏感：<CYAN> 不识别 → 纯文本",
+          "duration": 0.1292919999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 孤儿闭合 → 按纯文本",
+          "status": "passed",
+          "title": "孤儿闭合 → 按纯文本",
+          "duration": 0.1133339999999805,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 标记内容含 \"<\" → 着色 span 文本原样保留",
+          "status": "passed",
+          "title": "标记内容含 \"<\" → 着色 span 文本原样保留",
+          "duration": 0.7044999999999959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790898931760,
+      "endTime": 1790898931766.7046,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/packages/content/src/rich-text-residual.glm-o.test.ts"
+    }
+  ]
+}

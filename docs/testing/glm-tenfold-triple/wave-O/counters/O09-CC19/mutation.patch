@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/rich-text.ts b/packages/content/src/rich-text.ts
+index 65afc5866..c66c72fd6 100644
+--- a/packages/content/src/rich-text.ts
++++ b/packages/content/src/rich-text.ts
+@@ -3 +3 @@ import type { DialogColor, TextSpan } from './index.js'
+-const COLOR_TAGS = ['cyan', 'red', 'redAlt', 'yellow'] as const
++const COLOR_TAGS = ['cyan', 'red', 'yellow'] as const

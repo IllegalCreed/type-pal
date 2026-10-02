@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/rich-text.ts b/packages/content/src/rich-text.ts
+index 65afc5866..ff213cc3d 100644
+--- a/packages/content/src/rich-text.ts
++++ b/packages/content/src/rich-text.ts
+@@ -12 +12 @@ export function parseRichText(s: string): TextSpan[] {
+-  const re = new RegExp(`<(${COLOR_TAGS.join('|')})>(.*?)</\\1>`, 'g')
++  const re = new RegExp(`<(${COLOR_TAGS.join('|')})>(.*)</\\1>`, 'g')

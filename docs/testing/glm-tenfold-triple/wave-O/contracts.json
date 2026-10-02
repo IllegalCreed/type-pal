@@ -1,5 +1,5 @@
 {
-  "total": 478,
+  "total": 487,
   "note": "逐合同账（r9 修正）：oracle=测试源完整断言链（共享 tokenizer 全量提取，无截断）+首断言行锚；migration-merge 30 行保留人工 oracle/condition；r9 保留 9 行人工 condition/caller/旧锚（19 行重复已于 a89e49d73 删除并登记 existing-proof 于测试文件头）；known-existing-proof 与 cross-check-not-new 不计净新",
   "contracts": [
     {
@@ -3481,7 +3481,7 @@
       "testFile": "packages/content/src/ambience-skill.glm-o.test.ts",
       "oldAssertion": "全仓旧测试零覆盖（grep resolveSkillExecution 仅本卡）→ gap 新轴",
       "axis": "resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空",
-      "oracle": "expect(resolved.effects).toBe(base.effects); expect(resolved.animation).toBe(base.animation); expect(resolved.prepare).toEqual([])  // packages/content/src/ambience-skill.glm-o.test.ts:48",
+      "oracle": "expect(resolved.effects).toBe(base.effects); expect(resolved.animation).toBe(base.animation); expect(resolved.prepare).toEqual([])  // packages/content/src/ambience-skill.glm-o.test.ts:47",
       "classification": "normal-input",
       "status": "passed",
       "condition": "SkillData 无 execution 字段，side=player/enemy 各解析一次"
@@ -3494,7 +3494,7 @@
       "testFile": "packages/content/src/ambience-skill.glm-o.test.ts",
       "oldAssertion": "全仓旧测试零覆盖 → gap 新轴",
       "axis": "resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共",
-      "oracle": "expect(enemySide.effects).toBe(enemyEffects); expect(enemySide.animation).toBe(withEnemy.animation); expect(playerSide.effects).toBe(withEnemy.effects)  // packages/content/src/ambience-skill.glm-o.test.ts:58",
+      "oracle": "expect(enemySide.effects).toBe(enemyEffects); expect(enemySide.animation).toBe(withEnemy.animation); expect(playerSide.effects).toBe(withEnemy.effects)  // packages/content/src/ambience-skill.glm-o.test.ts:57",
       "classification": "normal-input",
       "status": "passed",
       "condition": "execution.enemy.effects 显式覆盖（对象恒等），player 侧回退公共 effects"
@@ -3507,7 +3507,7 @@
       "testFile": "packages/content/src/ambience-skill.glm-o.test.ts",
       "oldAssertion": "全仓旧测试零覆盖 → gap 新轴",
       "axis": "resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
-      "oracle": "expect(authoredSkillExecutionLayers(skill())).toEqual([ { side: 'base', effects: skill().effects, animation }, ]); expect(layers.map(({ side }) => side)).toEqual(['base', 'player', 'enemy']); expect(layers[1]!.effects).toEqual([{ kind: 'damage', power: 2, elemental: 0 }]); expect(layers[2]!.animation).toEqual({ effectSprite: 7 })  // packages/content/src/ambience-skill.glm-o.test.ts:65",
+      "oracle": "expect(authoredSkillExecutionLayers(skill())).toEqual([ { side: 'base', effects: skill().effects, animation }, ]); expect(layers.map(({ side }) => side)).toEqual(['base', 'player', 'enemy']); expect(layers[1]!.effects).toEqual([{ kind: 'damage', power: 2, elemental: 0 }]); expect(layers[2]!.animation).toEqual({ effectSprite: 7 })  // packages/content/src/ambience-skill.glm-o.test.ts:64",
       "classification": "normal-input",
       "status": "passed",
       "condition": "无 override（仅 base 层）与 player+enemy 双显式 override（按 base,player,enemy 序）"
@@ -3520,7 +3520,7 @@
       "testFile": "packages/content/src/ambience-skill.glm-o.test.ts",
       "oldAssertion": "author-dialogue.test.ts:84-90 仅空 unbound 拒绝；contracts E1 :26-29 仅合法性 check——合法 unbound 的 resolver 结果旧证未断言 → gap 新轴",
       "axis": "合法 unbound identity 的 resolver 透传结果",
-      "oracle": "expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, {})).toEqual({ speaker: '旁白甲', }); expect(withPortrait.portrait).toEqual({ asset: 'portrait.narrator', side: 'left' })  // packages/content/src/ambience-skill.glm-o.test.ts:81",
+      "oracle": "expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, {})).toEqual({ speaker: '旁白甲', }); expect(withPortrait.portrait).toEqual({ asset: 'portrait.narrator', side: 'left' })  // packages/content/src/ambience-skill.glm-o.test.ts:80",
       "classification": "normal-input",
       "status": "passed",
       "condition": "合法 unbound identity：仅 speaker / 仅 portrait（asset+side）两种形态，actor 表为空"
@@ -4837,6 +4837,123 @@
       "classification": "normal-input",
       "status": "passed",
       "condition": "levels=3，rng 恒 0：delta.maxHP=3×10、delta.luck=3×2、delta.level=3"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts:5-39 未涉白名单外色名 → gap 新轴",
+      "axis": "未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+      "oracle": "expect(parseRichText('<blue>海</blue>')).toEqual([{ text: '<blue>海</blue>' }])  // packages/content/src/rich-text-residual.glm-o.test.ts:13",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "<blue>海</blue>：色名不在 cyan|red|redAlt|yellow 白名单，整段按纯文本"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 错配闭合 → 按纯文本（反向引用要求同名开闭）",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts:37 仅未闭合同名单臂；错配闭合未证 → gap 新轴",
+      "axis": "错配闭合 → 按纯文本（反向引用要求同名开闭）",
+      "oracle": "expect(parseRichText('<cyan>青</red>')).toEqual([{ text: '<cyan>青</red>' }])  // packages/content/src/rich-text-residual.glm-o.test.ts:17",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "<cyan>青</red>：闭合标签与开标签色名不同，反向引用 </\\1> 不匹配"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 空标记内容 → 产出带色的空 span（非空数组语义保持）",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts:9 空串输入产无色空 span；空标记内容臂未证 → gap 新轴",
+      "axis": "空标记内容 → 产出带色的空 span（非空数组语义保持）",
+      "oracle": "expect(parseRichText('<red></red>')).toEqual([{ text: '', color: 'red' }])  // packages/content/src/rich-text-residual.glm-o.test.ts:21",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "<red></red>：空捕获组 (.*?) 命中空串，产出 {text:\"\",color:\"red\"}"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts:28-33 多标记之间有文本；零间隔臂未证 → gap 新轴",
+      "axis": "相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+      "oracle": "expect(parseRichText('<cyan>a</cyan><red>b</red>')).toEqual([ { text: 'a', color: 'cyan' }, { text: 'b', color: 'red' }, ])  // packages/content/src/rich-text-residual.glm-o.test.ts:25",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "<cyan>a</cyan><red>b</red>：m.index===last 时不插入空文本 span"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts 无嵌套输入 → gap 新轴",
+      "axis": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+      "oracle": "expect(parseRichText('a<cyan>b<cyan>c</cyan>d</cyan>')).toEqual([ { text: 'a' }, { text: 'b<cyan>c', color: 'cyan' }, { text: 'd</cyan>' }, ])  // packages/content/src/rich-text-residual.glm-o.test.ts:32",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "a<cyan>b<cyan>c</cyan>d</cyan>：非贪婪 (.*?) 至首个 </cyan>，尾段 d</cyan> 纯文本"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts:13-26 仅 cyan/red；redAlt 全域未证 → gap 新轴",
+      "axis": "redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+      "oracle": "expect(parseRichText('<redAlt>x</redAlt>')).toEqual([{ text: 'x', color: 'redAlt' }]); expect(parseRichText('<red>y</red>')).toEqual([{ text: 'y', color: 'red' }])  // packages/content/src/rich-text-residual.glm-o.test.ts:40",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "<redAlt>x</redAlt> 与 <red>y</red>：交替 cyan|red|redAlt 中 redAlt 完整命中不被 red 前缀截断"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 大小写敏感：<CYAN> 不识别 → 纯文本",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts 全小写输入 → gap 新轴",
+      "axis": "大小写敏感：<CYAN> 不识别 → 纯文本",
+      "oracle": "expect(parseRichText('<CYAN>青</CYAN>')).toEqual([{ text: '<CYAN>青</CYAN>' }])  // packages/content/src/rich-text-residual.glm-o.test.ts:45",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "<CYAN>青</CYAN>：大小写不折叠"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 孤儿闭合 → 按纯文本",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts:37 是未闭合（有开无闭）；孤儿闭合（有闭无开）未证 → gap 新轴",
+      "axis": "孤儿闭合 → 按纯文本",
+      "oracle": "expect(parseRichText('前</cyan>后')).toEqual([{ text: '前</cyan>后' }])  // packages/content/src/rich-text-residual.glm-o.test.ts:49",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "前</cyan>后：无开标签的闭合标记整段纯文本"
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseRichText：标记识别残余轴 标记内容含 \"<\" → 着色 span 文本原样保留",
+      "source": "rich-text.ts",
+      "caller": "parseRichText(s)",
+      "testFile": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "oldAssertion": "rich-text.test.ts 标记内容不含 < → gap 新轴",
+      "axis": "标记内容含 \"<\" → 着色 span 文本原样保留",
+      "oracle": "expect(parseRichText('<cyan>a<b</cyan>')).toEqual([{ text: 'a<b', color: 'cyan' }])  // packages/content/src/rich-text-residual.glm-o.test.ts:53",
+      "classification": "boundary-tag-recognition",
+      "status": "passed",
+      "condition": "<cyan>a<b</cyan>：捕获组含 < 字符原样保留"
     },
     {
       "batch": "O09",

@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 497 执行/净新上限 496（cross-check 1 条不计）, 69 反控/67 不同目标; O-R8-01/02/03 closed; 缺口至少 204",
+  "deliveryStatus": "PARTIAL — 487 执行/净新上限 486（herb=0 cross-check 不计）, 66 反控/64 不同目标; O-R9-01/02/03 及续审去重闭合; 缺口至少 214",
   "batches": {
     "O01": {
       "tests": 72
@@ -37,9 +37,9 @@
     }
   },
   "totals": {
-    "newCases": 497,
-    "netNewCeiling": 496,
-    "netNewNote": "resources.herb=0 为同条件 cross-check 不计净新",
+    "newCases": 487,
+    "netNewCeiling": 486,
+    "netNewNote": "resources.herb=0 为同条件 cross-check 不计净新；r9 续审删除 19 行旧证重复（grid/entity-lifecycle/author-dialogue/rewards 同条件同答案），已登记 existing-proof 于测试文件头",
     "uniqueBatchMapping": {
       "O01": 72,
       "O02": 66,
@@ -48,17 +48,18 @@
       "O05": 48,
       "O06": 42,
       "O07": 35,
-      "O08": 84,
-      "O09": 56,
+      "O08": 72,
+      "O09": 58,
       "O10": 26
     },
     "byPackage": {
       "migrate": 254,
-      "content": 217,
+      "content": 207,
       "shared": 26
     },
-    "validCounters": 69,
-    "distinctCounterTargets": 67
+    "validCounters": 66,
+    "distinctCounterTargets": 64,
+    "retiredCounters": 8
   },
   "gates": {
     "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0",
@@ -92,7 +93,7 @@
     "counter-judge.mjs（唯一 judge）",
     "run-counter.selftest.mjs（22 用例经同一 judge）"
   ],
-  "candidateHead": "ee8df0e80ee63591c9805e30237f05410c972d7e",
+  "candidateHead": "TO-BE-PINNED-R10",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -118,10 +119,15 @@
     "O-R8-01": "judge 修正：sameExecutionIdentity 只比较多重集合（状态按相判，正常 0→1→0 生命周期不再误拒）；目标匹配改显式 spec.test.target（65→62 外层 spec 迁移）；assertNoCollectionErrors 总门（numRuntimeErrorTestSuites/numPendingTestSuites/numTODOTests/suite 结论数/workspace 未结 suite/空断言 failed suite 拒收；workspace 计数≥单文件报告数）；27 用例自测含整段生命周期正控与全部审核反例",
     "O-R8-02": "O08-CC8/O08-CC9/O09-CC13 目标已删退役（历史目录保留不计 valid）；62 有效存档全部按新 judge 重采（62/62 三态过）",
     "O-R8-03": "contracts.json 人工+程序混合：427→453 条多断言链 oracle（含全部断言头+预期值）；审核点名的 merge 两行改多断言链+条件差说明；herb=0 标 cross-check-not-new；净新上限 496/缺口至少 204；README 缺口统一 204（231/234 为历史）",
-    "r9-continued": "新批次：ambience tint/lerp、skill 执行层、dialogue 身份残余（+12）；level-growth 钳位/隐藏经验池/实体生命周期引用闭包（+7）；菱形格几何（+9）——共 +28 例、7 枚新反控（O09-CC14~18、O08-CC10/11）计 69"
+    "r9-continued": "更正：原记「+28 例/7 新反控」含 19 行旧证重复；去重后真实新增 9 例（a89e49d73）+ rich-text 残余 9 轴（含 CC19/CC20 两枚新反控）",
+    "O-R9-01": "judge 路径归一化：/packages/ 边界前缀剥离保留完整包/子路径；顶层执行数=叶集合闭合；spec 全量钉完整 target；selftest 27 用例含 5 枚 r9 反例（729d554d0）",
+    "O-R9-02": "ambience-skill/rewards-lifecycle 六处强转改真实 typed 直构（SkillAnimation/SkillEffect/SkillData/EntityLifecycleSceneReference，599400d9a）",
+    "O-R9-03": "四条 ambience 重复登记 existing-proof 扣除（e47258a8d）；r9 续审再删 19 行重复（a89e49d73）：grid.test.ts:30-81 四何轴、entity-lifecycle.test.ts:13-87 三引用轴、author-dialogue.test.ts:17-81 三身份轴、rewards.test.ts:43-160 钳位与隐藏经验分配五轴；WORD 截断改可证伪强断言",
+    "r9-evidence-sweep": "证据一致性清扫：e47258a8d 留下的空 describe 致整文件 suite 失败已修（a855cadc3）；directed 旧 497 含 4 条已删测试，实跑重生 487；CC14/15/17/18/O08-CC11 五枚目标被删退役；CC10/CC16 执行集变化重采；re-adjudicate.mjs 以当前 judge 对存档三态再判定 66/66 通过（含变异锚点唯一/目标存在/执行集一致机械校验）",
+    "r9-ledger-rebuild": "contracts 账全量重建：旧生成器按行扫描致 182 空参/332 不配平（含 r8 基线）；共享 tokenizer（test-titles.mjs）全量提取完整断言链，build-contracts.mjs 强制不变量（≥1 断言/括号配平/值类 matcher 禁空参），478→487 行 0 违例；O01-CC1 spec title 陈旧字面量同步"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "91bf7a8434beb596c2e1cc1cf2cfc69614b2733f",
+  "remoteFinalCandidate": "TO-BE-PINNED-R10",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"

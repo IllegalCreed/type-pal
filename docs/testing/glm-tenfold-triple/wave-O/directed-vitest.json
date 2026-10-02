@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 478,
-  "passed": 478,
+  "numTotalTests": 487,
+  "passed": 487,
   "failed": 0,
   "tests": [
     {
@@ -1861,6 +1861,51 @@
     {
       "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
       "fullName": "O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 错配闭合 → 按纯文本（反向引用要求同名开闭）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 空标记内容 → 产出带色的空 span（非空数组语义保持）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 大小写敏感：<CYAN> 不识别 → 纯文本",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 孤儿闭合 → 按纯文本",
+      "status": "passed"
+    },
+    {
+      "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "fullName": "O09 parseRichText：标记识别残余轴 标记内容含 \"<\" → 着色 span 文本原样保留",
       "status": "passed"
     },
     {

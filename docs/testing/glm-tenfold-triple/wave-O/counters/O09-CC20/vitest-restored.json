@@ -1,0 +1,130 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790898932872,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+          "status": "passed",
+          "title": "未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+          "duration": 1.3101250000000277,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 错配闭合 → 按纯文本（反向引用要求同名开闭）",
+          "status": "passed",
+          "title": "错配闭合 → 按纯文本（反向引用要求同名开闭）",
+          "duration": 0.2555419999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 空标记内容 → 产出带色的空 span（非空数组语义保持）",
+          "status": "passed",
+          "title": "空标记内容 → 产出带色的空 span（非空数组语义保持）",
+          "duration": 0.21641700000000696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+          "status": "passed",
+          "title": "相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+          "duration": 0.13525000000001342,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+          "status": "passed",
+          "title": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+          "duration": 0.08604099999999448,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+          "status": "passed",
+          "title": "redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+          "duration": 0.12758400000001302,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 大小写敏感：<CYAN> 不识别 → 纯文本",
+          "status": "passed",
+          "title": "大小写敏感：<CYAN> 不识别 → 纯文本",
+          "duration": 0.10629199999999628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 孤儿闭合 → 按纯文本",
+          "status": "passed",
+          "title": "孤儿闭合 → 按纯文本",
+          "duration": 0.10604100000000471,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 标记内容含 \"<\" → 着色 span 文本原样保留",
+          "status": "passed",
+          "title": "标记内容含 \"<\" → 着色 span 文本原样保留",
+          "duration": 0.9830829999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790898933147,
+      "endTime": 1790898933150.9832,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/packages/content/src/rich-text-residual.glm-o.test.ts"
+    }
+  ]
+}

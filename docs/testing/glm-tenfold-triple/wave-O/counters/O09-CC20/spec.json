@@ -1,0 +1,15 @@
+{
+  "id": "O09-CC20",
+  "contract": "标记内容非贪婪（同名嵌套取首个闭合）",
+  "package": "content",
+  "test": {
+    "file": "src/rich-text-residual.glm-o.test.ts",
+    "title": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+    "target": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）"
+  },
+  "mutation": {
+    "file": "src/rich-text.ts",
+    "find": ">(.*?)</",
+    "replace": ">(.*)</"
+  }
+}

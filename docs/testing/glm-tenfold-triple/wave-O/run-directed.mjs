@@ -52,10 +52,10 @@ for (const pkg of ['migrate', 'content', 'shared']) {
 
 writeFileSync(
   outPath,
-  JSON.stringify(
+  `${JSON.stringify(
     { numTotalTests: tests.length, passed: tests.length - failed, failed, tests },
     null,
     2,
-  ) + '\n',
+  )}\n`,
 )
 console.log(`directed total: ${tests.length}, failed: ${failed}`)

@@ -1,1 +1,90 @@
-{"numTotalTestSuites":4,"numPassedTestSuites":4,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":5,"numPassedTests":5,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790898652804,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O09 lerpTint：t 夹取与分量四舍五入"],"fullName":"O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）","status":"passed","title":"非整数结果按分量四舍五入（旧中点全整数的真实新轴）","duration":4.358624999999989,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 resolveSkillExecution / authoredSkillExecutionLayers"],"fullName":"O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空","status":"passed","title":"无 override：两侧都回退公共 effects/animation，prepare 为空","duration":0.5725410000000011,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 resolveSkillExecution / authoredSkillExecutionLayers"],"fullName":"O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共","status":"passed","title":"单侧 override：覆盖侧用 override，另一侧回退公共","duration":0.7620829999999899,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 resolveSkillExecution / authoredSkillExecutionLayers"],"fullName":"O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加","status":"passed","title":"authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加","duration":0.7703339999999912,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O09 resolveDialogueIdentity：合法 unbound 透传"],"fullName":"O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）","status":"passed","title":"unbound：speaker/portrait 声明性透传（浅拷贝 portrait）","duration":0.6205420000000004,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790898653050,"endTime":1790898653057.6206,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4zqhDk/packages/content/src/ambience-skill.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 5,
+  "numPassedTests": 5,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790898652804,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 lerpTint：t 夹取与分量四舍五入"],
+          "fullName": "O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）",
+          "status": "passed",
+          "title": "非整数结果按分量四舍五入（旧中点全整数的真实新轴）",
+          "duration": 4.358624999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "status": "passed",
+          "title": "无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "duration": 0.5725410000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共",
+          "status": "passed",
+          "title": "单侧 override：覆盖侧用 override，另一侧回退公共",
+          "duration": 0.7620829999999899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "status": "passed",
+          "title": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "duration": 0.7703339999999912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity：合法 unbound 透传"],
+          "fullName": "O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "status": "passed",
+          "title": "unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "duration": 0.6205420000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790898653050,
+      "endTime": 1790898653057.6206,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-4zqhDk/packages/content/src/ambience-skill.glm-o.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+# exit=1 signal=null errored=null
+# === stdout ===
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/vitest-injected.json
+undefined
+/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/packages/content:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/rich-text-residual.glm-o.test.ts --reporter=json --outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3bJ99z/vitest-injected.json

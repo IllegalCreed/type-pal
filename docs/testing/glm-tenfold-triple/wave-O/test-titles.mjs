@@ -182,10 +182,7 @@ export function extractAssertions(source, bodyStart, bodyEnd) {
       j++
     }
     if (end < 0) end = Math.min(j, bodyEnd)
-    const text = source
-      .slice(i, end)
-      .replace(/\s+/g, ' ')
-      .trim()
+    const text = source.slice(i, end).replace(/\s+/g, ' ').trim()
     out.push({ text, startLine: lineAt(source, i) })
     i = end + 1
   }

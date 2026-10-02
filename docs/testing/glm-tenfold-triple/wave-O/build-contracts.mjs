@@ -20,67 +20,148 @@ const prevByKey = new Map(prev.contracts.map((c) => [`${c.testFile} :: ${c.id}`,
 
 // r9 续审保留的 9 行人工账（O-R9-03 + a89e49d73 去重后仍为真实新轴）
 const manualOverlay = {
-  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）': {
-    source: 'ambience.ts',
-    axis: '非整数中点四舍五入（.5 分量逐位 round）',
-    classification: 'boundary-rounding',
-    condition: 'lerpTint 中点含 .5 分量：[0,0,0]→[101,103,105] t=0.5 与 [10,10,10]→[15,15,15] t=0.5',
-    caller: 'lerpTint(from, to, t)',
-    oldAssertion: 'ambience.test.ts:38-44（中点全整数 186/242/255；非整数 .5 舍入未证 → gap 新轴）',
-  },
-  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空': {
-    condition: 'SkillData 无 execution 字段，side=player/enemy 各解析一次',
-    caller: 'resolveSkillExecution(skill, side)',
-    oldAssertion: '全仓旧测试零覆盖（grep resolveSkillExecution 仅本卡）→ gap 新轴',
-  },
-  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共': {
-    condition: 'execution.enemy.effects 显式覆盖（对象恒等），player 侧回退公共 effects',
-    caller: 'resolveSkillExecution(skill({enemy:{effects}}), side)',
-    oldAssertion: '全仓旧测试零覆盖 → gap 新轴',
-  },
-  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加': {
-    condition: '无 override（仅 base 层）与 player+enemy 双显式 override（按 base,player,enemy 序）',
-    caller: 'authoredSkillExecutionLayers(skill)',
-    oldAssertion: '全仓旧测试零覆盖 → gap 新轴',
-  },
-  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）': {
-    source: 'author-dialogue.ts',
-    axis: '合法 unbound identity 的 resolver 透传结果',
-    classification: 'normal-input',
-    condition: '合法 unbound identity：仅 speaker / 仅 portrait（asset+side）两种形态，actor 表为空',
-    caller: 'resolveDialogueIdentity({kind:"unbound", speaker|portrait}, actors)',
-    oldAssertion: 'author-dialogue.test.ts:84-90 仅空 unbound 拒绝；contracts E1 :26-29 仅合法性 check——合法 unbound 的 resolver 结果旧证未断言 → gap 新轴',
-  },
-  'packages/content/src/rewards-lifecycle.glm-o.test.ts :: O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0': {
-    condition: 'levels ∈ {-3, 0, 0.9}（防御钳位：count=max(0,floor(levels))=0）',
-    caller: 'applyLevelGrowth(target, levels, rng)',
-    oldAssertion: 'rewards.cursor-pure-wave2.test.ts:3 显式声明「不计本包」；rewards.test.ts 仅 :54 单正级 → gap 新轴',
-  },
-  'packages/content/src/rewards-lifecycle.glm-o.test.ts :: O08 applyLevelGrowth：钳位与确定性区间 每级固定+2 luck（无随机）；rng=0/1 区间上下界（未钳位精确值）': {
-    source: 'rewards.ts',
-    axis: '未钳位区间端点精确值 + luck 固定 +2',
-    classification: 'normal-input',
-    condition: '基座 luck=10/maxHP=100/maxMP=50/attack=10（未触 999 钳），rng=0 与 rng→1 两端',
-    caller: 'applyLevelGrowth(target(), 1, rng)',
-    oldAssertion: 'rewards.test.ts:43-75 仅 998 钳位处上界（delta=1，区间端点与 luck 固定+2 不可分辨）→ gap 新轴',
-  },
-  'packages/content/src/rewards-lifecycle.glm-o.test.ts :: O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机': {
-    condition: 'levels=3，rng 恒 0：delta.maxHP=3×10、delta.luck=3×2、delta.level=3',
-    caller: 'applyLevelGrowth(t, 3, rng)',
-    oldAssertion: 'rewards.test.ts:54 仅单级 → 多级独立累积 gap 新轴',
-  },
-  'packages/content/src/hidden-exp-grid.glm-o.test.ts :: O08 applyHiddenExp：池经验 WORD 截断 池 exp 超 0xffff 时按位与截断（100000 → 34464），未截断值不可能出现': {
-    source: 'rewards.ts',
-    axis: 'pool.exp = exp & 0xffff 掩码可观测',
-    classification: 'boundary-truncation',
-    condition: 'expGained=50000 单属性全量：exp=100000，当前级阈值 1e9 使升级循环立即退出 → 掩码可观测（34464）',
-    caller: 'applyHiddenExp(c, {attack:1}, 50000, table, rng)',
-    oldAssertion: 'rewards.test.ts:139-160 数值远小于 0xffff，掩码不可观测 → gap 新轴（r9 加强为可证伪断言）',
-  },
+  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）':
+    {
+      source: 'ambience.ts',
+      axis: '非整数中点四舍五入（.5 分量逐位 round）',
+      classification: 'boundary-rounding',
+      condition:
+        'lerpTint 中点含 .5 分量：[0,0,0]→[101,103,105] t=0.5 与 [10,10,10]→[15,15,15] t=0.5',
+      caller: 'lerpTint(from, to, t)',
+      oldAssertion:
+        'ambience.test.ts:38-44（中点全整数 186/242/255；非整数 .5 舍入未证 → gap 新轴）',
+    },
+  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空':
+    {
+      condition: 'SkillData 无 execution 字段，side=player/enemy 各解析一次',
+      caller: 'resolveSkillExecution(skill, side)',
+      oldAssertion: '全仓旧测试零覆盖（grep resolveSkillExecution 仅本卡）→ gap 新轴',
+    },
+  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共':
+    {
+      condition: 'execution.enemy.effects 显式覆盖（对象恒等），player 侧回退公共 effects',
+      caller: 'resolveSkillExecution(skill({enemy:{effects}}), side)',
+      oldAssertion: '全仓旧测试零覆盖 → gap 新轴',
+    },
+  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加':
+    {
+      condition:
+        '无 override（仅 base 层）与 player+enemy 双显式 override（按 base,player,enemy 序）',
+      caller: 'authoredSkillExecutionLayers(skill)',
+      oldAssertion: '全仓旧测试零覆盖 → gap 新轴',
+    },
+  'packages/content/src/ambience-skill.glm-o.test.ts :: O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）':
+    {
+      source: 'author-dialogue.ts',
+      axis: '合法 unbound identity 的 resolver 透传结果',
+      classification: 'normal-input',
+      condition:
+        '合法 unbound identity：仅 speaker / 仅 portrait（asset+side）两种形态，actor 表为空',
+      caller: 'resolveDialogueIdentity({kind:"unbound", speaker|portrait}, actors)',
+      oldAssertion:
+        'author-dialogue.test.ts:84-90 仅空 unbound 拒绝；contracts E1 :26-29 仅合法性 check——合法 unbound 的 resolver 结果旧证未断言 → gap 新轴',
+    },
+  'packages/content/src/rewards-lifecycle.glm-o.test.ts :: O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0':
+    {
+      condition: 'levels ∈ {-3, 0, 0.9}（防御钳位：count=max(0,floor(levels))=0）',
+      caller: 'applyLevelGrowth(target, levels, rng)',
+      oldAssertion:
+        'rewards.cursor-pure-wave2.test.ts:3 显式声明「不计本包」；rewards.test.ts 仅 :54 单正级 → gap 新轴',
+    },
+  'packages/content/src/rewards-lifecycle.glm-o.test.ts :: O08 applyLevelGrowth：钳位与确定性区间 每级固定+2 luck（无随机）；rng=0/1 区间上下界（未钳位精确值）':
+    {
+      source: 'rewards.ts',
+      axis: '未钳位区间端点精确值 + luck 固定 +2',
+      classification: 'normal-input',
+      condition: '基座 luck=10/maxHP=100/maxMP=50/attack=10（未触 999 钳），rng=0 与 rng→1 两端',
+      caller: 'applyLevelGrowth(target(), 1, rng)',
+      oldAssertion:
+        'rewards.test.ts:43-75 仅 998 钳位处上界（delta=1，区间端点与 luck 固定+2 不可分辨）→ gap 新轴',
+    },
+  'packages/content/src/rewards-lifecycle.glm-o.test.ts :: O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机':
+    {
+      condition: 'levels=3，rng 恒 0：delta.maxHP=3×10、delta.luck=3×2、delta.level=3',
+      caller: 'applyLevelGrowth(t, 3, rng)',
+      oldAssertion: 'rewards.test.ts:54 仅单级 → 多级独立累积 gap 新轴',
+    },
+  'packages/content/src/hidden-exp-grid.glm-o.test.ts :: O08 applyHiddenExp：池经验 WORD 截断 池 exp 超 0xffff 时按位与截断（100000 → 34464），未截断值不可能出现':
+    {
+      source: 'rewards.ts',
+      axis: 'pool.exp = exp & 0xffff 掩码可观测',
+      classification: 'boundary-truncation',
+      condition:
+        'expGained=50000 单属性全量：exp=100000，当前级阈值 1e9 使升级循环立即退出 → 掩码可观测（34464）',
+      caller: 'applyHiddenExp(c, {attack:1}, 50000, table, rng)',
+      oldAssertion:
+        'rewards.test.ts:139-160 数值远小于 0xffff，掩码不可观测 → gap 新轴（r9 加强为可证伪断言）',
+    },
+}
+
+// r9 续批：rich-text 残余 9 轴人工账（rich-text.test.ts:5-39 已证纯文本/空串/句中/行首/多标记/未闭合；
+// 以下九臂逐一对照源码正则确认未覆盖）
+const richTextRows = [
+  [
+    '未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）',
+    '<blue>海</blue>：色名不在 cyan|red|redAlt|yellow 白名单，整段按纯文本',
+    'rich-text.test.ts:5-39 未涉白名单外色名 → gap 新轴',
+  ],
+  [
+    '错配闭合 → 按纯文本（反向引用要求同名开闭）',
+    '<cyan>青</red>：闭合标签与开标签色名不同，反向引用 </\\1> 不匹配',
+    'rich-text.test.ts:37 仅未闭合同名单臂；错配闭合未证 → gap 新轴',
+  ],
+  [
+    '空标记内容 → 产出带色的空 span（非空数组语义保持）',
+    '<red></red>：空捕获组 (.*?) 命中空串，产出 {text:"",color:"red"}',
+    'rich-text.test.ts:9 空串输入产无色空 span；空标记内容臂未证 → gap 新轴',
+  ],
+  [
+    '相邻标记无间隔 → 两个着色 span，之间不产生空文本 span',
+    '<cyan>a</cyan><red>b</red>：m.index===last 时不插入空文本 span',
+    'rich-text.test.ts:28-33 多标记之间有文本；零间隔臂未证 → gap 新轴',
+  ],
+  [
+    '同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）',
+    'a<cyan>b<cyan>c</cyan>d</cyan>：非贪婪 (.*?) 至首个 </cyan>，尾段 d</cyan> 纯文本',
+    'rich-text.test.ts 无嵌套输入 → gap 新轴',
+  ],
+  [
+    'redAlt 与 red 交替序区分（redAlt 不被截成 red）',
+    '<redAlt>x</redAlt> 与 <red>y</red>：交替 cyan|red|redAlt 中 redAlt 完整命中不被 red 前缀截断',
+    'rich-text.test.ts:13-26 仅 cyan/red；redAlt 全域未证 → gap 新轴',
+  ],
+  [
+    '大小写敏感：<CYAN> 不识别 → 纯文本',
+    '<CYAN>青</CYAN>：大小写不折叠',
+    'rich-text.test.ts 全小写输入 → gap 新轴',
+  ],
+  [
+    '孤儿闭合 → 按纯文本',
+    '前</cyan>后：无开标签的闭合标记整段纯文本',
+    'rich-text.test.ts:37 是未闭合（有开无闭）；孤儿闭合（有闭无开）未证 → gap 新轴',
+  ],
+  [
+    '标记内容含 "<" → 着色 span 文本原样保留',
+    '<cyan>a<b</cyan>：捕获组含 < 字符原样保留',
+    'rich-text.test.ts 标记内容不含 < → gap 新轴',
+  ],
+]
+for (const [title, condition, oldNote] of richTextRows) {
+  manualOverlay[
+    `packages/content/src/rich-text-residual.glm-o.test.ts :: O09 parseRichText：标记识别残余轴 ${title}`
+  ] = {
+    source: 'rich-text.ts',
+    caller: 'parseRichText(s)',
+    classification: 'boundary-tag-recognition',
+    condition,
+    oldAssertion: oldNote,
+    axis: title,
+  }
 }
 
 // 不变检查：值类 matcher 空参 = 截断残留，直接失败
-const EMPTY_ARG_BAD = /\.(toEqual|toStrictEqual|toMatchObject|toBe|toBeCloseTo|toHaveProperty|toContain|toContainEqual|toHaveLength|toBeGreaterThan|toBeLessThan|toMatch|toStrictEqual)\(\s*\)/
+const EMPTY_ARG_BAD =
+  /\.(toEqual|toStrictEqual|toMatchObject|toBe|toBeCloseTo|toHaveProperty|toContain|toContainEqual|toHaveLength|toBeGreaterThan|toBeLessThan|toMatch|toStrictEqual)\(\s*\)/
 const balanced = (text) => {
   let p = 0
   let b = 0
@@ -158,7 +239,7 @@ if (errors.length) {
 
 writeFileSync(
   resolve(here, 'contracts.json'),
-  JSON.stringify(
+  `${JSON.stringify(
     {
       total: rows.length,
       note: '逐合同账（r9 修正）：oracle=测试源完整断言链（共享 tokenizer 全量提取，无截断）+首断言行锚；migration-merge 30 行保留人工 oracle/condition；r9 保留 9 行人工 condition/caller/旧锚（19 行重复已于 a89e49d73 删除并登记 existing-proof 于测试文件头）；known-existing-proof 与 cross-check-not-new 不计净新',
@@ -166,6 +247,8 @@ writeFileSync(
     },
     null,
     2,
-  ) + '\n',
+  )}\n`,
 )
-console.log(`contracts: ${rows.length} rows, manualOverlay applied: ${rows.filter((r) => manualOverlay[`${r.testFile} :: ${r.id}`]).length}, manualMerge oracle kept: ${rows.filter((r) => r.testFile.endsWith('migration-merge.glm-o.test.ts')).length}`)
+console.log(
+  `contracts: ${rows.length} rows, manualOverlay applied: ${rows.filter((r) => manualOverlay[`${r.testFile} :: ${r.id}`]).length}, manualMerge oracle kept: ${rows.filter((r) => r.testFile.endsWith('migration-merge.glm-o.test.ts')).length}`,
+)

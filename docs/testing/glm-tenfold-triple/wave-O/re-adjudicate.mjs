@@ -6,16 +6,14 @@
  *  2) spec.test.target（完整 fullName）必须仍存在于当前候选测试文件（目标被删 → 退役）。
  *  任一失败即整表退出码 1。产物：re-adjudication.json（逐针 verdict + judge 版本锚）。
  */
-import { createHash } from 'node:crypto'
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { judgePhase, sameExecutionIdentity, flattenTests } from './counter-judge.mjs'
+import { flattenTests, judgePhase, sameExecutionIdentity } from './counter-judge.mjs'
 import { parseTestTitles } from './test-titles.mjs'
 
 const here = import.meta.dirname
 const evidenceRoot = here
 const repoRoot = resolve(here, '../../../..')
-const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
 const index = JSON.parse(readFileSync(resolve(evidenceRoot, 'counters.json'), 'utf8'))
 const retired = new Set(index.retired ?? [])
@@ -31,7 +29,13 @@ function parseRaw(txt) {
   const stderrAt = txt.indexOf('# === stderr ===')
   const stdout = txt.slice(stdoutAt >= 0 ? stdoutAt + 16 : 0, stderrAt >= 0 ? stderrAt : undefined)
   const stderr = stderrAt >= 0 ? txt.slice(stderrAt + 16) : ''
-  return { exitCode: exit, signal: signalNorm, error: errored !== 'null' && errored ? errored : undefined, stdout, stderr }
+  return {
+    exitCode: exit,
+    signal: signalNorm,
+    error: errored !== 'null' && errored ? errored : undefined,
+    stdout,
+    stderr,
+  }
 }
 
 const verdicts = []
@@ -42,7 +46,9 @@ for (const dir of readdirSync(resolve(evidenceRoot, 'counters'), { withFileTypes
   if (retired.has(id)) continue
   const entry = { id, verdict: 'pass', reasons: [] }
   try {
-    const spec = JSON.parse(readFileSync(resolve(evidenceRoot, 'counters', id, 'spec.json'), 'utf8'))
+    const spec = JSON.parse(
+      readFileSync(resolve(evidenceRoot, 'counters', id, 'spec.json'), 'utf8'),
+    )
     const pkg = spec.package ?? 'migrate'
     const runs = {}
     for (const phase of ['control', 'injected', 'restored']) {
@@ -67,11 +73,16 @@ for (const dir of readdirSync(resolve(evidenceRoot, 'counters'), { withFileTypes
       'injected↔restored',
     )
     // result.json 记录的红例 fullName 必须与当前判定结果一致
-    const recorded = JSON.parse(readFileSync(resolve(evidenceRoot, 'counters', id, 'result.json'), 'utf8'))
+    const recorded = JSON.parse(
+      readFileSync(resolve(evidenceRoot, 'counters', id, 'result.json'), 'utf8'),
+    )
     const injectedFailed = runs.injected.json.testResults
       .flatMap((suite) => suite.assertionResults ?? [])
       .filter((leaf) => leaf.status === 'failed')
-    if (injectedFailed.length !== 1 || injectedFailed[0].fullName !== recorded.injected.failedFullName)
+    if (
+      injectedFailed.length !== 1 ||
+      injectedFailed[0].fullName !== recorded.injected.failedFullName
+    )
       entry.reasons.push('result.json 记录的红例与再判定结果不一致')
     // 变异锚点仍唯一存在于当前产品源
     const productPath = resolve(repoRoot, 'packages', pkg, spec.mutation.file)
@@ -83,8 +94,7 @@ for (const dir of readdirSync(resolve(evidenceRoot, 'counters'), { withFileTypes
     const testPath = resolve(repoRoot, 'packages', pkg, spec.test.file)
     const testSource = readFileSync(testPath, 'utf8')
     const title = spec.test.title ?? ''
-    const literalFound =
-      testSource.includes(`'${title}'`) || testSource.includes(`"${title}"`)
+    const literalFound = testSource.includes(`'${title}'`) || testSource.includes(`"${title}"`)
     if (!title || !literalFound)
       entry.reasons.push('目标 title 不在当前测试文件（目标被删/改名 → 须重采或退役）')
     if (spec.test.target && !spec.test.target.endsWith(` ${title}`))
@@ -115,18 +125,21 @@ for (const dir of readdirSync(resolve(evidenceRoot, 'counters'), { withFileTypes
 }
 
 const summary = {
-  judgeSource: 'counter-judge.mjs@729d554d0（O-R9-01 判据：路径归一化保留完整 packages/包/子路径 + 顶层执行数闭合 + 逐相状态政策）',
+  judgeSource:
+    'counter-judge.mjs@729d554d0（O-R9-01 判据：路径归一化保留完整 packages/包/子路径 + 顶层执行数闭合 + 逐相状态政策）',
   total: verdicts.length,
   pass: verdicts.filter((v) => v.verdict === 'pass').length,
   flagged: verdicts.filter((v) => v.verdict !== 'pass'),
 }
 writeFileSync(
   resolve(evidenceRoot, 're-adjudication.json'),
-  JSON.stringify({ ...summary, verdicts }, null, 2) + '\n',
+  `${JSON.stringify({ ...summary, verdicts }, null, 2)}\n`,
 )
 for (const v of verdicts) {
   if (v.verdict === 'pass') continue
   console.log(`FLAG ${v.id}: ${v.reasons.join(' | ')}`)
 }
-console.log(`re-adjudication: ${summary.pass}/${summary.total} pass, ${summary.flagged.length} flagged`)
+console.log(
+  `re-adjudication: ${summary.pass}/${summary.total} pass, ${summary.flagged.length} flagged`,
+)
 process.exitCode = failed ? 1 : 0
