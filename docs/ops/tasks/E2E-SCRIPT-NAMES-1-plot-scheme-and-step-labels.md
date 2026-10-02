@@ -96,7 +96,10 @@ e61随行进房换身（`s003.json:7136/8638`）。既有RF002正式终点三人
 | s003/e62/trigger/beggar-first-talk/initial、ask-again、persistent-begging | 首次讨酒，逍遥拒绝 / 再次恳求喝一口酒 / 复读：赖着不走继续讨酒 | RF003已执行initial；后两步核读dlg.158–163。 |
 | s003/e62/auto/default/initial、legacy-002、legacy-003 | 等待动作轮换 / 醉卧姿势一 / 醉卧姿势二 | 003可见醉卧；正文为显式原循环，未新增空步骤或拆动作。 |
 | s001/e19/trigger/default、busy-in-kitchen、serve-guests的initial | 复读：追问是否赶走道士 / 复读：催逍遥帮忙 / 交代把桌上酒菜端给客人 | RF003执行serve-guests；相邻两方案仅核读dlg.124/129–130。 |
-| s001/e19/auto/default/initial | 备菜时保持向上姿势 | RF003厨房可见；正文只有向上/第0帧。 |
+| s001/e19/auto/default/initial（历史） | 备菜时保持向上姿势 | RF003历史可见；004已退役此无意义auto，取菜正文显式转身/回身，不再作为当前方案入口。 |
+
+004增量见[E2E-004-1](E2E-004-1-meal-and-beggar-wine.md)：实际取菜/送菜/赠酒及正常经过的门与触发区已核用途补名，
+对应稳定ID未变；不重复接收本卡5方案/22步骤实现，也不将未核后期正文批量猜名。
 
 未核后期方案、e59自动行为1/2及全PAL剩余模板名称仍由后续实际E2E逐包核读，不归此批完成。
 

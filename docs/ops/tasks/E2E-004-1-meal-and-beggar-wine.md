@@ -11,6 +11,28 @@ Visual Verification Timing: mixed
 Contributor: Codex 子 Agent；e2e004_phase1_premise独立只读核验
 Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
 
+## 当前技术接收（2026-10-02，覆盖下文旧施工快照）
+
+- NPC归属裁决已落实：`runEntityTrigger`同一前台链await目标当前trigger/游标，桂花酒私有use仅四条守卫/选方案/调用；
+  唯一完整25行正文与扣酒仍在s003/e62。auto/prepare、busy/递归、异session、副作用和游标提交反控已闭合。
+  aa候选两项Root独立红日志保留；078窄修后两反控及相邻123项绿，独立只读审查accept。
+- 编辑器同项目runtime scratch真实播放完整PAL NPC/caller；跨场景绑定只读解析，暂停/单步/停止可用，作者树零写回。
+  名称/表单/重点摘要/动态调用轨迹边界已接入；74相邻与16外观preview回归绿。
+- 46362585f作者内容、c6bf58dd9真实主壳5项集成已独立接收：e19空姿态auto退役，慢读朝下后显式返朝上；
+  喝酒前禁道士auto，持久appearance保存端菜208且送完恢复普通外观。真实菜单/手动菜单保存/fresh恢复皆通过。
+  Root重构批准的六项非label差异并全树deepEqual，证明其余正文/动作/节拍/去向未改；8个经过对象及方案/步骤补名。
+- 当前Root正式RF002→003→004 passed，004冻结e5b432685，真实003档SHA3f5f74b9…；
+  40正文/400来源/3fresh上下文、取消/失败/静止成功dispatch、唯一耗酒/完整收尾/真实移动/存读World与Canvas均通过。
+  Root逐项核原字节和截图，详见[完整收据](../../testing/e2e-004.md)。不与历史game报告拼成同revision both。
+- Root追加白名单：`project-reference.pal.test.ts`仅修当前内容的精确golden及真实语义见证；总entityAddress38111不变，
+  e20→e19新转向引用、e19auto退役、两处持久appearance与net+1正文均显式核。规则/预算/边界未放宽。
+  `004-final-frozen-quality.log`全仓check七包10957测试与所有types、docs/工具门绿，lint2757文件0/0/0；
+  后续仅新meal工具122项及完整lint另核。两旧全仓引用fixture失败保留，不追溯改成passed。
+- 第一阶段历史game004完整候选4e1a5ab79已独立accept；当前新工具重跑失败只作诊断：真实保存克隆时机、
+  正常touch边界与当前导航采样待窄修，不改产品/作者/旧001–003，不放行任意切场/伪造落步。
+- 用户再次确认6012无草稿、允许更新；服务PID88523与原Chrome页保持。当前产品技术验证完成，
+  待当前game工具处理及6012最小交付核验；用户观感与capture另排，不宣称done。
+
 ## 当前裁决与停止线（2026-10-02）
 
 用户明确：使用桂花酒应触发绑定在醉道士身上的剧情方案；开发者在NPC身上找剧情，且须能在场景内预览。
