@@ -158,7 +158,7 @@
     "O-NEXT2-R1": "O-NEXT2-R1-01～04 闭合：①删除夹具 @ts-expect-error，改 node-zlib-bridge.mjs(+.d.mts) 局部真实类型化 Node IO 桥（Uint8Array 公开签名，不动全局声明/旧测试/tsconfig）；②01/02 frame port 接 recordedProvider（原 journal 未接通系漏检——Codex 变异证明元数据前读帧 2/2 绿），03 用两帧合法 descriptors 读序恰 [0]；③09 保留 deferred 背压，放行走真 zlib 压缩原 raw、第二块真压缩、真 decoder 解全部 33 帧逐字节比对（原四零字节非 deflate 已修）；④12 转 existing-proof cross-check 不计净新（旧 resource-boundaries:83-106 四 fullName 更强直证，packet 漏排由 Codex 承担）；净新上限按 Codex 旧信用 286 口径 +11 = 297、缺口 ≥403"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED",
+  "remoteFinalCandidate": "f4f9ef802b36f06a680ebacfb4c449e07610a755",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
