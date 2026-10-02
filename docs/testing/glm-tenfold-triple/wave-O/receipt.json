@@ -153,7 +153,7 @@
     "r17": "O-R17-01：恢复 incoming-only 新托管文件进入 writes 精确值子轴（migration-plan.ts:195-197 !ours.files.has 分支；boundaries:30-64 实际只证更新已有/删除，Codex 变异独证旧 34 绿仅此断言红）；不恢复旧 delete/summary 臂，O02-CC4 退役保持；pal-current-publication 域 41 行真账（palAssetPreconditions 两行 next-wave:59-71 删重；fixture 自检改标 fixture-self-check 不计产品净新；caller 接 mts:62 build/:90 validate 真实链）；O01-CC1/CC2/CC3/CC5 因文件删重重采 64/64"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED",
+  "remoteFinalCandidate": "8a3e08b57188ddbc5a7df35d384f73391090f008",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
