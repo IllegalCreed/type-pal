@@ -10,7 +10,19 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex NEXT2实施准入（2026-10-02，当前优先）
+## Codex NEXT2 独立验收（2026-10-02，当前优先）
+
+固定 f61c7cf6ec578458e8dba84f3b4e115443eda87c，内容 b284163d060c454936d288f898edd6d8255bf182，本地/远端一致且作者树干净。84 定向相邻/Content 1441 全包、typecheck、3237 静态完整 0/0/0/docs/diff/716 冻结/790 白名单过；四代表控制完整 84 身份、恰一指定 AssertionError、exit 0/1/0 与恢复/重建 hash 有效，旧 64 不重采。
+**counter 仅 O-NEXT2-R1-01～04**：新增 ignore；01/02 零 frame IO 未接记录且提前读帧仍两绿、03 只有一帧；09 假压缩无真往返；12 已有强旧证须扣列。472 执行、旧信用≤286、本批≤11、累计净新上限297/≥403未完，四 oracle 未修不报全部 accept，不缩 700、不 main/done/正式结算。
+[逐项理由与一次合并清单](../../testing/glm-tenfold-triple/codex-oq-next2-review-20261002.md)、[机器与八代表针](../../testing/glm-tenfold-triple/codex-oq-next2-review-20261002.json)、[原始证据](../../testing/glm-tenfold-triple/codex-oq-next2-evidence/README.md)。
+
+### 下一位 GLM O 提示词（用户手动选 GLM-5.3 文本后转发）
+
+```text
+继续 TEST-GLM-WAVE-O-1，固定 f61c7cf6ec578458e8dba84f3b4e115443eda87c，原树 /Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支 codex/glm-wave-o-supply-validation-r1。先只读审核根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal 的本卡顶部及 docs/testing/glm-tenfold-triple/codex-oq-next2-review-20261002.md/json，一次闭 O-NEXT2-R1-01～04：删除新增ts-expect-error，用局部真实类型化Node IO桥且不影响旧test/config；01/02真实frame记录与逐轴零frame/deflate；03至少两合法帧证明首短RGBA停止；09保留deferred背压并真deflate+真decode全部33帧；12登记existing-proof/cross-check不计新不补例。472执行/净新≤297/≥403未完，仅新next2测试/专属fixture/证据和本波README/receipt可写；产品/旧测/旧fixture/旧64针/配置/全局类型/其它Owner/共享文档只读，冻结派发不变。禁止ignore/unsafe桥/扩timeout/核心mock；其它已闭项/fullName保持，作者不采针/不改工具。定向相邻+content全test/typecheck、最终lint完整0/0/0/docs/diff/verifier，真实JSON/分类，一次完整40位SHA推原分支；仅本有限修复，停止泛化续700，不main/done/官方门/清树，交Codex验收。
+```
+
+## Codex NEXT2实施准入（2026-10-02，历史派发；当前按上段返工）
 
 用户要求O/P/Q继续，**build allowed仅NEXT2精确有限清单**，本原700卡仍partial/rework、总目标不缩。
 [本批完整范围/门/反控责任](../../testing/glm-tenfold-triple/codex-opq-next2-dispatch-20261002.md)、[12候选id/源hash/独占白名单](../../testing/glm-tenfold-triple/codex-opq-next2-packet-20261002.json)。

@@ -1,9 +1,12 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
-2026-10-02当前：[NEXT2完整有限实施清单与三个提示词](codex-opq-next2-dispatch-20261002.md)、[38候选id/源hash/白名单](codex-opq-next2-packet-20261002.json)、[三个公开API准入小样3绿](codex-opq-next2-preflight-20261002.json)。
+2026-10-02 当前：[O/Q NEXT2 独立验收与两份合并返工提示词](codex-oq-next2-review-20261002.md)、[机器记录](codex-oq-next2-review-20261002.json)、[八枚有效代表控制/完整原始证据](codex-oq-next2-evidence/README.md)。
+84/48 定向相邻、1441/2164 全包、型检/静态完整 0/0/0/docs/716 冻结通过；counter 仅 O 类型桥/真实 IO/真往返，Q 独立 G/B oracle。O12、Q06/14 扣列不补数；旧 64/71 档案与 Q161 旧账保持，不重采。用户手动选 GLM-5.3 文本后各一次修齐；P 正在执行的 NEXT2 不重复派。未 main/done/正式覆盖。
+
+NEXT2 派发记录：[完整有限实施清单与三个提示词](codex-opq-next2-dispatch-20261002.md)、[38候选id/源hash/白名单](codex-opq-next2-packet-20261002.json)、[三个公开API准入小样3绿](codex-opq-next2-preflight-20261002.json)。
 O完整帧异步IO12候选、P引用扫描生命周期12、Q溶解计划/输出/owner14，主源与main字节一致且不重叠；用户先手动选GLM-5.3文本。
 build allowed仅本有限新test/fixture/evidence，原700卡总目标不缩；代表控制由Codex实采，作者不做工具返工或全重采旧针。没有38净新/覆盖85%承诺。
-下方无作者动作是上一批收口快照，当前按NEXT2顶部执行，不重做已闭修项或P受阻视觉。
+下方是历史收口快照。O/Q 只按本次独立审核的有限返工执行，不重做已闭修项或 P 受阻视觉；P 本次已派清单保持。
 
 2026-10-02当前：[O/Q有限返工接收与最终五针](codex-oq-next-r2-acceptance-20261002.md)、[机器复核](codex-oq-next-r2-acceptance-20261002.json)、[原始实跑](codex-oq-next-r2-evidence/README.md)。
 O it/点名修订接收，coveredBy由Codex零信用裁决，净新上限286；Q十四CLI包与合法敌引用/无桥accept，381新绿及最终五针15相有效，旧71保持。

@@ -1,0 +1,16 @@
+{
+  "candidate": "f61c7cf6ec578458e8dba84f3b4e115443eda87c",
+  "label": "faithful reproduction of O09 submitted IO fixture, not product defect",
+  "parseBlocks": 2,
+  "blocks": [
+    {
+      "block": 0,
+      "error": "unknown compression method"
+    },
+    {
+      "block": 1,
+      "error": "incorrect header check"
+    }
+  ],
+  "roundtrip": false
+}

@@ -1,0 +1,869 @@
+{
+  "candidates": {
+    "O": "f61c7cf6ec578458e8dba84f3b4e115443eda87c",
+    "Q": "566cbfe0f679485bcf57b4975abfb2bb4d7fdf22"
+  },
+  "controls": [
+    {
+      "wave": "O",
+      "id": "SHORT-LATER",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/content/src/frame-sequence.ts",
+      "mutation": {
+        "section": "encodeFrameSequenceFromProvider",
+        "from": "if (!(current instanceof Uint8Array) || current.byteLength !== prepared.frameBytes)\n        throw new Error(`TPFS.encode.frames[${frameIndex}].rgba: 期望 ${prepared.frameBytes} 字节`)",
+        "to": "if (!(current instanceof Uint8Array) || current.byteLength !== prepared.frameBytes) {\n        if (firstFrame > 0) await deflate(raw)\n        throw new Error(`TPFS.encode.frames[${frameIndex}].rgba: 期望 ${prepared.frameBytes} 字节`)\n      }",
+        "rebuiltSha256": "10e150e1880922762afe3bbcad8467d9c4a43089dfef2f5975dbf46944123f21"
+      },
+      "scopeSize": 84,
+      "scopeIdentitySha256": "1434f229883dfa9b24e3b4684719d2752af7dd6f514820c5be6ea9162c3c03cf",
+      "original": "o-cancel-restored",
+      "mutated": "o-short-mutated",
+      "restored": "o-short-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 provider 返回短字节的拒收域（03/04） 04 第二 block 首帧（frame32）返回 3 字节：首 block 恰压缩一次，故障保持局部",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ 128, 4 ] to deeply equal [ 128 ]\n    at /private/tmp/codex-oq-next2-review.ydLzy0/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:91:44\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "O",
+      "id": "ABORT-NO-LATER-READ",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/content/src/frame-sequence.ts",
+      "mutation": {
+        "section": "encodeFrameSequenceFromProvider",
+        "from": "compressed: await deflate(raw),",
+        "to": "compressed: await Promise.resolve(deflate(raw)).catch(async (error) => {\n        if (error instanceof Error && error.name === 'AbortError') await input.frame(firstFrame + frameCount)\n        throw error\n      }),",
+        "rebuiltSha256": "15ee193664fb0d7a1a9900ecce5bd59c359758d04ef48debfec890863b6e1263"
+      },
+      "scopeSize": 84,
+      "scopeIdentitySha256": "1434f229883dfa9b24e3b4684719d2752af7dd6f514820c5be6ea9162c3c03cf",
+      "original": "o-short-restored",
+      "mutated": "o-abort-io-mutated",
+      "restored": "o-abort-io-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 跨 block 渐进 IO 与压缩失败身份（05/06/07） 06 deflate 拒绝自有 AbortError：同一对象与 name，下一 block 读取不发生",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ Array(33) ] to deeply equal [ Array(32) ]\n    at /private/tmp/codex-oq-next2-review.ydLzy0/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:122:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "O",
+      "id": "DECODE-OWNERSHIP",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/content/src/frame-sequence.ts",
+      "mutation": {
+        "section": "decodeFrameSequenceBlock",
+        "from": "const frame = new Uint8Array(frameBytes)",
+        "to": "const frame = local === 0 ? new Uint8Array(raw.buffer, raw.byteOffset + sourceOffset, frameBytes) : new Uint8Array(frameBytes)",
+        "rebuiltSha256": "f06cfbb5eae31e544edd6d0e18ed5e3b9294eaf7399a0fbb79ab63807ce4fa2c"
+      },
+      "scopeSize": 84,
+      "scopeIdentitySha256": "1434f229883dfa9b24e3b4684719d2752af7dd6f514820c5be6ea9162c3c03cf",
+      "original": "o-block-index-restored",
+      "mutated": "o-ownership-view-mutated",
+      "restored": "o-ownership-view-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 解码所有权与取消（10/11/12） 10 解码帧各拥独立缓冲：改 frame0 不影响 frame1/inflate 原始输出/载荷",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ 255, +0, +0, 255, 1, 1, 1, +0 ] to deeply equal [ +0, +0, +0, 255, 1, 1, 1, +0 ]\n    at /private/tmp/codex-oq-next2-review.ydLzy0/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:223:34\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "O",
+      "id": "SECOND-COMPRESSOR-FAILURE",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/content/src/frame-sequence.ts",
+      "mutation": {
+        "section": "encodeFrameSequenceFromProvider",
+        "from": "compressed: await deflate(raw),",
+        "to": "compressed: await Promise.resolve(deflate(raw)).catch(async (error) => {\n        if (firstFrame === FRAME_SEQUENCE_BLOCK_FRAMES) await input.frame(firstFrame + frameCount)\n        throw error\n      }),",
+        "rebuiltSha256": "e911df2142cc7f5e5015e018ccdf1d9ebf69f163fa34098cdafb467ba50bce0f"
+      },
+      "scopeSize": 84,
+      "scopeIdentitySha256": "1434f229883dfa9b24e3b4684719d2752af7dd6f514820c5be6ea9162c3c03cf",
+      "original": "o-ownership-view-restored",
+      "mutated": "o-second-failure-mutated",
+      "restored": "o-second-failure-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 跨 block 渐进 IO 与压缩失败身份（05/06/07） 07 首块压缩成功、第二块压缩失败：恰两次压缩、读满 0..63、永不读 frame64",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ Array(65) ] to deeply equal [ Array(64) ]\n    at /private/tmp/codex-oq-next2-review.ydLzy0/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:138:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "EXACT-FIRST",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/reforge/src/dither-transition.ts",
+      "mutation": {
+        "from": "if (!exact.has(key)) exact.set(key, index)",
+        "to": "exact.set(key, index)",
+        "rebuiltSha256": "579914e3ab4ebb898238eaa48df53b0f453ffd47add4f469e006ee70cbf31686"
+      },
+      "scopeSize": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-control",
+      "mutated": "q-exact-mutated",
+      "restored": "q-exact-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-01 duplicate exact RGB chooses first palette identity",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected 18 to be 1 // Object.is equality\n    at /private/tmp/codex-oq-next2-review.ydLzy0/Q/packages/reforge/src/dither-next2.glm-q.test.ts:35:35\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "NEAREST-TIE",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/reforge/src/dither-transition.ts",
+      "mutation": {
+        "from": "if (distance < nearestDistance)",
+        "to": "if (distance <= nearestDistance)",
+        "rebuiltSha256": "63025841a26887d1411dbe6a5253678f929354ddccbe6345ff4001a47990e1c7"
+      },
+      "scopeSize": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-exact-restored",
+      "mutated": "q-tie-mutated",
+      "restored": "q-tie-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-03 nearest distance tie keeps earlier index",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected 6 to be 5 // Object.is equality\n    at /private/tmp/codex-oq-next2-review.ydLzy0/Q/packages/reforge/src/dither-next2.glm-q.test.ts:56:35\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "TARGET-ALIAS",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/reforge/src/dither-transition.ts",
+      "mutation": {
+        "from": "if (output.buffer === source.buffer || output.buffer === target.buffer)",
+        "to": "if (output.buffer === source.buffer)",
+        "rebuiltSha256": "cb718e89f66da7af1513bfd486be462157bc146f256f0553a09e0d7e642371bd"
+      },
+      "scopeSize": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-tie-restored",
+      "mutated": "q-alias-mutated",
+      "restored": "q-alias-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-09 distinct endpoint-buffer views are rejected",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/codex-oq-next2-review.ydLzy0/Q/packages/reforge/src/dither-next2.glm-q.test.ts:192:7\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "RAGGED-GRID",
+      "valid": true,
+      "reasons": [],
+      "source": "packages/reforge/src/dither-transition.ts",
+      "mutation": {
+        "from": "Math.ceil(physicalWidth / pixelScale)",
+        "to": "Math.floor(physicalWidth / pixelScale)",
+        "rebuiltSha256": "3ad287a1ee4eda60c8fe307541ad52f92656d8aef88da6357c52344b25952b1e"
+      },
+      "scopeSize": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-alias-restored",
+      "mutated": "q-grid-mutated",
+      "restored": "q-grid-restored",
+      "originalReuse": "previous actual clean/restored run on byte-identical candidate; not a newly invented run",
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-11 ragged two-dimensional grid maps logical rows",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ 192, 192, 64, 255, 192, 192, …(94) ] to deeply equal [ 192, 192, 64, 255, 192, 192, …(94) ]\n    at /private/tmp/codex-oq-next2-review.ydLzy0/Q/packages/reforge/src/dither-next2.glm-q.test.ts:225:32\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "name": "o-control",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-control.json"
+      ],
+      "runSha256": "2ff7fa0e86cad10abeb3b23d336866efad2ce7844be809ae3f52386108ccea03",
+      "jsonSha256": "40d40c4879c1d25df5cd2cabae604eb5dc128cff8deac8c7909626196dec770d",
+      "executed": 84,
+      "passed": 84,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-width-mutated",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-width-mutated.json"
+      ],
+      "runSha256": "bf5842151ea684399ce425786f4af43828689e66e095ba973989e0c9fe73585f",
+      "jsonSha256": "a5e975695d28d87a83796cd094b10a0ed670d121bcfaa990a5682cd0adf8ffbb",
+      "executed": 84,
+      "passed": 83,
+      "failed": 1,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-width-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-width-restored.json"
+      ],
+      "runSha256": "2ee5005f574b7610beda801df3d9849d222fd3e53430852b76151b9f4ea3cd9e",
+      "jsonSha256": "04ad8c35074540e6d19d9b5f2b085dd10574caae7786009cd5da119f05082859",
+      "executed": 84,
+      "passed": 84,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-cancel-mutated",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-cancel-mutated.json"
+      ],
+      "runSha256": "da5285f8fe2b71ff37f4ccda9be76493555fcfe461c146d41452aaabdaef4686",
+      "jsonSha256": "9101482647bcdf12cdcc47d0d73f5a3b133d81dd19170df785dfc8b0843ab6ae",
+      "executed": 84,
+      "passed": 83,
+      "failed": 1,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-cancel-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-cancel-restored.json"
+      ],
+      "runSha256": "090a5843e079fcc73099ed38abea54483ff9df8d776b4323ae058b8e867cf1c0",
+      "jsonSha256": "5c34e7830d191962f218a6eb503e85d8dec4e7df79ba408e3af0985a0b3b8796",
+      "executed": 84,
+      "passed": 84,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-ownership-mutated",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-ownership-mutated.json"
+      ],
+      "runSha256": "50505bedf7ef479dbaa07c72ea669ece533bafa9ab90203db840530f7701e871",
+      "jsonSha256": "2fd0ff7429e9af594581e7b607bfd8a4f1339a6e3efb894826a5eeabd523fc18",
+      "executed": 84,
+      "passed": 82,
+      "failed": 2,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-ownership-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-ownership-restored.json"
+      ],
+      "runSha256": "5228f939c1a55f4c62d4d2088761c2aa2d66f94d70f694d523b6ff267ae06cb0",
+      "jsonSha256": "7684ab99dc0680ec1336f9e68e9ff88b5063c1b4f84848344a527966493bcbc8",
+      "executed": 84,
+      "passed": 84,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-block-index-mutated",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-block-index-mutated.json"
+      ],
+      "runSha256": "dfbbca6770bb781bfb0f09c553a03ea1aa0501138efc1f2ed6f32599a9a3d8e4",
+      "jsonSha256": "26bce7915898a365450e5d667ebc89bbacfefd047865fe770bf0a70cf843ac78",
+      "executed": 84,
+      "passed": 79,
+      "failed": 5,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-block-index-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-block-index-restored.json"
+      ],
+      "runSha256": "0b2e522de7291cdb417ee605399f9d43d8a59cf232f47038e24381406de6438f",
+      "jsonSha256": "d964e9e8841cd05a1b6a26607f2c58f65bcbc1bcef15d97104468c9c2c9420b6",
+      "executed": 84,
+      "passed": 84,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-preio-original",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence-provider-next2.glm-o.test.ts",
+        "-t",
+        "01 width0|02 defaultFrameMs",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-preio-original.json"
+      ],
+      "runSha256": "e12735e410afe9e41971f68b83475cb8d9572c84a24410b18547b7af07e7bc90",
+      "jsonSha256": "82684766b665e848e796b81e973b8a50e5d9e05e53f0a7f5e526abda33705327",
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-preio-mutated",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence-provider-next2.glm-o.test.ts",
+        "-t",
+        "01 width0|02 defaultFrameMs",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-preio-mutated.json"
+      ],
+      "runSha256": "3ed7c8ad31250374ea555aceee853fa73c6b134b43eea50719b4469157987c9c",
+      "jsonSha256": "a2c29b66cee03fc983075d8f2c1a377f33d74dc0d46bb074282a256da4bd4c9c",
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-preio-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "exec",
+        "vitest",
+        "run",
+        "src/frame-sequence-provider-next2.glm-o.test.ts",
+        "-t",
+        "01 width0|02 defaultFrameMs",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-preio-restored.json"
+      ],
+      "runSha256": "a7de6cac4f1cb9395bbbb8fc63d18e80119b58926168e4b3b4df6d2d37f53a7a",
+      "jsonSha256": "d3e10eb47ac9af838e676e076cdceca68dd830fed906c079a57da06d209b2647",
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "q-omit-g",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/dither-transition.test.ts",
+        "src/dither-next2.glm-q.test.ts",
+        "src/scene-switch-transaction.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/q-omit-g.json"
+      ],
+      "runSha256": "0d6b9dee97181eff1991307c7f501381e64475c040f5b329ffa3b5b697136da4",
+      "jsonSha256": "4d4dcfcbf34b8456ecc0b47ea587158ab818a37adc43e48aaa4f87532e8b3e0e",
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "q-omit-g-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/dither-transition.test.ts",
+        "src/dither-next2.glm-q.test.ts",
+        "src/scene-switch-transaction.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/q-omit-g-restored.json"
+      ],
+      "runSha256": "98dec2f8607554b42c63bf8e8a9610e47af38bbc91fa71fbfe4c9c613556397a",
+      "jsonSha256": "c58a6d49a5f8241665a157802cf6c2f00adb42d68171a84509be61d81bd66aeb",
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "q-omit-b",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/dither-transition.test.ts",
+        "src/dither-next2.glm-q.test.ts",
+        "src/scene-switch-transaction.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/q-omit-b.json"
+      ],
+      "runSha256": "25a71fb86ccf7c687ca29040235441f069a5fab432e315474de60a3a3431d174",
+      "jsonSha256": "fb88df6ae65182e4ce8cf660e2b460d907a6d94d17cceed7720df238e2a99bec",
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "q-omit-b-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/dither-transition.test.ts",
+        "src/dither-next2.glm-q.test.ts",
+        "src/scene-switch-transaction.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/q-omit-b-restored.json"
+      ],
+      "runSha256": "b473450b93d96830e40296887ffe2d46978b2f30d9d2cdc11ae70b5189bd1b15",
+      "jsonSha256": "6ca52354d01a101410ff0988dcfc4c256ef359b5736f1b2499cc85864dd139ae",
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "q-omit-output-capacity",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/dither-transition.test.ts",
+        "src/dither-next2.glm-q.test.ts",
+        "src/scene-switch-transaction.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/q-omit-output-capacity.json"
+      ],
+      "runSha256": "ed03c490a6a69e0e854afca54017dd7d9d13f0a1f58d2f5bae6f4191c7b1dd77",
+      "jsonSha256": "bcfe18b4792de308932aa7304efce382a220553535a02f9986ca9059390b19da",
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "q-output-capacity-restored",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/dither-transition.test.ts",
+        "src/dither-next2.glm-q.test.ts",
+        "src/scene-switch-transaction.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/q-output-capacity-restored.json"
+      ],
+      "runSha256": "a5fdd304f410cf8eba8f0fd60545e712af6201c36e071b1bb68beec749bbe788",
+      "jsonSha256": "09cdb302ed4939630b02f9e64e4589af32a5ab636f36f34987e148a202c65402",
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o09-final",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": ["pnpm", "exec", "tsx", "/private/tmp/codex-oq-next2-review.ydLzy0/o09-probe.mts"],
+      "runSha256": "32485ee802672ca8cce54c5d2b16448359cdfa4a7458ca36581f6131f66d8072"
+    }
+  ],
+  "gates": [
+    {
+      "name": "o-full",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "test",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/o-full.json",
+        "--maxWorkers=1"
+      ],
+      "runSha256": "03f7578c1f6bbc0c97037210629611644ba4a3f817844eae3946a5067d3ccc6c",
+      "jsonSha256": "3897ed45b743f14441d135673f16c2ad01dc2fc6097bf0224f1bbfac504b0997",
+      "executed": 1441,
+      "passed": 1441,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "o-typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": ["pnpm", "--filter", "@type-pal/content", "typecheck"],
+      "runSha256": "8542160d11efc772d62ea2cf52b2211924909d8211eb36e02da85ed6e46b6c8f"
+    },
+    {
+      "name": "o-lint",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": ["pnpm", "lint"],
+      "runSha256": "5e921da7942c3eec3e75e5cf20e9a87fd26f104893e3f2a19c6bf965af10a7b1"
+    },
+    {
+      "name": "o-docs",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": ["node", "scripts/docs/check.mjs"],
+      "runSha256": "f77d57c4d6d34fbdf8411ad9cd9bf6befd39459742cd0a4fd90adbf8b5d1fdd2"
+    },
+    {
+      "name": "o-verifier",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "O",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "runSha256": "7287470f7de604e04b409e099ae6b09b49e40dc968dd1ccc3120eb15da43c2b5"
+    },
+    {
+      "name": "q-full",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "test",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/q-full.json",
+        "--maxWorkers=1"
+      ],
+      "runSha256": "9d2c0399b1dc67a9145ae33a4f554f5a5f07c2431fccb6b9076162208418e7b6",
+      "jsonSha256": "8967df728b96e77c2f670a92be4e3dcf973ed4167304e4cb2c20a424771db787",
+      "executed": 2164,
+      "passed": 2164,
+      "failed": 0,
+      "collectionErrors": 0,
+      "runtimeErrorSuites": 0
+    },
+    {
+      "name": "q-typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": ["pnpm", "--filter", "@type-pal/reforge", "typecheck"],
+      "runSha256": "9e0d09a96589aa5ed26c274133fa62cc476ea298865f43ed6934b21a2472c7b2"
+    },
+    {
+      "name": "q-lint",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": ["pnpm", "lint"],
+      "runSha256": "4313066e269ef60f9217bbeff3d66693cb59244e9eb4659fae0ef11504d444c3"
+    },
+    {
+      "name": "q-docs",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": ["node", "scripts/docs/check.mjs"],
+      "runSha256": "df31881338846ee15141d08568b5e71679c36153fe815792e820fe4dadeebeac"
+    },
+    {
+      "name": "q-verifier",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "Q",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "runSha256": "6a3787c021d43b3755febc424b9e2dcb88f7898b11b570a460d84afcf7805067"
+    }
+  ],
+  "oDirectedMismatch": {
+    "actual": 12,
+    "delivered": 12,
+    "missing": [],
+    "extra": []
+  },
+  "qOldEvidence": {
+    "oldCases": 161,
+    "newCases": 175,
+    "added": 14,
+    "lost": [],
+    "oldLedgerSemanticChanges": [],
+    "directedRefMismatch": {
+      "actual": 112,
+      "delivered": 112,
+      "missing": [],
+      "extra": []
+    }
+  },
+  "archives": [
+    {
+      "wave": "O",
+      "changed": ""
+    },
+    {
+      "wave": "Q",
+      "changed": ""
+    }
+  ],
+  "verdict": "counter limited NEXT2 oracle/typed-IO repairs; not main/done/coverage settlement",
+  "logParent": "/private/tmp/codex-oq-next2-review.ydLzy0"
+}
