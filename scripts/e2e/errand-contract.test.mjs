@@ -120,6 +120,76 @@ test('005 isolated instrumentation parses every actual hook target without produ
     assert(!result.code.includes('globalThis.__meal'))
   }
 })
+test('005 hot-path progress excludes full-world resume tapes but keeps relevant behavior identities', () => {
+  const file = 'packages/reforge/src/main.ts',
+    code = instrumentErrandTrace(
+      readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'),
+      file,
+    ).code
+  const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
+  let hook
+  const visit = (node) => {
+    if (ts.isFunctionDeclaration(node) && node.name?.text === '__openingPoint')
+      hook = node.getText(ast)
+    ts.forEachChild(node, visit)
+  }
+  visit(ast)
+  assert(hook)
+  let observed
+  const resume = { giantTape: 'x'.repeat(100000) }
+  const bindings = {
+    s005: {
+      e123: {
+        trigger: {
+          selection: { kind: 'use', value: 'legacy-001' },
+          cursor: { at: { kind: 'stage', stage: 'initial' } },
+          resume,
+        },
+      },
+    },
+    unrelated: Object.fromEntries(
+      Array.from({ length: 200 }, (_, id) => [id, { auto: { resume } }]),
+    ),
+  }
+  const context = {
+    activeScene: {
+      scene: {
+        id: 's004',
+        entities: [{ id: 'e83', pos: { col: 139.5, row: 34, height: 0 }, facing: 'up' }],
+      },
+    },
+    world: {
+      money: 550,
+      script: {
+        behaviors: {
+          entities: bindings,
+          scenes: {
+            s004: { onEnter: { selection: { kind: 'use', value: 'legacy-003' }, resume } },
+          },
+        },
+      },
+    },
+    player: { pos: { col: 141, row: 34, height: 0 } },
+    facing: 'down',
+    walking: false,
+    host: { getEntityState: () => 2 },
+    runner: null,
+    dialogBox: { active: false },
+    presentation: { busy: () => false },
+    __errandPoint: (_source, state) => {
+      observed = state
+    },
+    __errandError: (error) => {
+      throw new Error(error)
+    },
+  }
+  vm.runInNewContext(`${hook};__openingPoint('commit:test')`, context)
+  assert.equal(observed.persistent.s005.e123.trigger.selection.value, 'legacy-001')
+  assert.equal(observed.hooks.s004.onEnter.selection.value, 'legacy-003')
+  assert.equal(observed.persistent.unrelated, undefined)
+  assert.equal(observed.persistent.s005.e123.trigger.resume, undefined)
+  assert(JSON.stringify(observed).length < 3000, 'hot DTO scaled with the world continuation tape')
+})
 
 const storyTrace = () => {
   const trace = {

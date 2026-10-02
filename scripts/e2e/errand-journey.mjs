@@ -248,6 +248,7 @@ export async function runErrandJourney(engine) {
             ...contract,
             rows: rows.map((id) => contract.rows.find((row) => row.id === `dlg.${id}`)),
           }
+        let speakingCaptured = false
         for (;;) {
           health()
           const s = await snapshot(),
@@ -274,6 +275,10 @@ export async function runErrandJourney(engine) {
             mealRenderedConfirmation(dialog, trace, engine)
           ) {
             const before = JSON.stringify(dialog)
+            if (label === 'news' && !speakingCaptured) {
+              await page.screenshot({ path: resolve(out, '005-news-speaking.png') })
+              speakingCaptured = true
+            }
             await press('Enter', 'complete rendered dialogue confirmation')
             await until(
               snapshot,

@@ -47,10 +47,15 @@ export function instrumentErrandTrace(source, file) {
     const body = `function __openingPoint(source) {
       try {
         const sid=activeScene.scene.id;if(!['s001','s003','s004','s005'].includes(sid))return;
+        const slot=value=>value?{selection:value.selection,cursor:value.cursor}:null;
+        const binding=(scene,id)=>{const value=world.script.behaviors?.entities?.[scene]?.[id];return value?{trigger:slot(value.trigger),auto:slot(value.auto),triggerActivation:value.triggerActivation,page:value.page}:null;};
+        const persistent={};
+        for(const [scene,ids] of [['s001',['e19']],['s003',['e62']],['s004',['e83','e84']],['s005',['e123','e124','e127']]])
+          persistent[scene]=Object.fromEntries(ids.map(id=>[id,binding(scene,id)]));
         const actors={party:{position:[player.pos.col,player.pos.row,player.pos.height],facing,visible:true,walking}};
         for(const e of activeScene.scene.entities.filter(e=>['e19','e62','e83','e84','e123','e124','e127'].includes(e.id)))
-          actors[e.id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,state:host.getEntityState(e.id),behavior:world.script.behaviors?.entities?.[sid]?.[e.id]??null};
-        globalThis.__errandPoint?.(source,{scene:sid,actors,money:world.money,persistent:world.script.behaviors?.entities??{},hooks:world.script.behaviors?.scenes??{},control:!runner&&!dialogBox.active&&!presentation.busy()});
+          actors[e.id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,state:host.getEntityState(e.id),behavior:binding(sid,e.id)};
+        globalThis.__errandPoint?.(source,{scene:sid,actors,money:world.money,persistent,hooks:{s004:{onEnter:slot(world.script.behaviors?.scenes?.s004?.onEnter)}},control:!runner&&!dialogBox.active&&!presentation.busy()});
       }catch(error){globalThis.__errandError?.(String(error));}
     }`
     result.code = result.code.slice(0, hook.getStart(ast)) + body + result.code.slice(hook.end)
