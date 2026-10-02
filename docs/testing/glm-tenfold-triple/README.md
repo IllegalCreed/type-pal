@@ -1,5 +1,11 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
+2026-10-02最新：[O p13合并裁决后独立复核](codex-o-p13-review-20261002.md)、
+[机器证据](codex-o-p13-review-20261002.json)。两快照/map委派/非null删除hash/恢复目录窄轴accept，
+新34相邻绿、468身份与65三态hash/再判对应，62未变+3更新，不重复旧窄返工或全变异重放。
+最终pin仍receipt一格式error，恢复caller随真实账分CLI:53；468净新结构上限466/≥234缺口、
+371空条件/214token与原700目标不缩，正常连续合法余量，不再只交数字回执。未main/done/正式覆盖结算。
+
 2026-10-02最新：[O/P r13、Q r14与Kimi/Grok限额短审独立接收](codex-p13-kimi-review-20261002.md)、
 [机器证据](codex-p13-kimi-review-20261002.json)。P定向86/86/三处expected/C13历史字节窄项accept，
 本轮新增合同0，原700卡仍partial/rework，直接连续合法余族与真账，不再只交窄返工。

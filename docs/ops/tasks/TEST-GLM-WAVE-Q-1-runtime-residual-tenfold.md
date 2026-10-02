@@ -349,7 +349,7 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```
 
 
-+## Codex r14独立复核（2026-10-02，最新；覆盖旧交接）
+## Codex r14独立复核（2026-10-02，最新；覆盖旧交接）
 
 固定39412086e25574910e6c33f1b388e433cf047a62，测试9b3e82348ce1ced945e464ddc9e802243bbc9234。
 新158定向相邻/typecheck零，3050文件静态0/0/0、docs/diff/716冻结/734白名单通过；140身份按

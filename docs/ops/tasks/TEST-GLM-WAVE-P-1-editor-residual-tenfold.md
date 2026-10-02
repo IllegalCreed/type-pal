@@ -246,7 +246,7 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```
 
 
-+## Codex r13独立复核（2026-10-02，最新；覆盖旧窄返工）
+## Codex r13独立复核（2026-10-02，最新；覆盖旧窄返工）
 
 固定691e33ccfeacd3d1192b41875aebb5771f97d018，本地/远端真实一致，相对r12只7个wave-P证据文件。
 **P-R13窄项accept，整卡仍partial/rework**：directed与合同身份86/86、三处完整expected匹配代码，

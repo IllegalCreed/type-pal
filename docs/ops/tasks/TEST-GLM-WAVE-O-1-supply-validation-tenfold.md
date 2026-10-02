@@ -227,7 +227,29 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```
 
 
-+## Codex r13独立复核（2026-10-02，最新；覆盖旧交接）
+## Codex p13合并裁决后独立复核（2026-10-02，最新）
+
+固定68286a3f0345e1ff2972b67b0ce993759fe1de10，最终证据d12b109367c5bfc020608f00b57ad495de758cd9。
+两快照删重/map委派重定CC1/非null删除hash/恢复真实目录窄轴代码证据accept，旧窄项不重开。
+新34相邻绿/typecheck零，468身份按新14+未变454独立报告对应，65源/恢复/重建hash与再判过，
+62未变+3更新、CC1实际git apply重建匹配，不冒称新全468/全migrate685/全65业务重放。
+**整卡仍partial/rework**：最后pin将receipt.pendingRows短数组展开，原HEAD根lint1error/0/0；
+自有副本正常format保留值后3233文件完整0/0/0。docs/diff/716冻结/786白名单零。
+生产计划:116-125/提交:126链已纳入，恢复入口须按CLI:53→recover分路，不统一套builder/commit，
+随真账继续修。诊断后缀保持pending扣净新，468执行/净新结构上限466/缺口≥234、371空条件/214token
+与原700/60组/50目标仍未完，直接原合法深域/真账连续推进，不再只交数字或窄修回执。
+
+[独立复核与当前提示词](../../testing/glm-tenfold-triple/codex-o-p13-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-o-p13-review-20261002.json)。
+未作者/main/真实数据/UI/模型操作，未官方门/done/覆盖结算；用户代码阶段手动选GLM-5.3。
+
+### 下一位GLM O提示词（当前；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner。原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal，分支codex/glm-wave-o-supply-validation-r1，固定已审68286a3f0345e1ff2972b67b0ce993759fe1de10，证据d12b109367c5bfc020608f00b57ad495de758cd9。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-o-p13-review-20261002.md/json。两快照删重、map委派及CC1重定、非null删除hash、恢复真实目录窄轴已accept；新34相邻绿/468身份/65源hash和三态再判对应，62未变+3更新，不再重做旧窄代码/全针重采。原HEAD最后pin仍receipt.pendingRows一格式error，正常format保留值，所有最后回执/SHA编辑后完整根lint0/0/0+diff，别只验pin前或再交pin-only轮。真实计划/提交caller链已纳入，但journal恢复/目录合同须登记CLI migrate-content.mts:53→recover（load/plan之前），不能统一套:116-126 builder/commit；随逐合同真账分路修。退役诊断后缀pending不计净新，保留原证据不凑针。468执行/净新结构上限466/≥234例、371空条件/214token与原700/60组/50目标仍未完，直接连续原write-plan/plan/合法深域与真账，不再只交窄修或数字完成回执。逐合同真实源守卫/生产caller/合法typed输入/旧完整fullName-matcher锚/全部业务oracle，保留已核值；旧README485/410/247和批次/SHA局部摘要随正常批历史当前分列。仅原O新测/fixture/wave-O证据可写，其它Owner/产品/旧测/配置/baseline/真实数据/共享文档只读，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变、不擅迁main新版本；CLI只mkdtemp合成工程，禁止真实migrate含dry-run。每批定向相邻/typecheck提交推送后继续下一合法组，仅源/最终执行集真变重采受影响针；末批三包全测/静态0/0/0/docs/diff/verifier/真实完整SHA及准确余账。不合main、不done、不官方门、不清原树，不给Kimi/Grok扩量或写其报告。
+```
+
+## Codex r13独立复核（2026-10-02，历史）
 
 固定d5bc5b748f6627825adeb398442c7cf2e99ade2f，测试a41cc887710286646e71d919ed4871d121ccf584，
 证据74b094c89e0b5f451832b24faa50757ccc7be321。本轮35定向相邻绿/typecheck零，3233文件静态0/0/0、
