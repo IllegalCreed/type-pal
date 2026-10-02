@@ -132,6 +132,13 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- 2026-10-02最新：[O r10](codex-o-r10-review-20261002.md)与[机器证据](codex-o-r10-review-20261002.json)、
+  [P r10](codex-p-r10-review-20261002.md)与[机器证据](codex-p-r10-review-20261002.json)、
+  [Q r10](codex-q-r10-review-20261002.md)与[机器证据](codex-q-r10-review-20261002.json)。
+  O487/66、P78/14、Q136/61身份/hash对应，三树静态零；O/P/Q原修复子项分开关闭。
+  O再判展平/真账、P游标/等待/历史账、Q未用回引接口/计数仍counter；P完整门另有旧M红，单文件3次绿，不让贡献者越界修。
+  三卡PARTIAL/rework，未main/正式结算，最新手动模型/交接见各卡末段。
+
 - [Codex O/P/Q r9 独立复核（2026-10-02）](codex-opq-r9-review-20261002.md)与
   [总证据](codex-opq-r9-review-20261002.json)：497/79/135最终身份对应；
   O704/1439/154绿，P3864绿+1红（同文件三次定向红），Q新extract362绿且未变两包明确复用。

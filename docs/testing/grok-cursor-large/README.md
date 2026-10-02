@@ -104,6 +104,10 @@ Codex独立核候选、去重与反控；仅接收后串行全仓check→官方r
 
 ## 导航
 
+- [Grok r2独立复核（2026-10-02）](codex-grok-r2-review-20261002.md)、
+  [机器证据](codex-grok-r2-review-20261002.json)：原三业务项关闭，3173/400/40/像素证据过；
+  仅selftest生成报告后lint1格式红，窄修生成器即可，不重采40针或扩另一包。仍未main/正式结算。
+
 - [Codex r1独立复核（2026-10-02）](codex-grok-cursor-r1-review-20261002.md)、
   [机器总证据](codex-grok-cursor-r1-review-20261002.json)：新game3173/Editor4493全绿，
   400/707最终执行身份状态对应；Grok两patch与judge/图像hash待闭，Cursor静态1格式红、

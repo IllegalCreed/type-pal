@@ -1,0 +1,2655 @@
+{
+  "date": "2026-10-02",
+  "candidate": "43a281325192645ac775f93428c3ba2f788bdd94",
+  "reviewRoot": "/private/tmp/codex-p-r10-review.PYFL5L",
+  "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+  "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+  "method": "Fixed detached snapshot; no author tree writes, no main integration, no official ratchet/protected fast, no fresh visual flows.",
+  "anchors": {
+    "semanticTest": "3d0c5d6eb79dda704ce56ccb711a9f7d55e6b19f",
+    "finalTestAndEvidence": "a3a7c390643ef38bbab3f73974c8f51be2d0d43c",
+    "afterFinalTestAndEvidence": ["docs/testing/glm-tenfold-triple/wave-P/receipt.json"],
+    "formatOnlyTestPathsSinceSemantic": ["packages/editor/src/core/script-editor.p03.glm-p.test.ts"]
+  },
+  "gates": {
+    "results": [
+      {
+        "label": "full",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/editor",
+          "test",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-p-r10-review.PYFL5L/P-full.json"
+        ],
+        "exit": 143,
+        "signal": null,
+        "error": null,
+        "rawSha256": "0daf47c278a46d5303e55bcabf08f48cd762c43269faeb0a92f90413a0228445"
+      },
+      {
+        "label": "typecheck",
+        "cmd": "pnpm",
+        "args": ["--filter", "@type-pal/editor", "typecheck"],
+        "exit": 0,
+        "signal": null,
+        "error": null,
+        "rawSha256": "6ab4c0ffc1d3a2caf53031322960e9ceb1b02473af82063ca3c8d1805b002499"
+      },
+      {
+        "label": "selftest",
+        "cmd": "node",
+        "args": ["docs/testing/glm-tenfold-triple/wave-P/tools/counter-judge.test.mjs"],
+        "exit": 0,
+        "signal": null,
+        "error": null,
+        "rawSha256": "a4626b5daf85eea1091356ac42fa1bb91244a07e8049da080dafb3193db100e6"
+      },
+      {
+        "label": "lint",
+        "cmd": "pnpm",
+        "args": ["lint"],
+        "exit": 0,
+        "signal": null,
+        "error": null,
+        "rawSha256": "03f86c1431025346e31ba849c8ae79a4caa482d18b7ddcc5e31b8364352b825e"
+      },
+      {
+        "label": "docs",
+        "cmd": "node",
+        "args": ["scripts/docs/check.mjs"],
+        "exit": 0,
+        "signal": null,
+        "error": null,
+        "rawSha256": "d9d7c765c2ccc37e6d0a84d56e9a4f507442c74b2a10769614d57142c1d4087e"
+      },
+      {
+        "label": "diff",
+        "cmd": "git",
+        "args": ["diff", "--check", "8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"],
+        "exit": 0,
+        "signal": null,
+        "error": null,
+        "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "label": "verifier",
+        "cmd": "node",
+        "args": [
+          "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+          "--wave",
+          "P",
+          "--base",
+          "8b3ca062953b17a12178f8d1a9e36657971234b1"
+        ],
+        "exit": 0,
+        "signal": null,
+        "error": null,
+        "rawSha256": "18325e3ac193d10915e9178ca3d0f9ab73ea067b094e4843bf0a83d15c352757"
+      }
+    ]
+  },
+  "full": {
+    "reportPath": "/private/tmp/codex-p-r10-review.PYFL5L/P-full-serial.json",
+    "reportSha256": "5f37296544f1c1965ab3b24c7192fae691e507f2b294290c7cbde7ce6b828940",
+    "total": 3864,
+    "passed": 3863,
+    "failed": 1,
+    "pending": 0,
+    "fresh": true,
+    "immutableSerialRun": true,
+    "processCompletion": {
+      "chunk_id": "d7d369",
+      "wall_time_seconds": 0.00001275,
+      "exit_code": 1,
+      "original_token_count": 89,
+      "output": "JSON report written to /private/tmp/codex-p-r10-review.PYFL5L/P-full-serial.json\n/private/tmp/codex-p-r10-review.PYFL5L/P/packages/editor:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/editor@0.0.0 test: `vitest run --passWithNoTests --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-p-r10-review.PYFL5L/P-full-serial.json`\nExit status 1\n"
+    }
+  },
+  "discardedInitialFull": {
+    "exit": 143,
+    "reason": "Overlapped same-snapshot independent mutation replay; deliberately aborted and not used as acceptance evidence."
+  },
+  "directed": {
+    "count": 78,
+    "files": 7,
+    "identitiesMatchFull": true,
+    "statusMismatches": [],
+    "cases": [
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G08 editor-asset-reader 契约 未知 AssetId → 不在 catalog 拒绝并指名",
+        "status": "passed",
+        "duration": 35.93887499999997
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G08 editor-asset-reader 契约 期望 kind 与实际不符 → 拒绝并报出双 kind",
+        "status": "passed",
+        "duration": 8.572082999999964
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G08 editor-asset-reader 契约 readBytes：pending blob 覆盖磁盘，两次读取内容一致（副本语义）",
+        "status": "passed",
+        "duration": 5.0287910000000124
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G08 editor-asset-reader 契约 readRoleBytes：缺角色 → 指名缺失角色；已登记角色 → 读到非空字节",
+        "status": "passed",
+        "duration": 8.704166999999984
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G08 editor-asset-reader 契约 urlFor：pending blob 直接生成 object URL（携带 record mediaType，不经源读取）",
+        "status": "passed",
+        "duration": 8.149958999999967
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G09 classifyDirectoryPicker 非法 URL 回退轴（其余分类臂与旧测重复已删） localhostOrigin 解析失败 → 回退 http://localhost 提示",
+        "status": "passed",
+        "duration": 0.7040409999999611
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G10 seed 克隆清单残余 scenesDir：缺省回默认目录；无斜杠补斜杠；带斜杠原样",
+        "status": "passed",
+        "duration": 0.25466699999998355
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G10 seed 克隆清单残余 palFingerprintPaths：缺省产出默认场景索引且无 maps 条目；自定义 scenes 归一",
+        "status": "passed",
+        "duration": 0.2394170000000031
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G10 seed 克隆清单残余 克隆清单内容路径重复 → 输出路径重复拒绝并指名",
+        "status": "passed",
+        "duration": 0.4560000000000173
+      },
+      {
+        "file": "src/core/editor-asset-io.glm-p.test.ts",
+        "fullName": "P01-G11 另存为证据守卫 带源目录但缺源基线证据 → 校验阶段拒绝且目标零写（读取证据臂为 typed 不可达防御）",
+        "status": "passed",
+        "duration": 9.551540999999986
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+        "status": "passed",
+        "duration": 27.799916999999994
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
+        "status": "passed",
+        "duration": 6.241749999999996
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
+        "status": "passed",
+        "duration": 4.0284580000000005
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
+        "status": "passed",
+        "duration": 2.3912920000000213
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+        "status": "passed",
+        "duration": 2.500708000000003
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+        "status": "passed",
+        "duration": 2.549790999999999
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+        "status": "passed",
+        "duration": 1.9706659999999943
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+        "status": "passed",
+        "duration": 2.4209579999999846
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+        "status": "passed",
+        "duration": 2.6247079999999983
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+        "status": "passed",
+        "duration": 4.415375000000012
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+        "status": "passed",
+        "duration": 2.110874999999993
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+        "status": "passed",
+        "duration": 1.9294579999999826
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+        "status": "passed",
+        "duration": 1.7909170000000358
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+        "status": "passed",
+        "duration": 2.9583749999999895
+      },
+      {
+        "file": "src/core/project-diagnostics.glm-p.test.ts",
+        "fullName": "P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用",
+        "status": "passed",
+        "duration": 1.9560000000000173
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+        "status": "passed",
+        "duration": 26.955291999999872
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+        "status": "passed",
+        "duration": 7.0464170000000195
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+        "status": "passed",
+        "duration": 4.950041999999939
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+        "status": "passed",
+        "duration": 3.3420830000000024
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+        "status": "passed",
+        "duration": 2.0422499999999673
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+        "status": "passed",
+        "duration": 1.6725410000001375
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+        "status": "passed",
+        "duration": 1.6555000000000746
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+        "status": "passed",
+        "duration": 1.5284999999998945
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+        "status": "passed",
+        "duration": 2.1157499999999345
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+        "status": "passed",
+        "duration": 0.3994169999998576
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+        "status": "passed",
+        "duration": 0.14875000000006366
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+        "status": "passed",
+        "duration": 0.16837500000019645
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+        "status": "passed",
+        "duration": 0.6213340000001608
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+        "status": "passed",
+        "duration": 0.0945000000001528
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+        "status": "passed",
+        "duration": 0.1619580000001406
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+        "status": "passed",
+        "duration": 31.506833000000142
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+        "status": "passed",
+        "duration": 21.566790999999967
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写",
+        "status": "passed",
+        "duration": 4.252707999999984
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+        "status": "passed",
+        "duration": 0.5299580000000788
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+        "status": "passed",
+        "duration": 20.682375000000093
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+        "status": "passed",
+        "duration": 15.789499999999862
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+        "status": "passed",
+        "duration": 20.302457999999888
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+        "status": "passed",
+        "duration": 15.013290999999981
+      },
+      {
+        "file": "src/core/project-io.glm-p.test.ts",
+        "fullName": "P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+        "status": "passed",
+        "duration": 16.270958000000064
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+        "status": "passed",
+        "duration": 1.5513330000000138
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+        "status": "passed",
+        "duration": 1.0594999999999999
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+        "status": "passed",
+        "duration": 1.9676250000000124
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+        "status": "passed",
+        "duration": 0.20395899999999756
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+        "status": "passed",
+        "duration": 0.17875000000000796
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+        "status": "passed",
+        "duration": 0.3643329999999878
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+        "status": "passed",
+        "duration": 0.28754200000000196
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+        "status": "passed",
+        "duration": 0.20933399999998414
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
+        "status": "passed",
+        "duration": 0.45595800000000963
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+        "status": "passed",
+        "duration": 0.1741659999999854
+      },
+      {
+        "file": "src/core/script-editor.p03.glm-p.test.ts",
+        "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+        "status": "passed",
+        "duration": 0.16008400000001188
+      },
+      {
+        "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+        "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）",
+        "status": "passed",
+        "duration": 48.87854200000015
+      },
+      {
+        "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+        "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+        "status": "passed",
+        "duration": 11.345416999999998
+      },
+      {
+        "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+        "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+        "status": "passed",
+        "duration": 34.976916000000074
+      },
+      {
+        "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+        "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+        "status": "passed",
+        "duration": 3.7676660000001903
+      },
+      {
+        "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+        "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+        "status": "passed",
+        "duration": 6.124082999999928
+      },
+      {
+        "file": "src/ui/LayerStackControls.glm-p.test.tsx",
+        "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+        "status": "passed",
+        "duration": 26.774790999999993
+      },
+      {
+        "file": "src/ui/LayerStackControls.glm-p.test.tsx",
+        "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+        "status": "passed",
+        "duration": 5.092749999999967
+      },
+      {
+        "file": "src/ui/LayerStackControls.glm-p.test.tsx",
+        "fullName": "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+        "status": "passed",
+        "duration": 10.769583000000011
+      },
+      {
+        "file": "src/ui/LayerStackControls.glm-p.test.tsx",
+        "fullName": "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
+        "status": "passed",
+        "duration": 6.772791999999981
+      },
+      {
+        "file": "src/ui/LayerStackControls.glm-p.test.tsx",
+        "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+        "status": "passed",
+        "duration": 11.45195799999999
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+        "status": "passed",
+        "duration": 28.496125000000006
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+        "status": "passed",
+        "duration": 6.861083000000008
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+        "status": "passed",
+        "duration": 8.078624999999988
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+        "status": "passed",
+        "duration": 5.3344999999999345
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+        "status": "passed",
+        "duration": 6.195457999999917
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+        "status": "passed",
+        "duration": 4.952415999999971
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出",
+        "status": "passed",
+        "duration": 9.933625000000006
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+        "fullName": "P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+        "status": "passed",
+        "duration": 14.780875000000037
+      }
+    ]
+  },
+  "counters": {
+    "stored": 14,
+    "matched": 14,
+    "distinctTargets": 14,
+    "unchangedSinceR9": 9,
+    "changedIds": ["P02-C08", "P03-C11", "P03-C12", "P03-C14", "P03-C15"],
+    "details": [
+      {
+        "id": "P01-C01",
+        "sourcePath": "packages/editor/src/core/project-io.ts",
+        "issues": [],
+        "sourceHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "mutantHash": "2a4aa189dc01f1f0658348573e506f2b577848c748812ccab6c9703842daedaf",
+        "rebuilt": "2a4aa189dc01f1f0658348573e506f2b577848c748812ccab6c9703842daedaf",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "55cb8aeace7033b04dfd81b0a809610e991ea57d9116b4ffaf8ccc804315851e",
+            "rawSha256": "de7ee1999183ace7f613aac9fff6de009ae0282cd6fd0749bd3ba5712d74d67f",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 24,
+            "passed": 23,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "ef826a35a270a50f6ad5526e3ce2536db3d95b2c8aa1c20a50e112506be96ca7",
+            "rawSha256": "c595f07ec3bf75f5332ca73e1471e2e1fa0b6e9967cff73e02c0ef1fa1dceb63",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/project-io.glm-p.test.ts",
+                "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+                "message": "AssertionError: expected [Function] to throw an error"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "19fa207aa324ba18b32c10bc47f3e1e1fd3070d9c3cc99d90e3707e97815e527",
+            "rawSha256": "6cffb0fa98bd8e6935e58b6557f90566aa6deb3e12b287cb8710869fdcd46f6d",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P01-C02",
+        "sourcePath": "packages/editor/src/core/project-diagnostics.ts",
+        "issues": [],
+        "sourceHash": "5f86d1a71726a109ea8024aa17f41c5e85ccc150cfa751847374e5375bf55e82",
+        "mutantHash": "274d8a175c83de32e042cf886c1324b936f896c10d17fd65dfabcbd40328c7ae",
+        "rebuilt": "274d8a175c83de32e042cf886c1324b936f896c10d17fd65dfabcbd40328c7ae",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 15,
+            "passed": 15,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用"
+            ],
+            "reportSha256": "cf43b5e99bb6ee215769fec1ae9a804f87d6895e50178557ec1b51fce09954c6",
+            "rawSha256": "23cd5c1ae2f6e316dabb688c8564ec6791221573a6bf186fcbaa09a284a8e758",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 15,
+            "passed": 14,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用"
+            ],
+            "reportSha256": "bf6f280fd2b0d5ad825eeba6d34d954a9750fe5f499a0e31dfe76324580f420a",
+            "rawSha256": "6267b0218c7112d3e97c2a333eec699d3044a4deedafacad65aebafc8563d95a",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/project-diagnostics.glm-p.test.ts",
+                "fullName": "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+                "message": "AssertionError: expected [Function] to throw an error"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 15,
+            "passed": 15,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+              "editor/src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用"
+            ],
+            "reportSha256": "5caf227c5fb83623e9d17e9dd91bac348824ce29753b358544ef2923cccbcf07",
+            "rawSha256": "dd4ba2f17c23d425337781a1c21c0f3de7c68f9597748b378cb236cfef1984ce",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P01-C03",
+        "sourcePath": "packages/editor/src/core/project-io.ts",
+        "issues": [],
+        "sourceHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "mutantHash": "9349e8b09d1309d9aee7823c2a016912c9e8a54c43006d03774acc2db6a8acc0",
+        "rebuilt": "9349e8b09d1309d9aee7823c2a016912c9e8a54c43006d03774acc2db6a8acc0",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "1fecd2316c622cde2fb3c884834003613fd0540111cf26d7af962a7bd1eefb5a",
+            "rawSha256": "60bed845aff1e2a210165e923f6a5137c88a9ff259ebf5b891045c47ac874afe",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 24,
+            "passed": 23,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "e3b193c1451e3aa9bf3eaa1bd4531a50047c2b82368662d11b7a0c1f3b4d56c9",
+            "rawSha256": "a851eb2332b33d34ea0bd64e27c8488b7f32a29a6d334b6386e646170fc2ab97",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/project-io.glm-p.test.ts",
+                "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+                "message": "Error: promise resolved \"undefined\" instead of rejecting"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "6a773ecee6c68fc64876ac1ab4be4a53fd84a50557c258cc96807522bdf47d3b",
+            "rawSha256": "f3e708541ef98e6f00317754fe7bb73ea079bdcd23dd0656402cd3818be620be",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P01-C04",
+        "sourcePath": "packages/editor/src/core/project-io.ts",
+        "issues": [],
+        "sourceHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "mutantHash": "3439c8d40a8d60dd7d02903650c5b57737fa858e913beed6739710bb59a707b2",
+        "rebuilt": "3439c8d40a8d60dd7d02903650c5b57737fa858e913beed6739710bb59a707b2",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "5841439cb5a7a40595cbdc080ec670162f245d4d6c19e323981743b482427545",
+            "rawSha256": "da3e142d167ffc6a355ac01cdbf7d0521d93e0507faffc790f88e3a9b7aac11f",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 24,
+            "passed": 23,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "62f3563980d35e5ffff0ae79a0ceacb156dc2ec9b9113ab6c8779f2fecfb4e06",
+            "rawSha256": "ceaaac2cc7177ea862d851aabcc4fce6e8d32ae42426c900acc0ad62c2e01980",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/project-io.glm-p.test.ts",
+                "fullName": "P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+                "message": "AssertionError: expected [] to be [] // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "b23fdcd74695acafc8dd669a402402aa1855df5a5c15f046df57f8194dde8a9e",
+            "rawSha256": "e6fff3128c576c035318edb731a84d1b661cbeda4899722686261995a593afd0",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P01-C05",
+        "sourcePath": "packages/editor/src/core/project-io.ts",
+        "issues": [],
+        "sourceHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "mutantHash": "022509b4e52f2aca1913a7a20112ffc6b350418f42d1746f1ee59260ed1c930e",
+        "rebuilt": "022509b4e52f2aca1913a7a20112ffc6b350418f42d1746f1ee59260ed1c930e",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "5c8c958874201bc67112671d09edf3efa105838ba1ff2f9d358060dae596645f",
+            "rawSha256": "f73252a41d4dbdbde154c546ef5d0b277a2946305ad36ee1fce6105d4df7687a",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 24,
+            "passed": 23,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "23fc31414ba7bddb1299c12e6a61ed74016990ed5b42689e236e32e1045f6b5d",
+            "rawSha256": "95bdd91d0d211cea5168e4d9b574a0c662be2b07821521db85329615bc770221",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/project-io.glm-p.test.ts",
+                "fullName": "P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+                "message": "AssertionError: expected [ 'notes/same.txt', 'notes/same.txt' ] to have a length of 1 but got 2"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+              "editor/src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+            ],
+            "reportSha256": "7d4265f20b8518d750e105b7f61501386ae17c94fbba37e07d261952376e05b2",
+            "rawSha256": "d518c72691cfcfa0a3cef0fc3a64fd215c1c70bd02a0b4f76853da1422a3071e",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P02-C06",
+        "sourcePath": "packages/editor/src/ui/MapSelectionInspector.tsx",
+        "issues": [],
+        "sourceHash": "12c018e7eda0aed1fa91ee8989e4e56b71818b8851aedf2b0a22a195e8076463",
+        "mutantHash": "62c8b97007666b4d399c9989568f4ad445e07520a5a4df93081bec6760b91aad",
+        "rebuilt": "62c8b97007666b4d399c9989568f4ad445e07520a5a4df93081bec6760b91aad",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 8,
+            "passed": 8,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+            ],
+            "reportSha256": "646c56cdffc787e803509bc6feadca7495c80e0b77d701765d556c5210e34278",
+            "rawSha256": "96e02c4bf02157a810831005381e73054c3c901341e45016886f44b7c05b4527",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 8,
+            "passed": 7,
+            "failed": 1,
+            "identities": [
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+            ],
+            "reportSha256": "8dee066491dcfcc91afc07c77f7165367c9ad882d0aba42d58e1156b1848e99e",
+            "rawSha256": "fb4a21695083bf9965bb26ffefc359aed243014c2517dc04827dd537b0ad532e",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/ui/MapSelectionInspector.glm-p.test.tsx",
+                "fullName": "P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+                "message": "AssertionError: expected '⚠ 当前活动层已隐藏。' to be '⚠ 当前活动层已隐藏；请显式显示或切换图层后再修改。' // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 8,
+            "passed": 8,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+            ],
+            "reportSha256": "15940d57469f5d015be2c01a417bdc0c2d16977db358f487fa3472fe7699768e",
+            "rawSha256": "5c0be25b0525569bc2537e114d4c16b43e816b9e36a202788a447d86ee950e04",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P02-C07",
+        "sourcePath": "packages/editor/src/ui/LayerStackControls.tsx",
+        "issues": [],
+        "sourceHash": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
+        "mutantHash": "193bae786deb9917c32603209b1711412a2b73a32e85211ce4968fd3a2ca05a2",
+        "rebuilt": "193bae786deb9917c32603209b1711412a2b73a32e85211ce4968fd3a2ca05a2",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+            ],
+            "reportSha256": "f220718b699dd81d4f03a872f19880f7ab7809b0973897ceb6fda9865a78828c",
+            "rawSha256": "5e72a240cc7d3f7cdc0c3f3a81a9497cf6200f8ae56494e97b0c9a8e3f57fa07",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 5,
+            "passed": 4,
+            "failed": 1,
+            "identities": [
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+            ],
+            "reportSha256": "dde1870d27430e0806b2d11a1fedb8155c4b639ffd46fc3c3d1b44d8a3bf8d90",
+            "rawSha256": "22deda4095ac990abe223e61af536e5a790de336062b2693e1d63abe66924db9",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/ui/LayerStackControls.glm-p.test.tsx",
+                "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+                "message": "AssertionError: expected '只看当前X' to be '只看当前' // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+            ],
+            "reportSha256": "5ee06d6b086b505a3240bf1cff43c8ba605e594f39dd175c3ab230a6d7bdfc28",
+            "rawSha256": "913614415fe68fd1e7c12b8efb725a35671deb8a49fd1c1b43b5b6aeb7ec901d",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P02-C08",
+        "sourcePath": "packages/editor/src/ui/IsometricEditorToolbar.tsx",
+        "issues": [],
+        "sourceHash": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a",
+        "mutantHash": "f30aa68f7f334f83d79a65512d208e98050f60103a352775ee695566973d7130",
+        "rebuilt": "f30aa68f7f334f83d79a65512d208e98050f60103a352775ee695566973d7130",
+        "changedPaths": [
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P02-C08/mutated.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P02-C08/mutated.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P02-C08/positive.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P02-C08/positive.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P02-C08/receipt.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P02-C08/restored.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P02-C08/restored.raw.txt"
+        ],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
+            ],
+            "reportSha256": "541b9223cac463bb5e22052659f89ca046f7bc1432aebd824fbbd5ac7732508b",
+            "rawSha256": "99969507f10f3877e66ea4ef361ef58f5303842c0a5bb588a56ffe25bf5dcf34",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 5,
+            "passed": 4,
+            "failed": 1,
+            "identities": [
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
+            ],
+            "reportSha256": "982d4e08830e2746b545ebae8fc03e4c3516805aafeaaad014f7ec3385e35427",
+            "rawSha256": "c4860d6f942f0f8ee97f8ce3173ff9ed6487120889c2021506dff3e1ecece455",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+                "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+                "message": "AssertionError: expected <body><div>…(5)</div></body> to be <button type=\"button\" …(6)>…(1)</button> // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+              "editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
+            ],
+            "reportSha256": "77cd2c66cb967a5aafd477dd3f012032431090c969e53949d59b0e48685aca91",
+            "rawSha256": "d8c6cfa7ff050a79ebda40d974a833f9172266180f5f83050e1213791368c2e5",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P02-C09",
+        "sourcePath": "packages/editor/src/ui/MapSelectionInspector.tsx",
+        "issues": [],
+        "sourceHash": "12c018e7eda0aed1fa91ee8989e4e56b71818b8851aedf2b0a22a195e8076463",
+        "mutantHash": "8e899421c72d785c6b0fe35d204edcf9a975f7656960412374c50b1f3b5a6c67",
+        "rebuilt": "8e899421c72d785c6b0fe35d204edcf9a975f7656960412374c50b1f3b5a6c67",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 8,
+            "passed": 8,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+            ],
+            "reportSha256": "b4149322312c79f1e04b628aaf999d58e78a11ce1535af8c269380943fa43df5",
+            "rawSha256": "4c26c7dd7e37424aafd9e21337041f52718f70460eb2eb7973b426bf23decbad",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 8,
+            "passed": 7,
+            "failed": 1,
+            "identities": [
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+            ],
+            "reportSha256": "e9217e9db348bd153a70139c04df9367d396c5e375239c21d0a6fcfda3038529",
+            "rawSha256": "339f2da2b3d618cfb6366a63d57e2a859c2b6dbe5fd12507f47e202bfa628818",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/ui/MapSelectionInspector.glm-p.test.tsx",
+                "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+                "message": "AssertionError: expected '⚠ 选区含隐藏层成员，整笔修改已禁用。' to be '⚠ 选区含 1 个隐藏层成员，整笔修改已禁用。' // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 8,
+            "passed": 8,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+              "editor/src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+            ],
+            "reportSha256": "cbbe4e8f2e9bf76fb7138bda285074bc77294cbfcf393cd76ff8d4460c819591",
+            "rawSha256": "49643e0118b782ae19ecf91f02edcf7e11247d70d6c22994961c0621d191c614",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P02-C10",
+        "sourcePath": "packages/editor/src/ui/LayerStackControls.tsx",
+        "issues": [],
+        "sourceHash": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
+        "mutantHash": "954cd40ae46ff67e61aa7c5efb66e2f96d23523d20c0626def71d2dc204a4478",
+        "rebuilt": "954cd40ae46ff67e61aa7c5efb66e2f96d23523d20c0626def71d2dc204a4478",
+        "changedPaths": [],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+            ],
+            "reportSha256": "e2117322a3267ff2f411374404fffa310c848c6afd9238566a0b31540469f84d",
+            "rawSha256": "16642728895437d988d6fcf68d22feb85bb6234b286418ea37de89be533a25c5",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 5,
+            "passed": 4,
+            "failed": 1,
+            "identities": [
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+            ],
+            "reportSha256": "50b47845979c93290b7ca3350374e6ab7e8d41a88ce1c83d5e5fe7641f014332",
+            "rawSha256": "5d983a6f0cc06efe19b9679cbb4e6e7c44e974f54a2ead8398f9df44f56ce71e",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/ui/LayerStackControls.glm-p.test.tsx",
+                "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+                "message": "AssertionError: expected <p …(2)></p>"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "identities": [
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+              "editor/src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+            ],
+            "reportSha256": "73387c8106cba2305a950c4c7260d11135c3edef681feed52271daf84e2f891b",
+            "rawSha256": "c44efa74237c4f213e4642f8bab9f46f3004c08b7432dfa584bbcaf0ab994d87",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P03-C11",
+        "sourcePath": "packages/editor/src/core/script-editor.ts",
+        "issues": [],
+        "sourceHash": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+        "mutantHash": "02980f3d8f0dd6ff8f944377029648e9093136d2a9bb8b6a952a14376de74f9d",
+        "rebuilt": "02980f3d8f0dd6ff8f944377029648e9093136d2a9bb8b6a952a14376de74f9d",
+        "changedPaths": [
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C11/mutated.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C11/mutated.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C11/positive.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C11/positive.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C11/receipt.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C11/restored.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C11/restored.raw.txt"
+        ],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "4f30817877a64c762ae6ea9a22ab4ca8f1a678b38bcd5918088875bcff611547",
+            "rawSha256": "424ca3a72c3b814135d812d8fc4b0ca0da0c37cb76dfb25aad3aa49bbb22b99a",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 11,
+            "passed": 10,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "10443bd6b7c32ece733a6f86d61eafec5f80e870d4c426f6bccaddf246e4b6bb",
+            "rawSha256": "9e049621ed943dc13b1e5562453d8437083084c2ee824cde1c31d5039393291e",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/script-editor.p03.glm-p.test.ts",
+                "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+                "message": "AssertionError: expected undefined to be defined"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "13f838be7f01766aaa65a74f5aa0674abfa76f3bb598949d803c192942b08aa4",
+            "rawSha256": "f158ac1b7dd527525ee19fce41605edf09551143109122ab7ff5d9beafb6d438",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P03-C12",
+        "sourcePath": "packages/editor/src/core/script-editor.ts",
+        "issues": [],
+        "sourceHash": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+        "mutantHash": "1ddc9e011d4fc20fbcc7142f9c6605f3df5c60ed935bcd2b93048a8e76b675c9",
+        "rebuilt": "1ddc9e011d4fc20fbcc7142f9c6605f3df5c60ed935bcd2b93048a8e76b675c9",
+        "changedPaths": [
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C12/mutated.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C12/mutated.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C12/positive.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C12/positive.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C12/receipt.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C12/restored.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C12/restored.raw.txt"
+        ],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "d7b8a5e6c39311975e5f0c50925cd9ba16127093422aeeaabd702de73feb496f",
+            "rawSha256": "2423c9c9ecce92930ee28b946b679deaca8d0cafd3270c5f125fda37125712ee",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 11,
+            "passed": 10,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "53f1ae4bad4ab4e5016954e2809eb5f4d71a19d90d1df2717f6b0dfb0eb6ba86",
+            "rawSha256": "d6d382d8c0fab764f9c389cab46effc34462763b0e9781a5ba264b13c8ef3c53",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/script-editor.p03.glm-p.test.ts",
+                "fullName": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+                "message": "AssertionError: expected 'scenes.s001.entities.e1.PAGE.default.…' to be 'scenes.s001.entities.e1.pages.default…' // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "5dc73e1969dd8de59d865377d86926a10acf68b022256e6f862b226574fe829a",
+            "rawSha256": "e577b967b20d89cbf6252edede6a9b07346b3d74aeaa6192714027a640e889cf",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P03-C14",
+        "sourcePath": "packages/editor/src/core/script-editor.ts",
+        "issues": [],
+        "sourceHash": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+        "mutantHash": "61fa6d63f15bcc24a4469e491291ec900beeabb12310d4e2506617dabb51e158",
+        "rebuilt": "61fa6d63f15bcc24a4469e491291ec900beeabb12310d4e2506617dabb51e158",
+        "changedPaths": [
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C14/mutated.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C14/mutated.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C14/positive.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C14/positive.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C14/receipt.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C14/restored.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C14/restored.raw.txt"
+        ],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "ad0242043798ca13605a3c3ef0beb260706227519f6e445e105d2d246ba4a97b",
+            "rawSha256": "129060860e9592ae6d2a3832a14a6948b852d0abf1292038afa8f2e2d351c4a5",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 11,
+            "passed": 10,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "e93f87f4943b5b4d953113b2519feee30261150bbea16a76f44fb49a33a9553a",
+            "rawSha256": "e890e3ab7147572b598aa8d1acfdaeea5d6c253e2292fa9caebdb2b17894b569",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/script-editor.p03.glm-p.test.ts",
+                "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+                "message": "AssertionError: expected '场景 s001 / 实体 e1 / 战败脚本' to be '场景 s001 / 实体 e1 / 战败后脚本' // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "5d391236043ebecd29577e505695859088d2a082b40377d445f7e4e9b252cfb7",
+            "rawSha256": "2edf849d35e4c01d37a3192f51af5e446386814d5f4624bc6a4e6545f18e85ab",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      },
+      {
+        "id": "P03-C15",
+        "sourcePath": "packages/editor/src/core/script-editor.ts",
+        "issues": [],
+        "sourceHash": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+        "mutantHash": "b96cd9c6396728582348bca69366ac1e7590e310b9c6ed4c3dbfc2ed136659af",
+        "rebuilt": "b96cd9c6396728582348bca69366ac1e7590e310b9c6ed4c3dbfc2ed136659af",
+        "changedPaths": [
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C15/mutated.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C15/mutated.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C15/positive.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C15/positive.raw.txt",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C15/receipt.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C15/restored.json",
+          "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C15/restored.raw.txt"
+        ],
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "75e2d2afa77f6fe48c072fa82608830c46cc9c06a401a32695b5293f2be0f23d",
+            "rawSha256": "27f2730fc2c48014b2db327e96406b81817dfd79684f8906fb55420a84616b30",
+            "rawPresent": true,
+            "targetRed": []
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "total": 11,
+            "passed": 10,
+            "failed": 1,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "1a164d4cede3591d08ac73e413759681b03e08595ae9edbb06e51f64f5bd127b",
+            "rawSha256": "e65878f50371128c26ab96447b26e9c4b6778f68e8e4fb07da5dc8c5a28338ce",
+            "rawPresent": true,
+            "targetRed": [
+              {
+                "file": "editor/src/core/script-editor.p03.glm-p.test.ts",
+                "fullName": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+                "message": "AssertionError: expected false to be true // Object.is equality"
+              }
+            ]
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "identities": [
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "reportSha256": "5857e8745883630309dd634056db4506ee8bf950c69e3bed4e2e4af6acabc53b",
+            "rawSha256": "2b5c70d019c1e3b8efc9bfdaf95029dab51c79caae12830cc344760353f4e2bc",
+            "rawPresent": true,
+            "targetRed": []
+          }
+        ]
+      }
+    ]
+  },
+  "sourceHashEntries": [
+    {
+      "path": "packages/editor/src/core/project-io.glm-p.test.ts",
+      "declared": "28267c1938f90e7241534ef6c6a5a2e6d5c224d3b169f60993e8ffc332dcfd04",
+      "actual": "28267c1938f90e7241534ef6c6a5a2e6d5c224d3b169f60993e8ffc332dcfd04",
+      "matched": true
+    },
+    {
+      "path": "packages/editor/src/core/project-diagnostics.glm-p.test.ts",
+      "declared": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
+      "actual": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
+      "matched": true
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-io.glm-p.test.ts",
+      "declared": "c333f92de0cc84bff36aca4a6aa70bdb12ace8e00f1bc54e36046a737e738e83",
+      "actual": "c333f92de0cc84bff36aca4a6aa70bdb12ace8e00f1bc54e36046a737e738e83",
+      "matched": true
+    },
+    {
+      "path": "packages/editor/src/core/script-editor.p03.glm-p.test.ts",
+      "declared": "dd5c13176a15dc2f6659f7dd79a2bdcb0981e36d3898f89541bfa0cbf21dc3ad",
+      "actual": "dd5c13176a15dc2f6659f7dd79a2bdcb0981e36d3898f89541bfa0cbf21dc3ad",
+      "matched": true
+    },
+    {
+      "path": "packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx",
+      "declared": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
+      "actual": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
+      "matched": true
+    },
+    {
+      "path": "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx",
+      "declared": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
+      "actual": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
+      "matched": true
+    },
+    {
+      "path": "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+      "declared": "ef91157741be001489e0268844a64ac473ff1592a30a6b9ec83fa0ea48a25a57",
+      "actual": "ef91157741be001489e0268844a64ac473ff1592a30a6b9ec83fa0ea48a25a57",
+      "matched": true
+    },
+    {
+      "path": "packages/editor/src/__tests__/glm-p/kit.ts",
+      "declared": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
+      "actual": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
+      "matched": true
+    },
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs",
+      "declared": "ae62f15652dbd1b8a2869758914a1c551a8040c06123ed619c1b6991ba5ae5be",
+      "actual": "ae62f15652dbd1b8a2869758914a1c551a8040c06123ed619c1b6991ba5ae5be",
+      "matched": true
+    }
+  ],
+  "fixtureProbe": {
+    "admission": {
+      "accepted": false,
+      "message": "Error: scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.cases[0].to: 目标游标不属于目标 behavior"
+    },
+    "entryReference": {
+      "kind": "command",
+      "path": "scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior",
+      "locator": {
+        "kind": "command",
+        "owner": {
+          "kind": "scene-hook",
+          "sceneId": "s001",
+          "slot": "onEnter",
+          "hookId": "enter-a"
+        },
+        "container": {
+          "kind": "state",
+          "machineId": "machine-1",
+          "stateId": "idle",
+          "section": "prepare"
+        },
+        "commandPath": "0"
+      }
+    },
+    "resolvedCommand": {
+      "kind": "selectEntityBehavior",
+      "target": {
+        "scene": "s001",
+        "entity": "e1"
+      },
+      "channel": "trigger",
+      "selection": {
+        "kind": "use",
+        "value": "auto2"
+      },
+      "cursorHandoff": {
+        "kind": "stateMap",
+        "fromBehavior": "talk",
+        "cases": [
+          {
+            "from": {
+              "kind": "stage",
+              "stage": "start"
+            },
+            "to": {
+              "kind": "stage",
+              "stage": "start"
+            }
+          }
+        ],
+        "onUnmapped": "error"
+      }
+    },
+    "sourceFlow": {
+      "kind": "stages",
+      "initial": "start",
+      "stages": [
+        {
+          "id": "start",
+          "body": [
+            {
+              "kind": "selectEntityBehavior",
+              "target": {
+                "scene": "s001",
+                "entity": "e1"
+              },
+              "channel": "trigger",
+              "selection": {
+                "kind": "use",
+                "value": "talk"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "targetFlow": {
+      "kind": "stateMachine",
+      "machine": {
+        "id": "machine-1",
+        "label": "巡逻机",
+        "initial": "idle",
+        "states": {
+          "idle": {
+            "label": "待机",
+            "body": [
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s001",
+                  "entity": "e1"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "auto2"
+                }
+              }
+            ],
+            "next": {
+              "kind": "stay"
+            }
+          }
+        }
+      }
+    },
+    "nonInitialReferences": [
+      {
+        "kind": "command",
+        "path": "scenes.s001.hooks.onEnter.variants.enter-b.flow.stages.start.body[0]",
+        "locator": {
+          "kind": "command",
+          "owner": {
+            "kind": "scene-hook",
+            "sceneId": "s001",
+            "slot": "onEnter",
+            "hookId": "enter-b"
+          },
+          "container": {
+            "kind": "step",
+            "stepId": "start",
+            "section": "body"
+          },
+          "commandPath": "0"
+        }
+      }
+    ],
+    "nonInitialId": "enter-b",
+    "initialId": "enter-a",
+    "onlyEntryDestinationCorrected": {
+      "accepted": false,
+      "message": "Error: items.private.use.effects[0].script.body[0].cursorHandoff.cases[0].to: 目标游标不属于目标 behavior"
+    },
+    "inMemoryAllHandoffsTypeAligned": {
+      "changes": [
+        {
+          "from": "talk",
+          "to": "auto2",
+          "cases": [
+            {
+              "from": {
+                "kind": "stage",
+                "stage": "start"
+              },
+              "to": {
+                "kind": "state",
+                "machine": "machine-1",
+                "state": "idle"
+              }
+            }
+          ]
+        },
+        {
+          "from": "talk",
+          "to": "auto2",
+          "cases": [
+            {
+              "from": {
+                "kind": "stage",
+                "stage": "start"
+              },
+              "to": {
+                "kind": "state",
+                "machine": "machine-1",
+                "state": "idle"
+              }
+            }
+          ]
+        },
+        {
+          "from": "auto2",
+          "to": "talk",
+          "cases": [
+            {
+              "from": {
+                "kind": "state",
+                "machine": "machine-1",
+                "state": "idle"
+              },
+              "to": {
+                "kind": "stage",
+                "stage": "start"
+              }
+            }
+          ]
+        }
+      ],
+      "admission": {
+        "accepted": true
+      },
+      "method": "Diagnostic state copy only; no candidate source edits or product changes"
+    }
+  },
+  "independentReplays": {
+    "results": [
+      {
+        "id": "P02-C08",
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "signal": null,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "sourceSha256": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a",
+            "identities": [
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
+            ],
+            "red": [],
+            "reportSha256": "57d176a72e23c66c32278baa46718a0442610c81289d18fd509f63ff06dfdfd9",
+            "rawSha256": "465d9401f88acbc4c127ca8ca9b360e43c235eee80fd66f508adf706007182cb"
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "signal": null,
+            "total": 5,
+            "passed": 4,
+            "failed": 1,
+            "sourceSha256": "f30aa68f7f334f83d79a65512d208e98050f60103a352775ee695566973d7130",
+            "identities": [
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
+            ],
+            "red": [
+              {
+                "file": "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+                "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+                "message": "AssertionError: expected <body><div>…(5)</div></body> to be <button type=\"button\" …(6)>…(1)</button> // Object.is equality\n    at /private/tmp/codex-p-r10-review.PYFL5L/P/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx:98:36\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+              }
+            ],
+            "reportSha256": "b53a987422d9d1e8bd3ac10896acb4715bfd10f4160962678cff051e57085387",
+            "rawSha256": "5056c75103cddd969f242eea8aaa9380175cd8df0803a5fcb02568451e88459b"
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "signal": null,
+            "total": 5,
+            "passed": 5,
+            "failed": 0,
+            "sourceSha256": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a",
+            "identities": [
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+              "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）"
+            ],
+            "red": [],
+            "reportSha256": "e632ee86121cae6bd120aa5feb8a1e549154524536eb0962500d5fc41c5b6268",
+            "rawSha256": "0fb10cebf20047468c53dc18542bff43270f3b0926151eb068ef8b14bfc4c4f7"
+          }
+        ],
+        "restoredSha256": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a"
+      },
+      {
+        "id": "P03-C11",
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "signal": null,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "sourceSha256": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+            "identities": [
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "red": [],
+            "reportSha256": "5cabd53395b61ea741bd428e269cd672be7046a4f5445ef042499b36295a2394",
+            "rawSha256": "1f58ecaa3c9f7160e0b67053fb5bceef855ee0ac97ff0e60b059849e63e9868c"
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "signal": null,
+            "total": 11,
+            "passed": 10,
+            "failed": 1,
+            "sourceSha256": "02980f3d8f0dd6ff8f944377029648e9093136d2a9bb8b6a952a14376de74f9d",
+            "identities": [
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "red": [
+              {
+                "file": "packages/editor/src/core/script-editor.p03.glm-p.test.ts",
+                "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+                "message": "AssertionError: expected undefined to be defined\n    at /private/tmp/codex-p-r10-review.PYFL5L/P/packages/editor/src/core/script-editor.p03.glm-p.test.ts:255:21\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ],
+            "reportSha256": "f01c64e5c8c1ac89a343f4d56746b7a65f247717966a8f4eb17e24f3498d4c23",
+            "rawSha256": "b6db8f93ad637213a3e713c2af8d7e6fd9398f8ff8399902f463b0ba1507fc01"
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "signal": null,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "sourceSha256": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+            "identities": [
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "red": [],
+            "reportSha256": "ddb542001273426843800273e9c209d1b1d361c039fd48cc8981a95e061d7874",
+            "rawSha256": "b5e001a14b4b67838788f87d1557d79149ab3d468f563b50518c303be3d1af72"
+          }
+        ],
+        "restoredSha256": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2"
+      },
+      {
+        "id": "P03-C15",
+        "phases": [
+          {
+            "label": "positive",
+            "exit": 0,
+            "signal": null,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "sourceSha256": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+            "identities": [
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "red": [],
+            "reportSha256": "4367f3408e1d3e013435b984934a34e697bc3ae82818d0491884990027d3eb7f",
+            "rawSha256": "ec33461b3024a1eaa99ea52bbeebd6984da0af201980c26d8e66657bfaec3c5f"
+          },
+          {
+            "label": "mutated",
+            "exit": 1,
+            "signal": null,
+            "total": 11,
+            "passed": 10,
+            "failed": 1,
+            "sourceSha256": "b96cd9c6396728582348bca69366ac1e7590e310b9c6ed4c3dbfc2ed136659af",
+            "identities": [
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "red": [
+              {
+                "file": "packages/editor/src/core/script-editor.p03.glm-p.test.ts",
+                "fullName": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+                "message": "AssertionError: expected false to be true // Object.is equality\n    at /private/tmp/codex-p-r10-review.PYFL5L/P/packages/editor/src/core/script-editor.p03.glm-p.test.ts:337:7\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-p-r10-review.PYFL5L/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ],
+            "reportSha256": "e581b6f2e0ff08312609b2d7bbf58422d0427769527690a2f22f9240d35b68f6",
+            "rawSha256": "20593fd1b8979371be2198641d84a49a071ca6e15b2dbfadace7425d76fd6808"
+          },
+          {
+            "label": "restored",
+            "exit": 0,
+            "signal": null,
+            "total": 11,
+            "passed": 11,
+            "failed": 0,
+            "sourceSha256": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2",
+            "identities": [
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
+              "packages/editor/src/core/script-editor.p03.glm-p.test.ts×P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）"
+            ],
+            "red": [],
+            "reportSha256": "05ba98366098edc5de252355b5bfc6e903193c74a89849f7ba4f2e11824dcee1",
+            "rawSha256": "10c871419297d7a0bc041b565db17f6c0052a9e1ffb45517ad0074f126b309fc"
+          }
+        ],
+        "restoredSha256": "accde5ad66fa22ccaa645e2d6d8becaa47a5cab5382a14c0082125816fa069e2"
+      }
+    ],
+    "toolbarRepeats": [
+      {
+        "attempt": 1,
+        "exit": 0,
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "reportSha256": "1ba1439b1e3eb41bd4e5ee554fe30b15eb14afe608f70420013420deb949b2cc",
+        "rawSha256": "14360edcace43325bedc396727dd5fd895846dc4dbd901f177826656db102411"
+      },
+      {
+        "attempt": 2,
+        "exit": 0,
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "reportSha256": "1fbb5c942db53a4fdf570736bd5229153fa30c4a392723ed39acab8354cdbb8d",
+        "rawSha256": "d0bc0faf433d810eab4fbfd9192edc84bc877f6f1f1558232dbcf35c9d81fc95"
+      },
+      {
+        "attempt": 3,
+        "exit": 0,
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "reportSha256": "c0054d91273fdb76be054bcc97e20bcb4c8d363f5f03b1e912e155c319cfb3dc",
+        "rawSha256": "1f3a840e542ab8c99b50c2e903e286f6ee3b69bea6233d5553ee0a159f64df53"
+      }
+    ],
+    "trackedDiff": ""
+  },
+  "defaultWaitProbe": {
+    "candidate": "43a281325192645ac775f93428c3ba2f788bdd94",
+    "method": "Separate owned diagnostic worktree, only timeout2000 omitted; original candidate and immutable serial full-suite tree untouched.",
+    "diagnosticChange": "diff --git a/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx b/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx\nindex aafa87b2b..f1aa09cab 100644\n--- a/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx\n+++ b/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx\n@@ -111,7 +111,7 @@ describe('P02-G03 工具选项托盘键盘合同', () => {\n           ISOMETRIC_BRUSH_SIZES.length,\n         )\n       },\n-      { interval: 16, timeout: 2000 },\n+      { interval: 16 },\n     )\n     const options = [...tray().querySelectorAll<HTMLButtonElement>('button')]\n     // 收敛后焦点停在当前值(1)选项=首项；后续移动全部由产品键盘处理器驱动。\n",
+    "results": [
+      {
+        "attempt": 1,
+        "exit": 0,
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "reportSha256": "0117eed0ac18057f632cb8d57b2eb20cfe68dcbb764c58a8afa819e5eedae834",
+        "rawSha256": "81256a3322856767c1a1e485b9d1557f4af0e6898c5951f91bdb49bfe2a6ce86"
+      },
+      {
+        "attempt": 2,
+        "exit": 0,
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "reportSha256": "5f05ca1bfadb42debf5b527a60241551dcda50a519b6ebb9abd89a5e17d2a942",
+        "rawSha256": "177c582ee53f33081875b35bc76e3b47508ee30e5b6af0a8d40c54b8a2db6dc4"
+      },
+      {
+        "attempt": 3,
+        "exit": 0,
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "reportSha256": "b79a07646fa69bf807265267d9c9ffe6435b0997a36774be8fecf2f9cdc9e169",
+        "rawSha256": "ed27bce0b5715957308dec67332684a27ba1bf9844be349709b29693a17f88c8"
+      }
+    ]
+  },
+  "retiredC13": {
+    "active": false,
+    "deletedPaths": [
+      "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C13/mutated.json",
+      "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C13/mutated.raw.txt",
+      "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C13/positive.json",
+      "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C13/positive.raw.txt",
+      "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C13/receipt.json",
+      "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C13/restored.json",
+      "docs/testing/glm-tenfold-triple/wave-P/counters/P03-C13/restored.raw.txt"
+    ],
+    "historicalRetrievalCandidate": "fb735c552282cb6e88e32ba30fbe320f11a31d2b"
+  },
+  "verifier": {
+    "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+    "waves": [
+      {
+        "id": "O",
+        "sources": 105,
+        "missingBranches": 825
+      },
+      {
+        "id": "P",
+        "sources": 288,
+        "missingBranches": 5426
+      },
+      {
+        "id": "Q",
+        "sources": 323,
+        "missingBranches": 6136
+      }
+    ],
+    "totalSources": 716,
+    "scope": {
+      "owner": "P",
+      "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+      "changedPaths": 187
+    },
+    "frozenHashesValid": true,
+    "ownerOverlap": 0
+  },
+  "trackedStatusAfter": "",
+  "verdict": {
+    "status": "counter/rework",
+    "closed": [
+      "Entity machine.entry location removed",
+      "G13-02 real non-initial / not vacuous",
+      "G13-01 hook stage-container locator distinguished",
+      "Old bad-path/body-label removed and new entry-label distinguished",
+      "Real RAF convergence/removal of manual focus, repeated green",
+      "14 evidence records and 9 unchanged preserved",
+      "C13 active-index retirement direction",
+      "9 receipt source hash summaries match final bytes"
+    ],
+    "counter": [
+      "3 handoff source/destination cursors still mismatch actual behavior flows; public ScriptEditSession rejects",
+      "timeout2000 expands installed waitFor default1000; separate default diagnostic 3x green",
+      "C13 evidence deleted while claiming preserved; stale current receipt/README/contract ledger"
+    ],
+    "counts": {
+      "executed": 78,
+      "workGroups": 17,
+      "activeTargets": 14,
+      "flowsProven": 18,
+      "structuralNetNewCap": 78,
+      "structuralRemainingAtLeast": 622,
+      "remainingGroups": 53,
+      "remainingTargets": 36,
+      "remainingFlows": 2,
+      "notAll78AcceptedAsLegalNetNew": true
+    },
+    "fullGatePassed": false,
+    "oldMNotContributorWriteScope": true
+  },
+  "oldMAdjacentRepeats": [
+    {
+      "attempt": 1,
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "sha256": "ea0a9ad1291eb691622534adcc1a4f82ce8f64a59e470ca22668aa0a76a5cd89"
+    },
+    {
+      "attempt": 2,
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "sha256": "b667a59a0d7f4e495962a7f663ae3f17db1eb929f2d19bf412635afdb2401605"
+    },
+    {
+      "attempt": 3,
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "sha256": "e9981c13b5fe43eefa27ae5914acc4a1ef207c197dc05c9e32755331021d8cea"
+    }
+  ],
+  "auditQuality": {
+    "lint": {
+      "files": 2776,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "complete": true
+    },
+    "docs": {
+      "markdown": 839,
+      "localLinks": 4473,
+      "tasks": 249,
+      "issues": 0
+    },
+    "diffCheck": true
+  }
+}

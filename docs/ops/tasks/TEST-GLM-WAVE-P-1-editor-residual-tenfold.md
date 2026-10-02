@@ -244,3 +244,16 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```text
 继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、原分支codex/glm-wave-p-editor-residual-r1，固定fb735c552282cb6e88e32ba30fbe320f11a31d2b。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md/json及原卡最新段。闭P-R9-01～03：P03 fixture实体machine.entry非法，改合法onEnter initial state并核handoff源/目标cursor，公开作者校验/引用闭包须过；G13-02真实非initial+精确非空命令/无initial，去every伪证；G13-04坏路径和G14-04正文标签旧测已直证，existing-proof不计新；G12-03已有旧只读后缀证据，保留须独证合法entry容器/locator新轴，G13-01对照旧完整locator排重。Toolbar默认门全包及单文件3次实红，用真实RAF/可观察焦点收敛等待而非抢焦/空act，不扩timeout、不改产品。旧10针/22自测/G03收窄标题及业务oracle保留，仅P03受影响新5针与Toolbar所属针需重采。同步79执行净新上限≤76/缺口≥624、17组/15存档/18流程与当前锚/历史口径，继续P02残余/P03～P10，不整族缩围。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，避让Cursor74新合同保留源；仅原P新测/fixture/wave-P，产品/旧测/配置/baseline/真实数据/O/Q/共享文档只读。此为代码阶段，F14/F18另阶段视觉不代看图；每批定向相邻/typecheck阶段推送，末批Editor全包/静态0/0/0/docs/diff/verifier与完整SHA。700/70组/50目标/20流程不缩；不合main、不done、不官方门、不清树。
 ```
+
+
+## Codex 最新独立复核（2026-10-02，r10）
+
+固定43a281325192645ac775f93428c3ba2f788bdd94，counter/rework。最终不可变串行全包3863绿+1旧M红；78定向全绿、旧M单文件3次2/2，完整门失败不覆盖且旧测不在P写白名单。typecheck/22自测/2821文件静态0/0/0/docs/diff/716冻结/187白名单过。14三态身份/hash对应，9旧未变+5更新，3针9相独立重放过。onEnter entry位置/非initial真断言/新locator与标签/真实RAF收敛关闭；三处handoff仍stage↔state不匹配，公开ScriptEditSession拒收。默认等待独占诊断3次5/5，原候选仍扩2000ms；C13历史七文件被删及账摘要仍counter。结构78/17组/14目标/18流程，622/53组/36目标/2流程未完，不main/done/正式结算。
+
+[详细审核与最新交接](../../testing/glm-tenfold-triple/codex-p-r10-review-20261002.md)、[机器证据](../../testing/glm-tenfold-triple/codex-p-r10-review-20261002.json)。只审固定候选、未写贡献者树、不自动投递。代码阶段由用户手动选GLM-5.3；P未证视觉另阶段手动选GLM-5.3-Flash。
+
+### 下一位 GLM P 提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、原分支codex/glm-wave-p-editor-residual-r1，固定43a281325192645ac775f93428c3ba2f788bdd94。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-p-r10-review-20261002.md/json及原卡最新段。只闭P-R10-01～03：onEnter entry位置已合法，但三处handoff仍把auto2状态机当stage；talk合法cursor是stage/start，auto2是state/machine-1/idle，入口/item的to与shared的from都须对齐，expected核真实合法映射，共同fixture返回前实际经过公开ScriptEditSession/引用闭包，失败不能绕过，不把准入测试算新业务合同。Toolbar删timeout2000扩张，默认waitFor可观察RAF收敛；手设focus/空act已删除、三次5/5、真实业务方向关闭不重开。C13退役方向保留，恢复明确历史原证据并与r9字节一致，不计活跃、不补旧目标新针；同步78执行/17组/14目标/18流程、9旧三态未变+P02-C08和4P03更新、定向/实际lint/完整SHA与docs-only锚，修67/10/40/P03未开工等旧摘要。P03账按最终源条件/合法cursor/真实容器locator和完整matcher+expected更新，去同上/仅isDefined/截操作数；旧两重复删除和新prepare标签方向保留。源/执行集改动仅重采受影响4P03与Toolbar所属针，不重采未变旧9或重做22判据。然后持续原P02残余/P03～P10合法余族，不再把窄返工当整卡完成；700/70组/50不同合法目标/20流程不缩，F14/F18另阶段视觉。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，避让Cursor74新合同源；仅原P新测/fixture/wave-P，产品/旧测/配置/baseline/真实数据/O/Q/其它队列/共享文档只读。每批定向相邻/typecheck阶段推送，末批Editor全包/静态0/0/0/docs/diff/verifier及真实完整SHA/准确剩余账。不合main、不done、不官方ratchet/protected、不清原树。
+```

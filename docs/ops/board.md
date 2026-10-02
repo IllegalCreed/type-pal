@@ -26,14 +26,14 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GROK-RENDER-HOST-LARGE-1 | [一阶段渲染/资源/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | rework | Grok / 完整judge、两patch与最小图像hash | r1 game3173绿/400身份对应/静态零；40存档40目标但两patch坏，漏收探针counter；不扩另一包 |
+| TEST-GROK-RENDER-HOST-LARGE-1 | [一阶段渲染/资源/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | rework | Grok / 仅修自测报告生成格式 | r2 原三业务项关闭，3173绿/400身份/40针/像素过；selftest后lint1格式红，不重采或扩包 |
 | TEST-CURSOR-ASSET-UI-LARGE-1 | [Editor资源叶与设计控件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | rework | Cursor / 静态、typed、judge清理、真账排重与未证流程 | r1 Editor4493绿/707身份对应，lint1格式红；50存档43目标，净新上限≤698；23截图hash不等12流程 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 新桥、真账排重与完整路径身份后续余族 | r9 497执行/净新上限≤492；69结构存档67目标，正常三态关闭；704/1439/154绿/静态零，原700未完 |
-| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 修canonical fixture、伪证/旧证明与RAF焦点实红 | r9 79执行/净新上限≤76，3864绿+1红及三次定向红；15结构存档，旧10保留；静态零，F14/F18未证 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 合法YJ2/PAT正控、FP真轴与51/50目标分列 | r9 135执行/C134待合法性；61结构存档51执行目标，非55；五针15相对应，NT8关闭；静态零，原700未完 |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 再判工具正确展平与真实条件账后续余族 | r10 487执行/上限486，66存档64目标；typed/删重/原judge关闭，464空条件/249token未闭；704/1429/154绿/静态零 |
+| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 三处handoff真cursor、默认等待与历史证据账 | r10 78定向绿/14针，结构位置与非initial关闭；完整3863绿+1旧M红（单文件3次绿，Codex集中）；静态零/18流程 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 收窄未用backref接口、真实61/52账后续余族 | r10 合法MAP/PAT/真实FP关闭，363绿/136身份/静态零；61存档52目标足50，未用回引错位/账未闭，700未完 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待错误承接窄准入 | 合法当前存档+外部读失败独立复现1未处理拒绝，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |

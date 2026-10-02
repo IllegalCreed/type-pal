@@ -114,3 +114,16 @@ Codex核源码入口/现有断言与46源hash，所有权已落GC-1，**build al
 ```text
 继续TEST-GROK-RENDER-HOST-LARGE-1，唯一Grok测试Owner，原树/Users/zhangxu/.codex/worktrees/grok-render-host-large/type-pal、分支codex/grok-render-host-large-r1，固定919fc291a6e2b5b8710bac756e6a7d28d99dbae7、测试16db4d1ed9d394a2506293e7b4448f8a0c19ceef。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/grok-cursor-large/codex-grok-cursor-r1-review-20261002.md/json及原卡最新段。只闭GROK-R1-01～03：唯一judge可导入且runner/selftest共用，完整注册file/fullName和多重身份、实际叶非零/顶层计数闭合、collection/runtime/raw/spawn与正常exit/signal政策；补已给错完整标题、单红叠空suite、假执行数/零实际叶拒收和真实Vitest单红叠异常探针。原raw异常拒收/真实Canvas/typed代码/400定向/40组与40不同目标、资产副本全包3173已证保留，不重做或扩大另一包。G02-C/G04-A只修两份可应用patch，from/to重建与旧mutant hash及三态已独立成立，不重采未变日志。按原卡给已有至少六组离线真实canvas及功能宿主补最小图像落盘/hash/读回日志，不跑剧情PAL001/002，不生替代美术。其它未变针可按新judge重判保留，源/最终执行集变化才重采受影响针。400合同账63旧blob与派发一致，保持逐条件真账/排重，不为已证轴造数量；完整收口后交真实40位SHA、docs-only锚与实际门数。派发0704d3de6d3d2a2099475a42f601b654bba08579、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原game新.grok-r1测/专属grok-render-r1 fixture/grok证据可写；产品/旧测/配置/官方baseline/真实数据/GLM/Cursor/共享文档只读。末批game全包/typecheck、根lint完整0/0/0、docs/diff/verifier；环境资产单列，不冒称绿。不合main、不done、不正式ratchet/protected、不清贡献者树。
 ```
+
+
+## Codex 最新独立复核（2026-10-02，r2）
+
+固定4c86186076215d8f019436dbcce3d1599878e03d，原R1三业务项关闭，只剩GROK-R2-01生成报告格式counter。新3173全绿/400身份对应/typecheck零，40patch/三态hash/40不同目标对应，唯一judge四反例/40重判/真实异常probe过；8真实canvasPNG至少6组hash与读回成立、6host图仅DOM数据编码不是UI截图。自测写judge-selftest.json后根lint真实1format error，不能只提交前format掩盖；只修生成器/收尾，别重采40针或扩400包。docs/diff/冻结/白名单过，仍rework、不main/done/正式结算。
+
+[详细审核与最新交接](../../testing/grok-cursor-large/codex-grok-r2-review-20261002.md)、[机器证据](../../testing/grok-cursor-large/codex-grok-r2-review-20261002.json)。只审固定候选、未写贡献者树、不自动投递。
+
+### 下一位 Grok 提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GROK-RENDER-HOST-LARGE-1，唯一Grok测试Owner，原树/Users/zhangxu/.codex/worktrees/grok-render-host-large/type-pal、分支codex/grok-render-host-large-r1，固定4c86186076215d8f019436dbcce3d1599878e03d。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/grok-cursor-large/codex-grok-r2-review-20261002.md/json及原卡最新段。原GROK-R1-01～03业务已关闭：唯一judge四反例/40重判/真实异常probe、40可重建patch、400身份、真实canvas至少六组与hash通过，game3173新全包绿/typecheck零。只修GROK-R2-01：judge.selftest.mjs重新写judge-selftest.json时短数组格式回退，selftest后lint真实1个format error；让报告生成或命令收尾正常机械格式化，保留JSON值/raw，不ignore、不降规则，连续自测后立刻lint完整0/0/0。pixels生成器已闭，不重做；六host窄PNG只是DOM数据编码不是UI截图，如实标类别、不增加合同数。不要重采40针、扩大另一包、重跑未变重门；测试/产品/配置字节无变可明确引用本轮全包证据。仅原白名单测试工具/grok证据可写，生产/旧测/配置/baseline/真实数据/其它队列/共享文档只读；派发0704d3de6d3d2a2099475a42f601b654bba08579、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。末次静态/docs/diff/verifier、真实完整候选SHA与docs-only锚；不合main、不done、不官方ratchet/protected、不清原树或依赖链接。
+```

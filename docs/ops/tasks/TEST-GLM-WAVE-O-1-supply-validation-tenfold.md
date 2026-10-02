@@ -225,3 +225,16 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```text
 继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、原分支codex/glm-wave-o-supply-validation-r1，固定ad468369015a4ec9c4652f3e24de603f77c42b07。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r9-review-20261002.md/json与原卡最新段。只闭O-R9-01～03：judge去临时根但保留完整包/子路径与fullName、多重集合及顶层叶计数闭合；新活跃spec登记完整target，补异包/异深路径/同尾标题/假执行数拒收。正常0→1→0、collection/runtime/raw、三针退役已闭，不重做69针；判据/登记变且业务源身份不变可重判保留。新增ambience-skill/rewards-lifecycle六处强转改真实typed直构；四条已证ambience重复登记existing-proof不计新，非整数rounding新轴保留；逐新增28合同核旧fullName/断言行/源条件与生产caller，修串邻例与截数组oracle，整账不得靠token。497执行净新上限不超过492、缺口至少208并待进一步合法性扣列；继续原合法余族，700/60组不缩。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原O新测/fixture/wave-O；产品/旧测/配置/baseline/真实数据/P/Q/共享文档只读。变动源或执行集仅重采受影响针，每批定向相邻/typecheck阶段推送，末批全包/静态0/0/0/docs/diff/verifier，回执钉真实完整SHA和剩余账。不合main、不done、不官方门、不清树。
 ```
+
+
+## Codex 最新独立复核（2026-10-02，r10）
+
+固定12be8ec2ae73bfe8692c9aa678abc990a990e8df，整卡counter/rework。新704/1429/154全绿、487身份对应，三typecheck/静态0/0/0/docs/diff/冻结通过。66三态结构对应/64目标/61未变；旧路径计数judge、六桥、删19旧例/8退役、WORD真oracle与rich-text9轴关闭。新re-adjudicate传suite非leaf导致异身份误收，修调用方即可、不重采66；O08-CC10补完整target。464条件空/249token旧锚仍counter，完整oracle抽取工具已闭。结构净新上限486/缺口≥214，原700/60组继续，不main/done/正式结算。
+
+[详细审核与最新交接](../../testing/glm-tenfold-triple/codex-o-r10-review-20261002.md)、[机器证据](../../testing/glm-tenfold-triple/codex-o-r10-review-20261002.json)。只审固定候选、未写贡献者树、不自动投递。代码阶段由用户手动选GLM-5.3；P未证视觉另阶段手动选GLM-5.3-Flash。
+
+### 下一位 GLM O 提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支codex/glm-wave-o-supply-validation-r1，固定12be8ec2ae73bfe8692c9aa678abc990a990e8df。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-o-r10-review-20261002.md/json及原卡最新段。原完整路径/叶计数judge、六桥、删19旧例/8退役、WORD截断与rich-text新轴、完整oracle去截断已关闭，不重做工具或未变61业务针。仅闭O-R10-01：re-adjudicate.mjs把suite当leaf传给sameExecutionIdentity，两次调用都改flattenTests三相后比较，补真实换passed邻居身份拒收，当前66原三态用修后模块再判即可、不重采；O08-CC10补显式完整target，不改业务答案。O-R10-02真实账仍464空条件/249 token旧锚，按域补源码条件/生产caller/合法输入/旧完整fullName和断言matcher/新axis，保留已写18人工行与少数merge行，抽完整expect链工具保留但旧join不能当closed。“多级独立掷随机”恒rng只证累积，诚实收窄或真oracle；同步最终实数与历史。487执行/净新上限486/缺口≥214、66存档64目标为部分，连续推进原合法余族并同步真账，700/60组不缩，不再仅交窄返工完成。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原O新测/fixture/wave-O；产品/旧测/配置/baseline/真实数据/P/Q/Grok/Cursor/共享文档只读，CLI只mkdtemp。源/执行集真变只重采受影响针，每批定向相邻/typecheck阶段推送，末批三包/静态0/0/0/docs/diff/verifier和真实完整SHA/准确剩余账。不合main、不done、不官方ratchet/protected、不清原树。
+```
