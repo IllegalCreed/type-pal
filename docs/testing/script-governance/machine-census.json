@@ -10,9 +10,9 @@
     "transition": 77
   },
   "candidate": {
-    "convertedMachines": 6,
-    "remainingMachines": 159,
-    "remainingStates": 5538
+    "convertedMachines": 18,
+    "remainingMachines": 147,
+    "remainingStates": 5490
   },
   "classificationCounts": {
     "protected-001-005": 13,
@@ -40,6 +40,122 @@
     "Stage.next has no conditional/command-result choice. Some confirm decisions can be structured inside a step, but conditional future activation targets require a unified-step design.",
     "32 external cursor-handoff endpoints expose implementation states across behaviors; conversion must rewrite each caller/callee family together, not rename cursor kinds.",
     "moveEntity also changes gait/facing and offers discrete speeds; constant-pose nudge effects cannot be blindly rewritten as walking."
+  ],
+  "confirmConversionRule": "Twelve exact interactive flows only: preserve activation roots and success next; inline a terminal confirm's refusal body followed by stopScript in that same step. A refusal must return to the current activation root. No callScript extraction, new flags, timing or cue normalization.",
+  "counterexamples": [
+    {
+      "key": "s023/e433/trigger/default",
+      "status": "rejected",
+      "reason": "Initial candidate count corrected from 13 to 12: after-checkpoint uses explicit top dialogue; after-checkpoint-002 defaults to bottom (dialog/slot.ts:34). Same text does not imply equivalent presentation."
+    },
+    {
+      "key": "s091/e1682/trigger/default",
+      "status": "requires-unified-step-result",
+      "reason": "Yes continues at legacy-002, no at recovered-001. Both are different from initial; fixed Stage.next plus early stop cannot preserve both."
+    },
+    {
+      "key": "inline-confirm-refusal",
+      "status": "scope-boundary",
+      "reason": "stopScript inside the step stops that activation without committing next. Inside callScript it only returns from the callee, so caller effects and next still run."
+    }
+  ],
+  "semanticDebts": [
+    {
+      "key": "s023/e437/trigger/default",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s023/e437/trigger/default/flow/stages/0/body/1",
+      "threshold": 20,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s023/e437/trigger/default",
+      "kind": "charge-before-confirm",
+      "path": "s023/e437/trigger/default/flow/stages/0/body",
+      "order": ["dialog", "branch", "giveMoney", "confirm", "giveItem"],
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s050/e845/trigger/default",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s050/e845/trigger/default/flow/stages/0/body/2",
+      "threshold": 100,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s050/e846/trigger/default",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s050/e846/trigger/default/flow/stages/0/body/2",
+      "threshold": 100,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s084/e1583/trigger/legacy-001",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s084/e1583/trigger/legacy-001/flow/stages/0/body/2",
+      "threshold": 100,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s084/e1584/trigger/legacy-001",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s084/e1584/trigger/legacy-001/flow/stages/0/body/2",
+      "threshold": 100,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s100/e1837/trigger/default",
+      "kind": "fade-audit",
+      "path": "s100/e1837/trigger/default/flow/stages/0/body/4",
+      "command": {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      "status": "pending-source-control-flow-review",
+      "note": "Only fade-out was found in this flow; runtime and original continuation still need review. No visual failure is claimed."
+    },
+    {
+      "key": "s111/e2085/trigger/default",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s111/e2085/trigger/default/flow/stages/0/body/2",
+      "threshold": 30,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s127/e2224/trigger/default",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s127/e2224/trigger/default/flow/stages/0/body/3",
+      "threshold": 100,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s100/e1825/trigger/default",
+      "kind": "insufficient-money-fallthrough",
+      "path": "s100/e1825/trigger/default/flow/stages/1/body/4",
+      "threshold": 100,
+      "status": "pending-source-control-flow-review",
+      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+    },
+    {
+      "key": "s148/e2433/trigger/default",
+      "kind": "fade-audit",
+      "path": "s148/e2433/trigger/default/flow/stages/0/body/4",
+      "command": {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      "status": "pending-source-control-flow-review",
+      "note": "Only fade-out was found in this flow; runtime and original continuation still need review. No visual failure is claimed."
+    }
   ],
   "machines": [
     {
@@ -335,7 +451,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 4,
         "restart": 2,
@@ -800,7 +916,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1082,7 +1198,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1100,7 +1216,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1328,7 +1444,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1346,7 +1462,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1401,7 +1517,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 1,
@@ -1441,7 +1557,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 6,
         "restart": 2,
@@ -1461,7 +1577,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1555,7 +1671,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1591,7 +1707,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 2
@@ -1685,7 +1801,7 @@
       "initial": "initial",
       "cadence": "perCommand",
       "classification": "interactive-branch-finite",
-      "status": "pending-family-review",
+      "status": "converted-inline-confirm-steps",
       "transitions": {
         "continue": 2,
         "restart": 1,

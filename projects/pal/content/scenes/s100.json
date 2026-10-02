@@ -1964,182 +1964,149 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "confirm-decisions",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "步骤 initial",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7175"
-                            },
-                            {
-                              "text": "dlg.7176"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.守卫阿辉"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-001-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-001-yes"
-                      }
-                    }
-                  },
-                  "decision-001-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7173"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.守卫阿辉"
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  },
-                  "decision-001-yes": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7178"
-                            },
-                            {
-                              "text": "dlg.7179"
-                            },
-                            {
-                              "text": "dlg.7180"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.守卫阿辉"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "giveItem",
-                        "itemId": "287"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "identity": {
-                            "kind": "narration"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7175"
                           },
-                          "rows": [
-                            {
-                              "text": "dlg.7181"
-                            }
-                          ],
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7183"
-                            },
-                            {
-                              "text": "dlg.7184"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.守卫阿辉"
-                          },
-                          "slot": "top"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "legacy-002"
-                    }
-                  },
-                  "legacy-002": {
-                    "label": "步骤 legacy-002",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7186"
-                            },
-                            {
-                              "text": "dlg.7187"
-                            },
-                            {
-                              "text": "dlg.7188"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.守卫阿辉"
+                          {
+                            "text": "dlg.7176"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫阿辉"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                    },
+                    {
+                      "kind": "confirm",
+                      "id": "decision-001",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.7173"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.守卫阿辉"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7178"
+                          },
+                          {
+                            "text": "dlg.7179"
+                          },
+                          {
+                            "text": "dlg.7180"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫阿辉"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "giveItem",
+                      "itemId": "287"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.7181"
+                          }
+                        ],
+                        "slot": "narration"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7183"
+                          },
+                          {
+                            "text": "dlg.7184"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫阿辉"
+                        },
+                        "slot": "top"
+                      }
                     }
-                  }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7186"
+                          },
+                          {
+                            "text": "dlg.7187"
+                          },
+                          {
+                            "text": "dlg.7188"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫阿辉"
+                        }
+                      }
+                    }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-001": {
@@ -3483,708 +3450,626 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "confirm-decisions",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "步骤 initial",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6261"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6261"
                           }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-001-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-002"
-                      }
-                    }
-                  },
-                  "decision-001-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6258"
-                            },
-                            {
-                              "text": "dlg.6259"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  },
-                  "decision-002": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6263"
-                            },
-                            {
-                              "text": "dlg.6264"
-                            },
-                            {
-                              "text": "dlg.6265"
-                            },
-                            {
-                              "text": "dlg.6266"
+                    },
+                    {
+                      "kind": "confirm",
+                      "id": "decision-001",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.6258"
+                              },
+                              {
+                                "text": "dlg.6259"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.乞丐"
                             }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6267"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "portrait": {
-                              "asset": "portrait.pal.021",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6269"
-                            },
-                            {
-                              "text": "dlg.6270"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-002",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-002",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-002-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-002-yes"
-                      }
-                    }
-                  },
-                  "decision-002-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6258"
-                            },
-                            {
-                              "text": "dlg.6259"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  },
-                  "decision-002-yes": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "state": 2,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1808"
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6271"
-                            },
-                            {
-                              "text": "dlg.6272"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6273"
-                            },
-                            {
-                              "text": "dlg.6274"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6275"
-                            },
-                            {
-                              "text": "dlg.6276"
-                            },
-                            {
-                              "text": "dlg.6277"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6278"
-                            },
-                            {
-                              "text": "dlg.6279"
-                            },
-                            {
-                              "text": "dlg.6280"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6281"
-                            },
-                            {
-                              "text": "dlg.6282"
-                            },
-                            {
-                              "text": "dlg.6283"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6284"
-                            },
-                            {
-                              "text": "dlg.6285"
-                            },
-                            {
-                              "text": "dlg.6286"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6287"
-                            },
-                            {
-                              "text": "dlg.6288"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "portrait": {
-                              "asset": "portrait.pal.023",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "identity": {
-                            "kind": "narration"
-                          },
-                          "rows": [
-                            {
-                              "text": "dlg.6289"
-                            },
-                            {
-                              "text": "dlg.6290"
-                            },
-                            {
-                              "text": "dlg.6291"
-                            },
-                            {
-                              "text": "dlg.6292"
-                            },
-                            {
-                              "text": "dlg.6293"
-                            },
-                            {
-                              "text": "dlg.6294"
-                            },
-                            {
-                              "text": "dlg.6295"
-                            },
-                            {
-                              "text": "dlg.6296"
-                            }
-                          ],
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6297"
-                            },
-                            {
-                              "text": "dlg.6298"
-                            },
-                            {
-                              "text": "dlg.6299"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "portrait": {
-                              "asset": "portrait.pal.022",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "selectSceneHooks",
-                        "scene": "s118",
-                        "selection": {
-                          "onEnter": {
-                            "kind": "use",
-                            "value": "legacy-001"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "halveMoney"
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "legacy-002"
-                    }
-                  },
-                  "legacy-002": {
-                    "label": "步骤 legacy-002",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6301"
-                            },
-                            {
-                              "text": "dlg.6302"
-                            },
-                            {
-                              "text": "dlg.6303"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-003",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-003",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-003-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-003-yes"
-                      }
-                    }
-                  },
-                  "decision-003-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "legacy-002"
-                    }
-                  },
-                  "decision-003-yes": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6305"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "not",
-                          "cond": {
-                            "kind": "hasMoney",
-                            "atLeast": 100
                           }
                         },
-                        "then": []
-                      },
-                      {
-                        "kind": "giveMoney",
-                        "delta": -100
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6307"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
-                          }
+                        {
+                          "kind": "stopScript"
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6308"
-                            },
-                            {
-                              "text": "dlg.6309"
-                            },
-                            {
-                              "text": "dlg.6310"
-                            },
-                            {
-                              "text": "dlg.6311"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "portrait": {
-                              "asset": "portrait.pal.021",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6313"
-                            },
-                            {
-                              "text": "dlg.6314"
-                            },
-                            {
-                              "text": "dlg.6315"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
+                      ]
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6263"
                           },
-                          "slot": "top"
+                          {
+                            "text": "dlg.6264"
+                          },
+                          {
+                            "text": "dlg.6265"
+                          },
+                          {
+                            "text": "dlg.6266"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6316"
-                            },
-                            {
-                              "text": "dlg.6317"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "portrait": {
-                              "asset": "portrait.pal.003",
-                              "side": "right"
-                            }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6267"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "right"
                           }
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6319"
-                            },
-                            {
-                              "text": "dlg.6320"
-                            },
-                            {
-                              "text": "dlg.6321"
-                            },
-                            {
-                              "text": "dlg.6322"
-                            },
-                            {
-                              "text": "dlg.6323"
-                            },
-                            {
-                              "text": "dlg.6324"
-                            },
-                            {
-                              "text": "dlg.6325"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6269"
                           },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s132",
-                          "entity": "e2313"
+                          {
+                            "text": "dlg.6270"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
                         },
-                        "channel": "trigger",
-                        "selection": {
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "confirm",
+                      "id": "decision-002",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.6258"
+                              },
+                              {
+                                "text": "dlg.6259"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.乞丐"
+                            },
+                            "slot": "top"
+                          }
+                        },
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1808"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6271"
+                          },
+                          {
+                            "text": "dlg.6272"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6273"
+                          },
+                          {
+                            "text": "dlg.6274"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6275"
+                          },
+                          {
+                            "text": "dlg.6276"
+                          },
+                          {
+                            "text": "dlg.6277"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6278"
+                          },
+                          {
+                            "text": "dlg.6279"
+                          },
+                          {
+                            "text": "dlg.6280"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6281"
+                          },
+                          {
+                            "text": "dlg.6282"
+                          },
+                          {
+                            "text": "dlg.6283"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6284"
+                          },
+                          {
+                            "text": "dlg.6285"
+                          },
+                          {
+                            "text": "dlg.6286"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6287"
+                          },
+                          {
+                            "text": "dlg.6288"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.023",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.6289"
+                          },
+                          {
+                            "text": "dlg.6290"
+                          },
+                          {
+                            "text": "dlg.6291"
+                          },
+                          {
+                            "text": "dlg.6292"
+                          },
+                          {
+                            "text": "dlg.6293"
+                          },
+                          {
+                            "text": "dlg.6294"
+                          },
+                          {
+                            "text": "dlg.6295"
+                          },
+                          {
+                            "text": "dlg.6296"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6297"
+                          },
+                          {
+                            "text": "dlg.6298"
+                          },
+                          {
+                            "text": "dlg.6299"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.022",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "selectSceneHooks",
+                      "scene": "s118",
+                      "selection": {
+                        "onEnter": {
                           "kind": "use",
                           "value": "legacy-001"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "legacy-003"
+                    },
+                    {
+                      "kind": "halveMoney"
                     }
-                  },
-                  "legacy-003": {
-                    "label": "步骤 legacy-003",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.6327"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.乞丐"
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6301"
+                          },
+                          {
+                            "text": "dlg.6302"
+                          },
+                          {
+                            "text": "dlg.6303"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "confirm",
+                      "id": "decision-003",
+                      "onNo": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6305"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "kind": "hasMoney",
+                          "atLeast": 100
+                        }
+                      },
+                      "then": []
+                    },
+                    {
+                      "kind": "giveMoney",
+                      "delta": -100
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6307"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6308"
+                          },
+                          {
+                            "text": "dlg.6309"
+                          },
+                          {
+                            "text": "dlg.6310"
+                          },
+                          {
+                            "text": "dlg.6311"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "right"
                           }
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6313"
+                          },
+                          {
+                            "text": "dlg.6314"
+                          },
+                          {
+                            "text": "dlg.6315"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6316"
+                          },
+                          {
+                            "text": "dlg.6317"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6319"
+                          },
+                          {
+                            "text": "dlg.6320"
+                          },
+                          {
+                            "text": "dlg.6321"
+                          },
+                          {
+                            "text": "dlg.6322"
+                          },
+                          {
+                            "text": "dlg.6323"
+                          },
+                          {
+                            "text": "dlg.6324"
+                          },
+                          {
+                            "text": "dlg.6325"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s132",
+                        "entity": "e2313"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "legacy-001"
+                      }
                     }
-                  }
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6327"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.乞丐"
+                        }
+                      }
+                    }
+                  ]
                 }
-              }
+              ]
             }
           }
         },
@@ -5738,975 +5623,945 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "confirm-decisions",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "步骤 initial",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "identity": {
-                            "kind": "narration"
-                          },
-                          "rows": [
-                            {
-                              "text": "dlg.7491"
-                            },
-                            {
-                              "text": "dlg.7492"
-                            }
-                          ],
-                          "slot": "center"
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-001-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-001-yes"
-                      }
-                    }
-                  },
-                  "decision-001-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7490"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.林月如",
-                            "portrait": {
-                              "asset": "portrait.pal.022",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  },
-                  "decision-001-yes": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7494"
-                            },
-                            {
-                              "text": "dlg.7495"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 600
-                      },
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": 0,
-                        "dy": -48,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1834"
-                        }
-                      },
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": 16,
-                        "dy": -56,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1837"
-                        }
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "state": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1835"
-                        }
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "state": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1836"
-                        }
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "state": 2,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1814"
-                        }
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "state": 2,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1815"
-                        }
-                      },
-                      {
-                        "kind": "setParty",
-                        "members": [
-                          "li-xiaoyao",
-                          "lin-yueru"
-                        ]
-                      },
-                      {
-                        "kind": "teleportParty",
-                        "pos": {
-                          "col": 35,
-                          "row": 11,
-                          "height": 0
-                        }
-                      },
-                      {
-                        "kind": "setPartyFacing",
-                        "facing": "down"
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 400
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "state": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1837"
-                        }
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "state": 2,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7497"
-                            },
-                            {
-                              "text": "dlg.7498"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7500"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.小童"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1834"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
                         },
-                        "channel": "auto",
-                        "selection": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 320
-                      },
-                      {
-                        "kind": "setEntityFacing",
-                        "facing": "down",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "frame": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 200
-                      },
-                      {
-                        "kind": "setEntityFacing",
-                        "facing": "left",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "frame": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 240
-                      },
-                      {
-                        "kind": "setEntityFacing",
-                        "facing": "down",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "frame": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 160
-                      },
-                      {
-                        "kind": "setEntityFacing",
-                        "facing": "right",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "frame": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 80
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7502"
-                            },
-                            {
-                              "text": "dlg.7503"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
+                        "rows": [
+                          {
+                            "text": "dlg.7491"
+                          },
+                          {
+                            "text": "dlg.7492"
                           }
-                        }
-                      },
-                      {
-                        "kind": "moveParty",
-                        "to": {
-                          "col": 35,
-                          "row": 12,
-                          "height": 0
+                        ],
+                        "slot": "center"
+                      }
+                    },
+                    {
+                      "kind": "confirm",
+                      "id": "decision-001",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
                         },
-                        "speed": "slow"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7505"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.002",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "setEntityFacing",
-                        "facing": "up",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "frame": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 200
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7507"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.7490"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.林月如",
+                              "portrait": {
+                                "asset": "portrait.pal.022",
+                                "side": "right"
+                              }
                             }
                           }
+                        },
+                        {
+                          "kind": "stopScript"
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7509"
-                            },
-                            {
-                              "text": "dlg.7510"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.003",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7512"
-                            },
-                            {
-                              "text": "dlg.7513"
-                            },
-                            {
-                              "text": "dlg.7514"
-                            },
-                            {
-                              "text": "dlg.7515"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7517"
-                            },
-                            {
-                              "text": "dlg.7518"
-                            },
-                            {
-                              "text": "dlg.7519"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.003",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7521"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7523"
-                            },
-                            {
-                              "text": "dlg.7524"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.林月如",
-                            "portrait": {
-                              "asset": "portrait.pal.021",
-                              "side": "left"
-                            }
+                      ]
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7494"
                           },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7526"
-                            },
-                            {
-                              "text": "dlg.7527"
-                            },
-                            {
-                              "text": "dlg.7528"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
+                          {
+                            "text": "dlg.7495"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7530"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.005",
-                              "side": "right"
-                            }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7532"
-                            },
-                            {
-                              "text": "dlg.7533"
-                            },
-                            {
-                              "text": "dlg.7534"
-                            },
-                            {
-                              "text": "dlg.7535"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7537"
-                            },
-                            {
-                              "text": "dlg.7538"
-                            },
-                            {
-                              "text": "dlg.7539"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.林月如",
-                            "portrait": {
-                              "asset": "portrait.pal.024",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "setPartyFacing",
-                        "facing": "up"
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7541"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.005",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 320
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7543"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "setEntityFacing",
-                        "facing": "left",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "frame": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setPartyFacing",
-                        "facing": "down"
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7545"
-                            },
-                            {
-                              "text": "dlg.7546"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7548"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.林月如",
-                            "portrait": {
-                              "asset": "portrait.pal.021",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFacing",
-                        "facing": "up",
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "frame": 0,
-                        "target": {
-                          "scene": "s100",
-                          "entity": "e1838"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7550"
-                            },
-                            {
-                              "text": "dlg.7551"
-                            },
-                            {
-                              "text": "dlg.7552"
-                            },
-                            {
-                              "text": "dlg.7553"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7555"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.003",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7557"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7559"
-                            },
-                            {
-                              "text": "dlg.7560"
-                            },
-                            {
-                              "text": "dlg.7561"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7563"
-                            },
-                            {
-                              "text": "dlg.7564"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7565"
-                            },
-                            {
-                              "text": "dlg.7566"
-                            },
-                            {
-                              "text": "dlg.7567"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.7568"
-                            },
-                            {
-                              "text": "dlg.7569"
-                            },
-                            {
-                              "text": "dlg.7570"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "jiu-jianxian",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "restart"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "out",
+                      "ms": 600
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "dx": 0,
+                      "dy": -48,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1834"
+                      }
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "dx": 16,
+                      "dy": -56,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1837"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1835"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1836"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1814"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1815"
+                      }
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao",
+                        "lin-yueru"
+                      ]
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 35,
+                        "row": 11,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 400
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1837"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7497"
+                          },
+                          {
+                            "text": "dlg.7498"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7500"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小童"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1834"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "use",
+                        "value": "legacy-001"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 320
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "left",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 240
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 160
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "right",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7502"
+                          },
+                          {
+                            "text": "dlg.7503"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "moveParty",
+                      "to": {
+                        "col": 35,
+                        "row": 12,
+                        "height": 0
+                      },
+                      "speed": "slow"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7505"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.002",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "up",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7507"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7509"
+                          },
+                          {
+                            "text": "dlg.7510"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7512"
+                          },
+                          {
+                            "text": "dlg.7513"
+                          },
+                          {
+                            "text": "dlg.7514"
+                          },
+                          {
+                            "text": "dlg.7515"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7517"
+                          },
+                          {
+                            "text": "dlg.7518"
+                          },
+                          {
+                            "text": "dlg.7519"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7521"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7523"
+                          },
+                          {
+                            "text": "dlg.7524"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.林月如",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7526"
+                          },
+                          {
+                            "text": "dlg.7527"
+                          },
+                          {
+                            "text": "dlg.7528"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7530"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.005",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7532"
+                          },
+                          {
+                            "text": "dlg.7533"
+                          },
+                          {
+                            "text": "dlg.7534"
+                          },
+                          {
+                            "text": "dlg.7535"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7537"
+                          },
+                          {
+                            "text": "dlg.7538"
+                          },
+                          {
+                            "text": "dlg.7539"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.林月如",
+                          "portrait": {
+                            "asset": "portrait.pal.024",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7541"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.005",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 320
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7543"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "left",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7545"
+                          },
+                          {
+                            "text": "dlg.7546"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7548"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.林月如",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "up",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1838"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7550"
+                          },
+                          {
+                            "text": "dlg.7551"
+                          },
+                          {
+                            "text": "dlg.7552"
+                          },
+                          {
+                            "text": "dlg.7553"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7555"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7557"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7559"
+                          },
+                          {
+                            "text": "dlg.7560"
+                          },
+                          {
+                            "text": "dlg.7561"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7563"
+                          },
+                          {
+                            "text": "dlg.7564"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7565"
+                          },
+                          {
+                            "text": "dlg.7566"
+                          },
+                          {
+                            "text": "dlg.7567"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7568"
+                          },
+                          {
+                            "text": "dlg.7569"
+                          },
+                          {
+                            "text": "dlg.7570"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
                     }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         }
