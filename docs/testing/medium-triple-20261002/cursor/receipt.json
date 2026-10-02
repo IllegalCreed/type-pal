@@ -9,23 +9,12 @@
   "status": "rework-delivered-awaiting-codex",
   "executed": 34,
   "netNew": 33,
-  "crossCheck": [
-    "C4-03"
-  ],
-  "existingProofWithdrawn": [
-    "C1-04",
-    "C1-05"
-  ],
-  "unreachable": [
-    "C1-07"
-  ],
+  "crossCheck": ["C4-03"],
+  "existingProofWithdrawn": ["C1-04", "C1-05"],
+  "unreachable": ["C1-07"],
   "countersValid": 6,
   "oldGreenNewRed": 3,
-  "oldGreenNewRedIds": [
-    "CTR-C1-01",
-    "CTR-C4-01",
-    "CTR-C6-01"
-  ],
+  "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"],
   "oldExecuted": {
     "CTR-C1-01": 3,
     "CTR-C4-01": 12,
@@ -59,5 +48,6 @@
   "productMutations": false,
   "mainMerge": false,
   "officialGate": false,
-  "candidateSha": "3363a8ea65409ba6f906758a820d248215d3af9a"
+  "candidateSha": "3363a8ea65409ba6f906758a820d248215d3af9a",
+  "gatesTipPending": true
 }
