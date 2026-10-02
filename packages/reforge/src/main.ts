@@ -1913,7 +1913,7 @@ export async function bootGame(
         }
         preserveClosedDialogFrame = false
         frameAnimationPresentation.enterDialogue()
-        dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), frames.now)
+        dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), performance.now())
         scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
         signal.addEventListener('abort', abort, { once: true })
         if (signal.aborted) abort()
@@ -5178,7 +5178,10 @@ export async function bootGame(
             ? 1
             : Math.max(
                 0,
-                Math.min(1, (frames.now - expectDefined(dither.startedAt)) / dither.durationMs),
+                Math.min(
+                  1,
+                  (performance.now() - expectDefined(dither.startedAt)) / dither.durationMs,
+                ),
               )
       }
       const step = Math.floor(pr * DITHER_TOTAL_STEPS)
