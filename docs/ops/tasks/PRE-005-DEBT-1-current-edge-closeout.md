@@ -146,3 +146,12 @@ Root按磁盘约束删除自身14个旧合成/探针音视频（均在两个已�
 本次释放103689500字节（约99MiB），精确路径、字节/哈希和恢复引用见主树
 `build/evidence-archive/pre005-20261002/storage-cleanup.json`。旧bundle哈希保留为历史，当前恢复方式改为这些引用。
 指向用户已删录像的临时HTML播放器索引也已移除，测量JSON保留为历史，不展示不存在的影片。
+
+### 编辑器先行交付
+
+主树磁盘清理任务曾有board草稿，整批ff被Git拒绝，未覆盖或stash。Root改用仅含13个editor文件的
+`codex/pre005-editor-release@198b3c6f8`，与已独立验收fcada709a的editor目录逐字零diff。
+用户告知磁盘清理已结束后，main已包含其f913ac454；Root合入为d786ca900并成功推送origin/main。
+合并前后board、OPS-CURSOR-TEMP-CLEANUP-1原件及用户.zcodeignore SHA逐项不变；磁盘清理归另一任务，不计为本卡释放量。
+6012更新前真实DOM保存disabled/底栏已保存；HMR后仍s003同URL、已保存，原服务保留。
+未验收的录制首部代码没有随编辑器先行包发布。Root工作分支已合入main，保留双方提交与文档。

@@ -110,3 +110,7 @@ Owner仍pre005_media_probe，build allowed仅capture-browser/local与相邻回�
 暖机限001/startOnVideo分支；002–004路径和两项已闭P1保持。先交冻结代码与真实小型反控，再由Root独立复核。
 临时媒体总量限5MiB，优先内存pipe验证，真实片头只取2–3秒；finally删除自身精确临时媒体，
 仅保留小型文字/JSON证据。不恢复已删除目录、不复制大备份、不再完整重走/重录001–004。
+
+Root预审新增反控：原生video刚挂载但未解码时只画黑底，不能把该时点写成首个录制视频帧；
+firstDraw须在第一次真实drawImage(video)、readyState>=2之后记录，独立于DOM视觉来源切换。
+Owner补0.6秒晚解码反控；原生firstPresentedFrame不能替代被录合成帧。这不是调宽0.1秒判据。
