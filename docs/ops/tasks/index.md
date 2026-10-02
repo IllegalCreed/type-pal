@@ -176,6 +176,7 @@
 | [N6 - 共享脚本/子程序创作闭环](../archive/tasks/done/N6-shared-script-authoring.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单](../archive/tasks/done/OPENING-HANDOFF-1-no-stale-title-frame.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-0001 - 建立三贤人系统协作工作流](../archive/tasks/done/OPS-0001-agent-workflow-bootstrap.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [OPS-CURSOR-TEMP-CLEANUP-1 - Cursor 反控临时工作树去重清理](../archive/tasks/done/OPS-CURSOR-TEMP-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-GA4 - 同意后启用独立 GA4 页面浏览](../archive/tasks/done/OPS-GA4-consent-pageviews.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-MAP-1 - 能力地图真值对账与选择器校准](../archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-MAP-2 - X3 通关/结局流转真值纠偏](../archive/tasks/done/OPS-MAP-2-x3-ending-truth-reconciliation.md) | done | 完成证据、历史签字与交接见原卡。 |

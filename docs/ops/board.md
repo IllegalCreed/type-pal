@@ -40,6 +40,10 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
 轻量模板: [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md)
 
+2026-10-02 Cursor反控临时树清理已完成（`OPS-CURSOR-TEMP-CLEANUP-1`，见任务卡索引）：
+180 个失败遗留树（约80.6 GiB）逐文件核验后移除；158个独有blob已去重提交本机恢复仓库，
+正式Cursor候选与原分支保留，不将故意变异或旧测试稿并入产品。
+
 前两轮[九批返工复核](../testing/glm-nine-rework-review.md)保留历史证据；最新结论以下方当前接收为准。Mimosa不参与；TB00/TB01已由Codex补正、统一集成并分别核定done，见[收口记录](../testing/tb00-tb01-completion.md)。
 
 2026-09-25 [F2 溢出文本组件窄拆](../testing/grok-arch-ds-overflow-review.md)由 Grok 贡献、Codex 独立复核并 done：原/候选 Design Lab 两状态截图逐字节一致，根 check、ratchet、严格 fast 8110/642 通过。F2 整批仍未完成，Cursor 后续同文件切片尚未开放。
