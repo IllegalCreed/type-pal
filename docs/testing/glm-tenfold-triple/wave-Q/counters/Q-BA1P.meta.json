@@ -3,17 +3,12 @@
   "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
   "mutationKind": "product-source",
   "productFile": "packages/pal-extract/src/cli.ts",
-  "targetFullName": " Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+  "targetFullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
   "targetNameSubstring": "战斗精灵 dump-all",
   "sha256": {
     "testFile": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604",
     "original": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
-    "mutated": {
-      "numTotalTests": 2,
-      "numPassedTests": 1,
-      "numFailedTests": 1,
-      "success": false
-    },
+    "mutated": "91b93a033c69f9ad9021d8fdc27f868c07a80e3acfa0f1a2d480e7e07e384969",
     "restored": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
   },
   "restoredHashUnchanged": true,
@@ -26,6 +21,7 @@
     "restoredSameExecutionCount": true,
     "productRestoredEqualsCandidate": true
   },
+  "selfCheckErrors": [],
   "runs": {
     "positive": {
       "exitCode": 0,

@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790924654376,
+  "startTime": 1790926974266,
   "success": false,
   "testResults": [
     {
@@ -34,9 +34,9 @@
           "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
           "status": "failed",
           "title": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
-          "duration": 531.948,
+          "duration": 440.66983400000004,
           "failureMessages": [
-            "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'font glyphs written: 2'\n    at /private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-font-lookup.glm-q.test.ts:124:25\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'font glyphs written: 2'\n    at /private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-font-lookup.glm-q.test.ts:124:25\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
           ],
           "meta": {},
           "tags": []
@@ -46,14 +46,14 @@
           "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
           "status": "passed",
           "title": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
-          "duration": 533.1402089999999,
+          "duration": 445.41704200000004,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790924654599,
-      "endTime": 1790924655664.1401,
+      "startTime": 1790926974403,
+      "endTime": 1790926975289.417,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-font-lookup.glm-q.test.ts"

@@ -1,13 +1,37 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r18 续批5）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r19 唯一合并返工）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r18 候选**（r17 复核：两 CLI 合同 accept、BA1 输入/golden 错配 counter；
-**当前 147 执行 / 结构净新上限 146 / 缺口至少 554**；r17 候选 210356180/pin c1ec0482d
-保留供独立复核）。不合 main、不标 done。
+本文件描述 **r19 候选**（r18 复核：字体/lookup 方向 accept，Q-R19-01 三针 meta
+生产器错误 counter；**当前 147 执行 / 结构净新上限 146 / 缺口至少 554**；r18 候选
+275527af4/pin 2030ce06f 保留供独立复核）。不合 main、不标 done。下一新增实施子批
+等待 Codex 核定真实清单。
+
+## r19：Q-R19-01 一次合并闭合（三针 meta 生产器错误，无新增用例）
+
+1. **根因**：r18 的 counter-run-prod.sh v3 两个生产器字段错误——python 组装段
+   `pos, mut, res = (summary...)` 把 `mut` 重绑为 phase summary 对象，`sha256.mutated`
+   随之写成对象而非 64-hex；`targetFullName` 用 `' '.join(ancestors)+title` 自拼，
+   顶测（无 describe）产生前导空格，与真实 JSON failed.fullName 逐字不等。
+2. **修复（v4）**：hash 与 summary 分变量（PROD_ORIG/PROD_MUT/PROD_REST/TEST_SHA 直传）；
+   **变异阶段先采 product SHA**（patch 后、跑测前）；fullName 直接读 JSON
+   `assertionResults[].fullName`（与 v2 同法）；内建拒收（非 hex hash、身份不等、
+   红数≠1、执行数漂移）写入 `selfCheckErrors`。
+3. **可复现生产器 + 唯一校验器入库**（`tools/`，Q 证据白名单内）：
+   `tools/counter-run-prod.sh`（v4 全文）与 `tools/validate-counter-meta.mjs`——
+   校验 meta×三态 JSON：拒收对象/非 64-hex hash、fullName 附加空白、mutant 红身份
+   与目标不等、零红/多红、正/恢复非绿、执行数漂移。**自测 6 拒收 + 1 接受全过**
+   （含 v3 bug 两个复现样本）；三份坏 meta（v3 产物）逐一被拒、三份新 meta 逐一
+   通过。
+4. **三针真实重采**（Q-BA1P/FL1/FL2，真实三态实跑非期望重建）：mutated hash 均为
+   64-hex 实采、fullName 无前导空格、三相 2→1→2、exit 0/1/0、产品源恢复 hash 与
+   候选一致、`selfCheckErrors` 空。坏尝试保留为 `Q-*.bad.meta.json` 历史，不改写、
+   不冒作有效采样；旧 68 与退休日志不动。
+5. **账目不变**：147 执行 / 净新结构上限 146 / 缺口 ≥554；71 存档 / 62 目标 /
+   净新上限 61。本轮零新增用例；700/50 组不缩。
 
 ## r18 相对 r17 的改动（Q-R18-01 闭 + Q10 字形/lookup 新批）
 

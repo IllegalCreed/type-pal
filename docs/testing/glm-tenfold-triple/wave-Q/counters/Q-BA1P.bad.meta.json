@@ -1,14 +1,19 @@
 {
-  "id": "Q-FL2",
-  "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+  "id": "Q-BA1P",
+  "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
   "mutationKind": "product-source",
   "productFile": "packages/pal-extract/src/cli.ts",
-  "targetFullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
-  "targetNameSubstring": "lookup 产物",
+  "targetFullName": " Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+  "targetNameSubstring": "战斗精灵 dump-all",
   "sha256": {
-    "testFile": "2b08b93bc126cb2a6a57a5c004e9c1f496b8ad9eb27c063b8a63b3c92dd6d966",
+    "testFile": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604",
     "original": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
-    "mutated": "f46e86fa6ad349156ea272162db26cd39bd60ad16d0b826622abbf9f672f9d5a",
+    "mutated": {
+      "numTotalTests": 2,
+      "numPassedTests": 1,
+      "numFailedTests": 1,
+      "success": false
+    },
     "restored": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
   },
   "restoredHashUnchanged": true,
@@ -16,12 +21,11 @@
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "AssertionError: expected [Function flat] to have a length of 565 but got +0",
+    "targetAssertionError": "AssertionError: expected Uint8Array[ 0, 0, 0 ] to deeply equal Uint8Array[ 0, 0 ]",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "productRestoredEqualsCandidate": true
   },
-  "selfCheckErrors": [],
   "runs": {
     "positive": {
       "exitCode": 0,
@@ -31,8 +35,8 @@
         "numFailedTests": 0,
         "success": true
       },
-      "json": "Q-FL2.positive.json",
-      "raw": "Q-FL2.positive.txt"
+      "json": "Q-BA1P.positive.json",
+      "raw": "Q-BA1P.positive.txt"
     },
     "mutant": {
       "exitCode": 1,
@@ -42,8 +46,8 @@
         "numFailedTests": 1,
         "success": false
       },
-      "json": "Q-FL2.mutant.json",
-      "raw": "Q-FL2.mutant.txt"
+      "json": "Q-BA1P.mutant.json",
+      "raw": "Q-BA1P.mutant.txt"
     },
     "restored": {
       "exitCode": 0,
@@ -53,8 +57,8 @@
         "numFailedTests": 0,
         "success": true
       },
-      "json": "Q-FL2.restored.json",
-      "raw": "Q-FL2.restored.txt"
+      "json": "Q-BA1P.restored.json",
+      "raw": "Q-BA1P.restored.txt"
     }
   },
   "verdict": "VALID"

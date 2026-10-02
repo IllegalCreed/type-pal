@@ -39,15 +39,15 @@
     "diffCheck": "git diff --check 8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"
   },
   "results": {
-    "reforgeTest": "2150 passed（r14 最终串行复跑；r18 源未变，完整包+依赖+配置 Git 对象不变，明确复用不冒称新跑）",
-    "gameTest": "2812 passed（r16 最终串行复跑；r18 源未变，同上复用）",
-    "palExtractTest": "367 passed（r18 最终串行复跑：365 + 新批 2）",
-    "typechecks": "reforge/game/pal-extract 均 0 error（r18 复跑）",
-    "rootLint": "pnpm lint PASS — 完整 0/0/0（r18 候选与 pin 编辑后各复跑一次）",
-    "docsCheck": "PASS（r18 复跑）",
+    "reforgeTest": "2150 passed（r14 最终串行复跑；r19 未触产品/测试源，Git 对象不变，明确复用）",
+    "gameTest": "2812 passed（r16 最终串行复跑；r19 未触，同上复用）",
+    "palExtractTest": "367 passed（r18 最终串行复跑；r19 未触测试源，同上复用）",
+    "typechecks": "reforge/game/pal-extract 均 0 error（r18 复跑；r19 未触 TS 源）",
+    "rootLint": "pnpm lint PASS — 完整 0/0/0（r19 候选与 pin 编辑后各复跑一次）",
+    "docsCheck": "PASS（r19 复跑）",
     "diffCheck": "git diff --check 8b3ca062...HEAD 干净（pin 编辑后复跑）"
   },
-  "counterEvidence": "counters.json（71 全 VALID，62 执行目标；BA1P/FL1/FL2 为产品源码变异；Q-BA1/EI1/2、NT8/FZ3-5 历史退役）+ counters/",
+  "counterEvidence": "counters.json（71 全 VALID，62 执行目标；BA1P/FL1/FL2 r19 真实重采、v4 生产器+tools/validate-counter-meta.mjs 校验过；坏尝试保留 *.bad.meta.json）+ counters/ + tools/",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
   "coverageDelta": "coverage-delta.json（reforge/game 全测口径 +82/+5 臂；pal-extract 为 glm-q 定向口径且 CLI 子进程不在插桩范围，收益主张合同级）",
   "notes": [
@@ -56,6 +56,6 @@
     "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
-  "reworkRound": 18,
-  "candidateHeadNote": "r18 口径：candidateHead 指向 r18 测试候选树 tip；其后仅本 receipt 的 docs-only pin 提交回填，不改任何测试/产品文件。"
+  "reworkRound": 19,
+  "candidateHeadNote": "r19 口径：candidateHead 指向 r19 候选树 tip；其后仅本 receipt 的 docs-only pin 提交回填，不改任何测试/产品文件。"
 }

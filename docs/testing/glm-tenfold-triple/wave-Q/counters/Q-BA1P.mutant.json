@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790924581659,
+  "startTime": 1790926969718,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
           "status": "failed",
           "title": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
-          "duration": 518.841625,
+          "duration": 436.26474999999994,
           "failureMessages": [
             "AssertionError: expected Uint8Array[ 0, 0, 0 ] to deeply equal Uint8Array[ 0, 0 ]\n    at /private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-battle-assets.glm-q.test.ts:315:53\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
           ],
@@ -46,14 +46,14 @@
           "fullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
           "status": "passed",
           "title": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
-          "duration": 600.0825000000001,
+          "duration": 735.5693750000002,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790924581857,
-      "endTime": 1790924582976.0825,
+      "startTime": 1790926969865,
+      "endTime": 1790926971036.5693,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-battle-assets.glm-q.test.ts"

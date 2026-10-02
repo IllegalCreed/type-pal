@@ -1,27 +1,31 @@
 {
-  "id": "Q-FL1",
+  "id": "Q-FL2",
   "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
   "mutationKind": "product-source",
-  "productFile": "packages/pal-extract/src/font/bdf-to-json.ts",
-  "targetFullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
-  "targetNameSubstring": "BDF 接线正向",
+  "productFile": "packages/pal-extract/src/cli.ts",
+  "targetFullName": " Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+  "targetNameSubstring": "lookup 产物",
   "sha256": {
     "testFile": "2b08b93bc126cb2a6a57a5c004e9c1f496b8ad9eb27c063b8a63b3c92dd6d966",
-    "original": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20",
-    "mutated": "da44372d1a739a22f8d74a76815d8ba854422e77f3b6a49019677e4b2224afe0",
-    "restored": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20"
+    "original": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+    "mutated": {
+      "numTotalTests": 2,
+      "numPassedTests": 1,
+      "numFailedTests": 1,
+      "success": false
+    },
+    "restored": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
   },
   "restoredHashUnchanged": true,
   "testFileHashStable": true,
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'font glyphs written: 2'",
+    "targetAssertionError": "AssertionError: expected [Function flat] to have a length of 565 but got +0",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "productRestoredEqualsCandidate": true
   },
-  "selfCheckErrors": [],
   "runs": {
     "positive": {
       "exitCode": 0,
@@ -31,8 +35,8 @@
         "numFailedTests": 0,
         "success": true
       },
-      "json": "Q-FL1.positive.json",
-      "raw": "Q-FL1.positive.txt"
+      "json": "Q-FL2.positive.json",
+      "raw": "Q-FL2.positive.txt"
     },
     "mutant": {
       "exitCode": 1,
@@ -42,8 +46,8 @@
         "numFailedTests": 1,
         "success": false
       },
-      "json": "Q-FL1.mutant.json",
-      "raw": "Q-FL1.mutant.txt"
+      "json": "Q-FL2.mutant.json",
+      "raw": "Q-FL2.mutant.txt"
     },
     "restored": {
       "exitCode": 0,
@@ -53,8 +57,8 @@
         "numFailedTests": 0,
         "success": true
       },
-      "json": "Q-FL1.restored.json",
-      "raw": "Q-FL1.restored.txt"
+      "json": "Q-FL2.restored.json",
+      "raw": "Q-FL2.restored.txt"
     }
   },
   "verdict": "VALID"

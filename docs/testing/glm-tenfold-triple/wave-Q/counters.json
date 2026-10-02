@@ -3932,17 +3932,12 @@
       "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
       "mutationKind": "product-source",
       "productFile": "packages/pal-extract/src/cli.ts",
-      "targetFullName": " Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+      "targetFullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
       "targetNameSubstring": "战斗精灵 dump-all",
       "sha256": {
         "testFile": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604",
         "original": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
-        "mutated": {
-          "numTotalTests": 2,
-          "numPassedTests": 1,
-          "numFailedTests": 1,
-          "success": false
-        },
+        "mutated": "91b93a033c69f9ad9021d8fdc27f868c07a80e3acfa0f1a2d480e7e07e384969",
         "restored": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
       },
       "restoredHashUnchanged": true,
@@ -3955,6 +3950,7 @@
         "restoredSameExecutionCount": true,
         "productRestoredEqualsCandidate": true
       },
+      "selfCheckErrors": [],
       "runs": {
         "positive": {
           "exitCode": 0,
@@ -3998,17 +3994,12 @@
       "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
       "mutationKind": "product-source",
       "productFile": "packages/pal-extract/src/font/bdf-to-json.ts",
-      "targetFullName": " Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+      "targetFullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
       "targetNameSubstring": "BDF 接线正向",
       "sha256": {
         "testFile": "2b08b93bc126cb2a6a57a5c004e9c1f496b8ad9eb27c063b8a63b3c92dd6d966",
         "original": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20",
-        "mutated": {
-          "numTotalTests": 2,
-          "numPassedTests": 1,
-          "numFailedTests": 1,
-          "success": false
-        },
+        "mutated": "da44372d1a739a22f8d74a76815d8ba854422e77f3b6a49019677e4b2224afe0",
         "restored": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20"
       },
       "restoredHashUnchanged": true,
@@ -4021,6 +4012,7 @@
         "restoredSameExecutionCount": true,
         "productRestoredEqualsCandidate": true
       },
+      "selfCheckErrors": [],
       "runs": {
         "positive": {
           "exitCode": 0,
@@ -4064,17 +4056,12 @@
       "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
       "mutationKind": "product-source",
       "productFile": "packages/pal-extract/src/cli.ts",
-      "targetFullName": " Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+      "targetFullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
       "targetNameSubstring": "lookup 产物",
       "sha256": {
         "testFile": "2b08b93bc126cb2a6a57a5c004e9c1f496b8ad9eb27c063b8a63b3c92dd6d966",
         "original": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
-        "mutated": {
-          "numTotalTests": 2,
-          "numPassedTests": 1,
-          "numFailedTests": 1,
-          "success": false
-        },
+        "mutated": "f46e86fa6ad349156ea272162db26cd39bd60ad16d0b826622abbf9f672f9d5a",
         "restored": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
       },
       "restoredHashUnchanged": true,
@@ -4087,6 +4074,7 @@
         "restoredSameExecutionCount": true,
         "productRestoredEqualsCandidate": true
       },
+      "selfCheckErrors": [],
       "runs": {
         "positive": {
           "exitCode": 0,
