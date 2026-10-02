@@ -1,5 +1,5 @@
 {
-  "generatedFrom": "browser/flows.json + 目录截图实算 SHA256（r3 相位修复后）",
+  "generatedFrom": "browser/flows.json + 目录截图实算 SHA256（r3 相位修复后）；r18 F14/F18 视觉阶段补验：F14 创建/提交/undo/redo 四相位实证+保存重开子相位宿主 blocked（原生目录选择器）；F18 产品级 blocked（375px 工具栏完全覆盖导航触发）。两流仍计未证完整，18/20 保持，交 Codex 裁决",
   "flowCount": 20,
   "fullyProvenFlows": 18,
   "fullyProvenIds": [
@@ -25,11 +25,11 @@
   "partiallyProven": [
     {
       "id": "F14",
-      "reason": "未证完整功能流：点击「创建第一个战场/创建战场」后无撤销条目；按审查要求如实记录，不计入已证明流程"
+      "reason": "r18 补验：创建态/真实提交/对象存在+选中+真实撤销条目/编辑菜单 undo 对象消失/redo 恢复全部实证（6 截图）；保存重开子相位 blocked——首次保存需原生 showDirectoryPicker（use-editor-project-session.ts pickDir），IAB 无法触达，三条真实保存入口挂起零诊断；冷重开确认未落盘。整流未证完整，不计入 18"
     },
     {
       "id": "F18",
-      "reason": "未证完整可达：375px 菜单折叠为 导航 下拉（截图在案），下拉展开未成功；不冒称可达"
+      "reason": "r18 补验：产品级 blocked——375px 工具栏（撤销/重做/保存 y5-35）完全覆盖导航触发（x239-293 y4-36），10/10 探测点命中工具栏、menubar 容器 87px/230px overflow-visible 不可滚；键盘派发宿主不可用（press 零 keydown）。下拉未打开，不计入 18"
     }
   ],
   "flows": [
@@ -262,20 +262,73 @@
     },
     {
       "id": "F14",
-      "name": "战场编辑：空表缺省 #024 警告观察（创建按钮点击未产生可观测撤销项——两次尝试均无 undo 条目，如实登记为未证完整功能流）",
-      "result": "未证完整功能流：点击「创建第一个战场/创建战场」后无撤销条目；按审查要求如实记录，不计入已证明流程",
+      "name": "战场编辑：创建第一个战场→真实提交→对象存在/选中/撤销条目→编辑菜单 undo/redo→保存重开（r18 视觉阶段补验）",
+      "result": "创建/提交/撤销/重做四相位全部实证（区分进入创建态与提交）；保存重开子相位 blocked：首次保存需原生 showDirectoryPicker 目录选择器（use-editor-project-session.ts pickDir），IAB 自动化无法触达；三条真实保存入口（工具栏按钮/⌘S/文件菜单项）均挂起于 choosing-directory 相位且零 console 诊断；冷重开确认对象未落盘（空表回归、撤销/重做禁用、状态已保存）。整流仍计未证完整（保存重开缺失），交 Codex 裁决",
       "phaseEvidence": {
-        "undoLabelBefore": "撤销|disabled=true",
-        "undoLabelAfterCreate": "撤销|disabled=true",
-        "catalogAfterCreate": ["新建战场", "复制当前战场", "缺少项目默认战场 #024", "创建战场"],
-        "undoLabelAfterUndo": "撤销|disabled=true"
+        "env": {
+          "project": "mkdtemp 独占副本内 buildBlankProject(\"glm-p-f1418\")（20 文件），manifest id=glm-p-f1418，无 battle-fields 内容键=空表前提",
+          "server": "VITE_PROJECT_ID=glm-p-f1418 vite --port 6187 --strictPort（临时候选副本内，未触真实 PAL/6012/仓库 projects）",
+          "url": "http://localhost:6187/?module=battle&page=battlefield（来自页面自身菜单 href）"
+        },
+        "before": {
+          "count": "0 个",
+          "hint": "缺少项目默认战场 #024（真实配置：项目无默认战场表，场景摘要默认战场显示 项目默认战场 #024）",
+          "undo": "disabled",
+          "shot": "f14-before.png 12195a3563dc7a18949e67f056cde1a29b12187c35707b0f10024844cf2291eb"
+        },
+        "creating": {
+          "form": "heading 先确定稳定编号与名称；编号预填 24；名称空（placeholder 例如：林间空地）；创建战场/取消按钮",
+          "notSubmitted": "计数仍 0 个、撤销仍 disabled",
+          "shot": "f14-creating.png 55ca2f3fddf12180bdaaf2093961a77d71628372d6ce4b6ac8faed2799ec9817"
+        },
+        "submitted": {
+          "count": "1 个",
+          "selected": "button 林间空地 #024 默认 [pressed]",
+          "editor": "heading 林间空地 [level=1] + code #024；名称=林间空地",
+          "undoEntry": "工具栏 button 撤销：新建战场；编辑菜单 menuitem 撤销：新建战场 ⌘Z（真实撤销条目）",
+          "references": "项目默认战场 #24 / project.defaultBattleFieldId / 阻断删除 1 处",
+          "status": "未保存改动",
+          "shot": "f14-after-created.png f5abef476d6cbeff83fe50b1598f78021dec7627f8f05742a5fefbf19792dc37"
+        },
+        "undo": {
+          "via": "编辑菜单 menuitem 撤销：新建战场（dom_cua 节点点击）",
+          "count": "0 个",
+          "emptyState": "还没有战场 + 创建第一个战场 + 缺少项目默认战场 #024 回归",
+          "redoEntry": "重做：新建战场",
+          "shot": "f14-after-undo.png 2ec11d4fbf02e7a462bfc8c77b71bf76a3ebef3d59b15a28b0c3d0f656c0d841"
+        },
+        "redo": {
+          "via": "编辑菜单 menuitem 重做：新建战场（dom_cua）",
+          "count": "1 个",
+          "selected": "林间空地 #024 默认 [pressed] 回归",
+          "shot": "f14-after-redo.png 758fa7a2ea7f7832afc41f38c20d6a874f200b7f1cf288990ada72d0dcc2dec1"
+        },
+        "saveBlocked": {
+          "attempts": [
+            "工具栏 button 保存（dom_cua，保存按钮本体已核实）",
+            "cua.keypress Meta+S",
+            "文件菜单 menuitem 保存 ⌘S（dom_cua）"
+          ],
+          "sourceCaller": "packages/editor/src/ui/use-editor-project-session.ts save(): 无 directoryRef 时 pickDir()=showDirectoryPicker（原生目录选择器）；dev httpSource(file-source.ts) 只读无写通道，保存必须先选本地目录",
+          "disk": "projects/glm-p-f1418/ 无 battle-fields.json、manifest 无 battle-fields 键（保存前后均无变化）",
+          "consoleDuringSave": "error/warn/pageError/rejection 全零（挂起无诊断）"
+        },
+        "reopen": {
+          "method": "关闭原 tab 后新 tab 冷加载（IAB 长活 tab reload 不提交——navigation entry 仅 1 条 type=navigate 证实）",
+          "result": "0 个/还没有战场/撤销 disabled/状态 已保存（对象未持久化，与保存 blocked 一致）",
+          "url": "?module=battle&page=battlefield",
+          "shot": "f14-after-reopen.png 2b26171fef623c78b80eb1e71ec34ee7167aae45add845de312e6dfc63b62334"
+        }
       },
       "console": {
         "error": [],
         "log": [],
+        "info": [],
         "pageError": [],
         "rejection": [],
-        "warn": []
+        "warn": [
+          "注：F14 会话 console 记录器于导航后重装，覆盖相位全部在记录窗口内；error/pageError/rejection 为零"
+        ]
       }
     },
     {
@@ -330,18 +383,50 @@
     },
     {
       "id": "F18",
-      "name": "窄窗 375×700：菜单折叠为「导航」下拉；自动化三次点击未能展开下拉（IAB 宿主限制），窄窗模块可达性如实登记为未证",
-      "result": "未证完整可达：375px 菜单折叠为 导航 下拉（截图在案），下拉展开未成功；不冒称可达",
+      "name": "窄窗 375×700：导航下拉实际打开与模块可达（r18 视觉阶段补验）",
+      "result": "产品级 blocked（固定 P 候选窄窗布局缺陷）：375px 下常用操作工具栏（撤销 x229-259/重做 x261-291/保存 x293-367，y5-35）完全覆盖导航触发按钮（x239-293，y4-36）——10 个 elementFromPoint 探测点全部命中工具栏按钮/SVG、无一点命中导航；.ds-menubar 容器 clientWidth=87 / scrollWidth=230 / overflow-x=visible（按钮溢出容器绘制于工具栏之下，不可滚动）；Playwright 点击因命中拦截超时，cua 坐标点击落在重做按钮（点击前后整页截图 sha256 相同）。键盘路径宿主不可用：locator.press Enter 派发零 keydown（__keyLog 空）、cua Tab 从 body 无焦点移动（IAB 键盘派发限制，与旧 F18 记录一致）；menubar 项 tabIndex=0 理论可聚焦，真实键盘可达检查无法在本宿主完成。下拉未打开，模块导航/恢复宽窗子相位未执行。交 Codex 裁决产品缺陷",
       "phaseEvidence": {
-        "narrowMenubar": ["文件", "编辑", "视图", "导航"],
-        "attempts": 3
+        "env": {
+          "project": "同 F14（glm-p-f1418 @6187）",
+          "viewport": "375×700（tab.setViewportSize 实设，viewportSize 读回一致）"
+        },
+        "narrowCollapsed": {
+          "menubar": ["文件", "编辑", "视图", "导航"],
+          "wideOnlyHidden": "场景/地图/剧情/角色/物品/战斗/战斗模拟器/资源/项目设置 全部 rect 0×0（display:none）",
+          "shot": "f18-narrow-before.png 6304c9ac722055d108fe02de11e94e3c3a97cb4c4fb6770796091840b038bd86"
+        },
+        "navUnreachable": {
+          "navRect": "x239-293 y4-36（54×32）",
+          "toolbarRects": "对象列表 x154-184 / Inspector x186-216 / 撤销 x229-259 / 重做 x261-291 / 保存 x293-367（均 y5-35）",
+          "hitTest": "10 探测点（x=245/256/266/277/288 × y=14/23）全部命中 ds-toolbar-button--compact 或其 svg/path，isNav=false 10/10",
+          "menubarBox": ".ds-menubar clientWidth=87 scrollWidth=230 overflow-x=visible（无滚动可用）",
+          "clickAttempts": [
+            "Playwright getByRole(menuitem 导航).click → 30s actionability 超时（命中拦截）",
+            "cua.click(266,20)（按钮几何中心）→ 落在重做按钮，页面无变化（f18-nav-open.png 与 f18-nav-open-retry.png sha256 相同 97f518b1…）",
+            "dom_cua.click(e5) → 未打开（同样命中坐标被覆盖）"
+          ],
+          "keyboardAttempts": [
+            "locator.press('Enter') → __keyLog 零事件（aria-expanded 仍 false）",
+            "cua.keypress Tab×12 from body → activeElement 恒 BODY",
+            "对工具栏首按钮 press('Shift+Tab') → 焦点未移动（仍 对象列表）"
+          ],
+          "triggerSource": "packages/editor/src/ui/design-system/navigation.tsx:92-113（onClick/ArrowDown/Enter/Space → openMenu；无 hover 开启）",
+          "shots": [
+            "f18-nav-open.png 97f518b1effccae9ce130d78715c730c1c703e37e8ffe1748a1c07c834c1c5d5",
+            "f18-nav-open-retry.png 97f518b1effccae9ce130d78715c730c1c703e37e8ffe1748a1c07c834c1c5d5",
+            "f18-overlay-detail.png 515e9518e183b3d1ea685a94f7a370428d5deb0b0854f084459bf382f3a6a6d2（头部 375×44 裁剪：导航文字与工具栏图标同排重叠可视确认）"
+          ]
+        }
       },
       "console": {
         "error": [],
         "log": [],
+        "info": [],
         "pageError": [],
         "rejection": [],
-        "warn": []
+        "warn": [
+          "[RUM] ArmsEventBridge is not available, events dropped ×2（宿主注入监测脚本，非编辑器产物）"
+        ]
       }
     },
     {

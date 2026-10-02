@@ -8,7 +8,7 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "r18 续批：测试提交 50695fdce（P05 首批）+证据提交；最终远端候选以推送 tip 为准（head 不引用自身提交）",
+  "headNote": "r18 视觉阶段：仅 browser/ 证据与 receipt 更新（F14 五相位实证+保存重开 blocked；F18 产品级覆盖缺陷 blocked）；最终远端候选以推送 tip 为准（head 不引用自身提交）",
   "counts": {
     "contractsExecuted": 102,
     "workGroups": 29,
@@ -16,7 +16,7 @@
     "countersArchived": 2,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
-    "browserScreenshots": 66,
+    "browserScreenshots": 74,
     "target": "700/70组/50反控/20流程（不缩）",
     "gap": {
       "examples": 598,
@@ -51,7 +51,8 @@
     "P04-batch": "r14 续批 P04 首批 11 例 5 组：actor-references 开关/空id守卫/detail五值/自援护豁免/分片where + enemy-commands withEnemy 替换/未命中、UpdateEnemy 缺席臂/onDefeated整键删除/构造期快照、AddEnemy invert；+P04-C01/C02 两枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）",
     "P04-batch2": "+P04-G06 敌队稳定 id（enemy-team-commands.ts:77 三行唯一锚）与 P04-C03 反控；G07 dialogue-portrait identity 臂停该组（identity 形 cue 仅作者视图类型合法；旧证强转注入，不复制）——证据与停组理由见 contracts.json note",
     "P-R17": "①12 份 counter JSON biome format（值不变）+工具 emit 经 biome format；②G01-1 开关臂换当前合法共享脚本；G01-2/G03-1 撤回+C01 退役（validateStartWorld 拒收空 party id、chunks 无当前 producer，历史原字节保留）；G02 合法闭合夹具、levelUp 轴归旧证；③G07 停测撤回，经公开投影路径补 2 例（无强转无新接口）；C02/C03 与七条 enemy/team 合同保留未重采",
-    "P05-batch": "r18 续批 P05 首批 4 例 4 组（resolver label 两臂/保留路径守卫两臂/fieldId 来源/成员形态）+P05-C01/C02/C03 三枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）；C01 退役档措辞按 r18 复核纠正（JSON 值同字节变、raw 原字节未变）"
+    "P05-batch": "r18 续批 P05 首批 4 例 4 组（resolver label 两臂/保留路径守卫两臂/fieldId 来源/成员形态）+P05-C01/C02/C03 三枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）；C01 退役档措辞按 r18 复核纠正（JSON 值同字节变、raw 原字节未变）",
+    "P-F14-F18-visual": "r18 视觉阶段（GLM-5.3-Flash 专属批次）：mkdtemp 独占副本（buildBlankProject glm-p-f1418，manifest 读回）+ 空闲端口 6187 独立服务；F14 创建态/真实提交/对象存在+选中+真实撤销条目/编辑菜单 undo 消失/redo 恢复五相位实证（6 截图，console 零 error/pageError/rejection），保存重开子相位 blocked（首次保存需原生 showDirectoryPicker——use-editor-project-session.ts pickDir；IAB 不可达；三条真实保存入口挂起零诊断；冷重开确认未落盘）；F18 产品级 blocked（375px 工具栏撤销/重做/保存 y5-35 完全覆盖导航触发 x239-293 y4-36，10/10 elementFromPoint 命中工具栏；.ds-menubar 87px/230px overflow-visible；键盘派发宿主不可用 press 零 keydown）。两流仍计未证完整 18/20，产品缺陷与 blocked 证据交 Codex 裁决；代码/测试/旧针零改动"
   },
   "commands": {
     "directedVitest": "102/102 passed（r18 续批真实重生，directed-vitest.json，全 12 个 wave-P 文件）",
@@ -61,7 +62,8 @@
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
     "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（工具未改沿用）",
-    "docsGate": "docs: PASS 818 Markdown / 4285 links / 0 issues（content20 SAVE8 冻结口径）"
+    "docsGate": "docs: PASS 818 Markdown / 4285 links / 0 issues（content20 SAVE8 冻结口径）",
+    "browserEvidence": "browser-evidence.json + flows.json + README 索引同步（r18 视觉阶段；截图 74 张含 sha256）"
   },
   "notDone": [
     "P02 剩余暗区",

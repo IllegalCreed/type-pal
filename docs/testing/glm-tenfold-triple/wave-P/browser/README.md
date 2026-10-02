@@ -22,10 +22,10 @@
 | F11 | f11-before.png | f11-after-rename.png, f11-after-menu-undo.png, f11-after-menu-redo.png |
 | F12 | f12-before.png | f12-after-rename.png, f12-after-undo.png |
 | F13 | f13-before.png | f13-after-create.png, f13-after-undo.png |
-| F14 | f14-before.png | f14-after-create.png, f14-after-undo.png（未证完整功能流，如实登记） |
+| F14 | f14-before.png, f14-creating.png | f14-after-created.png, f14-after-undo.png, f14-after-redo.png, f14-after-reopen.png（r18：创建/提交/undo/redo 实证；保存重开子相位 blocked——原生目录选择器不可达；旧 attempt 截图保留） |
 | F15 | f15-before.png | f15-after-create.png, f15-after-undo.png |
 | F16 | f16-before.png | f16-after-select.png（面板常显，如实登记） |
 | F17 | f17-before.png | —（浏览记录） |
-| F18 | f18-before-narrow-scene.png | f18-after-narrow-map.png（导航下拉未展开，未证可达） |
+| F18 | f18-narrow-before.png | f18-nav-open.png, f18-nav-open-retry.png, f18-overlay-detail.png（r18：产品级 blocked——375px 工具栏完全覆盖导航触发，10/10 命中测试；键盘派发宿主不可用；旧 attempt 截图保留） |
 | F19 | f19-before.png | f19-after-toggle.png |
 | F20 | f20-before.png | —（浏览记录） |
