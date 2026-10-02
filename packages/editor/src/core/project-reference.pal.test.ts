@@ -95,7 +95,19 @@ describe('ED-3 PAL project reference index', () => {
 
     // SCRIPT-AUTHOR-2 replaces 24 nudges + 24 animation targets with one stair target move:
     // e56's route addresses fall from 57 to 10 (-47), without changing external blockers.
-    expect(diagnostics.entityAddressReferences).toHaveLength(38_111)
+    // E2E-005 moves the report onto Xianglan and restores her return route: +18 addresses.
+    // The entry now has only two external Xianglan references; her own movement is self-owned.
+    expect(diagnostics.entityAddressReferences).toHaveLength(38_129)
+    expect(
+      diagnostics.entityAddressReferences.filter(
+        (reference) =>
+          reference.sceneId === 's004' &&
+          reference.entityId === 'e83' &&
+          reference.locator.kind === 'scene' &&
+          reference.locator.sceneId === 's004' &&
+          reference.path.includes('.hooks.onEnter.variants.legacy-003.flow.'),
+      ),
+    ).toHaveLength(2)
     expect(
       diagnostics.entityAddressReferences.filter(
         (reference) =>
@@ -140,7 +152,7 @@ describe('ED-3 PAL project reference index', () => {
           reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
-    expect(actualEntityBlockers).toHaveLength(4_389)
+    expect(actualEntityBlockers).toHaveLength(4_384) // Seven scene-owned Xianglan targets become two.
 
     expect(
       edges.filter(
@@ -401,7 +413,7 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
     expect(battleSpriteEdges).toHaveLength(180)
-    expect(assetEdges).toHaveLength(6_008)
+    expect(assetEdges).toHaveLength(6_010) // Zhang Si's restored follow-ups each retain his portrait.
     const baselineAssetReferences = collectEditorAssetReferences(state, canonical)
     const optimizedAssetReferences = diagnostics.assetSnapshot.references
     const assetReferenceIdentity = (reference: (typeof baselineAssetReferences)[number]): string =>
@@ -603,7 +615,27 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_469)
+    // Xianglan's approach is now explicit in her report, retiring one auto selection.
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_468)
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 's004',
+        entityId: 'e83',
+        channel: 'trigger',
+        behaviorId: 'report-aunt-illness',
+      }),
+    ).toMatchObject([
+      {
+        source: {
+          owner: {
+            kind: 'script-owner',
+            owner: { kind: 'scene-hook', sceneId: 's004', slot: 'onEnter' },
+          },
+        },
+        relation: { kind: 'behavior-reference' },
+      },
+    ])
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -703,8 +735,10 @@ describe('ED-3 PAL project reference index', () => {
     ])
     // First-talk/kitchen adds forty rows and fifty-four aliases; no parity or payload gate is relaxed.
     // Two external kitchen pose references replace one retired page binding: net +1.
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_246)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_163)
+    // E2E-005: five fewer external addresses, one fewer behavior selection, two portrait uses.
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_242)
+    // The retired behavior selection also removes its parent entity/scene aliases.
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_157)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

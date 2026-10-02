@@ -122,6 +122,24 @@ RF原004档在首包改内容后正式preflight拒绝auto resume digest不符；
 修复，后续分段继续核首次/复读/返程和实际时序。运行时缺陷（如004时钟混用）须单独归因，
 不能统称迁移bug，也不为这些作者内容修复重新启用全量转换。
 
+## 独立复核返工
+
+Root亲读最终作者内容并独立8项回归通过；原对白/音乐/后续世界变更与旧正文逐JSON相等，
+只有批准的接近/返程/归属和命名改变。RF001→004 saves已按最终作者内容从正常新局重新生成，
+真实004档SHA `e601ad9f04027055a673f340b11f8d1038bd94d5ba44a4d6c0806d1302419c0d`。
+
+Root对005工具提出实际counter：从game guards原trace删除布防后十二条走近提交、保留出门时巡逻并重排序号，
+旧断言仍通过，不能证明本次走近。6ce26b2fa收紧到布防后实际walk，并固定已核停点/朝向；
+存读回执另从恢复后的真实trace证明后台续跑，不只信report的from/to字段。最终实跑仍待新冻结验证。
+RF第一次走到张四超时属于工具读静态page range而非已变化的activation；已改读生产resolver当前值，
+保留失败收据，不误改正文或放宽距离。正常story与guards/saves继续分开。
+
+Root追加独占`packages/editor/src/core/project-reference.pal.test.ts`对应作者内容的引用golden：
+独立数s004地址383→401、外部地址44→39，张四两个新portrait引用；总地址+18、blocker-5、
+behavior引用-1、asset+2、compact rows-4、target aliases-6。保留所有原collector/index/worker/payload门，
+补onEnter到e83恰两实体引用及一条新报信方案引用见证，不降规则。定向测试和Biome零诊断；
+前四次旧golden失败日志保留，非产品缺陷，也不把更新计数当作完整统一质量门通过。
+
 ## 下一位 Agent 提示词
 
 已直接委派，无需用户转发。贡献者只在白名单内交候选和自测；不得合main、标done、改变6012或用户存档。
