@@ -13,7 +13,7 @@
  *   entry 聚合（key 精确形态）无旧直测 fullName。
  * 合法输入：与 script-editor.test.ts 同构 typed fixture（zone 实体合法：无外观触发区）。
  */
-import type { AuthorCommand, AuthorSceneDef } from '@type-pal/content'
+import type { AuthorCommand, AuthorSceneDef, AuthorScriptFlow } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
