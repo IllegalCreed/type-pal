@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 468,
-  "passed": 468,
+  "numTotalTests": 461,
+  "passed": 461,
   "failed": 0,
   "tests": [
     {
@@ -150,11 +150,6 @@
     },
     {
       "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
-      "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base hash-only、ours 同 hash 正文、theirs 更新 → 采纳 theirs 更新",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
       "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud",
       "status": "passed"
     },
@@ -180,17 +175,7 @@
     },
     {
       "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
-      "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
       "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
-      "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 重放同一 publication：writes/deletes/conflicts 全零",
       "status": "passed"
     },
     {
@@ -200,32 +185,12 @@
     },
     {
       "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
-      "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 createMigrationPlan 不修改三个输入快照（输入不可变）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
       "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
-      "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 只有 theirs（生成侧）改动 → generated；只有 ours（作者侧）改动 → kept",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
       "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 双方各自改动同一普通文件的不同字段 → merged 计数",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
-      "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 原子地图 ours 改、theirs 同 base → theirs 更新进入 writes",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
-      "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 存在冲突时 writes/deletes 全空（停线）",
       "status": "passed"
     },
     {

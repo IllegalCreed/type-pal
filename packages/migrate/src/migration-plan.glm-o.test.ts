@@ -64,7 +64,6 @@ describe('O02 createMigrationPlan：原子地图 hash-only 与冲突分类', () 
     expect(plan.target.get(MAP)).toEqual(mapV(1))
   })
 
-
   test('base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud', () => {
     const base = snap([[MAP, mapV(1)]], [MAP])
     const ours = snap([[MAP, mapV(9)]], [MAP])
@@ -133,7 +132,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     expect(plan.summary.managed).toBe(plan.target.size)
   })
 
-
   test('ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes', () => {
     const base = snap([[DOC, { v: 1 }]])
     const ours = snap([
@@ -146,7 +144,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     expect(plan.target.get('content/extra.json')).toEqual({ keep: true })
   })
 
-
   test('snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化', () => {
     const snapshot = snap([
       [MAP, mapV(1)],
@@ -156,7 +153,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     expect(withHashes.hashes!.get(DOC)).toBe(sha256(`${JSON.stringify({ v: 1 }, null, 2)}\n`))
     expect(withHashes.hashes!.has(MAP)).toBe(true)
   })
-
 
   test('计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）', () => {
     const base = snap([[DOC, { v: 1 }]])
@@ -169,7 +165,6 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
 })
 
 describe('O02 createMigrationPlan：summary 计数与冲突停线', () => {
-
   test('双方各自改动同一普通文件的不同字段 → merged 计数', () => {
     const base = snap([[DOC, { v: 1, w: 0 }]])
     const ours = snap([[DOC, { v: 2, w: 0 }]])
@@ -179,8 +174,6 @@ describe('O02 createMigrationPlan：summary 计数与冲突停线', () => {
     expect(plan.target.get(DOC)).toEqual({ v: 2, w: 5 })
     expect(plan.summary.merged).toBe(1)
   })
-
-
 
   test('summary.managed = 三方托管并集（含仅存在于单方的文件）', () => {
     const base = snap([['a.json', {}]])

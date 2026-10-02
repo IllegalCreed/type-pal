@@ -1,7 +1,7 @@
 {
-  "total": 65,
-  "uniqueIds": 65,
-  "distinctTargets": 63,
+  "total": 64,
+  "uniqueIds": 64,
+  "distinctTargets": 62,
   "rule": "三态（counter-judge.mjs 唯一判据）；62 枚重采 + 7 枚新批次（O09-CC14~18、O08-CC10/11）",
   "retired": [
     "O08-CC8",
@@ -12,9 +12,10 @@
     "O09-CC17",
     "O09-CC18",
     "O08-CC11",
-    "O02-CC2"
+    "O02-CC2",
+    "O02-CC4"
   ],
-  "retiredNote": "目标测试被去重删除（9 枚退役仅保留历史证据目录；O02-CC2 于 5c29e10d4 删除 :318 重复目标）",
+  "retiredNote": "目标测试被去重删除（10 枚退役保留历史证据目录；O02-CC4 于本轮删除 boundaries:30 精确重复目标）",
   "counters": [
     {
       "id": "O01-CC1",
@@ -258,41 +259,6 @@
         "mutated": "27a127626cc19d2167388d1d06f873d617c8420a85b33d64b2de509a9fd54d6f",
         "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
         "rebuilt": "27a127626cc19d2167388d1d06f873d617c8420a85b33d64b2de509a9fd54d6f"
-      },
-      "patchRebuiltAndVerified": true
-    },
-    {
-      "id": "O02-CC4",
-      "contract": "theirs 删除的托管文件进入 deletes",
-      "target": {
-        "file": "src/migration-plan.glm-o.test.ts",
-        "title": "theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes"
-      },
-      "control": {
-        "exitCode": 0,
-        "executed": 18,
-        "passed": 18,
-        "failed": 0
-      },
-      "injected": {
-        "exitCode": 1,
-        "executed": 18,
-        "passed": 17,
-        "failed": 1,
-        "failedFullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
-        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]"
-      },
-      "restored": {
-        "exitCode": 0,
-        "executed": 18,
-        "passed": 18,
-        "failed": 0
-      },
-      "hashes": {
-        "original": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750",
-        "mutated": "1da947e4c16f33e7e74ab8d008f5bc86bf7a931bcef1dc358dcee280f7a55309",
-        "restored": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750",
-        "rebuilt": "1da947e4c16f33e7e74ab8d008f5bc86bf7a931bcef1dc358dcee280f7a55309"
       },
       "patchRebuiltAndVerified": true
     },
@@ -2291,10 +2257,5 @@
       },
       "patchRebuiltAndVerified": true
     }
-  ],
-  "reAdjudication": {
-    "judge": "counter-judge.mjs@729d554d0",
-    "result": "65/65 live pass（p13：O03-CC1/CC2/CC3 因合并裁决执行集/标题变化重采，CC1 变异重定为 map 委派轴；其余 62 保留）",
-    "evidence": "re-adjudication.json"
-  }
+  ]
 }

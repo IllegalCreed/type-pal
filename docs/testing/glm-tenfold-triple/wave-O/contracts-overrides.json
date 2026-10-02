@@ -171,175 +171,175 @@
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 绝对路径目标被 safeRel 拒绝": {
     "condition": "target=resolve(repo,...) 绝对路径，其余字段合法",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts 全部目标为仓库相对路径，无绝对路径臂 → gap 新轴",
     "source": "migration-transaction.ts:58-61 safeRel（提交侧 :291 逐项调用）"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 '..' 越界段目标被 safeRel 拒绝": {
     "condition": "target='projects/pal/../evil.txt' 含 .. 段",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts:282-298 的 ../victim 为 journal 侧；提交侧 .. 越界未证 → gap 新轴",
     "source": "migration-transaction.ts:58-61 safeRel 段校验"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 './' 前缀目标被规范化后接受（同一事务目标等价）": {
     "condition": "target='./projects/pal/content/a.json' 带 ./ 前缀",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts 无 ./ 前缀规范化臂 → gap 新轴",
     "source": "migration-transaction.ts:58-65 safeRel normalize 后落盘"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝": {
     "condition": "同事务两个操作指向同一 target（内容不同）",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts 无重复目标臂（:78-79 的重复目标门在 migration-write-plan 域）→ gap 新轴",
     "source": "migration-transaction.ts:296-297 targets Set 重复门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 project expectedPreviousHash 非十六进制被拒绝": {
     "condition": "project 操作 expectedPreviousHash='nothex'（非 64 位十六进制）",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts:24-37 已证 hash 与磁盘不符（偏离规划快照）；格式非法臂未证 → gap 新轴",
     "source": "migration-transaction.ts:302-304 commit 侧 hash 格式门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 precondition hash 非法被拒绝": {
     "condition": "manifest 前置条件 hash='xyz'（非十六进制）",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts:156 前置条件 hash 均合法；格式非法臂未证 → gap 新轴",
     "source": "migration-transaction.ts:308-309 commit 侧前置 hash 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 非 manifest 操作携带 preconditions 被拒绝": {
     "condition": "project 操作携带 preconditions（非 manifest）",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
     "source": "migration-transaction.ts:310-311 commit 侧 scope-preconditions 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 manifest 写入缺前置条件被拒绝": {
     "condition": "manifest 写操作缺 preconditions 字段",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts:214-217 为 delete-manifest（只能写入）；缺前置臂未证 → gap 新轴",
     "source": "migration-transaction.ts:204-205 validateManifestOrdering 缺前置门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 存在未恢复 journal 时提交被互斥拒绝": {
     "condition": "首次提交经 afterOperation 注入 interrupt 留 pending journal 后再次提交",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts 无互斥提交臂 → gap 新轴",
     "source": "migration-transaction.ts:282-283 hasPending 互斥门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝": {
     "condition": "project scope 指向 manifest 固定目标 + baseline scope 指向 projects/pal 目标",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts:219-228 第三例已证 project→manifest 固定目标拒绝；baseline scope 越界前缀臂未证 → 半臂新轴",
     "source": "migration-transaction.ts:82-101 assertScopeTarget + :193-205 ordering"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 hasPendingMigrationTransaction 在无 journal 时为 false": {
     "condition": "空仓库无 .type-pal-migrate 目录",
-    "caller": "公开观察器 hasPendingMigrationTransaction（migration-transaction.ts:273）",
+    "caller": "生产观察器 hasPendingMigrationTransaction（migration-transaction.ts:273；真实触发链 migrate-content.mts:53 recover 前置互斥消费）",
     "oldAssertion": "migration-transaction.test.ts 仅用 recoverMigrationTransaction()==false 判无 journal；hasPending 观察器未直接断言 → gap 新轴",
     "source": "migration-transaction.ts:273-275 存在性探测"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 操作项非对象被拒绝": {
     "condition": "journal operations[0]='not-an-object' 字符串",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:279-315 篡改四轴均为对象内字段；操作项整体非对象未证 → gap 新轴",
     "source": "migration-transaction.ts:113-115 validateJournal 操作对象门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 空串/反斜杠逐轴拒绝（路径无效）": {
     "condition": "journal target='' 空串 与 'projects\\\\pal\\\\x.json' 反斜杠两轴",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:289 仅 '../victim.txt' 越界；空串/反斜杠轴未证 → gap 新轴",
     "source": "migration-transaction.ts:67-70 strictRepoRel"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 带 './' 前缀被拒绝（须为规范仓库相对路径）": {
     "condition": "journal target='./projects/pal/content/a.json'",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts 无 ./ 前缀臂（提交侧已规范化；journal 侧须拒）→ gap 新轴",
     "source": "migration-transaction.ts:71-72 strictRepoRel 规范路径门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 含 .. 段被拒绝": {
     "condition": "journal target='projects/pal/../x.json'（仓库内段级越界）",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:289-291 已证 target '../victim.txt' 越界拒绝且 victim 不动；本行为段级越界 + 精确文案变体 → 变体臂新轴",
     "source": "migration-transaction.ts:73-74 strictRepoRel 越界门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 重复目标被拒绝": {
     "condition": "journal 两个操作同 target（staged 不同）",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts 无 journal 重复目标臂 → gap 新轴",
     "source": "migration-transaction.ts:118-120 validateJournal 重复门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal previousHash 非法被拒绝": {
     "condition": "journal previousHash='zzzz' 非十六进制",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:310 篡改的是 precondition hash 目标路径；previousHash 格式臂未证 → gap 新轴",
     "source": "migration-transaction.ts:124-125 validateJournal previousHash 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal delete 操作携带 staged/hash 被拒绝": {
     "condition": "journal 操作 kind 翻转为 delete 但保留 staged/hash",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
     "source": "migration-transaction.ts:132-134 delete-staging 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal preconditions 非数组被拒绝": {
     "condition": "manifest journal 操作 preconditions='nope' 非数组",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
     "source": "migration-transaction.ts:136-137 preconditions 数组门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 非 manifest journal 操作携带 preconditions 被拒绝": {
     "condition": "project journal 操作携带合法形状 preconditions",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:308-314 为 precondition 目标越界；非 manifest 携带臂未证 → gap 新轴",
     "source": "migration-transaction.ts:138-139 journal scope 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition 目标越出 projects/pal 被拒绝": {
     "condition": "manifest precondition target='baselines/evil.json'（非 ../ 逃逸、域外）",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:310-313 为 '../victim.txt' 逃逸；域内前缀越界臂未证 → 变体臂新轴",
     "source": "migration-transaction.ts:147-149 前置目标域门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition hash 非法被拒绝": {
     "condition": "manifest precondition hash='short'",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts 无 precondition hash 格式臂（journal 侧）→ gap 新轴",
     "source": "migration-transaction.ts:150-151 journal 前置 hash 门"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest scope 指向非固定目标被 journal 验证拒绝": {
     "condition": "manifest scope 指向 content/a.json 非固定目标",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:227 为 project scope 指向 manifest；manifest scope 指向非固定目标反向臂未证 → gap 新轴",
     "source": "migration-transaction.ts:96-98 assertScopeTarget manifest 固定目标"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest journal 操作缺前置条件被拒绝": {
     "condition": "manifest journal 操作缺 preconditions",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:216 为 delete-manifest；journal 侧缺前置臂未证 → gap 新轴",
     "source": "migration-transaction.ts:204-205（经 validateJournal→ordering）"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 恢复期窗口篡改：目标与 journal previousHash 不符时拒绝且不落盘": {
     "condition": "journal previousHash=sha256(original) 而磁盘目标为 tampered-by-user",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:231-261 已证提交窗口并发修改拒绝；本行为恢复窗口同守卫 + 不落盘断言 → 相位臂新轴",
     "source": "migration-transaction.ts:208-212 assertPreviousTarget"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 目标与 journal hash 一致时恢复跳过重复落盘并清理 staging": {
     "condition": "journal hash 与已落盘目标一致（操作已应用过）",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts:72-105 幂等补完为完成剩余操作；已应用操作跳过重落 + staging 清理臂未直接断言 → 变体臂新轴",
     "source": "migration-transaction.ts:231-256 applyJournal targetMatches/有效 staging 分支 + :258-262 cleanup"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交后目标被再次改动触发提交后哈希复核失败": {
     "condition": "提交第一个操作后 afterOperation 改写刚写入的目标为 mutated",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts 无提交后哈希复核臂 → gap 新轴",
     "source": "migration-transaction.ts:252-254 applyJournal 后置 hash 复核"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 合法坏数据只进 IO 校验：journal 根非 JSON 时恢复失败且工程无写入": {
     "condition": "journal 文件字节为 'not-json{' 非 JSON",
-    "caller": "公开事务恢复入口 recoverMigrationTransaction（migration-transaction.ts:264；同上，现行唯一恢复路径）",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "oldAssertion": "migration-transaction.test.ts journal 均为合法 JSON；坏字节经 IO 解析失败臂未证 → gap 新轴",
     "source": "migration-transaction.ts:105-106 journal 解析门 + :264 recover 入口"
   },
   "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交期前置闭包失败留下 pending journal；修复闭包后恢复完成同一事务": {
     "condition": "提交时资源闭包不符（ready.bin=broken）→ pending journal；修复后恢复完成",
-    "caller": "公开事务提交入口 commitMigrationTransaction（migration-transaction.ts:277；包 index 未重导出、仓内无非测试调用方——CLI 已随 ARCH-PAL-SUPPLY-1 退役，此即现行唯一提交路径）",
+    "caller": "生产链（提交路径）：migrate-content.mts:116-125 构造 changes（快照/规划/退役输入 :69/:70/:85-89）→ :126 起 commitMigrationTransaction",
     "oldAssertion": "migration-transaction.test.ts:176-190 为中断钩子 + 恢复窗口破坏资源；本行为提交期前置失败留 pending → 相位臂新轴",
     "source": "migration-transaction.ts:223-227 assertPreconditions + journal 先落盘语义（applyJournal :231 起）"
   },
@@ -347,56 +347,56 @@
     "condition": "maps/index.json {maps:[{path:7}]}（path 非字符串，其余字段省缺）",
     "source": "migration-project-io.ts:19-56 discoverProjectManagedFiles（:48-51 maps 数组/元素 path 校验）",
     "oldAssertion": "boundaries:72-79 已证 maps 非数组臂同错误串；map path 非字符串臂未证 → 残余臂新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "生产链：migrate-content.mts:65 discoverProjectManagedFiles（发布后 :136 再发现）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 discoverProjectManagedFiles：maps 残余臂 合法 maps index 并入地图正文路径（旧 :86 仅证场景与 chunk 发现）": {
     "condition": "maps/index.json 合法单地图 {id,name,path:content/maps/map-001.json}",
     "source": "migration-project-io.ts:19-56 discoverProjectManagedFiles（:48-51 maps 数组/元素 path 校验）",
     "oldAssertion": "旧 :86-102 仅证 scenes+chunks 发现（且 chunks 属退役域）；maps 正文发现未证 → gap 新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "生产链：migrate-content.mts:65 discoverProjectManagedFiles（发布后 :136 再发现）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 discoverProjectManagedFiles：maps 残余臂 无任何索引时空工程仅返回种子托管集": {
     "condition": "空工程（仅目录），seed={seed.json}，无任何 index 文件",
     "source": "migration-project-io.ts:19-56 discoverProjectManagedFiles（:48-51 maps 数组/元素 path 校验）",
     "oldAssertion": "旧 :86 有 scenes/scripts index；空工程退化路径未证 → gap 新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "生产链：migrate-content.mts:65 discoverProjectManagedFiles（发布后 :136 再发现）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent：残余臂 绝对路径被 safeProjectPath 拒绝（../escape 臂由旧 boundaries:90-92 证）": {
     "condition": "managed 集含 resolve(repo,x.json) 绝对路径",
     "source": "migration-project-io.ts:56-63 safeProjectPath（resolve 后必须仍以工程根为前缀）",
     "oldAssertion": "boundaries:90-92 已证 ../escape.json 臂（精确文案）；绝对路径臂未证 → 残余臂新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "生产链：migrate-content.mts:69 loadProjectMigrationSnapshot（:109 assertProjectSnapshotCurrent 复核；发布后 :140 重载）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent：残余臂 目标托管集包含快照外文件（缺失视为未变更）时断言通过": {
     "condition": "快照后磁盘未动，显式 targets 传入快照外新增 content/new.json（磁盘缺失）",
     "source": "migration-project-io.ts:86-100 assertProjectSnapshotCurrent（缺失目标视为未变更）",
     "oldAssertion": "boundaries:98-99 仅默认目标集；显式超集 targets 容忍臂未证 → gap 新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "生产链：migrate-content.mts:69 loadProjectMigrationSnapshot（:109 assertProjectSnapshotCurrent 复核；发布后 :140 重载）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 非托管文件递归遍历子目录且 rel 路径为 posix": {
     "condition": "工程内 nested/dir/file.json 单文件，managed/excluded 均空",
     "source": "migration-project-io.ts:110-123（递归 readdir，rel 以 / 连接）",
     "oldAssertion": "旧测试均平铺单层；递归子目录与 posix 分隔未证 → gap 新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "工程 IO 公开层（hashUnmanagedProjectFiles/assertHashMapsEqual 为导出 API；当前 CLI 未消费——如实登记，不虚构调用行）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 工程目录不存在 → 空 hash 表": {
     "condition": "tempRepo 内未创建 projects/pal 目录",
     "source": "migration-project-io.ts:110-123（目录缺失短路空表）",
     "oldAssertion": "旧测试均有工程文件在场；目录缺失未证 → gap 新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "工程 IO 公开层（hashUnmanagedProjectFiles/assertHashMapsEqual 为导出 API；当前 CLI 未消费——如实登记，不虚构调用行）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 assertHashMapsEqual：等值映射通过；多键差异按排序报告（旧 :63 仅单键 changed 臂）": {
     "condition": "等值 Map 通过；{a.txt 值变, b.txt 单侧独有} 两键差异",
     "source": "migration-project-io.ts:125-132（changed 排序 join）",
     "oldAssertion": "旧 :63-71 仅单键 changed；boundaries:101-117 仅证 20 上限；等值通过与多键排序消息未证 → 残余臂新轴",
-    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "caller": "工程 IO 公开层（hashUnmanagedProjectFiles/assertHashMapsEqual 为导出 API；当前 CLI 未消费——如实登记，不虚构调用行）",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致）": {
@@ -423,28 +423,28 @@
     "condition": "journal write target='/etc/passwd'",
     "source": "migration-transaction.ts:67-72 strictRepoRel（journal 侧）",
     "oldAssertion": "boundaries:102 六轴（operations/kind/hash/staged/version/id）无绝对路径 target → gap 新轴",
-    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal write 操作缺 staged → strictRepoRel 拒绝": {
     "condition": "journal write 操作整体缺 staged 字段",
     "source": "migration-transaction.ts:126-131 staged 缺失→路径无效",
     "oldAssertion": "boundaries:102 的 staged 轴为值错（路径不符）与 hash 轴（缺有效 staging）；字段缺失臂不同文案 → 变体臂新轴",
-    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal 根非对象 / scope 未知 / project scope 越界 / precondition 非对象 逐轴拒绝": {
     "condition": "journal='null'、scope='weird'、project scope 指向 baselines/、preconditions=['not-an-object'] 四轴",
     "source": "migration-transaction.ts:105-106/:101/:87-89/:140-142",
     "oldAssertion": "boundaries:102 六轴不含此四臂（operations 轴是值非数组非根非对象）→ gap 新轴",
-    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） manifest 前置条件指向 symlink 时恢复拒绝（不读取链外文件）": {
     "condition": "manifest precondition target=assets/link.bin→repo 外 real.bin",
     "source": "migration-transaction.ts:147-152 前置目标 symlink 守卫（恢复路径）",
     "oldAssertion": "旧测试无 manifest 前置 symlink；不读链外文件+manifest 不落盘未证 → gap 新轴",
-    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 多操作事务按序恢复且 afterOperation 收到 journal 操作与下标；完成后 staging 目录清理": {
@@ -505,6 +505,83 @@
     "oldAssertion": "tx-boundaries:86-101 证补完/幂等/journal 清理；transactions/<id> 目录清理未证（Codex 独证旧 28 全绿仅目录断言红）→ 窄新轴；正常 commit 的目录清理不能替代 recover 臂",
     "classification": "residual-arm",
     "axis": "recover 后真实事务目录清理",
-    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务"
+    "caller": "生产链（恢复路径）：migrate-content.mts:53 在 load/plan 之前无条件调用 recoverMigrationTransaction——journal 解析/验证/恢复/目录清理合同的真实触发链"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base/theirs 均以 hash-only 存图、ours 有同 hash 正文 → 选中版本从 ours 回填正文": {
+    "condition": "base/theirs 双侧 hash-only 同 hash，ours 提供同 hash 全文正文",
+    "source": "migration-plan.ts（migration-plan.ts:168+ 原子地图 hash-only 选取与正文回填）",
+    "oldAssertion": "旧 :435-451 为 hash-only base + theirs 全文；双侧 hash-only 时从 ours 回填未证 → 残余臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud": {
+    "condition": "base/ours/theirs 全 hash-only（选中版本无任何同 hash 正文）",
+    "source": "migration-plan.ts（migration-plan.ts:168+「只有 hash、缺正文」fail-loud 守卫）",
+    "oldAssertion": "旧 :435/:453 均有一侧全文；缺正文 fail-loud 未证 → gap 新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图三方各改各的 → value 冲突，冲突快照带 hash 版本": {
+    "condition": "三方各持 mapV(1/2/3) 全文",
+    "source": "migration-plan.ts（migration-plan.ts:168+ 原子地图 value 冲突 + hash 版快照）",
+    "oldAssertion": "旧 :453-470 尾段已证双方异改 hash 冲突；冲突快照 {sha256} 形状与 target 排除未断言 → 形状臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图一方删除、一方修改 → delete-modify 冲突": {
+    "condition": "ours 缺席（managed 登记）、theirs mapV(3)",
+    "source": "migration-plan.ts（migration-plan.ts:168+ delete-modify 分类）",
+    "oldAssertion": "boundaries:155-174 为 theirs 删除+ours 未动→deletes 与双方异改→value；一方删一方改的 delete-modify 未证 → gap 新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图双方各自新增不同版本 → add-add 冲突": {
+    "condition": "base 无、ours mapV(2)、theirs mapV(3)",
+    "source": "migration-plan.ts（migration-plan.ts:168+ add-add 分类）",
+    "oldAssertion": "旧/boundaries 无原子地图 add-add 场景 → gap 新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：普通文件、写入/删除与输入不可变 普通文件经三方合并进入 target；summary 计数一致": {
+    "condition": "双文件（DOC 实体增/theirs shops 增 id2）各自独立吸收；DOC ours-only 改不产生 write",
+    "source": "migration-plan.ts（migration-plan.ts:134-200 三方合并与 kept/generated/merged 计数）",
+    "oldAssertion": "旧 :35-47 为单文件双方改字段（summary writes:1）；双文件独立吸收且 kept 文件 writes.has=false 未证 → 组合臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：普通文件、写入/删除与输入不可变 ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes": {
+    "condition": "ours 独有 content/extra.json（托管、非 index 引用），theirs 改 DOC",
+    "source": "migration-plan.ts（migration-plan.ts:134+ ours-only 保留）",
+    "oldAssertion": "旧 :360-367 仅证 index 引用的 ours-only 保留；无 index 引用的托管 ours-only 未证 → 变体臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：普通文件、写入/删除与输入不可变 snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化": {
+    "condition": "MAP+DOC 混合：DOC hash=JSON 美化串、MAP 走专用格式化",
+    "source": "migration-plan.ts（migration-plan.ts snapshotOf + migration-baseline.ts:33-34 map 序列化）",
+    "oldAssertion": "旧测试消费 snapshotOf 但未断言逐文件 hash 值与 map 专用格式 → 观测臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：普通文件、写入/删除与输入不可变 计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）": {
+    "condition": "改 plan.target.get(DOC).v=999 后 theirs 原值不变",
+    "source": "migration-plan.ts（migration-plan.ts:134+（target 值深拷贝））",
+    "oldAssertion": "boundaries:99 证输入不被修改；输出 target 与输入的防别名未证 → 输出臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：summary 计数与冲突停线 双方各自改动同一普通文件的不同字段 → merged 计数": {
+    "condition": "DOC v ours 改、w theirs 改 → {v:2,w:5}，merged=1",
+    "source": "migration-plan.ts（migration-plan.ts:134+ merged 计数）",
+    "oldAssertion": "旧 :35 双方改后 writes:1；merged 计数与无冲突合并字段未直接断言 → 计数臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-plan.glm-o.test.ts :: O02 createMigrationPlan：summary 计数与冲突停线 summary.managed = 三方托管并集（含仅存在于单方的文件）": {
+    "condition": "a∈三方、b 仅 ours、c 仅 theirs → managed=3",
+    "source": "migration-plan.ts（migration-plan.ts:134+ managed 并集计数）",
+    "oldAssertion": "boundaries:30 managed=2 为三方同集；单侧独有文件并入并集未证 → 并集臂新轴",
+    "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
+    "classification": "residual-arm"
   }
 }
