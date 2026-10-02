@@ -44,16 +44,18 @@
     "P-R10-02": "Toolbar Home/End 删除 timeout:2000 扩张，vi.waitFor 使用默认 1000ms（可观察收敛：焦点入托盘+选项挂载完成）；独立默认等待连续 5/5 绿；不重开手设焦点/旧业务标题",
     "P-R10-03": "C13 七份 r9 原字节历史证据恢复（receipt sha256 与 a3a7c3906^ 逐字节一致 96aa28e8…）+ RETIRED.md 明确退役不计活跃；contracts 去同上/仅 isDefined/截操作数（G12-03 oracle 补完整合法 cursor 映射，G13-01 axis 改 hook 变体容器真实轴）；账同步 78 执行/17 组/14 活跃目标/18 流程、9 旧三态未变+P02-C08 与 4 P03 更新；定向 78/78、lint 实测 2821",
     "P-R36-01-tail": "r11 复核：G14 条件“同上 fixture”已展开为逐合同真实输入条件；oracle 截操作数的合同全部替换为完整平衡断言（含 matcher 与 expected，file:line 锚）；G03 三条人工结果行保留",
-    "P-R11-batch": "P03b 续批 8 例：visitCanonicalScriptCommands 四臂（entity-behavior owner+flow 路径/hostile.onLose 精确路径/zone 实体合法零走访/共享 body 容器 locator）+ scheme 索引聚合四臂（page-binding key/同键追加/scene-hook initial key/空来源全空）"
+    "P-R11-batch": "P03b 续批 8 例：visitCanonicalScriptCommands 四臂（entity-behavior owner+flow 路径/hostile.onLose 精确路径/zone 实体合法零走访/共享 body 容器 locator）+ scheme 索引聚合四臂（page-binding key/同键追加/scene-hook initial key/空来源全空）",
+    "P-R13-01": "directed-vitest.json 自最终代码真实重生（86/86，G16-02 新标题身份对齐）；G16-02/G08-02/G14-04 oracle 补完整 matcher 与 expected（不再截断）；receipt anchors 区分真实 r12 代码锚 8130cd18f 与历史锚",
+    "P-R13-02": "C13 四历史文件（positive.json/raw、mutated.json/raw）从 31995d09 恢复 r9-tip 原字节（positive 1353a9be 复核一致，12/1/12 三相一致）；新失败尝试不再保留（覆盖即弃，无 attempt 目录）；采集规则：仅 active 注册针，退役目录不再被扫描覆盖；22 判据自测不重做"
   },
   "commands": {
-    "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
+    "directedVitest": "86/86 passed（真实重生，directed-vitest.json）",
     "fullEditorSuite": "518 files / 3872 tests 全绿 exit 0（P03b 8 例入集）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2825 files 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
-    "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（未改工具，r3.6 判据保留）",
+    "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（工具未改沿用）",
     "docsGate": "docs: PASS 817 Markdown / 4285 links / 0 issues（C13 退役说明改目录 README 后过门）"
   },
   "notDone": [
@@ -79,7 +81,9 @@
     "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
     "testCodeAnchor": "r11 续批提交（P03b 新文件 + G03 标题撤回锚 e515d353d 保留）",
     "toolEvidenceAnchor": "cdbc45edde3a142bb4ea563d1a4933544e324c8f（r10.5 全量证据提交）",
-    "finalRemoteCandidate": "7ec3cca8a937cbdc9a22d9593709f5c5f083fd0b"
+    "finalRemoteCandidate": "7ec3cca8a937cbdc9a22d9593709f5c5f083fd0b",
+    "r12CodeAnchor": "8130cd18f（P03b 合法 fixture+G16-02 精确顺序 oracle——真实 r12 代码锚）",
+    "archiveRestoredFrom": "31995d09260ad7361df9902d692fbe5b86ad347e（C13 r9-tip 原字节）"
   },
   "threeStateProvenance": "相对 48ade197：9 旧针三态未变；P02-C08 与 4 枚 P03 针因源/执行集变化重采（P03 又于 r10.5 因合法 cursor 修复再重采 4 枚）；C13 退役保留 r9 原字节存档",
   "finalRemoteCandidate": "cdbc45edde3a142bb4ea563d1a4933544e324c8f（r10.5 闭合：P03b 合法 fixture + G16-02 精确顺序 oracle + 反控重采同提交；其后仅 receipt pin）",
