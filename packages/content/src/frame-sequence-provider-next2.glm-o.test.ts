@@ -9,6 +9,7 @@
  *  压缩/解压为产品声明的 port：真实 zlib 用于往返，记录/延迟/故障为声明式包装。
  */
 import { describe, expect, test } from 'vitest'
+import { bridgeDeflate } from './__tests__/glm-o/next2/node-zlib-bridge.mjs'
 import {
   descriptors,
   newJournal,
@@ -38,12 +39,13 @@ const baseProvider = (
 describe('O-NEXT2 provider 输入在 IO 前拒收（01/02）', () => {
   test('01 width0 与 height0 分别在任意 frame/deflate 调用前精确拒收', async () => {
     const journal = newJournal()
+    const frame = recordedProvider(() => tinyFrame(0), journal)
     for (const [field, value] of [
       ['width', 0],
       ['height', 0],
     ] as const) {
       const input = {
-        ...baseProvider(() => tinyFrame(0)),
+        ...baseProvider(frame),
         [field]: value,
       } as EncodeFrameSequenceProviderInput
       await expect(
@@ -56,8 +58,9 @@ describe('O-NEXT2 provider 输入在 IO 前拒收（01/02）', () => {
 
   test('02 defaultFrameMs 0/NaN 同一数值时序域拒收且字段路径精确，零 IO', async () => {
     const journal = newJournal()
+    const frame = recordedProvider(() => tinyFrame(0), journal)
     for (const bad of [0, Number.NaN]) {
-      const input = { ...baseProvider(() => tinyFrame(0)), defaultFrameMs: bad }
+      const input = { ...baseProvider(frame), defaultFrameMs: bad }
       await expect(
         encodeFrameSequenceFromProvider(input, recordedDeflate(journal)),
       ).rejects.toThrow('TPFS.encode.defaultFrameMs: 期望正有限数')
@@ -72,8 +75,9 @@ describe('O-NEXT2 provider 返回短字节的拒收域（03/04）', () => {
     const journal = newJournal()
     const provider = recordedProvider(() => Uint8Array.from([1, 2, 3]), journal)
     await expect(
-      encodeFrameSequenceFromProvider(baseProvider(provider), recordedDeflate(journal)),
+      encodeFrameSequenceFromProvider(baseProvider(provider, 2), recordedDeflate(journal)),
     ).rejects.toThrow('TPFS.encode.frames[0].rgba: 期望 4 字节')
+    // 两帧合法 descriptors：读序恰 [0]，frame1 未被读，压缩零次。
     expect(journal.frameReads).toEqual([0])
     expect(journal.deflatedRawByteLengths).toEqual([])
   })
@@ -172,29 +176,38 @@ describe('O-NEXT2 串行化与压缩背压（08/09）', () => {
 
   test('09 首块 deflate 未决期间只读 0..31（无 read-ahead）；resolve 后读 32 并完整往返', async () => {
     const journal = newJournal()
-    let releaseDeflate: ((value: Uint8Array) => void) | undefined
+    let releaseDeflate: (() => void) | undefined
     const provider = recordedProvider((index) => tinyFrame(index), journal)
     let deflates = 0
     const pending = encodeFrameSequenceFromProvider(baseProvider(provider, 33), (bytes) => {
       deflates += 1
       journal.deflatedRawByteLengths.push(bytes.byteLength)
-      // 仅首块压缩挂起（背压观测点）；后续块同步放行，避免测试自锁。
-      if (deflates > 1) return new Uint8Array(bytes)
+      // 仅首块压缩挂起（背压观测点）；放行与后续块均走真实 zlib 压缩（R1-03）。
+      if (deflates > 1) return bridgeDeflate(bytes)
       return new Promise<Uint8Array>((resolve) => {
-        releaseDeflate = resolve
+        releaseDeflate = () => resolve(bridgeDeflate(bytes))
       })
     })
     // 同步 frame() 的 32 次串行 await 各占一个微任务；冲刷足够轮次让首块读满并进入 deflate。
     for (let flush = 0; flush < 100; flush++) await Promise.resolve()
     expect(journal.frameReads).toEqual(Array.from({ length: 32 }, (_unused, i) => i))
     expect(journal.deflatedRawByteLengths).toEqual([4 * 32])
-    releaseDeflate?.(new Uint8Array(4))
+    releaseDeflate?.()
     const bytes = await pending
     const parsed = parseFrameSequence(bytes)
     expect(parsed.index.blocks).toHaveLength(2)
-    // 放行后第二块被读取并压缩：读序扩展到 32，压缩恰两次。
+    // 放行后第二块被读取并真实压缩：读序扩展到 32，压缩恰两次。
     expect(journal.frameReads).toEqual(Array.from({ length: 33 }, (_unused, i) => i))
     expect(journal.deflatedRawByteLengths).toEqual([4 * 32, 4])
+    // 真实解压全部 33 帧并逐字节比较独立输入（R1-03 完整往返）。
+    const decodeJournal = newJournal()
+    const inflate = recordedInflate(decodeJournal)
+    const block0 = await decodeFrameSequenceBlock(parsed, 0, inflate)
+    const block1 = await decodeFrameSequenceBlock(parsed, 1, inflate)
+    const all = [...block0, ...block1]
+    expect(all).toHaveLength(33)
+    for (let index = 0; index < 33; index++)
+      expect([...all[index]!], `frame ${index}`).toEqual([...tinyFrame(index)])
   })
 })
 
@@ -232,7 +245,7 @@ describe('O-NEXT2 解码所有权与取消（10/11/12）', () => {
     )
   })
 
-  test('12 非法公开块索引（-1/0.5/越界一格）零 IO：精确索引诊断，inflate 不被调用', async () => {
+  test('12 非法公开块索引零 IO（cross-check：旧 resource-boundaries:83-106 四 fullName 已更强直证，不计净新）', async () => {
     const sequence = parseFrameSequence(await realSequence())
     const journal = newJournal()
     for (const bad of [-1, 0.5, 2]) {

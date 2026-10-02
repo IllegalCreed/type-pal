@@ -60,7 +60,7 @@
     },
     {
       "file": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
-      "fullName": "O-NEXT2 解码所有权与取消（10/11/12） 12 非法公开块索引（-1/0.5/越界一格）零 IO：精确索引诊断，inflate 不被调用",
+      "fullName": "O-NEXT2 解码所有权与取消（10/11/12） 12 非法公开块索引零 IO（cross-check：旧 resource-boundaries:83-106 四 fullName 已更强直证，不计净新）",
       "status": "passed"
     }
   ]

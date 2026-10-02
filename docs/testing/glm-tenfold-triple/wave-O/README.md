@@ -77,7 +77,7 @@ multi-batch 合同记入首个批次（O01/O03→O01、O03/O05→O03、O06/O08�
   O-NEXT2-01～12（TPFS 完整帧 provider 的 IO 顺序/压缩背压与失败身份/解码所有权与取消/
   非法块索引零 IO），12/12 绿；新文件 frame-sequence-provider-next2.glm-o.test.ts +
   next2 fixture（真 zlib + 声明式 port）；源 hash 与 packet 一致；旧证不重领；
-  content 全包 1441/1441。累计 472 执行/净新上限 299。
+  content 全包 1441/1441。**R1 修订**：zlib 经 node-zlib-bridge.mjs(+.d.mts) 局部真实类型桥（删 @ts-expect-error）；01/02/03 frame port 真实记录与多帧轴；09 真压缩/真解压 33 帧逐字节往返；12 转 existing-proof cross-check（旧 resource-boundaries:83-106 更强直证）。累计 472 执行/净新上限 297（Codex 旧信用 286 口径）/缺口 ≥403。
 
 ## 剩余范围（未到 700 的如实账）
 

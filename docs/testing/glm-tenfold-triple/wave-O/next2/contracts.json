@@ -5,14 +5,14 @@
     "packages/content/src/frame-sequence.ts": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842"
   },
   "total": 12,
-  "note": "O-NEXT2-01～12 一次完整处置；真实 API（encodeFrameSequenceFromProvider/decodeFrameSequenceBlock/parseFrameSequence）；压缩解压为产品声明 port——真实 zlib 用于往返，记录/延迟/故障为声明式包装；无 typed 跳板/无 GB 级数组/无稀疏表；node:zlib 导入沿用 contracts.test.ts 同款 @ts-expect-error（Node-only host）既有模式",
+  "note": "O-NEXT2-01～12 一次完整处置；真实 API（encodeFrameSequenceFromProvider/decodeFrameSequenceBlock/parseFrameSequence）；压缩解压为产品声明 port——真实 zlib 用于往返，记录/延迟/故障为声明式包装；无 typed 跳板/无 GB 级数组/无稀疏表；node:zlib 导入沿用 contracts.test.ts 同款 @ts-expect-error（Node-only host）既有模式（R1 修订：01/02/03 真实记录与多帧轴、09 真压缩解压全程往返、12 转 existing-proof cross-check；zlib 经 node-zlib-bridge.mjs+.d.mts 局部真实类型桥，删除 @ts-expect-error）",
   "contracts": [
     {
       "id": "O-NEXT2-01",
       "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
       "source": "packages/content/src/frame-sequence.ts prepareFrameSequenceProviderInput:392-421（integerAt 元数据门在 frame()/deflate 之前）",
       "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
-      "condition": "provider width0/height0 分别拒收（TPFS.encode.width/height: 期望不小于 1 的安全整数）且零 frame/deflate IO",
+      "condition": "provider width0/height0 分别拒收（TPFS.encode.width/height: 期望不小于 1 的安全整数）且零 frame/deflate IO（R1-02：frame port 经 recordedProvider 真实记录，journal 断言接通）",
       "oldAssertion": "旧 provider resource-boundaries:107-135 仅空 frames/duration；同步 O09 守卫非 provider IO 顺序 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
       "classification": "new-axis",
       "status": "passed"
@@ -22,7 +22,7 @@
       "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
       "source": "packages/content/src/frame-sequence.ts prepareFrameSequenceProviderInput:396 positiveNumberAt",
       "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
-      "condition": "defaultFrameMs 0/NaN 同数值时序域拒收（期望正有限数）字段路径精确、零 IO",
+      "condition": "defaultFrameMs 0/NaN 同数值时序域拒收（期望正有限数）字段路径精确、零 IO（R1-02：同上真实记录轴）",
       "oldAssertion": "旧 resource-boundaries:107 合法 0.5 + 逐帧 duration 非法；非 provider 默认时序拒收 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
       "classification": "new-axis",
       "status": "passed"
@@ -32,7 +32,7 @@
       "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
       "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:506-508 返回长度守卫",
       "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
-      "condition": "首帧返回 3 字节：TPFS.encode.frames[0].rgba: 期望 4 字节；frame1/deflate 零调用",
+      "condition": "两帧合法 descriptors、首帧返回 3 字节：TPFS.encode.frames[0].rgba: 期望 4 字节；读序恰 [0]（frame1 未被读）、deflate 零次（R1-02：≥2 合法帧证明后续帧不发生）",
       "oldAssertion": "旧 O09 同步输入长度与 resource provider 抛 Error 均未证返回字节长度守卫 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
       "classification": "new-axis",
       "status": "passed"
@@ -92,7 +92,7 @@
       "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
       "source": "packages/content/src/frame-sequence.ts encodeFrameSequenceFromProvider:522 await deflate 后才进下一块读",
       "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
-      "condition": "首块 deflate 未决期间只读 0..31（无 read-ahead/背压）；放行后读 32、压缩恰两次、解析得 2 blocks",
+      "condition": "33 帧；首块 deflate deferred 背压期间只读 0..31；放行时对原 raw 真实 zlib 压缩，第二块亦真压缩；parse 得 2 blocks 后真 decoder 解全部 33 帧逐字节等于独立输入 tinyFrame(i)（R1-03 完整真实往返）",
       "oldAssertion": "旧同步恒等压缩器未证 read-ahead/内存背压 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
       "classification": "new-axis",
       "status": "passed"
@@ -123,8 +123,8 @@
       "source": "packages/content/src/frame-sequence.ts decodeFrameSequenceBlock:532-535 索引门在 IO 前",
       "caller": "生产链：editor/core/frame-animation-codec.ts:85 提供完整帧/压缩 port；reforge/frame-animation-player.ts:82 解压 block（packet 实际 caller 核定）",
       "condition": "非法公开块索引 -1/0.5/越界一格：TPFS.block: 非法块索引 <v> 精确诊断、inflate 零调用",
-      "oldAssertion": "旧族仅解有效块或坏解压字节；无块索引守卫/IO 避免 → gap 新轴（旧证不换数字重领：35 帧正常/UTF-8/首块 Error/同步空 deflate/同步宽度/bad-payload/正常 roundtrip 均不在本批）",
-      "classification": "new-axis",
+      "oldAssertion": "existing-proof/cross-check：旧 frame-sequence.resource-boundaries.test.ts:83-106 四 fullName「TPFS invalid index %s rejects before any inflation」已更强直证 -1/0.5/NaN/越界（精确 public 错误、inflate 零调用、有效块回归）；本行为同合同 cross-check 不计净新（R1-04；packet 漏排旧强证由 Codex 承担裁决）",
+      "classification": "existing-proof-cross-check",
       "status": "passed"
     }
   ]
