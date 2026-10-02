@@ -149,7 +149,7 @@
     "r13-write-plan": "write-plan 域逐行旧正文裁决：删重 6 行（boundaries:75 退役排序+hash 逐字节同答案；旧 :114+:132+:174 baseline 一致跳过/漂移写/退役删除三行；:103+:114 manifest 无前置/一致无改动；:132+:151 manifest 最后；tx-boundaries:86 二操作中断恢复同条件）+ 空留 describe 清理；保留 15 臂全部补真账（条件/生产 caller=公开规划入口同 IO 层口径/源行区/旧锚）；O03-CC1/CC2/CC3 因执行集变化重采（65/65 再判定通过）"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED-R13",
+  "remoteFinalCandidate": "160a77ecfb801a5ac85bd272835d945b4255f28c",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
