@@ -1,6 +1,6 @@
 # TEST-GROK-BOOT-RESOURCES-MEDIUM-1 — 启动资源并发、降级与缓存边界中包
 
-Status: build
+Status: rework
 Phase: phase1
 Capability: test-coverage / grok-medium
 Coding Owner: Grok（仅白名单新增测试、fixture、专属证据）
@@ -87,8 +87,8 @@ runtime/命令真值、原版理解、数据解码或测试模型四类根因分
 - 2026-10-02 Codex premise verified：直接读取上表源码与相邻旧正文，sourceBase真实对象；新Kimi/Cursor四源均不在旧O/P/Q或Grok/Cursor冻结池，Grok三源维持Grok原Owner。
 - Codex design agree：中量封顶、精确写入白名单、各自隔离、新旧oracle排重、当前版本冻结；产品风险仅可记录不能修。
 - **Codex build allowed：仅新增测试/fixture/本卡Owner证据**。无固定三签等待；本卡三Owner互不写同文件，依赖可只读。
-- 贡献者交付/自验：pending。
-- Codex独立accept/done：pending/blocked；作者不得合main或标done。
+- 贡献者交付/自验：固定候选 `8ab4752727699a821492e26c2bb3111171234f5d`，已推送，作者树干净；不是Codex接受。
+- Codex独立accept/done：2026-10-02 counter / rework。GROK-R1-01：C3图标键oracle旧候选已证，补第四不同新目标；其余三针复算闭合，19例软预算不强补。
 - 用户产品裁决：N/A（不改变产品或格式；需要新取舍时另卡）。
 
 ## 风险与停线
@@ -101,8 +101,19 @@ Schema/save/输入合法性必须按当前公开入口证明；故事/现实数�
 
 - 2026-10-02 Codex：用户重新授权三中包，核定冻结、候选旧证明、独占范围和容量；已开卡待用户转发，不声称已执行。Next: Grok build → Codex independent review。
 
+## Codex 独立审核 r1（2026-10-02）
+
+固定候选：`8ab4752727699a821492e26c2bb3111171234f5d`。独立证据与全部一次窄项见[三中包审核](../../testing/medium-triple-20261002/codex-medium-r1-review-20261002.md)。
+
+GROK-R1-01：C3图标键oracle旧候选已证，补第四不同新目标；其余三针复算闭合，19例软预算不强补。
+
+冻结12/12及白名单、定向相邻/typecheck、根lint完整0/0/0、diff通过；作者docs仅剩共享导航归Codex。全包本轮结果与首次失败原报告分列在审核文档，不把作者“完成”当accept。
+本轮无产品/旧测/配置/baseline写入，无main/official coverage/done。原中量预算不升格为新大包，旧400/700卡独立保持。
+
+- 交接日志：Codex固定候选独立counter已落卡，下一步为原Owner按下面提示词一次修齐，再固定新SHA二审；不重开未变闭合项。
+
 ## 下一位Agent提示词
 
 ```text
-接手 TEST-GROK-BOOT-RESOURCES-MEDIUM-1，唯一测试Owner Grok，Status build（Codex仅准入新测试）。任务卡：docs/ops/tasks/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md。先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md（本卡phase2时）及docs/testing/medium-triple-20261002/README.md、targets.json、本卡全部锚点。原范围已核，源码冻结554b8a0552db30294a9050b4466659c4a14549f8；从本批docs登记提交创建自己的分支codex/grok-boot-medium-r1和隔离树/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal，不要切原工作树或带回旧产品版本。先核BASE、branch、status、verify --owner grok，再按本卡候选6组读旧完整fullName/全部matcher，逐条existing-proof/合法新gap/unreachable/blocked账；目标24–32例，硬上限36例是容量预算不是凑数门，真实缺口不足如实登记给Codex，不擅扩域。仅targets白名单新测/专属fixture/grok证据可写，产品/旧测/依赖配置/baseline/真实数据/共享文档/其它Owner全只读。原400卡review且窄项accept，不把未集成叫done；新卡不改/重跑其40针或PNG证据。原候选400为必须排重基线，当前源hash若不等则逐条件对照，不把旧版本报告当新门。使用真实公开函数及完整typed/current输入，不unsafe桥/ignore/扩timeout/业务核心mock；产品缺陷只停受影响子组举证，不夹修。每批定向相邻/typecheck；最终4个不同新oracle目标的隔离产品变异三态JSON/raw/exit/完整身份/恰一AssertionError/恢复绿/源与测试hash，至少两枚做旧绿新红感度；不足不造针。运行所属包全测/typecheck、根lint完整0/0/0、docs/diff/verifier，raw门原样保留；环境红分列，不复跑官方全仓check/ratchet/protected或真实E2E。合同账逐条源条件/实际caller/合法输入/旧blob fullName-matcher/完整业务oracle，数量与净新分列；一次交付完整SHA、directed JSON、判据/三态与未完账并推送独立分支，等Codex验收。不合main、不done、不清原树；未用户转发前不声称已派发执行。
+Grok 接手 TEST-GROK-BOOT-RESOURCES-MEDIUM-1 一次窄返工，原树 /Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal，原分支 codex/grok-boot-medium-r1，候选 8ab4752727699a821492e26c2bb3111171234f5d。只读审查材料位于 /Users/zhangxu/.codex/worktrees/medium-test-dispatch/type-pal，不merge审查分支到作者树。先读本卡最新 Codex 审核及 docs/testing/medium-triple-20261002/codex-medium-r1-review-20261002.md 的 GROK-R1-01。C3-icon-index 机械三态有效，但 frozen f4665f7a 的 dialog-icons.grok-r1.test.ts G02-D01/D04/D08/D13/D14 已证相同图标键 oracle，Codex 同变异复跑旧5红+新1红；降为 existing-proof/cross-check，历史证据保留，不计第四个新目标。仅在原三源合法剩余合同内选择一个真正不同且排重的新 oracle 替换主针，四针完整三态 JSON/raw/exit/非零身份集合/指定单红/恢复绿/产品和测试 SHA，至少两枚真实旧绿新红。保留 C1/C2/C4 已闭合方向与未变证据，测试/执行范围变动才重采受影响针；组合降级正例可保留，但旧图标键不冒作新目标。19例低于软预算不是返工原因，G3完整默认解码停子轴、9项其它处置不扩大成新大包，不凑到24。更新账和回执后定向相邻/game全测/typecheck、lint完整0/0/0、docs/diff/verify；共享导航由Codex接线。只写原白名单新测/fixture/grok证据，产品/旧测/配置/基线/其它卡/真实数据/共享卡只读。一次交完整真实40位SHA、测试与docs-only尾区间并推送，等Codex；不合main、不done、不跑官方覆盖或E2E。
 ```

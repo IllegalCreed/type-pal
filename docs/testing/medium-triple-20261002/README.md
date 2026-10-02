@@ -54,4 +54,16 @@ README必须列新执行/净新/旧证明/阻塞/needle不同目标/未完账，
 
 Codex2026-10-02核准build allowed仅新测；本README不声称已自动发到第三方或作者已开工。
 
+## 2026-10-02 独立审核 r1
+
+[三中包审核与逐项返工](codex-medium-r1-review-20261002.md) / [机器证据](codex-medium-r1-review-20261002.json)。
+三卡均counter/rework，包test已独立全绿，静态零诊断；阻塞是合法输入/排重与反控证据，不是软预算没填满。
+不合main、不done，85%未进行本批正式结算。最新提示词在各任务卡末尾，原Owner一次窄修。
+
+作者专属目录尚未接入本共享树，固定候选原证据导航如下；正式集成时Codex再补本地目录链接，不要求作者越界写共享README。
+
+- [Grok固定候选证据](https://github.com/IllegalCreed/type-pal/blob/8ab4752727699a821492e26c2bb3111171234f5d/docs/testing/medium-triple-20261002/grok/README.md)
+- [Kimi固定候选证据](https://github.com/IllegalCreed/type-pal/blob/5f34c60f6bd5fbc9deb9f4b06190b2a1f31f428e/docs/testing/medium-triple-20261002/kimi/README.md)
+- [Cursor固定候选证据](https://github.com/IllegalCreed/type-pal/blob/40c88183a2edde38aacd6244288361dae0dba9cb/docs/testing/medium-triple-20261002/cursor/README.md)
+
 登记轻门：白名单拒收自测11/11、源码/配置12份hash与登记范围通过，根lint2760文件完整0/0/0、docs821 Markdown/4329链接/259任务零问题、diff零；没有新增产品测试执行或覆盖率结算主张。

@@ -1,0 +1,1361 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-02",
+  "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "mainObservedAtClose": "523cf97d0a33768dbb91b345ddece7fb26b7c7d6",
+  "fixedCandidateGatesAreNotCurrentMainUnion": true,
+  "candidates": {
+    "grok": "8ab4752727699a821492e26c2bb3111171234f5d",
+    "kimi": "5f34c60f6bd5fbc9deb9f4b06190b2a1f31f428e",
+    "cursor": "40c88183a2edde38aacd6244288361dae0dba9cb"
+  },
+  "verdicts": {
+    "grok": "rework",
+    "kimi": "rework",
+    "cursor": "rework"
+  },
+  "authorTreesWritten": false,
+  "officialCoverageRun": false,
+  "mainMerged": false,
+  "done": false,
+  "localEvidenceParent": "/private/tmp/codex-medium-r1-review.UvmjTG",
+  "firstGates": {
+    "grok": [
+      {
+        "label": "install",
+        "cmd": "pnpm",
+        "args": ["install", "--offline", "--frozen-lockfile", "--ignore-scripts"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "50d303b6480e2845681a5524104a13f541cb66b3b2f0cca13f9bf1f3e5c70a10"
+      },
+      {
+        "label": "directed-adjacent",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "grok-mid-1",
+          "src/shell/bootstrap-resources.test.ts",
+          "src/assets/loader.test.ts",
+          "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/grok-directed-adjacent.json"
+        ],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "7f3e0e4a4f4279d9da0e47cab3ff533dfca5b3777f89c451c16bec2044921df5"
+      },
+      {
+        "label": "typecheck-game",
+        "cmd": "pnpm",
+        "args": ["--filter", "@type-pal/game", "typecheck"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "67ecd2b455a389918075585e09c0f120029c491ba7b10c2d58da88aa92e297ed"
+      },
+      {
+        "label": "full-game",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/grok-full-game.json"
+        ],
+        "exit": 1,
+        "signal": null,
+        "rawSha256": "1f376998a71d3796ae3506e6fb8cd8146ca441c389401b884d56a11980112881"
+      },
+      {
+        "label": "lint",
+        "cmd": "pnpm",
+        "args": ["lint"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "44bee0d0a44c9e23ca4c74f1698357c4433ce9cf8e541ae52b942ca0dc0a3f06"
+      },
+      {
+        "label": "docs",
+        "cmd": "node",
+        "args": ["scripts/docs/check.mjs"],
+        "exit": 1,
+        "signal": null,
+        "rawSha256": "55d75c517f958417a781e5a8e1433e35a1a6ecbae5434dffefccce953f35a24f"
+      },
+      {
+        "label": "diff",
+        "cmd": "git",
+        "args": ["diff", "--check", "f5c7f904a3f623e3ca5b413ab43f78029d99fe11...HEAD"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "label": "judge-selftest",
+        "cmd": "node",
+        "args": ["docs/testing/medium-triple-20261002/grok/judge.selftest.mjs"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "cb0218e3aa6cb77b7a8174ea36396cf7c6ad76c714789521b3f5f1efb8f93d0d"
+      }
+    ],
+    "kimi": [
+      {
+        "label": "install",
+        "cmd": "pnpm",
+        "args": ["install", "--offline", "--frozen-lockfile", "--ignore-scripts"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "7fa77c6c1a0f1d7756984a9b7de1e4d97e723a3fa9ffc91bcfabd8db3d776a5d"
+      },
+      {
+        "label": "directed-adjacent",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "kimi-mid-1",
+          "src/runtime-auto-checkpoint.test.ts",
+          "src/author-flow-stages.test.ts",
+          "src/script-runner-core.test.ts",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/kimi-directed-adjacent.json"
+        ],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "d2f70baf1ecb01dc534a27978f7a9056b71430cc4b5fe32a5c95b9eb4fa59426"
+      },
+      {
+        "label": "typecheck-reforge",
+        "cmd": "pnpm",
+        "args": ["--filter", "@type-pal/reforge", "typecheck"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "faea6eedb7f9123db1fbe45fb981cbf2778cbb39d8d1d3203bcd925cdb0336b1"
+      },
+      {
+        "label": "full-reforge",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/kimi-full-reforge.json"
+        ],
+        "exit": 1,
+        "signal": null,
+        "rawSha256": "0b76235cce862a49725bbc7583061123c21f4139fb632b1fdaf5a9d42f0fee61"
+      },
+      {
+        "label": "typecheck-content",
+        "cmd": "pnpm",
+        "args": ["--filter", "@type-pal/content", "typecheck"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "e351da8cbe56bfe8ce7c367a5ed3398c186710c22454cd27f273ee7ca43685e4"
+      },
+      {
+        "label": "full-content",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/content",
+          "exec",
+          "vitest",
+          "run",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/kimi-full-content.json"
+        ],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "0e25b3c493c9701c49f31ac19d6c88b5932b3f389a4218dfddd191262ffdc9b6"
+      },
+      {
+        "label": "lint",
+        "cmd": "pnpm",
+        "args": ["lint"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "345796b078d70572689377c57ecca6c990110a922ea3aeac12351175b79b0a90"
+      },
+      {
+        "label": "docs",
+        "cmd": "node",
+        "args": ["scripts/docs/check.mjs"],
+        "exit": 1,
+        "signal": null,
+        "rawSha256": "fb5c61cf5789d44865b837dd4b9320070c05e5bedcb6a88a9b46f8aa73453c48"
+      },
+      {
+        "label": "diff",
+        "cmd": "git",
+        "args": ["diff", "--check", "f5c7f904a3f623e3ca5b413ab43f78029d99fe11...HEAD"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "cursor": [
+      {
+        "label": "install",
+        "cmd": "pnpm",
+        "args": ["install", "--offline", "--frozen-lockfile", "--ignore-scripts"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "f4193df0ca588f4494d1715b272496ccf9c4b918bf41fc16b629516e4dc887ee"
+      },
+      {
+        "label": "directed-adjacent",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/editor",
+          "exec",
+          "vitest",
+          "run",
+          "cursor-mid-1",
+          "src/core/script-flow-preview.test.ts",
+          "src/core/script-movement-preview.test.ts",
+          "src/ui/PreviewCanvas.test.tsx",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/cursor-directed-adjacent.json"
+        ],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "f6213a463c6fbff9a419d7835e6b6f3415788f7e7206386c1568d0d316e35bec"
+      },
+      {
+        "label": "typecheck-editor",
+        "cmd": "pnpm",
+        "args": ["--filter", "@type-pal/editor", "typecheck"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "6e9f879de781abc7df058a9865d542acb9dad589b70b074231ff3fb7095ba293"
+      },
+      {
+        "label": "full-editor",
+        "cmd": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/editor",
+          "exec",
+          "vitest",
+          "run",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/cursor-full-editor.json"
+        ],
+        "exit": 1,
+        "signal": null,
+        "rawSha256": "a6918ab72863b4063e1a3241b9bdcf47964de25c4901a4ca75498b562a101084"
+      },
+      {
+        "label": "lint",
+        "cmd": "pnpm",
+        "args": ["lint"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "7d3628cbaa442411f75a3956ea2e4b7262894a302ed12de74800cd5f1285b008"
+      },
+      {
+        "label": "docs",
+        "cmd": "node",
+        "args": ["scripts/docs/check.mjs"],
+        "exit": 1,
+        "signal": null,
+        "rawSha256": "b166ec3adfc1c6ec1265a7086443ab4f22e118b761591b46c5a950563beb671b"
+      },
+      {
+        "label": "diff",
+        "cmd": "git",
+        "args": ["diff", "--check", "f5c7f904a3f623e3ca5b413ab43f78029d99fe11...HEAD"],
+        "exit": 0,
+        "signal": null,
+        "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "finalFull": [
+    {
+      "owner": "grok",
+      "pkg": "game",
+      "cmd": "pnpm",
+      "args": [
+        "--filter",
+        "@type-pal/game",
+        "test",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/grok-final-full-game.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "total": 2792,
+      "passed": 2792,
+      "failed": 0,
+      "pending": 0,
+      "rawSha256": "2efd0be353cee67e9a6235a8efe019c987d4ddba4901e1291162e8830295e82e"
+    },
+    {
+      "owner": "kimi",
+      "pkg": "reforge",
+      "cmd": "pnpm",
+      "args": [
+        "--filter",
+        "@type-pal/reforge",
+        "test",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/kimi-final-full-reforge.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "total": 2257,
+      "passed": 2257,
+      "failed": 0,
+      "pending": 0,
+      "rawSha256": "ac6c5640a67d51e8cde88e6179b605dd7c54ca984f7047453ee6fe5e74f001d0"
+    },
+    {
+      "owner": "cursor",
+      "pkg": "editor",
+      "cmd": "pnpm",
+      "args": [
+        "--filter",
+        "@type-pal/editor",
+        "test",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-medium-r1-review.UvmjTG/cursor-final-full-editor.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "total": 3804,
+      "passed": 3804,
+      "failed": 0,
+      "pending": 0,
+      "rawSha256": "11e57c527129a34ce8434a7a3ba4b168ad2a4f1a5dc5ffbc7894e36ffbe64aff"
+    }
+  ],
+  "contentFull": {
+    "total": 1255,
+    "passed": 1255,
+    "failed": 0,
+    "pending": 0,
+    "failedTargets": []
+  },
+  "counterRecompute": {
+    "grok": [
+      {
+        "id": "C1-assets-identity",
+        "source": "packages/game/src/shell/bootstrap-resources.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testHashAllMatch": true,
+        "judgeReasons": [],
+        "counts": {
+          "original": {
+            "total": 12,
+            "passed": 12,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 12,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "mutant": {
+            "total": 12,
+            "passed": 11,
+            "failed": 1,
+            "pending": 0,
+            "actualExecuted": 12,
+            "failedTargets": [
+              {
+                "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+                "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 12,
+            "passed": 12,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 12,
+            "failedTargets": [],
+            "suiteErrors": 0
+          }
+        },
+        "claimedNewTargetNotYetAccepted": false
+      },
+      {
+        "id": "C2-settle-order",
+        "source": "packages/game/src/shell/bootstrap-resources.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testHashAllMatch": true,
+        "judgeReasons": [],
+        "counts": {
+          "original": {
+            "total": 12,
+            "passed": 12,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 12,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "mutant": {
+            "total": 12,
+            "passed": 11,
+            "failed": 1,
+            "pending": 0,
+            "actualExecuted": 12,
+            "failedTargets": [
+              {
+                "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+                "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 12,
+            "passed": 12,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 12,
+            "failedTargets": [],
+            "suiteErrors": 0
+          }
+        },
+        "claimedNewTargetNotYetAccepted": false
+      },
+      {
+        "id": "C3-icon-index",
+        "source": "packages/game/src/assets/dialog-assets.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testHashAllMatch": true,
+        "judgeReasons": [],
+        "counts": {
+          "original": {
+            "total": 6,
+            "passed": 6,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 6,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "mutant": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1,
+            "pending": 0,
+            "actualExecuted": 6,
+            "failedTargets": [
+              {
+                "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+                "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 6,
+            "passed": 6,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 6,
+            "failedTargets": [],
+            "suiteErrors": 0
+          }
+        },
+        "claimedNewTargetNotYetAccepted": true
+      },
+      {
+        "id": "C4-protect-snapshot",
+        "source": "packages/game/src/assets/loader.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testHashAllMatch": true,
+        "judgeReasons": [],
+        "counts": {
+          "original": {
+            "total": 13,
+            "passed": 13,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 13,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "mutant": {
+            "total": 13,
+            "passed": 12,
+            "failed": 1,
+            "pending": 0,
+            "actualExecuted": 13,
+            "failedTargets": [
+              {
+                "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+                "fullName": "grok-mid-1 scene cache eviction protect 切换后原先受保护的场景成为下一次淘汰对象",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 13,
+            "passed": 13,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 13,
+            "failedTargets": [],
+            "suiteErrors": 0
+          }
+        },
+        "claimedNewTargetNotYetAccepted": false
+      }
+    ],
+    "kimi": [
+      {
+        "id": "machine-id-cursor",
+        "source": "packages/reforge/src/script-continuation.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "repoTestHashMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "rawCommitted": false,
+        "counts": {
+          "control": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "target": {
+            "total": 28,
+            "passed": 0,
+            "failed": 1,
+            "pending": 27,
+            "actualExecuted": 1,
+            "failedTargets": [
+              {
+                "file": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+                "fullName": "K1 machine executable refuses a cursor from a foreign machine id",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "sameField": {
+            "total": 67,
+            "passed": 66,
+            "failed": 1,
+            "pending": 0,
+            "actualExecuted": 67,
+            "failedTargets": [
+              {
+                "file": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+                "fullName": "K1 machine executable refuses a cursor from a foreign machine id",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          }
+        },
+        "samePhaseIdentitySet": false
+      },
+      {
+        "id": "battle-none-arm",
+        "source": "packages/reforge/src/script-continuation.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "repoTestHashMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "rawCommitted": false,
+        "counts": {
+          "control": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "target": {
+            "total": 28,
+            "passed": 0,
+            "failed": 1,
+            "pending": 27,
+            "actualExecuted": 1,
+            "failedTargets": [
+              {
+                "file": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+                "fullName": "K2 a startBattle child without an outcome arm rejects",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "sameField": {
+            "total": 67,
+            "passed": 66,
+            "failed": 1,
+            "pending": 0,
+            "actualExecuted": 67,
+            "failedTargets": [
+              {
+                "file": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+                "fullName": "K2 a startBattle child without an outcome arm rejects",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          }
+        },
+        "samePhaseIdentitySet": false
+      },
+      {
+        "id": "none-explicit-self",
+        "source": "packages/reforge/src/script-continuation.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "repoTestHashMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "rawCommitted": false,
+        "counts": {
+          "control": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "target": {
+            "total": 28,
+            "passed": 0,
+            "failed": 1,
+            "pending": 27,
+            "actualExecuted": 1,
+            "failedTargets": [
+              {
+                "file": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+                "fullName": "K3 a none-self shared script refuses an explicit command self",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          }
+        },
+        "samePhaseIdentitySet": false
+      },
+      {
+        "id": "unreachable-tail",
+        "source": "packages/content/src/author-flow-stages.ts",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "repoTestHashMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "rawCommitted": false,
+        "counts": {
+          "control": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "target": {
+            "total": 4,
+            "passed": 0,
+            "failed": 1,
+            "pending": 3,
+            "actualExecuted": 1,
+            "failedTargets": [
+              {
+                "file": "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts",
+                "fullName": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          },
+          "restored": {
+            "total": 85,
+            "passed": 85,
+            "failed": 0,
+            "pending": 0,
+            "actualExecuted": 85,
+            "failedTargets": [],
+            "suiteErrors": 0
+          },
+          "sameField": {
+            "total": 50,
+            "passed": 49,
+            "failed": 1,
+            "pending": 0,
+            "actualExecuted": 50,
+            "failedTargets": [
+              {
+                "file": "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts",
+                "fullName": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+                "status": "failed"
+              }
+            ],
+            "suiteErrors": 0
+          }
+        },
+        "samePhaseIdentitySet": false
+      }
+    ],
+    "cursor": [
+      {
+        "id": "CTR-C1-01",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "counts": {
+          "positive": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 7,
+              "passed": 1,
+              "failed": 0,
+              "pending": 6,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          },
+          "mutated": {
+            "stored": {
+              "total": 1,
+              "passed": 0,
+              "failed": 1,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts",
+                  "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 7,
+              "passed": 0,
+              "failed": 1,
+              "pending": 6,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts",
+                  "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            }
+          },
+          "restored": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 7,
+              "passed": 1,
+              "failed": 0,
+              "pending": 6,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          }
+        },
+        "oldOnMutant": {
+          "exitCode": 0,
+          "executed": 0,
+          "failed": [],
+          "oldGreenNewRed": true
+        }
+      },
+      {
+        "id": "CTR-C3-01",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "counts": {
+          "positive": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          },
+          "mutated": {
+            "stored": {
+              "total": 1,
+              "passed": 0,
+              "failed": 1,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 0,
+              "failed": 1,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            }
+          },
+          "restored": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          }
+        },
+        "oldOnMutant": null
+      },
+      {
+        "id": "CTR-C4-01",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "counts": {
+          "positive": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          },
+          "mutated": {
+            "stored": {
+              "total": 1,
+              "passed": 0,
+              "failed": 1,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 0,
+              "failed": 1,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            }
+          },
+          "restored": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          }
+        },
+        "oldOnMutant": {
+          "exitCode": 0,
+          "executed": 0,
+          "failed": [],
+          "oldGreenNewRed": true
+        }
+      },
+      {
+        "id": "CTR-C4-04",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "counts": {
+          "positive": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          },
+          "mutated": {
+            "stored": {
+              "total": 1,
+              "passed": 0,
+              "failed": 1,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 0,
+              "failed": 1,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            }
+          },
+          "restored": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          }
+        },
+        "oldOnMutant": null
+      },
+      {
+        "id": "CTR-C6-01",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "counts": {
+          "positive": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          },
+          "mutated": {
+            "stored": {
+              "total": 1,
+              "passed": 0,
+              "failed": 1,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 0,
+              "failed": 1,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            }
+          },
+          "restored": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          }
+        },
+        "oldOnMutant": {
+          "exitCode": 0,
+          "executed": 0,
+          "failed": [],
+          "oldGreenNewRed": true
+        }
+      },
+      {
+        "id": "CTR-C7-01",
+        "hashOriginalRestoredMatch": true,
+        "rebuiltMutantMatch": true,
+        "testThreePhaseHashRecorded": false,
+        "counts": {
+          "positive": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          },
+          "mutated": {
+            "stored": {
+              "total": 1,
+              "passed": 0,
+              "failed": 1,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 0,
+              "failed": 1,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [
+                {
+                  "file": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+                  "fullName": "C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move",
+                  "status": "failed"
+                }
+              ],
+              "suiteErrors": 0
+            }
+          },
+          "restored": {
+            "stored": {
+              "total": 1,
+              "passed": 1,
+              "failed": 0,
+              "pending": 0,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            },
+            "rawOriginal": {
+              "total": 26,
+              "passed": 1,
+              "failed": 0,
+              "pending": 25,
+              "actualExecuted": 1,
+              "failedTargets": [],
+              "suiteErrors": 0
+            }
+          }
+        },
+        "oldOnMutant": null
+      }
+    ],
+    "judgeProbes": [
+      {
+        "owner": "kimi",
+        "probe": "target assertion red plus pending sibling",
+        "unexpectedlyAccepted": true
+      },
+      {
+        "owner": "cursor",
+        "probe": "one assertion red plus separate empty collection-error suite filtered by focusJson",
+        "unexpectedlyAccepted": true,
+        "reasons": []
+      }
+    ]
+  },
+  "publicInputProbes": [
+    {
+      "name": "kimi-second-state-entry",
+      "error": "probe.machine.states.b.entry: 只允许 onEnter initial state",
+      "rejected": true
+    },
+    {
+      "name": "cursor-empty-state-label",
+      "error": "probe.machine.states.idle.label: 期望非空字符串",
+      "rejected": true
+    }
+  ],
+  "grokC3Dedup": {
+    "scope": "old frozen blob14 + new4, unfiltered",
+    "oldCommit": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+    "oldBlob": "fd46f6f329286b4bca83ebebf5b845cb02777d0e",
+    "original": {
+      "total": 18,
+      "passed": 18,
+      "failed": 0,
+      "pending": 0,
+      "failedTargets": []
+    },
+    "mutant": {
+      "total": 18,
+      "passed": 12,
+      "failed": 6,
+      "pending": 0,
+      "failedTargets": [
+        {
+          "file": "/private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts",
+          "fullName": "G02-D 对话图标与 base64 G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map",
+          "error": "AssertionError: expected [] to deeply equal [ 17 ]\n    at /private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts:53:65\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-medium-r1-review.UvmjTG/grok/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        },
+        {
+          "file": "/private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts",
+          "fullName": "G02-D 对话图标与 base64 G02-D04 头像清单为空数组时不请求 PNG，图标照常解码",
+          "error": "AssertionError: expected [] to deeply equal [ 17 ]\n    at /private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts:128:65\n    at file:///private/tmp/codex-medium-r1-review.UvmjTG/grok/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        },
+        {
+          "file": "/private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts",
+          "fullName": "G02-D 对话图标与 base64 G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧",
+          "error": "AssertionError: expected [] to deeply equal [ 17 ]\n    at /private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts:226:65\n    at file:///private/tmp/codex-medium-r1-review.UvmjTG/grok/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        },
+        {
+          "file": "/private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts",
+          "fullName": "G02-D 对话图标与 base64 G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE",
+          "error": "AssertionError: expected undefined to be 2 // Object.is equality\n    at /private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts:269:25\n    at file:///private/tmp/codex-medium-r1-review.UvmjTG/grok/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        },
+        {
+          "file": "/private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts",
+          "fullName": "G02-D 对话图标与 base64 G02-D14 单张头像 404 不会清掉已经解码的图标",
+          "error": "AssertionError: expected [] to deeply equal [ 17 ]\n    at /private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-icons.codex-medium-probe.test.ts:294:65\n    at file:///private/tmp/codex-medium-r1-review.UvmjTG/grok/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        },
+        {
+          "file": "/private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+          "error": "AssertionError: expected [] to deeply equal [ 49 ]\n    at /private/tmp/codex-medium-r1-review.UvmjTG/grok/packages/game/src/assets/dialog-resources.grok-mid-1.test.ts:57:65\n    at file:///private/tmp/codex-medium-r1-review.UvmjTG/grok/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        }
+      ]
+    },
+    "restored": {
+      "total": 18,
+      "passed": 18,
+      "failed": 0,
+      "pending": 0,
+      "failedTargets": []
+    },
+    "rawSha256": {
+      "original": "d9900aa33c20222582c3f82c292af7a7c78e197f23af89ca98257d6af78c0a53",
+      "mutant": "9ea41e53e0c78964ea7ddda72310b8fb601547f7ef5dcac08febcb374fcefc27",
+      "restored": "32dee4dbd1c732be1ddf757bcccaa2bead629fb127b569dc18f69a4cee3f76b7"
+    },
+    "note": "Six-red dedup diagnostic, never claimed valid one-red counter"
+  }
+}
