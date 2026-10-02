@@ -1,0 +1,3395 @@
+{
+  "auditVersion": 1,
+  "auditedAt": "2026-10-02",
+  "sourceRevision": "68a7b88dd",
+  "scope": "294 canonical scene entity behaviors and hooks; no gameplay/E2E completion is implied",
+  "source": {
+    "machines": 165,
+    "states": 5577,
+    "perCommand": 88,
+    "transition": 77
+  },
+  "candidate": {
+    "convertedMachines": 6,
+    "remainingMachines": 159,
+    "remainingStates": 5538
+  },
+  "classificationCounts": {
+    "protected-001-005": 13,
+    "auto-perCommand-branch-cycle": 54,
+    "interactive-branch-finite": 22,
+    "auto-transition-linear-finite": 19,
+    "auto-transition-linear-cycle": 16,
+    "external-cursor-handoff": 32,
+    "interactive-branch-cycle": 1,
+    "auto-transition-branch-finite": 1,
+    "auto-transition-branch-cycle": 1,
+    "interactive-linear-finite": 6
+  },
+  "graphRule": "Reachability follows every transition target from initial plus all cursorHandoff destination roots. Same-activation cycles use continue/to edges over every reachable state; stay/restart/advance end an activation and are not loop edges.",
+  "findings": {
+    "externalHandoffCommands": 18,
+    "externalHandoffEndpoints": 32,
+    "statesMissedByInitialOnly": 27,
+    "unreachableIncludingHandoffs": 0
+  },
+  "conversionRule": "Only the six allowlisted interactive perCommand flows: follow initial/continue in graph order; require all nodes visited once, a sole terminal restart, no external handoff endpoint and no noninitial entry; preserve body bytes, initial ID and optional initial entry; emit one stage without next. Never apply to auto or transition cadence.",
+  "capabilityGaps": [
+    "Auto stages insert 100ms after every command and control wrapper; transition machines only wait at explicit to edges. Nested branch/loop lowering changes timing unless cadence is redesigned explicitly.",
+    "loop.maxIterations is a safety ceiling, not fixed repeat count; exhaustion throws. Compact finite repetition has no local count form.",
+    "Stage.next has no conditional/command-result choice. Some confirm decisions can be structured inside a step, but conditional future activation targets require a unified-step design.",
+    "32 external cursor-handoff endpoints expose implementation states across behaviors; conversion must rewrite each caller/callee family together, not rename cursor kinds.",
+    "moveEntity also changes gait/facing and offers discrete speeds; constant-pose nudge effects cannot be blindly rewritten as walking."
+  ],
+  "machines": [
+    {
+      "key": "s001/e9/trigger/legacy-001",
+      "sourceFlowSha256": "f6ed8ce0aa170182f7cc759b4dcfe836dd13f80bb72f45b52170c76b028c39bf",
+      "states": 9,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 8,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 9,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 9,
+      "handoffs": []
+    },
+    {
+      "key": "s001/e25/auto/legacy-001",
+      "sourceFlowSha256": "206e99f47e81e97c2408ef8da44dd472b27bed3687ea5fbf99a3605d4a02b2c4",
+      "states": 21,
+      "initial": "intro",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 12,
+        "continue": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 21,
+      "entryRoots": ["intro"],
+      "reachableIncludingHandoffs": 21,
+      "handoffs": []
+    },
+    {
+      "key": "s001/e25/auto/legacy-002",
+      "sourceFlowSha256": "b17a78e3b537c11b317fe5132006351a22adea4b208b17c6a8a2ae2cde57e913",
+      "states": 21,
+      "initial": "intro",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 12,
+        "continue": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 21,
+      "entryRoots": ["intro"],
+      "reachableIncludingHandoffs": 21,
+      "handoffs": []
+    },
+    {
+      "key": "s001/e26/auto/legacy-001",
+      "sourceFlowSha256": "ba14d7ae2d3b73a51084c86c0b3a4a67d1eb6aed9c66b2f240ee3a1bb2bb385c",
+      "states": 21,
+      "initial": "intro",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 12,
+        "continue": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 21,
+      "entryRoots": ["intro"],
+      "reachableIncludingHandoffs": 21,
+      "handoffs": []
+    },
+    {
+      "key": "s001/e26/auto/legacy-002",
+      "sourceFlowSha256": "a016ef2469420c78eaf3d8c5eb9e4345de72197ec889dcc70ac5517cf4dd64d6",
+      "states": 21,
+      "initial": "intro",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 12,
+        "continue": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 21,
+      "entryRoots": ["intro"],
+      "reachableIncludingHandoffs": 21,
+      "handoffs": []
+    },
+    {
+      "key": "s001/e26/auto/legacy-003",
+      "sourceFlowSha256": "3fd8f10262959c9255f826418a22abff6ae2f7c6f58d063bdca1d7953924ee15",
+      "states": 17,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 8,
+        "advance": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 17,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 17,
+      "handoffs": []
+    },
+    {
+      "key": "s003/e59/auto/legacy-002",
+      "sourceFlowSha256": "7835344d158ebbfd2cb70e27fba698b12df5dcdc757c53425ac4e5477d29bbfb",
+      "states": 57,
+      "initial": "intro-01",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 31,
+        "advance": 24,
+        "continue": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 57,
+      "entryRoots": ["intro-01"],
+      "reachableIncludingHandoffs": 57,
+      "handoffs": []
+    },
+    {
+      "key": "s004/e82/auto/legacy-001",
+      "sourceFlowSha256": "a44237f213a6bbd8967aa9c1e33d1bdbb05760b54750e2199730365f0b5f37ac",
+      "states": 28,
+      "initial": "source-36215",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 3,
+        "to:worldTick": 25
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 28,
+      "entryRoots": ["source-36215"],
+      "reachableIncludingHandoffs": 28,
+      "handoffs": []
+    },
+    {
+      "key": "s004/e88/auto/legacy-001",
+      "sourceFlowSha256": "3f658d86e04bf10bd26b203e7ef2e79f03fc1c861ed9b296c8c1facda969ab19",
+      "states": 16,
+      "initial": "intro",
+      "cadence": "transition",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 8,
+        "advance": 7
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 16,
+      "entryRoots": ["intro"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": []
+    },
+    {
+      "key": "s004/e93/auto/default",
+      "sourceFlowSha256": "09a002a0c27bbe1bae0a79fd556061869006a12edd39e2c980c5b86368b7fb2f",
+      "states": 19,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 14,
+        "to:macroTask": 7,
+        "continue": 5,
+        "to:worldTick": 2
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 19,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 19,
+      "handoffs": []
+    },
+    {
+      "key": "s005/e121/auto/default",
+      "sourceFlowSha256": "6c970f5fd6c322c7b2b02389ed7a3228b53ba50cb5a100a0bbfce95142a4d2b8",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s005/e122/auto/default",
+      "sourceFlowSha256": "b13eecfa378c9df545443a0e567c0230feefd95dc9d45846a98b1f75cb7daf2a",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s005/e128/trigger/default",
+      "sourceFlowSha256": "7a2b485671398e6927b63b40b3e5f8026e1b6a596cc358cac9e85b588c44702e",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "protected-001-005",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "sourceFlowSha256": "cb8b976db6c43886669af7abb329011cc7aa42fbcab9245efc6a86d6228d9617",
+      "states": 11,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 3,
+        "continue": 8,
+        "to:worldTick": 5,
+        "stay": 3
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 11,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 11,
+      "handoffs": []
+    },
+    {
+      "key": "s007/e173/auto/default",
+      "sourceFlowSha256": "cb8b976db6c43886669af7abb329011cc7aa42fbcab9245efc6a86d6228d9617",
+      "states": 11,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 3,
+        "continue": 8,
+        "to:worldTick": 5,
+        "stay": 3
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 11,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 11,
+      "handoffs": []
+    },
+    {
+      "key": "s009/e188/trigger/default",
+      "sourceFlowSha256": "a642c3e3024db9ab65bb609bde1b188f3f5429ce57f4d8dea970585912b4bc3f",
+      "states": 7,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 4,
+        "restart": 2,
+        "advance": 2,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 7,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 7,
+      "handoffs": []
+    },
+    {
+      "key": "s016/e220/auto/default",
+      "sourceFlowSha256": "2ba12fef6d4b6daa20b74ca43a5385c2f5f19560b38a7053539a4d44d37d7e9c",
+      "states": 28,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 18,
+        "continue": 9
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 28,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 28,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e312/auto/default",
+      "sourceFlowSha256": "51c6c655dfacfebd1d8614d13075475b5c2397d24c68896c892d60ee7b6af1c1",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e313/auto/default",
+      "sourceFlowSha256": "17c9472477941b155f081a2ab88f4bd9b669bbd963e1d47ecc3ee33d7f48dd92",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e314/auto/default",
+      "sourceFlowSha256": "37787d3f321ed018f8e70fda3d7866e342fd16165bbef153f75c60905b72ebb4",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e315/auto/default",
+      "sourceFlowSha256": "6b2c6c084a28ee7dc2e5e1acf50143ce56687cfb0abb5ba12e400727ebcff5f6",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e316/auto/default",
+      "sourceFlowSha256": "bff897e1199211b56181a2ab084bfeb16ff6ea6f694d9868b4a3eb19c73e3e0a",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e317/auto/default",
+      "sourceFlowSha256": "bb401d13e166be6c69495574f912829e5a91782d1b9a5905681e9b77aef10f13",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e318/auto/default",
+      "sourceFlowSha256": "4c5eb02bb5fc599141d082270f853cacc270f1b3bbc63752178ec0f18885e5ff",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e319/auto/default",
+      "sourceFlowSha256": "a68a8502b28bc3a1f146f476cb7903214afacae3fd875aace97ee43943413f4b",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e320/auto/default",
+      "sourceFlowSha256": "5657bf8e73acd9d2d4010d907f7112ccd86e6d0b29735a3fd49ed3ce13324b4e",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e321/auto/default",
+      "sourceFlowSha256": "ffda64f76fe2457c0266e67ddbf13aa4150ee31ec52d10faa4443129dfe37d24",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e322/auto/default",
+      "sourceFlowSha256": "f7b16239ec1ee5787d7cbc507a3a98eaeb647bbdc99911c07832a4d96f996758",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e323/auto/default",
+      "sourceFlowSha256": "d9911a091edf316ec50647c02d823336a81599f3bcec55b7cb02490fa41f6c5c",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e324/auto/default",
+      "sourceFlowSha256": "bd0e727679097799b42b95a1e3cd472141667551aee7992728f2872bc24e4300",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e325/auto/default",
+      "sourceFlowSha256": "1ccc582617955914182ad54db3c353d6caac0a051094e81f1a1cda7f30aa6281",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s019/e326/auto/default",
+      "sourceFlowSha256": "4c4f4855d88ee4ab300c99218263222661861e275a6a5e97685ba3ed5d4997bf",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s021/e397/auto/legacy-001",
+      "sourceFlowSha256": "dc9aacba9d63f586de7c823d031d42fddcb71b7fef32abb4d8962f97656b3d6d",
+      "states": 4,
+      "initial": "source-6181",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 3,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 4,
+      "entryRoots": ["source-6181"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s021/e401/auto/legacy-001",
+      "sourceFlowSha256": "d841718f9ca3eb5dd24dcdc3ba8642eaabaf2c0860451bdb6df2b70ec620808c",
+      "states": 6,
+      "initial": "source-5809",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 5,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 6,
+      "entryRoots": ["source-5809"],
+      "reachableIncludingHandoffs": 6,
+      "handoffs": []
+    },
+    {
+      "key": "s021/e402/auto/legacy-001",
+      "sourceFlowSha256": "24bc1740c5d9516efb45f1d610ec51898414ae80375fd476f7287dc41c14b413",
+      "states": 6,
+      "initial": "source-5809",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 5,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 6,
+      "entryRoots": ["source-5809"],
+      "reachableIncludingHandoffs": 6,
+      "handoffs": []
+    },
+    {
+      "key": "s021/e405/auto/default",
+      "sourceFlowSha256": "3572b5450d6e2bbd24ac668f4e35a2f9922c333fb1aab0416306e3eee8712550",
+      "states": 35,
+      "initial": "first-step",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 1,
+        "to:worldTick": 34
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 35,
+      "entryRoots": ["first-step"],
+      "reachableIncludingHandoffs": 35,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s021/entities/12/behaviors/auto/default/flow/machine/states/intro-04/body/0",
+          "cases": 1
+        }
+      ]
+    },
+    {
+      "key": "s021/e405/auto/legacy-001",
+      "sourceFlowSha256": "890dbbad9554c707fda307f039cf4704b9d96c029458e261bf39aac74dd01111",
+      "states": 282,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 142,
+        "continue": 139
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 282,
+      "entryRoots": ["cycle-01", "cycle-01-phase-06"],
+      "reachableIncludingHandoffs": 282,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s021/entities/12/behaviors/auto/default/flow/machine/states/intro-04/body/0",
+          "cases": 1
+        }
+      ]
+    },
+    {
+      "key": "s021/e406/auto/default",
+      "sourceFlowSha256": "ead693e83df6aecbd5bdc6f4372fac2557e0cb0e434a32429f65a009706fd68e",
+      "states": 288,
+      "initial": "intro-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 148,
+        "continue": 139
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 288,
+      "entryRoots": ["intro-01"],
+      "reachableIncludingHandoffs": 288,
+      "handoffs": []
+    },
+    {
+      "key": "s023/e433/trigger/default",
+      "sourceFlowSha256": "2e464f382b973eb69c8322edaab7dbe3e5f1c27f84c4e302a0b1e55f2ba8928d",
+      "states": 5,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 4,
+        "stay": 2,
+        "advance": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 5,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 5,
+      "handoffs": []
+    },
+    {
+      "key": "s023/e437/trigger/default",
+      "sourceFlowSha256": "ffbc0d2e77c27189a8876d875ce536a2997d209454a5c1fc4965acc0d0239ccc",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s029/e536/trigger/default",
+      "sourceFlowSha256": "91fcf5dd39629b4c083375955b5edb9b340139c0c0a4219f951d800e670f5638",
+      "states": 8,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 4,
+        "stay": 3,
+        "advance": 3
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 8,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 8,
+      "handoffs": []
+    },
+    {
+      "key": "s030/e540/trigger/default",
+      "sourceFlowSha256": "6aecfb73f8ec602a2b7abaa81535e9d10b84106f33974321957bdd77373de837",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 8,
+        "stay": 3,
+        "advance": 6
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s032/e548/auto/legacy-004",
+      "sourceFlowSha256": "10bb6d69891f2dc95907e73260cdc28b1cee897a06967b09dc31fe1110092081",
+      "states": 3,
+      "initial": "source-9031",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 2,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 3,
+      "entryRoots": ["source-9031"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s035/e583/auto/default",
+      "sourceFlowSha256": "4ac0079729918559d6d4b9c8b1bbf3ced9644ec7c31b87103c24dbd9aeb38b06",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s035/e584/auto/default",
+      "sourceFlowSha256": "f504a231bf53d9f9f8c290dbd769c735b588dd9c7316f0e6375d922e4f562f9a",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s035/e585/auto/default",
+      "sourceFlowSha256": "4a61b613ee9575f963eba9f63c893c6896156416e5477d6037ee026cef06d8cd",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s037/e616/auto/legacy-002",
+      "sourceFlowSha256": "0262e363067a250d2a8b0c41d088f3c434c32810a5cec7c15808e5c7fb32c6aa",
+      "states": 6,
+      "initial": "source-9017",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 5,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 6,
+      "entryRoots": ["source-9017"],
+      "reachableIncludingHandoffs": 6,
+      "handoffs": []
+    },
+    {
+      "key": "s048/e795/auto/legacy-001",
+      "sourceFlowSha256": "50b20997ecbab63c3992360775cf56f645d574666dab9cc61f17dcee67cbf0cc",
+      "states": 28,
+      "initial": "source-36215",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 3,
+        "to:worldTick": 25
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 28,
+      "entryRoots": ["source-36215"],
+      "reachableIncludingHandoffs": 28,
+      "handoffs": []
+    },
+    {
+      "key": "s048/e796/auto/legacy-007",
+      "sourceFlowSha256": "df54f6175d9be9e61b7fda02f77cd0cd136ce5ce21ba2fc0a72cf1c6c7fc07ed",
+      "states": 5,
+      "initial": "source-10448",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 4,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 5,
+      "entryRoots": ["source-10448"],
+      "reachableIncludingHandoffs": 5,
+      "handoffs": []
+    },
+    {
+      "key": "s049/e816/auto/default",
+      "sourceFlowSha256": "d820bb5a77035a269de697b740cc24e8b9cc7f5bfda34d768075487bb3afd316",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 2,
+        "continue": 2,
+        "to:worldTick": 2
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s049/e819/auto/default",
+      "sourceFlowSha256": "d1577d4ce18cd7e64b682fb080569a3968cb6d6b91657495d3757953b408724c",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s049/e820/auto/default",
+      "sourceFlowSha256": "16a10dd0011c583abb16d6eb86b1184d3c34ceb3d93b3eecceaa291101cc044b",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s049/e825/auto/default",
+      "sourceFlowSha256": "c87a6b80ddef0659e29638029cb0ef9ae2dc3c9fa030f752cd5fea85fe801840",
+      "states": 19,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 14,
+        "to:macroTask": 7,
+        "continue": 5,
+        "to:worldTick": 2
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 19,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 19,
+      "handoffs": []
+    },
+    {
+      "key": "s049/e828/auto/default",
+      "sourceFlowSha256": "9d5c2ca9f09e6b203b04e8d343e4f5dd6b2f2170bf5c595374c78f9c29e4dcd5",
+      "states": 19,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 14,
+        "to:macroTask": 7,
+        "continue": 5,
+        "to:worldTick": 2
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 19,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 19,
+      "handoffs": []
+    },
+    {
+      "key": "s050/e845/trigger/default",
+      "sourceFlowSha256": "8db2854702d11340882667bfddbc017c2e2bf2dc6435e4a64fd24ea8163b2a3b",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s050/e846/trigger/default",
+      "sourceFlowSha256": "8db2854702d11340882667bfddbc017c2e2bf2dc6435e4a64fd24ea8163b2a3b",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s052/e897/trigger/legacy-001",
+      "sourceFlowSha256": "56825d6b2226bbd132bf84822332fa194e493b2d27f04aa7e1a9afd323f44533",
+      "states": 15,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 6,
+        "stay": 3,
+        "continue": 12
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 15,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": []
+    },
+    {
+      "key": "s053/e905/auto/legacy-001",
+      "sourceFlowSha256": "e85005e5bfb56de23e5597183c1cddcc6b25ee6f33211027bf1294d6b580970d",
+      "states": 6,
+      "initial": "source-10156",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 4,
+        "advance": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 6,
+      "entryRoots": ["source-10156"],
+      "reachableIncludingHandoffs": 6,
+      "handoffs": []
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "sourceFlowSha256": "9092d60e67e1c14b1bff8175bacd3ec429e07514fd5fae937939ac87a112f2c1",
+      "states": 8,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 2,
+        "continue": 5,
+        "to:worldTick": 3,
+        "stay": 3
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 8,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 8,
+      "handoffs": []
+    },
+    {
+      "key": "s063/e1206/auto/default",
+      "sourceFlowSha256": "9092d60e67e1c14b1bff8175bacd3ec429e07514fd5fae937939ac87a112f2c1",
+      "states": 8,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 2,
+        "continue": 5,
+        "to:worldTick": 3,
+        "stay": 3
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 8,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 8,
+      "handoffs": []
+    },
+    {
+      "key": "s064/e1221/auto/default",
+      "sourceFlowSha256": "9092d60e67e1c14b1bff8175bacd3ec429e07514fd5fae937939ac87a112f2c1",
+      "states": 8,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 2,
+        "continue": 5,
+        "to:worldTick": 3,
+        "stay": 3
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 8,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 8,
+      "handoffs": []
+    },
+    {
+      "key": "s081/e1538/auto/legacy-001",
+      "sourceFlowSha256": "281ce84120e3f63f0c3379d77d5830a5ee623a376ea20f53dbbb93cceaf5d3a7",
+      "states": 15,
+      "initial": "source-15024",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "advance": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 15,
+      "entryRoots": ["source-15024"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": []
+    },
+    {
+      "key": "s081/e1539/auto/legacy-001",
+      "sourceFlowSha256": "4fd6da277cfdcbff32d90476de99e9ee2efbcb38f7c1942077dc149c4f44ace5",
+      "states": 14,
+      "initial": "source-15011",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "advance": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 14,
+      "entryRoots": ["source-15011"],
+      "reachableIncludingHandoffs": 14,
+      "handoffs": []
+    },
+    {
+      "key": "s081/e1540/auto/legacy-001",
+      "sourceFlowSha256": "cb06f248b0db6a626709a919d2b6552618448758b8b31bea0c264838c1b6e0f6",
+      "states": 18,
+      "initial": "source-15020",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 16,
+        "advance": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 18,
+      "entryRoots": ["source-15020"],
+      "reachableIncludingHandoffs": 18,
+      "handoffs": []
+    },
+    {
+      "key": "s081/onEnter/default",
+      "sourceFlowSha256": "78a9c8f8739295c9ef2b46187aface9a9269cf3839452922273add251b81407f",
+      "states": 5,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 1,
+        "continue": 2,
+        "stay": 1,
+        "to:worldTick": 1,
+        "advance": 2
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 5,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 5,
+      "handoffs": []
+    },
+    {
+      "key": "s082/e1568/auto/legacy-001",
+      "sourceFlowSha256": "c686899a437fedd479dfe1812f4683194fcd0b0a326cdef85728de9481c2fe96",
+      "states": 58,
+      "initial": "source-13487",
+      "cadence": "transition",
+      "classification": "auto-transition-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 48,
+        "advance": 10,
+        "continue": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 58,
+      "entryRoots": ["source-13487"],
+      "reachableIncludingHandoffs": 58,
+      "handoffs": []
+    },
+    {
+      "key": "s082/e1569/auto/legacy-001",
+      "sourceFlowSha256": "2fe3a37c84e36889b0c5b2c20310a6c2a9a09115dd551ca9fdb7fcd5e2506ac4",
+      "states": 66,
+      "initial": "source-13513",
+      "cadence": "transition",
+      "classification": "auto-transition-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 59,
+        "continue": 4,
+        "advance": 7
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 66,
+      "entryRoots": ["source-13513"],
+      "reachableIncludingHandoffs": 66,
+      "handoffs": []
+    },
+    {
+      "key": "s084/e1583/trigger/legacy-001",
+      "sourceFlowSha256": "e96e5871118bbbb48803ad5496e026fdd4b4fb1d35295bc4d5d4eb1e6e52a4a5",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s084/e1584/trigger/legacy-001",
+      "sourceFlowSha256": "e96e5871118bbbb48803ad5496e026fdd4b4fb1d35295bc4d5d4eb1e6e52a4a5",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s091/e1682/trigger/default",
+      "sourceFlowSha256": "a82a6b7bbded21fe6a979e9d56b291efafcc09a1646e7dec355da564675cd960",
+      "states": 5,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "advance": 2,
+        "stay": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 5,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 5,
+      "handoffs": []
+    },
+    {
+      "key": "s093/e1759/auto/legacy-001",
+      "sourceFlowSha256": "2fa82247929b86f8ca39b72f8a38ecadba307261bd346a135c1c062475e3d256",
+      "states": 3,
+      "initial": "source-13830",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 2,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 3,
+      "entryRoots": ["source-13830"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s100/e1817/trigger/default",
+      "sourceFlowSha256": "cc0371f27446aa9207b942750ce4985e0d5628d7f10a17974f6d16d19cfc9b8e",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 1,
+        "advance": 1,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s100/e1824/trigger/default",
+      "sourceFlowSha256": "17f1924668d52897abf927cb72b267f0b6083829f4f03abf0bc63b76ab4262e1",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "advance": 1,
+        "restart": 1,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s100/e1825/trigger/default",
+      "sourceFlowSha256": "5e3b98f3bcad33295018b5f9ffc3665959acb28c12209ac062bc2100576af44c",
+      "states": 9,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 6,
+        "restart": 2,
+        "advance": 3,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 9,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 9,
+      "handoffs": []
+    },
+    {
+      "key": "s100/e1837/trigger/default",
+      "sourceFlowSha256": "c7088915ea27862cbf942ec242ba5258cd5364d861098fcf95f8109d441ba486",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s102/e1882/trigger/default",
+      "sourceFlowSha256": "fe9fa9c8d114cd03798fc96b27f7dd5c742bda2cbf6f327ac572fb0ac0961c52",
+      "states": 5,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "advance": 2,
+        "restart": 1,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 5,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 5,
+      "handoffs": []
+    },
+    {
+      "key": "s102/e1884/auto/default",
+      "sourceFlowSha256": "078a53c918e654d1c9d1bac6500776a771aeade1bfce15fb60b702f18918841a",
+      "states": 25,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 13,
+        "continue": 11
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 25,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 25,
+      "handoffs": []
+    },
+    {
+      "key": "s102/e1884/auto/legacy-001",
+      "sourceFlowSha256": "e3fbc59d5ebddd4b8231523f995fe62cb564551558b44300b9286be779678d5c",
+      "states": 8,
+      "initial": "source-16515",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 7,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 8,
+      "entryRoots": ["source-16515"],
+      "reachableIncludingHandoffs": 8,
+      "handoffs": []
+    },
+    {
+      "key": "s108/e2002/trigger/default",
+      "sourceFlowSha256": "a52afa606d7f293007de77a2d70c44af38a425420f0313778a4b16342c54a9ac",
+      "states": 12,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 3,
+        "stay": 3,
+        "continue": 10
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 12,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 12,
+      "handoffs": []
+    },
+    {
+      "key": "s111/e2085/trigger/default",
+      "sourceFlowSha256": "b542b51efd0fa509a1dfc29b63f908df6fa180b26be775e838e34c72b67a1511",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s115/e2136/auto/legacy-001",
+      "sourceFlowSha256": "de04bc90e4facf7e8ac11ca855036b879fe323604145786e96b7a556d245c1ee",
+      "states": 26,
+      "initial": "source-20699",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 21,
+        "advance": 5
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 26,
+      "entryRoots": ["source-20699"],
+      "reachableIncludingHandoffs": 26,
+      "handoffs": []
+    },
+    {
+      "key": "s127/e2224/trigger/default",
+      "sourceFlowSha256": "a95721b43372133dbc78c2e30ddcf6e43709958e8c48dee8c7d01a059a68c600",
+      "states": 3,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 2
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 3,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 3,
+      "handoffs": []
+    },
+    {
+      "key": "s128/e2245/trigger/legacy-001",
+      "sourceFlowSha256": "82d41932380ceb69a8d78bbcfff9aaad8a13edc74526957b4a0010a0f26f92d8",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 3,
+        "stay": 1,
+        "advance": 1,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s131/e2292/trigger/default",
+      "sourceFlowSha256": "83dba4146d7a58bc96994d86248fd9cc513203fc9b0390cd83d9cd592a670f27",
+      "states": 7,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 4,
+        "restart": 1,
+        "advance": 3,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 7,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 7,
+      "handoffs": []
+    },
+    {
+      "key": "s140/e2376/auto/default",
+      "sourceFlowSha256": "691dcf18b34c9841e5b8c2be677ff20b700482a41078ff39cb4b807f32b70fd6",
+      "states": 67,
+      "initial": "source-22121",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 66,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 67,
+      "entryRoots": ["source-22121"],
+      "reachableIncludingHandoffs": 67,
+      "handoffs": []
+    },
+    {
+      "key": "s141/e2380/auto/legacy-001",
+      "sourceFlowSha256": "d84ec222c3c4d79fb527da345df0ce8d848ea27c42760d1b8563b12ad14b57b8",
+      "states": 22,
+      "initial": "source-22200",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 21,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 22,
+      "entryRoots": ["source-22200"],
+      "reachableIncludingHandoffs": 22,
+      "handoffs": []
+    },
+    {
+      "key": "s148/e2433/trigger/default",
+      "sourceFlowSha256": "11047c630b9ab18789ada454fef9bfbe669a9ad0c0d35f85bedd709e27b9f41e",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-branch-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "continue": 2,
+        "restart": 1,
+        "advance": 1,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s150/e2466/auto/default",
+      "sourceFlowSha256": "c19bc8050452fcb3d6e6c906c4a589d1bfcf91d93654cb785a1d30f4d0f4bf5f",
+      "states": 6,
+      "initial": "source-24991",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 5,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 6,
+      "entryRoots": ["source-24991"],
+      "reachableIncludingHandoffs": 6,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "sourceFlowSha256": "b99c4b906dcb98fb137daa8044fca1dcec026d6eb7b3820f5eb58467fbed724a",
+      "states": 15,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 7,
+        "continue": 7,
+        "to:worldTick": 5,
+        "stay": 8
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 15,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2932/auto/default",
+      "sourceFlowSha256": "0c42287ab5b27b4dc6c0514f53960980fba333c3412d75dae532fcd456a8645f",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2933/auto/default",
+      "sourceFlowSha256": "2b4b773cf9e1e8481abc0835c945cf27c4e4d47549cefa31539154ae76ee8972",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2934/auto/default",
+      "sourceFlowSha256": "0c80d5f7f9cae2817b9f6697437669eece1cf43a41e94a532bb79f5eb71c7553",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2935/auto/default",
+      "sourceFlowSha256": "108625f86c4eb0c0316f008d68bdcd82844cfb4c12789b9c97d88acec870d8d0",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2936/auto/default",
+      "sourceFlowSha256": "cb59dcec8ff46e1ccfefac05540ec664b3870f250407e5deb7815dc7e63f30ab",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2937/auto/default",
+      "sourceFlowSha256": "6c0f1729ced1773c3bf8fd2cc6087a91881c94fdf3f1af95788e71d31afc4dce",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2938/auto/default",
+      "sourceFlowSha256": "c286e55f76d9717b3eda1631c389f88c3ca39b607569cb9ae96bf2e82877eb20",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2939/auto/default",
+      "sourceFlowSha256": "a893d76523bda380df10aafb5dac4b97d00dbce53b33ea0a57dd09a33098ecd3",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2940/auto/default",
+      "sourceFlowSha256": "d217460f8f278d5924c811409d9d9aae045fb7f882b2fdf4e5763a1e8eb06802",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2941/auto/default",
+      "sourceFlowSha256": "a0246f86b39da1b33357ad727c2d83abdf4a53ab159d791b8c577413db1e1d97",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2942/auto/default",
+      "sourceFlowSha256": "db5d067364183669a9b441b3d571a788b17c5fba75bc9938cb89b2df0c9d81b5",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s176/e2943/auto/default",
+      "sourceFlowSha256": "78a6b09bda903f88dc62916a6c4664eabea6f4281a120f5700cb88a6e709fcf5",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s179/e2956/auto/default",
+      "sourceFlowSha256": "b99c4b906dcb98fb137daa8044fca1dcec026d6eb7b3820f5eb58467fbed724a",
+      "states": 15,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 7,
+        "continue": 7,
+        "to:worldTick": 5,
+        "stay": 8
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 15,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": []
+    },
+    {
+      "key": "s185/e3110/auto/default",
+      "sourceFlowSha256": "b99c4b906dcb98fb137daa8044fca1dcec026d6eb7b3820f5eb58467fbed724a",
+      "states": 15,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 7,
+        "continue": 7,
+        "to:worldTick": 5,
+        "stay": 8
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 15,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3137/auto/default",
+      "sourceFlowSha256": "b99c4b906dcb98fb137daa8044fca1dcec026d6eb7b3820f5eb58467fbed724a",
+      "states": 15,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 7,
+        "continue": 7,
+        "to:worldTick": 5,
+        "stay": 8
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 15,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3138/auto/default",
+      "sourceFlowSha256": "daf2d8379e356dbf86533b8a53f4466b429bd6bbe6312f2f7474726a7c7508f4",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3139/auto/default",
+      "sourceFlowSha256": "c74a37498598d88d634439019df4aeaac512688b2fbf51a8bde6b7531ceb742c",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3140/auto/default",
+      "sourceFlowSha256": "0433dfea1a6be89bdc54acf2eeb33964f647ae7f3da945099f7de49272df05cd",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3141/auto/default",
+      "sourceFlowSha256": "45ec4ada9d551bd742cef92f8adc38240c0d0b9d530853d3ac893111a6d4d284",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3142/auto/default",
+      "sourceFlowSha256": "cceefe87869a22555e4ed94d788cd9c22fda2b2c9e7151bc092e31691bacc442",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3143/auto/default",
+      "sourceFlowSha256": "18c1533073c31029d632ebf274b9ff038929f53501290b5ea804d5dc02739617",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s186/e3144/auto/default",
+      "sourceFlowSha256": "39f4a7dfe1efcc3ec5a67a6be55493522577c152a86442e0a30e17ab28e546a6",
+      "states": 13,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 4,
+        "continue": 9,
+        "to:worldTick": 9
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s192/e3305/auto/default",
+      "sourceFlowSha256": "b99c4b906dcb98fb137daa8044fca1dcec026d6eb7b3820f5eb58467fbed724a",
+      "states": 15,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:macroTask": 7,
+        "continue": 7,
+        "to:worldTick": 5,
+        "stay": 8
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 15,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": []
+    },
+    {
+      "key": "s206/e3493/auto/default",
+      "sourceFlowSha256": "c9a4755fd5af54a54ec299a8c2cf47e6881b37866924c783af34f41d0260db45",
+      "states": 19,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 14,
+        "to:macroTask": 7,
+        "continue": 5,
+        "to:worldTick": 2
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 19,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 19,
+      "handoffs": []
+    },
+    {
+      "key": "s206/e3494/auto/default",
+      "sourceFlowSha256": "933bee94a0964893435fd9001982ebe0fc9f017ad60762ad3491859345546fc1",
+      "states": 19,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "auto-perCommand-branch-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 14,
+        "to:macroTask": 7,
+        "continue": 5,
+        "to:worldTick": 2
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 19,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 19,
+      "handoffs": []
+    },
+    {
+      "key": "s231/e4156/auto/default",
+      "sourceFlowSha256": "cdd2611ac7ed5b20ff99143ede9ae25f3bbc047b2afeaf0d02c0ef8089bae2e6",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/42",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4156/auto/legacy-001",
+      "sourceFlowSha256": "54e97e0fc8b92e9534d541e92b48fe96bf8077b8cda52eaec727c08cade7dabd",
+      "states": 12,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "advance": 3,
+        "to:worldTick": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 8,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02", "sequence-01-phase-03"],
+      "reachableIncludingHandoffs": 12,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/42",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4157/auto/default",
+      "sourceFlowSha256": "8153372b37e36eb684788d747e2ca9309fb91c68c42eb10fc6f87224863fd76f",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/43",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4157/auto/legacy-001",
+      "sourceFlowSha256": "be98f9bb72f8ab7a2c0fd2d89773c211be49d456433056d12d127d45e8d90226",
+      "states": 8,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 7
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 7,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02"],
+      "reachableIncludingHandoffs": 8,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/43",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4158/auto/default",
+      "sourceFlowSha256": "efe7a2097ea72520c55f7e430cb5a5ff8a5c94861428f197e025ebdc3d8eb30d",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/44",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4158/auto/legacy-001",
+      "sourceFlowSha256": "cb4825dd0e68bc0168ad4b24264d580e0a48add5278f6075990b5603cf372150",
+      "states": 11,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 10
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 11,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02", "sequence-01-phase-03"],
+      "reachableIncludingHandoffs": 11,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/44",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4159/auto/default",
+      "sourceFlowSha256": "04732881c0aa9801d0396c3b418849a302aaa61d49eee749a95f491744a9b98d",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/45",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4159/auto/legacy-001",
+      "sourceFlowSha256": "4e76c61583234785ba9e4952fa7aa8f0005214f959a8fbd87ad6fdd0d74eaa85",
+      "states": 9,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 9,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02"],
+      "reachableIncludingHandoffs": 9,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/45",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4160/auto/default",
+      "sourceFlowSha256": "e0898948178ec88985a95ae245d4e1d566fe802e19de611ea4d710f1c9bdb5cd",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/46",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4160/auto/legacy-001",
+      "sourceFlowSha256": "509c3d844cccbc49d6782c02223c1b014834bbb1f0e9d7247556fa5464adb2ef",
+      "states": 9,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 7,
+        "advance": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 9,
+      "entryRoots": [
+        "sequence-01",
+        "sequence-01-phase-02",
+        "sequence-01-phase-03",
+        "sequence-01-phase-04"
+      ],
+      "reachableIncludingHandoffs": 9,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/46",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4161/auto/default",
+      "sourceFlowSha256": "7a7ed69392461de3d7653b04aadc629cdd3b680bc7ef9aad66c455c45fdafe24",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/47",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4161/auto/legacy-001",
+      "sourceFlowSha256": "24908a84d5f93b28e83ffd57ade2f4be978db7469e269fac060285c8929ba70a",
+      "states": 11,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 10
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 11,
+      "entryRoots": [
+        "sequence-01",
+        "sequence-01-phase-02",
+        "sequence-01-phase-03",
+        "sequence-01-phase-04"
+      ],
+      "reachableIncludingHandoffs": 11,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/47",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4162/auto/default",
+      "sourceFlowSha256": "f7f9563224761884abb560717e6864b8f71dd3593638f530b013e677f2039850",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/48",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4162/auto/legacy-001",
+      "sourceFlowSha256": "1c33860e3eb7bb0071ac70d2493ed3409cd8af89ee63727ce39bb618a5d66850",
+      "states": 11,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 10
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 8,
+      "entryRoots": [
+        "sequence-01",
+        "sequence-01-phase-02",
+        "sequence-01-phase-03",
+        "sequence-01-phase-04"
+      ],
+      "reachableIncludingHandoffs": 11,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/48",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4163/auto/default",
+      "sourceFlowSha256": "31adf3dfbdc4fe5873d990ce00fe2d26c82650e1446333e787aa0901d98e223a",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/49",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4163/auto/legacy-001",
+      "sourceFlowSha256": "6eb1d648c2cd8f23a7dc7437a3ae9cd79e973a30f177ac61ff128be5c2255430",
+      "states": 11,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 10
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 11,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02", "sequence-01-phase-03"],
+      "reachableIncludingHandoffs": 11,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/49",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4164/auto/default",
+      "sourceFlowSha256": "2d018fd2e2ee547a87fe747c47facdea886f6b2206f549dc7a978c3837303ca5",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/50",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4164/auto/legacy-001",
+      "sourceFlowSha256": "fea05fe14b535065bf65ea959a89028321f7e94775cd81164e875efd6eff5d6c",
+      "states": 11,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 10
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 11,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02", "sequence-01-phase-03"],
+      "reachableIncludingHandoffs": 11,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/50",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4165/auto/default",
+      "sourceFlowSha256": "0ef885448accc22c68c426f754aea7ac180077b6b8fb5d864f31be0bdfb3da55",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/51",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4165/auto/legacy-001",
+      "sourceFlowSha256": "9f5fec78bd2bae9243c8b5068970ce01cb14135b8ec60a0371367cc68ce9d2f1",
+      "states": 9,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "advance": 2,
+        "to:worldTick": 6
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 7,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02"],
+      "reachableIncludingHandoffs": 9,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/51",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4166/auto/default",
+      "sourceFlowSha256": "dbf19a098dc71ca00af99c0da4265b1eadb83c9fc760b100883dc538eccc9885",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/52",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4166/auto/legacy-001",
+      "sourceFlowSha256": "940171a30a85525eac7d16bd590e63cdfb3435d52e35b5fc90747429c3bcaefd",
+      "states": 16,
+      "initial": "sequence-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 15
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 16,
+      "entryRoots": ["sequence-01", "sequence-01-phase-02", "sequence-01-phase-03"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/52",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4167/auto/default",
+      "sourceFlowSha256": "9fb4784ae001f4e41e87a2deb9836fc78ad31ff9de3b263e51c453317076f024",
+      "states": 16,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 5,
+        "advance": 10
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 16,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": []
+    },
+    {
+      "key": "s231/e4168/auto/legacy-001",
+      "sourceFlowSha256": "3ce08dee5a679dcfe38182857c9e2dc13d20f121df4eee2c03c33a014b9ca2ec",
+      "states": 26,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 9,
+        "advance": 16
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 26,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 26,
+      "handoffs": []
+    },
+    {
+      "key": "s231/e4168/auto/legacy-002",
+      "sourceFlowSha256": "1c4fbbedbf26da487ed88a9edc45db9330563281f170101b093675040c3eb54a",
+      "states": 4,
+      "initial": "move-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 3
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["move-01"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s231/e4168/auto/legacy-003",
+      "sourceFlowSha256": "0350a51e9f451c5775a6237cf0a93ce0604a8d18b603310ca52b4adac9e235f0",
+      "states": 16,
+      "initial": "idle-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 3,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 16,
+      "entryRoots": ["idle-wait"],
+      "reachableIncludingHandoffs": 16,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/41",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/e4168/auto/legacy-004",
+      "sourceFlowSha256": "6043f51374a116f0a60fe34a509468ae76931f718e25c51d93678495ac7f41e3",
+      "states": 12,
+      "initial": "entry",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "advance": 3,
+        "to:worldTick": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 8,
+      "entryRoots": ["entry", "entry-phase-02", "entry-phase-03"],
+      "reachableIncludingHandoffs": 12,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s231/hooks/onEnter/variants/default/flow/machine/states/continuation-008/body/41",
+          "cases": 16
+        }
+      ]
+    },
+    {
+      "key": "s231/onEnter/default",
+      "sourceFlowSha256": "460cdcb6a3bb06265dd7c239846be7fc01b1ebe3b15e93e47de0981d0e3eeb6f",
+      "states": 17,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-linear-finite",
+      "status": "converted-to-one-stage",
+      "transitions": {
+        "continue": 16,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 17,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 17,
+      "handoffs": []
+    },
+    {
+      "key": "s244/e4312/auto/default",
+      "sourceFlowSha256": "524424f7f0bb99abb2aef37ea987fd876de9e3e01f7fddbc539271475a04a07c",
+      "states": 14,
+      "initial": "source-31913",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 13,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 14,
+      "entryRoots": ["source-31913"],
+      "reachableIncludingHandoffs": 14,
+      "handoffs": []
+    },
+    {
+      "key": "s249/e4394/trigger/default",
+      "sourceFlowSha256": "66c51b0fa3667ad3b31387d913c77916faf92ed18ac3dc9ce67b99527b3c43b3",
+      "states": 5,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-linear-finite",
+      "status": "converted-to-one-stage",
+      "transitions": {
+        "continue": 4,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 5,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 5,
+      "handoffs": []
+    },
+    {
+      "key": "s250/e4409/auto/default",
+      "sourceFlowSha256": "409254900be460b2f5401ada7000443101da644210b6d1e563249d4e4d0b2d02",
+      "states": 13,
+      "initial": "pursuit",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 1,
+        "to:worldTick": 12,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 13,
+      "entryRoots": ["pursuit"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s250/entities/1/behaviors/trigger/default/flow/stages/0/body/1",
+          "cases": 13
+        },
+        {
+          "direction": "to",
+          "path": "s250/entities/1/behaviors/auto/legacy-001/flow/machine/states/restore-touch/body/1",
+          "cases": 1
+        }
+      ]
+    },
+    {
+      "key": "s250/e4409/auto/legacy-001",
+      "sourceFlowSha256": "8d21daa8dfd1ab2e56a9e19a4f4929055d55ffa299a0e7aa00a170e17d84a95b",
+      "states": 93,
+      "initial": "remaining-04",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 60,
+        "to:worldTick": 32,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 93,
+      "entryRoots": ["remaining-04", "remaining-03", "remaining-02", "remaining-01"],
+      "reachableIncludingHandoffs": 93,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s250/entities/1/behaviors/trigger/default/flow/stages/0/body/1",
+          "cases": 13
+        },
+        {
+          "direction": "from",
+          "path": "s250/entities/1/behaviors/auto/legacy-001/flow/machine/states/restore-touch/body/1",
+          "cases": 1
+        }
+      ]
+    },
+    {
+      "key": "s250/e4410/auto/legacy-001",
+      "sourceFlowSha256": "93d3dc9ed4a2c0d8e545f889a181e16bbaec5a91fd5a07689cdbbc23cbe7e6c5",
+      "states": 2,
+      "initial": "pursuit",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 1,
+        "to:worldTick": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 2,
+      "entryRoots": ["pursuit"],
+      "reachableIncludingHandoffs": 2,
+      "handoffs": []
+    },
+    {
+      "key": "s250/e4411/trigger/default",
+      "sourceFlowSha256": "cefe7e1e8f4010cb1e66882f4201e43f10fdee0e92d18389d9c934efd62ca249",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-linear-finite",
+      "status": "converted-to-one-stage",
+      "transitions": {
+        "continue": 3,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s250/e4412/auto/default",
+      "sourceFlowSha256": "717f9317c5cbf6a26ec32792c79df83c420132027023fdbcb126cb6e09e06674",
+      "states": 10,
+      "initial": "source-33786",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 9,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 10,
+      "entryRoots": ["source-33786"],
+      "reachableIncludingHandoffs": 10,
+      "handoffs": []
+    },
+    {
+      "key": "s250/e4413/auto/legacy-001",
+      "sourceFlowSha256": "66e9688f4af32d65b460a3ffc59c951f0c01170b3656399715e78cf69f57cabf",
+      "states": 10,
+      "initial": "departure-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 9,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 10,
+      "entryRoots": ["departure-01"],
+      "reachableIncludingHandoffs": 10,
+      "handoffs": []
+    },
+    {
+      "key": "s251/e4438/auto/default",
+      "sourceFlowSha256": "cf142e14fd70fae2db20ba2cf3b7661f078054692cfd3997a22d3ed3dbb2c9d5",
+      "states": 33,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 23,
+        "continue": 9,
+        "advance": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 33,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 33,
+      "handoffs": []
+    },
+    {
+      "key": "s252/e4440/auto/default",
+      "sourceFlowSha256": "9554b225f3c9c1e026e65c25e5beb3f77cc5d5a84cc38724b1af06ad224c5ffb",
+      "states": 15,
+      "initial": "pre-pursuit",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 2,
+        "to:worldTick": 13,
+        "continue": 1
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 2,
+      "entryRoots": ["pre-pursuit", "post-pursuit"],
+      "reachableIncludingHandoffs": 15,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s252/entities/1/behaviors/trigger/default/flow/stages/0/body/1",
+          "cases": 15
+        },
+        {
+          "direction": "to",
+          "path": "s252/entities/1/behaviors/auto/legacy-001/flow/machine/states/restore-touch/body/1",
+          "cases": 1
+        }
+      ]
+    },
+    {
+      "key": "s252/e4440/auto/legacy-001",
+      "sourceFlowSha256": "487b1b35c3569fe3bc24baa33cd92c9db22ed5c4e0548daa858fdbe88b8d06fb",
+      "states": 93,
+      "initial": "remaining-04",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 60,
+        "to:worldTick": 32,
+        "stay": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 93,
+      "entryRoots": ["remaining-04", "remaining-03", "remaining-02", "remaining-01"],
+      "reachableIncludingHandoffs": 93,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s252/entities/1/behaviors/trigger/default/flow/stages/0/body/1",
+          "cases": 15
+        },
+        {
+          "direction": "from",
+          "path": "s252/entities/1/behaviors/auto/legacy-001/flow/machine/states/restore-touch/body/1",
+          "cases": 1
+        }
+      ]
+    },
+    {
+      "key": "s253/e4464/auto/legacy-001",
+      "sourceFlowSha256": "366128e9d191e718e543ec996ea904e7c732ca1fbf04aff607286235b57a564c",
+      "states": 27,
+      "initial": "first-cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 14,
+        "stay": 1,
+        "advance": 12
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 27,
+      "entryRoots": ["first-cycle-01"],
+      "reachableIncludingHandoffs": 27,
+      "handoffs": []
+    },
+    {
+      "key": "s257/e4550/trigger/default",
+      "sourceFlowSha256": "5ed1032c4dd73e2405f4f794aa204221e52e8e8c52e4f2f36808b56bc87ab5b5",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-linear-finite",
+      "status": "converted-to-one-stage",
+      "transitions": {
+        "continue": 3,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s266/e4658/auto/default",
+      "sourceFlowSha256": "bdf7fb97bada90f93f26a4928d510ba06b0299005430a889b733276a09ca8015",
+      "states": 66,
+      "initial": "approach-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 47,
+        "continue": 15,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 66,
+      "entryRoots": ["approach-01"],
+      "reachableIncludingHandoffs": 66,
+      "handoffs": []
+    },
+    {
+      "key": "s266/e4659/auto/default",
+      "sourceFlowSha256": "26ab36e2b64776a08904712ac9ac624ef8ff7209bbd01f79ebbb5fb11f725a74",
+      "states": 66,
+      "initial": "approach-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-cycle",
+      "status": "pending-family-review",
+      "transitions": {
+        "to:worldTick": 47,
+        "continue": 15,
+        "advance": 4
+      },
+      "sameActivationCycle": true,
+      "reachableFromInitial": 66,
+      "entryRoots": ["approach-01"],
+      "reachableIncludingHandoffs": 66,
+      "handoffs": []
+    },
+    {
+      "key": "s273/e4723/auto/c8-3278127a7af6",
+      "sourceFlowSha256": "8e2cb4b5d3241976dd9822702b2655a4f8d53d08f005a8349e5cae81a50fac8c",
+      "states": 642,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 322,
+        "continue": 319
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 642,
+      "entryRoots": [
+        "cycle-01",
+        "cycle-01-phase-02",
+        "cycle-01-phase-03",
+        "cycle-01-phase-04",
+        "cycle-01-phase-05",
+        "cycle-01-phase-06",
+        "cycle-01-phase-07",
+        "cycle-01-phase-08",
+        "cycle-01-phase-09"
+      ],
+      "reachableIncludingHandoffs": 642,
+      "handoffs": [
+        {
+          "direction": "to",
+          "path": "s273/hooks/onEnter/variants/c8-440a584eee79/flow/stages/0/body/53",
+          "cases": 24
+        }
+      ]
+    },
+    {
+      "key": "s273/e4723/auto/default",
+      "sourceFlowSha256": "0fa561f313c6bc8a36d45c7599877e768b2cb944ce89350c698bab5e73c38379",
+      "states": 24,
+      "initial": "first-wait",
+      "cadence": "transition",
+      "classification": "external-cursor-handoff",
+      "status": "pending-family-review",
+      "transitions": {
+        "advance": 1,
+        "to:worldTick": 23
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 24,
+      "entryRoots": ["first-wait"],
+      "reachableIncludingHandoffs": 24,
+      "handoffs": [
+        {
+          "direction": "from",
+          "path": "s273/hooks/onEnter/variants/c8-440a584eee79/flow/stages/0/body/53",
+          "cases": 24
+        }
+      ]
+    },
+    {
+      "key": "s273/e4726/auto/c8-119ab4af0281",
+      "sourceFlowSha256": "609ffed81849e9b389deba936facf8beaa270b1b318776325e1d07db510acc5a",
+      "states": 642,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 322,
+        "continue": 319
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 642,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 642,
+      "handoffs": []
+    },
+    {
+      "key": "s273/e4727/auto/c8-0c47a1f79fad",
+      "sourceFlowSha256": "a6f8c8d81beac4382bbe2325fd0afa7c9849971e78bee5f962b5fd8c844b0236",
+      "states": 642,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 322,
+        "continue": 319
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 642,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 642,
+      "handoffs": []
+    },
+    {
+      "key": "s273/e4728/auto/c8-900c5edf30b3",
+      "sourceFlowSha256": "42b9d04fe6c6c94c6717552437a8b57c03553568c2b1dddfa53a9666c79c51ea",
+      "states": 642,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 322,
+        "continue": 319
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 642,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 642,
+      "handoffs": []
+    },
+    {
+      "key": "s277/e4736/trigger/default",
+      "sourceFlowSha256": "0854a835424d0806e6cb63e9d6ce7901cc8ec69401ce196686fb6ff83c3a1e2e",
+      "states": 4,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-linear-finite",
+      "status": "converted-to-one-stage",
+      "transitions": {
+        "continue": 3,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 4,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 4,
+      "handoffs": []
+    },
+    {
+      "key": "s278/e4748/auto/default",
+      "sourceFlowSha256": "351a3c0f6cbee73c88850b6b7f5b3f7fa0c12d9bd523d751a73b4c087c4147dd",
+      "states": 13,
+      "initial": "cycle-01",
+      "cadence": "transition",
+      "classification": "auto-transition-linear-finite",
+      "status": "pending-family-review",
+      "transitions": {
+        "stay": 1,
+        "to:worldTick": 4,
+        "advance": 8
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 13,
+      "entryRoots": ["cycle-01"],
+      "reachableIncludingHandoffs": 13,
+      "handoffs": []
+    },
+    {
+      "key": "s285/e4807/trigger/default",
+      "sourceFlowSha256": "63045d3cc27fd9d8cd4bc890a5b0d1cc5ab65ab762e57845829afad68e445b94",
+      "states": 5,
+      "initial": "initial",
+      "cadence": "perCommand",
+      "classification": "interactive-linear-finite",
+      "status": "converted-to-one-stage",
+      "transitions": {
+        "continue": 4,
+        "restart": 1
+      },
+      "sameActivationCycle": false,
+      "reachableFromInitial": 5,
+      "entryRoots": ["initial"],
+      "reachableIncludingHandoffs": 5,
+      "handoffs": []
+    }
+  ]
+}
