@@ -47,7 +47,7 @@
       "alsoSameTargetAs": null
     }
   ],
-  "quotaNotes": "r20：71 活跃存档 / 62 个不同执行目标 / 净新合同目标结构上限 61 不变（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。r20 Q-NEXT1 有限批新增 14 执行例（CLI 全局入口接线），无新针——按 next-batch 协议，本批五个代表产品变异（item.equip/throw、spell.success、enemy.battleEnd、player.friendDeath 各跳过对应 push）由 Codex 独立验收阶段统一实采，作者不伪造已跑、不重采旧 71。数量门已足，不凑针。",
+  "quotaNotes": "r21：71 活跃存档 / 62 个不同执行目标 / 净新合同目标结构上限 61 不变（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。Q-NEXT-01/02 已修（四处 as 双桥删除改真值守卫；敌引用改 140B 双记录 DATA——enemyId=1 直接索引落 enemies[1] 真实记录且字段对应 fixture 植入值）。r20 五代表产品针（GE-EQUIP/THROW/SUCCESS/BATTLEEND/FRIENDDEATH）为 Codex 独立采集证据，修复后由 Codex 按最终 hash 重采，作者不伪报、不执行旧共享工具。数量门已足，不凑针。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {

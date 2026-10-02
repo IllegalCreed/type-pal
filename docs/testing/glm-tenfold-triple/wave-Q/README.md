@@ -1,13 +1,36 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r20 Q-NEXT1 有限批）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r21 Q-NEXT-01/02 修复）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r20 候选**（Q-NEXT1 有限批：Codex 核定的 12+2 CLI 全局入口接线；
-**当前 161 执行 / 结构净新上限 160 / 缺口至少 540**；r19 候选 1eb332b4a/pin 6a0a3ef64
-保留供独立复核）。不合 main、不标 done。
+本文件描述 **r21 候选**（Q-NEXT-01/02 合并修复：双桥清除 + 敌引用合法化；
+161 执行不变，修复后结构净新上限 160 / 缺口 ≥540，修复前审慎口径 ≤156/≥544 分列
+待 Codex 五针重采裁决；r20 候选 2d6ced203/pin 4ec6e0676 保留供独立复核）。
+不合 main、不标 done。
+
+## r21：Q-NEXT-01/02 一次合并修复（无新增用例，14 fullName 与业务 oracle 全保持）
+
+1. **Q-NEXT-01 双桥清除**：readHookTables 四处 `as unknown as Record<string, number>`
+   与 all/enemies 的 `as {segments…}`/`as unknown[]` 全部删除。JSON IO 保持 unknown，
+   以真值守卫收窄：`isRecord`（对象非空非数组）+ `numField`（键存在且为有限数，否则
+   throw）+ `findById`（数组内按键值精确命中，否则 throw）；all.json 经
+   `allCommandsOf` 守卫取 commands 后完整 unknown 深比较；scene/shared 直接
+   unknown toEqual。无 as any/never、无单断言跳板、无产品接口。
+2. **Q-NEXT-02 敌引用合法化**：新 fixture DATA chunk1 改 **140B 双记录**——index0
+   placeholder（70B 全零）+ index1 完整真实记录（health@22=777 / exp@24=55 /
+   cash@26=66 / level@28=9）。parseEnemies id=index、sdlpal fight.c:516 直接索引
+   不减一（Codex inputProof 证旧 70B 单记录下 enemyId=1 引用越界）。#08/09/10/14
+   现断言 `findById(enemies,'id',1)` 命中且四字段与 fixture 植入值一致 +
+   placeholder health 0 + 长度 2——引用确实落表、字段对应，非只改长度答案。
+   旧 cli-pipeline 工厂与三个旧 CLI 文件零改动。
+3. **门禁**：新 14+旧 CLI 10 定向 24/24（最终树）、相邻 slice/disasm/roundtrip
+   33/33 + parser boundaries/tables 107/107、pal-extract 全包 381/381、typecheck 0；
+   reforge 2150 / game 2812 明确复用；pin 后完整 lint 0/0/0、docs/diff/verifier。
+4. **反控状态**：r20 五代表产品针为 Codex 独立采集证据（15 相结构有效，GE-BATTLEEND
+   输入合法性当时未接收）；本修复后由 Codex 按最终 hash 重采，作者不伪报、不执行
+   旧共享工具、不改旧 71 档案。
 
 ## r20：Q-NEXT1-01～14 有限批（CLI 全局脚本入口接线，12 单 hook + 2 组合）
 

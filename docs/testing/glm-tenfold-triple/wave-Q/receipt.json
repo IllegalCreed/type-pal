@@ -29,7 +29,7 @@
     "remainingAtLeast": 540,
     "targetCounters": 50,
     "deliveredCounters": 71,
-    "account": "161 执行（147 + r20 Q-NEXT1 十四条有限批）/ 净新结构上限 160（扣 room0 旧合同，历史 C114 编号）/ 缺口至少 540；反控 71 存档 / 62 执行目标 / 净新结构上限 61（r20 无新针，五个代表产品变异由 Codex 独立阶段实采）；见 README r20 段"
+    "account": "161 执行（147 + Q-NEXT1 十四条）不变。r21 修复 Q-NEXT-01/02 后四敌引用轴为合法候选：修复后结构净新上限 160 / 缺口至少 540；修复前审慎口径 ≤156 / ≥544（四轴未接收）保留分列，最终由 Codex 复核五针重采裁决；反控 71 存档 / 62 目标 / 上限 61；见 README r21 段"
   },
   "commands": {
     "serialFullTests": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/<pkg> test （reforge → game → pal-extract 串行）",
@@ -39,16 +39,16 @@
     "diffCheck": "git diff --check 8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"
   },
   "results": {
-    "reforgeTest": "2150 passed（r14 最终串行复跑；r20 未触，Git 对象不变，明确复用）",
-    "gameTest": "2812 passed（r16 最终串行复跑；r20 未触，同上复用）",
-    "palExtractTest": "381 passed（r20 最终串行全包复跑：367 + Q-NEXT1 新 14）",
-    "typechecks": "pal-extract 0 error（r20 复跑）；reforge/game 未触 TS 源（r18 复跑沿用）",
-    "adjacentSuites": "slice/disasm/roundtrip 5 文件 33/33 + parsers items/spells/enemies boundaries+tables 4 文件 107/107（r20 实跑）",
-    "rootLint": "pnpm lint PASS — 完整 0/0/0（r20 候选与 pin 编辑后各复跑一次）",
-    "docsCheck": "PASS（r20 复跑）",
+    "reforgeTest": "2150 passed（r14 最终串行复跑；r21 未触，Git 对象不变，明确复用）",
+    "gameTest": "2812 passed（r16 最终串行复跑；r21 未触，同上复用）",
+    "palExtractTest": "381 passed（r21 最终串行全包复跑）",
+    "typechecks": "pal-extract 0 error（r21 复跑）；reforge/game 未触 TS 源（r18 复跑沿用）",
+    "adjacentSuites": "slice/disasm/roundtrip 5 文件 33/33 + parsers items/spells/enemies boundaries+tables 4 文件 107/107（r21 实跑）",
+    "rootLint": "pnpm lint PASS — 完整 0/0/0（r21 候选与 pin 编辑后各复跑一次）",
+    "docsCheck": "PASS（r21 复跑）",
     "diffCheck": "git diff --check 8b3ca062...HEAD 干净（pin 编辑后复跑）"
   },
-  "counterEvidence": "counters.json（71 全 VALID，62 执行目标；r20 无新针——五代表产品变异留 Codex 独立实采；Q-BA1/EI1/2、NT8/FZ3-5 历史退役；*.bad.meta.json 坏尝试历史）+ counters/ + tools/",
+  "counterEvidence": "counters.json（71 全 VALID，62 执行目标；r20 五代表产品针为 Codex 采集证据待最终 hash 重采；历史退役与 *.bad.meta.json 保留）+ counters/ + tools/",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
   "coverageDelta": "coverage-delta.json（reforge/game 全测口径 +82/+5 臂；pal-extract 为 glm-q 定向口径且 CLI 子进程不在插桩范围，收益主张合同级）",
   "notes": [
@@ -57,6 +57,6 @@
     "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
-  "reworkRound": 20,
-  "candidateHeadNote": "r20 口径：candidateHead 指向 r20 候选树 tip；其后仅本 receipt 的 docs-only pin 提交回填，不改任何测试/产品文件。"
+  "reworkRound": 21,
+  "candidateHeadNote": "r21 口径：candidateHead 指向 r21 候选树 tip；其后仅本 receipt 的 docs-only pin 提交回填，不改任何测试/产品文件。"
 }

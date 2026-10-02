@@ -15,11 +15,13 @@
 //   spell id 296..397：scriptOnSuccess@4 / scriptOnUse@6 / scriptDesc@10
 //   enemy obj 398..550：enemyId@0（1-based 指 DATA chunk1）/ resist@2 / turnStart@4 / battleEnd@6 / ready@8
 //   player obj 36..41：scriptOnFriendDeath@4 / scriptOnDying@6
+
+import { encodeSpriteChunk } from '@type-pal/shared'
 import {
-  buildDataMkfArchive,
   buildTailPipelineInputs,
   buildWordDatArchive,
   mkfArchive,
+  u16le,
 } from './cli-pipeline-inputs.js'
 
 export const OBJ_SIZE = 14
@@ -84,13 +86,58 @@ export function buildGlobalEntrySss(hooks: GlobalEntryHook[]): Uint8Array {
   return mkfArchive([eventObject, scene, objects, messageOffsets, buildBytecode()])
 }
 
+/**
+ * index1 敌记录的植入字段（Q-NEXT-02：enemyId 直接作 index 引用——parseEnemies
+ * id=index、sdlpal fight.c:516 均不减一；index0 为 placeholder，引用必须落到真实 index1）。
+ */
+export const GE_ENEMY1_FIELDS = { health: 777, exp: 55, cash: 66, level: 9 } as const
+
+/**
+ * DATA.MKF（Q-NEXT1 专属，其余 14 chunk 与已验 cli-pipeline 工厂同构）：
+ * chunk1 = 140B 两条 ENEMY 记录——index0 placeholder（70B 全零）+ index1 完整真实记录
+ * （health@22=777 / exp@24=55 / cash@26=66 / level@28=9），使 OBJECT398.enemyId=1
+ * 成为合法直接索引引用。
+ */
+export function buildGlobalEntryDataMkf(): Uint8Array {
+  const placeholder = new Uint8Array(70) // index0：占位（health 0）
+  const enemy1 = new Uint8Array(70)
+  const v = new DataView(enemy1.buffer)
+  v.setUint16(22, GE_ENEMY1_FIELDS.health, true)
+  v.setUint16(24, GE_ENEMY1_FIELDS.exp, true)
+  v.setUint16(26, GE_ENEMY1_FIELDS.cash, true)
+  v.setUint16(28, GE_ENEMY1_FIELDS.level, true)
+  const store = new Uint8Array([...u16le(61), ...new Uint8Array(16)])
+  const roles = new Uint8Array(900)
+  new DataView(roles.buffer).setUint16(24, 2, true)
+  const spriteChunk = encodeSpriteChunk([
+    { width: 4, height: 4, pixels: new Uint8Array(16).fill(3), opaque: new Uint8Array(16).fill(1) },
+  ])
+  return mkfArchive([
+    store,
+    new Uint8Array([...placeholder, ...enemy1]), // chunk1：140B 两条敌记录
+    new Uint8Array(10),
+    roles,
+    new Uint8Array(32),
+    new Uint8Array(12),
+    new Uint8Array(20),
+    new Uint8Array(0),
+    new Uint8Array(0),
+    spriteChunk,
+    spriteChunk,
+    new Uint8Array(40),
+    new Uint8Array(282).fill(7),
+    new Uint8Array(100),
+    new Uint8Array(200),
+  ])
+}
+
 /** 全合成 raw 输入（mkdtemp 树落盘用）：SSS(hook) + M.MSG + WORD.DAT + DATA + 已验尾管线。 */
 export function buildGlobalEntryRawInputs(hooks: GlobalEntryHook[]): Record<string, Uint8Array> {
   return {
     'SSS.MKF': buildGlobalEntrySss(hooks),
     'M.MSG': new TextEncoder().encode(GLOBAL_ENTRY_MSG_TEXT),
     'WORD.DAT': buildWordDatArchive(),
-    'DATA.MKF': buildDataMkfArchive(),
+    'DATA.MKF': buildGlobalEntryDataMkf(),
     ...buildTailPipelineInputs(),
   }
 }

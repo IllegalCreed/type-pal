@@ -24,6 +24,7 @@ import { fileURLToPath } from 'node:url'
 import { afterAll, expect, test } from 'vitest'
 import {
   buildGlobalEntryRawInputs,
+  GE_ENEMY1_FIELDS,
   GLOBAL_ENTRY_MSG_TEXT,
   type GlobalEntryHook,
 } from './__tests__/glm-q/cli-global-entry-inputs.js'
@@ -122,12 +123,41 @@ function expectPipelineOk(r: EntryRun, entryCount: number): void {
   )
 }
 
+// ── JSON IO 守卫（Q-NEXT-01：不 as 双桥；unknown 经真实值断言收窄）──
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === 'object' && v !== null && !Array.isArray(v)
+}
+
+function numField(rec: unknown, field: string): number {
+  if (!isRecord(rec) || !(field in rec)) {
+    throw new Error(`记录缺字段 ${field}（非记录或键不存在）`)
+  }
+  const v = rec[field]
+  if (typeof v !== 'number' || !Number.isFinite(v)) {
+    throw new Error(`字段 ${field} 非有限数值: ${String(v)}`)
+  }
+  return v
+}
+
+function findById(arr: unknown, key: string, want: number): unknown {
+  if (!Array.isArray(arr)) throw new Error(`非数组（${key} 查找失败）`)
+  const hit = arr.find((e) => isRecord(e) && numField(e, key) === want)
+  if (hit === undefined) throw new Error(`未找到 ${key}=${want}`)
+  return hit
+}
+
+function allCommandsOf(r: EntryRun): unknown {
+  const all = r.readJson('events/all.json')
+  if (!isRecord(all) || !Array.isArray(all.segments)) throw new Error('all.json 缺 segments 数组')
+  const seg0 = all.segments[0]
+  if (!isRecord(seg0) || !Array.isArray(seg0.commands)) throw new Error('all.json 段 0 缺 commands')
+  return seg0.commands
+}
+
 /** all.json 全量命令（含目标完整 label）与 scene 片段（hook 目标不被错误复制进 scene）。 */
 function expectAllAndScene(r: EntryRun, sceneCommands: unknown[]): void {
-  const all = r.readJson('events/all.json') as { segments: Array<{ commands: unknown[] }> }
-  expect(all.segments[0]!.commands).toEqual(ALL_COMMANDS)
-  const scene = r.readJson('events/scene-000.json')
-  expect(scene).toEqual({
+  expect(allCommandsOf(r)).toEqual(ALL_COMMANDS)
+  expect(r.readJson('events/scene-000.json')).toEqual({
     scene: 0,
     segments: [{ name: 'scene-0.entries', commands: sceneCommands }],
   })
@@ -138,33 +168,26 @@ function expectShared(r: EntryRun, commands: unknown[]): void {
   expect(shared).toEqual({ segments: [{ name: 'shared', commands }] })
 }
 
+/** 四 hook 表目标记录（unknown；字段经 numField 真值守卫读取，不做类型跳板）。 */
 interface HookTables {
-  item61: Record<string, number>
-  spell296: Record<string, number>
-  enemy398: Record<string, number>
-  player36: Record<string, number>
+  item61: unknown
+  spell296: unknown
+  enemy398: unknown
+  player36: unknown
 }
 
 function readHookTables(r: EntryRun): HookTables {
-  const items = r.readJson('data/items.json') as Array<{ id: number }>
-  const spells = r.readJson('data/spells.json') as Array<{ id: number }>
-  const enemyObjects = r.readJson('data/enemy-objects.json') as Array<{ objectIndex: number }>
-  const objectPlayers = r.readJson('data/object-players.json') as Array<{ id: number }>
+  const items = r.readJson('data/items.json')
+  const spells = r.readJson('data/spells.json')
+  const enemyObjects = r.readJson('data/enemy-objects.json')
+  const objectPlayers = r.readJson('data/object-players.json')
   expect(items).toHaveLength(234)
-  expect(spells.find((s) => s.id === SPELL_OBJ_START)).toBeDefined()
-  expect(enemyObjects.find((e) => e.objectIndex === ENEMY_OBJ_START)).toBeDefined()
   expect(objectPlayers).toHaveLength(6)
   return {
-    item61: items.find((i) => i.id === ITEM_OBJ_START) as unknown as Record<string, number>,
-    spell296: spells.find((s) => s.id === SPELL_OBJ_START) as unknown as Record<string, number>,
-    enemy398: enemyObjects.find((e) => e.objectIndex === ENEMY_OBJ_START) as unknown as Record<
-      string,
-      number
-    >,
-    player36: objectPlayers.find((p) => p.id === PLAYER_OBJ_START) as unknown as Record<
-      string,
-      number
-    >,
+    item61: findById(items, 'id', ITEM_OBJ_START),
+    spell296: findById(spells, 'id', SPELL_OBJ_START),
+    enemy398: findById(enemyObjects, 'objectIndex', ENEMY_OBJ_START),
+    player36: findById(objectPlayers, 'id', PLAYER_OBJ_START),
   }
 }
 
@@ -174,8 +197,26 @@ const ENEMY_HOOK_FIELDS = ['scriptOnTurnStart', 'scriptOnBattleEnd', 'scriptOnRe
 const PLAYER_HOOK_FIELDS = ['scriptOnFriendDeath', 'scriptOnDying'] as const
 
 /**
+ * 敌引用落表（Q-NEXT-02）：enemyId 直接作 index（parseEnemies id=index、sdlpal
+ * fight.c:516 不减一）——引用 id=1 必须命中 enemies[1] 真实记录且字段与 fixture
+ * 植入值一致；不是只改长度答案。
+ */
+function expectEnemyReferenceLanded(r: EntryRun): void {
+  const enemies = r.readJson('data/enemies.json')
+  if (!Array.isArray(enemies)) throw new Error('enemies.json 非数组')
+  expect(enemies).toHaveLength(2) // index0 placeholder + index1 被引用记录
+  const referenced = findById(enemies, 'id', 1) // 引用 id 确实落表
+  expect(numField(referenced, 'health')).toBe(GE_ENEMY1_FIELDS.health)
+  expect(numField(referenced, 'exp')).toBe(GE_ENEMY1_FIELDS.exp)
+  expect(numField(referenced, 'cash')).toBe(GE_ENEMY1_FIELDS.cash)
+  expect(numField(referenced, 'level')).toBe(GE_ENEMY1_FIELDS.level)
+  const placeholder = findById(enemies, 'id', 0)
+  expect(numField(placeholder, 'health')).toBe(0) // index0 为 placeholder
+}
+
+/**
  * 单 hook 合同核心断言：data 表目标字段=3、其余全部 hook（四表十二字段）为 0、
- * enemy 引用完整（enemyId=1 对应 DATA chunk1 唯一敌）、敌 cases 另证 enemies.json 落表。
+ * 敌 cases 的 enemyId=1 直接索引落 enemies[1] 真实记录。
  */
 function expectSingleHook(
   r: EntryRun,
@@ -189,16 +230,15 @@ function expectSingleHook(
     ['player36', PLAYER_HOOK_FIELDS],
   ] as const) {
     for (const f of fields) {
-      expect(t[table][f]).toBe(table === expected.table && f === expected.field ? 3 : 0)
+      expect(numField(t[table], f)).toBe(table === expected.table && f === expected.field ? 3 : 0)
     }
   }
   if (expected.table === 'enemy398') {
-    expect(t.enemy398.enemyId).toBe(1) // 完整合法引用：1-based 指 DATA chunk1 唯一敌
-    expect(t.enemy398.resistanceToSorcery).toBe(0)
-    const enemies = r.readJson('data/enemies.json') as unknown[]
-    expect(enemies).toHaveLength(1)
+    expect(numField(t.enemy398, 'enemyId')).toBe(1) // 直接索引引用（不减一）
+    expect(numField(t.enemy398, 'resistanceToSorcery')).toBe(0)
+    expectEnemyReferenceLanded(r)
   } else {
-    expect(t.enemy398.enemyId).toBe(0)
+    expect(numField(t.enemy398, 'enemyId')).toBe(0)
   }
 }
 
@@ -319,19 +359,19 @@ test('Q-NEXT1-13 shared entry alias', async () => {
   ])
   expectPipelineOk(r, 2) // 两个 globalScriptEntries push 都计入 stdout 计数
   const t = readHookTables(r)
-  expect(t.item61.scriptOnUse).toBe(3)
-  expect(t.player36.scriptOnDying).toBe(3)
+  expect(numField(t.item61, 'scriptOnUse')).toBe(3)
+  expect(numField(t.player36, 'scriptOnDying')).toBe(3)
   // 除这两个别名 hook 外其余全零
-  expect(t.item61.scriptOnEquip).toBe(0)
-  expect(t.item61.scriptOnThrow).toBe(0)
-  expect(t.item61.scriptDesc).toBe(0)
-  expect(t.spell296.scriptOnUse).toBe(0)
-  expect(t.spell296.scriptOnSuccess).toBe(0)
-  expect(t.spell296.scriptDesc).toBe(0)
-  expect(t.enemy398.scriptOnTurnStart).toBe(0)
-  expect(t.enemy398.scriptOnBattleEnd).toBe(0)
-  expect(t.enemy398.scriptOnReady).toBe(0)
-  expect(t.player36.scriptOnFriendDeath).toBe(0)
+  expect(numField(t.item61, 'scriptOnEquip')).toBe(0)
+  expect(numField(t.item61, 'scriptOnThrow')).toBe(0)
+  expect(numField(t.item61, 'scriptDesc')).toBe(0)
+  expect(numField(t.spell296, 'scriptOnUse')).toBe(0)
+  expect(numField(t.spell296, 'scriptOnSuccess')).toBe(0)
+  expect(numField(t.spell296, 'scriptDesc')).toBe(0)
+  expect(numField(t.enemy398, 'scriptOnTurnStart')).toBe(0)
+  expect(numField(t.enemy398, 'scriptOnBattleEnd')).toBe(0)
+  expect(numField(t.enemy398, 'scriptOnReady')).toBe(0)
+  expect(numField(t.player36, 'scriptOnFriendDeath')).toBe(0)
   expectAllAndScene(r, SCENE_ENTRY_COMMANDS) // L_3 在 all 中恰一次（label 去重）
   expectShared(r, [{ op: 'end', label: 'L_3' }]) // shared 不重复（Set 归属）
 })
@@ -344,16 +384,16 @@ test('Q-NEXT1-14 scene global overlap', async () => {
   ])
   expectPipelineOk(r, 1)
   const t = readHookTables(r)
-  expect(t.enemy398.scriptOnReady).toBe(1)
-  expect(t.enemy398.scriptOnTurnStart).toBe(0)
-  expect(t.enemy398.scriptOnBattleEnd).toBe(0)
-  expect(t.enemy398.enemyId).toBe(1)
-  expect(t.item61.scriptOnUse).toBe(0)
-  expect(t.spell296.scriptOnUse).toBe(0)
-  expect(t.player36.scriptOnFriendDeath).toBe(0)
+  expect(numField(t.enemy398, 'scriptOnReady')).toBe(1)
+  expect(numField(t.enemy398, 'scriptOnTurnStart')).toBe(0)
+  expect(numField(t.enemy398, 'scriptOnBattleEnd')).toBe(0)
+  expect(numField(t.enemy398, 'enemyId')).toBe(1)
+  expectEnemyReferenceLanded(r) // 直接索引引用落表（字段对应 fixture 植入值）
+  expect(numField(t.item61, 'scriptOnUse')).toBe(0)
+  expect(numField(t.spell296, 'scriptOnUse')).toBe(0)
+  expect(numField(t.player36, 'scriptOnFriendDeath')).toBe(0)
   // all：ip3 无 hook 指向 → 不打 L_3 标签（标签只属入口/跳转目标）
-  const all = r.readJson('events/all.json') as { segments: Array<{ commands: unknown[] }> }
-  expect(all.segments[0]!.commands).toEqual([
+  expect(allCommandsOf(r)).toEqual([
     { op: 'giveItem', itemId: 61, count: 1, _item: 'ITEMNAME' },
     { op: 'showDialog', messageIndex: 0, text: GLOBAL_ENTRY_MSG_TEXT, label: 'L_1' },
     { op: 'end', label: 'L_2' },
