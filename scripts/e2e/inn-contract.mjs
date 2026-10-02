@@ -38,7 +38,10 @@ export function innArguments(args, both = false) {
   const options = { headless: false }
   for (let i = 0; i < args.length; i++) {
     const key = args[i]
-    if (key === '--hold-leader') {
+    if (key === '--capture') {
+      assert(!both && !options.capture, 'capture requires one single-engine story run')
+      options.capture = true
+    } else if (key === '--hold-leader') {
       assert(!options.holdLeader, 'duplicate leader hold')
       options.holdLeader = true
     } else if (key === '--headless' || key === '--headed') {
@@ -57,10 +60,12 @@ export function innArguments(args, both = false) {
   }
   for (const key of both ? ['--game-report', '--reforge-report'] : ['--from'])
     assert(options[key], `required ${key}: genuine passed 001 report`)
+  assert(!(options.capture && options.holdLeader), 'capture excludes specialist leader hold')
   return options
 }
 
 export function validatePredecessor(report, payload, engine, bytes) {
+  assert.notEqual(report.profile, 'capture', 'capture is not a verify predecessor')
   assert.equal(report.status, 'passed', 'predecessor report did not pass')
   assert.equal(
     engine === 'game' ? report.fragment : report.name,
@@ -115,9 +120,18 @@ export async function readPredecessor(path, engine) {
 
 /** Story handoff, not merely save equality: L373 must select first-day L355, not late L2369. */
 export function assertInnHandoffPayload(payload, engine) {
+  if (engine === 'game') assert.equal(payload.format, 'type-pal-save')
+  else {
+    assert.equal(payload.version, 10)
+    assert.equal(payload.contentVersion, 21)
+    assert.equal(payload.projectId, 'pal')
+  }
+  return assertInnStoryHandoff(payload, engine)
+}
+
+export function assertInnStoryHandoff(payload, engine) {
   assert(['game', 'reforge'].includes(engine), 'unknown inn handoff engine')
   if (engine === 'game') {
-    assert.equal(payload.format, 'type-pal-save')
     const gs = payload.gs
     assert.equal(gs.wNumScene, 4, '002 handoff is not in the inn hall')
     assert.equal(gs.dwCash, 500)
@@ -145,9 +159,6 @@ export function assertInnHandoffPayload(payload, engine) {
       assert.equal(e.triggerResume, undefined, `kitchen actor e${id} already executed`)
     }
   } else {
-    assert.equal(payload.version, 10)
-    assert.equal(payload.contentVersion, 21)
-    assert.equal(payload.projectId, 'pal')
     assert.equal(payload.position.sceneId, 's003', '002 handoff is not in the inn hall')
     const script = payload.world.script,
       bindings = script.behaviors?.entities ?? {},

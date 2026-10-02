@@ -8,6 +8,7 @@ import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { CAPTURE_BUDGET_MS, CAPTURE_SOURCES, createLocalCapture } from './capture-local.mjs'
 import { installVideoObserver, readGame, readWorld } from './game-observer.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { assertOpeningMatrix, readOpeningContract } from './opening-matrix.mjs'
@@ -26,7 +27,8 @@ import { installOpeningTrace } from './opening-trace.mjs'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const openingContract = await readOpeningContract(root)
 const args = new Set(process.argv.slice(2))
-for (const arg of args) assert(['--headless', '--headed'].includes(arg), `unknown argument ${arg}`)
+for (const arg of args)
+  assert(['--headless', '--headed', '--capture'].includes(arg), `unknown argument ${arg}`)
 assert(!(args.has('--headless') && args.has('--headed')), 'choose one browser mode')
 const out = resolve(root, 'build/e2e', `game-001-${new Date().toISOString().replace(/[:.]/g, '-')}`)
 await mkdir(out, { recursive: true })
@@ -47,8 +49,9 @@ const report = {
   engine: 'phase1-game',
   status: 'running',
   revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
-  scope:
-    '001 verify: rendered dialogue, participating actors, real input and genuine checkpoint restore',
+  scope: args.has('--capture')
+    ? '001 local capture: natural story video, readable rendered dialogue and real control return; no save/restore'
+    : '001 verify: rendered dialogue, participating actors, real input and genuine checkpoint restore',
   pending: ['002 and subsequent fragments', 'capture-ready video/audio verification'],
   events: [],
   actions: [],
@@ -56,6 +59,7 @@ const report = {
   contexts: [],
   assets: {},
   output: out,
+  profile: args.has('--capture') ? 'capture' : 'verify',
 }
 for (const name of [
   'data/extracted/data/scene/0.json',
@@ -66,6 +70,7 @@ for (const name of [
 }
 report.runnerHashes = {}
 for (const name of [
+  ...CAPTURE_SOURCES,
   'scripts/e2e/game-opening.mjs',
   'scripts/e2e/game-observer.mjs',
   'scripts/e2e/opening-policy.mjs',
@@ -122,7 +127,7 @@ server.on('error', (error) => {
 let browser
 let page
 const contexts = []
-const deadline = Date.now() + LIMITS.timeoutMs
+const deadline = Date.now() + (args.has('--capture') ? CAPTURE_BUDGET_MS : LIMITS.timeoutMs)
 let interrupted = false
 const onInterrupt = () => {
   interrupted = true
@@ -137,6 +142,12 @@ function checkHealth() {
   assert.equal(server.exitCode, null, `owned Vite exited ${server.exitCode}`)
   assert.equal(report.errors.length, 0, `browser errors: ${report.errors.join('; ')}`)
 }
+const capture = createLocalCapture({
+  enabled: args.has('--capture'),
+  report,
+  out,
+  health: checkHealth,
+})
 async function until(read, accept, label, timeoutMs = 30_000) {
   const start = Date.now()
   for (;;) {
@@ -176,6 +187,7 @@ async function press(key, reason, frameDriven = true) {
 async function newContext(label) {
   const context = await browser.newContext({ viewport: { width: 1100, height: 760 } })
   contexts.push(context)
+  await capture.install(context)
   await context.addInitScript(installVideoObserver)
   await context.addInitScript(installOpeningTrace)
   await context.addInitScript(installOpeningMatrix)
@@ -239,9 +251,19 @@ try {
     Boolean,
     'owned HTTP dev server',
   )
-  browser = await chromium.launch({ channel: 'chrome', headless: args.has('--headless') })
+  browser = await chromium.launch({
+    channel: 'chrome',
+    headless: args.has('--headless'),
+    ...(args.has('--capture') ? { args: ['--mute-audio'] } : {}),
+  })
   await newContext('new-story')
   assert.equal((await snapshot()).menu.cursor, 0, 'new story must be selected')
+  if (capture.enabled)
+    await capture.arm(
+      page,
+      { event: 'new-story-selected', state: await snapshot() },
+      '/extracted/videos/3.mp4',
+    )
   await press('Enter', '新的故事')
   await until(
     () => snapshot(),
@@ -279,8 +301,20 @@ try {
       final = s
       break
     }
-    if (action === 'confirm')
+    if (action === 'confirm') {
+      const text = capture.enabled
+        ? await page.evaluate(() =>
+            window.__readOpeningMatrix().pages.at(-1)?.page.lines.join('\n'),
+          )
+        : s.dialog.text
+      if (
+        !(await capture.readable(text, JSON.stringify(s.dialog), async () =>
+          JSON.stringify((await snapshot()).dialog),
+        ))
+      )
+        continue
       await press('Enter', `dialogue ${s.dialog.phase}: ${s.dialog.text ?? ''}`)
+    }
     const key = stateKey(s)
     await until(
       () => snapshot(),
@@ -307,79 +341,94 @@ try {
   report.matrixVerdict = assertOpeningMatrix(report.matrix, 'game', openingContract)
   await writeFile(resolve(out, 'npc-trace.json'), `${JSON.stringify(report.npcTrace, null, 2)}\n`)
   report.timing = openingTiming(report.npcTrace, 'game')
-  await press('Escape', 'prove normal control: open actual in-game menu')
-  await until(
-    () => snapshot(),
-    (s) => !!s.menu && s.menu.kind !== 'opening',
-    'in-game menu opens',
-  )
-  await press('Escape', 'close actual in-game menu')
-  await until(() => snapshot(), isControllableRoom, 'control restored')
-  report.endWorld = worldSummary(await page.evaluate(readWorld))
-  report.endFrame = await waitForOpeningFrame(page, until)
-  await page.screenshot({ path: resolve(out, '001-end.png') })
-  await press('F5', 'formal quick-save slot 1')
-  const checkpoint = await until(
-    () =>
-      page.evaluate(async () => {
-        const { Save } = await import('/src/core/save/api.ts')
-        const { serializeSave } = await import('/src/tools/save-io.ts')
-        const gs = await Save.loadSlot(1)
-        return gs ? serializeSave(gs) : null
-      }),
-    Boolean,
-    'formal quick-save committed',
-  )
-  await writeFile(resolve(out, '001.end.save.json'), checkpoint)
-  report.checkpoint = {
-    path: '001.end.save.json',
-    sha256: sha256(checkpoint),
-    source: 'this run / F5 / Save.loadSlot(1) / serializeSave',
-  }
+  if (capture.enabled) {
+    assert.equal(report.timing.status, 'passed', '001 semantic timing failed')
+    report.endWorld = worldSummary(await page.evaluate(readWorld))
+    report.endFrame = await waitForOpeningFrame(page, until)
+    await capture.finish(page, {
+      event: 'room-control-returned',
+      frame: report.endFrame,
+      world: report.endWorld,
+    })
+    report.pending = ['002 and subsequent fragments; full-series capture readiness']
+  } else {
+    await press('Escape', 'prove normal control: open actual in-game menu')
+    await until(
+      () => snapshot(),
+      (s) => !!s.menu && s.menu.kind !== 'opening',
+      'in-game menu opens',
+    )
+    await press('Escape', 'close actual in-game menu')
+    await until(() => snapshot(), isControllableRoom, 'control restored')
+    report.endWorld = worldSummary(await page.evaluate(readWorld))
+    report.endFrame = await waitForOpeningFrame(page, until)
+    await page.screenshot({ path: resolve(out, '001-end.png') })
+    await press('F5', 'formal quick-save slot 1')
+    const checkpoint = await until(
+      () =>
+        page.evaluate(async () => {
+          const { Save } = await import('/src/core/save/api.ts')
+          const { serializeSave } = await import('/src/tools/save-io.ts')
+          const gs = await Save.loadSlot(1)
+          return gs ? serializeSave(gs) : null
+        }),
+      Boolean,
+      'formal quick-save committed',
+    )
+    await writeFile(resolve(out, '001.end.save.json'), checkpoint)
+    report.checkpoint = {
+      path: '001.end.save.json',
+      sha256: sha256(checkpoint),
+      source: 'this run / F5 / Save.loadSlot(1) / serializeSave',
+    }
 
-  // A second isolated origin storage, not the first page's in-memory world or old slot.
-  await newContext('checkpoint-restore')
-  const staged = await page.evaluate(async (text) => {
-    const { Save } = await import('/src/core/save/api.ts')
-    const { parseImportedSave, serializeSave } = await import('/src/tools/save-io.ts')
-    await Save.saveSlot(1, parseImportedSave(text)) // same import operations as the production tools panel
-    return serializeSave(await Save.loadSlot(1))
-  }, checkpoint)
-  assert.equal(sha256(staged), report.checkpoint.sha256, 'staged checkpoint bytes changed')
-  await press('ArrowDown', 'select 旧的回忆')
-  await until(
-    () => snapshot(),
-    (s) => s.menu?.kind === 'opening' && s.menu.cursor === 1,
-    'load selected',
-  )
-  await press('Enter', 'open formal load-slot menu')
-  await until(
-    () => snapshot(),
-    (s) => s.menu?.kind === 'save-slot',
-    'load slot menu',
-  )
-  assert.equal((await snapshot()).menu.cursor, 0, 'slot 1 must be selected')
-  await press('Enter', 'load real slot 1 through production restore')
-  await until(() => snapshot(), isControllableRoom, 'checkpoint restored to controllable room')
-  report.restoredWorld = worldSummary(await page.evaluate(readWorld))
-  assert.deepEqual(report.restoredWorld, report.endWorld, 'formal restore world differs')
-  await press('Escape', 'verify restored input control')
-  await until(
-    () => snapshot(),
-    (s) => !!s.menu && s.menu.kind !== 'opening',
-    'restored menu opens',
-  )
-  await press('Escape', 'return to restored room')
-  await until(() => snapshot(), isControllableRoom, 'restored menu closes')
-  report.restoredFrame = await waitForOpeningFrame(page, until, report.endFrame)
-  await page.screenshot({ path: resolve(out, '001-restored.png') })
+    // A second isolated origin storage, not the first page's in-memory world or old slot.
+    await newContext('checkpoint-restore')
+    const staged = await page.evaluate(async (text) => {
+      const { Save } = await import('/src/core/save/api.ts')
+      const { parseImportedSave, serializeSave } = await import('/src/tools/save-io.ts')
+      await Save.saveSlot(1, parseImportedSave(text)) // same import operations as the production tools panel
+      return serializeSave(await Save.loadSlot(1))
+    }, checkpoint)
+    assert.equal(sha256(staged), report.checkpoint.sha256, 'staged checkpoint bytes changed')
+    await press('ArrowDown', 'select 旧的回忆')
+    await until(
+      () => snapshot(),
+      (s) => s.menu?.kind === 'opening' && s.menu.cursor === 1,
+      'load selected',
+    )
+    await press('Enter', 'open formal load-slot menu')
+    await until(
+      () => snapshot(),
+      (s) => s.menu?.kind === 'save-slot',
+      'load slot menu',
+    )
+    assert.equal((await snapshot()).menu.cursor, 0, 'slot 1 must be selected')
+    await press('Enter', 'load real slot 1 through production restore')
+    await until(() => snapshot(), isControllableRoom, 'checkpoint restored to controllable room')
+    report.restoredWorld = worldSummary(await page.evaluate(readWorld))
+    assert.deepEqual(report.restoredWorld, report.endWorld, 'formal restore world differs')
+    await press('Escape', 'verify restored input control')
+    await until(
+      () => snapshot(),
+      (s) => !!s.menu && s.menu.kind !== 'opening',
+      'restored menu opens',
+    )
+    await press('Escape', 'return to restored room')
+    await until(() => snapshot(), isControllableRoom, 'restored menu closes')
+    report.restoredFrame = await waitForOpeningFrame(page, until, report.endFrame)
+    await page.screenshot({ path: resolve(out, '001-restored.png') })
+  }
   assert.equal(
     report.timing.status,
     'passed',
     '001 dialogue/movement ordering differs; inspect npc-trace.json',
   )
   report.status = 'passed'
-  console.log(`[001] PASS: real checkpoint ${report.checkpoint.sha256}\n${out}`)
+  capture.assertComplete()
+  console.log(
+    `[001] PASS: ${capture.enabled ? 'local capture' : `real checkpoint ${report.checkpoint.sha256}`}\n${out}`,
+  )
 } catch (error) {
   report.status = 'failed'
   report.failure = error.stack ?? String(error)
@@ -391,6 +440,9 @@ try {
   process.exitCode = 1
 } finally {
   const cleanupErrors = []
+  await capture
+    .cleanup(report.status !== 'passed')
+    .catch((error) => cleanupErrors.push(String(error)))
   for (const context of contexts) {
     await context.close().catch((error) => cleanupErrors.push(String(error)))
   }
@@ -410,6 +462,7 @@ try {
     report.cleanupErrors = cleanupErrors
     report.status = 'failed'
     process.exitCode = 1
+    await capture.cleanup(true).catch((error) => cleanupErrors.push(String(error)))
   }
   await writeFile(resolve(out, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
   process.send?.({ report: resolve(out, 'report.json') })

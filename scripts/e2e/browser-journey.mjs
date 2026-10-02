@@ -8,6 +8,7 @@ import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { CAPTURE_BUDGET_MS, CAPTURE_SOURCES, createLocalCapture } from './capture-local.mjs'
 import { installVideoObserver } from './game-observer.mjs'
 import { installOpeningMatrix } from './opening-matrix-observer.mjs'
 import { installOpeningTrace } from './opening-trace.mjs'
@@ -28,7 +29,7 @@ export async function runBrowserJourney({
 }) {
   const args = new Set(journeyArguments)
   for (const arg of args)
-    assert(['--headless', '--headed'].includes(arg), `unknown argument ${arg}`)
+    assert(['--headless', '--headed', '--capture'].includes(arg), `unknown argument ${arg}`)
   assert(!(args.has('--headed') && args.has('--headless')), 'choose one browser mode')
   const out = resolve(
     repoRoot,
@@ -50,8 +51,10 @@ export async function runBrowserJourney({
     warnings: [],
     contexts: [],
     hashes: {},
+    profile: args.has('--capture') ? 'capture' : 'verify',
   }
-  for (const file of sources) report.hashes[file] = sha256(await readFile(resolve(repoRoot, file)))
+  for (const file of [...sources, ...CAPTURE_SOURCES])
+    report.hashes[file] = sha256(await readFile(resolve(repoRoot, file)))
   const probe = createServer()
   await new Promise((done, reject) => {
     probe.once('error', reject)
@@ -87,7 +90,7 @@ export async function runBrowserJourney({
     browser,
     page
   const contexts = []
-  const deadline = Date.now() + 240_000
+  const deadline = Date.now() + (args.has('--capture') ? CAPTURE_BUDGET_MS : 240_000)
   server.on('error', (error) => {
     serverError = error
   })
@@ -117,6 +120,7 @@ export async function runBrowserJourney({
       await delay(50) // State observation, not story timing or an input schedule.
     }
   }
+  const capture = createLocalCapture({ enabled: args.has('--capture'), report, out, health })
   try {
     await until(
       async () => {
@@ -129,11 +133,16 @@ export async function runBrowserJourney({
       Boolean,
       'owned dev server',
     )
-    browser = await chromium.launch({ channel: 'chrome', headless: args.has('--headless') })
+    browser = await chromium.launch({
+      channel: 'chrome',
+      headless: args.has('--headless'),
+      ...(args.has('--capture') ? { args: ['--mute-audio'] } : {}),
+    })
     report.browser = browser.version()
     const newPage = async (label) => {
       const context = await browser.newContext({ viewport: { width: 1360, height: 900 } })
       contexts.push(context)
+      await capture.install(context)
       await context.addInitScript(installVideoObserver)
       if (traceConfig) {
         await context.addInitScript(installOpeningTrace)
@@ -173,7 +182,8 @@ export async function runBrowserJourney({
       report.contexts.push({ label, initialDatabases: databases })
       return page
     }
-    await journey({ newPage, baseURL, out, report, until, health })
+    await journey({ newPage, baseURL, out, report, until, health, capture })
+    capture.assertComplete()
     health()
     report.status = 'passed'
     console.log(`[${name}] PASS\n${out}`)
@@ -193,6 +203,7 @@ export async function runBrowserJourney({
     process.exitCode = 1
   } finally {
     const failures = []
+    await capture.cleanup(report.status !== 'passed').catch((e) => failures.push(String(e)))
     for (const context of contexts) await context.close().catch((e) => failures.push(String(e)))
     await browser?.close().catch((e) => failures.push(String(e)))
     if (server.pid && server.exitCode === null) {
@@ -209,6 +220,7 @@ export async function runBrowserJourney({
       report.cleanupErrors = failures
       report.status = 'failed'
       process.exitCode = 1
+      await capture.cleanup(true).catch((error) => failures.push(String(error)))
     }
     await writeFile(resolve(out, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
     process.send?.({ report: resolve(out, 'report.json') })

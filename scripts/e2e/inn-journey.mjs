@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { readCaptureWorld } from './capture-local.mjs'
 import { readWorld } from './game-observer.mjs'
 import {
   assertInnChoreography,
@@ -9,6 +10,7 @@ import {
   assertInnEvidence,
   assertInnHandoffPayload,
   assertInnRestoreCommitted,
+  assertInnStoryHandoff,
   innArguments,
   innEndPresented,
   readInnContract,
@@ -62,7 +64,10 @@ export async function runInnJourney(engine) {
     name: `${engine}-002`,
     packageName: `@type-pal/${engine}`,
     environment: engine === 'game' ? { E2E: '1' } : { VITE_PROJECT_ID: 'pal' },
-    arguments: [options.headless ? '--headless' : '--headed'],
+    arguments: [
+      options.headless ? '--headless' : '--headed',
+      ...(options.capture ? ['--capture'] : []),
+    ],
     traceConfig: `scripts/e2e/${engine}-inn.config.mts`,
     initScripts: [installInnObserver],
     sources: [
@@ -77,7 +82,7 @@ export async function runInnJourney(engine) {
       'packages/game/src/core/scene-system.ts',
       'packages/reforge/src/main.ts',
     ],
-    journey: async ({ newPage, baseURL, out, report, until, health }) => {
+    journey: async ({ newPage, baseURL, out, report, until, health, capture }) => {
       report.fragment = '002'
       report.engine = engine
       report.predecessor = {
@@ -195,6 +200,10 @@ export async function runInnJourney(engine) {
       assert(room(s, engine))
       assert.deepEqual(grid(s, engine), [60, -24])
       assert.equal(s.cash, 0)
+      if (capture.enabled) {
+        const frame = await waitForOpeningFrame(page, until)
+        await capture.arm(page, { event: '001-predecessor-restored', state: s, frame })
+      }
       const evidenceOrder = async () =>
         (await page.evaluate(() => window.__readInnEvidence())).events.at(-1)?.order ?? -1
       report.route = {
@@ -357,8 +366,15 @@ export async function runInnJourney(engine) {
               if (engine === 'reforge') hold.end.authority = await authority()
               report.dialogueHolds.push(hold)
             }
-            await press('Enter', 'normal full-dialogue confirmation')
             const before = JSON.stringify(dialog)
+            if (
+              !(await capture.readable(text, before, async () => {
+                const next = await snapshot()
+                return JSON.stringify(engine === 'game' ? next.dialog : next.runtime?.dialogue)
+              }))
+            )
+              continue
+            await press('Enter', 'normal full-dialogue confirmation')
             await until(
               snapshot,
               (next) =>
@@ -418,6 +434,19 @@ export async function runInnJourney(engine) {
         atMs: p.atMs,
         page: p.page,
       }))
+      if (capture.enabled) {
+        assert.equal(report.choreography.status, 'passed', report.choreography.failure)
+        report.captureEndWorld = await readCaptureWorld(page, engine)
+        report.handoff = { live: assertInnStoryHandoff(report.captureEndWorld, engine) }
+        report.endFrame = await waitForOpeningFrame(page, until)
+        await capture.finish(page, {
+          event: 'three-guests-in-room-control-returned',
+          frame: report.endFrame,
+          worldHash: sha256(JSON.stringify(report.captureEndWorld)),
+        })
+        report.pending = ['003 and subsequent fragments; full-series capture readiness']
+        return
+      }
       await press('Escape', 'prove normal control menu')
       await until(
         snapshot,

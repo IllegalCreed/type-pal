@@ -41,7 +41,10 @@ export function mealArguments(args, both = false) {
   let caseSet = false
   for (let i = 0; i < args.length; i++) {
     const key = args[i]
-    if (['--headless', '--headed'].includes(key)) {
+    if (key === '--capture') {
+      assert(!both && !options.capture, 'capture requires one single-engine story run')
+      options.capture = true
+    } else if (['--headless', '--headed'].includes(key)) {
       assert(options.mode === undefined, 'choose one browser mode')
       options.mode = key
       options.headless = key === '--headless'
@@ -62,6 +65,10 @@ export function mealArguments(args, both = false) {
   }
   for (const key of both ? ['--game-report', '--reforge-report'] : ['--from'])
     assert(options[key], `required ${key}: genuine 003 report`)
+  assert(
+    !options.capture || options.case === 'story',
+    'capture excludes items/saves specialist cases',
+  )
   return options
 }
 
@@ -252,6 +259,7 @@ export function mealSaveView(payload, engine) {
 }
 
 export function validateMealPredecessor(report, payload, engine, bytes) {
+  assert.notEqual(report.profile, 'capture', 'capture is not a verify predecessor')
   assert.equal(report.status, 'passed', '003 predecessor failed')
   assert.equal(report.fragment, '003')
   assert.equal(report.engine, engine)

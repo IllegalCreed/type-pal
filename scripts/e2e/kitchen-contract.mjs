@@ -91,7 +91,10 @@ export function kitchenArguments(args, both = false) {
   const options = { headless: false }
   for (let i = 0; i < args.length; i++) {
     const key = args[i]
-    if (['--headless', '--headed'].includes(key)) {
+    if (key === '--capture') {
+      assert(!both && !options.capture, 'capture requires one single-engine story run')
+      options.capture = true
+    } else if (['--headless', '--headed'].includes(key)) {
       assert(options.mode === undefined, 'choose one browser mode')
       options.mode = key
       options.headless = key === '--headless'
@@ -112,6 +115,7 @@ export function kitchenArguments(args, both = false) {
 
 /** Distinct 002 admission: no relaxation of the existing 001 -> 002 validator. */
 export function validateKitchenPredecessor(report, payload, engine, bytes) {
+  assert.notEqual(report.profile, 'capture', 'capture is not a verify predecessor')
   assert.equal(report.status, 'passed', '002 predecessor did not pass')
   assert.equal(report.fragment, '002', 'wrong predecessor fragment')
   assert.equal(report.engine, engine, 'wrong predecessor engine')
@@ -372,6 +376,14 @@ function flowRows(flow) {
   return rows
 }
 export function assertKitchenEndPayload(payload, engine, predecessor, contract) {
+  if (engine !== 'game') {
+    assert.equal(payload.version, 10)
+    assert.equal(payload.contentVersion, 21)
+  }
+  return assertKitchenStoryEnd(payload, engine, predecessor, contract)
+}
+
+export function assertKitchenStoryEnd(payload, engine, predecessor, contract) {
   if (engine === 'game') {
     const gs = payload.gs,
       actors = gs.allEventObjects
@@ -394,8 +406,6 @@ export function assertKitchenEndPayload(payload, engine, predecessor, contract) 
     for (const id of [59, 60, 61]) assert.equal(get(id).sState, 0)
     for (const id of [24, 25, 26]) assert.equal(get(id).sState, 2)
   } else {
-    assert.equal(payload.version, 10)
-    assert.equal(payload.contentVersion, 21)
     assert.equal(payload.position.sceneId, 's001')
     const world = payload.world
     assert.equal(world.money, 500)

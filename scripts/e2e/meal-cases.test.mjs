@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import ts from 'typescript'
 import { repoRoot, sha256 } from './browser-journey.mjs'
+import { createLocalCapture } from './capture-local.mjs'
 import {
   assertMealCaseReport,
   assertMealCollector,
@@ -481,6 +482,7 @@ test('004 actual dialogue controller confirms with bounded drive and fetches ful
     'out',
     'resolve',
     'contextLabel',
+    'mediaCapture',
     `return ${journeyArrow('finishDialogue')}`,
   )(
     assert,
@@ -521,6 +523,7 @@ test('004 actual dialogue controller confirms with bounded drive and fetches ful
     repoRoot,
     () => '',
     'test-controller',
+    createLocalCapture({ enabled: false }),
   )
   await fn('s003', [], { failure: true })
   assert.equal(keys, 1)

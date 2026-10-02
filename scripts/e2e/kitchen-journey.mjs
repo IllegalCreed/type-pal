@@ -2,12 +2,14 @@ import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { readCaptureWorld } from './capture-local.mjs'
 import { readWorld } from './game-observer.mjs'
 import { assertInnRestoreCommitted } from './inn-contract.mjs'
 import { committedInnMoves, navigateInnRoute, partitionInnMoves } from './inn-navigation.mjs'
 import {
   assertKitchenDialogue,
   assertKitchenEndPayload,
+  assertKitchenStoryEnd,
   assertKitchenTrace,
   kitchenArguments,
   kitchenEndPresented,
@@ -47,11 +49,14 @@ export async function runKitchenJourney(engine) {
     name: `${engine}-003`,
     packageName: `@type-pal/${engine}`,
     environment: engine === 'game' ? { E2E: '1' } : { VITE_PROJECT_ID: 'pal' },
-    arguments: [options.headless ? '--headless' : '--headed'],
+    arguments: [
+      options.headless ? '--headless' : '--headed',
+      ...(options.capture ? ['--capture'] : []),
+    ],
     traceConfig: `scripts/e2e/kitchen-${engine}.config.mts`,
     initScripts: [installKitchenObserver],
     sources: Object.keys(contract.hashes),
-    journey: async ({ newPage, baseURL, out, report, until, health }) => {
+    journey: async ({ newPage, baseURL, out, report, until, health, capture }) => {
       report.fragment = '003'
       report.engine = engine
       report.predecessor = {
@@ -236,6 +241,14 @@ export async function runKitchenJourney(engine) {
                 }
               }
               const before = JSON.stringify(dialog)
+              const text = engine === 'game' ? displayed.lines.join('\n') : displayed.pageText
+              if (
+                !(await capture.readable(text, before, async () => {
+                  const next = await snapshot()
+                  return JSON.stringify(engine === 'game' ? next.dialog : next.runtime?.dialogue)
+                }))
+              )
+                continue
               await press('Enter', 'normal full-dialogue confirmation')
               await until(
                 snapshot,
@@ -293,6 +306,10 @@ export async function runKitchenJourney(engine) {
         assert.equal(start.cash, 500)
         report.route.startOrder = await evidenceOrder()
         report.route.start = start
+        if (capture.enabled) {
+          const frame = await waitForOpeningFrame(page, until)
+          await capture.arm(page, { event: '002-predecessor-restored', state: start, frame })
+        }
         phase = 'stairs'
         report.stairs = { startOrder: await evidenceOrder() }
         await navigate(
@@ -360,6 +377,19 @@ export async function runKitchenJourney(engine) {
         report.route.scriptedOrPlacement = partition.placements
         report.route.status = 'passed'
         report.core = assertKitchenTrace(trace, engine, contract, report.stairs)
+        if (capture.enabled) {
+          report.captureEndWorld = await readCaptureWorld(page, engine)
+          assertKitchenStoryEnd(report.captureEndWorld, engine, predecessor.payload, contract)
+          report.endFrame = await waitForOpeningFrame(page, until)
+          await writeFile(resolve(out, 'kitchen-trace.json'), JSON.stringify(trace, null, 2))
+          await capture.finish(page, {
+            event: 'aunt-orders-serving-food-not-taken',
+            frame: report.endFrame,
+            worldHash: sha256(JSON.stringify(report.captureEndWorld)),
+          })
+          report.pending = ['004 pickup/serving excluded; full-series capture readiness']
+          return
+        }
         phase = 'save'
         await press('Escape', 'prove normal control menu')
         await until(

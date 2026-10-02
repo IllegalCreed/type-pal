@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { compareOpeningTiming } from './opening-timing.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
+assert(!process.argv.includes('--capture'), 'capture requires one single-engine story run')
 const out = resolve(root, 'build/e2e', `both-001-${new Date().toISOString().replace(/[:.]/g, '-')}`)
 await mkdir(out, { recursive: true })
 

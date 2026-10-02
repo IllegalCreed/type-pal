@@ -260,14 +260,17 @@ export async function runMealJourney(engine) {
     name: `${engine}-004-${options.case}`,
     packageName: `@type-pal/${engine}`,
     environment: engine === 'game' ? { E2E: '1' } : { VITE_PROJECT_ID: 'pal' },
-    arguments: [options.headless ? '--headless' : '--headed'],
+    arguments: [
+      options.headless ? '--headless' : '--headed',
+      ...(options.capture ? ['--capture'] : []),
+    ],
     traceConfig: `scripts/e2e/meal-${engine}.config.mts`,
     initScripts: [installMealObserver],
     sources: Object.keys(contract.hashes),
-    journey: async ({ newPage, baseURL, out, report, until, health }) => {
+    journey: async ({ newPage, baseURL, out, report, until, health, capture: mediaCapture }) => {
       report.fragment = '004'
       report.engine = engine
-      report.kind = 'verify'
+      report.kind = mediaCapture.enabled ? 'capture' : 'verify'
       report.case = options.case
       report.scope = plan.scope
       report.checks = {}
@@ -612,6 +615,15 @@ export async function runMealJourney(engine) {
               }
             }
             const before = JSON.stringify(dialog)
+            const displayed = trace.pages.at(-1)?.page
+            const text = engine === 'game' ? displayed?.lines.join('\n') : displayed?.pageText
+            if (
+              !(await mediaCapture.readable(text, before, async () => {
+                const next = await snapshot()
+                return JSON.stringify(engine === 'game' ? next.dialog : next.runtime?.dialogue)
+              }))
+            )
+              continue
             await press('Enter', 'normal full-dialogue confirmation')
             await until(
               snapshot,
@@ -773,6 +785,14 @@ export async function runMealJourney(engine) {
         if (engine === 'game')
           assert.deepEqual(await page.evaluate(readWorld), predecessor.report.endWorld)
         else assertInnRestoreCommitted(t, predecessor.report.endWorld)
+        if (mediaCapture.enabled) {
+          const frame = await waitForOpeningFrame(page, until)
+          await mediaCapture.arm(page, {
+            event: '003-predecessor-restored',
+            frame,
+            inputHash: predecessor.sha256,
+          })
+        }
         await beginPhase('pickup')
         await interact('e20', 's001')
         const pickupShown = await finishDialogue('s001', [141, 142], {
@@ -1073,6 +1093,14 @@ export async function runMealJourney(engine) {
           report.endFrame = await waitForOpeningFrame(page, until)
           await page.screenshot({ path: resolve(out, '004-story-end.png') })
           await finishCase('004-story')
+          if (mediaCapture.enabled) {
+            await mediaCapture.finish(page, {
+              event: 'taoist-departed-control-movement-proved',
+              frame: report.endFrame,
+              worldHash: report.storyEndWorldHash,
+            })
+            report.pending = ['full-series capture readiness']
+          }
           return
         }
         await beginPhase('end-save')

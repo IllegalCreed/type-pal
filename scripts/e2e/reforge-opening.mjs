@@ -53,7 +53,9 @@ await runBrowserJourney({
     'scripts/e2e/opening-handoff.mjs',
     'scripts/e2e/reforge-trace.config.mts',
   ],
-  journey: async ({ newPage, baseURL, out, report, until, health }) => {
+  journey: async ({ newPage, baseURL, out, report, until, health, capture }) => {
+    report.fragment = '001'
+    report.engine = 'reforge'
     report.pending = ['002 and subsequent fragments', 'capture-ready video/audio verification']
     let page = await newPage('new-story')
     const snapshot = async () => {
@@ -104,6 +106,8 @@ await runBrowserJourney({
     })
     await page.screenshot({ path: resolve(out, '001-title.png') })
     await page.evaluate((path) => window.__openingHandoff.arm(path), introPath)
+    if (capture.enabled)
+      await capture.arm(page, { event: 'new-story-selected', state: await snapshot() }, introPath)
     await press('Enter', '新的故事')
     await until(snapshot, (s) => s.video === introPath, 'native entry video starts')
     const videoEvidence = await until(
@@ -156,8 +160,17 @@ await runBrowserJourney({
             }
           }
       if (action === 'finish') break
-      if (action === 'confirm')
+      if (action === 'confirm') {
+        if (
+          !(await capture.readable(
+            s.runtime.dialogue.pageText,
+            JSON.stringify(s.runtime.dialogue),
+            async () => JSON.stringify((await snapshot()).runtime?.dialogue),
+          ))
+        )
+          continue
         await press('Enter', `dialogue ${s.runtime.dialogue.rowTextIds.join(',')}`)
+      }
       const key = reforgeStateKey(s)
       await until(snapshot, (next) => reforgeStateKey(next) !== key, 'story state transition')
     }
@@ -179,6 +192,17 @@ await runBrowserJourney({
     )
     report.matrixVerdict = assertOpeningMatrix(report.matrix, 'reforge', openingContract)
     report.timing = openingTiming(report.npcTrace, 'reforge')
+    if (capture.enabled) {
+      assert.equal(report.timing.status, 'passed', '001 semantic timing failed')
+      report.endFrame = await waitForOpeningFrame(page, until)
+      await capture.finish(page, {
+        event: 'room-control-returned',
+        frame: report.endFrame,
+        state: await snapshot(),
+      })
+      report.pending = ['002 and subsequent fragments; full-series capture readiness']
+      return
+    }
     await press('Escape', 'prove actual menu control')
     await until(snapshot, (s) => s.runtime?.menuActive, 'menu opens')
     await press('Escape', 'return to room')
