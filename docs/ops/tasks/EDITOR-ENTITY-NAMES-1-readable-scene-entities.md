@@ -185,3 +185,7 @@ Branch: codex/editor-entity-names
 - Root作者工程294场景/223地图/1934资源通过；reforge四客栈文件40项和editor PAL引用一项通过；
   lint2739文件0error/0warning/0info、docs815文档0issue。仅四行JSON新增label，复用前批未变源码的类型/全包收据，
   不宣称此批又执行了全套类型检查、全仓测试或剧情E2E。日志为build/e2e/door-names-*.log。
+- main接收a05a572f5前真实DOM确认所有保存/撤销/重做disabled，原选中e55的名称为空、坐标124/44/0与磁盘一致、无弹窗。
+  纯JSON没有触发页面HMR；按已告知的无草稿重读方式仅reload原标签页一次，未停止服务或关闭页面，恢复原e55选择。
+  四个具名门按钮、e55属性值/标题和原ID实见，保存仍disabled；PID88523保持，截图build/e2e/door-names-6012.jpg。
+  本批名称已技术验收并交付，母卡仍review待界面体验；004不在本次执行范围。
