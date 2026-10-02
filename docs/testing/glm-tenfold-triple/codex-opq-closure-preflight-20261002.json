@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-02",
+  "integrationRoot": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal",
+  "integrationBase": "8990f0cde3edfe6feb908234aeafcc937daaec52",
+  "scopeFrozenFiles": 83,
+  "authorCases": 761,
+  "retainedDirectedPassed": 759,
+  "reports": [
+    {
+      "package": "migrate-after",
+      "passed": 225,
+      "total": 225,
+      "exitCode": 0
+    },
+    {
+      "package": "editor",
+      "passed": 114,
+      "total": 114,
+      "exitCode": 0
+    },
+    {
+      "package": "reforge",
+      "passed": 112,
+      "total": 112,
+      "exitCode": 0
+    },
+    {
+      "package": "game",
+      "passed": 39,
+      "total": 39,
+      "exitCode": 0
+    },
+    {
+      "package": "content",
+      "passed": 219,
+      "total": 219,
+      "exitCode": 0
+    },
+    {
+      "package": "shared",
+      "passed": 26,
+      "total": 26,
+      "exitCode": 0
+    },
+    {
+      "package": "extract",
+      "passed": 24,
+      "total": 24,
+      "exitCode": 0
+    }
+  ],
+  "narrowAdapters": [
+    "packages/editor/src/__tests__/glm-p/kit.ts: current content/save constants",
+    "packages/editor/src/core/editor-asset-io.glm-p.test.ts: current content/save constants"
+  ],
+  "rejectedContracts": [
+    {
+      "file": "packages/migrate/src/pal-current-publication.glm-o.test.ts",
+      "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）",
+      "reason": "current primary uses inspectPalItemSchemeRoots structural census rather than permanent display-label invariant; stale desired behavior, no product fix"
+    },
+    {
+      "file": "packages/migrate/src/pal-current-publication.glm-o.test.ts",
+      "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） machine-inner label 与父方案名不同步时拒绝",
+      "reason": "same current publication label-policy replacement; old failure preserved and rejected without replacement case"
+    }
+  ],
+  "sevenPackageTypecheckZero": true,
+  "productFilesChanged": false,
+  "mainChanged": false,
+  "officialGatesRun": false,
+  "officialCoverageMeasured": false,
+  "status": "review; frozen delivery imported for bounded current-main preflight, not yet final semantic acceptance or integration",
+  "initialRunnerLimitation": "recursive outputFile was shared and overwritten by each package; only last migrate raw JSON remains; reran every package separately into distinct files, no invented earlier per-package reports",
+  "logParent": "/private/tmp/codex-opq-freeze.ZflKa6",
+  "integrationCandidate": "26879e8f8ffb14826700f19288e941d927644aa8",
+  "integrationStatic": {
+    "root": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal",
+    "name": "integration-lint",
+    "command": ["pnpm", "lint"],
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 2857 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+    "stderr": ""
+  }
+}

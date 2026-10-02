@@ -36,6 +36,14 @@ Q的D-Q01-1产品draft不夹修；O旧结构上限297不是所有旧合同已完
 这五项是收口步骤，不是新的工作量目标。仅冻结并转review目前不代表后四项已完成。
 Kimi新生命周期中包、Grok/Cursor独立卡及进行中E2E不在本裁决内，保持其已批准边界，不新增工作。
 
+## 冻结后的首轮主线预检
+
+仅83个测试/fixture机械导入Codex独占树（main基8990f0cd），没有带旧产品/配置。P两夹具content20/SAVE8字面量改当前导出常量后，七包typecheck零。
+O两条“作者修改方案显示名必须拒绝”的旧断言，与当前pal-current-publication.ts:298的结构census/名称自由策略冲突，剔除而不恢复旧永久label门或造替代例；初次失败原文保留。
+逐包单独新跑冻结用例：759/759绿；初次recursive reporter复用一个outputFile覆盖前面包报告，局限明确记录，之后全部逐包重跑，不冒称原报告可恢复。
+[实际预检汇总](codex-opq-closure-preflight-20261002.json)、[原始逐包报告](codex-opq-closure-preflight/README.md)。这是有限主线适配预检，不是已完成语义排重/正式全仓门/合main/覆盖结算；三卡仍review。
+独立集成预检候选26879e8f8ffb14826700f19288e941d927644aa8（codex/opq-frozen-integration-r1），仅83个交付文件，当前版本静态2857文件完整0/0/0；作者固定三个SHA均未改。
+
 ## 当前事实与交接
 
 O/Q本次NEXT2已[独立接收](codex-oq-next2-r1-acceptance-20261002.md)，P本次NEXT2已[接收代码/证据](codex-p-next2-acceptance-20261002.md)，没有作者当前返工。

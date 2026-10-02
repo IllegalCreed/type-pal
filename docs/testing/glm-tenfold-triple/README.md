@@ -4,6 +4,7 @@
 
 用户2026-10-02明确[冻结收口裁决](codex-opq-freeze-20261002.md)：O4568e2db/Pb2cbb41f/Q5dbf72d7固定，停止所有续派/加量/组数/反控/视觉配额，三卡转review，只由Codex审核现有交付并选择性接入。
 [固定83文件/761作者执行身份最大范围](codex-opq-frozen-delivery-20261002.json)。原700/各组数/50针/P20-Q10流程数字仅历史，不再是done门；不足和未证事实保留，不凑数、不假绿、不降低静态/官方门。正式收口仍需check→ratchet→protected与main并集实测。
+[冻结后的有限主线预检](codex-opq-closure-preflight-20261002.json)、[原始报告](codex-opq-closure-preflight/README.md)：仅两夹具版本常量适配、拒收两过期label门断言，七包typecheck零/759定向新绿；未正式全仓门或合main，作者不续做。
 下面原准入、700不缩、连续补测及下一批提示词全部是历史，不再授权执行。Kimi/Grok/Cursor独立卡不在此冻结裁决内。
 
 ## 历史交付与独立审核
