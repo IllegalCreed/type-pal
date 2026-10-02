@@ -44,7 +44,7 @@ G10 四组：G10-A `rng-player.ts` 默认跳过键、负帧号、等窗和零时
 - [coverage-delta.json](coverage-delta.json)：46 个所属源，语句分母 3501，本次 v8 多覆盖 164 条语句、126 个分支、131 行。这是私有测量，正式 ratchet 留给 Codex
 - [receipt.json](receipt.json)：`candidateHead` 是 `b0d8dbd3f202251e82ce8761645c4ac408d84f11`
 - [judge.mjs](judge.mjs) 与 [judge-selftest.json](judge-selftest.json)：runner 和自测共用的判据。四个旧判误会收的反例现在拒收，40 组存档重判仍接受，真实 Vitest 单红叠未处理异常拒收且退出码 1
-- [pixels/README.md](pixels/README.md)：六组真实画布和六条功能宿主的 PNG、SHA256 与读回日志
+- [pixels/README.md](pixels/README.md)：八张离线真实画布 PNG，以及六张 DOM 数据编码窄图（不是 UI 截图）。SHA256 与读回日志在同目录，不增加合同数
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
 ## G01 已跑命令
@@ -170,7 +170,7 @@ G10 四组：G10-A `rng-player.ts` 默认跳过键、负帧号、等窗和零时
 
 `pnpm --filter @type-pal/game exec vitest run src/shell/rng-window.grok-r1.test.ts src/shell/trademark-splash.grok-r1.test.ts src/shell/fbp-scroll.grok-r1.test.ts src/shell/ending-avi-host.grok-r1.test.ts src/shell/rng-player.test.ts src/shell/rng-player.glm-next-wave.test.ts src/shell/splash-fallback.test.ts src/shell/splash-fallback.glm-next-wave.test.ts src/shell/trademark-fallback.test.ts src/shell/fbp-player.test.ts src/shell/ending-player.test.ts src/shell/ending-player.glm-next-wave.test.ts src/shell/avi-player.test.ts src/shell/avi-player.glm-next-wave.test.ts src/shell/bootstrap-resources.test.ts src/shell/fetch-retry.test.ts src/shell/fetch-retry.boundaries.test.ts src/shell/fetch-retry.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g10-directed.json`
 
-结果：新合同 25 passed，相邻 68 passed，pending 0。18 个文件合计 93 passed。G10-B01 用真实 2D canvas 抄下淡出中途 RGBA `[100, 40, 10, 255]`，最终画布是 `[0, 0, 0, 255]`。G10-B02 最终像素同样是黑，缓冲索引仍是 200。这是第六组离线真实像素。前五组是 G04-D08、G05-A11、G06-A12、G07-B13、G08-D07。这六组以及 G09 的六条功能宿主现在有 PNG、SHA256 和读回日志，见 [pixels/README.md](pixels/README.md)。落盘写在原有测试里，没有新增 `it`，40 组 file×fullName 没有变，所以没有重采。
+结果：新合同 25 passed，相邻 68 passed，pending 0。18 个文件合计 93 passed。G10-B01 用真实 2D canvas 抄下淡出中途 RGBA `[100, 40, 10, 255]`，最终画布是 `[0, 0, 0, 255]`。G10-B02 最终像素同样是黑，缓冲索引仍是 200。这是第六组离线真实像素。前五组是 G04-D08、G05-A11、G06-A12、G07-B13、G08-D07。这六组以及 G09 的六条功能宿主现在有 PNG、SHA256 和读回日志，见 [pixels/README.md](pixels/README.md)。宿主六张是 DOM 数据编码，不是 UI 截图。落盘写在原有测试里，没有新增 `it`，40 组 file×fullName 没有变，所以没有重采。
 
 六条功能宿主实操在 G09 一节。G10 的播放宿主还有：不传 skipKeys 时 Space 之后 RNG 末帧索引是 2；商标淡出中途仍是满色；卷轴停在 `iImgPos` 为 1 时顶行 11、底行 22；DOS 块 49 保持 99；省略结局跳过键时顶行是 60；AVI 在 499ms 仍有 1 个 video，500ms 为 0。
 

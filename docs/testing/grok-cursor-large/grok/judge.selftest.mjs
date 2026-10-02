@@ -5,10 +5,14 @@
  */
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { canonicalTestPath, judgeClean, judgeMutant, judgeTriple } from './judge.mjs'
+
+const require = createRequire(import.meta.url)
+const biomeCli = require.resolve('@biomejs/biome/bin/biome')
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '../../../..')
@@ -21,6 +25,32 @@ const text = (path) => readFileSync(path, 'utf8')
 const clone = (value) => JSON.parse(JSON.stringify(value))
 const fail = (message) => {
   throw new Error(message)
+}
+
+function stable(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value)
+  if (Array.isArray(value)) return `[${value.map((item) => stable(item)).join(',')}]`
+  return `{${Object.keys(value)
+    .sort()
+    .map((key) => `${JSON.stringify(key)}:${stable(value[key])}`)
+    .join(',')}}`
+}
+
+function writeReport(output) {
+  const reportPath = join(here, 'judge-selftest.json')
+  writeFileSync(reportPath, `${JSON.stringify(output, null, 2)}\n`)
+  const formatted = spawnSync(process.execPath, [biomeCli, 'format', '--write', reportPath], {
+    cwd: root,
+    encoding: 'utf8',
+  })
+  if (formatted.error) fail(`biome format spawn ${formatted.error.message}`)
+  if (formatted.signal) fail(`biome format signal ${formatted.signal}`)
+  if (formatted.status !== 0) {
+    fail(`biome format exit ${formatted.status} ${formatted.stderr || formatted.stdout}`)
+  }
+  if (stable(JSON.parse(text(reportPath))) !== stable(output)) {
+    fail('formatted report changed JSON values')
+  }
 }
 
 function loadTriple(id) {
@@ -416,7 +446,7 @@ const output = {
   rejudge: { accepted: rejudge.length, rejected: 0, ids: rejudge.map((row) => row.id) },
   realVitestProbe: probe,
 }
-writeFileSync(join(here, 'judge-selftest.json'), `${JSON.stringify(output, null, 2)}\n`)
+writeReport(output)
 console.log(
   JSON.stringify({
     falseAcceptsRejected: 4,
