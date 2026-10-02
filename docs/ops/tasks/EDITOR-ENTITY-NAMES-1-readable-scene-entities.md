@@ -180,3 +180,8 @@ Branch: codex/editor-entity-names
 - 验证：候选场景去除这四个新增label与736431bbe逐项一致；作者工程、门/客栈回归、lint/docs及最小编辑器名称实看。
   不复跑未变的全套代码或剧情旅程，不伪造新E2E/checkpoint；仍不承诺旧开发档活动digest可兼容。
 - 6012更新前再次确认无草稿，服务和页面保持打开；技术及实看收据待完成后追加。
+- 独立只读entity_names直接读取门口/落点、房内身份、进房换身与grid投影后premise verified/accept；
+  独立去除四label后deepStrictEqual=true。两扇同grid row下屏幕dx+16/dy+8，左右取屏幕x，不冒称同屏幕y。
+- Root作者工程294场景/223地图/1934资源通过；reforge四客栈文件40项和editor PAL引用一项通过；
+  lint2739文件0error/0warning/0info、docs815文档0issue。仅四行JSON新增label，复用前批未变源码的类型/全包收据，
+  不宣称此批又执行了全套类型检查、全仓测试或剧情E2E。日志为build/e2e/door-names-*.log。
