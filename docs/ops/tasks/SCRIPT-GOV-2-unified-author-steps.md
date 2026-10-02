@@ -1,9 +1,9 @@
 # SCRIPT-GOV-2 统一作者步骤模型
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: W7 / P3
-Coding Owner: 待核定分包；draft仅只读取证
+Coding Owner: Core / Editor / Content按下文文件域独占
 Reviewer: Codex Root
 Visual Verification Owner: Codex
 Visual Verification Timing: functional-minimal-and-story-e2e
@@ -27,19 +27,68 @@ Branch: codex/unified-script-steps
 | 当前二阶段 | script-compiler-core.ts:166–171给auto每个命令追加100ms；:308起区分机器transition节拍。script-runner-core.ts:256–406有两套游标/执行形态，:589起条件loop的maxIterations是保护，不是正常次数。 |
 | 目标 | 普通步骤包含连续动作、条件、选择与等待；下次步骤变化显式且可读；消除作者机器结构，内部续跑游标不变成作者概念。 |
 
-目前详细切换方案尚未准入。必须先核所有147机器、32个handoff端点，以及其它普通auto/共享调用受时序变化的影响。
+本节原始风险已按下文直接证据补齐并核定首个整体候选；没有授权中间双模型合入main。
+必须核所有147机器、32个handoff端点，以及其它普通auto/共享调用受时序变化的影响。
 最强反例：把已含等待的普通auto按新无隐含拍运行会变速；只从initial看图会遗漏handoff入口；
 将stopScript抽到共享调用会改变退出作用域；改变条件求值次数会改变chance剧情和随机巡逻。
 若方案只能通过新建私有全局变量模拟旧指针、将旧状态一对一变成步骤、或引入常驻旧兼容层成立，则拒绝。
 
-## draft分工和准入
+## 前提复核和整体候选准入
+
+Root及三贡献者独立读取当前模型、真实运行器与消费者，确认：
+
+- 294场景4662方案，147机器5490状态。1328 auto中1194为普通步骤、134机器；1251 auto有每指令100ms，
+  77机器是transition节拍。不能仅改147机器后删除全局等待。
+- main.ts:3910–3952另有成功激活后的40ms和不可运行时120ms轮询；前者是正常演出节拍，后者是唤醒策略。
+- 原共享库为空，所有作者入口callScript为0；无需为共享脚本新增修改调用方步骤的能力。
+- s250/s252的摇晃轮数源于SDL参考中的旧idle计数共享，而当前第一阶段OP_SET_AUTO_SCRIPT明确重建
+  autoCursor。真实P1探针旧计数0/1/2/3/9均得到固定4轮32次位移。原33644–33666每轮23个auto tick，
+  4轮92tick；下一拍恢复touch。此前RF1–4轮及5600ms不是应永久保真的产品意图。
+- s231庆典人群撤离，源32156–32167在同段安装12方案，各新方案有自己的2–5帧停顿/路线；不继承旧idle。
+  s021原7338明确安装7339开头，P1清旧计数后完整140位移；s273原34728–34731安装34778开头，
+  P1清旧计数后船和乘客完整320位移。这里没有源指定中段启动，不新增公开cursorHandoff能力。
+- s252初次追逐33641与摇晃后追逐33668速度和驻足规则不同，必须拆有业务名称的两个方案，不能直接回旧initial。
+- s081确认后局部循环演示、同意后还有共同尾文，证明需要词法退出循环；不能用finishStep或共享返回冒充break。
+
+据此由Root记**premise verified / design agree / build allowed**，仅限下列整体候选：
+
+1. 唯一stages flow；FlowCursor仅stage/completed。content22、SAVE11、compilerVersion3一次切换。
+2. `finishStep.next`明确为stay、stage（带stage ID）或complete，仅步骤正文及其结构化子树可用。
+   禁入场prepare、shared、物品/技能/敌AI等无步骤根；调用上下文须显式传rootScope，不能拿self判断。
+3. `returnScript`返回共享/私有命令根；退役stopScript，不能偷偷终止调用方步骤。
+4. confirm直接onYes/onNo，退役commandId结果映射。repeat为正整数固定次数；loop为while/until/forever，
+   无隐含worldTick、无巡逻累计寿命上限；breakLoop只退出同命令根的最内层循环。
+5. 取消auto每命令100ms及成功激活后的隐含40ms；必要节拍写入正文并合并相邻等待、折叠重复动作。
+   无源证明的现作者演出先保持既有偏序/时长，已核四个交接族按P1明确新方案语义改编，不用统一乘常数。
+   生命周期/权限等待作为运行器唤醒策略处理，不写成剧情等待，不复活对话冻结全NPC。
+6. 零时间预算跨步骤与共享调用，有限CPU让步不冒充游戏时间；Promise、wait0或即时动作不重置预算。
+   正常有等待的长期巡逻不因总循环数报错。实际host时间/挂起证据与只让出JS必须区分。
+7. finishStep经现有settlement gate及当前lease一次CAS提交并清resume；恢复不重问confirm、不重掷chance。
+8. 删除机器作者类型、编辑界面、执行分支、旧游标交接、版本fallback及旧专属夹具；不一对一改名成步骤或私有dispatcher变量。
+
+### 单一写入Owner
+
+- Core：packages/content与packages/reforge的脚本模型、校验/遍历、compiler/runner/continuation/coordinator、
+  自动激活调度、保存/恢复及相关测试。main仅自动脚本相关接线；不改战斗公式、移动碰撞、音频/渲染规则或资产。
+  统一版本常量及compilerVersion归Core一次修改并通报。可清理本域因本次退役失效的旧专属测试，不删除业务断言。
+- Editor：packages/editor全部本次模型消费者及测试，沿用React步骤卡/指令树；不得改Core/Content域。
+  包括深层编辑/复制/删除、目标步骤引用、预览/轨迹/资源预取、保存工程、引用快照；不引入节点图。
+- Content：projects下当前作者工程/manifest/说明及本次专属内容回归，源只读；按模板整理147机器与普通auto。
+  用临时候选重写工具，不恢复原版转换核或新增产品常驻迁移入口。只写author字段及必须的版本，不改资源供应分区。
+  专属新测试以pal-unified-steps开头，Core不改这些文件；旧governance历史结构测试退役与新业务断言接替需两Owner协调。
+- Root：本卡/母卡/看板/治理文档，scripts/e2e与其它跨包版本引用，独立复核、整仓门、最小UI和真实检查点链。
+
+所有补丁必须用隔离树绝对路径。每个Owner仅提交自己的路径，Git index提交按Root安排串行；主树仅只读参考。
+实现中若发现新的不可表达内容、源行为争议或需要新能力，先停对应包向Root报告，不擅自补全局变量/兼容模式。
+
+## 先前只读分工
 
 - Core reviewer：核最小步骤内结束/条件后继、对称确认、固定次数循环、执行与取消/保存作用域，给公共接口建议和反例。只读。
 - Content reviewer：按147机器与外部交接族核可结构化程度、必要动作能力及现有普通auto节拍影响；交真实例子与阻塞项。只读。
 - Editor reviewer：核编辑、预览、引用、验证、保存格式及版本切换影响面；不得通过隐藏UI保留旧作者模型。只读。
 - Root：独立读一手锚点、核产品取舍、确定单一文件Owner及实现顺序，维护卡/看板，执行质量门与整体验收。
 
-任何产品写入须先另记精确build allowed与边界。schema/runtime/editor/当前内容必须在同一canonical候选中完成切换，
+schema/runtime/editor/当前内容必须在同一canonical候选中完成切换，
 删除旧作者类型/旧入口/旧版本分支/专属兼容夹具；不能把未完成的双模型作为交付。不可逆或新的产品取舍交用户。
 
 ## 上下文与验收要求
@@ -55,4 +104,5 @@ Branch: codex/unified-script-steps
 
 ## 下一位Agent提示词
 
-本轮内部委派只读取证，无需用户转发。draft尚不允许产品实现或标记done。
+本轮内部已按上文委派，无需用户转发。只允许整体候选内各自文件域的实现，不能把未完成双模型合入main或标记done。
+用户本轮确认6012没有未保存改动，允许候选验证后更新，服务和页面保留。
