@@ -1,15 +1,15 @@
 # E2E-004-1 - 端菜与使用桂花酒赠道士
 
-Status: draft
+Status: build
 Phase: ops
 Capability: E2E-R4-1 / W1
-Coding Owner: Unassigned
+Coding Owner: entity_names（作者内容）；e2e004_runner（执行器），各文件单一Owner
 Generation Owner: N/A
 Reviewer: Codex 独立验收
 Visual Verification Owner: Codex
 Visual Verification Timing: mixed
-Contributor: TBD
-Branch: TBD
+Contributor: Codex 子 Agent；e2e004_phase1_premise独立只读核验
+Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
 
 ## 用户范围（2026-10-02）
 
@@ -80,3 +80,51 @@ s003/e62 trigger/c8-321c0a7d7de1；items.json id272 use.script(use)。地址比�
 
 无下一位Agent提示词，本批只记录用户范围。下一轮Codex先完成一手前提和现行003前驱核验，
 再分派不重叠的004执行器/内容工作包，维护单一Owner及独立验收；draft状态不得开始产品实现或标done。
+
+## 开工前核验与build准入（2026-10-02，覆盖上述draft历史pending）
+
+Root已直接读原始提取/SSS字节关键项、第一阶段菜单/触碰调用域、二阶段菜单/主壳与当前作者树；未以静态核读冒充实跑。
+
+| 维度 | 本轮直接核验 |
+| --- | --- |
+| 原始内容 | 取菜L583；送菜实际L469（L565只是厨房复读，纠正历史引用）；use L39647含81[63,1,38780]+25[63,650]，赠酒L650至732，720唯一20[272]扣酒。独立席核49处相关原字节；Root核583/469/720/39648/39649及OBJECT272 flags17（没有consuming）。 |
+| 第一阶段 | menu-driver.ts:704–717正常库存use applyToAll跳选人→event-system.ts:3286；:3344清菜单返explore→scene-system触碰扫描启动赠酒。:4543当前场景面对守卫；mode.ts:43–47对话不推进auto只作UX参考，不复制全局冻结。 |
+| 当前二阶段 | MenuSession:310–341/480–518→main.ts:4577–4592运行private use；当前只切touch/赠酒方案。main:2866仅投影、4260仅drain既有pending，唯一新touch检测3848依playerMoved，静止use不能可靠启动。e19 auto仅反复up/frame0，已有静态facing up。 |
+| 目标 | 正常菜单有效use直接顺序await同一成功剧情，不再等待额外移动；错误面对仍提示不扣酒。唯一成功body归272 private use，不造shared复用/新schema能力/global touch轮询。e19退役pose回写循环，静态初值+取菜对白结束显式up/frame0收尾。 |
+
+独立全作者引用审计：赠酒c8-321c0a7d7de1仅定义+item选择2处，没有第二复用、self/chase/call依赖；
+e19 auto仅本页绑定，外部没有auto/页面/动作/移动/外观写，晚剧情仅trigger/显示/隐藏。Root分别读同一调用域与目标。
+强反证：基线正常静止use后若无需落步出现172，推翻缺入口判断；候选若仍需移动/重复扣酒/遗漏喊话/不能正常走动则不接收。
+错误use的stopScript在当前执行器可正常返回outcome success，故必须以真实菜单dispatch、正文/绑定/库存/生命周期证明赠酒，不能只看success。
+取消反控为确认前Esc退出菜单；成功后不引入新回滚或作者pause状态。保持现行前台存档/输入门，不伪造物品或世界。
+
+Root premise verified/design agree；两独立席直接读原始/一阶段、当前完整链后核验或提出上述counter。
+修复保持原版/第一阶段体验（使用酒即喝酒、讲话面向逍遥、返做饭朝上），用户已批准004与脚本合理化，无新剧情取舍待问。
+Codex build allowed，白名单与单一写入Owner如下；新未知前提/产品选择仍停止线核验。
+
+### 所有权与交付
+
+- entity_names：codex/e2e-004-content，仅s001/s003/items作者JSON、reforge新增pal-meal-author测试及旧pal-inn-kitchen/菜单用途相邻测试。
+  内联成功body/删除旧唯一转接、e19静态化、实际内容具名；不改runtime/schema/save/editor/供应核/规则。
+- e2e004_runner：codex/e2e-004-runner，仅新增scripts/e2e/meal-*旅程/合同/只读菜单observer/隔离trace/config/反控。
+  不改001–003工具、产品或作者JSON；真实menus.view/game menuStack投影冻结DTO，不增可变产品后门。
+- Root：接收树codex/e2e-004只写卡/看板/规范、package004命令、执行独立接收/必要质量门/正式冻结后实跑与6012交付。
+  未接收前贡献者不得合main/标done，施工不能写Root或另一Owner文件；先红→绿，提交精确SHA后停写。
+- 004 route包含e15真实一次性touch送菜，不以直接点随从/调用剧情替代；走路held，菜单按真实cursor/itemId确定按键，不固定连按。
+  actor采集扩到e15/e16/e24/e25/e26与e19/e20/e62；真正提交/菜单实绘/dispatch/控制恢复有界，overflow/epoch/来源/像素/超时不放宽。
+- pose反控>=3秒需真实host/collector；不靠手写auto模拟或仅命令列表宣布视觉pass。未实跑项登记可执行用例/Owner。
+
+### 最近合法前驱
+
+- RF001主树build/e2e/reforge-001-2026-10-01T14-45-18-085Z passed，真实档
+  158d4f59f6b6e04d9855801000059c76913c85432e3a515de98313c3855ab695，SAVE10/content21、无auto resume/behaviors.entities；
+  Root与工具席各核实际字节及所有记录source当前无差异，可复用，不重复已通过开场。
+- RF旧003含旧digest活动resume，不能改旧档；作者冻结后从上述001正常002→003重建，真正恢复核当前digest/未取菜入口。
+- game真实003在e2e-003-runner历史树build/e2e/game-003-2026-10-01T05-41-47-466Z，
+  原档67adca00b0a0ed1f1649f65ba5134a4d3f9a49c506b0c670a77840b2b597ad21，第一阶段/原始数据当前hash零差异，可各自复用。
+- 正式004必须等作者/工具都冻结再跑；开发diagnostic不冒充最终passed，原红保留。录屏/音轨独立，不由本批技术pass自动成立。
+
+### 当前交接提示
+
+准入增量替代draft提示：贡献者在Root提供的独立worktree按本卡白名单实施、自验提交/停写，给精确代码/测试/风险；
+Root独立读源/反控/实际执行后决定接收，源域扩张或产品取舍先报告，不依赖固定三签或用户搬运意见。
