@@ -56,6 +56,19 @@ Root `premise verified / design agree / build allowed`：源码、历史政策�
 - Root：本卡/004母卡/看板/索引、package case入口/使用文档、独立`main.presentation-clock-root.test.ts`及真trace复算，
   统一质量门/集成/6012交付；不与贡献者同时改其文件。
 
+### 根因反控与相邻夹具准入
+
+- Root c12fc4ef4两项真主壳反控双红：长帧后debug pr=1/3而实际step0（应24）；普通首cue无跳字却waiting-input（应typing）。
+  原失败日志`004-presentation-root-counter-red.log`保留，types零诊断；不是参考公式自写模型。
+- entity_names独立11项合法主壳：正常/长帧、世界step下UI、合法skip/翻页/不可加速auto尾停顿、72步/forcedzero、
+  预算后2000ms成本、实际debug Abort无尾款，先7红/11再11绿。生产diff只main两处。
+- 贡献者首轮完整reforge264文件2238测试2236绿/2红：Root尾lease cleanup断言尚缺真实task turn；
+  pal-meal-shell夹具只有虚拟RAF，未同步performance实钟，旧160轮不能用于加速修正后的UI秒数。原全套红留存。
+- Root38e0da051仅自持测试在effect/tail已提交后`h.settleIO()+drain`再严格核busy false，不推进时钟、不减断言。
+  entity_names白名单追加仅`pal-meal-shell.test.ts`的外部Clock IO：每个fresh boot将performance与现有虚拟RAF同域，
+  不变160预算、字速、720ms、真实资源/字体/Source/codec/所有World与保存断言；不修生产回到错误gameplay域。
+  上述针对测试边界的修正不将旧2236/2238追溯写成全绿，统一质量门由Root冻结候选另跑。
+
 ## 验收
 
 1. 独立真主壳混钟反控先红后绿；长帧差不进入dither时长，debug step/pr与实际输出一致，世界步进时演出仍实钟推进。
