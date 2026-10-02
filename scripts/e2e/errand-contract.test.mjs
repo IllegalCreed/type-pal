@@ -4,6 +4,10 @@ import test from 'node:test'
 import vm from 'node:vm'
 import ts from 'typescript'
 import {
+  assertErrandCollector,
+  assertErrandRestored,
+  assertErrandStory,
+  assertErrandSuite,
   ERRAND_PHASE_ROWS,
   errandArguments,
   errandScene,
@@ -109,4 +113,133 @@ test('005 isolated instrumentation parses every actual hook target without produ
     )
     assert(!result.code.includes('globalThis.__meal'))
   }
+})
+
+const storyTrace = () => {
+  const trace = {
+    events: [],
+    pages: [],
+    restoreCommits: [],
+    gameRestores: [],
+    saveCaptures: [],
+    saveCompletions: [],
+    inputs: [],
+    errors: [],
+    overflow: false,
+  }
+  let order = 0
+  const append = (list, value) => {
+    const event = { seq: trace[list].length, order: order++, atMs: order, ...value }
+    trace[list].push(event)
+    return event
+  }
+  const shown = new Map()
+  const page = (id) => {
+    const p = append('pages', {
+      scene: id < 300 ? 's004' : 's005',
+      engine: 'game',
+      page: { lines: [String(id)] },
+      actors: { e83: { position: [1688, 1388] } },
+    })
+    shown.set(`dlg.${id}`, p.order)
+  }
+  let state = { money: 500, persistent: {}, hooks: {} }
+  const progress = (update) => {
+    const before = structuredClone(state)
+    state = { ...state, ...update }
+    append('events', {
+      kind: 'progress',
+      source: 'commit:test',
+      before,
+      state: structuredClone(state),
+    })
+  }
+  progress({})
+  // Non-news scene on the first reward page; only report pages carry s004.
+  page(215)
+  trace.pages.at(-1).scene = 's001'
+  progress({ money: 550 })
+  page(565)
+  progress({ persistent: { e123: { trigger: 'L_1436' } } })
+  page(515)
+  page(522)
+  progress({ hooks: { 5: 903 } })
+  append('events', {
+    kind: 'actor',
+    id: 'e83',
+    scene: 's004',
+    source: 'commit:npcWalkTo',
+    before: { position: [0, 0] },
+    state: { position: [1, 1] },
+  })
+  append('events', {
+    kind: 'actor',
+    id: 'e83',
+    scene: 's004',
+    source: 'commit:npcWalkTo',
+    before: { position: [1, 1] },
+    state: { position: [1688, 1388] },
+  })
+  page(282)
+  page(293)
+  return { trace, shown }
+}
+test('005 causality rejects early report arming, duplicate rewards, absent approach and walking during speech', () => {
+  const valid = storyTrace()
+  assertErrandStory(valid.trace, 'game', valid.shown)
+  for (const mutate of [
+    (t) => {
+      t.events[0].state.hooks = { 5: 903 }
+    },
+    (t) => {
+      t.events[0].before.money = 450
+    },
+    (t) => {
+      t.events.filter((e) => e.kind === 'actor')[0].state.position = [0, 0]
+    },
+    (t) => {
+      t.pages.at(-1).actors.e83.position = [10, 10]
+    },
+  ]) {
+    const bad = structuredClone(valid.trace)
+    mutate(bad)
+    assert.throws(() => assertErrandStory(bad, 'game', valid.shown))
+  }
+})
+test('005 evidence requires contiguous sequence and successful atomic restore, never a passed label', () => {
+  const { trace } = storyTrace()
+  assertErrandCollector(trace)
+  const dropped = structuredClone(trace)
+  dropped.pages.shift()
+  assert.throws(() => assertErrandCollector(dropped))
+  assert.throws(() => assertErrandRestored(trace, {}, 'game'), /restore commit/)
+  assert.throws(() => assertErrandSuite([]), /six independent/)
+  const payload = {
+    version: 10,
+    contentVersion: 21,
+    projectId: 'pal',
+    position: { sceneId: 's004' },
+    world: { party: [], script: { auto: { e83: { continuation: 'test' } } } },
+  }
+  const restored = {
+    events: [],
+    pages: [],
+    restoreCommits: [{ seq: 0, order: 0, atMs: 1, source: 'commit:restorePayload', payload }],
+    gameRestores: [],
+    saveCaptures: [],
+    saveCompletions: [],
+    inputs: [],
+    errors: [],
+    overflow: false,
+  }
+  assertErrandRestored(restored, payload, 'reforge')
+  const missing = structuredClone(restored)
+  delete missing.restoreCommits[0].payload.world.script.auto
+  assert.throws(() => assertErrandRestored(missing, payload, 'reforge'), /persistent state/)
+  const money = structuredClone(restored)
+  money.restoreCommits[0].payload.world.money = 600
+  assert.throws(() => assertErrandRestored(money, payload, 'reforge'), /persistent state/)
+  const echo = structuredClone(restored)
+  echo.restoreCommits[0].source = 'requested:load'
+  assert.throws(() => assertErrandRestored(echo, payload, 'reforge'))
 })

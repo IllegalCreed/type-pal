@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
-import { assertErrandSuite } from './errand-contract.mjs'
+import { assertErrandSuite, readErrandContract, readErrandReceipt } from './errand-contract.mjs'
 
 const options = {},
   args = process.argv.slice(2)
@@ -78,7 +78,7 @@ try {
   const reports = await Promise.all(
     results.map(async (result) => {
       assert(result.report?.startsWith(resolve(repoRoot, 'build/e2e') + sep))
-      const report = JSON.parse(await readFile(result.report, 'utf8'))
+      const report = await readErrandReceipt(result.report, await readErrandContract())
       assert.equal(report.engine, result.engine)
       assert.equal(report.case, result.case)
       assert.equal(report.predecessor.report, options[`--${result.engine}-report`])

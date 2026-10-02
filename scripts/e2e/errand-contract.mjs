@@ -2,7 +2,12 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { repoRoot, sha256 } from './browser-journey.mjs'
-import { assertMealCaseReport, mealSaveView, readMealContract } from './meal-contract.mjs'
+import {
+  assertMealCaseReport,
+  assertMealDialogue,
+  mealSaveView,
+  readMealContract,
+} from './meal-contract.mjs'
 import { openingFrameMatches } from './opening-frame.mjs'
 
 export const ERRAND_PHASE_ROWS = {
@@ -63,6 +68,7 @@ export function assertErrandCaseReport(report) {
   assert.equal(report.contextTraces.length, report.contexts.length)
   for (const artifact of report.contextTraces) assert.match(artifact.sha256, /^[a-f0-9]{64}$/)
   assert.equal(report.storyEndWorldHash, sha256(JSON.stringify(report.storyEndWorld)))
+  assertErrandEndWorld(report.storyEndWorld, report.engine)
   assert(openingFrameMatches(report.endFrame), '005 end canvas invalid')
   if (report.case === 'saves') {
     assert.equal(report.checkpoint?.path, '005.end.save.json')
@@ -75,6 +81,7 @@ export function assertErrandCaseReport(report) {
       '005 saved persistent state not restored',
     )
     assert(openingFrameMatches(report.restoredFrame))
+    assertErrandEndWorld(report.endWorld, report.engine)
     assert.notDeepEqual(
       report.backgroundContinuation.from,
       report.backgroundContinuation.to,
@@ -85,6 +92,82 @@ export function assertErrandCaseReport(report) {
     for (const key of ['checkpoint', 'restoredWorld', 'restoredFrame', 'backgroundContinuation'])
       assert.equal(report[key], undefined, 'story/guards cannot claim saves coverage')
   }
+}
+export function assertErrandEndWorld(world, engine) {
+  if (engine === 'game') {
+    assert.equal(world.scene, 5, '005 must end in village, not inside inn')
+    assert.equal(world.cash, 550)
+    assert.equal(
+      world.actors.find((actor) => actor.id === 83)?.triggerLabel,
+      'L_955',
+      'report did not finish',
+    )
+    assert.equal(
+      world.actors.find((actor) => actor.id === 19)?.sState,
+      0,
+      'illness aftermath missing',
+    )
+  } else {
+    assert.equal(world.position.sceneId, 's004')
+    assert.equal(world.world.money, 550)
+    const xianglan = world.world.script.behaviors.entities.s004.e83
+    assert.equal(xianglan.trigger.selection.value, 'report-aunt-illness')
+    assert.equal(
+      xianglan.trigger.cursor.at.stage,
+      'urge-return',
+      'report foreground did not finish',
+    )
+    assert.equal(xianglan.auto.selection.value, 'legacy-002', 'background return missing')
+    assert.equal(world.world.script.entityState.s001.e19, 0)
+  }
+}
+export async function readErrandReceipt(path, contract) {
+  const report = JSON.parse(await readFile(path, 'utf8'))
+  assertErrandCaseReport(report)
+  const traces = []
+  for (const artifact of report.contextTraces) {
+    assert(
+      ['005-before-restore.trace.json', '005-latest.trace.json'].includes(artifact.path),
+      'unknown 005 trace path',
+    )
+    const bytes = await readFile(resolve(dirname(path), artifact.path), 'utf8')
+    assert.equal(sha256(bytes), artifact.sha256, 'trace bytes changed')
+    const trace = JSON.parse(bytes)
+    assertErrandCollector(trace)
+    traces.push(trace)
+  }
+  const story = traces[0],
+    rows = errandCaseRows(report.case).map((id) => contract.rows.find((row) => row.id === id))
+  assert(rows.every(Boolean))
+  const shown = assertMealDialogue(story, report.engine, { ...contract, rows })
+  assertErrandStory(story, report.engine, shown)
+  const moves = story.events.filter(
+    (event) =>
+      event.kind === 'actor' &&
+      event.id === 'party' &&
+      event.order > shown.get('dlg.293') &&
+      ['commit:tickSceneInput', 'commit:player.pos'].includes(event.source) &&
+      event.before &&
+      JSON.stringify(event.before.position) !== JSON.stringify(event.state.position),
+  )
+  assert(moves.length > 0, 'no actual post-report player movement')
+  assert(
+    story.inputs.some(
+      (input) =>
+        input.order > shown.get('dlg.293') &&
+        input.type === 'keydown' &&
+        input.key.startsWith('Arrow'),
+    ),
+    'post-report move lacks normal input',
+  )
+  if (report.case === 'saves') {
+    const bytes = await readFile(resolve(dirname(path), '005.end.save.json'), 'utf8')
+    assert.equal(sha256(bytes), report.checkpoint.sha256, '005 saved bytes changed')
+    const payload = JSON.parse(bytes)
+    assert.deepEqual(errandSaveView(payload, report.engine), report.endWorld)
+    assertErrandRestored(traces[1], payload, report.engine)
+  }
+  return report
 }
 export function assertErrandSuite(reports) {
   assert.equal(reports.length, 6, '005 full suite requires six independent cases')
