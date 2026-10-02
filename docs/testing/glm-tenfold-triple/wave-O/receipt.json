@@ -155,7 +155,7 @@
     "O-R18-01": "publication 41 行账修正：①「旧 pal.test 一个 it」模板纠错——实际三 it（it1 :33-87 商店生命周期合并/it2 :88-229 作者字段保留与分区/it3 :231-251 毒定义拒绝），36 行锚点模板同步；②角色尾部保留改 existing-proof cross-check 不计净新（旧 :179-191 九 ID 全序+作者对象 deepEqual 更强直证），测试保留为快速对照；③商店行拆臂：ID 1..20/no-0 归旧 :226-228，货单全 141 为保留新臂；④268/270 拆臂：unavailableMessage 同步归旧 :217-225，生成基值 name=炼蛊皿/maxRoll=9 为保留新臂（buyPrice 作者保留旧证 1_234 侧）；⑤catalog 行标题与断言一致（仅 assets/actors 两托管键，不主张全部写入路径）；CC1/CC2/CC3/CC5 因标题收窄执行集变化重采 64/64"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED",
+  "remoteFinalCandidate": "05ca81187121abcd78f92f9453b38a76257fe18e",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
