@@ -2726,6 +2726,7 @@
     },
     {
       "id": "e437",
+      "label": "糖葫芦小贩",
       "pos": {
         "col": 89,
         "row": 29,
@@ -2748,7 +2749,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买糖葫芦（20文）",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2769,6 +2770,15 @@
                           }
                         ]
                       }
+                    },
+                    {
+                      "kind": "confirm",
+                      "id": "decision-001",
+                      "onNo": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
                     },
                     {
                       "kind": "branch",
@@ -2799,6 +2809,9 @@
                               "speaker": "spk.小贩"
                             }
                           }
+                        },
+                        {
+                          "kind": "stopScript"
                         }
                       ]
                     },
@@ -2807,19 +2820,11 @@
                       "delta": -20
                     },
                     {
-                      "kind": "confirm",
-                      "id": "decision-001",
-                      "onNo": [
-                        {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
                       "kind": "giveItem",
                       "itemId": "80"
                     }
-                  ]
+                  ],
+                  "label": "确认购买并支付二十文"
                 }
               ]
             }

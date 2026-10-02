@@ -3424,6 +3424,7 @@
     },
     {
       "id": "e1825",
+      "label": "情报乞丐",
       "pos": {
         "col": 69,
         "row": 32,
@@ -3447,7 +3448,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打听刘府传闻与小莲儿",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3840,7 +3841,8 @@
                       "kind": "halveMoney"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "施舍半数钱财，打听刘府传闻"
                 },
                 {
                   "id": "legacy-002",
@@ -3900,7 +3902,11 @@
                           "atLeast": 100
                         }
                       },
-                      "then": []
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
                     },
                     {
                       "kind": "giveMoney",
@@ -4048,7 +4054,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-003"
+                  "next": "legacy-003",
+                  "label": "支付一百文，打听小莲儿"
                 },
                 {
                   "id": "legacy-003",
@@ -4067,7 +4074,8 @@
                         }
                       }
                     }
-                  ]
+                  ],
+                  "label": "今日生意的复读"
                 }
               ]
             }

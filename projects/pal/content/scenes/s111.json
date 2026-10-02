@@ -1312,6 +1312,7 @@
     },
     {
       "id": "e2085",
+      "label": "糖葫芦小贩",
       "pos": {
         "col": 90,
         "row": 12,
@@ -1334,7 +1335,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买糖葫芦（30文）",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1392,6 +1393,9 @@
                               "speaker": "spk.小贩"
                             }
                           }
+                        },
+                        {
+                          "kind": "stopScript"
                         }
                       ]
                     },
@@ -1403,7 +1407,8 @@
                       "kind": "giveItem",
                       "itemId": "80"
                     }
-                  ]
+                  ],
+                  "label": "确认购买并支付三十文"
                 }
               ]
             }

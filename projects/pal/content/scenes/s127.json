@@ -466,6 +466,7 @@
     },
     {
       "id": "e2224",
+      "label": "酒馆老板",
       "pos": {
         "col": 66,
         "row": 5,
@@ -488,7 +489,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买酒（100文）",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -535,7 +536,11 @@
                           "atLeast": 100
                         }
                       },
-                      "then": []
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
                     },
                     {
                       "kind": "giveMoney",
@@ -562,7 +567,8 @@
                         }
                       }
                     }
-                  ]
+                  ],
+                  "label": "确认买酒并支付一百文"
                 }
               ]
             }

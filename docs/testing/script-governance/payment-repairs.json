@@ -1,0 +1,512 @@
+{
+  "task": "SCRIPT-GOV-1",
+  "status": "author-verified; pending independent Root acceptance",
+  "baseline": "6c3e1fbe3",
+  "hashDefinition": "SHA-256 of JSON.stringify subtree.",
+  "bindings": [
+    {
+      "scene": "s023",
+      "entity": "e437",
+      "behavior": "default",
+      "cost": 20,
+      "beforeSha256": "f8497b4468b5d261e8ed3bee7f0dafed8326cc193d9adfe8fab794c3b4e65f65",
+      "afterSha256": "39b37c09fa01d04187487b8960a5f8d9536b15e0b954ce267f468a70f65e90fa",
+      "source": {
+        "staticEntry": 7567,
+        "activeEntry": 7567,
+        "cashInstruction": 7568,
+        "insufficientTarget": 7573,
+        "confirmInstruction": 7569,
+        "noTarget": 7566,
+        "retainedEntry": 7567
+      },
+      "labels": {
+        "entity": "糖葫芦小贩",
+        "behavior": "购买糖葫芦（20文）",
+        "stages": {
+          "initial": "确认购买并支付二十文"
+        }
+      },
+      "authorDelta": {
+        "stage": "initial",
+        "branchIndexBefore": 1,
+        "branchIndexAfter": 2,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        },
+        "moveConfirm": {
+          "fromIndex": 3,
+          "toIndex": 1
+        },
+        "finalBodyKinds": [
+          "dialog",
+          "confirm",
+          "branch",
+          "giveMoney",
+          "giveItem"
+        ],
+        "approvedUserBehavior": "Declining or having insufficient money never deducts money or grants an item. Ask for confirmation before checking and collecting the price."
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    },
+    {
+      "scene": "s050",
+      "entity": "e845",
+      "behavior": "default",
+      "cost": 100,
+      "beforeSha256": "798519e44a5b562adf802ccfec2e9fd880d773b3dcd6335d1948ed0ea7110c39",
+      "afterSha256": "067c7e16ca8caacc49d67e1db3160ca4f1894708d972d7fe9a371fe1ef5ce04e",
+      "source": {
+        "staticEntry": 11017,
+        "activeEntry": 11017,
+        "cashInstruction": 11020,
+        "insufficientTarget": 11012,
+        "confirmInstruction": 11019,
+        "noTarget": 11012,
+        "retainedEntry": 11017
+      },
+      "labels": {
+        "entity": "糯米店伙计",
+        "behavior": "购买糯米（100文）",
+        "stages": {
+          "initial": "确认购买并支付一百文"
+        }
+      },
+      "authorDelta": {
+        "stage": "initial",
+        "branchIndexBefore": 2,
+        "branchIndexAfter": 2,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        }
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    },
+    {
+      "scene": "s050",
+      "entity": "e846",
+      "behavior": "default",
+      "cost": 100,
+      "beforeSha256": "798519e44a5b562adf802ccfec2e9fd880d773b3dcd6335d1948ed0ea7110c39",
+      "afterSha256": "067c7e16ca8caacc49d67e1db3160ca4f1894708d972d7fe9a371fe1ef5ce04e",
+      "source": {
+        "staticEntry": 11017,
+        "activeEntry": 11017,
+        "cashInstruction": 11020,
+        "insufficientTarget": 11012,
+        "confirmInstruction": 11019,
+        "noTarget": 11012,
+        "retainedEntry": 11017
+      },
+      "labels": {
+        "entity": "糯米店伙计",
+        "behavior": "购买糯米（100文）",
+        "stages": {
+          "initial": "确认购买并支付一百文"
+        }
+      },
+      "authorDelta": {
+        "stage": "initial",
+        "branchIndexBefore": 2,
+        "branchIndexAfter": 2,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        }
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    },
+    {
+      "scene": "s084",
+      "entity": "e1583",
+      "behavior": "legacy-001",
+      "cost": 100,
+      "beforeSha256": "e8ab6bdd0e7ea02169b67fcf3fba4ed4d224648a4b67d6635df15dfb8319f24b",
+      "afterSha256": "e81a91922cfda353b2248a3c3ff878b859846d8ee9aea71686af36ea8aeed07c",
+      "source": {
+        "staticEntry": 15273,
+        "activeEntry": 14581,
+        "cashInstruction": 14584,
+        "insufficientTarget": 14578,
+        "confirmInstruction": 14583,
+        "noTarget": 14578,
+        "retainedEntry": 14581,
+        "installer": 14541,
+        "successAutoTargets": [
+          14596,
+          14600
+        ],
+        "successTriggerTarget": 14593
+      },
+      "labels": {
+        "entity": "衙役",
+        "behavior": "探监交费（100文）",
+        "stages": {
+          "initial": "确认交费后两名衙役放行"
+        }
+      },
+      "authorDelta": {
+        "stage": "initial",
+        "branchIndexBefore": 2,
+        "branchIndexAfter": 2,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        }
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    },
+    {
+      "scene": "s084",
+      "entity": "e1584",
+      "behavior": "legacy-001",
+      "cost": 100,
+      "beforeSha256": "e8ab6bdd0e7ea02169b67fcf3fba4ed4d224648a4b67d6635df15dfb8319f24b",
+      "afterSha256": "e81a91922cfda353b2248a3c3ff878b859846d8ee9aea71686af36ea8aeed07c",
+      "source": {
+        "staticEntry": 15276,
+        "activeEntry": 14581,
+        "cashInstruction": 14584,
+        "insufficientTarget": 14578,
+        "confirmInstruction": 14583,
+        "noTarget": 14578,
+        "retainedEntry": 14581,
+        "installer": 14542,
+        "successAutoTargets": [
+          14596,
+          14600
+        ],
+        "successTriggerTarget": 14593
+      },
+      "labels": {
+        "entity": "衙役",
+        "behavior": "探监交费（100文）",
+        "stages": {
+          "initial": "确认交费后两名衙役放行"
+        }
+      },
+      "authorDelta": {
+        "stage": "initial",
+        "branchIndexBefore": 2,
+        "branchIndexAfter": 2,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        }
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    },
+    {
+      "scene": "s111",
+      "entity": "e2085",
+      "behavior": "default",
+      "cost": 30,
+      "beforeSha256": "687d108ce99bde13f1fecb8bea658618c2f2b7645f2b760b058d5826751515db",
+      "afterSha256": "a7a2285b9e433ff1d39db64f85585300d8f8d5b77e84bb5e775565de20d6072f",
+      "source": {
+        "staticEntry": 17179,
+        "activeEntry": 17179,
+        "cashInstruction": 17182,
+        "insufficientTarget": 17185,
+        "confirmInstruction": 17181,
+        "noTarget": 17178,
+        "retainedEntry": 17179
+      },
+      "labels": {
+        "entity": "糖葫芦小贩",
+        "behavior": "购买糖葫芦（30文）",
+        "stages": {
+          "initial": "确认购买并支付三十文"
+        }
+      },
+      "authorDelta": {
+        "stage": "initial",
+        "branchIndexBefore": 2,
+        "branchIndexAfter": 2,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        }
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    },
+    {
+      "scene": "s127",
+      "entity": "e2224",
+      "behavior": "default",
+      "cost": 100,
+      "beforeSha256": "51df4193343c0a5cf8afee747a82582501a26358595284c962b14c3e1500806a",
+      "afterSha256": "6900e74adfc61ca8c9bf3c3c495c1c42be57595966db9ea186708b3c0aab0989",
+      "source": {
+        "staticEntry": 16220,
+        "activeEntry": 16220,
+        "cashInstruction": 16225,
+        "insufficientTarget": 16219,
+        "confirmInstruction": 16223,
+        "noTarget": 16219,
+        "retainedEntry": 16220
+      },
+      "labels": {
+        "entity": "酒馆老板",
+        "behavior": "购买酒（100文）",
+        "stages": {
+          "initial": "确认买酒并支付一百文"
+        }
+      },
+      "authorDelta": {
+        "stage": "initial",
+        "branchIndexBefore": 3,
+        "branchIndexAfter": 3,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        }
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "initial"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    },
+    {
+      "scene": "s100",
+      "entity": "e1825",
+      "behavior": "default",
+      "cost": 100,
+      "beforeSha256": "b708dc7da4ade5a0ae9556c00df358ad2a835430d5322b6eb3445e1e0e475b53",
+      "afterSha256": "1a3f94da49fb641856c192db81c12f273a1c760f4ac4364039f4ad396e4c1259",
+      "source": {
+        "staticEntry": 17723,
+        "activeEntry": 17785,
+        "cashInstruction": 17793,
+        "insufficientTarget": 17784,
+        "confirmInstruction": 17789,
+        "noTarget": 17784,
+        "retainedEntry": 17785,
+        "firstStepEnd": 17784,
+        "successSelector": 17823,
+        "successEnd": 17824,
+        "successNext": 17825
+      },
+      "labels": {
+        "entity": "情报乞丐",
+        "behavior": "打听刘府传闻与小莲儿",
+        "stages": {
+          "initial": "施舍半数钱财，打听刘府传闻",
+          "legacy-002": "支付一百文，打听小莲儿",
+          "legacy-003": "今日生意的复读"
+        }
+      },
+      "authorDelta": {
+        "stage": "legacy-002",
+        "branchIndexBefore": 4,
+        "branchIndexAfter": 4,
+        "appendToInsufficientArm": {
+          "kind": "stopScript"
+        }
+      },
+      "nextBefore": [
+        {
+          "id": "initial",
+          "next": "legacy-002"
+        },
+        {
+          "id": "legacy-002",
+          "next": "legacy-003"
+        },
+        {
+          "id": "legacy-003",
+          "next": "legacy-003"
+        }
+      ],
+      "nextAfter": [
+        {
+          "id": "initial",
+          "next": "legacy-002"
+        },
+        {
+          "id": "legacy-002",
+          "next": "legacy-003"
+        },
+        {
+          "id": "legacy-003",
+          "next": "legacy-003"
+        }
+      ],
+      "successLeafParametersPreserved": true
+    }
+  ],
+  "unaffectedSubtrees": [
+    {
+      "path": "projects/pal/content/scenes/s023.json",
+      "sha256": "aee4143d0b782ce7b322eb5e818842cb30677642237c7429d11bda06f2705157"
+    },
+    {
+      "path": "projects/pal/content/scenes/s050.json",
+      "sha256": "ade371db665191b76c8aa998cc4f634077be98e56d258f5d1a440a77745c6962"
+    },
+    {
+      "path": "projects/pal/content/scenes/s084.json",
+      "sha256": "dec1a535e54f1a692090ecb85a9f6e1863eefd0be310b8666b7d86fb0e2c2356"
+    },
+    {
+      "path": "projects/pal/content/scenes/s111.json",
+      "sha256": "6133072e4f1a822c2a2a3505343acd1f4c520293ba7e0be09da22ee48f62f874"
+    },
+    {
+      "path": "projects/pal/content/scenes/s127.json",
+      "sha256": "36601186da91e2e481e14231f6f1a8d8e79c149d9b781891129726cc052e1119"
+    },
+    {
+      "path": "projects/pal/content/scenes/s100.json",
+      "sha256": "0e7faf265118324dfeaddaeda7605a4d144a50c9f400d6624ddbe8dc0033ed7b"
+    }
+  ],
+  "sourceSemantics": {
+    "moneyOpcode": "Original 0x1E jumps without deducting when the balance is insufficient; otherwise it deducts once. First-stage event-system.ts:3673–3685.",
+    "confirmOpcode": "Original 0x0A selects its target only on No/cancel.",
+    "runtime": "Current main.ts giveMoney clamps at zero; no transaction/early-return semantics. Conditions and script boundaries must guard later effects explicitly."
+  },
+  "sourceControlFlow": {
+    "7567": {
+      "insufficient": "7568 -> 7573..7577 reset7567; no deduction, confirmation, or item",
+      "decline": "7569 -> 7566 advance7567; source already deducted20, intentionally modernized by user approval",
+      "success": "7570 giveItem80 -> 7571 reset7567"
+    },
+    "11017": {
+      "insufficient": "11020 -> 11012..11016 advance11017; no deduction or item",
+      "decline": "11019 -> 11012..11016 advance11017",
+      "success": "11021 giveItem75 -> 11022 plain end"
+    },
+    "14581": {
+      "insufficient": "14584 -> 14578..14580 advance14581; no deduction or binding changes",
+      "decline": "14583 -> 14578..14580 advance14581",
+      "success": "14588/14589 select both auto plans;14590/14591 select trigger14593;14592 advance14593"
+    },
+    "17179": {
+      "insufficient": "17182 -> 17185..17188 reset17179; no deduction or item",
+      "decline": "17181 -> 17178 advance17179",
+      "success": "17183 giveItem80 -> 17184 plain end"
+    },
+    "16220": {
+      "insufficient": "16225 -> 16219 advance16220; silent, no deduction or item",
+      "decline": "16223 -> 16219 advance16220",
+      "success": "16226 giveItem86 -> thanks dialogue -> 16230 plain end"
+    },
+    "17785": {
+      "insufficient": "17793 -> 17784 advance17785; no deduction, later dialogue, or selector",
+      "decline": "17789 -> 17784 advance17785",
+      "success": "17794..17823 includes Xiaolian selector;17824 advance17825;17825..17827 stable repeat"
+    }
+  },
+  "userApprovedDeviation": {
+    "binding": "s023/e437/trigger/default",
+    "before": "Original entry 7568 deducts 20 before entry 7569 asks for confirmation.",
+    "after": "Ask first; only an affirmative answer with at least 20 deducts money and grants item 80.",
+    "approval": "User explicitly approved via Root before this build."
+  },
+  "scopeGuarantees": {
+    "noRuntimeOrSchemaChange": true,
+    "noLocaleChange": true,
+    "noOtherEntityChange": true,
+    "noCheckpointChange": true,
+    "noOriginalSourceMutation": true,
+    "successCommandsUnchangedExceptS023ConfirmationOrder": true
+  },
+  "verification": {
+    "test": "packages/reforge/src/pal-script-payment-governance.test.ts",
+    "cases": 40,
+    "red": {
+      "failed": 23,
+      "passed": 17
+    },
+    "green": {
+      "failed": 0,
+      "passed": 40
+    },
+    "matrix": [
+      "decline",
+      "zero balance",
+      "cost minus one",
+      "exact price",
+      "more than price"
+    ],
+    "integration": "Actual ScriptProjectRuntime, normal activation into the paid follow-up, current SAVE10 builder/store/preflight/normalize, restored repeated activation.",
+    "visual": "Not run; no browser, video, or 6012 changes."
+  }
+}

@@ -486,6 +486,7 @@
     },
     {
       "id": "e845",
+      "label": "糯米店伙计",
       "pos": {
         "col": 81,
         "row": 22,
@@ -509,7 +510,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买糯米（100文）",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -590,6 +591,9 @@
                               "speaker": "spk.伙计"
                             }
                           }
+                        },
+                        {
+                          "kind": "stopScript"
                         }
                       ]
                     },
@@ -601,7 +605,8 @@
                       "kind": "giveItem",
                       "itemId": "75"
                     }
-                  ]
+                  ],
+                  "label": "确认购买并支付一百文"
                 }
               ]
             }
@@ -673,6 +678,7 @@
     },
     {
       "id": "e846",
+      "label": "糯米店伙计",
       "pos": {
         "col": 84,
         "row": 22,
@@ -696,7 +702,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买糯米（100文）",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -777,6 +783,9 @@
                               "speaker": "spk.伙计"
                             }
                           }
+                        },
+                        {
+                          "kind": "stopScript"
                         }
                       ]
                     },
@@ -788,7 +797,8 @@
                       "kind": "giveItem",
                       "itemId": "75"
                     }
-                  ]
+                  ],
+                  "label": "确认购买并支付一百文"
                 }
               ]
             }
