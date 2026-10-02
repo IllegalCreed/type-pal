@@ -14,7 +14,13 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { validateAuthorScenes } from './validate-author.js'
+import {
+  validateAuthorDialogueReferences,
+  validateAuthorEnemies,
+  validateAuthorItems,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
+} from './validate-author.js'
 import { type ContentBundle, validateReferences } from './validate-refs.js'
 
 const battleSprite = (id: string, kind: 'player-fighter' | 'enemy'): BattleSpriteDef =>
@@ -139,7 +145,7 @@ const spriteWithPoses = (id: string): SpriteDef => ({
 })
 
 function bundle(): ContentBundle {
-  return {
+  const result: ContentBundle = {
     scenes: [
       {
         id: 's',
@@ -178,6 +184,16 @@ function bundle(): ContentBundle {
       maps: [{ id: 'map-001', name: '测试地图', path: 'content/maps/map-001.json' }],
     },
   }
+  // 当前作者入口先自证基线夹具；各例仍在返回后构造原单轴引用负输入。
+  // 对应 project-loader/pal-current-publication/project-diagnostics 的公开验证链。
+  validateAuthorDialogueReferences({
+    scenes: validateAuthorScenes(result.scenes),
+    items: validateAuthorItems(result.items),
+    sharedScripts: validateAuthorSharedScripts({}),
+    enemies: validateAuthorEnemies(result.enemies ?? []),
+    actors: result.actors,
+  })
+  return result
 }
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T
