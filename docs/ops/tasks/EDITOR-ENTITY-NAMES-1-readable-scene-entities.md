@@ -3,7 +3,7 @@
 Status: rework
 Phase: phase2
 Capability: W7 / P3
-Coding Owner: Codex Root（仅存量步骤字段质量修复；贡献者实现已交付）
+Coding Owner: entity_names 贡献者（C3薄表单接口窄返工；Root只写文档）
 Contributor: Codex 子 Agent
 Generation Owner: N/A
 Reviewer: Codex Root 独立验收
@@ -105,6 +105,26 @@ Branch: codex/editor-entity-names
   将该字段用现行设计label原语表达，单独提交验证；不把全仓存量治理外推给贡献者。
 - 贡献者48189ac7e交付C1/C2五文件后明确停止写入；Root接回ScriptEditor独占权，仅将步骤名称的
   原生label/手工help外壳改为现行DsField。id、input、帮助正文、草稿事务和脚本状态不变，32预算不放宽。
+- Root窄修5efe62fe8与对应测试ce7f5d941已由贡献者独立只读accept：DsField生产API绑定原id，
+  草稿事务/正文/去向不变；原布局内部header选择器改为逐setting严格核三个真实标签顺序，并新增for=input.id。
+  Root定向5文件118项绿，32原生label预算恢复；旧选择器1失败117通过日志保留。
+- 最终七包串行typecheck完成、lint2738文件0error/0warning/0info、docs815文档4289链接255任务0issue，
+  直接设计gate101文件/原2证据例外通过；没有新增排除/规则降级/强转或save兼容。
+- Root6011隔离真界面核：实体名称输入、Enter、Esc、撤销/重做/清除、列表/选中标题/移动与隐藏摘要、
+  异场景s001/e24摘要、具名目标下拉及轨迹图例全部实见；临时名称已撤销，未点保存，Git当前作者数据未改。
+  正式保存重开另由真实writer/committed receipt/current loader测试闭环，不把此浏览器查看冒充保存IO。
+  截图`build/e2e/entity-names-browser.jpg`。验证完仅关闭Root自建6011页和已核PID48796服务，6012/PID88523原样运行。
+- Root最终editor全套仍执行：adoption最后CLI case17.651秒超15秒，专项再现24.3秒超时，
+  同时另有两个用户工作树完整editor测试且主机内存紧张；此前贡献者全adoption/field84项绿，直接CLI gate亦绿。
+  不改timeout或宣布最终editor全套绿；保留完整与单项日志，继续核验性能原因/剩余结果。6012主树尚未更新。
+- 最终editor全套结束：489文件，3749通过/3失败（3752项）；两项是family ownership硬门反对World/Actor
+  表单新传Locale，第三项是上述15秒wall上限。不以通过大多数作为验收。
+- C3：遵守薄表单边界，父CommandForm持有locale并提供预解析的实体显示回调；World/Actor/EntitySel
+  只消费窄显示接口，不删Locale禁项或改变family规则。Root交回这四实现文件和相关命名回归的独占权给贡献者。
+  ScriptEditor/ScriptTree及存量步骤修复冻结；Root保持只写文档，C3交付后再独立复核。
+- 超时只读核验：既有audit缓存AST/模块闭包且有循环保护；DsField早已有children证明，设计控件导入不解析其实现；
+  5efe迁移前后DsField+DsHelpTip调用数12→12，没有引入循环或新解析路径。并行多工作树和主机内存压力是强替代解释，
+  不修改15秒门；具体反证/结果随最终验收补记。
 
 ## 下一位 Agent 提示词
 
