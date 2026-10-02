@@ -10,7 +10,20 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex 有限返工接收（2026-10-02，当前优先）
+## Codex NEXT2实施准入（2026-10-02，当前优先）
+
+用户要求O/P/Q继续，**build allowed仅NEXT2精确有限清单**，本原700卡仍partial/rework、总目标不缩。
+[本批完整范围/门/反控责任](../../testing/glm-tenfold-triple/codex-opq-next2-dispatch-20261002.md)、[12候选id/源hash/独占白名单](../../testing/glm-tenfold-triple/codex-opq-next2-packet-20261002.json)。
+固定起点ad6efd3141da47011508ba7aa310e360f3339f7a，完整帧provider的异步IO顺序、后续block故障、压缩背压、解码所有权/取消；不重复UTF8/正常35帧/首块失败旧证明。三个主源与main字节一致且避让其它保留源；原闭合项/旧针保持，不要求作者继续修工具。
+模型在提示词外由用户手动选择GLM-5.3文本。程序化/N-A视觉，不自动发消息/切模型，不main/done/正式覆盖；各波代表四产品针统一由Codex在最终候选实采。
+
+### 下一位GLM O提示词（当前NEXT2，用户手动转发）
+
+```text
+接手 TEST-GLM-WAVE-O-1 的NEXT2完整有限批，唯一O Owner。原树 /Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal，分支 codex/glm-wave-o-supply-validation-r1，固定ad6efd3141da47011508ba7aa310e360f3339f7a。先只读审核根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal 的本卡顶部NEXT2段及 docs/testing/glm-tenfold-triple/codex-opq-next2-dispatch-20261002.md、codex-opq-next2-packet-20261002.json，本批O的12个精确id全部处置。完整帧provider的异步IO顺序、后续block故障、压缩背压、解码所有权/取消；不重复UTF8/正常35帧/首块失败旧证明。只写packet指定新test、glm-o/next2 fixture、wave-O/next2证据，原wave README/receipt仅加导航与准确累计。逐id先完整旧fullName/matcher排重，用当前公开合法输入/真实业务API/全部expected，不把更名换数或旧守卫当新；更强旧证/无法合法构造如实登记，不替换凑数、不扩到别域。原产品/旧测/旧fixture/旧针/配置/baseline/真实工程/其它Owner/共享文档只读，不merge审核分支、不改冻结派发或迁版本。每候选完整做完，不只交两例完成回执；本批新例上限按packet，不要求填满，原700不缩。作者不采新针、不写/执行旧counter工具、不重采原针，四代表产品控制由Codex在最终hash采。定向+相邻/typecheck、末批content全test/typecheck、最终lint完整0/0/0/docs/diff/原verifier、真实file-fullName-status与源hash/精确合同账/新旧与blocked分列，一次完整40位SHA推原分支。不得双桥/any/never/ignore/扩timeout/核心mock/私有态/剧情或抢6012，不main/done/official门/清树。执行完本完整清单停止作者续做，交Codex独立验收。
+```
+
+## Codex 有限返工接收（2026-10-02，上一批；已接收）
 
 固定ad6efd3141da47011508ba7aa310e360f3339f7a，本轮工具/点名修订接收：it六解析样本/23测试hash/460账重建/64再判、3233静态完整0/0/0/docs/716冻结/786白名单/diff通过，无产品/测试/旧针改动，不全包/全变异重放。
 coveredBy承认旧强证明但分类仍mixed，Codex裁决该id为existing-proof/零新信用，作者287应≤286、缺口≥414；统一接入由Codex按此校正，不再派一字段纯文字轮。高dex2保留，sound/队列已拆旧，不批准整卡缩700或声明其它286全语义accept。

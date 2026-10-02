@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-02",
+  "taskPhase": "phase2 test-only",
+  "mainInspected": "d2e09b5a3c052e1d03ea8d483cd0af18668cd2bc",
+  "freeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+  "dispatch": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+  "notNew700Cards": true,
+  "noPadding": true,
+  "sourceHashes": {
+    "packages/content/src/frame-sequence.ts": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+    "packages/editor/src/core/edit-session.ts": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+    "packages/reforge/src/dither-transition.ts": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde"
+  },
+  "waves": {
+    "O": {
+      "root": "/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal",
+      "branch": "codex/glm-wave-o-supply-validation-r1",
+      "head": "ad6efd3141da47011508ba7aa310e360f3339f7a",
+      "source": "packages/content/src/frame-sequence.ts",
+      "model": "GLM-5.3 text selected by user",
+      "testFile": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
+      "fixturePrefix": "packages/content/src/__tests__/glm-o/next2/",
+      "evidencePrefix": "docs/testing/glm-tenfold-triple/wave-O/next2/",
+      "contracts": [
+        {
+          "id": "O-NEXT2-01",
+          "name": "provider dimensions reject before IO",
+          "oracle": "provider width0 and height0 separately; other metadata canonical; no frame/deflate calls",
+          "sourceCondition": "prepareFrameSequenceProviderInput:392-421",
+          "oldProofLimit": "provider resource-boundaries:107-135 only empty frames/duration; sync O09 guards are not provider IO ordering",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-02",
+          "name": "provider default timing rejects before IO",
+          "oracle": "defaultFrameMs0/NaN one numerical timing domain; exact field path, frame/deflate zero",
+          "sourceCondition": "prepareFrameSequenceProviderInput:392-421",
+          "oldProofLimit": "resource-boundaries:107 valid0.5 plus per-frame invalid duration; not default provider timing refusal",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-03",
+          "name": "provider short first frame stops before compression",
+          "oracle": "legal 1x1 metadata; frame0 returns UInt8Array3; exact rgba error; no frame1/deflate",
+          "sourceCondition": "encodeFrameSequenceFromProvider:497-510",
+          "oldProofLimit": "O09 sync input length and resource provider thrown Error do not prove returned provider byte-length guard",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-04",
+          "name": "provider short second-block frame keeps failure local",
+          "oracle": "33+ descriptors; first32 valid; frame32 returns3B; compress first block once; no later reads/compression",
+          "sourceCondition": "encodeFrameSequenceFromProvider:497-510",
+          "oldProofLimit": "old35 happy and failure index1/3 frames never combine prior committed compression with later returned-length error",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-05",
+          "name": "later provider Error identity after completed block",
+          "oracle": "65 descriptors; provider32 throws owned Error; reads0..32, exactly one prior compression, same rejection object",
+          "sourceCondition": "encodeFrameSequenceFromProvider:497-524",
+          "oldProofLimit": "resource-boundaries:137 failure at1 has deflate0; this is cross-block progressive-IO state, not another first-block number",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-06",
+          "name": "compression AbortError identity",
+          "oracle": "valid provider block, deflate rejects owned AbortError; exact object/name; no next block read",
+          "sourceCondition": "encodeFrameSequenceFromProvider:518-524",
+          "oldProofLimit": "contracts:178 tests inflate generic toThrow; no provider-compression abort identity",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-07",
+          "name": "second compression failure prevents third block IO",
+          "oracle": "65 frames; compress block0 successfully, reject block1; two compressions, reads0..63, never frame64",
+          "sourceCondition": "encodeFrameSequenceFromProvider:518-524",
+          "oldProofLimit": "old35 happy and first provider failure do not cover completed block plus deferred compressor failure",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-08",
+          "name": "provider requests are await-serialized",
+          "oracle": "deferred frame0; no frame1 or deflate before resolve; then full valid output",
+          "sourceCondition": "encodeFrameSequenceFromProvider:499",
+          "oldProofLimit": "frame-sequence.test:93 requests order for immediate sync returns; not outstanding deferred reads",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-09",
+          "name": "compression backpressure blocks next raw block",
+          "oracle": "33 frames; first deflate deferred; read0..31 only until resolve, then32; final roundtrip",
+          "sourceCondition": "encodeFrameSequenceFromProvider:522",
+          "oldProofLimit": "old immediate identity compressors do not prove read-ahead/memory backpressure",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-10",
+          "name": "decoded frames own buffers independently",
+          "oracle": "real encode/parse/decodeBlock2+ frames; edit returned frame0; frame1 and provider inflate buffer/container unchanged",
+          "sourceCondition": "decodeFrameSequenceBlock:543-561",
+          "oldProofLimit": "old contracts full values/C5 byteOffset and encoder immutability do not assert decoded ownership after editing",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-11",
+          "name": "block inflate AbortError preserves identity",
+          "oracle": "real parsed canonical sequence; inflate port rejects named AbortError; exact same object",
+          "sourceCondition": "decodeFrameSequenceBlock:539",
+          "oldProofLimit": "contracts:178 generic Error message only; preserve cancellation classifier and identity",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "O-NEXT2-12",
+          "name": "invalid public block index performs zero IO",
+          "oracle": "real parsed sequence; negative/fraction/one-past-end in one domain table, exact index diagnostic; inflate not called",
+          "sourceCondition": "decodeFrameSequenceBlock:532-535",
+          "oldProofLimit": "listed frame-sequence family only decodes valid blocks or malformed inflated bytes; not block-index guard/IO avoidance",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        }
+      ],
+      "hardCapNewCases": 20,
+      "sourceBlob": "f88ced8f2f1b7beba96e5494f77ab07144c26ee4"
+    },
+    "P": {
+      "root": "/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal",
+      "branch": "codex/glm-wave-p-editor-residual-r1",
+      "head": "d18f9075724df1fc855b539a82effd0cf9de8cef",
+      "source": "packages/editor/src/core/edit-session.ts",
+      "model": "GLM-5.3 text selected by user",
+      "testFile": "packages/editor/src/core/map-reference-session-next2.glm-p.test.ts",
+      "fixturePrefix": "packages/editor/src/__tests__/glm-p/next2/",
+      "evidencePrefix": "docs/testing/glm-tenfold-triple/wave-P/next2/",
+      "contracts": [
+        {
+          "id": "P-NEXT2-01",
+          "name": "foreign state is not a current permission",
+          "oracle": "public seed+loader state; structural clone/other session rejected exact message; current state returns same batch",
+          "sourceCondition": "getCurrentMapReferenceBatch:413-416",
+          "oldProofLimit": "old tileset proofs always pass current state; no foreign-state identity refusal",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-02",
+          "name": "map-reference subscription unsubscribe",
+          "oracle": "two ref listeners; unsubscribe one during deferred scan; remaining gets terminal update, removed stays silent",
+          "sourceCondition": "subscribeMapReferences:369-374",
+          "oldProofLimit": "edit-session:92 concerns global subscription, timeline:198 committed observers; not ref-only unsub pending scan",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-03",
+          "name": "map-only scans do not notify global state observers",
+          "oracle": "lazy canonical maps; subscribe both domains; ref notifications occur, global observer/version/history/dirty unchanged",
+          "sourceCondition": "emitMapReferenceUpdate:797-801",
+          "oldProofLimit": "edit-session:385 checks version/history/dirty, not global observer invocation with same version",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-04",
+          "name": "benign save preserves reference snapshot identity",
+          "oracle": "real complete batch; markSaved notification; batch reference/generation/refVersion unchanged",
+          "sourceCondition": "markSaved:192-201; getMapReferenceBatch:376",
+          "oldProofLimit": "timeline:495 same snapshot on failed undo, not successful markSaved memo stability",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-05",
+          "name": "parallel scans share one scan lifecycle",
+          "oracle": "two ensure calls while same loader deferred; one read set/initial-terminal observer cycle, same resulting batch",
+          "sourceCondition": "ensureMapReferencesIndexed:427-430",
+          "oldProofLimit": "old tileset:285 shares scan+hydrate; not two scanners and observer/generation duplication",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-06",
+          "name": "default repeated scan does not retry recorded failures",
+          "oracle": "one IO failure; second default ensure causes no extra read, same failure snapshot/generation",
+          "sourceCondition": "ensureMapReferencesIndexed:437-449",
+          "oldProofLimit": "tileset:140 proceeds straight to retryFailures true; default nonretry not asserted",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-07",
+          "name": "explicit retry clears failure after genuine success",
+          "oracle": "first failed scan, second retry true healthy; done, zero failures, correct full coverage, no dirty/history",
+          "sourceCondition": "ensureMapReferencesIndexed:444-481",
+          "oldProofLimit": "tileset:140 retry remains failing; edit-session:504 recovery is hydrate API",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-08",
+          "name": "nonError IO rejection has exact public message",
+          "oracle": "loadMap rejects owned string; fail-closed batch message String(cause), no fabricated Error/undefined",
+          "sourceCondition": "ensureMapReferencesIndexed:477-490",
+          "oldProofLimit": "old read-failure uses Error objects only",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-09",
+          "name": "eighth completion publishes progress before ninth finishes",
+          "oracle": "nine fully valid indexed maps/deferred IO; snapshot completed8/runningtrue before final; then complete9",
+          "sourceCondition": "ensureMapReferencesIndexed:493-512",
+          "oldProofLimit": "tileset:211 blockers prove six workers, not completed%8 progress oracle",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-10",
+          "name": "released worker starts only one queued map",
+          "oracle": "eight+ valid maps; hold first6; resolve one -> only next queued read starts while five remain pending",
+          "sourceCondition": "ensureMapReferencesIndexed:493-509",
+          "oldProofLimit": "tileset:211 releases all six and changes late target; do not relabel existing six-worker cap",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-11",
+          "name": "unsubscribe does not stop indexing or remaining consumers",
+          "oracle": "unsubscribe only observer during scan; all maps finish, surviving observer/batch/refVersion correct",
+          "sourceCondition": "subscribeMapReferences:369-374; ensure:493-512",
+          "oldProofLimit": "global unsubscribe old exists; this is scan lifecycle unaffected by disappearing reference UI consumer",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "P-NEXT2-12",
+          "name": "missing loader fails closed through scan API",
+          "oracle": "canonical lazy state; no loadMap option; ensure returns exact per-map failures/not complete; no hydration/history",
+          "sourceCondition": "readMapSource:816-823",
+          "oldProofLimit": "old ensureMapLoaded missing-loader path throws directly; old scan failures configured a throwing IO port",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        }
+      ],
+      "hardCapNewCases": 20,
+      "sourceBlob": "2e6555783c5f66723c1259540cc50bf99318a52f"
+    },
+    "Q": {
+      "root": "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal",
+      "branch": "codex/glm-wave-q-runtime-residual-r1",
+      "head": "3f5791a2ed4ddf2f4cc2bd21f8390d84eb7343ab",
+      "source": "packages/reforge/src/dither-transition.ts",
+      "model": "GLM-5.3 text selected by user",
+      "testFile": "packages/reforge/src/dither-next2.glm-q.test.ts",
+      "fixturePrefix": "packages/reforge/src/__tests__/glm-q/next2/",
+      "evidencePrefix": "docs/testing/glm-tenfold-triple/wave-Q/next2/",
+      "contracts": [
+        {
+          "id": "Q-NEXT2-01",
+          "name": "duplicate exact RGB chooses first palette identity",
+          "oracle": "complete256 valid colors with duplicate at1/18; plan target index1/source level1",
+          "sourceCondition": "buildDitherPalettePlan:75-84",
+          "oldProofLimit": "dither-transition:28-146 uses unique red=index palette",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-02",
+          "name": "nearest RGB uses green and blue distance",
+          "oracle": "complete palette; two literal nonexact pixels uniquely nearest by G/B, not red-only; exact indices",
+          "sourceCondition": "buildDitherPalettePlan:90-106",
+          "oldProofLimit": "old frames always exact palette colors; no nearest-distance oracle",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-03",
+          "name": "nearest distance tie keeps earlier index",
+          "oracle": "palette5=(0,0,0),6=(2,0,0), others200; pixel1,0,0 ->5",
+          "sourceCondition": "buildDitherPalettePlan:100-104",
+          "oldProofLimit": "old unique exact palette never enters nearest tie",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-04",
+          "name": "cached nonexact zero identity is preserved",
+          "oracle": "complete palette with nearest0; same nonexact RGB source/target repeated; exact target index0",
+          "sourceCondition": "buildDitherPalettePlan:88-108",
+          "oldProofLimit": "exact cache old exists; no nonexact resolved.set readback",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-05",
+          "name": "palette snapshot is detached",
+          "oracle": "build plan, mutate caller palette triple; plan colors and application use original snapshot",
+          "sourceCondition": "buildDitherPalettePlan:71-83",
+          "oldProofLimit": "old source/target immutability is not input palette snapshot isolation",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-06",
+          "name": "output capacity bounds writes",
+          "oracle": "real plan, longer valid endpoints, smaller output view with guarded owner prefix/suffix; literal RGBA prefix only",
+          "sourceCondition": "applyDitherPaletteTransition:159-178",
+          "oldProofLimit": "old clamp source2/target3, output equals source length; output-capacity arm not controlling",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-07",
+          "name": "real plan capacity bounds later apply",
+          "oracle": "build real plan for fewer pixels then apply longer buffers/budget; untouched sentinel suffix",
+          "sourceCondition": "applyDitherPaletteTransition:159-167",
+          "oldProofLimit": "old plan and endpoint min aligned; do not hand-forge a partial plan",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-08",
+          "name": "nonzero endpoint and output views use own offsets",
+          "oracle": "independent owner buffers/views; exact RGBA output; outside view sentinel and inputs unchanged",
+          "sourceCondition": "applyDitherPaletteTransition:181-211",
+          "oldProofLimit": "old frame helpers allocate offset0 arrays only",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-09",
+          "name": "distinct endpoint-buffer views are rejected",
+          "oracle": "output distinct object but same source or target backing buffer, including disjoint ranges; exact guard",
+          "sourceCondition": "applyDitherPaletteTransition:155-157",
+          "oldProofLimit": "old output===source tests left OR arm; no same-target-buffer/distinct-view oracle",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-10",
+          "name": "zero requested pixels leave output untouched",
+          "oracle": "real plan and complete inputs, request0; output remains literal sentinel and inputs unchanged",
+          "sourceCondition": "applyDitherPaletteTransition:167-180",
+          "oldProofLimit": "old NaN visits not apply zero-byte-budget path",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-11",
+          "name": "ragged two-dimensional grid maps logical rows",
+          "oracle": "width5/height5/scale2, step3; literal25-pixel mask+RGBA; no copied production formula",
+          "sourceCondition": "applyDitherPaletteTransition:170-192",
+          "oldProofLimit": "old8x4 scale4 has all logicalY0; no vertical logical row/ragged edge",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-12",
+          "name": "owned cancellation accepts matching owner",
+          "oracle": "begin via public methods then matching cancelOwned; true, exact Error identity and active null",
+          "sourceCondition": "cancelOwned:294-299",
+          "oldProofLimit": "old:180 and scene-switch:409 only obsolete owner false/new owner preserved",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-13",
+          "name": "snapshot capture failure preserves active effect",
+          "oracle": "begin first with known owner; new snapshot port throws; exact throw, old active/promise intact then finish resolves",
+          "sourceCondition": "beginSnapshot:277-279",
+          "oldProofLimit": "old snapshot success/superseding test cannot prove failed capture before ownership transfer",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        },
+        {
+          "id": "Q-NEXT2-14",
+          "name": "explicit cancellation reason preserves object identity",
+          "oracle": "public begin; cancel(custom Error) rejects same object, no replacement AbortError; active cleared",
+          "sourceCondition": "cancel:287-291",
+          "oldProofLimit": "old cancel default AbortError/name only; no explicit supplied reason identity",
+          "status": "codex-candidate-not-author-delivered",
+          "instruction": "Read full old matcher; stronger existing proof => evidence-only disposition, no replacement padding"
+        }
+      ],
+      "hardCapNewCases": 24,
+      "sourceBlob": "3b5a9b529376e835c4aacc18af0a66d73f6c9618"
+    }
+  },
+  "counterSamplingOwner": "Codex: final fixed source mutation controls, not contributor tools",
+  "productionModified": false,
+  "officialCoverageMeasured": false
+}

@@ -8,7 +8,20 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex 有限返工接收（2026-10-02，当前优先）
+## Codex NEXT2实施准入（2026-10-02，当前优先）
+
+用户要求O/P/Q继续，**build allowed仅NEXT2精确有限清单**，本原700卡仍partial/rework、总目标不缩。
+[本批完整范围/门/反控责任](../../testing/glm-tenfold-triple/codex-opq-next2-dispatch-20261002.md)、[14候选id/源hash/独占白名单](../../testing/glm-tenfold-triple/codex-opq-next2-packet-20261002.json)。
+固定起点3f5791a2ed4ddf2f4cc2bd21f8390d84eb7343ab，RGBA dither最近RGB/稳定身份、输出/plan容量与非零offset/ragged二维grid、取消owner与失败snapshot；不重复72步、正常4x、旧owner false；完整256合法palette。三个主源与main字节一致且避让其它保留源；原闭合项/旧针保持，不要求作者继续修工具。
+模型在提示词外由用户手动选择GLM-5.3文本。程序化/N-A视觉，不自动发消息/切模型，不main/done/正式覆盖；各波代表四产品针统一由Codex在最终候选实采。
+
+### 下一位GLM Q提示词（当前NEXT2，用户手动转发）
+
+```text
+接手 TEST-GLM-WAVE-Q-1 的NEXT2完整有限批，唯一Q Owner。原树 /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal，分支 codex/glm-wave-q-runtime-residual-r1，固定3f5791a2ed4ddf2f4cc2bd21f8390d84eb7343ab。先只读审核根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal 的本卡顶部NEXT2段及 docs/testing/glm-tenfold-triple/codex-opq-next2-dispatch-20261002.md、codex-opq-next2-packet-20261002.json，本批Q的14个精确id全部处置。RGBA dither最近RGB/稳定身份、输出/plan容量与非零offset/ragged二维grid、取消owner与失败snapshot；不重复72步、正常4x、旧owner false；完整256合法palette。只写packet指定新test、glm-q/next2 fixture、wave-Q/next2证据，原wave README/receipt仅加导航与准确累计。逐id先完整旧fullName/matcher排重，用当前公开合法输入/真实业务API/全部expected，不把更名换数或旧守卫当新；更强旧证/无法合法构造如实登记，不替换凑数、不扩到别域。原产品/旧测/旧fixture/旧针/配置/baseline/真实工程/其它Owner/共享文档只读，不merge审核分支、不改冻结派发或迁版本。每候选完整做完，不只交两例完成回执；本批新例上限按packet，不要求填满，原700不缩。作者不采新针、不写/执行旧counter工具、不重采原针，四代表产品控制由Codex在最终hash采。定向+相邻/typecheck、末批reforge全test/typecheck、最终lint完整0/0/0/docs/diff/原verifier、真实file-fullName-status与源hash/精确合同账/新旧与blocked分列，一次完整40位SHA推原分支。不得双桥/any/never/ignore/扩timeout/核心mock/私有态/剧情或抢6012，不main/done/official门/清树。执行完本完整清单停止作者续做，交Codex独立验收。
+```
+
+## Codex 有限返工接收（2026-10-02，上一批；已接收）
 
 固定3f5791a2ed4ddf2f4cc2bd21f8390d84eb7343ab，十四CLI包与Q-NEXT-01/02代码/证据accept：无桥，敌140B表id0/1及id1字段直接存在；五代表产品针在最终hash实采15相，每相完整24身份，恰一指定AssertionError、exit0/1/0、patch重建/精确恢复有效，原旧71不采不改。全包381新绿、三typecheck新零、3096静态完整0/0/0/docs/716冻结/835白名单/diff通过。
 [独立接收与最终五针](../../testing/glm-tenfold-triple/codex-oq-next-r2-acceptance-20261002.md)、[机器证据](../../testing/glm-tenfold-triple/codex-oq-next-r2-acceptance-20261002.json)。161执行/结构净新上限160/≥540仍部分，原700/50组不缩；Reforge2150/game2812同对象明确复用，不冒称本次新跑其它全包，未main/done/覆盖结算。
