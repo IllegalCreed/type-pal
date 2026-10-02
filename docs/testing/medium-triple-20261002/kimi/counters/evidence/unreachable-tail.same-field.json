@@ -1,0 +1,560 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 50,
+  "numPassedTests": 49,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790926542678,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "PAL does not expose first/repeat-only flows as a second author state-machine structure",
+          "status": "passed",
+          "title": "PAL does not expose first/repeat-only flows as a second author state-machine structure",
+          "duration": 3.068250000000262,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "PAL repeat steps use reachable order instead of former object property order",
+          "status": "passed",
+          "title": "PAL repeat steps use reachable order instead of former object property order",
+          "duration": 0.2772919999997612,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "PAL s188 onEnter ends explicitly instead of retaining an empty repeat step",
+          "status": "passed",
+          "title": "PAL s188 onEnter ends explicitly instead of retaining an empty repeat step",
+          "duration": 0.7292499999998654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "PAL s277 onEnter ends explicitly instead of retaining an empty repeat step",
+          "status": "passed",
+          "title": "PAL s277 onEnter ends explicitly instead of retaining an empty repeat step",
+          "duration": 0.2676659999997355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "first/repeat interactive activations retain commands, cadence and one save point",
+          "status": "passed",
+          "title": "first/repeat interactive activations retain commands, cadence and one save point",
+          "duration": 2.6638339999999516,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "first/repeat auto activations retain commands, cadence and one save point",
+          "status": "passed",
+          "title": "first/repeat auto activations retain commands, cadence and one save point",
+          "duration": 1.1215000000001965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "step renaming is stripped from executable flow without changing commands or scheduling",
+          "status": "passed",
+          "title": "step renaming is stripped from executable flow without changing commands or scheduling",
+          "duration": 0.3517079999996895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "entry, nested confirmation and stable command IDs survive an explicit organization",
+          "status": "passed",
+          "title": "entry, nested confirmation and stable command IDs survive an explicit organization",
+          "duration": 1.2213329999999587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restart is preserved as an actual next-activation or completion edge",
+          "status": "passed",
+          "title": "restart is preserved as an actual next-activation or completion edge",
+          "duration": 0.5959579999998823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "complete is preserved as an actual next-activation or completion edge",
+          "status": "passed",
+          "title": "complete is preserved as an actual next-activation or completion edge",
+          "duration": 0.3403750000002219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "abort does not commit a new author step",
+          "status": "passed",
+          "title": "abort does not commit a new author step",
+          "duration": 0.3996670000001359,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stop does not commit a new author step",
+          "status": "passed",
+          "title": "stop does not commit a new author step",
+          "duration": 0.5541669999997794,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses 'continue' scheduling instead of silently changing it",
+          "status": "passed",
+          "title": "refuses 'continue' scheduling instead of silently changing it",
+          "duration": 0.26575000000002547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses 'to' scheduling instead of silently changing it",
+          "status": "passed",
+          "title": "refuses 'to' scheduling instead of silently changing it",
+          "duration": 0.10420800000019881,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses 'to' scheduling instead of silently changing it",
+          "status": "passed",
+          "title": "refuses 'to' scheduling instead of silently changing it",
+          "duration": 0.024167000000034022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses 'branch' scheduling instead of silently changing it",
+          "status": "passed",
+          "title": "refuses 'branch' scheduling instead of silently changing it",
+          "duration": 0.13974999999982174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses 'commandOutcome' scheduling instead of silently changing it",
+          "status": "passed",
+          "title": "refuses 'commandOutcome' scheduling instead of silently changing it",
+          "duration": 0.03466699999989942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses transition cadence, dangling targets and ordinary steps",
+          "status": "passed",
+          "title": "refuses transition cadence, dangling targets and ordinary steps",
+          "duration": 0.2317920000000413,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790926546093,
+      "endTime": 1790926546105.2659,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/author-flow-stages.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "K5 a stay state organizes to a stage with no next key while an advance state keeps its target id",
+          "status": "passed",
+          "title": "K5 a stay state organizes to a stage with no next key while an advance state keeps its target id",
+          "duration": 1.4315829999999323,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+          "status": "failed",
+          "title": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+          "duration": 5.14387499999998,
+          "failureMessages": [
+            "AssertionError: expected { kind: 'stages', initial: 'a', …(1) } to strictly equal { kind: 'stages', initial: 'a', …(1) }\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts:70:26\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K6 editing the source machine after organizing never leaks into the organized stages",
+          "status": "passed",
+          "title": "K6 editing the source machine after organizing never leaks into the organized stages",
+          "duration": 0.2988340000000562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K6 editing an organized second stage entry or a nested branch arm never leaks back into the source machine",
+          "status": "passed",
+          "title": "K6 editing an organized second stage entry or a nested branch arm never leaks back into the source machine",
+          "duration": 0.5383749999999736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790926543573,
+      "endTime": 1790926543580.5383,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 stages executable refuses a state-machine cursor before walking frames",
+          "status": "passed",
+          "title": "K1 stages executable refuses a state-machine cursor before walking frames",
+          "duration": 1.7828329999999823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 stages executable refuses a cursor naming an absent stage",
+          "status": "passed",
+          "title": "K1 stages executable refuses a cursor naming an absent stage",
+          "duration": 0.14504099999999198,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 machine executable refuses a cursor from a foreign machine id",
+          "status": "passed",
+          "title": "K1 machine executable refuses a cursor from a foreign machine id",
+          "duration": 0.351791999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 a legally ended resume at the exact body end yields an empty location and no shared read",
+          "status": "passed",
+          "title": "K1 a legally ended resume at the exact body end yields an empty location and no shared read",
+          "duration": 0.6705419999999833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 branch else descent returns the real compiled leaf inside the else arm",
+          "status": "passed",
+          "title": "K2 branch else descent returns the real compiled leaf inside the else arm",
+          "duration": 0.38033299999997894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 confirm onNo descent returns the real compiled leaf inside onNo",
+          "status": "passed",
+          "title": "K2 confirm onNo descent returns the real compiled leaf inside onNo",
+          "duration": 0.4884169999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop settled at test phase reports its control frame as a detached clone",
+          "status": "passed",
+          "title": "K2 a loop settled at test phase reports its control frame as a detached clone",
+          "duration": 0.3362499999999784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 startBattle onLose descent returns the real compiled leaf of that outcome arm",
+          "status": "passed",
+          "title": "K2 startBattle onLose descent returns the real compiled leaf of that outcome arm",
+          "duration": 0.1418340000000171,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 startBattle onFlee descent returns the real compiled leaf of that outcome arm",
+          "status": "passed",
+          "title": "K2 startBattle onFlee descent returns the real compiled leaf of that outcome arm",
+          "duration": 0.44974999999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 teleportOut failure descent returns the real compiled leaf inside onFail",
+          "status": "passed",
+          "title": "K2 teleportOut failure descent returns the real compiled leaf inside onFail",
+          "duration": 0.1769999999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop frame past maxIterations rejects before descending",
+          "status": "passed",
+          "title": "K2 a loop frame past maxIterations rejects before descending",
+          "duration": 0.19149999999999068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop child under a non-body phase rejects",
+          "status": "passed",
+          "title": "K2 a loop child under a non-body phase rejects",
+          "duration": 0.09583399999999642,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop child without its control frame rejects",
+          "status": "passed",
+          "title": "K2 a loop child without its control frame rejects",
+          "duration": 0.08454200000002743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a branch child without its selection rejects",
+          "status": "passed",
+          "title": "K2 a branch child without its selection rejects",
+          "duration": 0.0900840000000187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a confirm child settled as yes rejects",
+          "status": "passed",
+          "title": "K2 a confirm child settled as yes rejects",
+          "duration": 0.08312500000002387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a startBattle child without an outcome arm rejects",
+          "status": "passed",
+          "title": "K2 a startBattle child without an outcome arm rejects",
+          "duration": 0.08891700000000924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a teleportOut child settled as succeeded rejects",
+          "status": "passed",
+          "title": "K2 a teleportOut child settled as succeeded rejects",
+          "duration": 0.1340409999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a shared child without any resolver rejects",
+          "status": "passed",
+          "title": "K3 a shared child without any resolver rejects",
+          "duration": 0.09054199999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a resolver pinned to another content digest rejects",
+          "status": "passed",
+          "title": "K3 a resolver pinned to another content digest rejects",
+          "duration": 0.2050830000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a none-self shared script refuses an explicit command self",
+          "status": "passed",
+          "title": "K3 a none-self shared script refuses an explicit command self",
+          "duration": 0.10875000000001478,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a required-self shared script without any inherited self rejects",
+          "status": "passed",
+          "title": "K3 a required-self shared script without any inherited self rejects",
+          "duration": 0.08679200000000264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a required-self shared script inherits the caller self as a detached clone with caller timing",
+          "status": "passed",
+          "title": "K3 a required-self shared script inherits the caller self as a detached clone with caller timing",
+          "duration": 0.18420799999998394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 an optional-self shared script prefers the explicit command self over the inherited one",
+          "status": "passed",
+          "title": "K3 an optional-self shared script prefers the explicit command self over the inherited one",
+          "duration": 0.1437090000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a none-self shared script drops the inherited self from its resolved location",
+          "status": "passed",
+          "title": "K3 a none-self shared script drops the inherited self from its resolved location",
+          "duration": 0.0780420000000106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 a pre-aborted signal rejects before any shared resolution",
+          "status": "passed",
+          "title": "K4 a pre-aborted signal rejects before any shared resolution",
+          "duration": 0.3981670000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 aborting while the resolver is pending rejects the walk without a resolved location",
+          "status": "passed",
+          "title": "K4 aborting while the resolver is pending rejects the walk without a resolved location",
+          "duration": 0.1289160000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 a successful nested validation leaves executable, cursor and resume byte-identical",
+          "status": "passed",
+          "title": "K4 a successful nested validation leaves executable, cursor and resume byte-identical",
+          "duration": 0.09804199999999241,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 mutating the returned location never reaches back into the resume or the inherited self",
+          "status": "passed",
+          "title": "K4 mutating the returned location never reaches back into the resume or the inherited self",
+          "duration": 0.1540409999999781,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790926543752,
+      "endTime": 1790926543759.3982,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts"
+    }
+  ]
+}

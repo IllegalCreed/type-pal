@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1",
+  "owner": "kimi",
+  "branch": "codex/kimi-current-continuation-medium-r1",
+  "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "canonicalVersions": { "content": 21, "save": 10 },
+  "testsCommit": "8a2b05e09ee10b90b5fc58f352836100676d7728",
+  "candidateHead": "PENDING-PIN",
+  "delivered": {
+    "newCases": 32,
+    "netNew": 32,
+    "existingProof": 22,
+    "unreachable": 1,
+    "deferredBudget": 9,
+    "blocked": 0,
+    "capacity": "24-32例目标, 硬上限36"
+  },
+  "files": {
+    "tests": [
+      "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+      "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts"
+    ],
+    "evidence": [
+      "docs/testing/medium-triple-20261002/kimi/README.md",
+      "docs/testing/medium-triple-20261002/kimi/contracts.json",
+      "docs/testing/medium-triple-20261002/kimi/directed-vitest.json",
+      "docs/testing/medium-triple-20261002/kimi/reforge-full-vitest/",
+      "docs/testing/medium-triple-20261002/kimi/counters/"
+    ],
+    "outOfScopeWrites": []
+  },
+  "gates": {
+    "directed": {
+      "command": "vitest run src/script-continuation.kimi-mid-1.test.ts src/author-stage-organization.kimi-mid-1.test.ts",
+      "result": "32 passed / 0 failed / 0 pending / 0 todo",
+      "report": "directed-vitest.json"
+    },
+    "adjacent": {
+      "command": "vitest run src/runtime-auto-checkpoint.test.ts src/author-flow-stages.test.ts src/script-runner-core.test.ts",
+      "result": "82 passed / 0 failed"
+    },
+    "typecheck": { "reforge": 0, "content": 0 },
+    "contentFull": {
+      "command": "vitest run (packages/content)",
+      "result": "1255 passed / 0 failed"
+    },
+    "reforgeFull": {
+      "command": "vitest run (packages/reforge)",
+      "result": "2252 passed / 5 failed",
+      "environmentReds": {
+        "file": "src/pal-meal-shell.test.ts",
+        "count": 5,
+        "cause": "projects/pal/assets/migrated/faces/*.png 为本机生成资产(gitignore未跟踪,本树0个在盘); AssetResolver ENOENT face.pal.li-xiaoyao 等",
+        "unrelatedToDiff": "BASE..HEAD 仅新增2测试文件与kimi证据; pal-meal-shell.test.ts与全部产品源逐字节同BASE",
+        "report": "reforge-full-vitest/ (无损3分片+index.json)"
+      }
+    },
+    "rootLint": {
+      "command": "node scripts/quality/lint-zero.mjs",
+      "result": "PASS 2782 files 0 errors/0 warnings/0 infos"
+    },
+    "docsCheck": {
+      "command": "node scripts/docs/check.mjs",
+      "result": "FAIL 1 issue (known residual)",
+      "residual": "docs/testing/medium-triple-20261002/README.md:1 子目录未进入导航: docs/testing/medium-triple-20261002/kimi — 共享README归Codex维护, 贡献者只读, 留集成时接线"
+    },
+    "gitDiffCheck": { "command": "git diff --check", "result": "0 issues" },
+    "verify": {
+      "command": "node docs/testing/medium-triple-20261002/verify.mjs --owner kimi --base f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+      "result": "见提交前实跑(开工时 frozenHashesValid/scopeValid/changedPaths按白名单)"
+    }
+  },
+  "counters": {
+    "runner": "counters/mutants.mjs (judge自测 positive 1 / rejected 10)",
+    "needles": [
+      {
+        "id": "machine-id-cursor",
+        "source": "packages/reforge/src/script-continuation.ts:38",
+        "target": "K1 machine executable refuses a cursor from a foreign machine id",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "新旧同场67 executed: runtime-auto-checkpoint全绿, 仅目标新红",
+        "restored": "恢复后并集重跑全绿 exit0"
+      },
+      {
+        "id": "battle-none-arm",
+        "source": "packages/reforge/src/script-continuation.ts:116",
+        "target": "K2 a startBattle child without an outcome arm rejects",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "新旧同场67 executed: runtime-auto-checkpoint全绿, 仅目标新红",
+        "restored": "恢复后并集重跑全绿 exit0"
+      },
+      {
+        "id": "none-explicit-self",
+        "source": "packages/reforge/src/script-continuation.ts:137",
+        "target": "K3 a none-self shared script refuses an explicit command self",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "主针lane判据(第4针起豁免同场)",
+        "restored": "恢复后并集重跑全绿 exit0"
+      },
+      {
+        "id": "unreachable-tail",
+        "source": "packages/content/src/author-flow-stages.ts:40",
+        "target": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "新旧同场50 executed: author-flow-stages全绿, 仅目标新红",
+        "restored": "恢复后并集重跑全绿 exit0"
+      }
+    ],
+    "evidenceDir": "counters/evidence/ (control/各针三态JSON+raw log+summary.json三态SHA; mkdtemp副本跑后即清, 仓库hash-pin零漂移)"
+  },
+  "coverage": "未测(按卡不重复全仓测量; 85%并集归Codex)",
+  "unfinished": [
+    "deferredBudget 9条(contracts.json逐条锚点), 是否放行由Codex裁决",
+    "pal-meal-shell 5条环境红需本机生成资产复绿, 非本卡产品发现",
+    "docs导航残项1条(共享README归Codex)"
+  ]
+}
