@@ -3,6 +3,7 @@ import { writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import {
+  assertErrandBackground,
   assertErrandCaseReport,
   assertErrandCollector,
   assertErrandEndWorld,
@@ -12,6 +13,7 @@ import {
   ERRAND_PHASE_ROWS,
   errandArguments,
   errandArmed,
+  errandReforgeTouchDestination,
   errandSaveView,
   errandScene,
   readErrandContract,
@@ -216,12 +218,7 @@ export async function runErrandJourney(engine) {
         assert(actor?.visible, `missing touch ${id}`)
         let destination
         if (engine === 'game') destination = (c, r) => mealGameTouchDestination(actor, c, r)
-        else {
-          const entity = contract.scenes[sid].entities.find((e) => e.id === id),
-            range = entity.pages[0].triggerActivation.range
-          const [c, r] = grid({ position: actor.position })
-          destination = (col, row) => Math.max(Math.abs(col - c), Math.abs(row - r)) <= range
-        }
+        else destination = errandReforgeTouchDestination(actor)
         await navigate(sid, destination, finished)
       }
       const interact = async (sid, id) => {
@@ -469,6 +466,7 @@ export async function runErrandJourney(engine) {
           )
           assert(ready(continued), 'background return took foreground control')
           report.backgroundContinuation = { from: position, to: continued.actors.e83.position }
+          assertErrandBackground(await evidence(), engine, report.backgroundContinuation)
           report.checks.endRestore = 'passed'
           report.checks.backgroundContinuation = 'passed'
         }

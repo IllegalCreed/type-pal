@@ -5,6 +5,7 @@ import vm from 'node:vm'
 import ts from 'typescript'
 import { sha256 } from './browser-journey.mjs'
 import {
+  assertErrandBackground,
   assertErrandCaseReport,
   assertErrandCollector,
   assertErrandRestored,
@@ -14,6 +15,7 @@ import {
   ERRAND_PHASE_ROWS,
   errandArguments,
   errandCaseRows,
+  errandReforgeTouchDestination,
   errandScene,
   validateErrandPredecessor,
 } from './errand-contract.mjs'
@@ -143,7 +145,7 @@ const storyTrace = () => {
       scene: id < 300 ? 's004' : 's005',
       engine: 'game',
       page: { lines: [String(id)] },
-      actors: { e83: { position: [1688, 1388] } },
+      actors: { e83: { position: [1688, 1388], facing: 'up' } },
     })
     shown.set(`dlg.${id}`, p.order)
   }
@@ -163,6 +165,16 @@ const storyTrace = () => {
   page(215)
   trace.pages.at(-1).scene = 's001'
   progress({ money: 550 })
+  for (let n = 0; n < 2; n++)
+    append('events', {
+      kind: 'actor',
+      id: 'e83',
+      scene: 's004',
+      source: 'commit:npcWalkTo',
+      phase: 'earlier-patrol',
+      before: { position: [n, 0] },
+      state: { position: [n + 1, 0] },
+    })
   page(565)
   progress({ persistent: { e123: { trigger: 'L_1436' } } })
   page(515)
@@ -199,7 +211,7 @@ test('005 causality rejects early report arming, duplicate rewards, absent appro
       t.events[0].before.money = 450
     },
     (t) => {
-      t.events.filter((e) => e.kind === 'actor')[0].state.position = [0, 0]
+      t.events.filter((e) => e.kind === 'actor').at(-2).state.position = [0, 0]
     },
     (t) => {
       t.pages.at(-1).actors.e83.position = [10, 10]
@@ -209,6 +221,95 @@ test('005 causality rejects early report arming, duplicate rewards, absent appro
     mutate(bad)
     assert.throws(() => assertErrandStory(bad, 'game', valid.shown))
   }
+})
+test('005 earlier village patrol or a placement cannot stand in for the post-arming report approach', () => {
+  const { trace } = storyTrace(),
+    armOrder = trace.events.find((e) => e.state.hooks?.[5] === 903).order
+  trace.events = trace.events.filter((e) => e.kind !== 'actor' || e.order < armOrder)
+  const lists = [
+    trace.events,
+    trace.pages,
+    trace.restoreCommits,
+    trace.gameRestores,
+    trace.saveCaptures,
+    trace.saveCompletions,
+    trace.inputs,
+  ]
+  for (const list of lists)
+    list.forEach((e, seq) => {
+      e.seq = seq
+    })
+  lists
+    .flat()
+    .sort((a, b) => a.order - b.order)
+    .forEach((e, order) => {
+      e.order = order
+    })
+  const shown = new Map(trace.pages.map((e) => [`dlg.${e.page.lines[0]}`, e.order]))
+  assertErrandCollector(trace)
+  assert.equal(trace.events.filter((e) => e.kind === 'actor').length, 2, 'earlier patrol preserved')
+  assert.throws(() => assertErrandStory(trace, 'game', shown), /actual Xianglan approach/)
+  const misplaced = storyTrace()
+  for (const event of misplaced.trace.events.filter((e) => e.kind === 'actor'))
+    event.source = 'commit:applyRawOpcode'
+  assert.throws(
+    () => assertErrandStory(misplaced.trace, 'game', misplaced.shown),
+    /actual Xianglan approach/,
+  )
+})
+test('005 touch routing consumes actual dynamically resolved activation, not the initial page', () => {
+  const target = { visible: true, position: [116, 56, 0], activation: { on: 'touch', range: 2 } }
+  const goal = errandReforgeTouchDestination(target)
+  assert.equal(goal(119, 57), false)
+  assert.equal(goal(118, 57), true)
+  assert.throws(() =>
+    errandReforgeTouchDestination({ ...target, activation: { on: 'interact', range: 3 } }),
+  )
+  assert.throws(() => errandReforgeTouchDestination({ ...target, activation: undefined }))
+})
+test('005 background continuation requires actual post-restore walk commits and free control', () => {
+  const trace = {
+    events: [
+      {
+        seq: 0,
+        order: 1,
+        atMs: 2,
+        kind: 'actor',
+        id: 'e83',
+        scene: 's004',
+        source: 'commit:npcWalkTo',
+        before: { position: [1, 1] },
+        state: { position: [2, 2] },
+      },
+    ],
+    pages: [],
+    gameRestores: [{ seq: 0, order: 0, atMs: 1 }],
+    restoreCommits: [],
+    saveCaptures: [],
+    saveCompletions: [],
+    inputs: [],
+    errors: [],
+    overflow: false,
+    final: { control: true },
+  }
+  const continuation = { from: [1, 1], to: [2, 2] }
+  assertErrandBackground(trace, 'game', continuation)
+  for (const mutate of [
+    (t) => {
+      t.events[0].source = 'commit:applyRawOpcode'
+    },
+    (t) => {
+      t.final.control = false
+    },
+    (t) => {
+      t.events[0].before.position = [2, 2]
+    },
+  ]) {
+    const bad = structuredClone(trace)
+    mutate(bad)
+    assert.throws(() => assertErrandBackground(bad, 'game', continuation))
+  }
+  assert.throws(() => assertErrandBackground(trace, 'game', { from: [0, 0], to: [2, 2] }))
 })
 test('005 evidence requires contiguous sequence and successful atomic restore, never a passed label', () => {
   const { trace } = storyTrace()

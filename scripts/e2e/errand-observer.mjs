@@ -254,7 +254,8 @@ export function readErrandGame() {
   }
 }
 
-export function readErrandReforge() {
+export async function readErrandReforge() {
+  const { resolveEntityTriggerActivation } = await import('/src/script-world.ts')
   const runtime = window.__tpObserve?.readRuntime?.(),
     scene = window.__rfScene
   return {
@@ -269,7 +270,14 @@ export function readErrandReforge() {
     actors: Object.fromEntries(
       (scene?.entities ?? []).map((e) => [
         e.id,
-        { position: [e.pos.col, e.pos.row, e.pos.height], visible: !e.hidden },
+        {
+          position: [e.pos.col, e.pos.row, e.pos.height],
+          visible: !e.hidden,
+          activation: resolveEntityTriggerActivation(e, window.__rfWorld.script, {
+            scene: scene.id,
+            entity: e.id,
+          }),
+        },
       ]),
     ),
     routeActors:

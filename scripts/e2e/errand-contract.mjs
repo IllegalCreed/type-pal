@@ -166,6 +166,7 @@ export async function readErrandReceipt(path, contract) {
     const payload = JSON.parse(bytes)
     assert.deepEqual(errandSaveView(payload, report.engine), report.endWorld)
     assertErrandRestored(traces[1], payload, report.engine)
+    assertErrandBackground(traces[1], report.engine, report.backgroundContinuation)
   }
   return report
 }
@@ -253,23 +254,55 @@ export function assertErrandStory(trace, engine, shown) {
   )
   const newsPages = trace.pages.filter((e) => e.scene === 's004' && e.page)
   assert(newsPages.length > 0, 'report not actually rendered')
-  for (const page of newsPages)
+  for (const page of newsPages) {
     assert.deepEqual(
       page.actors.e83.position,
-      newsPages[0].actors.e83.position,
-      'Xianglan walks through report dialogue',
+      engine === 'game' ? [1688, 1388] : [139.5, 34, 0],
+      'Xianglan report stop differs from verified arrival point',
     )
+    assert.equal(page.actors.e83.facing, 'up', 'Xianglan must face the party during report')
+  }
   const arrival = trace.events.filter(
     (e) =>
       e.kind === 'actor' &&
       e.id === 'e83' &&
       e.scene === 's004' &&
       e.before &&
+      e.order > armed.order &&
       e.order < newsPages[0].order &&
-      e.source.startsWith('commit:') &&
+      e.source === (engine === 'game' ? 'commit:npcWalkTo' : 'commit:meta.entity.pos') &&
       JSON.stringify(e.before.position) !== JSON.stringify(e.state.position),
   )
   assert(arrival.length > 1, 'missing actual Xianglan approach')
+}
+
+export function assertErrandBackground(trace, engine, continuation) {
+  assertErrandCollector(trace)
+  const restores = engine === 'game' ? trace.gameRestores : trace.restoreCommits
+  assert.equal(restores.length, 1, 'background proof needs actual restore commit')
+  const moves = trace.events.filter(
+    (event) =>
+      event.kind === 'actor' &&
+      event.id === 'e83' &&
+      event.scene === 's004' &&
+      event.order > restores[0].order &&
+      event.source === (engine === 'game' ? 'commit:npcWalkTo' : 'commit:meta.entity.pos') &&
+      event.before &&
+      JSON.stringify(event.before.position) !== JSON.stringify(event.state.position),
+  )
+  assert(moves.length > 0, 'no actual background walk after restore')
+  assert.equal(trace.final.control, true, 'background return blocks foreground control')
+  assert(
+    moves.some(
+      (event) => JSON.stringify(event.before.position) === JSON.stringify(continuation.from),
+    ),
+    'reported background start lacks actual walk',
+  )
+  assert(
+    moves.some((event) => JSON.stringify(event.state.position) === JSON.stringify(continuation.to)),
+    'reported background end lacks actual walk',
+  )
+  return moves
 }
 
 export function assertErrandRestored(trace, payload, engine) {
@@ -290,6 +323,17 @@ export function assertErrandRestored(trace, payload, engine) {
 }
 export const errandScene = (s, engine, sid) =>
   s.scene === (engine === 'game' ? Number(sid.slice(1)) + 1 : sid)
+
+export function errandReforgeTouchDestination(actor) {
+  assert(
+    actor?.visible && actor.activation?.on === 'touch',
+    'actual resolved touch target inactive',
+  )
+  const { range } = actor.activation,
+    [col, row] = actor.position
+  assert(Number.isFinite(range) && range >= 0)
+  return (c, r) => Math.max(Math.abs(c - col), Math.abs(r - row)) <= range
+}
 
 export function errandArguments(args) {
   const options = { headless: false, case: 'story' }
