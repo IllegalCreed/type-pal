@@ -1,0 +1,602 @@
+{
+  "verdict": "NEXT2 limited O/Q code and evidence accept; original 700 cards still partial/rework",
+  "candidates": {
+    "O": "4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d",
+    "Q": "5dbf72d78f8df9939a76407c0f17ad10455bbbb5"
+  },
+  "controls": [
+    {
+      "wave": "O",
+      "id": "SHORT-LATER",
+      "valid": true,
+      "reasons": [],
+      "scope": 84,
+      "scopeIdentitySha256": "800aec886b18b4ab524ebadbbfb9183176674937dc9a7b61b150ba9e3c55616c",
+      "original": "o-r1-control",
+      "mutated": "o-r1-short-mutated",
+      "restored": "o-r1-short-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/content/src/frame-sequence.ts",
+      "sourceHashOriginal": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "sourceHashMutated": "10e150e1880922762afe3bbcad8467d9c4a43089dfef2f5975dbf46944123f21",
+      "sourceHashRestored": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "supportHashSha256": "e655a275f6e11c18940a579366a2af95f9ae6b970909880e92f5af2fdf384609",
+      "mutation": {
+        "section": "encodeFrameSequenceFromProvider",
+        "from": "if (!(current instanceof Uint8Array) || current.byteLength !== prepared.frameBytes)\n        throw new Error(`TPFS.encode.frames[${frameIndex}].rgba: 期望 ${prepared.frameBytes} 字节`)",
+        "to": "if (!(current instanceof Uint8Array) || current.byteLength !== prepared.frameBytes) {\n        if (firstFrame > 0) await deflate(raw)\n        throw new Error(`TPFS.encode.frames[${frameIndex}].rgba: 期望 ${prepared.frameBytes} 字节`)\n      }",
+        "rebuiltSha256": "10e150e1880922762afe3bbcad8467d9c4a43089dfef2f5975dbf46944123f21",
+        "rebuiltHash": "10e150e1880922762afe3bbcad8467d9c4a43089dfef2f5975dbf46944123f21"
+      },
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 provider 返回短字节的拒收域（03/04） 04 第二 block 首帧（frame32）返回 3 字节：首 block 恰压缩一次，故障保持局部",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ 128, 4 ] to deeply equal [ 128 ]\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:95:44\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "O",
+      "id": "ABORT-NO-LATER-READ",
+      "valid": true,
+      "reasons": [],
+      "scope": 84,
+      "scopeIdentitySha256": "800aec886b18b4ab524ebadbbfb9183176674937dc9a7b61b150ba9e3c55616c",
+      "original": "o-r1-short-restored",
+      "mutated": "o-r1-abort-mutated",
+      "restored": "o-r1-abort-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/content/src/frame-sequence.ts",
+      "sourceHashOriginal": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "sourceHashMutated": "15ee193664fb0d7a1a9900ecce5bd59c359758d04ef48debfec890863b6e1263",
+      "sourceHashRestored": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "supportHashSha256": "e655a275f6e11c18940a579366a2af95f9ae6b970909880e92f5af2fdf384609",
+      "mutation": {
+        "section": "encodeFrameSequenceFromProvider",
+        "from": "compressed: await deflate(raw),",
+        "to": "compressed: await Promise.resolve(deflate(raw)).catch(async (error) => {\n        if (error instanceof Error && error.name === 'AbortError') await input.frame(firstFrame + frameCount)\n        throw error\n      }),",
+        "rebuiltSha256": "15ee193664fb0d7a1a9900ecce5bd59c359758d04ef48debfec890863b6e1263",
+        "rebuiltHash": "15ee193664fb0d7a1a9900ecce5bd59c359758d04ef48debfec890863b6e1263"
+      },
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 跨 block 渐进 IO 与压缩失败身份（05/06/07） 06 deflate 拒绝自有 AbortError：同一对象与 name，下一 block 读取不发生",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ Array(33) ] to deeply equal [ Array(32) ]\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:126:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "O",
+      "id": "DECODE-OWNERSHIP",
+      "valid": true,
+      "reasons": [],
+      "scope": 84,
+      "scopeIdentitySha256": "800aec886b18b4ab524ebadbbfb9183176674937dc9a7b61b150ba9e3c55616c",
+      "original": "o-r1-abort-restored",
+      "mutated": "o-r1-ownership-mutated",
+      "restored": "o-r1-ownership-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/content/src/frame-sequence.ts",
+      "sourceHashOriginal": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "sourceHashMutated": "f06cfbb5eae31e544edd6d0e18ed5e3b9294eaf7399a0fbb79ab63807ce4fa2c",
+      "sourceHashRestored": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "supportHashSha256": "e655a275f6e11c18940a579366a2af95f9ae6b970909880e92f5af2fdf384609",
+      "mutation": {
+        "section": "decodeFrameSequenceBlock",
+        "from": "const frame = new Uint8Array(frameBytes)",
+        "to": "const frame = local === 0 ? new Uint8Array(raw.buffer, raw.byteOffset + sourceOffset, frameBytes) : new Uint8Array(frameBytes)",
+        "rebuiltSha256": "f06cfbb5eae31e544edd6d0e18ed5e3b9294eaf7399a0fbb79ab63807ce4fa2c",
+        "rebuiltHash": "f06cfbb5eae31e544edd6d0e18ed5e3b9294eaf7399a0fbb79ab63807ce4fa2c"
+      },
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 解码所有权与取消（10/11/12） 10 解码帧各拥独立缓冲：改 frame0 不影响 frame1/inflate 原始输出/载荷",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ 255, +0, +0, 255, 1, 1, 1, +0 ] to deeply equal [ +0, +0, +0, 255, 1, 1, 1, +0 ]\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:236:34\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "O",
+      "id": "SECOND-COMPRESSOR-FAILURE",
+      "valid": true,
+      "reasons": [],
+      "scope": 84,
+      "scopeIdentitySha256": "800aec886b18b4ab524ebadbbfb9183176674937dc9a7b61b150ba9e3c55616c",
+      "original": "o-r1-ownership-restored",
+      "mutated": "o-r1-second-mutated",
+      "restored": "o-r1-second-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/content/src/frame-sequence.ts",
+      "sourceHashOriginal": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "sourceHashMutated": "e911df2142cc7f5e5015e018ccdf1d9ebf69f163fa34098cdafb467ba50bce0f",
+      "sourceHashRestored": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "supportHashSha256": "e655a275f6e11c18940a579366a2af95f9ae6b970909880e92f5af2fdf384609",
+      "mutation": {
+        "section": "encodeFrameSequenceFromProvider",
+        "from": "compressed: await deflate(raw),",
+        "to": "compressed: await Promise.resolve(deflate(raw)).catch(async (error) => {\n        if (firstFrame === FRAME_SEQUENCE_BLOCK_FRAMES) await input.frame(firstFrame + frameCount)\n        throw error\n      }),",
+        "rebuiltSha256": "e911df2142cc7f5e5015e018ccdf1d9ebf69f163fa34098cdafb467ba50bce0f",
+        "rebuiltHash": "e911df2142cc7f5e5015e018ccdf1d9ebf69f163fa34098cdafb467ba50bce0f"
+      },
+      "failed": [
+        {
+          "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+          "fullName": "O-NEXT2 跨 block 渐进 IO 与压缩失败身份（05/06/07） 07 首块压缩成功、第二块压缩失败：恰两次压缩、读满 0..63、永不读 frame64",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ Array(65) ] to deeply equal [ Array(64) ]\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:142:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "EXACT-FIRST",
+      "valid": true,
+      "reasons": [],
+      "scope": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-r1-control",
+      "mutated": "q-r1-exact-mutated",
+      "restored": "q-r1-exact-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/reforge/src/dither-transition.ts",
+      "sourceHashOriginal": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "sourceHashMutated": "579914e3ab4ebb898238eaa48df53b0f453ffd47add4f469e006ee70cbf31686",
+      "sourceHashRestored": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "supportHashSha256": "41563292f73518c10653ce79f0c87a7fc9e5bc860aafa4ea0bc5936282c9f1a0",
+      "mutation": {
+        "from": "if (!exact.has(key)) exact.set(key, index)",
+        "to": "exact.set(key, index)",
+        "rebuiltSha256": "579914e3ab4ebb898238eaa48df53b0f453ffd47add4f469e006ee70cbf31686",
+        "rebuiltHash": "579914e3ab4ebb898238eaa48df53b0f453ffd47add4f469e006ee70cbf31686"
+      },
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-01 duplicate exact RGB chooses first palette identity",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 18 to be 1 // Object.is equality\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/Q/packages/reforge/src/dither-next2.glm-q.test.ts:35:35\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "NEAREST-TIE",
+      "valid": true,
+      "reasons": [],
+      "scope": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-r1-exact-restored",
+      "mutated": "q-r1-tie-mutated",
+      "restored": "q-r1-tie-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/reforge/src/dither-transition.ts",
+      "sourceHashOriginal": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "sourceHashMutated": "63025841a26887d1411dbe6a5253678f929354ddccbe6345ff4001a47990e1c7",
+      "sourceHashRestored": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "supportHashSha256": "41563292f73518c10653ce79f0c87a7fc9e5bc860aafa4ea0bc5936282c9f1a0",
+      "mutation": {
+        "from": "if (distance < nearestDistance)",
+        "to": "if (distance <= nearestDistance)",
+        "rebuiltSha256": "63025841a26887d1411dbe6a5253678f929354ddccbe6345ff4001a47990e1c7",
+        "rebuiltHash": "63025841a26887d1411dbe6a5253678f929354ddccbe6345ff4001a47990e1c7"
+      },
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-03 nearest distance tie keeps earlier index",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 6 to be 5 // Object.is equality\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/Q/packages/reforge/src/dither-next2.glm-q.test.ts:76:35\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "TARGET-ALIAS",
+      "valid": true,
+      "reasons": [],
+      "scope": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-r1-tie-restored",
+      "mutated": "q-r1-alias-mutated",
+      "restored": "q-r1-alias-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/reforge/src/dither-transition.ts",
+      "sourceHashOriginal": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "sourceHashMutated": "cb718e89f66da7af1513bfd486be462157bc146f256f0553a09e0d7e642371bd",
+      "sourceHashRestored": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "supportHashSha256": "41563292f73518c10653ce79f0c87a7fc9e5bc860aafa4ea0bc5936282c9f1a0",
+      "mutation": {
+        "from": "if (output.buffer === source.buffer || output.buffer === target.buffer)",
+        "to": "if (output.buffer === source.buffer)",
+        "rebuiltSha256": "cb718e89f66da7af1513bfd486be462157bc146f256f0553a09e0d7e642371bd",
+        "rebuiltHash": "cb718e89f66da7af1513bfd486be462157bc146f256f0553a09e0d7e642371bd"
+      },
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-09 distinct endpoint-buffer views are rejected",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/Q/packages/reforge/src/dither-next2.glm-q.test.ts:212:7\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "RAGGED-GRID",
+      "valid": true,
+      "reasons": [],
+      "scope": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-r1-alias-restored",
+      "mutated": "q-r1-grid-mutated",
+      "restored": "q-r1-grid-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/reforge/src/dither-transition.ts",
+      "sourceHashOriginal": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "sourceHashMutated": "3ad287a1ee4eda60c8fe307541ad52f92656d8aef88da6357c52344b25952b1e",
+      "sourceHashRestored": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "supportHashSha256": "41563292f73518c10653ce79f0c87a7fc9e5bc860aafa4ea0bc5936282c9f1a0",
+      "mutation": {
+        "from": "Math.ceil(physicalWidth / pixelScale)",
+        "to": "Math.floor(physicalWidth / pixelScale)",
+        "rebuiltSha256": "3ad287a1ee4eda60c8fe307541ad52f92656d8aef88da6357c52344b25952b1e",
+        "rebuiltHash": "3ad287a1ee4eda60c8fe307541ad52f92656d8aef88da6357c52344b25952b1e"
+      },
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-11 ragged two-dimensional grid maps logical rows",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ 192, 192, 64, 255, 192, 192, …(94) ] to deeply equal [ 192, 192, 64, 255, 192, 192, …(94) ]\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/Q/packages/reforge/src/dither-next2.glm-q.test.ts:245:32\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "G-DISCRIMINATION",
+      "valid": true,
+      "reasons": [],
+      "scope": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-r1-grid-restored",
+      "mutated": "q-r1-g-mutated",
+      "restored": "q-r1-g-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/reforge/src/dither-transition.ts",
+      "sourceHashOriginal": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "sourceHashMutated": "976cec0e8ae96233beb9e063406fdcf81323215c723b829e2f0e718e61f93e3b",
+      "sourceHashRestored": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "supportHashSha256": "41563292f73518c10653ce79f0c87a7fc9e5bc860aafa4ea0bc5936282c9f1a0",
+      "mutation": {
+        "from": "const distance = dr * dr + dg * dg + db * db",
+        "to": "const distance = dr * dr + db * db",
+        "rebuiltHash": "976cec0e8ae96233beb9e063406fdcf81323215c723b829e2f0e718e61f93e3b"
+      },
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-02 nearest RGB uses green and blue distance",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 5 to be 6 // Object.is equality\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/Q/packages/reforge/src/dither-next2.glm-q.test.ts:54:36\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    },
+    {
+      "wave": "Q",
+      "id": "B-DISCRIMINATION",
+      "valid": true,
+      "reasons": [],
+      "scope": 48,
+      "scopeIdentitySha256": "9c7220f6832b68add9335f26a73bcaa5f8efa1e02a91d947488a19d6be29a7c7",
+      "original": "q-r1-g-restored",
+      "mutated": "q-r1-b-mutated",
+      "restored": "q-r1-b-restored",
+      "originalReuse": "actual most recent original/restored, product/test/fixture/config bytes identical",
+      "source": "packages/reforge/src/dither-transition.ts",
+      "sourceHashOriginal": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "sourceHashMutated": "af96c69e2b47bc581eaadbf1527e4a5d6ea10a38d69d2bcf8cf5d6d7030eb107",
+      "sourceHashRestored": "da5d1f2db988c8406b03831dd08805f3141e789195dd4cd561a3af750c79adde",
+      "supportHashSha256": "41563292f73518c10653ce79f0c87a7fc9e5bc860aafa4ea0bc5936282c9f1a0",
+      "mutation": {
+        "from": "const distance = dr * dr + dg * dg + db * db",
+        "to": "const distance = dr * dr + dg * dg",
+        "rebuiltHash": "af96c69e2b47bc581eaadbf1527e4a5d6ea10a38d69d2bcf8cf5d6d7030eb107"
+      },
+      "failed": [
+        {
+          "file": "reforge/src/dither-next2.glm-q.test.ts",
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-02 nearest RGB uses green and blue distance",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 5 to be 6 // Object.is equality\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/Q/packages/reforge/src/dither-next2.glm-q.test.ts:67:36\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "originalO64Q71Preserved": true,
+    "oCrossCheck12NoNetNew": true,
+    "qCrossChecks06And14NoNetNew": true,
+    "oDelivered": 472,
+    "oNetCeiling": 297,
+    "oRemainingAtLeast": 403,
+    "qDelivered": 175,
+    "qNetCeiling": 172,
+    "qRemainingAtLeast": 528
+  },
+  "preio": {
+    "phases": [
+      {
+        "name": "o-r1-preio-original",
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/content",
+          "exec",
+          "vitest",
+          "run",
+          "src/frame-sequence-provider-next2.glm-o.test.ts",
+          "-t",
+          "01 width0|02 defaultFrameMs",
+          "--maxWorkers=1",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-oq-next2-r1-review.4sACcE/o-r1-preio-original.json"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "runSha256": "2e0bee9fc406bc0a88a38b872d6ae6ef16f342bb72457aff2f00616bd9be93fd",
+        "jsonSha256": "3911ac86b3fd8e20d72ca075a1e581bd2def3bf37e61a4ec342a8f9cbcbedc25",
+        "executed": 2,
+        "passed": 2,
+        "failed": 0
+      },
+      {
+        "name": "o-r1-preio-mutated",
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/content",
+          "exec",
+          "vitest",
+          "run",
+          "src/frame-sequence-provider-next2.glm-o.test.ts",
+          "-t",
+          "01 width0|02 defaultFrameMs",
+          "--maxWorkers=1",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-oq-next2-r1-review.4sACcE/o-r1-preio-mutated.json"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "runSha256": "f2f2dad67ab1d6dd41332592bb7c3f2ab37577916242168ab3f2ffcaa81357c2",
+        "jsonSha256": "3baf5f887bdc9b86be61d52b5da5fb6a944f10cb2fb8617e5d289ab5893df989",
+        "executed": 2,
+        "passed": 0,
+        "failed": 2
+      },
+      {
+        "name": "o-r1-preio-restored",
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/content",
+          "exec",
+          "vitest",
+          "run",
+          "src/frame-sequence-provider-next2.glm-o.test.ts",
+          "-t",
+          "01 width0|02 defaultFrameMs",
+          "--maxWorkers=1",
+          "--reporter=json",
+          "--outputFile=/private/tmp/codex-oq-next2-r1-review.4sACcE/o-r1-preio-restored.json"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "runSha256": "53dfb593022cf4a6a727c35692e303d4e7850111ee06673b7a655d69c042b199",
+        "jsonSha256": "9d39d8bef28d8c5d60b52052d89f12d88f6a0aa551745c6adffdba5fd8c1c0f2",
+        "executed": 2,
+        "passed": 2,
+        "failed": 0
+      }
+    ],
+    "valid": true,
+    "failed": [
+      {
+        "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+        "fullName": "O-NEXT2 provider 输入在 IO 前拒收（01/02） 01 width0 与 height0 分别在任意 frame/deflate 调用前精确拒收",
+        "status": "failed",
+        "failureMessages": [
+          "AssertionError: expected [ +0, +0 ] to deeply equal []\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:55:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ]
+      },
+      {
+        "file": "content/src/frame-sequence-provider-next2.glm-o.test.ts",
+        "fullName": "O-NEXT2 provider 输入在 IO 前拒收（01/02） 02 defaultFrameMs 0/NaN 同一数值时序域拒收且字段路径精确，零 IO",
+        "status": "failed",
+        "failureMessages": [
+          "AssertionError: expected [ +0, +0 ] to deeply equal []\n    at /private/tmp/codex-oq-next2-r1-review.4sACcE/O/packages/content/src/frame-sequence-provider-next2.glm-o.test.ts:68:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-oq-next2-r1-review.4sACcE/O/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ]
+      }
+    ],
+    "note": "declared selected scope two leaves, other ten skipped by filter; two business reds diagnostic, not an exact-single-red control"
+  },
+  "gates": [
+    {
+      "name": "o-r1-full",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/content",
+        "test",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-r1-review.4sACcE/o-r1-full.json",
+        "--maxWorkers=1"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "b79f4d3e0582e6610b966a382396a6d1050cfbb54e38a0b1af32595c776d7ac0",
+      "jsonSha256": "0ca2bc4810824a9d0678f278185d2773def0d49c78ef480ea2a86ea331738de8",
+      "executed": 1441,
+      "passed": 1441,
+      "failed": 0
+    },
+    {
+      "name": "o-r1-typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/content", "typecheck"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "a4ba4f428cbbd86e254032223d25e563553b6db146a486e83692f3357b0ab680"
+    },
+    {
+      "name": "o-r1-lint",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "436f7462538df3596627503a5efcdbf7e2b04fc751a4c1de0bd49e4b103bd7eb"
+    },
+    {
+      "name": "o-r1-docs",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "ba20b41f80c6807a2bc584984c6eec4d7c1293dd6d2c7fee49203574275f5a13"
+    },
+    {
+      "name": "o-r1-verifier",
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "O",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "1f406acc14f3806f8a340618689f676bbed5ff17b9282c9de6d40cbe6844d8d6"
+    },
+    {
+      "name": "q-r1-full",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "test",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-r1-review.4sACcE/q-r1-full.json",
+        "--maxWorkers=1"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "331c09d9eb74488737751b6bc86efc9b586ac904427ddc18b7d4fb1d21eda327",
+      "jsonSha256": "cd275ba982dd4f00bcc0940be469c16cc2763eb27f6624674359a4892fff2674",
+      "executed": 2164,
+      "passed": 2164,
+      "failed": 0
+    },
+    {
+      "name": "q-r1-typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/reforge", "typecheck"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "90ad43a17a303439e37677f93932bc7e706257007db47ee6ec6477737b3a656e"
+    },
+    {
+      "name": "q-r1-lint",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "912f24d343e9a59385f610b308a0cc91c3bbe6d0314ca2acb1111cc6aee7df0b"
+    },
+    {
+      "name": "q-r1-docs",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "df1137f27cd0e20e435ae6f91cdd040fd3a0eb7490c60d067db75a6de6867af0"
+    },
+    {
+      "name": "q-r1-verifier",
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "Q",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "5c9aa3cef2204419e9b3abe01b9e150998608687561ad877112d93a0d4889233"
+    }
+  ],
+  "regressions": [
+    {
+      "wave": "O",
+      "previous": "f61c7cf6ec578458e8dba84f3b4e115443eda87c",
+      "candidate": "4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d",
+      "changedProductTestConfigPaths": [
+        "packages/content/src/__tests__/glm-o/next2/node-zlib-bridge.d.mts",
+        "packages/content/src/__tests__/glm-o/next2/node-zlib-bridge.mjs",
+        "packages/content/src/__tests__/glm-o/next2/provider-ports.ts",
+        "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts"
+      ],
+      "oldArchives": ""
+    },
+    {
+      "wave": "Q",
+      "previous": "566cbfe0f679485bcf57b4975abfb2bb4d7fdf22",
+      "candidate": "5dbf72d78f8df9939a76407c0f17ad10455bbbb5",
+      "changedProductTestConfigPaths": ["packages/reforge/src/dither-next2.glm-q.test.ts"],
+      "oldArchives": ""
+    }
+  ],
+  "qDirected": {
+    "fullRefActual": 112,
+    "deliveredRef": 112,
+    "equal": true,
+    "all175OldIdentitiesStable": true
+  },
+  "noMainIntegration": true,
+  "noOfficialCoverage": true,
+  "logParent": "/private/tmp/codex-oq-next2-r1-review.4sACcE",
+  "runLogParent": "/private/tmp/codex-oq-next2-review.ydLzy0"
+}

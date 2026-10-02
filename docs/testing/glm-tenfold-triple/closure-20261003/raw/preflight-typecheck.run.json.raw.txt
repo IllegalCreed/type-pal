@@ -1,0 +1,15 @@
+{
+  "root": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal",
+  "name": "typecheck",
+  "command": [
+    "pnpm",
+    "-r",
+    "run",
+    "typecheck"
+  ],
+  "exitCode": 2,
+  "signal": null,
+  "spawnError": null,
+  "stdout": "Scope: 7 of 8 workspace projects\npackages/content typecheck$ tsc --noEmit\npackages/shared typecheck$ tsc --noEmit\npackages/shared typecheck: Done\npackages/content typecheck: Done\npackages/reforge typecheck$ tsc --noEmit\npackages/game typecheck$ tsc --noEmit\npackages/pal-extract typecheck$ tsc --noEmit\npackages/pal-extract typecheck: Done\npackages/game typecheck: Done\npackages/reforge typecheck: Done\npackages/migrate typecheck$ tsc --noEmit\npackages/editor typecheck$ tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json\npackages/migrate typecheck: Done\npackages/editor typecheck: src/__tests__/glm-p/kit.ts(55,5): error TS2322: Type '20' is not assignable to type '21'.\npackages/editor typecheck: src/__tests__/glm-p/kit.ts(56,5): error TS2322: Type '8' is not assignable to type '10'.\npackages/editor typecheck: src/core/editor-asset-io.glm-p.test.ts(168,5): error TS2322: Type '20' is not assignable to type '21'.\npackages/editor typecheck: src/core/editor-asset-io.glm-p.test.ts(169,5): error TS2322: Type '8' is not assignable to type '10'.\npackages/editor typecheck: Failed\n/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/editor:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/editor@0.0.0 typecheck: `tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json`\nExit status 2\n",
+  "stderr": ""
+}

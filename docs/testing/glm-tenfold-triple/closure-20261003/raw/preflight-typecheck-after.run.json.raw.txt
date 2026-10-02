@@ -1,0 +1,15 @@
+{
+  "root": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal",
+  "name": "typecheck-after",
+  "command": [
+    "pnpm",
+    "-r",
+    "run",
+    "typecheck"
+  ],
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "stdout": "Scope: 7 of 8 workspace projects\npackages/content typecheck$ tsc --noEmit\npackages/shared typecheck$ tsc --noEmit\npackages/shared typecheck: Done\npackages/content typecheck: Done\npackages/game typecheck$ tsc --noEmit\npackages/reforge typecheck$ tsc --noEmit\npackages/pal-extract typecheck$ tsc --noEmit\npackages/pal-extract typecheck: Done\npackages/game typecheck: Done\npackages/reforge typecheck: Done\npackages/editor typecheck$ tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json\npackages/migrate typecheck$ tsc --noEmit\npackages/migrate typecheck: Done\npackages/editor typecheck: Done\n",
+  "stderr": ""
+}

@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+const root = resolve(import.meta.dirname, 'counter')
+const [mode, id] = process.argv.slice(2)
+const path = 'packages/editor/src/core/edit-session.ts'
+const specs = JSON.parse(readFileSync(resolve(import.meta.dirname, 'p-spec.json'), 'utf8'))
+const sha = bytes => createHash('sha256').update(bytes).digest('hex')
+const original = execFileSync('git', ['show', 'HEAD:' + path], { cwd: root, encoding: 'utf8' })
+if (mode === 'prepare') {
+  const spec = specs.find(s => s.id === id)
+  assert.ok(spec)
+  assert.equal(original.split(spec.mutation.from).length, 2)
+  const mutant = original.replace(spec.mutation.from, spec.mutation.to)
+  const current = readFileSync(resolve(root, path), 'utf8')
+  const isRestore = current === mutant
+  assert.ok(isRestore || current === original)
+  const before = isRestore ? mutant : original, after = isRestore ? original : mutant
+  const a = before.split('\n'), b = after.split('\n')
+  let start = 0, endA = a.length, endB = b.length
+  while (start < endA && start < endB && a[start] === b[start]) start++
+  while (endA > start && endB > start && a[endA - 1] === b[endB - 1]) { endA--; endB-- }
+  const patch = ['*** Begin Patch', '*** Update File: ' + resolve(root, path), '@@',
+    ...a.slice(Math.max(0, start - 3), start).map(s => ' ' + s),
+    ...a.slice(start, endA).map(s => '-' + s), ...b.slice(start, endB).map(s => '+' + s),
+    ...a.slice(endA, endA + 3).map(s => ' ' + s), '*** End Patch'].join('\n') + '\n'
+  console.log(JSON.stringify({ patch, originalSha256: sha(original), rebuiltMutantSha256: sha(mutant), restore: isRestore, spec }))
+} else if (mode === 'run') {
+  const args = ['--filter', '@type-pal/editor', 'exec', 'vitest', 'run',
+    'src/core/map-reference-session-next2.glm-p.test.ts', 'src/core/tileset-references.test.ts', 'src/core/edit-session.test.ts',
+    '--maxWorkers=1', '--reporter=json', '--outputFile=' + resolve(import.meta.dirname, id + '.json')]
+  const env = { ...process.env, NO_COLOR: '1' }
+  delete env.NODE_COMPILE_CACHE
+  delete env.TYPE_PAL_COVERAGE_PROFILE
+  const names = execFileSync('git', ['ls-files', 'packages', 'scripts', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'biome.json'], { cwd: root, encoding: 'utf8' }).trim().split('\n')
+  const hashes = Object.fromEntries(names.map(p => [p, sha(readFileSync(resolve(root, p)))]))
+  const result = spawnSync('pnpm', args, { cwd: root, env, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 })
+  writeFileSync(resolve(import.meta.dirname, id + '.run.json'), JSON.stringify({ command: ['pnpm', ...args], hashes, exitCode: result.status, signal: result.signal, spawnError: result.error?.message ?? null, stdout: result.stdout, stderr: result.stderr }, null, 2) + '\n')
+  const report = JSON.parse(readFileSync(resolve(import.meta.dirname, id + '.json'), 'utf8'))
+  console.log(JSON.stringify({ id, exitCode: result.status, executed: report.numTotalTests, passed: report.numPassedTests, failed: report.numFailedTests }))
+} else throw new Error('unknown mode')

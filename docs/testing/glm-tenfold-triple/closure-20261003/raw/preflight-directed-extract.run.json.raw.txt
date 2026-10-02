@@ -1,0 +1,21 @@
+{
+  "root": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal",
+  "name": "directed-extract",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "glm-q",
+    "--maxWorkers=1",
+    "--reporter=json",
+    "--outputFile=/private/tmp/codex-opq-freeze.ZflKa6/directed-extract.json"
+  ],
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "stdout": "JSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed-extract.json\n",
+  "stderr": ""
+}

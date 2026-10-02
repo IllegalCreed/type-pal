@@ -1,0 +1,29 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/content",
+    "exec",
+    "vitest",
+    "run",
+    "src/validate-refs.glm-o.test.ts",
+    "--maxWorkers=1",
+    "--reporter=json",
+    "--outputFile=/private/tmp/codex-opq-closure.U0so5f/o-admission-restored.json"
+  ],
+  "hashes": {
+    "packages/content/src/validate-refs.ts": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a",
+    "packages/content/src/validate-refs.glm-o.test.ts": "1c8fe68c78ba809563991f8cbf7dc55e35552127d16ec5d187235bf2c31097fd",
+    "packages/content/src/validate-author.ts": "730a39f70230d2bed359a0c3f7d32e2abe4de277593b17658f7e781d0d74f3c2",
+    "packages/content/src/author-script.ts": "d0c73ae340b2a7796d9ef453a1504b46d780d3df506d5818540d96109f3e288e",
+    "packages/content/src/author-script-core.ts": "9c80ca74d00edf63031c817e3f806762bf63468c12a202235ce177f568316663",
+    "packages/content/src/runtime-script.ts": "be880c801b70d2a3369a425359f8d370ab71d7527c5af031bdfb73b22403f879",
+    "packages/content/package.json": "32971e26aafa1eafd955481b31998519864e4f865474e43249fb3f152e7756b9",
+    "pnpm-lock.yaml": "3628449b53e456fb8354a43beafe5d05da8a65698170e476bddf7aaeb3b69a5e"
+  },
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "stdout": "JSON report written to /private/tmp/codex-opq-closure.U0so5f/o-admission-restored.json\n",
+  "stderr": ""
+}

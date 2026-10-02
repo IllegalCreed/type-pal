@@ -1,0 +1,360 @@
+
+> type-pal@ coverage:fast /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal
+> pnpm test:coverage-tools && node scripts/coverage/run.mjs fast
+
+
+> type-pal@ test:coverage-tools /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 1 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.728084
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 2 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.097
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 3 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.104208
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 4 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.056916
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 5 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 1.089291
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 6 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 39.253375
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 7 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 9.668125
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 8 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 6.748667
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 9 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 3.855166
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 10 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.403958
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 11 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 1.18325
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 12 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.545459
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 13 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.496958
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 14 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 1.664458
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 15 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 102.525417
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 16 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 93.83175
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 17 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 99.457209
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 18 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 123.794292
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 19 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.948542
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 20 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 1.025708
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 21 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 1.65225
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 22 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1333.624417
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 23 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 1286.752
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 24 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 1.014166
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 25 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.3795
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 26 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 0.104667
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 27 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 0.686875
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 28 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 0.218666
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 29 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 0.594667
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 30 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.218167
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3284.637792
+
+[coverage:fast] @type-pal/shared
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/shared
+      Coverage enabled with v8
+
+
+ Test Files  19 passed (19)
+      Tests  154 passed (154)
+   Start at  00:50:13
+   Duration  399ms (transform 480ms, setup 0ms, import 746ms, tests 191ms, environment 1ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 95.32% ( 387/406 )
+Branches     : 91.52% ( 162/177 )
+Functions    : 100% ( 21/21 )
+Lines        : 96.62% ( 344/356 )
+================================================================================
+
+[coverage:fast] @type-pal/content
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/content
+      Coverage enabled with v8
+
+
+ Test Files  146 passed (146)
+      Tests  1474 passed (1474)
+   Start at  00:50:17
+   Duration  3.42s (transform 3.82s, setup 0ms, import 8.80s, tests 1.29s, environment 9ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 95.9% ( 5731/5976 )
+Branches     : 93.39% ( 4808/5148 )
+Functions    : 97.37% ( 817/839 )
+Lines        : 96.91% ( 5123/5286 )
+================================================================================
+
+[coverage:fast] @type-pal/pal-extract
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/pal-extract
+      Coverage enabled with v8
+
+
+ Test Files  52 passed (52)
+      Tests  226 passed (226)
+   Start at  00:50:22
+   Duration  9.49s (transform 1.71s, setup 0ms, import 3.19s, tests 18.81s, environment 4ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 64.14% ( 957/1492 )
+Branches     : 68.83% ( 371/539 )
+Functions    : 75.71% ( 106/140 )
+Lines        : 64.58% ( 850/1316 )
+================================================================================
+
+[coverage:fast] @type-pal/migrate
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/migrate
+      Coverage enabled with v8
+
+
+ Test Files  70 passed (70)
+      Tests  608 passed (608)
+   Start at  00:50:36
+   Duration  19.87s (transform 738ms, setup 0ms, import 3.11s, tests 26.41s, environment 3ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 82.55% ( 2163/2620 )
+Branches     : 83.97% ( 1525/1816 )
+Functions    : 87.92% ( 364/414 )
+Lines        : 82.27% ( 1884/2290 )
+================================================================================
+
+[coverage:fast] @type-pal/reforge
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/reforge
+      Coverage enabled with v8
+
+
+ Test Files  283 passed (283)
+      Tests  2473 passed (2473)
+   Start at  00:51:24
+   Duration  47.55s (transform 6.78s, setup 0ms, import 20.88s, tests 31.77s, environment 14.02s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 86.95% ( 15424/17738 )
+Branches     : 78.49% ( 9450/12039 )
+Functions    : 86.95% ( 2473/2844 )
+Lines        : 89.58% ( 13867/15480 )
+================================================================================
+
+[coverage:fast] @type-pal/game
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/game
+      Coverage enabled with v8
+
+
+ Test Files  245 passed (245)
+      Tests  2784 passed (2784)
+   Start at  00:52:37
+   Duration  28.60s (transform 6.58s, setup 4.58s, import 20.74s, tests 44.50s, environment 157.74s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 83.43% ( 12944/15513 )
+Branches     : 73.41% ( 8280/11278 )
+Functions    : 79.48% ( 1472/1852 )
+Lines        : 85.46% ( 11640/13619 )
+================================================================================
+
+[coverage:fast] @type-pal/editor
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/editor
+      Coverage enabled with v8
+
+Not implemented: navigation to another Document
+
+ Test Files  485 passed (485)
+      Tests  3742 passed (3742)
+   Start at  00:54:37
+   Duration  157.20s (transform 9.81s, setup 0ms, import 85.56s, tests 94.32s, environment 72.00s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 87.92% ( 29399/33436 )
+Branches     : 80.68% ( 23329/28914 )
+Functions    : 86.99% ( 7438/8550 )
+Lines        : 90.24% ( 26376/29228 )
+================================================================================
+
+[coverage:fast] consolidated
+package      statements            branches              functions             lines                 files  tests
+-----------  --------------------  --------------------  --------------------  --------------------  -----  -----
+shared       95.32% (387/406)      91.53% (162/177)      100.00% (21/21)       96.63% (344/356)      11     154  
+content      95.90% (5731/5976)    93.40% (4808/5148)    97.38% (817/839)      96.92% (5123/5286)    57     1474 
+pal-extract  64.14% (957/1492)     68.83% (371/539)      75.71% (106/140)      64.59% (850/1316)     38     226  
+migrate      82.56% (2163/2620)    83.98% (1525/1816)    87.92% (364/414)      82.27% (1884/2290)    38     608  
+reforge      86.95% (15424/17738)  78.49% (9450/12039)   86.95% (2473/2844)    89.58% (13867/15480)  150    2473 
+game         83.44% (12944/15513)  73.42% (8280/11278)   79.48% (1472/1852)    85.47% (11640/13619)  136    2784 
+editor       87.93% (29399/33436)  80.68% (23329/28914)  86.99% (7438/8550)    90.24% (26376/29228)  292    3742 
+TOTAL        86.82% (67005/77181)  79.99% (47925/59911)  86.57% (12691/14660)  88.91% (60084/67575)  722    11461
+
+[coverage:fast] FAIL
+候选 baseline 删除仍存在文件中的 fast tests:
+- test-count: packages/migrate/src/pal-authored-overlays.test.ts
+- test-count: packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+- test-count: packages/migrate/src/source-facts.boundaries.test.ts
+- test-count: packages/migrate/src/world-sprite-layout-registry.test.ts
+- test-count: packages/reforge/src/render.test.ts
+ ELIFECYCLE  Command failed with exit code 1.

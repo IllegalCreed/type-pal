@@ -1,0 +1,18 @@
+{
+  "name": "registration-docs",
+  "root": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal",
+  "command": [
+    "node",
+    "scripts/docs/check.mjs"
+  ],
+  "started": "2026-10-02T16:11:23.413Z",
+  "finished": "2026-10-02T16:11:23.687Z",
+  "protectedRef": null,
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "baselineBefore": "278801208893a6b2f993d0af48927393b23b67b0cf78a0aba3723fbd2db598e9",
+  "baselineAfter": "278801208893a6b2f993d0af48927393b23b67b0cf78a0aba3723fbd2db598e9",
+  "stdout": "docs: 836 Markdown / 4449 local links / 267 tasks / content21 SAVE10\ndocs: PASS (0 issues)\n",
+  "stderr": ""
+}

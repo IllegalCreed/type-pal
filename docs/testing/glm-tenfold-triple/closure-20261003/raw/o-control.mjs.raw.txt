@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+const root = resolve(import.meta.dirname, 'counter')
+const [mode, name] = process.argv.slice(2)
+const path = 'packages/content/src/validate-refs.ts'
+const from = '    if (!Array.isArray(t.slots) || t.slots.length > 5) {'
+const to = '    if (false && (!Array.isArray(t.slots) || t.slots.length > 5)) {'
+const original = execFileSync('git', ['show', 'HEAD:' + path], { cwd: root, encoding: 'utf8' })
+assert.equal(original.split(from).length, 2)
+const mutant = original.replace(from, to)
+const hash = value => createHash('sha256').update(value).digest('hex')
+if (mode === 'prepare') {
+  const current = readFileSync(resolve(root, path), 'utf8')
+  assert.ok(current === original || current === mutant)
+  const restore = current === mutant
+  const a = (restore ? mutant : original).split('\n'), b = (restore ? original : mutant).split('\n')
+  const start = a.findIndex((line, at) => line !== b[at])
+  const patch = ['*** Begin Patch', '*** Update File: ' + resolve(root, path), '@@', ...a.slice(start - 3, start).map(line => ' ' + line), '-' + a[start], '+' + b[start], ...a.slice(start + 1, start + 4).map(line => ' ' + line), '*** End Patch'].join('\n') + '\n'
+  console.log(JSON.stringify({ patch, restore, originalSha256: hash(original), mutantSha256: hash(mutant), from, to }))
+} else if (mode === 'run') {
+  const hashes = Object.fromEntries([path, 'packages/content/src/validate-refs.glm-o.test.ts', 'packages/content/src/validate-author.ts', 'packages/content/src/author-script.ts', 'packages/content/src/author-script-core.ts', 'packages/content/src/runtime-script.ts', 'packages/content/package.json', 'pnpm-lock.yaml'].map(p => [p, hash(readFileSync(resolve(root, p)))]))
+  const args = ['--filter', '@type-pal/content', 'exec', 'vitest', 'run', 'src/validate-refs.glm-o.test.ts', '--maxWorkers=1', '--reporter=json', '--outputFile=' + resolve(import.meta.dirname, name + '.json')]
+  const env = { ...process.env, NO_COLOR: '1' }; delete env.NODE_COMPILE_CACHE; delete env.TYPE_PAL_COVERAGE_PROFILE
+  const run = spawnSync('pnpm', args, { cwd: root, env, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })
+  writeFileSync(resolve(import.meta.dirname, name + '.run.json'), JSON.stringify({ command: ['pnpm', ...args], hashes, exitCode: run.status, signal: run.signal, spawnError: run.error?.message ?? null, stdout: run.stdout, stderr: run.stderr }, null, 2) + '\n')
+  const report = JSON.parse(readFileSync(resolve(import.meta.dirname, name + '.json'), 'utf8'))
+  console.log(JSON.stringify({ name, exitCode: run.status, total: report.numTotalTests, passed: report.numPassedTests, failed: report.numFailedTests }))
+} else throw new Error('unknown mode')

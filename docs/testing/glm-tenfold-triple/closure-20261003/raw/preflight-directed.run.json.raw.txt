@@ -1,0 +1,23 @@
+{
+  "root": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal",
+  "name": "directed",
+  "command": [
+    "pnpm",
+    "-r",
+    "--workspace-concurrency=1",
+    "exec",
+    "vitest",
+    "run",
+    "glm-o",
+    "glm-p",
+    "glm-q",
+    "--maxWorkers=1",
+    "--reporter=json",
+    "--outputFile=/private/tmp/codex-opq-freeze.ZflKa6/directed.json"
+  ],
+  "exitCode": 1,
+  "signal": null,
+  "spawnError": null,
+  "stdout": "JSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed.json\nJSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed.json\nJSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed.json\nJSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed.json\nJSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed.json\nJSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed.json\nJSON report written to /private/tmp/codex-opq-freeze.ZflKa6/directed.json\nundefined\n/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/migrate:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run glm-o glm-p glm-q --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-opq-freeze.ZflKa6/directed.json\n",
+  "stderr": ""
+}

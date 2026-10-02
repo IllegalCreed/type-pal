@@ -2,12 +2,18 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
+2026-10-03 [O/P/Q冻结交付收口](../testing/glm-tenfold-triple/README.md)：用户取消旧700/组数/反控/视觉数量门，保留759回归、剔除2过时显示名断言；不再作者续派。正式门与main/可恢复退休由Codex执行，状态按三卡顶部。
+Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独立保留，无build/实现授权，不随测试卡关闭。
+
 2026-09-30 GLM 三条可并行测试大包已准入；各自独立分支/工作树、只写新测试与专属证据，
 [62 源冻结与 A–K 去重](../testing/glm-next-triple/README.md)。Codex 负责独立验收及正式并集结算，
 三包不接进行中的 E2E-R4-1；1155/1301/1473 未覆盖臂仅是候选缺口，并非增量承诺。
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫冻结收口](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | Codex / 历史身份保护账窄准入 | 470保留回归；check/ratchet过，5旧文件16身份缩减拒收；不作者续派 |
+| TEST-GLM-WAVE-P-1 | [Editor冻结收口](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | Codex / 同一全仓保护账 | 114保留/四新反控有效；18/20未证分列，不追量、不作者返工 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码冻结收口](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | Codex / 同一全仓保护账 | 175保留；产品draft独立，未main/done/清树，不续派 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 窄返工 | r2 尚有3双强转、非法短色板、旧JSON及RC1哈希不符 |
