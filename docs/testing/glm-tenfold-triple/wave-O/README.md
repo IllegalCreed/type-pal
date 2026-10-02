@@ -43,7 +43,7 @@ multi-batch 合同记入首个批次（O01/O03→O01、O03/O05→O03、O06/O08�
   oldAssertion 中 247 行仍为 token 近似锚（write-plan/project-io/plan/pal-*/content 守卫全域待补），
   **不以旧 join 当 closed，整卡验收前逐域闭合**。
   [build-contracts.mjs](build-contracts.mjs) 全量重建并强制不变量（违例即失败）。
-- [counters.json](counters.json) + [counters/](counters/)：**66 枚有效三态反控/64 不同目标（≥50；8 枚退役保留历史）；
+- [counters.json](counters.json) + [counters/](counters/)：**65 枚有效三态反控/63 不同目标（≥50；9 枚退役保留历史）；
   判据源 [counter-judge.mjs](counter-judge.mjs)（runner 与 [run-counter.selftest.mjs](run-counter.selftest.mjs) 27 用例 + [re-adjudicate.selftest.mjs](re-adjudicate.selftest.mjs) 4 用例共用）**
   （control 全绿 → injected 恰一目标业务 AssertionError 红 → restored 恢复后真实重跑全绿；
   patch 以 --unidiff-zero 重建并校验字节 = mutatedSha；候选树零改动）。

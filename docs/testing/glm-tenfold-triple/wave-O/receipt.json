@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 485 执行/净新上限 484（herb=0 cross-check 不计）, 65 反控/63 不同目标; O-R10-01 闭合、O-R10-02 真账 75/485 行覆盖（410 空条件/247 token 锚待逐域闭合）; 缺口至少 216",
+  "deliveryStatus": "PARTIAL — 485 执行/净新上限 484, 65 反控/63 目标; r11 批1 真账缺陷修复（58 行生产 caller+源行区+标题条件不符）；410 空条件待续（project-io 域需先旧正文裁决）; 缺口至少 216",
   "batches": {
     "O01": {
       "tests": 72
@@ -144,7 +144,9 @@
     "r9-evidence-sweep": "证据一致性清扫：e47258a8d 留下的空 describe 致整文件 suite 失败已修（a855cadc3）；directed 旧 497 含 4 条已删测试，实跑重生 487；CC14/15/17/18/O08-CC11 五枚目标被删退役；CC10/CC16 执行集变化重采；re-adjudicate.mjs 以当前 judge 对存档三态再判定 66/66 通过（含变异锚点唯一/目标存在/执行集一致机械校验）",
     "r9-ledger-rebuild": "contracts 账全量重建：旧生成器按行扫描致 182 空参/332 不配平（含 r8 基线）；共享 tokenizer（test-titles.mjs）全量提取完整断言链，build-contracts.mjs 强制不变量（≥1 断言/括号配平/值类 matcher 禁空参），478→487 行 0 违例；O01-CC1 spec title 陈旧字面量同步",
     "O-R10-01": "re-adjudicate.mjs 两处身份比较由 suite 数组改为 flattenTests 叶集合（suite 无 file/fullName 折成 undefined 键恒通过）；re-adjudicate.selftest.mjs 4 用例：真实存档正控 + 换 passed 邻居 fullName 拒收 + 数量变化拒收 + suite-直传 bug 语义钉子（同例 buggy 接受/flatten 拒收）；65/65 存档修后再判定通过，未全量重采（5c29e10d4）",
-    "O-R10-02": "partial：真账外置 contracts-overrides.json（75/485 行：merge 28 + transaction 29 + rewards/ambience/grid/rich-text；修正审核点名错锚 4 枚——单侧重复id 原指 :102 add-add、共存正控原指 :244、快照保真原指 :59、键级 delete-modify 原指 :59；equal-invalid 原指 :244 一并修正）；merge 域复核再删 2 行旧证同条件重复（:318/:244，O02-CC2 退役）；「多级独立掷骰」改计数 rng 可证伪 oracle（calls=12、maxHP=10+17 非两倍同端）；其余 410 空条件/247 token 锚按域待补，不以旧 join 当 closed"
+    "O-R10-02": "partial：真账外置 contracts-overrides.json（75/485 行：merge 28 + transaction 29 + rewards/ambience/grid/rich-text；修正审核点名错锚 4 枚——单侧重复id 原指 :102 add-add、共存正控原指 :244、快照保真原指 :59、键级 delete-modify 原指 :59；equal-invalid 原指 :244 一并修正）；merge 域复核再删 2 行旧证同条件重复（:318/:244，O02-CC2 退役）；「多级独立掷骰」改计数 rng 可证伪 oracle（calls=12、maxHP=10+17 非两倍同端）；其余 410 空条件/247 token 锚按域待补，不以旧 join 当 closed",
+    "r11-batch1": "真账缺陷修复：merge/transaction 58 行 caller 改生产调用链（mergeManagedFile←createMigrationPlan migration-plan.ts:168；事务三入口为公开 API 无仓内调用方如实登记；纯函数域跨包 caller：applyLevelGrowth←rewards.ts:215、applyHiddenExp←:245、lerpTint←reforge main.ts:1001、parseRichText←reforge dialog/layout.ts:38、resolveSkillExecution←validate-refs.ts:1032、resolveDialogueIdentity←author-dialogue.ts:208）；source 全部精确到产品源行区；「一方重排」标题-条件不符改真条件并重跑定向（O-R11 审核点名三缺陷闭合）",
+    "r11-batch2-survey": "project-io 域调查：与旧 boundaries:34/82/101、next-wave:27/40/53、旧:30-104 高度重叠，「Set 复制不别名」行疑为 boundaries:82 精确重复——已登记账本 note，下轮先逐行旧正文裁决去重再补真账（write-plan/plan 同法）；本轮上下文不足未展开，未以调查当闭合"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
   "remoteFinalCandidate": "b7af4b5e45e7f991633d318585b3f4fd3b5f29bb",
