@@ -127,7 +127,20 @@ describe('ED-3 PAL project reference index', () => {
       })
       .sort()
     expect(actualEntityBlockers).toEqual(expectedEntityBlockers)
-    expect(actualEntityBlockers).toHaveLength(4_387)
+    // E2E-004 retires two self-only pose targets and restores the kitchen pose explicitly
+    // in the food owner's body. Total addresses stay unchanged; external blockers gain two.
+    expect(
+      diagnostics.entityAddressReferences.filter(
+        (reference) =>
+          reference.sceneId === 's001' &&
+          reference.entityId === 'e19' &&
+          reference.locator.kind === 'scene-entity' &&
+          reference.locator.sceneId === 's001' &&
+          reference.locator.entityId === 'e20' &&
+          reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
+      ),
+    ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
+    expect(actualEntityBlockers).toHaveLength(4_389)
 
     expect(
       edges.filter(
@@ -235,6 +248,19 @@ describe('ED-3 PAL project reference index', () => {
     expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(527)
     expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(1)
     expect(
+      actorEdges
+        .filter(
+          (edge) =>
+            edge.relation.kind === 'actor-use' &&
+            edge.relation.use === 'command-set-actor-appearance' &&
+            edge.source.owner.kind === 'script-owner' &&
+            edge.source.owner.owner.kind === 'entity-behavior' &&
+            edge.source.owner.owner.sceneId === 's001' &&
+            ['e15', 'e20'].includes(edge.source.owner.owner.entityId),
+        )
+        .map((edge) => (edge.target.kind === 'actor' ? edge.target.id : '')),
+    ).toEqual(['li-xiaoyao', 'li-xiaoyao'])
+    expect(
       state.actors.reduce((count, actor) => {
         const target = { kind: 'actor', id: actor.id } as const
         return (
@@ -265,8 +291,8 @@ describe('ED-3 PAL project reference index', () => {
       'actor-covered-by': 6,
       'item-equipable-by': 261,
       'item-battle-sprite-by-actor': 7,
-      'command-set-actor-sprite': 123,
-      'command-set-actor-appearance': 9,
+      'command-set-actor-sprite': 121,
+      'command-set-actor-appearance': 11,
       'command-set-party-member': 219,
       'enemy-apply-actor-growth': 1,
       'enemy-play-actor-cast-effect': 1,
@@ -577,7 +603,16 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_470)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_469)
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 's001',
+        entityId: 'e19',
+        channel: 'auto',
+        behaviorId: 'default',
+      }),
+    ).toEqual([])
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -667,8 +702,9 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
     // First-talk/kitchen adds forty rows and fifty-four aliases; no parity or payload gate is relaxed.
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_245)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_162)
+    // Two external kitchen pose references replace one retired page binding: net +1.
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_246)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_163)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(
