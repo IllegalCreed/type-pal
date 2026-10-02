@@ -10,7 +10,14 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex 有限包独立验收（2026-10-02，当前优先）
+## Codex 有限返工接收（2026-10-02，当前优先）
+
+固定ad6efd3141da47011508ba7aa310e360f3339f7a，本轮工具/点名修订接收：it六解析样本/23测试hash/460账重建/64再判、3233静态完整0/0/0/docs/716冻结/786白名单/diff通过，无产品/测试/旧针改动，不全包/全变异重放。
+coveredBy承认旧强证明但分类仍mixed，Codex裁决该id为existing-proof/零新信用，作者287应≤286、缺口≥414；统一接入由Codex按此校正，不再派一字段纯文字轮。高dex2保留，sound/队列已拆旧，不批准整卡缩700或声明其它286全语义accept。
+[独立接收与最终五针](../../testing/glm-tenfold-triple/codex-oq-next-r2-acceptance-20261002.md)、[机器裁决](../../testing/glm-tenfold-triple/codex-oq-next-r2-acceptance-20261002.json)。原卡仍partial/rework，未main/done/正式覆盖。
+**无下一位GLM O提示词，停止本有限包作者续做；下一新合同清单与接入由Codex核定。** 下方提示词均为已交历史，不泛化续700。
+
+## Codex 上一轮有限包独立验收（2026-10-02，历史；以顶部裁决为准）
 
 固定bd1416933259a6c5fa532d05329d1c33499f4fa8，310/310唯一行、23/23测试hash、460账重建逐字节一致、64旧针再判和27+4自测、3233文件静态完整0/0/0/docs/716冻结/786白名单/diff通过；本批产品/测试/旧反控零改动，不全包或全变异重跑。
 **counter仅O-NEXT-01～03**：新增it解析仍按长度5跳，真实it解析0；机器证据点名六行五旧证+一fixture不得计新，四行sound/队列必须按旧完整matcher拆子轴。原295上限现≤289/至少411例；不是其余289全部语义accept，原700/60组/50目标不缩。

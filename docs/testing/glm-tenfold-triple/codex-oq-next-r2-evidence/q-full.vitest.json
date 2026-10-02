@@ -1,0 +1,4408 @@
+{
+  "numTotalTestSuites": 161,
+  "numPassedTestSuites": 161,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 381,
+  "numPassedTests": 381,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790940063954,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+          "status": "passed",
+          "title": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+          "duration": 514.522792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
+          "status": "passed",
+          "title": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
+          "duration": 495.9825830000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940074532,
+      "endTime": 1790940075542.9827,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-battle-assets.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+          "status": "passed",
+          "title": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+          "duration": 478.52325,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+          "status": "passed",
+          "title": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+          "duration": 483.16212500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940076077,
+      "endTime": 1790940077039.162,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-font-lookup.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-01 item.use entry",
+          "status": "passed",
+          "title": "Q-NEXT1-01 item.use entry",
+          "duration": 536.7035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-02 item.equip entry",
+          "status": "passed",
+          "title": "Q-NEXT1-02 item.equip entry",
+          "duration": 536.633625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-03 item.throw entry",
+          "status": "passed",
+          "title": "Q-NEXT1-03 item.throw entry",
+          "duration": 491.09737500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-04 item.desc entry",
+          "status": "passed",
+          "title": "Q-NEXT1-04 item.desc entry",
+          "duration": 495.83833400000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-05 spell.use entry",
+          "status": "passed",
+          "title": "Q-NEXT1-05 spell.use entry",
+          "duration": 496.7060419999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-06 spell.success entry",
+          "status": "passed",
+          "title": "Q-NEXT1-06 spell.success entry",
+          "duration": 470.15029200000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-07 spell.desc entry",
+          "status": "passed",
+          "title": "Q-NEXT1-07 spell.desc entry",
+          "duration": 501.94775000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-08 enemy.turnStart entry",
+          "status": "passed",
+          "title": "Q-NEXT1-08 enemy.turnStart entry",
+          "duration": 480.2010839999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-09 enemy.battleEnd entry",
+          "status": "passed",
+          "title": "Q-NEXT1-09 enemy.battleEnd entry",
+          "duration": 475.4715000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-10 enemy.ready entry",
+          "status": "passed",
+          "title": "Q-NEXT1-10 enemy.ready entry",
+          "duration": 470.6236250000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-11 player.friendDeath entry",
+          "status": "passed",
+          "title": "Q-NEXT1-11 player.friendDeath entry",
+          "duration": 475.82387500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-12 player.dying entry",
+          "status": "passed",
+          "title": "Q-NEXT1-12 player.dying entry",
+          "duration": 510.96966599999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-13 shared entry alias",
+          "status": "passed",
+          "title": "Q-NEXT1-13 shared entry alias",
+          "duration": 501.58120899999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-14 scene global overlap",
+          "status": "passed",
+          "title": "Q-NEXT1-14 scene global overlap",
+          "duration": 472.6090000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940064291,
+      "endTime": 1790940071207.609,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+          "duration": 448.458833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+          "duration": 466.032416,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "duration": 457.7377079999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+          "duration": 491.53483299999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
+          "duration": 464.97108300000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+          "duration": 459.268333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940071504,
+      "endTime": 1790940074292.2683,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-isolated.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R09 collectAssetEntries + buildManifest 真实树"],
+          "fullName": "R09 collectAssetEntries + buildManifest 真实树 多层/零字节/中文/二进制精确清单；子目录同名 asset-manifest.json 保留；entries 不变；独立序列 hash",
+          "status": "passed",
+          "title": "多层/零字节/中文/二进制精确清单；子目录同名 asset-manifest.json 保留；entries 不变；独立序列 hash",
+          "duration": 3.2954580000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085193,
+      "endTime": 1790940085196.2954,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["buildManifest"],
+          "fullName": "buildManifest 聚合 files/totalBytes/fileCount,version 对内容稳定、对变化敏感",
+          "status": "passed",
+          "title": "聚合 files/totalBytes/fileCount,version 对内容稳定、对变化敏感",
+          "duration": 1.391458,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildManifest"],
+          "fullName": "buildManifest 剔除 asset-manifest.json 自身(避免自指)",
+          "status": "passed",
+          "title": "剔除 asset-manifest.json 自身(避免自指)",
+          "duration": 0.21129099999998857,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildManifest"],
+          "fullName": "buildManifest 剔除任意目录下的 .DS_Store(macOS 噪声,deploy.sh 同样 --exclude,且不该污染 version)",
+          "status": "passed",
+          "title": "剔除任意目录下的 .DS_Store(macOS 噪声,deploy.sh 同样 --exclude,且不该污染 version)",
+          "duration": 0.21604099999998994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086482,
+      "endTime": 1790940086483.3914,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/__tests__/asset-manifest.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R06 annotate choice 递归与 if 无 else"],
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "title": "choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "duration": 1.0621250000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 annotate choice 递归与 if 无 else"],
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：else 键存在且为 undefined（不抛错）",
+          "status": "passed",
+          "title": "if 无 else：else 键存在且为 undefined（不抛错）",
+          "duration": 0.16216599999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 annotate wordAt 邻位边界（经合法 itemId 路径）"],
+          "fullName": "R06 annotate wordAt 邻位边界（经合法 itemId 路径） id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "title": "id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "duration": 0.1062080000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 annotate wordAt 邻位边界（经合法 itemId 路径）"],
+          "fullName": "R06 annotate wordAt 邻位边界（经合法 itemId 路径） id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "title": "id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "duration": 0.07554100000000119,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 annotate wordAt 邻位边界（经合法 itemId 路径）"],
+          "fullName": "R06 annotate wordAt 邻位边界（经合法 itemId 路径） id=ITEM_OBJ_START+1 命中表[1]；symbols 同 id 覆盖优先",
+          "status": "passed",
+          "title": "id=ITEM_OBJ_START+1 命中表[1]；symbols 同 id 覆盖优先",
+          "duration": 0.1252499999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 annotate 输入零突变"],
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "title": "输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "duration": 0.3427080000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084328,
+      "endTime": 1790940084329.3428,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "title": "giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "duration": 0.9500000000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate off-by-61 回归:itemId 当 0-based 索引会取错值,必须减偏移",
+          "status": "passed",
+          "title": "off-by-61 回归:itemId 当 0-based 索引会取错值,必须减偏移",
+          "duration": 0.16987500000000466,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "title": "symbols.json 优先于 WORD.DAT",
+          "duration": 0.0870829999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate raw 命令不注释",
+          "status": "passed",
+          "title": "raw 命令不注释",
+          "duration": 0.1736670000000089,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "title": "sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "duration": 0.24562500000000398,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "title": "结构化命令 sequence 递归",
+          "duration": 0.06258400000000108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "title": "if 命令递归 then/else",
+          "duration": 0.158457999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "title": "startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "duration": 0.08312499999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate 未找到名称时不添加注释键(wObjectID 越界)",
+          "status": "passed",
+          "title": "未找到名称时不添加注释键(wObjectID 越界)",
+          "duration": 0.3202500000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084175,
+      "endTime": 1790940084177.3203,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/annotate.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R03 disasm 字面向量"],
+          "fullName": "R03 disasm 字面向量 giveItem count 0x8000/0xffff 保持 32768/65535（u16 不转 signed）；raw 三 operand 全位型",
+          "status": "passed",
+          "title": "giveItem count 0x8000/0xffff 保持 32768/65535（u16 不转 signed）；raw 三 operand 全位型",
+          "duration": 1.3968330000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 disasm 字面向量"],
+          "fullName": "R03 disasm 字面向量 messageIndex 直取文本；越界回退空串；entry 与 jump 同目标只标一次",
+          "status": "passed",
+          "title": "messageIndex 直取文本；越界回退空串；entry 与 jump 同目标只标一次",
+          "duration": 0.2439589999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085347,
+      "endTime": 1790940085349.244,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/disasm.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R05 disasm 0xA2 随机跳标签收集"],
+          "fullName": "R05 disasm 0xA2 随机跳标签收集 op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标",
+          "status": "passed",
+          "title": "op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标",
+          "duration": 1.0313750000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 0xA2 随机跳标签收集"],
+          "fullName": "R05 disasm 0xA2 随机跳标签收集 op0=0：无相对目标，不标任何后续指令",
+          "status": "passed",
+          "title": "op0=0：无相对目标，不标任何后续指令",
+          "duration": 0.2687919999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 脚本入口类 raw 目标收集"],
+          "fullName": "R05 disasm 脚本入口类 raw 目标收集 0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1",
+          "status": "passed",
+          "title": "0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1",
+          "duration": 0.18124999999999858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 具名未处理 op 的 raw fallback"],
+          "fullName": "R05 disasm 具名未处理 op 的 raw fallback startBattle(0x0007, named) 无专用 emit：保号落 raw，operand 原样",
+          "status": "passed",
+          "title": "startBattle(0x0007, named) 无专用 emit：保号落 raw，operand 原样",
+          "duration": 0.21779200000000287,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 标签越界与 subarray"],
+          "fullName": "R05 disasm 标签越界与 subarray 跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）",
+          "status": "passed",
+          "title": "跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）",
+          "duration": 0.13437499999999858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 标签越界与 subarray"],
+          "fullName": "R05 disasm 标签越界与 subarray bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等",
+          "status": "passed",
+          "title": "bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等",
+          "duration": 0.0800830000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084570,
+      "endTime": 1790940084572.08,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm end(0x0000)",
+          "status": "passed",
+          "title": "end(0x0000)",
+          "duration": 1.045416000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm goto(0x0003) 跳到指令 5,产 label \"L_5\"",
+          "status": "passed",
+          "title": "goto(0x0003) 跳到指令 5,产 label \"L_5\"",
+          "duration": 0.22358300000000497,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm showDialog(0xFFFF) 内联文本(messageIndex 是 operand[0])",
+          "status": "passed",
+          "title": "showDialog(0xFFFF) 内联文本(messageIndex 是 operand[0])",
+          "duration": 0.19812499999999034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm giveItem(0x001F)",
+          "status": "passed",
+          "title": "giveItem(0x001F)",
+          "duration": 0.13774999999999693,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm 未具名 opcode → raw",
+          "status": "passed",
+          "title": "未具名 opcode → raw",
+          "duration": 0.08599999999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm L29:13 个 raw 条件跳转 opcode 的目标会打 L_ 标签",
+          "status": "passed",
+          "title": "L29:13 个 raw 条件跳转 opcode 的目标会打 L_ 标签",
+          "duration": 0.4243749999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm bytecode 长度不是 8 倍数 → 报错",
+          "status": "passed",
+          "title": "bytecode 长度不是 8 倍数 → 报错",
+          "duration": 0.3732080000000053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm entry-ip labeling"],
+          "fullName": "disasm entry-ip labeling 未被跳转的入口 ip 也会打 label",
+          "status": "passed",
+          "title": "未被跳转的入口 ip 也会打 label",
+          "duration": 0.11133399999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setDialogStyle round-trip"],
+          "fullName": "setDialogStyle round-trip 四个 setDialogStyle 反汇编为具名 Command",
+          "status": "passed",
+          "title": "四个 setDialogStyle 反汇编为具名 Command",
+          "duration": 0.4117920000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setDialogStyle round-trip"],
+          "fullName": "setDialogStyle round-trip round-trip 字节级一致",
+          "status": "passed",
+          "title": "round-trip 字节级一致",
+          "duration": 0.364167000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setDialogStyle round-trip"],
+          "fullName": "setDialogStyle round-trip 非 0 operand 进 arg0/arg1/arg2 并 round-trip 一致",
+          "status": "passed",
+          "title": "非 0 operand 进 arg0/arg1/arg2 并 round-trip 一致",
+          "duration": 0.16312499999999375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene round-trip(M3.5,opcode 0x0059)"],
+          "fullName": "loadScene round-trip(M3.5,opcode 0x0059) loadScene opcode 反汇编为具名 Command",
+          "status": "passed",
+          "title": "loadScene opcode 反汇编为具名 Command",
+          "duration": 0.06433300000000486,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene round-trip(M3.5,opcode 0x0059)"],
+          "fullName": "loadScene round-trip(M3.5,opcode 0x0059) loadScene round-trip 字节级一致",
+          "status": "passed",
+          "title": "loadScene round-trip 字节级一致",
+          "duration": 0.09570899999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940077203,
+      "endTime": 1790940077207.163,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/disasm.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 包含 script.c opcode 范围(0x0000-0x00A7 + 0xFFFF)",
+          "status": "passed",
+          "title": "包含 script.c opcode 范围(0x0000-0x00A7 + 0xFFFF)",
+          "duration": 0.7493750000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(showDialog ↔ 0xFFFF)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(showDialog ↔ 0xFFFF)",
+          "duration": 0.2132919999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(goto ↔ 0x0003)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(goto ↔ 0x0003)",
+          "duration": 0.07029099999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 未具名的 opcode 仍有 3 个 kind 占位",
+          "status": "passed",
+          "title": "未具名的 opcode 仍有 3 个 kind 占位",
+          "duration": 0.41404099999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry end 命令三种形态(0x0000 / 0x0001 / 0x0002)",
+          "status": "passed",
+          "title": "end 命令三种形态(0x0000 / 0x0001 / 0x0002)",
+          "duration": 0.1008329999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 未具名 opcode 不进入 lookupOpcode",
+          "status": "passed",
+          "title": "未具名 opcode 不进入 lookupOpcode",
+          "duration": 0.3681669999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(startBattle ↔ 0x0007)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(startBattle ↔ 0x0007)",
+          "duration": 0.13033400000000483,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(waitFrames ↔ 0x0009)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(waitFrames ↔ 0x0009)",
+          "duration": 0.06391600000000608,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setObjectState ↔ 0x0049)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setObjectState ↔ 0x0049)",
+          "duration": 0.3492090000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setScriptEntry ↔ 0x0025)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setScriptEntry ↔ 0x0025)",
+          "duration": 0.08358400000000188,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(playMusic ↔ 0x0043)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(playMusic ↔ 0x0043)",
+          "duration": 0.11341699999999832,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(playSfx ↔ 0x0047)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(playSfx ↔ 0x0047)",
+          "duration": 0.04070800000000929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(ifItemLess ↔ 0x0058)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(ifItemLess ↔ 0x0058)",
+          "duration": 0.038833000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(loadScene ↔ 0x0059,M3.5 重命名)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(loadScene ↔ 0x0059,M3.5 重命名)",
+          "duration": 0.03458299999999781,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(giveItem ↔ 0x001F)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(giveItem ↔ 0x001F)",
+          "duration": 0.036000000000001364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleCenter ↔ 0x003B)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleCenter ↔ 0x003B)",
+          "duration": 0.08724999999999739,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleTop ↔ 0x003C)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleTop ↔ 0x003C)",
+          "duration": 0.03633400000001075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleBottom ↔ 0x003D)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleBottom ↔ 0x003D)",
+          "duration": 0.03291700000001185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleNarration ↔ 0x003E)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleNarration ↔ 0x003E)",
+          "duration": 0.032583999999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 具名 opcode 的 named 标志为 true",
+          "status": "passed",
+          "title": "具名 opcode 的 named 标志为 true",
+          "duration": 0.043874999999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb 对未登记 opcode 返回 raw",
+          "status": "passed",
+          "title": "lookupVerb 对未登记 opcode 返回 raw",
+          "duration": 0.03020800000000179,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084253,
+      "endTime": 1790940084256.1135,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/opcodes.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R04 recompile 独立字节 oracle"],
+          "fullName": "R04 recompile 独立字节 oracle 八类命令各 8B 手列：opcode 与 operand 位型精确",
+          "status": "passed",
+          "title": "八类命令各 8B 手列：opcode 与 operand 位型精确",
+          "duration": 1.848124999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 recompile 独立字节 oracle"],
+          "fullName": "R04 recompile 独立字节 oracle 同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）",
+          "status": "passed",
+          "title": "同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）",
+          "duration": 0.16024999999999778,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084873,
+      "endTime": 1790940084875.1602,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/recompile.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R05 recompile authored 结构化命令拒绝"],
+          "fullName": "R05 recompile authored 结构化命令拒绝 sequence 不是字节码命令：抛 unsupported op",
+          "status": "passed",
+          "title": "sequence 不是字节码命令：抛 unsupported op",
+          "duration": 1.1703339999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 recompile authored 结构化命令拒绝"],
+          "fullName": "R05 recompile authored 结构化命令拒绝 if 不是字节码命令：抛 unsupported op",
+          "status": "passed",
+          "title": "if 不是字节码命令：抛 unsupported op",
+          "duration": 0.17983300000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 recompile authored 结构化命令拒绝"],
+          "fullName": "R05 recompile authored 结构化命令拒绝 choice 不是字节码命令：抛 unsupported op",
+          "status": "passed",
+          "title": "choice 不是字节码命令：抛 unsupported op",
+          "duration": 0.08216699999999832,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 混合脚本往返（入口 ip + goto + raw + 样式）"],
+          "fullName": "R05 混合脚本往返（入口 ip + goto + raw + 样式） disasm(entryIps) → recompile 与原始字节逐字节相等；entry 标签参与 goto 定位",
+          "status": "passed",
+          "title": "disasm(entryIps) → recompile 与原始字节逐字节相等；entry 标签参与 goto 定位",
+          "duration": 0.6740830000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085505,
+      "endTime": 1790940085506.674,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["recompile + round-trip"],
+          "fullName": "recompile + round-trip end / goto / showDialog / giveItem / raw 单条往返",
+          "status": "passed",
+          "title": "end / goto / showDialog / giveItem / raw 单条往返",
+          "duration": 1.4255840000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["recompile + round-trip"],
+          "fullName": "recompile + round-trip 空命令清单 → 空字节",
+          "status": "passed",
+          "title": "空命令清单 → 空字节",
+          "duration": 0.22929200000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["recompile + round-trip"],
+          "fullName": "recompile + round-trip end advance / reset",
+          "status": "passed",
+          "title": "end advance / reset",
+          "duration": 0.3835419999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086219,
+      "endTime": 1790940086221.3835,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/recompile.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["全量 events round-trip"],
+          "fullName": "全量 events round-trip 真实 SSS.MKF chunk 4 字节完全一致",
+          "status": "passed",
+          "title": "真实 SSS.MKF chunk 4 字节完全一致",
+          "duration": 120.530208,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087970,
+      "endTime": 1790940088090.5303,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/roundtrip.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R06 sliceByScene globalEntries 归属"],
+          "fullName": "R06 sliceByScene globalEntries 归属 globalEntries 独达（任何 scene 都不可达）→ 强制 shared",
+          "status": "passed",
+          "title": "globalEntries 独达（任何 scene 都不可达）→ 强制 shared",
+          "duration": 1.0771249999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 sliceByScene globalEntries 归属"],
+          "fullName": "R06 sliceByScene globalEntries 归属 globalEntries 与单 scene 重合 → 仍 shared（sceneCount 强制 ≥2）",
+          "status": "passed",
+          "title": "globalEntries 与单 scene 重合 → 仍 shared（sceneCount 强制 ≥2）",
+          "duration": 0.24641600000000352,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 sliceByScene globalEntries 归属"],
+          "fullName": "R06 sliceByScene globalEntries 归属 循环（goto 回自身）只收一次，不重复",
+          "status": "passed",
+          "title": "循环（goto 回自身）只收一次，不重复",
+          "duration": 0.1357499999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 sliceByScene globalEntries 归属"],
+          "fullName": "R06 sliceByScene globalEntries 归属 最后 scene 的 EO 段开区间到 eventObjects 末尾；enter/teleport 双入口都可达",
+          "status": "passed",
+          "title": "最后 scene 的 EO 段开区间到 eventObjects 末尾；enter/teleport 双入口都可达",
+          "duration": 0.25925000000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 sliceByScene globalEntries 归属"],
+          "fullName": "R06 sliceByScene globalEntries 归属 跨文件 goto 改写 shared#L_N；raw 数字 operand 不改写",
+          "status": "passed",
+          "title": "跨文件 goto 改写 shared#L_N；raw 数字 operand 不改写",
+          "duration": 0.17424999999999358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084025,
+      "endTime": 1790940084027.2593,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/slice.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R06 sliceByScene 外部标签与越界"],
+          "fullName": "R06 sliceByScene 外部标签与越界 goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through",
+          "status": "passed",
+          "title": "goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through",
+          "duration": 1.1809590000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 sliceByScene 外部标签与越界"],
+          "fullName": "R06 sliceByScene 外部标签与越界 goto 目标越界（L_99）：忽略，不崩、不收",
+          "status": "passed",
+          "title": "goto 目标越界（L_99）：忽略，不崩、不收",
+          "duration": 0.1909169999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R06 sliceByScene 外部标签与越界"],
+          "fullName": "R06 sliceByScene 外部标签与越界 globalEntries 过滤非正入口（0 / 负数不参与 BFS）",
+          "status": "passed",
+          "title": "globalEntries 过滤非正入口（0 / 负数不参与 BFS）",
+          "duration": 0.19545799999998792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085953,
+      "endTime": 1790940085954.1956,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 单场景:可达的命令进 scene-0;不可达不出现",
+          "status": "passed",
+          "title": "单场景:可达的命令进 scene-0;不可达不出现",
+          "duration": 1.0619999999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 两场景独占的命令分别进 scene-0 / scene-1",
+          "status": "passed",
+          "title": "两场景独占的命令分别进 scene-0 / scene-1",
+          "duration": 0.30258399999999597,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "status": "passed",
+          "title": "两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "duration": 0.20512499999999534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene goto 目标在同一场景内不改写",
+          "status": "passed",
+          "title": "goto 目标在同一场景内不改写",
+          "duration": 0.47229199999999594,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene eventObject triggerScript 作为入口参与 BFS",
+          "status": "passed",
+          "title": "eventObject triggerScript 作为入口参与 BFS",
+          "duration": 0.08862499999999329,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene objects 文件 M1 下为空",
+          "status": "passed",
+          "title": "objects 文件 M1 下为空",
+          "duration": 0.0573750000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene SceneFile 有正确的 scene 字段",
+          "status": "passed",
+          "title": "SceneFile 有正确的 scene 字段",
+          "duration": 0.15220800000000168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "status": "passed",
+          "title": "0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "duration": 0.10662500000000819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "status": "passed",
+          "title": "0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "duration": 0.33670899999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "status": "passed",
+          "title": "0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "duration": 0.09616700000000833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "status": "passed",
+          "title": "0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "duration": 0.142832999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "status": "passed",
+          "title": "L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "duration": 0.3672499999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940075645,
+      "endTime": 1790940075648.3672,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/events/slice.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 ENCODING -1（未编码字形）与 ENCODING 0：均排除（codepoint > 0 门）",
+          "status": "passed",
+          "title": "ENCODING -1（未编码字形）与 ENCODING 0：均排除（codepoint > 0 门）",
+          "duration": 1.3520000000000039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 缺 ENCODING 行：codepoint 保持 -1 → 排除",
+          "status": "passed",
+          "title": "缺 ENCODING 行：codepoint 保持 -1 → 排除",
+          "duration": 0.16004200000000424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 缺 BBX：默认 16×16（bytesPerRow 2，bitmap 32B），位图行按 2 字节装填",
+          "status": "passed",
+          "title": "缺 BBX：默认 16×16（bytesPerRow 2，bitmap 32B），位图行按 2 字节装填",
+          "duration": 0.27675000000000693,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 位图行短于 bytesPerRow：缺位补 0（parseInt(hex,16) || 0）；无 ENDCHAR 以 EOF 终止",
+          "status": "passed",
+          "title": "位图行短于 bytesPerRow：缺位补 0（parseInt(hex,16) || 0）；无 ENDCHAR 以 EOF 终止",
+          "duration": 0.12775000000000603,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 空输入与无 STARTCHAR 文本：空表；glyphsToJson 空表 count=0",
+          "status": "passed",
+          "title": "空输入与无 STARTCHAR 文本：空表；glyphsToJson 空表 count=0",
+          "duration": 0.28870799999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085272,
+      "endTime": 1790940085274.2888,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["mkf"],
+          "fullName": "mkf chunkCount 返回 2",
+          "status": "passed",
+          "title": "chunkCount 返回 2",
+          "duration": 0.890500000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mkf"],
+          "fullName": "mkf readChunk 取出每个子文件",
+          "status": "passed",
+          "title": "readChunk 取出每个子文件",
+          "duration": 0.4267499999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mkf"],
+          "fullName": "mkf readChunk 越界报错",
+          "status": "passed",
+          "title": "readChunk 越界报错",
+          "duration": 0.39358299999999247,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087188,
+      "endTime": 1790940087189.4268,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/mkf.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P03 parseMessages 已知字节切片"],
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 只作下界不产消息；GBK 双字节轴",
+          "status": "passed",
+          "title": "四条精确（含空条）；末 offset 只作下界不产消息；GBK 双字节轴",
+          "duration": 7.845832999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P03 parseMessages 已知字节切片"],
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "title": "合法 [0] 单 offset → 零消息",
+          "duration": 0.1906670000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086397,
+      "endTime": 1790940086404.846,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/msg.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseMessages"],
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "title": "至少有 1000 条消息(原版规模)",
+          "duration": 0.8100829999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMessages"],
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "title": "随便取一条,是字符串",
+          "duration": 0.20479199999999764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMessages"],
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "title": "包含已知主角名\"逍遥\"出现的对白",
+          "duration": 0.07966600000000312,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087804,
+      "endTime": 1790940087805.2048,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/msg.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeRle"],
+          "fullName": "decodeRle 2×2 实心方块",
+          "status": "passed",
+          "title": "2×2 实心方块",
+          "duration": 1.1064159999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRle"],
+          "fullName": "decodeRle 透明像素填 0",
+          "status": "passed",
+          "title": "透明像素填 0",
+          "duration": 0.21666700000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRle"],
+          "fullName": "decodeRle 混合 —— 1 透明 + 2 实心 + 1 透明",
+          "status": "passed",
+          "title": "混合 —— 1 透明 + 2 实心 + 1 透明",
+          "duration": 0.1141669999999948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087436,
+      "endTime": 1790940087437.2166,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/rle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P01 parseSss 合成 5-chunk MKF"],
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "passed",
+          "title": "非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "duration": 2.570166999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P01 parseSss 合成 5-chunk MKF"],
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "passed",
+          "title": "scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "duration": 0.41612500000000807,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P01 parseSss 合成 5-chunk MKF"],
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk0 非 32 倍数 / chunk1 非 8 倍数各自单轴拒绝（其余 chunk 合法）",
+          "status": "passed",
+          "title": "chunk0 非 32 倍数 / chunk1 非 8 倍数各自单轴拒绝（其余 chunk 合法）",
+          "duration": 0.3819170000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084413,
+      "endTime": 1790940084416.416,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/sss.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseSss"],
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "title": "字节码 chunk 非空",
+          "duration": 0.9564160000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSss"],
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "title": "字节码长度是 8 的倍数(每指令 8 字节)",
+          "duration": 0.2555420000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSss"],
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "title": "至少有 1 个场景",
+          "duration": 0.08245900000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSss"],
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "title": "至少有 1 个事件对象",
+          "duration": 0.12920799999999133,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSss"],
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "title": "消息偏移表非空",
+          "duration": 0.07445899999999028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSss"],
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "title": "chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "duration": 0.10487500000000693,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087277,
+      "endTime": 1790940087278.2556,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/sss.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P02 parseWordDat 合成全表段界"],
+          "fullName": "P02 parseWordDat 合成全表段界 persons36..41 / battleUi42..60 / items61..295 / spells296..397 / enemies398..550 / scenes551..564 / system0..35 段界精确",
+          "status": "passed",
+          "title": "persons36..41 / battleUi42..60 / items61..295 / spells296..397 / enemies398..550 / scenes551..564 / system0..35 段界精确",
+          "duration": 10.686084000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02 parseWordDat 合成全表段界"],
+          "fullName": "P02 parseWordDat 合成全表段界 flat 全 565 条逐条等于手列文本",
+          "status": "passed",
+          "title": "flat 全 565 条逐条等于手列文本",
+          "duration": 5.377124999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02 parseWordDat 合成全表段界"],
+          "fullName": "P02 parseWordDat 合成全表段界 内部空格保留；尾空格剥除；尾标记 1 剥除；满 10B 不截",
+          "status": "passed",
+          "title": "内部空格保留；尾空格剥除；尾标记 1 剥除；满 10B 不截",
+          "duration": 1.5904999999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085101,
+      "endTime": 1790940085118.5906,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/word.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat 五类都不为空",
+          "status": "passed",
+          "title": "五类都不为空",
+          "duration": 0.8007090000000119,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat 包含已知人物名\"李逍遥\"",
+          "status": "passed",
+          "title": "包含已知人物名\"李逍遥\"",
+          "duration": 0.36991700000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat 包含已知物品名(药 / 葫芦 / 丸 / 针 / 剑 任一)",
+          "status": "passed",
+          "title": "包含已知物品名(药 / 葫芦 / 丸 / 针 / 剑 任一)",
+          "duration": 0.12541699999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat 全表 565 条 + 子表计数 + MAINMENU id7=\"新的故事\"",
+          "status": "passed",
+          "title": "全表 565 条 + 子表计数 + MAINMENU id7=\"新的故事\"",
+          "duration": 0.12916699999999537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)",
+          "status": "passed",
+          "title": "L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)",
+          "duration": 0.10675000000000523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat content-pin:system 全 36 条内容(GBK byte-truth)",
+          "status": "passed",
+          "title": "content-pin:system 全 36 条内容(GBK byte-truth)",
+          "duration": 0.395583000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat content-pin:battleUi 全 19 条内容(GBK byte-truth)",
+          "status": "passed",
+          "title": "content-pin:battleUi 全 19 条内容(GBK byte-truth)",
+          "duration": 0.10254100000000221,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseWordDat"],
+          "fullName": "parseWordDat content-pin:代码引用的 flat[id] 菜单/UI 文案",
+          "status": "passed",
+          "title": "content-pin:代码引用的 flat[id] 菜单/UI 文案",
+          "duration": 0.16687500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940083951,
+      "endTime": 1790940083953.3955,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/word.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["yj2"],
+          "fullName": "yj2 decompressYj2 能解 MGO.MKF chunk 1(非空 + 长度 = 头声明)",
+          "status": "passed",
+          "title": "decompressYj2 能解 MGO.MKF chunk 1(非空 + 长度 = 头声明)",
+          "duration": 3.2581249999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["yj2"],
+          "fullName": "yj2 能批量解 MGO.MKF 前 20 个非空 chunk(没有崩 / 长度匹配)",
+          "status": "passed",
+          "title": "能批量解 MGO.MKF 前 20 个非空 chunk(没有崩 / 长度匹配)",
+          "duration": 11.452457999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086717,
+      "endTime": 1790940086731.4524,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/io/yj2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk 单字符 ASCII 不动",
+          "status": "passed",
+          "title": "单字符 ASCII 不动",
+          "duration": 6.396124999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk GBK \"李逍遥\" → UTF-8",
+          "status": "passed",
+          "title": "GBK \"李逍遥\" → UTF-8",
+          "duration": 0.22112499999998647,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk 遇到 0x00 截断(C 字符串语义)",
+          "status": "passed",
+          "title": "遇到 0x00 截断(C 字符串语义)",
+          "duration": 0.11837500000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk GBK 正文 + 造字区残留字节 端到端还原(余杭镇 婶婶房◆传来声音)",
+          "status": "passed",
+          "title": "GBK 正文 + 造字区残留字节 端到端还原(余杭镇 婶婶房◆传来声音)",
+          "duration": 0.12724999999998943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 正常文本无 PUA → 原样快速返回",
+          "status": "passed",
+          "title": "正常文本无 PUA → 原样快速返回",
+          "duration": 0.1283340000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 繁体字残留 PUA → 用户确认的简体正字",
+          "status": "passed",
+          "title": "繁体字残留 PUA → 用户确认的简体正字",
+          "duration": 0.19812500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) BIG5 标点残留 PUA → 标准标点",
+          "status": "passed",
+          "title": "BIG5 标点残留 PUA → 标准标点",
+          "duration": 0.10850000000000648,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 颜文字 / 噪声 PUA → 删(对齐 sdlpal 缺字空白)",
+          "status": "passed",
+          "title": "颜文字 / 噪声 PUA → 删(对齐 sdlpal 缺字空白)",
+          "duration": 0.07904100000000369,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 整条未转码 BIG5 → 正确简体",
+          "status": "passed",
+          "title": "整条未转码 BIG5 → 正确简体",
+          "duration": 0.36370900000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 未在映射表的 PUA → 删(空白,不残留方块)",
+          "status": "passed",
+          "title": "未在映射表的 PUA → 删(空白,不残留方块)",
+          "duration": 0.0743749999999892,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084721,
+      "endTime": 1790940084729.3638,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/utils/gbk.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R08 buildManifest 空 entries"],
+          "fullName": "R08 buildManifest 空 entries 空表：version = sha256(\"\") 前 16 hex、totalBytes 0、fileCount 0、files []",
+          "status": "passed",
+          "title": "空表：version = sha256(\"\") 前 16 hex、totalBytes 0、fileCount 0、files []",
+          "duration": 1.1197499999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 buildManifest 空 entries"],
+          "fullName": "R08 buildManifest 空 entries 全被剔除的表（仅 self 与 .DS_Store）与空表同 version",
+          "status": "passed",
+          "title": "全被剔除的表（仅 self 与 .DS_Store）与空表同 version",
+          "duration": 0.17966699999999491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087107,
+      "endTime": 1790940087108.1797,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["extractBattleSprites"],
+          "fullName": "extractBattleSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "title": "给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "duration": 1.4067499999999882,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["extractBattleSprites"],
+          "fullName": "extractBattleSprites chunk 缺 → skip + warn,不抛错",
+          "status": "passed",
+          "title": "chunk 缺 → skip + warn,不抛错",
+          "duration": 1.2266670000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["extractBattleSprites"],
+          "fullName": "extractBattleSprites player 和 enemy 同 id 不冲突(kind:id 复合键)",
+          "status": "passed",
+          "title": "player 和 enemy 同 id 不冲突(kind:id 复合键)",
+          "duration": 0.19354200000000787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086312,
+      "endTime": 1790940086314.2266,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/battle-sprite.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P09 parseEnemyPos 五 layout 坐标保真"],
+          "fullName": "P09 parseEnemyPos 五 layout 坐标保真 layouts[count-1][enemyIdx] 逐坐标精确；长度 1..5；C 布局 (enemyIdx*5+maxIdx) 转置即红",
+          "status": "passed",
+          "title": "layouts[count-1][enemyIdx] 逐坐标精确；长度 1..5；C 布局 (enemyIdx*5+maxIdx) 转置即红",
+          "duration": 1.937749999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P09 parseEnemyPos 五 layout 坐标保真"],
+          "fullName": "P09 parseEnemyPos 五 layout 坐标保真 99/101 字节拒绝；100B 正控（信息含期望与实际长度）",
+          "status": "passed",
+          "title": "99/101 字节拒绝；100B 正控（信息含期望与实际长度）",
+          "duration": 0.480000000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086814,
+      "endTime": 1790940086816.48,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseMap"],
+          "fullName": "parseMap 合成 fixture:64×128 全零格 + 空 GOP",
+          "status": "passed",
+          "title": "合成 fixture:64×128 全零格 + 空 GOP",
+          "duration": 1.9077090000000112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMap"],
+          "fullName": "parseMap 尺寸不对抛错",
+          "status": "passed",
+          "title": "尺寸不对抛错",
+          "duration": 0.3401660000000106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMap"],
+          "fullName": "parseMap 真实 MAP.MKF chunk 1 解出 cells + 真实 GOP.MKF chunk 1 解出 tiles",
+          "status": "passed",
+          "title": "真实 MAP.MKF chunk 1 解出 cells + 真实 GOP.MKF chunk 1 解出 tiles",
+          "duration": 14.56474999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085687,
+      "endTime": 1790940085704.5647,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/map.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R07 decodePalette day/night 双半"],
+          "fullName": "R07 decodePalette day/night 双半 1536 输入：colors 与 nightColors 都满 256×3 且非对称；锚点手算值精确",
+          "status": "passed",
+          "title": "1536 输入：colors 与 nightColors 都满 256×3 且非对称；锚点手算值精确",
+          "duration": 1.784165999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R07 decodePalette day/night 双半"],
+          "fullName": "R07 decodePalette day/night 双半 768 输入：无 nightColors 键；非零 byteOffset 视图等价",
+          "status": "passed",
+          "title": "768 输入：无 nightColors 键；非零 byteOffset 视图等价",
+          "duration": 1.511958000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085867,
+      "endTime": 1790940085870.512,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/palette.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R02 decodePalette 默认 cycles 与组合轴"],
+          "fullName": "R02 decodePalette 默认 cycles 与组合轴 默认参数：cycles 键存在且为空数组",
+          "status": "passed",
+          "title": "默认参数：cycles 键存在且为空数组",
+          "duration": 1.1200839999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 decodePalette 默认 cycles 与组合轴"],
+          "fullName": "R02 decodePalette 默认 cycles 与组合轴 1536 输入 + cycles：colors/cycles/nightColors 三键齐备且 cycles 引用透传",
+          "status": "passed",
+          "title": "1536 输入 + cycles：colors/cycles/nightColors 三键齐备且 cycles 引用透传",
+          "duration": 0.630708999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 decodePalette 默认 cycles 与组合轴"],
+          "fullName": "R02 decodePalette 默认 cycles 与组合轴 单条目 r/g/b 三通道独立 6-bit 值：通道不错位（防 r/g/b 装配顺序错）",
+          "status": "passed",
+          "title": "单条目 r/g/b 三通道独立 6-bit 值：通道不错位（防 r/g/b 装配顺序错）",
+          "duration": 0.11358400000000302,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086560,
+      "endTime": 1790940086561.6306,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodePalette"],
+          "fullName": "decodePalette 256 色 VGA(0-63)解出 0-255",
+          "status": "passed",
+          "title": "256 色 VGA(0-63)解出 0-255",
+          "duration": 1.4114160000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodePalette"],
+          "fullName": "decodePalette 零调色板出 [0, 0, 0]",
+          "status": "passed",
+          "title": "零调色板出 [0, 0, 0]",
+          "duration": 0.25066699999999287,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodePalette"],
+          "fullName": "decodePalette cycles 默认为空,可传入",
+          "status": "passed",
+          "title": "cycles 默认为空,可传入",
+          "duration": 0.19404200000001026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087879,
+      "endTime": 1790940087880.4114,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/palette.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R04 dumpAllEventObjects（此前零覆盖）"],
+          "fullName": "R04 dumpAllEventObjects（此前零覆盖） 全局 id = eventObjects 下标；每景区间 [start,end)，末景兜底 eventObjects.length",
+          "status": "passed",
+          "title": "全局 id = eventObjects 下标；每景区间 [start,end)，末景兜底 eventObjects.length",
+          "duration": 1.1126660000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpAllEventObjects（此前零覆盖）"],
+          "fullName": "R04 dumpAllEventObjects（此前零覆盖） scenes/objects 输入零突变（structuredClone 前后相等）",
+          "status": "passed",
+          "title": "scenes/objects 输入零突变（structuredClone 前后相等）",
+          "duration": 0.5690000000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpScene 未占用切片轴"],
+          "fullName": "R04 dumpScene 未占用切片轴 入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip",
+          "status": "passed",
+          "title": "入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip",
+          "duration": 0.25175000000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpScene 未占用切片轴"],
+          "fullName": "R04 dumpScene 未占用切片轴 中间场景非零起点：区间 [2,4)，全局 id 保留为 2/3",
+          "status": "passed",
+          "title": "中间场景非零起点：区间 [2,4)，全局 id 保留为 2/3",
+          "duration": 0.37325000000000585,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpScene 未占用切片轴"],
+          "fullName": "R04 dumpScene 未占用切片轴 未知 sceneId 抛错并带 scenes.length",
+          "status": "passed",
+          "title": "未知 sceneId 抛错并带 scenes.length",
+          "duration": 0.2836250000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084799,
+      "endTime": 1790940084802.2837,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["dumpScene"],
+          "fullName": "dumpScene scene 1 含两个 NPC",
+          "status": "passed",
+          "title": "scene 1 含两个 NPC",
+          "duration": 1.4698750000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene"],
+          "fullName": "dumpScene triggerScript=0 → triggerLabel undefined",
+          "status": "passed",
+          "title": "triggerScript=0 → triggerLabel undefined",
+          "duration": 0.17383400000000648,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene"],
+          "fullName": "dumpScene 末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length",
+          "status": "passed",
+          "title": "末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length",
+          "duration": 0.11170899999999762,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene triggerMode 字段(M3.5)"],
+          "fullName": "dumpScene triggerMode 字段(M3.5) SceneEventObject dump 含 triggerMode raw u16",
+          "status": "passed",
+          "title": "SceneEventObject dump 含 triggerMode raw u16",
+          "duration": 0.06966700000000259,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene triggerMode 字段(M3.5)"],
+          "fullName": "dumpScene triggerMode 字段(M3.5) triggerMode=0 正确 dump(不是 undefined)",
+          "status": "passed",
+          "title": "triggerMode=0 正确 dump(不是 undefined)",
+          "duration": 0.07033399999999546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084098,
+      "endTime": 1790940084100.0703,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/scene.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R04 encodeIndexedPng 真解码像素合同"],
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "status": "passed",
+          "title": "带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "duration": 2.6075000000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 encodeIndexedPng 真解码像素合同"],
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+          "status": "passed",
+          "title": "缺省 mask：全像素 alpha 255",
+          "duration": 0.5365829999999931,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 framesToOut 多帧"],
+          "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "status": "passed",
+          "title": "3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "duration": 1.0216250000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 extractCharacterSprites 多 id"],
+          "fullName": "R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码",
+          "status": "passed",
+          "title": "输入 id 顺序保留；每 sprite 帧独立解码",
+          "duration": 0.4819999999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084494,
+      "endTime": 1790940084499.482,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["sprite"],
+          "fullName": "sprite encodeIndexedPng 产 PNG 字节流,以 PNG 魔数开头",
+          "status": "passed",
+          "title": "encodeIndexedPng 产 PNG 字节流,以 PNG 魔数开头",
+          "duration": 1.688333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite"],
+          "fullName": "sprite parseSpriteChunk 切 1 帧 —— byte 0..1 = imagecount = 1,frame[0] word-offset = 1 (=2 字节)",
+          "status": "passed",
+          "title": "parseSpriteChunk 切 1 帧 —— byte 0..1 = imagecount = 1,frame[0] word-offset = 1 (=2 字节)",
+          "duration": 0.4824169999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite"],
+          "fullName": "sprite parseSpriteChunk 跳过 word-offset=0 的空帧",
+          "status": "passed",
+          "title": "parseSpriteChunk 跳过 word-offset=0 的空帧",
+          "duration": 0.18191699999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite"],
+          "fullName": "sprite framesToOut 转 SpriteFrameOut[]",
+          "status": "passed",
+          "title": "framesToOut 转 SpriteFrameOut[]",
+          "duration": 0.381582999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["extractCharacterSprites"],
+          "fullName": "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "title": "给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "duration": 0.3160000000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["extractCharacterSprites"],
+          "fullName": "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "status": "passed",
+          "title": "未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "duration": 1.0191250000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3.5 T5 character sprite extraction loops scene chain"],
+          "fullName": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "status": "passed",
+          "title": "union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "duration": 0.9871669999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940075918,
+      "endTime": 1790940075923.987,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/sprite.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 解出 234 条物品(word 段 235,排除末位 295=梦蛇 法术)",
+          "status": "passed",
+          "title": "解出 234 条物品(word 段 235,排除末位 295=梦蛇 法术)",
+          "duration": 0.9858330000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 第一条带 _name(注释)",
+          "status": "passed",
+          "title": "第一条带 _name(注释)",
+          "duration": 0.13945799999999053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems id = wObjectID(61..294;295=梦蛇是法术,已排除归 spells.json)",
+          "status": "passed",
+          "title": "id = wObjectID(61..294;295=梦蛇是法术,已排除归 spells.json)",
+          "duration": 0.1414169999999899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 至少有一条价格 > 0",
+          "status": "passed",
+          "title": "至少有一条价格 > 0",
+          "duration": 0.06049999999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 第一条物品价格为 150(item[0])",
+          "status": "passed",
+          "title": "第一条物品价格为 150(item[0])",
+          "duration": 0.05379099999998971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems flags 已拆为 ItemFlags 具名 bool",
+          "status": "passed",
+          "title": "flags 已拆为 ItemFlags 具名 bool",
+          "duration": 0.14895800000002168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 至少一条 usable + scriptOnUse 非零(可用品)",
+          "status": "passed",
+          "title": "至少一条 usable + scriptOnUse 非零(可用品)",
+          "duration": 0.12920800000000554,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems scriptDesc 字段被解析(至少一条非零)",
+          "status": "passed",
+          "title": "scriptDesc 字段被解析(至少一条非零)",
+          "duration": 0.05741699999998673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "status": "passed",
+          "title": "without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "duration": 0.5565420000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems flag bit 顺序对(fake fixture:usable + equipable)",
+          "status": "passed",
+          "title": "flag bit 顺序对(fake fixture:usable + equipable)",
+          "duration": 0.2477089999999862,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems equipableBy bit 6..11 对(fake fixture:全 6 个 role)",
+          "status": "passed",
+          "title": "equipableBy bit 6..11 对(fake fixture:全 6 个 role)",
+          "duration": 0.43404200000000515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 截断时 throw(T5 review #1 修:与 parseEnemies / parseMagicTable 一致)",
+          "status": "passed",
+          "title": "截断时 throw(T5 review #1 修:与 parseEnemies / parseMagicTable 一致)",
+          "duration": 0.26891700000001606,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 解出 103 条法术 wrapper(296..397 + 边界法术 295=梦蛇)",
+          "status": "passed",
+          "title": "解出 103 条法术 wrapper(296..397 + 边界法术 295=梦蛇)",
+          "duration": 0.06508299999998712,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 第一条带 _name(注释)",
+          "status": "passed",
+          "title": "第一条带 _name(注释)",
+          "duration": 0.03191599999999539,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) id = wObjectID(296..397,2026-05-29 id 体系统一)",
+          "status": "passed",
+          "title": "id = wObjectID(296..397,2026-05-29 id 体系统一)",
+          "duration": 0.08545899999998596,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 梦蛇(295)补在末尾:item word 段法术,scriptDesc/magicNumber 从 magic-union 读",
+          "status": "passed",
+          "title": "梦蛇(295)补在末尾:item word 段法术,scriptDesc/magicNumber 从 magic-union 读",
+          "duration": 0.07158300000000395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) flags 已拆为 SpellFlags 具名 bool",
+          "status": "passed",
+          "title": "flags 已拆为 SpellFlags 具名 bool",
+          "duration": 0.055374999999997954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 第一条法术 magicNumber = 33(实测)",
+          "status": "passed",
+          "title": "第一条法术 magicNumber = 33(实测)",
+          "duration": 0.027999999999991587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 至少一条 magicNumber > 0(指向 Magic table)",
+          "status": "passed",
+          "title": "至少一条 magicNumber > 0(指向 Magic table)",
+          "duration": 0.034250000000014325,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) scriptDesc 读 item-union offset 10(magicmenu.c:191),真数据应有说明脚本",
+          "status": "passed",
+          "title": "scriptDesc 读 item-union offset 10(magicmenu.c:191),真数据应有说明脚本",
+          "duration": 0.05654200000000742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "status": "passed",
+          "title": "without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "duration": 0.16174999999998363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) SpellFlags bit 顺序对(fake fixture)",
+          "status": "passed",
+          "title": "SpellFlags bit 顺序对(fake fixture)",
+          "duration": 0.08191700000000424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) applyToAll bit 4(fake fixture)",
+          "status": "passed",
+          "title": "applyToAll bit 4(fake fixture)",
+          "duration": 0.07720800000001304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 截断时 throw(与 parseEnemies / parseMagicTable 一致)",
+          "status": "passed",
+          "title": "截断时 throw(与 parseEnemies / parseMagicTable 一致)",
+          "duration": 0.06245899999998983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) 覆盖整个 OBJECT 数组(每条 14B)",
+          "status": "passed",
+          "title": "覆盖整个 OBJECT 数组(每条 14B)",
+          "duration": 0.06733299999999076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) 法术段 [296..397] 与 parseSpells 逐字段一致(magicNumber/scripts/flags)",
+          "status": "passed",
+          "title": "法术段 [296..397] 与 parseSpells 逐字段一致(magicNumber/scripts/flags)",
+          "duration": 2.9927079999999933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) object 349(天师符法,0x42 op0 真实引用)→ magicNumber 54",
+          "status": "passed",
+          "title": "object 349(天师符法,0x42 op0 真实引用)→ magicNumber 54",
+          "duration": 0.038000000000010914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) object 24(梅花镖/银针/卵 共用,0x42 op0=24)可解析 —— 与原始字节一致",
+          "status": "passed",
+          "title": "object 24(梅花镖/银针/卵 共用,0x42 op0=24)可解析 —— 与原始字节一致",
+          "duration": 0.04229200000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) fake fixture:applyToAll(bit4)+ magicNumber offset 对",
+          "status": "passed",
+          "title": "fake fixture:applyToAll(bit4)+ magicNumber offset 对",
+          "duration": 0.06008299999999167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)"],
+          "fullName": "parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison) 覆盖整个 OBJECT 数组(每条 14B)",
+          "status": "passed",
+          "title": "覆盖整个 OBJECT 数组(每条 14B)",
+          "duration": 0.035124999999993634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)"],
+          "fullName": "parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison) poison object 551(0x28 op1 真实引用)enemyScript 与原始字节一致",
+          "status": "passed",
+          "title": "poison object 551(0x28 op1 真实引用)enemyScript 与原始字节一致",
+          "duration": 0.03616599999998016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)"],
+          "fullName": "parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison) fake fixture:wEnemyScript@8 / wPoisonLevel@0 offset 对",
+          "status": "passed",
+          "title": "fake fixture:wEnemyScript@8 / wPoisonLevel@0 offset 对",
+          "duration": 0.10229100000000813,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本)"],
+          "fullName": "parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本) 解出 6 条 OBJECT_PLAYER(36..41)",
+          "status": "passed",
+          "title": "解出 6 条 OBJECT_PLAYER(36..41)",
+          "duration": 0.07116700000000264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本)"],
+          "fullName": "parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本) 真实数据含队友死亡/濒死脚本入口",
+          "status": "passed",
+          "title": "真实数据含队友死亡/濒死脚本入口",
+          "duration": 0.04116700000000151,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本)"],
+          "fullName": "parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本) fake fixture:wScriptOnFriendDeath@4 / wScriptOnDying@6 offset 对",
+          "status": "passed",
+          "title": "fake fixture:wScriptOnFriendDeath@4 / wScriptOnDying@6 offset 对",
+          "duration": 0.045707999999990534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 从 DATA.MKF chunk 4 解出 N 条 Magic(每条 32B)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 4 解出 N 条 Magic(每条 32B)",
+          "duration": 0.034707999999994854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.07316699999998377,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 至少有一条 costMP > 0",
+          "status": "passed",
+          "title": "至少有一条 costMP > 0",
+          "duration": 0.03166699999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) Magic[33].costMP = 6(实测,spell[0] 引用)",
+          "status": "passed",
+          "title": "Magic[33].costMP = 6(实测,spell[0] 引用)",
+          "duration": 0.024208000000015772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) type 字段是 MagicType 具名 string",
+          "status": "passed",
+          "title": "type 字段是 MagicType 具名 string",
+          "duration": 0.6241249999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 至少一条 type = \"normal\"(实测,大部分 Magic 默认 normal)",
+          "status": "passed",
+          "title": "至少一条 type = \"normal\"(实测,大部分 Magic 默认 normal)",
+          "duration": 0.029125000000021828,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 完整 16 字段全部存在",
+          "status": "passed",
+          "title": "完整 16 字段全部存在",
+          "duration": 0.430499999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) signed 字段(speed / sound)可负(fake fixture:0xFFFF → -1)",
+          "status": "passed",
+          "title": "signed 字段(speed / sound)可负(fake fixture:0xFFFF → -1)",
+          "duration": 0.04758300000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) type 6 / 7 / >9 → \"other\" 兜底(fake fixture)",
+          "status": "passed",
+          "title": "type 6 / 7 / >9 → \"other\" 兜底(fake fixture)",
+          "duration": 0.048292000000003554,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 截断时 throw",
+          "status": "passed",
+          "title": "截断时 throw",
+          "duration": 0.09212499999998158,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) 解出 154 条 ENEMY 记录(DATA.MKF chunk 1 / 70B)",
+          "status": "passed",
+          "title": "解出 154 条 ENEMY 记录(DATA.MKF chunk 1 / 70B)",
+          "duration": 0.04291699999998855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.03408300000000963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) 至少有一条 health > 0",
+          "status": "passed",
+          "title": "至少有一条 health > 0",
+          "duration": 0.11066699999997809,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "status": "passed",
+          "title": "elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "duration": 0.10812500000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) signed 字段真能为负(0xFFFF → -1,modifier 语义)",
+          "status": "passed",
+          "title": "signed 字段真能为负(0xFFFF → -1,modifier 语义)",
+          "duration": 0.028666999999984455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) _name 可通过 OBJECT_ENEMY + words 反向填(对于战斗中真实出现的怪)",
+          "status": "passed",
+          "title": "_name 可通过 OBJECT_ENEMY + words 反向填(对于战斗中真实出现的怪)",
+          "duration": 0.030458000000010088,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) without objBuf/words:所有 _name 都是 undefined,其他字段照常解析",
+          "status": "passed",
+          "title": "without objBuf/words:所有 _name 都是 undefined,其他字段照常解析",
+          "duration": 0.19379200000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) 完整 30+ 字段全部存在",
+          "status": "passed",
+          "title": "完整 30+ 字段全部存在",
+          "duration": 0.1043329999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 从 DATA.MKF chunk 2 解出 N 条 EnemyTeam(每条 10B = 5 × WORD)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 2 解出 N 条 EnemyTeam(每条 10B = 5 × WORD)",
+          "duration": 0.04291699999998855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.03200000000001069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 每条 team 都是 5 个槽位 tuple",
+          "status": "passed",
+          "title": "每条 team 都是 5 个槽位 tuple",
+          "duration": 5.7762500000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 至少有一条 team 含 0xFFFF 空槽位(对照 sdlpal battle.c:1602)",
+          "status": "passed",
+          "title": "至少有一条 team 含 0xFFFF 空槽位(对照 sdlpal battle.c:1602)",
+          "duration": 0.05416700000000674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 至少有一条 team 第一槽位非空(指向 OBJECT_ENEMY 段,398-550)",
+          "status": "passed",
+          "title": "至少有一条 team 第一槽位非空(指向 OBJECT_ENEMY 段,398-550)",
+          "duration": 0.032416999999981044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 至少一条 team 带 _names(反查成功)",
+          "status": "passed",
+          "title": "至少一条 team 带 _names(反查成功)",
+          "duration": 0.027125000000012278,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) without enemyObjectNames:所有 _names 都是 undefined,enemies 仍正常",
+          "status": "passed",
+          "title": "without enemyObjectNames:所有 _names 都是 undefined,enemies 仍正常",
+          "duration": 0.12362500000000409,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) fake fixture:解出 5 槽位 + 0xFFFF 空位 + 名字反查",
+          "status": "passed",
+          "title": "fake fixture:解出 5 槽位 + 0xFFFF 空位 + 名字反查",
+          "duration": 0.08495800000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) fake fixture:0 槽位也被 _names 反查跳过(对照 sdlpal battle.c:1602)",
+          "status": "passed",
+          "title": "fake fixture:0 槽位也被 _names 反查跳过(对照 sdlpal battle.c:1602)",
+          "duration": 0.04241700000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 截断时 throw(非 10 倍数)",
+          "status": "passed",
+          "title": "截断时 throw(非 10 倍数)",
+          "duration": 0.08608300000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) M3.30 翻译模式:传入 objectIndexToEnemyId 时,enemies tuple 槽位变 enemies.json id",
+          "status": "passed",
+          "title": "M3.30 翻译模式:传入 objectIndexToEnemyId 时,enemies tuple 槽位变 enemies.json id",
+          "duration": 0.06825000000000614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn",
+          "status": "passed",
+          "title": "M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn",
+          "duration": 0.38587499999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) M3.30 buildObjectIndexToEnemyIdMap:真原版 OBJECT_ENEMY 段映射非空 + wEnemyID 在 enemies.json 范围内",
+          "status": "passed",
+          "title": "M3.30 buildObjectIndexToEnemyIdMap:真原版 OBJECT_ENEMY 段映射非空 + wEnemyID 在 enemies.json 范围内",
+          "duration": 3.4881670000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) M3.30 端到端:用真原版 buildObjectIndexToEnemyIdMap 翻译 enemy-teams 后,所有非空槽位都在 enemies.json id 范围",
+          "status": "passed",
+          "title": "M3.30 端到端:用真原版 buildObjectIndexToEnemyIdMap 翻译 enemy-teams 后,所有非空槽位都在 enemies.json id 范围",
+          "duration": 13.243750000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) 从 DATA.MKF chunk 5 解出 N 条 BattleField(每条 12B = WORD + SHORT × 5)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 5 解出 N 条 BattleField(每条 12B = WORD + SHORT × 5)",
+          "duration": 0.070083000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.03316699999999173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) 每条都含 5 元素 magicEffect(wind/thunder/water/fire/earth)",
+          "status": "passed",
+          "title": "每条都含 5 元素 magicEffect(wind/thunder/water/fire/earth)",
+          "duration": 1.4184170000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) signed 字段真能为负(fake fixture:0xFFFF → -1,对照 sdlpal SHORT)",
+          "status": "passed",
+          "title": "signed 字段真能为负(fake fixture:0xFFFF → -1,对照 sdlpal SHORT)",
+          "duration": 0.09312500000001478,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) 截断时 throw(非 12 倍数)",
+          "status": "passed",
+          "title": "截断时 throw(非 12 倍数)",
+          "duration": 0.07474999999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 解出 6 个 role(MAX_PLAYER_ROLES=6)",
+          "status": "passed",
+          "title": "解出 6 个 role(MAX_PLAYER_ROLES=6)",
+          "duration": 0.03491699999997877,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) id 从 0..5 顺序递增",
+          "status": "passed",
+          "title": "id 从 0..5 顺序递增",
+          "duration": 0.029333999999977323,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) leader spriteNum=2(M2 实施过程发现 #5 实证)",
+          "status": "passed",
+          "title": "leader spriteNum=2(M2 实施过程发现 #5 实证)",
+          "duration": 0.021707999999989624,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 6 个 spriteNum = [2, 3, 7, 525, 5, 26](实测,cli.ts 注释)",
+          "status": "passed",
+          "title": "6 个 spriteNum = [2, 3, 7, 525, 5, 26](实测,cli.ts 注释)",
+          "duration": 0.04362499999999159,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 队长有合理 level / maxHP / maxMP(非全 0)",
+          "status": "passed",
+          "title": "队长有合理 level / maxHP / maxMP(非全 0)",
+          "duration": 0.035583000000002585,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "status": "passed",
+          "title": "elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "duration": 0.04599999999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 完整 25+ 字段全部存在(M3 dump 范围)",
+          "status": "passed",
+          "title": "完整 25+ 字段全部存在(M3 dump 范围)",
+          "duration": 0.2476660000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) _name 通过 words.persons 反查填(at least one)",
+          "status": "passed",
+          "title": "_name 通过 words.persons 反查填(at least one)",
+          "duration": 0.028916999999978543,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "status": "passed",
+          "title": "without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "duration": 0.18250000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) signed modifier 字段按 s16 解码(初始数据全正,与 Enemy 不同)",
+          "status": "passed",
+          "title": "signed modifier 字段按 s16 解码(初始数据全正,与 Enemy 不同)",
+          "duration": 0.2617089999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) signed modifier 解码逻辑(fake 0xFFFF → -1)",
+          "status": "passed",
+          "title": "signed modifier 解码逻辑(fake 0xFFFF → -1)",
+          "duration": 0.08458300000000918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) chunk size ≠ 900 时 throw(对 fake .MKF 做 sanity check)",
+          "status": "passed",
+          "title": "chunk size ≠ 900 时 throw(对 fake .MKF 做 sanity check)",
+          "duration": 0.09170899999998028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 从 DATA.MKF chunk 0 解出 N 条 STORE(每条 18B = WORD × 9)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 0 解出 N 条 STORE(每条 18B = WORD × 9)",
+          "duration": 0.038375000000002046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.028666999999984455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) items 全是绝对 OBJECT id(61..295,= items.json id 范围)",
+          "status": "passed",
+          "title": "items 全是绝对 OBJECT id(61..295,= items.json id 范围)",
+          "duration": 1.4761249999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 首个 0 截断列表(fake fixture:[100, 95, 0, 99, ...] → [100, 95])",
+          "status": "passed",
+          "title": "首个 0 截断列表(fake fixture:[100, 95, 0, 99, ...] → [100, 95])",
+          "duration": 0.05358300000000327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 满 9 项无 0(fake fixture:9 个非 0 → 全保留)",
+          "status": "passed",
+          "title": "满 9 项无 0(fake fixture:9 个非 0 → 全保留)",
+          "duration": 0.036167000000006055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 非 18 整除时 throw(与其他 parser 一致)",
+          "status": "passed",
+          "title": "非 18 整除时 throw(与其他 parser 一致)",
+          "duration": 0.06187500000001478,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940064163,
+      "endTime": 1790940064202.0618,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/tables.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R08 parseBdf 完整字形"],
+          "fullName": "R08 parseBdf 完整字形 两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效",
+          "status": "passed",
+          "title": "两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效",
+          "duration": 1.7488329999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf 完整字形"],
+          "fullName": "R08 parseBdf 完整字形 LF / CRLF / 行尾多余空白三种文本等价解析",
+          "status": "passed",
+          "title": "LF / CRLF / 行尾多余空白三种文本等价解析",
+          "duration": 0.5062079999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf 完整字形"],
+          "fullName": "R08 parseBdf 完整字形 glyphsToJson 完整 count/字段/base64（手算 base64 oracle）",
+          "status": "passed",
+          "title": "glyphsToJson 完整 count/字段/base64（手算 base64 oracle）",
+          "duration": 0.2928330000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085023,
+      "endTime": 1790940085025.506,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseBdf"],
+          "fullName": "parseBdf extracts 16x16 glyph from BDF fragment",
+          "status": "passed",
+          "title": "extracts 16x16 glyph from BDF fragment",
+          "duration": 1.5827909999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBdf"],
+          "fullName": "parseBdf parses ASCII 8-wide glyph",
+          "status": "passed",
+          "title": "parses ASCII 8-wide glyph",
+          "duration": 0.24745800000000884,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087354,
+      "endTime": 1790940087355.5828,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R03 decodeBallIcon 空槽与标记头"],
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "title": "byteLength < 4 → null（0 字节空槽）",
+          "duration": 0.7135420000000039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 decodeBallIcon 空槽与标记头"],
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "title": "0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "duration": 2.068792000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 decodeBallIcon 空槽与标记头"],
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "title": "无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "duration": 0.529083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 decodeBallIcon 空槽与标记头"],
+          "fullName": "R03 decodeBallIcon 空槽与标记头 前缀形似但非 02 00 00 00：不剥离（02 00 01 00 → w=2,h=1 从 0 读）",
+          "status": "passed",
+          "title": "前缀形似但非 02 00 00 00：不剥离（02 00 01 00 → w=2,h=1 从 0 读）",
+          "duration": 0.21299999999999386,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 decodeBallIcon 空槽与标记头"],
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧 → null（空槽语义），标记与非标记各一",
+          "status": "passed",
+          "title": "零尺寸帧 → null（空槽语义），标记与非标记各一",
+          "duration": 0.08516599999998675,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085431,
+      "endTime": 1790940085435.0852,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R08 parseBattleFields subarray 隔离"],
+          "fullName": "R08 parseBattleFields subarray 隔离 大缓冲奇数偏移 subarray：与独立缓冲全等（12B 记录 × 2）",
+          "status": "passed",
+          "title": "大缓冲奇数偏移 subarray：与独立缓冲全等（12B 记录 × 2）",
+          "duration": 1.0976249999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087691,
+      "endTime": 1790940087692.0977,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R07 parseEnemyTeams 纯模式"],
+          "fullName": "R07 parseEnemyTeams 纯模式 无映射无名字：enemies = 原始槽位，无 enemyObjectIndexes / _names 键",
+          "status": "passed",
+          "title": "无映射无名字：enemies = 原始槽位，无 enemyObjectIndexes / _names 键",
+          "duration": 1.1713750000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R07 parseEnemyTeams 纯模式"],
+          "fullName": "R07 parseEnemyTeams 纯模式 非 10 倍数字节：抛错并带实际长度",
+          "status": "passed",
+          "title": "非 10 倍数字节：抛错并带实际长度",
+          "duration": 0.4193750000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R07 parseEnemyTeams 纯模式"],
+          "fullName": "R07 parseEnemyTeams 纯模式 大缓冲奇数偏移 subarray：与独立缓冲全等",
+          "status": "passed",
+          "title": "大缓冲奇数偏移 subarray：与独立缓冲全等",
+          "duration": 0.17549999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086636,
+      "endTime": 1790940086638.4194,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R03 parseFirSprite"],
+          "fullName": "R03 parseFirSprite 空 chunk：frameCount=0、frames=[]、chunkIndex 透传",
+          "status": "passed",
+          "title": "空 chunk：frameCount=0、frames=[]、chunkIndex 透传",
+          "duration": 0.9496669999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 parseFirSprite"],
+          "fullName": "R03 parseFirSprite YJ2 压缩 chunk（已知输出 2×2）：1 帧、PNG 真解码透明/实心/opaque-0",
+          "status": "passed",
+          "title": "YJ2 压缩 chunk（已知输出 2×2）：1 帧、PNG 真解码透明/实心/opaque-0",
+          "duration": 2.704374999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 parseFirSprite"],
+          "fullName": "R03 parseFirSprite 退化 raw（2 字节 count=0，YJ2 拒 <4B 回退 raw）：frameCount=0",
+          "status": "passed",
+          "title": "退化 raw（2 字节 count=0，YJ2 拒 <4B 回退 raw）：frameCount=0",
+          "duration": 0.10133299999999679,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 parseFirSprite"],
+          "fullName": "R03 parseFirSprite 压缩标记 uncompLen=1：解压 1 字节 < 2 → frameCount=0（不抛错）",
+          "status": "passed",
+          "title": "压缩标记 uncompLen=1：解压 1 字节 < 2 → frameCount=0（不抛错）",
+          "duration": 0.3050840000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085787,
+      "endTime": 1790940085790.7043,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R07 parseItems _name 附加轴"],
+          "fullName": "R07 parseItems _name 附加轴 words.items[0] 空串 → 无 _name 键；非空串 → 精确 _name",
+          "status": "passed",
+          "title": "words.items[0] 空串 → 无 _name 键；非空串 → 精确 _name",
+          "duration": 1.1834580000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R07 parseItems _name 附加轴"],
+          "fullName": "R07 parseItems _name 附加轴 输入表零突变（parse 不改写 objBuf）",
+          "status": "passed",
+          "title": "输入表零突变（parse 不改写 objBuf）",
+          "duration": 10.61720799999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087018,
+      "endTime": 1790940087029.6172,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R03 decodeRgmPortrait"],
+          "fullName": "R03 decodeRgmPortrait 空槽：0 字节与 3 字节均 null",
+          "status": "passed",
+          "title": "空槽：0 字节与 3 字节均 null",
+          "duration": 0.8567500000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 decodeRgmPortrait"],
+          "fullName": "R03 decodeRgmPortrait 标记头剥离：2×2 帧逐像素 PNG 真解码（透明/opaque-0/实心 0xAA）",
+          "status": "passed",
+          "title": "标记头剥离：2×2 帧逐像素 PNG 真解码（透明/opaque-0/实心 0xAA）",
+          "duration": 2.2854170000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 decodeRgmPortrait"],
+          "fullName": "R03 decodeRgmPortrait 非标记输入从 0 直解，不因缺 0x02000000 头报 null",
+          "status": "passed",
+          "title": "非标记输入从 0 直解，不因缺 0x02000000 头报 null",
+          "duration": 0.5382499999999908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086046,
+      "endTime": 1790940086049.5383,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x00 end-frame 立即返回",
+          "status": "passed",
+          "title": "0x00 end-frame 立即返回",
+          "duration": 1.2990410000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x13 end-frame 立即返回",
+          "status": "passed",
+          "title": "0x13 end-frame 立即返回",
+          "duration": 0.5795420000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x02 skip 2 bytes(dst 推进,surface 不改)",
+          "status": "passed",
+          "title": "0x02 skip 2 bytes(dst 推进,surface 不改)",
+          "duration": 0.1318330000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x03 + n=2 skip (2+1)*2 = 6 bytes",
+          "status": "passed",
+          "title": "0x03 + n=2 skip (2+1)*2 = 6 bytes",
+          "duration": 0.11179099999999664,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x06-0x0a fall-through 写 (op-0x05) 个 2-byte pair",
+          "status": "passed",
+          "title": "0x06-0x0a fall-through 写 (op-0x05) 个 2-byte pair",
+          "duration": 0.19708300000000634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x0b + n=2 写 (2+1)=3 个 pair",
+          "status": "passed",
+          "title": "0x0b + n=2 写 (2+1)=3 个 pair",
+          "duration": 0.3202920000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x0c + w=1 写 (1+1)=2 个 pair",
+          "status": "passed",
+          "title": "0x0c + w=1 写 (1+1)=2 个 pair",
+          "duration": 0.13562500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x0d-0x10 重复同 2-byte (op-0x0b) 次",
+          "status": "passed",
+          "title": "0x0d-0x10 重复同 2-byte (op-0x0b) 次",
+          "duration": 0.13054199999999128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x11 + n=3 写同 2-byte (3+1)=4 次",
+          "status": "passed",
+          "title": "0x11 + n=3 写同 2-byte (3+1)=4 次",
+          "duration": 0.6062080000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x12 + w=1 写同 2-byte (1+1)=2 次",
+          "status": "passed",
+          "title": "0x12 + w=1 写同 2-byte (1+1)=2 次",
+          "duration": 0.12141699999999389,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 unknown opcode → throw(早 fail 防 ptr 错位 cascade)",
+          "status": "passed",
+          "title": "unknown opcode → throw(早 fail 防 ptr 错位 cascade)",
+          "duration": 0.43249999999999034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback)"],
+          "fullName": "decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback) chunk 6 解出 N>0 帧 + 每帧 320×200 PNG",
+          "status": "passed",
+          "title": "chunk 6 解出 N>0 帧 + 每帧 320×200 PNG",
+          "duration": 201.020125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback)"],
+          "fullName": "decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback) chunk 6 帧序列 — 第一帧非全黑(RLE delta 写了内容)",
+          "status": "passed",
+          "title": "chunk 6 帧序列 — 第一帧非全黑(RLE delta 写了内容)",
+          "duration": 183.16412499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback)"],
+          "fullName": "decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback) 全 12 chunk 都能解(0 frame chunk 容忍)",
+          "status": "passed",
+          "title": "全 12 chunk 都能解(0 frame chunk 容忍)",
+          "duration": 6097.5254159999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940077297,
+      "endTime": 1790940083783.5254,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/rng-frames.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R07 parseStores 记录边界"],
+          "fullName": "R07 parseStores 记录边界 满 9 记录与紧邻空记录：9 槽全保留且不串入下一条",
+          "status": "passed",
+          "title": "满 9 记录与紧邻空记录：9 槽全保留且不串入下一条",
+          "duration": 1.0784160000000043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R07 parseStores 记录边界"],
+          "fullName": "R07 parseStores 记录边界 奇数偏移 subarray：与独立缓冲全等",
+          "status": "passed",
+          "title": "奇数偏移 subarray：与独立缓冲全等",
+          "duration": 0.20716600000000085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086936,
+      "endTime": 1790940086938.2073,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P06 parseBattleFields 两记录完整对象"],
+          "fullName": "P06 parseBattleFields 两记录完整对象 screenWave unsigned 高位 + 五维 signed 正负极值逐字段精确",
+          "status": "passed",
+          "title": "screenWave unsigned 高位 + 五维 signed 正负极值逐字段精确",
+          "duration": 1.168458000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087519,
+      "endTime": 1790940087520.1685,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P08 data-misc 完整数组与非零偏移"],
+          "fullName": "P08 data-misc 完整数组与非零偏移 经验表 100 WORD 逐项精确（值 = i*3+1）",
+          "status": "passed",
+          "title": "经验表 100 WORD 逐项精确（值 = i*3+1）",
+          "duration": 2.3702499999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P08 data-misc 完整数组与非零偏移"],
+          "fullName": "P08 data-misc 完整数组与非零偏移 学习表 20×5：level=e*5+r+1 / magic=e*7+r+2（entry 与 role 双向非对称，转置即红）",
+          "status": "passed",
+          "title": "学习表 20×5：level=e*5+r+1 / magic=e*7+r+2（entry 与 role 双向非对称，转置即红）",
+          "duration": 2.6460419999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P08 data-misc 完整数组与非零偏移"],
+          "fullName": "P08 data-misc 完整数组与非零偏移 效果索引 20 WORD 逐项精确；三个输入均支持非零 byteOffset 视图",
+          "status": "passed",
+          "title": "效果索引 20 WORD 逐项精确；三个输入均支持非零 byteOffset 视图",
+          "duration": 0.5137500000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940086133,
+      "endTime": 1790940086138.5137,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseLevelUpExp"],
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "title": "parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "duration": 1.0769999999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpExp"],
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "title": "buf 小于 200 字节时截断处理,不抛错",
+          "duration": 0.2050000000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpMagic"],
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "title": "20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "duration": 0.5039170000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpMagic"],
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "title": "wMagic = 0 的 entry 仍被保留(不过滤)",
+          "duration": 0.15929200000000776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpMagic"],
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "title": "roleCount = 0 返回空数组",
+          "duration": 0.07774999999999466,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleEffectIndex"],
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "title": "parses WORD array",
+          "duration": 0.17508399999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleEffectIndex"],
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "title": "40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "duration": 0.1509580000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "title": "合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "duration": 0.27658299999998803,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "title": "framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "duration": 1.7097080000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "title": "real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "duration": 0.412832999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 10 battle effect sprite — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "title": "合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "duration": 0.16583299999999213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 10 battle effect sprite — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "title": "real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "duration": 0.10083399999999187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940075733,
+      "endTime": 1790940075738.1658,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseEnemies · 字段映射"],
+          "fullName": "parseEnemies · 字段映射 两条记录：u16 字段/signed modifier/五行抗具名/id=数组下标",
+          "status": "passed",
+          "title": "两条记录：u16 字段/signed modifier/五行抗具名/id=数组下标",
+          "duration": 1.6062499999999957,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies · 字段映射"],
+          "fullName": "parseEnemies · 字段映射 长度不能被 70 整除：已定义截断拒绝",
+          "status": "passed",
+          "title": "长度不能被 70 整除：已定义截断拒绝",
+          "duration": 0.3118340000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies · 字段映射"],
+          "fullName": "parseEnemies · 字段映射 零长度输入 → 空数组（合法边界）",
+          "status": "passed",
+          "title": "零长度输入 → 空数组（合法边界）",
+          "duration": 0.066082999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies · object→enemy 反查 _name"],
+          "fullName": "parseEnemies · object→enemy 反查 _name OBJECT_ENEMY 段首个非零 wEnemyID 命中，重复 id 首见优先；enemyId 与 objectIndex 分开",
+          "status": "passed",
+          "title": "OBJECT_ENEMY 段首个非零 wEnemyID 命中，重复 id 首见优先；enemyId 与 objectIndex 分开",
+          "duration": 0.5530410000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies · object→enemy 反查 _name"],
+          "fullName": "parseEnemies · object→enemy 反查 _name OBJECT 段截断：已定义拒绝",
+          "status": "passed",
+          "title": "OBJECT 段截断：已定义拒绝",
+          "duration": 0.08704099999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084644,
+      "endTime": 1790940084646.553,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P07 parseEnemyTeams 翻译模式原身份保真"],
+          "fullName": "P07 parseEnemyTeams 翻译模式原身份保真 两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩、_names 按 OBJECT 反查",
+          "status": "passed",
+          "title": "两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩、_names 按 OBJECT 反查",
+          "duration": 1.9387919999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P07 parseEnemyTeams 翻译模式原身份保真"],
+          "fullName": "P07 parseEnemyTeams 翻译模式原身份保真 缺映射只影响对应槽并给精确 warn；补全映射+名字后同输入零新增 warn 且全量合法",
+          "status": "passed",
+          "title": "缺映射只影响对应槽并给精确 warn；补全映射+名字后同输入零新增 warn 且全量合法",
+          "duration": 0.6930420000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940084949,
+      "endTime": 1790940084951.693,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P04 parseItems 全量七 WORD 字段保真"],
+          "fullName": "P04 parseItems 全量七 WORD 字段保真 296×14B 表：234 条（61..294）逐条七 WORD 精确，梦蛇 295 排除且邻位完整",
+          "status": "passed",
+          "title": "296×14B 表：234 条（61..294）逐条七 WORD 精确，梦蛇 295 排除且邻位完整",
+          "duration": 13.336167000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P04 parseItems 全量七 WORD 字段保真"],
+          "fullName": "P04 parseItems 全量七 WORD 字段保真 六基础 flag 一热 + 六装备位一热（同 role 号），295 不在断言域",
+          "status": "passed",
+          "title": "六基础 flag 一热 + 六装备位一热（同 role 号），295 不在断言域",
+          "duration": 14.285375000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940085581,
+      "endTime": 1790940085608.2854,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeRgmPortrait"],
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "title": "empty chunk(0 byte)→ null",
+          "duration": 0.7114169999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRgmPortrait"],
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "title": "real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "duration": 0.4463749999999891,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeBallIcon"],
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "title": "empty chunk(0 byte)→ null",
+          "duration": 0.09129200000000992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeBallIcon"],
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "title": "real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "duration": 0.10324999999998852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "title": "empty buf → frameCount=0, frames=[]",
+          "duration": 0.3449580000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "title": "returns chunkIndex + frameCount + frames structure",
+          "duration": 0.2009169999999898,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "title": "fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "duration": 12.233916000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "title": "real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "duration": 0.1254160000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress"],
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "title": "chunk 0 decompresses → valid sprite with frames",
+          "duration": 0.36812499999999204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940075824,
+      "endTime": 1790940075839.3682,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 行=字段 列=角色：标量/signed/五行抗/装备轴向/仙术槽/走帧/声音",
+          "status": "passed",
+          "title": "行=字段 列=角色：标量/signed/五行抗/装备轴向/仙术槽/走帧/声音",
+          "duration": 2.1325000000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 chunk 3 尺寸门：898B 拒绝（sizeof=900）",
+          "status": "passed",
+          "title": "chunk 3 尺寸门：898B 拒绝（sizeof=900）",
+          "duration": 0.332334000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 零值全表合法（全零 900B → 全部角色字段为 0/无 -1 语义）",
+          "status": "passed",
+          "title": "零值全表合法（全零 900B → 全部角色字段为 0/无 -1 语义）",
+          "duration": 0.2071250000000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 rgwName 指针反查 _name：按 name 值指向 word36+k，role3/4 故意对调不写反",
+          "status": "passed",
+          "title": "rgwName 指针反查 _name：按 name 值指向 word36+k，role3/4 故意对调不写反",
+          "duration": 0.1473749999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940083867,
+      "endTime": 1790940083869.3323,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["dumpSoundsMetadata"],
+          "fullName": "dumpSoundsMetadata returns count + per-chunk size array",
+          "status": "passed",
+          "title": "returns count + per-chunk size array",
+          "duration": 1.0549579999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940088164,
+      "endTime": 1790940088165.055,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseSpells · OBJECT_MAGIC 段"],
+          "fullName": "parseSpells · OBJECT_MAGIC 段 非空正控：flags 位拆解 + id=wObjectID + 末尾追加梦蛇 295",
+          "status": "passed",
+          "title": "非空正控：flags 位拆解 + id=wObjectID + 末尾追加梦蛇 295",
+          "duration": 1.6687909999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells · OBJECT_MAGIC 段"],
+          "fullName": "parseSpells · OBJECT_MAGIC 段 截断：< (296+102)×14B 拒绝",
+          "status": "passed",
+          "title": "截断：< (296+102)×14B 拒绝",
+          "duration": 0.35949999999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics · 全 OBJECT 数组 magic 视图"],
+          "fullName": "parseObjectMagics · 全 OBJECT 数组 magic 视图 逐 14B 遍历，id=绝对下标，count=floor(len/14)（尾部半条不计）",
+          "status": "passed",
+          "title": "逐 14B 遍历，id=绝对下标，count=floor(len/14)（尾部半条不计）",
+          "duration": 0.2946250000000106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable · DATA chunk 4（32B/条）"],
+          "fullName": "parseMagicTable · DATA chunk 4（32B/条） 字段映射：type 枚举与 other 兜底、signed speed/sound",
+          "status": "passed",
+          "title": "字段映射：type 枚举与 other 兜底、signed speed/sound",
+          "duration": 0.24433299999999747,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable · DATA chunk 4（32B/条）"],
+          "fullName": "parseMagicTable · DATA chunk 4（32B/条） 长度不能被 32 整除：已定义拒绝",
+          "status": "passed",
+          "title": "长度不能被 32 整除：已定义拒绝",
+          "duration": 0.10445799999999394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable · DATA chunk 4（32B/条）"],
+          "fullName": "parseMagicTable · DATA chunk 4（32B/条） 零长度 → 空数组（合法边界）",
+          "status": "passed",
+          "title": "零长度 → 空数组（合法边界）",
+          "duration": 0.06654199999999832,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons · OBJECT_POISON 视图（spells.ts:195-230）"],
+          "fullName": "parseObjectPoisons · OBJECT_POISON 视图（spells.ts:195-230） 字段映射：level/color/playerScript/enemyScript + id=绝对下标 + floor 计数",
+          "status": "passed",
+          "title": "字段映射：level/color/playerScript/enemyScript + id=绝对下标 + floor 计数",
+          "duration": 0.27770900000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons · OBJECT_POISON 视图（spells.ts:195-230）"],
+          "fullName": "parseObjectPoisons · OBJECT_POISON 视图（spells.ts:195-230） 零长度 → 空数组（合法边界）",
+          "status": "passed",
+          "title": "零长度 → 空数组（合法边界）",
+          "duration": 0.057582999999993945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers · OBJECT_PLAYER 段（spells.ts:234-265）"],
+          "fullName": "parseObjectPlayers · OBJECT_PLAYER 段（spells.ts:234-265） id=36..41 六条；scriptOnFriendDeath/scriptOnDying 按偏移 4/6 映射",
+          "status": "passed",
+          "title": "id=36..41 六条；scriptOnFriendDeath/scriptOnDying 按偏移 4/6 映射",
+          "duration": 0.4255420000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers · OBJECT_PLAYER 段（spells.ts:234-265）"],
+          "fullName": "parseObjectPlayers · OBJECT_PLAYER 段（spells.ts:234-265） 截断：< (36+6)×14B 拒绝",
+          "status": "passed",
+          "title": "截断：< (36+6)×14B 拒绝",
+          "duration": 0.10754200000000935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940075998,
+      "endTime": 1790940076002.1074,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P05 parseStores 三记录并存"],
+          "fullName": "P05 parseStores 三记录并存 空首槽 / 首 0 截断 / 满 9 三记录并存：id 0..2、数组互不串位",
+          "status": "passed",
+          "title": "空首槽 / 首 0 截断 / 满 9 三记录并存：id 0..2、数组互不串位",
+          "duration": 1.4710830000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790940087609,
+      "endTime": 1790940087610.4712,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts"
+    }
+  ]
+}

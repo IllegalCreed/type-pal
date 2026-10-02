@@ -8,7 +8,13 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex 有限包独立验收（2026-10-02，当前优先）
+## Codex 有限返工接收（2026-10-02，当前优先）
+
+固定3f5791a2ed4ddf2f4cc2bd21f8390d84eb7343ab，十四CLI包与Q-NEXT-01/02代码/证据accept：无桥，敌140B表id0/1及id1字段直接存在；五代表产品针在最终hash实采15相，每相完整24身份，恰一指定AssertionError、exit0/1/0、patch重建/精确恢复有效，原旧71不采不改。全包381新绿、三typecheck新零、3096静态完整0/0/0/docs/716冻结/835白名单/diff通过。
+[独立接收与最终五针](../../testing/glm-tenfold-triple/codex-oq-next-r2-acceptance-20261002.md)、[机器证据](../../testing/glm-tenfold-triple/codex-oq-next-r2-acceptance-20261002.json)。161执行/结构净新上限160/≥540仍部分，原700/50组不缩；Reforge2150/game2812同对象明确复用，不冒称本次新跑其它全包，未main/done/覆盖结算。
+**无下一位GLM Q提示词，停止本有限包作者续做；下一真实新清单与接入由Codex核定。** 不重做已闭桥/引用/五针，不执行作者旧/tmp工具，D-Q01-1不夹修。
+
+## Codex 上一轮有限包独立验收（2026-10-02，历史；已闭合）
 
 固定4ec6e0676d398815c96f44cb6c4d475cbe6ad771、测试2d6ced2034fd590c777d6a7b1f56d51d52bb4dd9。新14+旧CLI10独立24绿、extract全包381绿/三typecheck新跑零、3096文件静态0/0/0/docs/716冻结/835白名单/diff通过；旧147身份+14对应，旧71字节不变，其它两包2150/2812字节无变明确复用，不冒称新跑。
 五新代表产品针由Codex自有树实采15相，完整24身份、指定唯一AssertionError、exit0/1/0、源/测试/fixture/hash与patch重建结构有效，精确恢复；不使用作者旧/tmp工具、不把数据复算冒作重跑。

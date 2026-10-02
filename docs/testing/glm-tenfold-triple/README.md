@@ -1,5 +1,10 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
+2026-10-02当前：[O/Q有限返工接收与最终五针](codex-oq-next-r2-acceptance-20261002.md)、[机器复核](codex-oq-next-r2-acceptance-20261002.json)、[原始实跑](codex-oq-next-r2-evidence/README.md)。
+O it/点名修订接收，coveredBy由Codex零信用裁决，净新上限286；Q十四CLI包与合法敌引用/无桥accept，381新绿及最终五针15相有效，旧71保持。
+两原700卡仍部分，未main/done/正式覆盖；暂无作者返工或泛化续做，下一真实新清单由Codex核定；P索引已接收/18流程保持。
+下段及卡内旧提示词是历史，不重执行已闭修项。
+
 2026-10-02当前：[有限包独立验收、五针实采与O/Q合并清单](codex-opq-next-acceptance-20261002.md)、
 [机器证据](codex-opq-next-acceptance-20261002.json)、[原始证据目录](codex-opq-next-acceptance-20261002/README.md)。O310/23hash/重建/64再判/静态零，但it解析和六扣列/四混合账counter，净新上限≤289；
 Q24/381新绿、三typecheck/静态零，五新产品针15相结构有效，但四双桥/四敌引用越界counter，最终五针仍Codex重采、旧71保持。

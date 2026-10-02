@@ -1,0 +1,973 @@
+{
+  "date": "2026-10-02",
+  "o": {
+    "head": "ad6efd3141da47011508ba7aa310e360f3339f7a",
+    "testHashes": [
+      {
+        "path": "packages/migrate/src/pal-assets.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/actor-condition.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/author-script-core.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/data-guards.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/enemy-ai.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/enemy-script.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/frame-sequence.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/item-effects.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/item-equip.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/item-use.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/poison.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/runtime-hostile.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/script-library.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/script.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/small-guards.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/validate-refs.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/content/src/validate.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/shared/src/mkf.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/shared/src/rle.glm-o.test.ts",
+        "unchanged": true
+      },
+      {
+        "path": "packages/shared/src/yj2-encode.glm-o.test.ts",
+        "unchanged": true
+      }
+    ],
+    "parser": [
+      {
+        "source": "it(\"case\", () => { expect(1).toBe(1) })",
+        "expected": ["case"],
+        "actual": ["case"],
+        "passed": true
+      },
+      {
+        "source": "test('case', () => { expect(1).toBe(1) })",
+        "expected": ["case"],
+        "actual": ["case"],
+        "passed": true
+      },
+      {
+        "source": "describe('outer', () => { it('inner', () => { expect(1).toBe(1) }) })",
+        "expected": ["outer inner"],
+        "actual": ["outer inner"],
+        "passed": true
+      },
+      {
+        "source": "describe('a', () => { describe('b', () => { it('c', () => { expect(1).toBe(1) }) }) })",
+        "expected": ["a b c"],
+        "actual": ["a b c"],
+        "passed": true
+      },
+      {
+        "source": "it(   'spaces', () => { expect(1).toBe(1) })",
+        "expected": ["spaces"],
+        "actual": ["spaces"],
+        "passed": true
+      },
+      {
+        "source": "// it('comment', () => {})\nit('real', () => { expect(1).toBe(1) })",
+        "expected": ["real"],
+        "actual": ["real"],
+        "passed": true
+      }
+    ],
+    "rebuildByteExact": true,
+    "cases": 460,
+    "authorNetCap": 287,
+    "reviewedNetCap": 286,
+    "minimumGap": 414,
+    "reviewerClassificationCorrection": {
+      "id": "O06 初始仙术与 issue 去重 coveredBy 自援护拒绝（运行时天然不触发）",
+      "from": "mixed-subaxis",
+      "to": "existing-proof",
+      "netCredit": false,
+      "reason": "旧940-961显式warn/error oracle已更强证明；仅existing-proof文本更新仍漏改分类。Codex扣列，不另派纯文字返工"
+    },
+    "classificationCounts": {
+      "normal-input": 42,
+      "boundary-reject": 29,
+      "residual-arm": 34,
+      "idempotence": 1,
+      "pending-diagnostic": 1,
+      "existing-proof": 167,
+      "mixed-subaxis": 54,
+      "new-axis": 87,
+      "fixture-self-check": 3,
+      "existing-proof-cross-check": 1,
+      "guard-rejection": 27,
+      "aggregation-shape": 1,
+      "immutability": 2,
+      "boundary-rounding": 1,
+      "boundary-truncation": 1,
+      "boundary-tag-recognition": 9
+    },
+    "changedBusiness": "",
+    "counterArchivesChanged": ""
+  },
+  "q": {
+    "head": "3f5791a2ed4ddf2f4cc2bd21f8390d84eb7343ab",
+    "counts": {
+      "total": 381,
+      "passed": 381,
+      "failed": 0
+    },
+    "fullIssues": [],
+    "counters": [
+      {
+        "id": "GE-EQUIP",
+        "target": "Q-NEXT1-02 item.equip entry",
+        "verdict": "VALID",
+        "issues": [],
+        "counts": [
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          },
+          {
+            "total": 24,
+            "passed": 23,
+            "failed": 1
+          },
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          }
+        ],
+        "exits": [0, 1, 0],
+        "sourceSha256": [
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+          "187969f3f58998875549052d1f0a21835edb17384342048d8781dd5f06faeda2",
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
+        ],
+        "allFinalTestFixtureConfigHashesStable": true,
+        "failure": {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-02 item.equip entry",
+          "status": "failed",
+          "title": "Q-NEXT1-02 item.equip entry",
+          "duration": 464.6802080000001,
+          "failureMessages": [
+            "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'events written: 1 scenes + shared(含 1…'\n    at expectPipelineOk (/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:120:27)\n    at /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:257:3\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-opq-next-r2-review.6JrPci/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": [],
+          "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+        }
+      },
+      {
+        "id": "GE-THROW",
+        "target": "Q-NEXT1-03 item.throw entry",
+        "verdict": "VALID",
+        "issues": [],
+        "counts": [
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          },
+          {
+            "total": 24,
+            "passed": 23,
+            "failed": 1
+          },
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          }
+        ],
+        "exits": [0, 1, 0],
+        "sourceSha256": [
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+          "2963a16b5dfd63e0a190264c9e2248ad08e3de520ebd44bca8fc7b8f3a5b26bb",
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
+        ],
+        "allFinalTestFixtureConfigHashesStable": true,
+        "failure": {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-03 item.throw entry",
+          "status": "failed",
+          "title": "Q-NEXT1-03 item.throw entry",
+          "duration": 575.6130409999998,
+          "failureMessages": [
+            "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'events written: 1 scenes + shared(含 1…'\n    at expectPipelineOk (/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:120:27)\n    at /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:265:3\n    at file:///private/tmp/codex-opq-next-r2-review.6JrPci/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": [],
+          "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+        }
+      },
+      {
+        "id": "GE-SUCCESS",
+        "target": "Q-NEXT1-06 spell.success entry",
+        "verdict": "VALID",
+        "issues": [],
+        "counts": [
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          },
+          {
+            "total": 24,
+            "passed": 23,
+            "failed": 1
+          },
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          }
+        ],
+        "exits": [0, 1, 0],
+        "sourceSha256": [
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+          "a3e8b96a4ed18bbd5cd8e7fca7e7c44bb472971ac382e1ea72a5683e0ad3a1ce",
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
+        ],
+        "allFinalTestFixtureConfigHashesStable": true,
+        "failure": {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-06 spell.success entry",
+          "status": "failed",
+          "title": "Q-NEXT1-06 spell.success entry",
+          "duration": 528.2041250000002,
+          "failureMessages": [
+            "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'events written: 1 scenes + shared(含 1…'\n    at expectPipelineOk (/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:120:27)\n    at /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:289:3\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-opq-next-r2-review.6JrPci/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": [],
+          "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+        }
+      },
+      {
+        "id": "GE-BATTLEEND",
+        "target": "Q-NEXT1-09 enemy.battleEnd entry",
+        "verdict": "VALID",
+        "issues": [],
+        "counts": [
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          },
+          {
+            "total": 24,
+            "passed": 23,
+            "failed": 1
+          },
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          }
+        ],
+        "exits": [0, 1, 0],
+        "sourceSha256": [
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+          "0a8d920f8054de918f582d1cd14b047926f36d94daf09d6c2ec445e7ad2fc82a",
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
+        ],
+        "allFinalTestFixtureConfigHashesStable": true,
+        "failure": {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-09 enemy.battleEnd entry",
+          "status": "failed",
+          "title": "Q-NEXT1-09 enemy.battleEnd entry",
+          "duration": 533.6829579999994,
+          "failureMessages": [
+            "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'events written: 1 scenes + shared(含 1…'\n    at expectPipelineOk (/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:120:27)\n    at /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:319:3\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/codex-opq-next-r2-review.6JrPci/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": [],
+          "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+        }
+      },
+      {
+        "id": "GE-FRIENDDEATH",
+        "target": "Q-NEXT1-11 player.friendDeath entry",
+        "verdict": "VALID",
+        "issues": [],
+        "counts": [
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          },
+          {
+            "total": 24,
+            "passed": 23,
+            "failed": 1
+          },
+          {
+            "total": 24,
+            "passed": 24,
+            "failed": 0
+          }
+        ],
+        "exits": [0, 1, 0],
+        "sourceSha256": [
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+          "c1be4581d25c1688386842e806815d28b63fbc8d04219b73b04372fdd4e3eb69",
+          "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
+        ],
+        "allFinalTestFixtureConfigHashesStable": true,
+        "failure": {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-11 player.friendDeath entry",
+          "status": "failed",
+          "title": "Q-NEXT1-11 player.friendDeath entry",
+          "duration": 506.9332090000007,
+          "failureMessages": [
+            "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'events written: 1 scenes + shared(含 1…'\n    at expectPipelineOk (/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:120:27)\n    at /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts:338:3\n    at file:///private/tmp/codex-opq-next-r2-review.6JrPci/Q/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": [],
+          "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+        }
+      }
+    ],
+    "directed": {
+      "files": 24,
+      "total": 161,
+      "passed": 161,
+      "failed": 0
+    },
+    "directedExtractMatched": 24,
+    "reuseOtherPackages": "",
+    "oldCounterArchivesChanged": "",
+    "inputProof": {
+      "bytes": 140,
+      "ids": [0, 1],
+      "selected": {
+        "objectIndex": 398,
+        "enemyId": 1,
+        "resistanceToSorcery": 0,
+        "scriptOnTurnStart": 0,
+        "scriptOnBattleEnd": 3,
+        "scriptOnReady": 0
+      },
+      "referenced": {
+        "id": 1,
+        "idleFrames": 0,
+        "magicFrames": 0,
+        "attackFrames": 0,
+        "idleAnimSpeed": 0,
+        "actWaitFrames": 0,
+        "yPosOffset": 0,
+        "attackSound": 0,
+        "actionSound": 0,
+        "magicSound": 0,
+        "deathSound": 0,
+        "callSound": 0,
+        "health": 777,
+        "exp": 55,
+        "cash": 66,
+        "level": 9,
+        "magic": 0,
+        "magicRate": 0,
+        "attackEquivItem": 0,
+        "attackEquivItemRate": 0,
+        "stealItem": 0,
+        "stealItemCount": 0,
+        "attackStrength": 0,
+        "magicStrength": 0,
+        "defense": 0,
+        "dexterity": 0,
+        "fleeRate": 0,
+        "poisonResistance": 0,
+        "elemResistance": {
+          "wind": 0,
+          "thunder": 0,
+          "water": 0,
+          "fire": 0,
+          "earth": 0
+        },
+        "physicalResistance": 0,
+        "dualMove": 0,
+        "collectValue": 0
+      },
+      "expected": {
+        "health": 777,
+        "exp": 55,
+        "cash": 66,
+        "level": 9
+      },
+      "legal": true
+    }
+  },
+  "runs": [
+    {
+      "name": "GE-BATTLEEND-mutated",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-BATTLEEND-mutated.vitest.json"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-BATTLEEND-mutated.vitest.json\nundefined\n/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/cli-global-entries.glm-q.test.ts src/cli-isolated.glm-q.test.ts src/cli-battle-assets.glm-q.test.ts src/cli-font-lookup.glm-q.test.ts --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-BATTLEEND-mutated.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-BATTLEEND-original",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-BATTLEEND-original.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-BATTLEEND-original.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-BATTLEEND-restored",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-BATTLEEND-restored.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-BATTLEEND-restored.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-EQUIP-mutated",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-EQUIP-mutated.vitest.json"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-EQUIP-mutated.vitest.json\nundefined\n/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/cli-global-entries.glm-q.test.ts src/cli-isolated.glm-q.test.ts src/cli-battle-assets.glm-q.test.ts src/cli-font-lookup.glm-q.test.ts --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-EQUIP-mutated.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-EQUIP-original",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-EQUIP-original.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-EQUIP-original.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-EQUIP-restored",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-EQUIP-restored.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-EQUIP-restored.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-FRIENDDEATH-mutated",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-FRIENDDEATH-mutated.vitest.json"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-FRIENDDEATH-mutated.vitest.json\nundefined\n/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/cli-global-entries.glm-q.test.ts src/cli-isolated.glm-q.test.ts src/cli-battle-assets.glm-q.test.ts src/cli-font-lookup.glm-q.test.ts --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-FRIENDDEATH-mutated.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-FRIENDDEATH-original",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-FRIENDDEATH-original.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-FRIENDDEATH-original.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-FRIENDDEATH-restored",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-FRIENDDEATH-restored.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-FRIENDDEATH-restored.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-SUCCESS-mutated",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-SUCCESS-mutated.vitest.json"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-SUCCESS-mutated.vitest.json\nundefined\n/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/cli-global-entries.glm-q.test.ts src/cli-isolated.glm-q.test.ts src/cli-battle-assets.glm-q.test.ts src/cli-font-lookup.glm-q.test.ts --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-SUCCESS-mutated.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-SUCCESS-original",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-SUCCESS-original.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-SUCCESS-original.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-SUCCESS-restored",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-SUCCESS-restored.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-SUCCESS-restored.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-THROW-mutated",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-THROW-mutated.vitest.json"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-THROW-mutated.vitest.json\nundefined\n/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/cli-global-entries.glm-q.test.ts src/cli-isolated.glm-q.test.ts src/cli-battle-assets.glm-q.test.ts src/cli-font-lookup.glm-q.test.ts --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-THROW-mutated.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-THROW-original",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-THROW-original.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-THROW-original.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "GE-THROW-restored",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/GE-THROW-restored.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/GE-THROW-restored.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "o-docs",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/O",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "docs: 815 Markdown / 4290 local links / 245 tasks / content20 SAVE8\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    {
+      "name": "o-lint",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/O",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> type-pal@ lint /private/tmp/codex-opq-next-r2-review.6JrPci/O\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 3233 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    {
+      "name": "o-rebuild",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/O",
+      "command": ["node", "docs/testing/glm-tenfold-triple/wave-O/build-contracts.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "contracts: 460 rows, overrides applied: 443/443, manualOverlay: 17, emptyCondition remaining: 0\n",
+      "stderr": ""
+    },
+    {
+      "name": "o-rejudge",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/O",
+      "command": ["node", "docs/testing/glm-tenfold-triple/wave-O/re-adjudicate.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "re-adjudication: 64/64 pass, 0 flagged\n",
+      "stderr": ""
+    },
+    {
+      "name": "o-verifier",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/O",
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "O",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"productionFreeze\": \"3ac9a2e2f6aba8a5cc97640c18fef8549d199380\",\n  \"waves\": [\n    {\n      \"id\": \"O\",\n      \"sources\": 105,\n      \"missingBranches\": 825\n    },\n    {\n      \"id\": \"P\",\n      \"sources\": 288,\n      \"missingBranches\": 5426\n    },\n    {\n      \"id\": \"Q\",\n      \"sources\": 323,\n      \"missingBranches\": 6136\n    }\n  ],\n  \"totalSources\": 716,\n  \"scope\": {\n    \"owner\": \"O\",\n    \"dispatchBase\": \"8b3ca062953b17a12178f8d1a9e36657971234b1\",\n    \"changedPaths\": 786\n  },\n  \"frozenHashesValid\": true,\n  \"ownerOverlap\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "q-docs",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "docs: 815 Markdown / 4277 local links / 245 tasks / content20 SAVE8\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    {
+      "name": "q-full",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-opq-next-r2-review.6JrPci/q-full.vitest.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-opq-next-r2-review.6JrPci/q-full.vitest.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "q-lint",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> type-pal@ lint /private/tmp/codex-opq-next-r2-review.6JrPci/Q\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 3096 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    {
+      "name": "q-typecheck-game",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> @type-pal/game@1.0.0 typecheck /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/game\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "q-typecheck-reforge",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": ["pnpm", "--filter", "@type-pal/reforge", "typecheck"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> @type-pal/reforge@0.0.0 typecheck /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/reforge\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "q-typecheck",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": ["pnpm", "--filter", "@type-pal/pal-extract", "typecheck"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> @type-pal/pal-extract@0.0.0 typecheck /private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "q-verifier",
+      "cwd": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q",
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "Q",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"productionFreeze\": \"3ac9a2e2f6aba8a5cc97640c18fef8549d199380\",\n  \"waves\": [\n    {\n      \"id\": \"O\",\n      \"sources\": 105,\n      \"missingBranches\": 825\n    },\n    {\n      \"id\": \"P\",\n      \"sources\": 288,\n      \"missingBranches\": 5426\n    },\n    {\n      \"id\": \"Q\",\n      \"sources\": 323,\n      \"missingBranches\": 6136\n    }\n  ],\n  \"totalSources\": 716,\n  \"scope\": {\n    \"owner\": \"Q\",\n    \"dispatchBase\": \"8b3ca062953b17a12178f8d1a9e36657971234b1\",\n    \"changedPaths\": 835\n  },\n  \"frozenHashesValid\": true,\n  \"ownerOverlap\": 0\n}\n",
+      "stderr": ""
+    }
+  ],
+  "authorTreesWritten": false,
+  "mainMergedOrPushed": false,
+  "officialCoverageMeasured": false
+}

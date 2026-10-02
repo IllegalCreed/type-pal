@@ -1,0 +1,307 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 24,
+  "numPassedTests": 24,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790939784701,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+          "status": "passed",
+          "title": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+          "duration": 604.938041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
+          "status": "passed",
+          "title": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
+          "duration": 585.5549579999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790939796312,
+      "endTime": 1790939797502.555,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-battle-assets.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+          "status": "passed",
+          "title": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+          "duration": 472.042375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+          "status": "passed",
+          "title": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+          "duration": 481.20837499999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790939797604,
+      "endTime": 1790939798557.2085,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-font-lookup.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-01 item.use entry",
+          "status": "passed",
+          "title": "Q-NEXT1-01 item.use entry",
+          "duration": 486.00654199999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-02 item.equip entry",
+          "status": "passed",
+          "title": "Q-NEXT1-02 item.equip entry",
+          "duration": 484.5861249999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-03 item.throw entry",
+          "status": "passed",
+          "title": "Q-NEXT1-03 item.throw entry",
+          "duration": 494.69383300000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-04 item.desc entry",
+          "status": "passed",
+          "title": "Q-NEXT1-04 item.desc entry",
+          "duration": 504.19275000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-05 spell.use entry",
+          "status": "passed",
+          "title": "Q-NEXT1-05 spell.use entry",
+          "duration": 487.7344589999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-06 spell.success entry",
+          "status": "passed",
+          "title": "Q-NEXT1-06 spell.success entry",
+          "duration": 483.5339160000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-07 spell.desc entry",
+          "status": "passed",
+          "title": "Q-NEXT1-07 spell.desc entry",
+          "duration": 484.69133299999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-08 enemy.turnStart entry",
+          "status": "passed",
+          "title": "Q-NEXT1-08 enemy.turnStart entry",
+          "duration": 488.23870899999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-09 enemy.battleEnd entry",
+          "status": "passed",
+          "title": "Q-NEXT1-09 enemy.battleEnd entry",
+          "duration": 483.6497079999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-10 enemy.ready entry",
+          "status": "passed",
+          "title": "Q-NEXT1-10 enemy.ready entry",
+          "duration": 481.7692499999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-11 player.friendDeath entry",
+          "status": "passed",
+          "title": "Q-NEXT1-11 player.friendDeath entry",
+          "duration": 500.8738750000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-12 player.dying entry",
+          "status": "passed",
+          "title": "Q-NEXT1-12 player.dying entry",
+          "duration": 514.0944579999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-13 shared entry alias",
+          "status": "passed",
+          "title": "Q-NEXT1-13 shared entry alias",
+          "duration": 496.1622499999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-14 scene global overlap",
+          "status": "passed",
+          "title": "Q-NEXT1-14 scene global overlap",
+          "duration": 638.0788330000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790939788921,
+      "endTime": 1790939795950.0789,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+          "duration": 1204.918125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+          "duration": 527.326292,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "duration": 524.4259579999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+          "duration": 544.882916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
+          "duration": 531.0541250000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+          "duration": 528.5218339999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790939784870,
+      "endTime": 1790939788732.5217,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/codex-opq-next-r2-review.6JrPci/Q/packages/pal-extract/src/cli-isolated.glm-q.test.ts"
+    }
+  ]
+}
