@@ -9,7 +9,13 @@
 - [contracts.json](contracts.json)：逐条件账（源锚点/生产 caller/合法输入/旧 blob+fullName+matcher/新 oracle 完整 expected/分类）。
 - [directed-vitest.json](directed-vitest.json)：两新测文件真实定向 JSON（file×fullName×status）。
 - [reforge-full-vitest/](reforge-full-vitest/)：Reforge 全包原始 JSON（超 1 MiB 格式门，按协议无损拆 3 片 + [index.json](reforge-full-vitest/index.json) 汇总/红文件清单，拼接即还原；含 5 条环境资产红，见下）。
-- [counters/](counters/)：4 针反控——[mutants.mjs](counters/mutants.mjs)（runner+judge 自测，可重跑）与 [evidence/](counters/evidence/)（control/各针 target·same-field·restored 的 JSON+raw log、summary.json 三态 SHA）。
+- [counters/](counters/)：4 针反控——[mutants.mjs](counters/mutants.mjs)（r2 严格单一 judge + 拒收自测，可重跑）与 [evidence/](counters/evidence/)（各针 control/variant/restored 三态原 JSON 与原字节 `.raw.txt`、summary.json 产品与测试三态 SHA）。
+
+## r1 窄返工（KIMI-R1-01/02，2026-10-02）
+
+- **K6 末例合法化**：原"第二 stage entry"子轴经公开 `checkBaseScriptFlow` 真实拒收（`只允许 onEnter initial state`）；已去 entry，保留合法的第二 stage nested branch 臂 + body 隔离方向，四个作者 fixture 与 organized 产物全部补公开合法性断言；旧完整 oracle 已重排重（旧证仅 stage[0] body/entry/onNo，不覆盖第二态 branch 臂，非换名计新）。
+- **严格单一 judge**：每针声明同一非零 file×fullName 多重执行范围（67/67/67/50 叶），control/variant/restored 三相共用；范围多重集合恒等（一红叠 pending 重复叶、缺叶、多叶、错身份、多红、非 AssertionError、内嵌运行时错、pending/todo、collection/suite 消息、未处理异常、signal、错误 exit 全部拒收），judge 由 runner 与 16 条拒收自测共用（2 accepted / 16 rejected）。
+- **原 raw 入库**：12 份原字节 `.raw.txt`（绕开 `*.log` ignore，不改 ignore）+ 12 份原 JSON 全部进固定提交；逐针产品与测试文件三态 SHA 实采落 summary.json（恢复态与正控逐文件相等）。
 
 ## 执行账
 
@@ -25,10 +31,10 @@
 |---|---|---|---|
 | machine-id-cursor | `script-continuation.ts:38` 去掉 machine id 比对 | K1 外机 machine 游标拒收 | runtime-auto-checkpoint 全绿（67 executed） |
 | battle-none-arm | `:116` 允许 arm=none 下钻 | K2 战斗无结果臂拒收 | runtime-auto-checkpoint 全绿（67 executed） |
-| none-explicit-self | `:137` none 禁显式 self 失效 | K3 none+显式 self 拒收 | （主针 lane 恰一红） |
+| none-explicit-self | `:137` none 禁显式 self 失效 | K3 none+显式 self 拒收 | —（范围同 67 叶；同场旧绿计数于另 3 针） |
 | unreachable-tail | `author-flow-stages.ts:40` 尾部不再追加 | K6 restart 环+尾部稳定 ID | author-flow-stages 全绿（50 executed） |
 
-每针：正控并集全绿 → 变异恰一 AssertionError（exit 1，runner/selftest 共用 judge，positive 1 / rejected 10）→ 恢复后并集重跑全绿；产品源与测试三态 SHA 见 evidence/summary.json；临时 mkdtemp 副本跑后即清，仓库全程 hash-pin 零漂移。
+每针：正控声明范围全绿（exit 0）→ 变异范围内恰一 AssertionError（exit 1）→ 恢复后同范围重跑全绿（exit 0）；产品源与测试三态 SHA 逐针实采见 evidence/summary.json；临时 mkdtemp 副本跑后即清，仓库全程 hash-pin 零漂移。
 
 ## 门
 

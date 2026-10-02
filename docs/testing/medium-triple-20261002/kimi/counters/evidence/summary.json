@@ -3,156 +3,285 @@
     "packages/reforge/src/script-continuation.ts": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
     "packages/content/src/author-flow-stages.ts": "5bf898814d87d0ecac315786a0d01a49fced8ec487f0d0ca3d04fd83414f03bc",
     "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
-    "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "8c396ed6b9105752e3e79ff4abdfeb1563ded34e07adba372fc984861deffe39",
+    "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
     "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3",
     "packages/reforge/src/author-flow-stages.test.ts": "71d7432031b8aa64e3f4d2288547e29237908de2eb2841a0cb59064c3ecac5b3"
   },
   "judge": {
-    "positive": 1,
-    "rejected": 10
+    "accepted": 2,
+    "rejected": 16
   },
   "rows": [
     {
       "id": "machine-id-cursor",
       "source": "packages/reforge/src/script-continuation.ts",
+      "needle": {
+        "from": "if (cursor.kind !== 'state' || cursor.machine !== executable.flow.machine.id)",
+        "to": "if (cursor.kind !== 'state')"
+      },
       "target": {
         "file": "src/script-continuation.kimi-mid-1.test.ts",
         "fullName": "K1 machine executable refuses a cursor from a foreign machine id"
       },
-      "states": {
-        "control": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
-        "variant": "2e798e78f72b2e2aa8c7a345ba51623274d839f7b4a35b57a57d0e5a11dfd3d9",
-        "restored": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f"
-      },
-      "lane": {
-        "exit": 1,
-        "executed": [
-          {
-            "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
-            "fullName": "K1 machine executable refuses a cursor from a foreign machine id",
-            "status": "failed",
-            "failureMessages": [
-              "AssertionError: expected the continuation walk to reject: expected null not to be null\n    at expectReject (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:96:66)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:137:3\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
-            ]
-          }
-        ]
-      },
-      "sensitivity": {
+      "scope": {
         "files": [
           "src/script-continuation.kimi-mid-1.test.ts",
           "src/author-stage-organization.kimi-mid-1.test.ts",
           "src/runtime-auto-checkpoint.test.ts"
         ],
-        "exit": 1,
-        "executed": 67,
-        "oldAllGreen": true,
+        "declaredLeaves": 67,
+        "identitiesSha256": "3437b9c0067b8c92090d7530478cd92839629e2b33bce7864356318c56f3320b",
+        "sameAcrossStates": ["control", "variant", "restored"]
+      },
+      "sensitivity": {
+        "oldFiles": ["src/runtime-auto-checkpoint.test.ts"],
+        "oldLeavesExecuted": 35,
+        "oldAllGreenVariant": true,
         "onlyNewRed": "K1 machine executable refuses a cursor from a foreign machine id"
       },
-      "restoredExit": 0
+      "states": {
+        "control": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        },
+        "variant": {
+          "exit": 1,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "2e798e78f72b2e2aa8c7a345ba51623274d839f7b4a35b57a57d0e5a11dfd3d9",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        },
+        "restored": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        }
+      },
+      "artifacts": {
+        "json": [
+          "machine-id-cursor.control.json",
+          "machine-id-cursor.variant.json",
+          "machine-id-cursor.restored.json"
+        ],
+        "raw": [
+          "machine-id-cursor.control.raw.txt",
+          "machine-id-cursor.variant.raw.txt",
+          "machine-id-cursor.restored.raw.txt"
+        ]
+      }
     },
     {
       "id": "battle-none-arm",
       "source": "packages/reforge/src/script-continuation.ts",
+      "needle": {
+        "from": "if (control?.kind !== 'startBattle' || control.arm === 'none')",
+        "to": "if (control?.kind !== 'startBattle')"
+      },
       "target": {
         "file": "src/script-continuation.kimi-mid-1.test.ts",
         "fullName": "K2 a startBattle child without an outcome arm rejects"
       },
-      "states": {
-        "control": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
-        "variant": "b0fdb0c60de68df93bef853776eaef16c7632b0771a4ecdd971ac00c8286fd47",
-        "restored": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f"
-      },
-      "lane": {
-        "exit": 1,
-        "executed": [
-          {
-            "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
-            "fullName": "K2 a startBattle child without an outcome arm rejects",
-            "status": "failed",
-            "failureMessages": [
-              "AssertionError: expected the continuation walk to reject: expected null not to be null\n    at expectReject (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:96:66)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:319:3\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
-            ]
-          }
-        ]
-      },
-      "sensitivity": {
+      "scope": {
         "files": [
           "src/script-continuation.kimi-mid-1.test.ts",
           "src/author-stage-organization.kimi-mid-1.test.ts",
           "src/runtime-auto-checkpoint.test.ts"
         ],
-        "exit": 1,
-        "executed": 67,
-        "oldAllGreen": true,
+        "declaredLeaves": 67,
+        "identitiesSha256": "3437b9c0067b8c92090d7530478cd92839629e2b33bce7864356318c56f3320b",
+        "sameAcrossStates": ["control", "variant", "restored"]
+      },
+      "sensitivity": {
+        "oldFiles": ["src/runtime-auto-checkpoint.test.ts"],
+        "oldLeavesExecuted": 35,
+        "oldAllGreenVariant": true,
         "onlyNewRed": "K2 a startBattle child without an outcome arm rejects"
       },
-      "restoredExit": 0
+      "states": {
+        "control": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        },
+        "variant": {
+          "exit": 1,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "b0fdb0c60de68df93bef853776eaef16c7632b0771a4ecdd971ac00c8286fd47",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        },
+        "restored": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        }
+      },
+      "artifacts": {
+        "json": [
+          "battle-none-arm.control.json",
+          "battle-none-arm.variant.json",
+          "battle-none-arm.restored.json"
+        ],
+        "raw": [
+          "battle-none-arm.control.raw.txt",
+          "battle-none-arm.variant.raw.txt",
+          "battle-none-arm.restored.raw.txt"
+        ]
+      }
     },
     {
       "id": "none-explicit-self",
       "source": "packages/reforge/src/script-continuation.ts",
+      "needle": {
+        "from": "if (script.self === 'none' && command.self)",
+        "to": "if (false && command.self)"
+      },
       "target": {
         "file": "src/script-continuation.kimi-mid-1.test.ts",
         "fullName": "K3 a none-self shared script refuses an explicit command self"
       },
-      "states": {
-        "control": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
-        "variant": "1dd5c71454ea13ae4e43619cbe14307ee1ed9f000832e52d55d564323587b703",
-        "restored": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f"
-      },
-      "lane": {
-        "exit": 1,
-        "executed": [
-          {
-            "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
-            "fullName": "K3 a none-self shared script refuses an explicit command self",
-            "status": "failed",
-            "failureMessages": [
-              "AssertionError: expected the continuation walk to reject: expected null not to be null\n    at expectReject (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:96:66)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:390:3\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
-            ]
-          }
-        ]
+      "scope": {
+        "files": [
+          "src/script-continuation.kimi-mid-1.test.ts",
+          "src/author-stage-organization.kimi-mid-1.test.ts",
+          "src/runtime-auto-checkpoint.test.ts"
+        ],
+        "declaredLeaves": 67,
+        "identitiesSha256": "3437b9c0067b8c92090d7530478cd92839629e2b33bce7864356318c56f3320b",
+        "sameAcrossStates": ["control", "variant", "restored"]
       },
       "sensitivity": null,
-      "restoredExit": 0
+      "states": {
+        "control": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        },
+        "variant": {
+          "exit": 1,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "1dd5c71454ea13ae4e43619cbe14307ee1ed9f000832e52d55d564323587b703",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        },
+        "restored": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "0b3bc80d5ede9a8ef56d64c7bbc24bbb7c37f741b774d934e618ce51df4f03d3"
+          }
+        }
+      },
+      "artifacts": {
+        "json": [
+          "none-explicit-self.control.json",
+          "none-explicit-self.variant.json",
+          "none-explicit-self.restored.json"
+        ],
+        "raw": [
+          "none-explicit-self.control.raw.txt",
+          "none-explicit-self.variant.raw.txt",
+          "none-explicit-self.restored.raw.txt"
+        ]
+      }
     },
     {
       "id": "unreachable-tail",
       "source": "packages/content/src/author-flow-stages.ts",
+      "needle": {
+        "from": "for (const [id, state] of entries) ordered.set(id, state)",
+        "to": "for (const [id, state] of entries) { if (ordered.has(id)) ordered.set(id, state) }"
+      },
       "target": {
         "file": "src/author-stage-organization.kimi-mid-1.test.ts",
         "fullName": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping"
       },
-      "states": {
-        "control": "5bf898814d87d0ecac315786a0d01a49fced8ec487f0d0ca3d04fd83414f03bc",
-        "variant": "6ef0bac117a2a76d4d87cfca285c80ee71ed371723dbce8a3752f02944f03041",
-        "restored": "5bf898814d87d0ecac315786a0d01a49fced8ec487f0d0ca3d04fd83414f03bc"
-      },
-      "lane": {
-        "exit": 1,
-        "executed": [
-          {
-            "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts",
-            "fullName": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
-            "status": "failed",
-            "failureMessages": [
-              "AssertionError: expected { kind: 'stages', initial: 'a', …(1) } to strictly equal { kind: 'stages', initial: 'a', …(1) }\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-XecE8x/packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts:70:26\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
-            ]
-          }
-        ]
-      },
-      "sensitivity": {
+      "scope": {
         "files": [
           "src/script-continuation.kimi-mid-1.test.ts",
           "src/author-stage-organization.kimi-mid-1.test.ts",
           "src/author-flow-stages.test.ts"
         ],
-        "exit": 1,
-        "executed": 50,
-        "oldAllGreen": true,
+        "declaredLeaves": 50,
+        "identitiesSha256": "0f64baba46d1ca41def0e87f5e3a85962cb7ddbbbd1b7b2226a0a6d9fd1fa4a3",
+        "sameAcrossStates": ["control", "variant", "restored"]
+      },
+      "sensitivity": {
+        "oldFiles": ["src/author-flow-stages.test.ts"],
+        "oldLeavesExecuted": 18,
+        "oldAllGreenVariant": true,
         "onlyNewRed": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping"
       },
-      "restoredExit": 0
+      "states": {
+        "control": {
+          "exit": 0,
+          "sha256": {
+            "packages/content/src/author-flow-stages.ts": "5bf898814d87d0ecac315786a0d01a49fced8ec487f0d0ca3d04fd83414f03bc",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/author-flow-stages.test.ts": "71d7432031b8aa64e3f4d2288547e29237908de2eb2841a0cb59064c3ecac5b3"
+          }
+        },
+        "variant": {
+          "exit": 1,
+          "sha256": {
+            "packages/content/src/author-flow-stages.ts": "6ef0bac117a2a76d4d87cfca285c80ee71ed371723dbce8a3752f02944f03041",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/author-flow-stages.test.ts": "71d7432031b8aa64e3f4d2288547e29237908de2eb2841a0cb59064c3ecac5b3"
+          }
+        },
+        "restored": {
+          "exit": 0,
+          "sha256": {
+            "packages/content/src/author-flow-stages.ts": "5bf898814d87d0ecac315786a0d01a49fced8ec487f0d0ca3d04fd83414f03bc",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+            "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+            "packages/reforge/src/author-flow-stages.test.ts": "71d7432031b8aa64e3f4d2288547e29237908de2eb2841a0cb59064c3ecac5b3"
+          }
+        }
+      },
+      "artifacts": {
+        "json": [
+          "unreachable-tail.control.json",
+          "unreachable-tail.variant.json",
+          "unreachable-tail.restored.json"
+        ],
+        "raw": [
+          "unreachable-tail.control.raw.txt",
+          "unreachable-tail.variant.raw.txt",
+          "unreachable-tail.restored.raw.txt"
+        ]
+      }
     }
   ]
 }

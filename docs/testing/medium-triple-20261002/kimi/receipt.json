@@ -1,13 +1,19 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "taskId": "TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1",
   "owner": "kimi",
   "branch": "codex/kimi-current-continuation-medium-r1",
   "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
   "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
   "canonicalVersions": { "content": 21, "save": 10 },
-  "testsCommit": "8a2b05e09ee10b90b5fc58f352836100676d7728",
-  "candidateHead": "41959a52cd400bedac8044fb3220c42d9cce2cf8",
+  "rework": {
+    "round": "r1 (KIMI-R1-01/02)",
+    "r1-01": "K6末例非法b.entry子轴(公开checkBaseScriptFlow真实拒收'只允许 onEnter initial state')已去entry, 保留合法第二stage nested branch臂隔离; 4作者fixture+organized产物补公开合法性断言; 旧完整oracle重排重(非换名计新)",
+    "r1-02": "严格单一judge(每针同一非零file×fullName多重范围67/67/67/50叶×control/variant/restored三相; 多重集合恒等; pending/todo/skip/重复叶/缺叶/多叶/错身份/多红/非AssertionError/内嵌运行时错/collection/suite/未处理异常/signal/错误exit全拒收)与16条拒收自测共用; 12原字节.raw.txt+12原JSON入固定提交; 逐针产品与测试三态SHA实采(恢复=正控)",
+    "preserved": "4针不同新oracle目标与3针真实旧绿新红方向保留; 9条deferredBudget不加量; 32例不变"
+  },
+  "testsCommit": "5e839a919219644aac8ddbb71030de5284a13682",
+  "candidateHead": "70eff5dd8f72995a594959dbe3dcca7de5abb576",
   "delivered": {
     "newCases": 32,
     "netNew": 32,
@@ -38,8 +44,8 @@
       "report": "directed-vitest.json"
     },
     "adjacent": {
-      "command": "vitest run src/runtime-auto-checkpoint.test.ts src/author-flow-stages.test.ts src/script-runner-core.test.ts",
-      "result": "82 passed / 0 failed"
+      "command": "vitest run src/runtime-auto-checkpoint.test.ts src/author-flow-stages.test.ts src/script-runner-core.test.ts (+2 new)",
+      "result": "114 passed / 0 failed (新32+相邻82)"
     },
     "typecheck": { "reforge": 0, "content": 0 },
     "contentFull": {
@@ -48,67 +54,68 @@
     },
     "reforgeFull": {
       "command": "vitest run (packages/reforge)",
-      "result": "2252 passed / 5 failed",
+      "result": "2252 passed / 5 failed (r1重采)",
       "environmentReds": {
         "file": "src/pal-meal-shell.test.ts",
         "count": 5,
         "cause": "projects/pal/assets/migrated/faces/*.png 为本机生成资产(gitignore未跟踪,本树0个在盘); AssetResolver ENOENT face.pal.li-xiaoyao 等",
-        "unrelatedToDiff": "BASE..HEAD 仅新增2测试文件与kimi证据; pal-meal-shell.test.ts与全部产品源逐字节同BASE",
-        "report": "reforge-full-vitest/ (无损3分片+index.json)"
+        "unrelatedToDiff": "BASE..HEAD 仅新增2测试文件与kimi证据; pal-meal-shell.test.ts与全部产品源逐字节同BASE; Codex独立补齐只读资产后全绿(见审核文档)",
+        "report": "reforge-full-vitest/ (无损3分片+index.json, r1重采)"
       }
     },
     "rootLint": {
       "command": "node scripts/quality/lint-zero.mjs",
-      "result": "PASS 2782 files 0 errors/0 warnings/0 infos"
+      "result": "PASS 0 errors/0 warnings/0 infos (最终提交前实跑)"
     },
     "docsCheck": {
       "command": "node scripts/docs/check.mjs",
       "result": "FAIL 1 issue (known residual)",
       "residual": "docs/testing/medium-triple-20261002/README.md:1 子目录未进入导航: docs/testing/medium-triple-20261002/kimi — 共享README归Codex维护, 贡献者只读, 留集成时接线"
     },
-    "gitDiffCheck": { "command": "git diff --check", "result": "0 issues" },
+    "gitDiffCheck": { "command": "git diff --check BASE...HEAD", "result": "0 issues" },
     "verify": {
       "command": "node docs/testing/medium-triple-20261002/verify.mjs --owner kimi --base f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
-      "result": "见提交前实跑(开工时 frozenHashesValid/scopeValid/changedPaths按白名单)"
+      "result": "frozenHashesValid=true scopeValid=true (提交前实跑)"
     }
   },
   "counters": {
-    "runner": "counters/mutants.mjs (judge自测 positive 1 / rejected 10)",
+    "runner": "counters/mutants.mjs (r2严格单一judge; 自测 accepted 2 / rejected 16)",
+    "scopeDiscipline": "每针声明同一非零file×fullName多重范围(67/67/67/50叶), control/variant/restored三相共用同一严格判据; 未选中/pending叶子不可写passed",
     "needles": [
       {
         "id": "machine-id-cursor",
         "source": "packages/reforge/src/script-continuation.ts:38",
         "target": "K1 machine executable refuses a cursor from a foreign machine id",
         "variant": "恰一AssertionError exit1",
-        "sensitivity": "新旧同场67 executed: runtime-auto-checkpoint全绿, 仅目标新红",
-        "restored": "恢复后并集重跑全绿 exit0"
+        "sensitivity": "范围67叶: runtime-auto-checkpoint 35旧叶全绿, 仅目标新红",
+        "restored": "同范围重跑全绿 exit0"
       },
       {
         "id": "battle-none-arm",
         "source": "packages/reforge/src/script-continuation.ts:116",
         "target": "K2 a startBattle child without an outcome arm rejects",
         "variant": "恰一AssertionError exit1",
-        "sensitivity": "新旧同场67 executed: runtime-auto-checkpoint全绿, 仅目标新红",
-        "restored": "恢复后并集重跑全绿 exit0"
+        "sensitivity": "范围67叶: runtime-auto-checkpoint 35旧叶全绿, 仅目标新红",
+        "restored": "同范围重跑全绿 exit0"
       },
       {
         "id": "none-explicit-self",
         "source": "packages/reforge/src/script-continuation.ts:137",
         "target": "K3 a none-self shared script refuses an explicit command self",
         "variant": "恰一AssertionError exit1",
-        "sensitivity": "主针lane判据(第4针起豁免同场)",
-        "restored": "恢复后并集重跑全绿 exit0"
+        "sensitivity": "范围67叶同判据(旧绿计数于另3针, 满足≥2)",
+        "restored": "同范围重跑全绿 exit0"
       },
       {
         "id": "unreachable-tail",
         "source": "packages/content/src/author-flow-stages.ts:40",
         "target": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
         "variant": "恰一AssertionError exit1",
-        "sensitivity": "新旧同场50 executed: author-flow-stages全绿, 仅目标新红",
-        "restored": "恢复后并集重跑全绿 exit0"
+        "sensitivity": "范围50叶: author-flow-stages 18旧叶全绿, 仅目标新红",
+        "restored": "同范围重跑全绿 exit0"
       }
     ],
-    "evidenceDir": "counters/evidence/ (control/各针三态JSON+raw log+summary.json三态SHA; mkdtemp副本跑后即清, 仓库hash-pin零漂移)"
+    "evidenceDir": "counters/evidence/ — 12原JSON+12原字节.raw.txt+summary.json(逐针产品与测试三态SHA, 恢复=正控; repoHashes仓库零漂移)"
   },
   "coverage": "未测(按卡不重复全仓测量; 85%并集归Codex)",
   "unfinished": [

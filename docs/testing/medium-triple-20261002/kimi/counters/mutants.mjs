@@ -1,8 +1,12 @@
 /**
- * TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 mutation counter-evidence runner.
- * Real product mutations are applied inside a private mkdtemp copy only; the repository stays
- * read-only and is hash-pinned before/after. After each variant the pristine file is restored
- * and the union set reruns green. The single judge (businessRed) is shared by runner/selftest.
+ * TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 mutation counter-evidence runner (r2 strict judge).
+ *
+ * One declared execution scope per needle: the exact non-zero file×fullName multiset sampled
+ * from the control run, re-required identically at variant and restored. Product mutations live
+ * only inside a private mkdtemp copy; the repository is hash-pinned read-only. After each
+ * variant the pristine file is restored and the same scope reruns green. The single judge
+ * (judgedRun) is shared by the runner and the selftest. Raw stdout/stderr bytes are kept as
+ * .raw.txt so they survive git (no *.log ignore reliance).
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
@@ -30,7 +34,6 @@ const NEW_FILES = [
 ]
 const OLD_AUTO = 'src/runtime-auto-checkpoint.test.ts'
 const OLD_STAGES = 'src/author-flow-stages.test.ts'
-const UNION = [...NEW_FILES, OLD_AUTO, OLD_STAGES]
 
 const mutations = [
   {
@@ -40,7 +43,7 @@ const mutations = [
     to: "if (cursor.kind !== 'state')",
     test: NEW_FILES[0],
     title: 'K1 machine executable refuses a cursor from a foreign machine id',
-    old: [OLD_AUTO],
+    scope: [...NEW_FILES, OLD_AUTO],
     sensitivity: true,
   },
   {
@@ -50,7 +53,7 @@ const mutations = [
     to: "if (control?.kind !== 'startBattle')",
     test: NEW_FILES[0],
     title: 'K2 a startBattle child without an outcome arm rejects',
-    old: [OLD_AUTO],
+    scope: [...NEW_FILES, OLD_AUTO],
     sensitivity: true,
   },
   {
@@ -60,7 +63,7 @@ const mutations = [
     to: 'if (false && command.self)',
     test: NEW_FILES[0],
     title: 'K3 a none-self shared script refuses an explicit command self',
-    old: [OLD_AUTO],
+    scope: [...NEW_FILES, OLD_AUTO],
     sensitivity: false,
   },
   {
@@ -71,22 +74,48 @@ const mutations = [
     test: NEW_FILES[1],
     title:
       'K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping',
-    old: [OLD_STAGES],
+    scope: [...NEW_FILES, OLD_STAGES],
     sensitivity: true,
   },
 ]
 
 const clean = (value) => stripVTControlCharacters(value)
-function businessRed(exit, entries, file, title) {
-  const executed = entries.filter((entry) => ['passed', 'failed'].includes(entry.status))
-  if (exit !== 1 || executed.length !== 1) return false
-  const [entry] = executed
+const identity = (entry) => `${entry.file}::${entry.fullName}`
+
+/** Strict judge shared by runner and selftest.
+ * run: { exit, signal, log, suiteMessages, todo, entries: [{file, fullName, status, failureMessages}] }
+ * scope: { identities: string[] } exact non-zero file×fullName multiset declared from control.
+ * expectation: { kind: 'allGreen' } | { kind: 'singleRed', file, fullName }
+ * Every state (control/variant/restored) must satisfy the same scope and the same status rules:
+ * entries only passed, plus exactly the declared red target in a variant; no pending/skipped/
+ * todo/duplicate leaves, no collection/runtime error, exit 0 for green and 1 for the red. */
+function judgedRun(run, scope, expectation) {
+  if (!Number.isInteger(run.exit) || run.signal !== null) return false
+  if (expectation.kind === 'allGreen' && run.exit !== 0) return false
+  if (expectation.kind === 'singleRed' && run.exit !== 1) return false
+  if (/Unhandled Errors?|Unhandled Rejection|Uncaught Exception/i.test(clean(run.log))) return false
+  if (run.suiteMessages.some((message) => message)) return false
+  if (run.todo !== 0) return false
+  if (scope.identities.length === 0) return false
+  const statuses = new Map()
+  for (const entry of run.entries) {
+    const id = identity(entry)
+    if (!statuses.has(id)) statuses.set(id, [])
+    statuses.get(id).push(entry)
+  }
+  const expected = new Map()
+  for (const id of scope.identities) expected.set(id, (expected.get(id) ?? 0) + 1)
+  if (statuses.size !== expected.size) return false
+  for (const [id, count] of expected) if (statuses.get(id)?.length !== count) return false
+  const failed = run.entries.filter((entry) => entry.status === 'failed')
+  if (run.entries.some((entry) => !['passed', 'failed'].includes(entry.status))) return false
+  if (expectation.kind === 'allGreen') return failed.length === 0
+  if (failed.length !== 1) return false
+  const [red] = failed
+  if (red.file !== expectation.file || red.fullName !== expectation.fullName) return false
   return (
-    entry.file === file &&
-    entry.fullName === title &&
-    entry.status === 'failed' &&
-    entry.failureMessages.length > 0 &&
-    entry.failureMessages.every(
+    red.failureMessages.length > 0 &&
+    red.failureMessages.every(
       (message) =>
         /^AssertionError(?:\b|:)/.test(clean(message).trimStart()) &&
         !/(?:\btimeout\b|\btimed out\b|unhandled|(?:^|\n)\s*(?:Error|TypeError|RangeError):)/i.test(
@@ -95,34 +124,104 @@ function businessRed(exit, entries, file, title) {
     )
   )
 }
-const sample = {
-  file: '/candidate.test.ts',
-  fullName: 'exact',
+
+// Selftest: the judge must accept the two honest shapes and reject every dishonest one.
+const scope2 = { identities: ['/t/a.test.ts::case-a', '/t/a.test.ts::case-b'] }
+const greenRun = {
+  exit: 0,
+  signal: null,
+  log: 'ok',
+  suiteMessages: [''],
+  todo: 0,
+  entries: [
+    { file: '/t/a.test.ts', fullName: 'case-a', status: 'passed', failureMessages: [] },
+    { file: '/t/a.test.ts', fullName: 'case-b', status: 'passed', failureMessages: [] },
+  ],
+}
+const redTarget = {
+  file: '/t/a.test.ts',
+  fullName: 'case-a',
   status: 'failed',
   failureMessages: ['AssertionError: business difference'],
 }
-assert(businessRed(1, [sample], sample.file, sample.fullName))
-for (const [exit, entries] of [
-  [0, [sample]],
-  [2, [sample]],
-  [null, [sample]],
-  [1, []],
-  [1, [sample, sample]],
-  [1, [{ ...sample, file: '/other.test.ts' }]],
-  [1, [{ ...sample, fullName: 'other' }]],
-  [1, [{ ...sample, status: 'pending' }]],
-  [1, [{ ...sample, failureMessages: ['Error: embedded AssertionError'] }]],
-  [1, [{ ...sample, failureMessages: ['AssertionError: timed out'] }]],
-])
-  assert(!businessRed(exit, entries, sample.file, sample.fullName))
+const redRun = { ...greenRun, exit: 1, entries: [redTarget, greenRun.entries[1]] }
+assert(judgedRun(greenRun, scope2, { kind: 'allGreen' }))
+assert(judgedRun(redRun, scope2, { kind: 'singleRed', file: redTarget.file, fullName: 'case-a' }))
+const rejections = [
+  [{ ...redRun, exit: 0 }, 'wrong exit for red'],
+  [{ ...redRun, exit: 2 }, 'collection exit for red'],
+  [{ ...redRun, signal: 'SIGTERM' }, 'signaled'],
+  [{ ...redRun, log: 'Unhandled Rejection: boom' }, 'runtime marker in log'],
+  [{ ...redRun, suiteMessages: ['collection exploded'] }, 'suite message'],
+  [{ ...redRun, todo: 1 }, 'todo'],
+  [
+    {
+      ...redRun,
+      entries: [...redRun.entries, { ...redTarget, status: 'pending', failureMessages: [] }],
+    },
+    'declared file×fullName red overlaid with a pending duplicate leaf',
+  ],
+  [{ ...redRun, entries: [redTarget] }, 'missing declared leaf'],
+  [
+    {
+      ...redRun,
+      entries: [
+        ...redRun.entries,
+        { file: '/t/a.test.ts', fullName: 'case-c', status: 'passed', failureMessages: [] },
+      ],
+    },
+    'extra leaf outside the declared scope',
+  ],
+  [
+    { ...redRun, entries: [{ ...redTarget, fullName: 'case-b' }, greenRun.entries[1]] },
+    'red with wrong identity',
+  ],
+  [{ ...redRun, entries: [redTarget, redTarget] }, 'two reds'],
+  [
+    {
+      ...redRun,
+      entries: [
+        { ...redTarget, failureMessages: ['Error: not an assertion'] },
+        greenRun.entries[1],
+      ],
+    },
+    'non-AssertionError red',
+  ],
+  [
+    {
+      ...redRun,
+      entries: [
+        { ...redTarget, failureMessages: ['AssertionError: bad\nTypeError: nested'] },
+        greenRun.entries[1],
+      ],
+    },
+    'embedded runtime error inside the red message',
+  ],
+  [
+    {
+      ...redRun,
+      entries: [redTarget, { ...greenRun.entries[1], status: 'pending' }],
+    },
+    'pending leaf inside the declared scope',
+  ],
+  [{ ...greenRun, entries: [redTarget, greenRun.entries[1]] }, 'red inside a green expectation'],
+  [{ ...redRun, exit: 1, entries: [] }, 'zero execution'],
+]
+for (const [run, why] of rejections)
+  assert(
+    !judgedRun(run, scope2, { kind: 'singleRed', file: redTarget.file, fullName: 'case-a' }) &&
+      !judgedRun(run, scope2, { kind: 'allGreen' }),
+    `judge accepted a dishonest run: ${why}`,
+  )
 
 const hash = (file) => createHash('sha256').update(readFileSync(file)).digest('hex')
-const repoPinned = [...mutations.map((m) => m.source), ...UNION.map((f) => `packages/reforge/${f}`)]
+const repoPinned = [
+  ...new Set([...mutations.map((m) => m.source), ...mutations.flatMap((m) => m.scope)]),
+].map((f) => (f.startsWith('packages/') ? f : `packages/reforge/${f}`))
 const repoHashes = Object.fromEntries(repoPinned.map((f) => [f, hash(resolve(root, f))]))
 
 const copy = mkdtempSync(join(tmpdir(), 'type-pal-kimi-mid-1-copy-'))
 const rows = []
-const controlState = {}
 try {
   for (const item of ['package.json', 'pnpm-workspace.yaml', 'tsconfig.base.json'])
     cpSync(resolve(root, item), resolve(copy, item))
@@ -138,115 +237,123 @@ try {
   )
   symlinkSync(resolve(root, 'node_modules'), join(copy, 'node_modules'), 'dir')
 
-  const run = (id, files, namePattern) => {
-    const report = resolve(output, `${id}.json`)
-    const args = ['run', '--reporter=json', `--outputFile=${report}`, ...files]
-    if (namePattern) args.push('--testNamePattern', namePattern)
-    const child = spawnSync('node', [resolve(copy, 'node_modules/vitest/vitest.mjs'), ...args], {
-      cwd: resolve(copy, 'packages/reforge'),
-      env: { ...process.env, FORCE_COLOR: '0' },
-      encoding: 'utf8',
-    })
-    const log = `${child.stdout ?? ''}\n${child.stderr ?? ''}`
-    writeFileSync(resolve(output, `${id}.log`), log)
-    assert.equal(child.signal, null, `${id}: signaled`)
-    assert(
-      !/Unhandled Errors?|Unhandled Rejection|Uncaught Exception/i.test(clean(log)),
-      `${id}: runtime error`,
-    )
-    const data = JSON.parse(readFileSync(report, 'utf8'))
-    assert(
-      data.testResults.every((file) => !file.message),
-      `${id}: suite error`,
-    )
-    assert.equal(data.numTodoTests, 0, `${id}: todo`)
-    const entries = data.testResults.flatMap((file) =>
-      file.assertionResults.map((entry) => ({ ...entry, file: file.name })),
-    )
-    return { exit: child.status, entries, data }
-  }
-  const executed = (entries) => entries.filter((e) => ['passed', 'failed'].includes(e.status))
-  const stateHashes = () => Object.fromEntries(repoPinned.map((f) => [f, hash(resolve(copy, f))]))
+  const scopeStateFiles = (m) => [m.source, ...m.scope.map((f) => `packages/reforge/${f}`)]
+  const stateHashes = (m) =>
+    Object.fromEntries(scopeStateFiles(m).map((f) => [f, hash(resolve(copy, f))]))
 
-  // Positive control: the union set is green in the pristine copy.
-  const control = run('control', UNION)
-  assert.equal(control.exit, 0, `control red: ${output}`)
-  assert.equal(executed(control.entries).length, control.data.numPassedTests)
-  for (const m of mutations) {
-    assert.equal(
-      control.entries.filter((e) => e.file.endsWith(m.test) && e.fullName === m.title).length,
-      1,
-      `${m.id}: exact passing control`,
+  const run = (id, files) => {
+    const report = resolve(output, `${id}.json`)
+    const child = spawnSync(
+      'node',
+      [
+        resolve(copy, 'node_modules/vitest/vitest.mjs'),
+        'run',
+        '--reporter=json',
+        `--outputFile=${report}`,
+        ...files,
+      ],
+      {
+        cwd: resolve(copy, 'packages/reforge'),
+        env: { ...process.env, FORCE_COLOR: '0' },
+        encoding: 'utf8',
+      },
     )
+    const log = `${child.stdout ?? ''}${child.stderr ?? ''}`
+    writeFileSync(resolve(output, `${id}.raw.txt`), log)
+    const data = JSON.parse(readFileSync(report, 'utf8'))
+    return {
+      exit: child.status,
+      signal: child.signal,
+      log,
+      suiteMessages: data.testResults.map((file) => file.message),
+      todo: data.numTodoTests,
+      entries: data.testResults.flatMap((file) =>
+        file.assertionResults.map((entry) => ({ ...entry, file: file.name })),
+      ),
+    }
+  }
+
+  for (const m of mutations) {
     assert.equal(
       readFileSync(resolve(copy, m.source), 'utf8').split(m.from).length,
       2,
       `${m.id}: unique needle`,
     )
-  }
-  controlState.control = stateHashes()
-
-  for (const m of mutations) {
     const target = resolve(copy, m.source)
     const pristine = readFileSync(target, 'utf8')
-    writeFileSync(target, pristine.replace(m.from, m.to))
-    const variantState = stateHashes()
-    assert.notEqual(variantState[m.source], controlState.control[m.source], `${m.id}: no drift`)
-    const pattern = `^${m.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`
-    const lane = run(`${m.id}.target`, [m.test], pattern)
     const targetFile = realpathSync(resolve(copy, 'packages/reforge', m.test))
+
+    const control = run(`${m.id}.control`, m.scope)
+    const declared = control.entries.map(identity)
     assert(
-      businessRed(lane.exit, lane.entries, targetFile, m.title),
-      `${m.id}: not business red; ${output}`,
+      judgedRun(control, { identities: declared }, { kind: 'allGreen' }),
+      `${m.id}: control not strictly green; ${output}`,
     )
-    let sensitivity = null
-    if (m.sensitivity) {
-      const both = run(`${m.id}.same-field`, [...NEW_FILES, ...m.old])
-      const executedBoth = executed(both.entries)
-      const failed = executedBoth.filter((e) => e.status === 'failed')
-      assert.equal(both.exit, 1, `${m.id}: same-field exit`)
-      assert.equal(failed.length, 1, `${m.id}: same-field not exactly one red`)
-      assert.equal(failed[0].fullName, m.title, `${m.id}: same-field wrong red`)
-      for (const old of m.old)
-        assert(
-          executedBoth.filter((e) => e.file.endsWith(old)).every((e) => e.status === 'passed'),
-          `${m.id}: old suite not green`,
-        )
-      sensitivity = {
-        files: [...NEW_FILES, ...m.old],
-        exit: both.exit,
-        executed: executedBoth.length,
-        oldAllGreen: true,
-        onlyNewRed: failed[0].fullName,
-      }
-    }
+    const controlHash = stateHashes(m)
+
+    writeFileSync(target, pristine.replace(m.from, m.to))
+    const variantHash = stateHashes(m)
+    assert.notEqual(variantHash[m.source], controlHash[m.source], `${m.id}: no drift`)
+    const variant = run(`${m.id}.variant`, m.scope)
+    assert(
+      judgedRun(
+        variant,
+        { identities: declared },
+        { kind: 'singleRed', file: targetFile, fullName: m.title },
+      ),
+      `${m.id}: variant not strictly one declared red; ${output}`,
+    )
+
     writeFileSync(target, pristine)
-    const restored = run(`${m.id}.restored`, UNION)
-    assert.equal(restored.exit, 0, `${m.id}: restored red`)
-    const restoredState = stateHashes()
-    assert.deepEqual(restoredState, controlState.control, `${m.id}: restore drift`)
+    const restoredHash = stateHashes(m)
+    assert.deepEqual(restoredHash, controlHash, `${m.id}: restore drift`)
+    const restored = run(`${m.id}.restored`, m.scope)
+    assert(
+      judgedRun(restored, { identities: declared }, { kind: 'allGreen' }),
+      `${m.id}: restored not strictly green; ${output}`,
+    )
+
+    const oldExecuted = m.sensitivity
+      ? control.entries.filter((entry) =>
+          m.scope.some((f) => !NEW_FILES.includes(f) && entry.file.endsWith(f)),
+        )
+      : []
+    if (m.sensitivity)
+      assert(oldExecuted.length > 0, `${m.id}: sensitivity scope ran zero old leaves`)
     rows.push({
       id: m.id,
       source: m.source,
+      needle: { from: m.from, to: m.to },
       target: { file: m.test, fullName: m.title },
+      scope: {
+        files: m.scope,
+        declaredLeaves: declared.length,
+        identitiesSha256: createHash('sha256').update(declared.join('\n')).digest('hex'),
+        sameAcrossStates: ['control', 'variant', 'restored'],
+      },
+      sensitivity: m.sensitivity
+        ? {
+            oldFiles: m.scope.filter((f) => !NEW_FILES.includes(f)),
+            oldLeavesExecuted: oldExecuted.length,
+            oldAllGreenVariant: variant.entries
+              .filter((entry) => oldExecuted.some((old) => identity(old) === identity(entry)))
+              .every((entry) => entry.status === 'passed'),
+            onlyNewRed: m.title,
+          }
+        : null,
       states: {
-        control: controlState.control[m.source],
-        variant: variantState[m.source],
-        restored: restoredState[m.source],
+        control: { exit: control.exit, sha256: controlHash },
+        variant: { exit: variant.exit, sha256: variantHash },
+        restored: { exit: restored.exit, sha256: restoredHash },
       },
-      lane: {
-        exit: lane.exit,
-        executed: executed(lane.entries).map(({ file, fullName, status, failureMessages }) => ({
-          file,
-          fullName,
-          status,
-          failureMessages,
-        })),
+      artifacts: {
+        json: [`${m.id}.control.json`, `${m.id}.variant.json`, `${m.id}.restored.json`],
+        raw: [`${m.id}.control.raw.txt`, `${m.id}.variant.raw.txt`, `${m.id}.restored.raw.txt`],
       },
-      sensitivity,
-      restoredExit: restored.exit,
     })
-    console.log(`${m.id}: detected (exactly one AssertionError); restored green`)
+    console.log(
+      `${m.id}: scope ${declared.length} leaves x3 states; variant strictly one AssertionError; restored green`,
+    )
   }
 } finally {
   rmSync(copy, { recursive: true, force: true })
@@ -255,6 +362,10 @@ for (const [file, expected] of Object.entries(repoHashes))
   assert.equal(hash(resolve(root, file)), expected, `repository drift: ${file}`)
 writeFileSync(
   resolve(output, 'summary.json'),
-  `${JSON.stringify({ repoHashes, judge: { positive: 1, rejected: 10 }, rows }, null, 2)}\n`,
+  `${JSON.stringify(
+    { repoHashes, judge: { accepted: 2, rejected: rejections.length }, rows },
+    null,
+    2,
+  )}\n`,
 )
 console.log(`Evidence: ${output}`)

@@ -3,529 +3,385 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 0 without inventing a project scope",
+          "ancestorTitles": ["F5 活动期间二次 present 与零残留"],
+          "fullName": "F5 活动期间二次 present 与零残留 活动序列期间二次 present 拒绝；首序列仍可完成（advance 驱动，不用时钟）",
           "status": "passed",
-          "title": "rejects invalid identity 0 without inventing a project scope",
-          "duration": 4.280416000000002,
+          "title": "活动序列期间二次 present 拒绝；首序列仍可完成（advance 驱动，不用时钟）",
+          "duration": 2.9588329999999985,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 1 without inventing a project scope",
+          "ancestorTitles": ["F5 活动期间二次 present 与零残留"],
+          "fullName": "F5 活动期间二次 present 与零残留 空列表直接完成、预 abort 拒绝：均无 timer/active 残留",
           "status": "passed",
-          "title": "rejects invalid identity 1 without inventing a project scope",
-          "duration": 0.22637500000000443,
+          "title": "空列表直接完成、预 abort 拒绝：均无 timer/active 残留",
+          "duration": 0.8965419999999824,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 2 without inventing a project scope",
+          "ancestorTitles": ["F6 竞争单次兑现与输入语义"],
+          "fullName": "F6 竞争单次兑现与输入语义 advance 与 timeout 竞争：单次兑现、旧 timer 不清下一条；abort 同样单次",
           "status": "passed",
-          "title": "rejects invalid identity 2 without inventing a project scope",
-          "duration": 0.08958300000000463,
+          "title": "advance 与 timeout 竞争：单次兑现、旧 timer 不清下一条；abort 同样单次",
+          "duration": 1.4059579999999983,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 3 without inventing a project scope",
+          "ancestorTitles": ["F6 竞争单次兑现与输入语义"],
+          "fullName": "F6 竞争单次兑现与输入语义 abort 与 timeout 竞争单次兑现；current 视图不泄漏内部 signal",
           "status": "passed",
-          "title": "rejects invalid identity 3 without inventing a project scope",
-          "duration": 0.08208299999999724,
+          "title": "abort 与 timeout 竞争单次兑现；current 视图不泄漏内部 signal",
+          "duration": 1.4877910000000156,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 4 without inventing a project scope",
+          "ancestorTitles": ["F6 竞争单次兑现与输入语义"],
+          "fullName": "F6 竞争单次兑现与输入语义 输入语义：Enter/空格消费并推进；Escape 不吞交还外层；其它键消费不推进；inactive 不吞",
           "status": "passed",
-          "title": "rejects invalid identity 4 without inventing a project scope",
-          "duration": 0.14187499999999886,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 5 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 5 without inventing a project scope",
-          "duration": 0.08229199999999537,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 6 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 6 without inventing a project scope",
-          "duration": 0.1310410000000104,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 7 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 7 without inventing a project scope",
-          "duration": 0.12766700000000242,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 8 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 8 without inventing a project scope",
-          "duration": 0.5085419999999914,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 9 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 9 without inventing a project scope",
-          "duration": 0.11308400000000063,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 10 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 10 without inventing a project scope",
-          "duration": 0.8730419999999981,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 11 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 11 without inventing a project scope",
-          "duration": 0.06604099999999846,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 12 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 12 without inventing a project scope",
-          "duration": 0.0746249999999975,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 13 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 13 without inventing a project scope",
-          "duration": 0.27224999999999966,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 14 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 14 without inventing a project scope",
-          "duration": 0.06125000000000114,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 15 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 15 without inventing a project scope",
-          "duration": 0.37029199999999207,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 16 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 16 without inventing a project scope",
-          "duration": 0.0657499999999942,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 17 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 17 without inventing a project scope",
-          "duration": 0.6266669999999976,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 18 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 18 without inventing a project scope",
-          "duration": 2.8893330000000077,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 19 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 19 without inventing a project scope",
-          "duration": 0.4256249999999966,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 20 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 20 without inventing a project scope",
-          "duration": 0.06491699999999412,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 21 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 21 without inventing a project scope",
-          "duration": 0.049000000000006594,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 22 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 22 without inventing a project scope",
-          "duration": 0.04320799999999281,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 23 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 23 without inventing a project scope",
-          "duration": 0.07891599999999244,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope rejects invalid identity 24 without inventing a project scope",
-          "status": "passed",
-          "title": "rejects invalid identity 24 without inventing a project scope",
-          "duration": 0.04329199999999389,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope captures exact {\"kind\":\"project\",\"projectId\":\" p \"} identity without mutating the caller",
-          "status": "passed",
-          "title": "captures exact {\"kind\":\"project\",\"projectId\":\" p \"} identity without mutating the caller",
-          "duration": 0.8673330000000021,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope captures exact {\"kind\":\"workspace\",\"projectId\":\"p\",\"workspaceId\":\" W \"} identity without mutating the caller",
-          "status": "passed",
-          "title": "captures exact {\"kind\":\"workspace\",\"projectId\":\"p\",\"workspaceId\":\" W \"} identity without mutating the caller",
-          "duration": 0.32483299999999815,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope project agreement is required before boot or storage",
-          "status": "passed",
-          "title": "project agreement is required before boot or storage",
-          "duration": 2.5065000000000026,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["SaveScope"],
-          "fullName": "SaveScope tagged tuples have no separator/escaping/case/whitespace collisions",
-          "status": "passed",
-          "title": "tagged tuples have no separator/escaping/case/whitespace collisions",
-          "duration": 1.1459159999999997,
+          "title": "输入语义：Enter/空格消费并推进；Escape 不吞交还外层；其它键消费不推进；inactive 不吞",
+          "duration": 4.1526250000000005,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926277042,
-      "endTime": 1790926277059.146,
+      "startTime": 1790933185218,
+      "endTime": 1790933185229.1526,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/save/scope.test.ts"
+      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts"
     },
     {
       "assertionResults": [
         {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store the default browser factory is scoped and an unavailable factory cannot pretend to persist",
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue 无输入时每条固定展示 1400ms，并按原顺序自动推进",
           "status": "passed",
-          "title": "the default browser factory is scoped and an unavailable factory cannot pretend to persist",
-          "duration": 3.628124999999997,
+          "title": "无输入时每条固定展示 1400ms，并按原顺序自动推进",
+          "duration": 11.31533300000001,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store different projects keep all three records and counts for quick",
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue Enter / Space 每次只跳当前条，后续条继续且按键不会漏出模态分支",
           "status": "passed",
-          "title": "different projects keep all three records and counts for quick",
-          "duration": 3.226957999999996,
+          "title": "Enter / Space 每次只跳当前条，后续条继续且按键不会漏出模态分支",
+          "duration": 5.583541999999966,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store different projects keep all three records and counts for auto",
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue Esc 不跳过也不被模态层吞掉，保留给外层关闭 / 菜单语义",
           "status": "passed",
-          "title": "different projects keep all three records and counts for auto",
-          "duration": 2.31004200000001,
+          "title": "Esc 不跳过也不被模态层吞掉，保留给外层关闭 / 菜单语义",
+          "duration": 6.2520000000000095,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store different projects keep all three records and counts for m01",
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue 非跳过键仍由模态层消费，但不提前完成当前条",
           "status": "passed",
-          "title": "different projects keep all three records and counts for m01",
-          "duration": 1.1646659999999969,
+          "title": "非跳过键仍由模态层消费，但不提前完成当前条",
+          "duration": 1.8324579999999742,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store workspace, project and same workspace id in a different project are separate",
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue AbortSignal 取消当前序列时清理 current、timer 与 resolver",
           "status": "passed",
-          "title": "workspace, project and same workspace id in a different project are separate",
-          "duration": 1.4105420000000066,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store reopening the same workspace reads its records; returned snapshots cannot mutate storage",
-          "status": "passed",
-          "title": "reopening the same workspace reads its records; returned snapshots cannot mutate storage",
-          "duration": 0.6462500000000091,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store scope is captured before the caller changes it",
-          "status": "passed",
-          "title": "scope is captured before the caller changes it",
-          "duration": 0.6286659999999955,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store put snapshots both records before asynchronous open",
-          "status": "passed",
-          "title": "put snapshots both records before asynchronous open",
-          "duration": 0.5443750000000023,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store wrong project and invalid scope fail before any database opens",
-          "status": "passed",
-          "title": "wrong project and invalid scope fail before any database opens",
-          "duration": 1.2963750000000118,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store a clone failure never partly replaces a good memory slot",
-          "status": "passed",
-          "title": "a clone failure never partly replaces a good memory slot",
-          "duration": 0.3408330000000035,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store an uncloneable third record aborts the real transaction and preserves the good slot",
-          "status": "passed",
-          "title": "an uncloneable third record aborts the real transaction and preserves the good slot",
-          "duration": 0.9452499999999873,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store abort without a request error settles as rejection and does not create a slot",
-          "status": "passed",
-          "title": "abort without a request error settles as rejection and does not create a slot",
-          "duration": 0.9776249999999891,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store factory errors reject instead of inventing successful memory persistence",
-          "status": "passed",
-          "title": "factory errors reject instead of inventing successful memory persistence",
-          "duration": 0.2209580000000244,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store a native open request failure rejects without a version fallback",
-          "status": "passed",
-          "title": "a native open request failure rejects without a version fallback",
-          "duration": 0.984958000000006,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store readonly request failures reject payload, thumbnail and metadata reads",
-          "status": "passed",
-          "title": "readonly request failures reject payload, thumbnail and metadata reads",
-          "duration": 0.9266250000000014,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store an asynchronous provider request error rolls back every record",
-          "status": "passed",
-          "title": "an asynchronous provider request error rolls back every record",
-          "duration": 0.9704169999999976,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store an already-aborted transaction preserves the original enqueue error",
-          "status": "passed",
-          "title": "an already-aborted transaction preserves the original enqueue error",
-          "duration": 0.770417000000009,
-          "failureMessages": [],
-          "meta": {},
-          "tags": []
-        },
-        {
-          "ancestorTitles": ["scoped save store"],
-          "fullName": "scoped save store old unpartitioned records remain untouched and are never read as scoped slots",
-          "status": "passed",
-          "title": "old unpartitioned records remain untouched and are never read as scoped slots",
-          "duration": 0.8899590000000046,
+          "title": "AbortSignal 取消当前序列时清理 current、timer 与 resolver",
+          "duration": 2.6647499999999695,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926265751,
-      "endTime": 1790926265772.89,
+      "startTime": 1790933185983,
+      "endTime": 1790933186012.6648,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/save/store.isolation.test.ts"
+      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/menu/reward-gain-queue.test.ts"
     },
     {
       "assertionResults": [
         {
-          "ancestorTitles": ["MemorySaveStore"],
-          "fullName": "MemorySaveStore putSlot → listMeta/getPayload/getThumb 往返",
+          "ancestorTitles": ["R13 drawSaveBrowser"],
+          "fullName": "R13 drawSaveBrowser inactive 早退：零绘制",
           "status": "passed",
-          "title": "putSlot → listMeta/getPayload/getThumb 往返",
-          "duration": 7.3886249999999905,
+          "title": "inactive 早退：零绘制",
+          "duration": 1.875583000000006,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["MemorySaveStore"],
-          "fullName": "MemorySaveStore 缺失槽 → null",
+          "ancestorTitles": ["R13 drawSaveBrowser"],
+          "fullName": "R13 drawSaveBrowser 标题黄 + 页码 1/10 + 仅右翻三角（第 0 页）",
           "status": "passed",
-          "title": "缺失槽 → null",
-          "duration": 1.0098339999999553,
+          "title": "标题黄 + 页码 1/10 + 仅右翻三角（第 0 页）",
+          "duration": 1.3660000000000139,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
-          "ancestorTitles": ["MemorySaveStore"],
-          "fullName": "MemorySaveStore 覆盖写：同槽 putSlot 二次 → listMeta 仍 1 条、payload 更新",
+          "ancestorTitles": ["R13 drawSaveBrowser"],
+          "fullName": "R13 drawSaveBrowser auto 槽两行标签；save 模式禁用红、选中禁用亮红",
           "status": "passed",
-          "title": "覆盖写：同槽 putSlot 二次 → listMeta 仍 1 条、payload 更新",
-          "duration": 2.233249999999998,
+          "title": "auto 槽两行标签；save 模式禁用红、选中禁用亮红",
+          "duration": 1.0533340000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R13 drawSaveBrowser"],
+          "fullName": "R13 drawSaveBrowser 已存手动槽：选中三角、队伍行、存次黄注右对齐、地图名、时间右对齐",
+          "status": "passed",
+          "title": "已存手动槽：选中三角、队伍行、存次黄注右对齐、地图名、时间右对齐",
+          "duration": 4.5223749999999825,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R13 drawSaveBrowser"],
+          "fullName": "R13 drawSaveBrowser confirmOverwrite：叠否/是确认框（卷轴 + 左右文本）",
+          "status": "passed",
+          "title": "confirmOverwrite：叠否/是确认框（卷轴 + 左右文本）",
+          "duration": 2.638875000000013,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926281832,
-      "endTime": 1790926281843.2332,
+      "startTime": 1790933187386,
+      "endTime": 1790933187397.639,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/save/store.test.ts"
+      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/menu/save-browser-box.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前商店 UI 的卖出与画面派发"],
+          "fullName": "当前商店 UI 的卖出与画面派发 卖出按三列导航、确认后走真实结算，卖光后重算列表并收敛游标",
+          "status": "passed",
+          "title": "卖出按三列导航、确认后走真实结算，卖光后重算列表并收敛游标",
+          "duration": 1.9428330000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前商店 UI 的卖出与画面派发"],
+          "fullName": "当前商店 UI 的卖出与画面派发 卖出网格三列步进钳边界，方向键不结算也不改世界",
+          "status": "passed",
+          "title": "卖出网格三列步进钳边界，方向键不结算也不改世界",
+          "duration": 0.6180420000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前商店 UI 的卖出与画面派发"],
+          "fullName": "当前商店 UI 的卖出与画面派发 买入八行窗口只绘当前货品；预览持有数含背包与装备，确认覆盖复用同源卷轴",
+          "status": "passed",
+          "title": "买入八行窗口只绘当前货品；预览持有数含背包与装备，确认覆盖复用同源卷轴",
+          "duration": 1.3697090000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前商店 UI 的卖出与画面派发"],
+          "fullName": "当前商店 UI 的卖出与画面派发 卖出先派发全屏无描述网格，再绘金钱/选中物售价；列表态不造确认框",
+          "status": "passed",
+          "title": "卖出先派发全屏无描述网格，再绘金钱/选中物售价；列表态不造确认框",
+          "duration": 0.40383299999999167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790933184908,
+      "endTime": 1790933184912.4038,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/menu/shop-box.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["formal shop input"],
+          "fullName": "formal shop input empty stock ArrowUp is safe",
+          "status": "passed",
+          "title": "empty stock ArrowUp is safe",
+          "duration": 0.915333000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["formal shop input"],
+          "fullName": "formal shop input empty stock ArrowDown is safe",
+          "status": "passed",
+          "title": "empty stock ArrowDown is safe",
+          "duration": 0.2137080000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["formal shop input"],
+          "fullName": "formal shop input empty stock Enter is safe",
+          "status": "passed",
+          "title": "empty stock Enter is safe",
+          "duration": 0.1350840000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["formal shop input"],
+          "fullName": "formal shop input empty stock Escape is safe",
+          "status": "passed",
+          "title": "empty stock Escape is safe",
+          "duration": 0.0794169999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["formal shop input"],
+          "fullName": "formal shop input default no, confirm Escape, repeated rows, exact funds and insufficient funds use real settlement",
+          "status": "passed",
+          "title": "default no, confirm Escape, repeated rows, exact funds and insufficient funds use real settlement",
+          "duration": 0.6950409999999891,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["formal shop input"],
+          "fullName": "formal shop input zero-price stock is purchasable, while funded navigation keeps the existing 8-row window",
+          "status": "passed",
+          "title": "zero-price stock is purchasable, while funded navigation keeps the existing 8-row window",
+          "duration": 0.1564999999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790933192308,
+      "endTime": 1790933192310.1565,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/menu/shop-box.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R11 drawSystemMenu"],
+          "fullName": "R11 drawSystemMenu inactive 早退：零绘制",
+          "status": "passed",
+          "title": "inactive 早退：零绘制",
+          "duration": 1.5245419999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R11 drawSystemMenu"],
+          "fullName": "R11 drawSystemMenu 5 项 (53,72+18i)；禁用项红、选中闪烁、禁用选中 0x1C",
+          "status": "passed",
+          "title": "5 项 (53,72+18i)；禁用项红、选中闪烁、禁用选中 0x1C",
+          "duration": 1.3487499999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R11 drawSystemMenu"],
+          "fullName": "R11 drawSystemMenu confirm 阶段：否/是两卷轴 + 高亮随 confirmYes 互斥",
+          "status": "passed",
+          "title": "confirm 阶段：否/是两卷轴 + 高亮随 confirmYes 互斥",
+          "duration": 0.9373750000000314,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R11 drawSystemMenu"],
+          "fullName": "R11 drawSystemMenu switch 阶段：关/开标签；占位提示画 (130,84) 禁用色",
+          "status": "passed",
+          "title": "switch 阶段：关/开标签；占位提示画 (130,84) 禁用色",
+          "duration": 0.5646249999999782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790933180149,
+      "endTime": 1790933180153.5647,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/menu/system-box.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R12 drawUseMenu pick-item 委托"],
+          "fullName": "R12 drawUseMenu pick-item 委托 整宽列表实参身份透传；pick-item 早退零额外绘制",
+          "status": "passed",
+          "title": "整宽列表实参身份透传；pick-item 早退零额外绘制",
+          "duration": 2.8867919999999856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R12 drawUseMenu pick-target"],
+          "fullName": "R12 drawUseMenu pick-target 8 属性行 label (200,16+18i)；level=1、hp 100/150 数字与蓝 max",
+          "status": "passed",
+          "title": "8 属性行 label (200,16+18i)；level=1、hp 100/150 数字与蓝 max",
+          "duration": 2.724500000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R12 drawUseMenu pick-target"],
+          "fullName": "R12 drawUseMenu pick-target 斜杠 (264, valY+1)；选中物名金 (116,143) + 数量青右对齐 (182,133)",
+          "status": "passed",
+          "title": "斜杠 (264, valY+1)；选中物名金 (116,143) + 数量青右对齐 (182,133)",
+          "duration": 1.6405410000000131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790933185605,
+      "endTime": 1790933185612.6406,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/menu/use-box.glm-runtime-resource.test.ts"
     },
     {
       "assertionResults": [
@@ -534,7 +390,7 @@
           "fullName": "R09 decodeGlyph 截断位图 bitmap 缺第 2 行字节：缺字节读 0 → 整行暗像素（?? 0 臂）",
           "status": "passed",
           "title": "bitmap 缺第 2 行字节：缺字节读 0 → 整行暗像素（?? 0 臂）",
-          "duration": 1.125165999999993,
+          "duration": 1.8598340000000064,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -544,7 +400,7 @@
           "fullName": "R09 parseBdfGlyphs 码点门与覆盖 codepoint 0（.notdef）与 ENCODING -1 排除；合法码点进表",
           "status": "passed",
           "title": "codepoint 0（.notdef）与 ENCODING -1 排除；合法码点进表",
-          "duration": 0.4193750000000023,
+          "duration": 1.0913749999999993,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -554,7 +410,7 @@
           "fullName": "R09 parseBdfGlyphs 码点门与覆盖 全部字形被排除 → fail-loud（默认 source = BDF）",
           "status": "passed",
           "title": "全部字形被排除 → fail-loud（默认 source = BDF）",
-          "duration": 0.425208000000012,
+          "duration": 1.1683749999999975,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -564,7 +420,7 @@
           "fullName": "R09 parseBdfGlyphs 码点门与覆盖 同码点两个 STARTCHAR：后者覆盖前者",
           "status": "passed",
           "title": "同码点两个 STARTCHAR：后者覆盖前者",
-          "duration": 0.1857080000000053,
+          "duration": 0.22499999999999432,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -574,7 +430,7 @@
           "fullName": "R09 parseBdfGlyphs 码点门与覆盖 CRLF 与 LF 文本解析等价",
           "status": "passed",
           "title": "CRLF 与 LF 文本解析等价",
-          "duration": 0.2394169999999889,
+          "duration": 1.1507919999999956,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -584,14 +440,14 @@
           "fullName": "R09 loadGlyphs 成功路径 fetch 200 + 最小 BDF → 表含该字形，source = url",
           "status": "passed",
           "title": "fetch 200 + 最小 BDF → 表含该字形，source = url",
-          "duration": 9.5625,
+          "duration": 16.60495800000001,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926267189,
-      "endTime": 1790926267200.5625,
+      "startTime": 1790933182228,
+      "endTime": 1790933182250.605,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/text/glyph.glm-runtime-resource.test.ts"
@@ -603,7 +459,7 @@
           "fullName": "decodeGlyph 输出尺寸 = width*height*4",
           "status": "passed",
           "title": "输出尺寸 = width*height*4",
-          "duration": 2.224542000000014,
+          "duration": 0.862041999999974,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -613,7 +469,7 @@
           "fullName": "decodeGlyph 亮像素填 rgba + α255,暗像素 α0",
           "status": "passed",
           "title": "亮像素填 rgba + α255,暗像素 α0",
-          "duration": 1.2357089999999857,
+          "duration": 0.571124999999995,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -623,7 +479,7 @@
           "fullName": "decodeGlyph 跨字节:width=10 → bytesPerRow=2,row1 col9 在第 4 字节(byte[3])",
           "status": "passed",
           "title": "跨字节:width=10 → bytesPerRow=2,row1 col9 在第 4 字节(byte[3])",
-          "duration": 0.42262499999998226,
+          "duration": 0.09050000000002001,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -633,7 +489,7 @@
           "fullName": "bundled Unifont BDF 真实 15.1.05 表解析 57,083 字形，并冻结 A / 中 / replacement glyph",
           "status": "passed",
           "title": "真实 15.1.05 表解析 57,083 字形，并冻结 A / 中 / replacement glyph",
-          "duration": 189.82579200000004,
+          "duration": 230.843416,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -643,14 +499,14 @@
           "fullName": "bundled Unifont BDF HTTP 错误与空 BDF 都 fail-loud 且带 chrome URL",
           "status": "passed",
           "title": "HTTP 错误与空 BDF 都 fail-loud 且带 chrome URL",
-          "duration": 21.198124999999948,
+          "duration": 11.372958999999923,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926257533,
-      "endTime": 1790926257748.1982,
+      "startTime": 1790933169250,
+      "endTime": 1790933169493.373,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/text/glyph.test.ts"
@@ -662,7 +518,7 @@
           "fullName": "对话固定色(pal0 快照,不绑场景 palette) DialogColor → 固定 RGBA",
           "status": "passed",
           "title": "DialogColor → 固定 RGBA",
-          "duration": 2.232541999999995,
+          "duration": 1.2561660000000074,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -672,14 +528,14 @@
           "fullName": "对话固定色(pal0 快照,不绑场景 palette) 姓名牌 + 光标 6 色",
           "status": "passed",
           "title": "姓名牌 + 光标 6 色",
-          "duration": 1.1899999999999977,
+          "duration": 0.4957080000000076,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926277244,
-      "endTime": 1790926277247.19,
+      "startTime": 1790933190467,
+      "endTime": 1790933190468.4956,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/text/palette-color.test.ts"
@@ -691,7 +547,7 @@
           "fullName": "R09 measureSpans 半宽 + 全宽求和；缺字回退 16；空 spans = 0",
           "status": "passed",
           "title": "半宽 + 全宽求和；缺字回退 16；空 spans = 0",
-          "duration": 0.9692500000000024,
+          "duration": 0.8734999999999928,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -701,7 +557,7 @@
           "fullName": "R09 renderSpans 绘制合同 无影单字：主 bake 在 (x,y)；光标按字宽推进；返回总宽",
           "status": "passed",
           "title": "无影单字：主 bake 在 (x,y)；光标按字宽推进；返回总宽",
-          "duration": 0.7391250000000014,
+          "duration": 0.7023750000000035,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -711,7 +567,7 @@
           "fullName": "R09 renderSpans 绘制合同 阴影三层 (+1,0)/(0,+1)/(+1,+1) 黑影 + 主色，影在主之前",
           "status": "passed",
           "title": "阴影三层 (+1,0)/(0,+1)/(+1,+1) 黑影 + 主色，影在主之前",
-          "duration": 0.22791600000000756,
+          "duration": 0.2632080000000059,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -721,7 +577,7 @@
           "fullName": "R09 renderSpans 绘制合同 加粗：主色叠画 x 与 x+1；影随主体外扩 sx=2",
           "status": "passed",
           "title": "加粗：主色叠画 x 与 x+1；影随主体外扩 sx=2",
-          "duration": 0.22720800000000452,
+          "duration": 0.2485409999999888,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -731,7 +587,7 @@
           "fullName": "R09 renderSpans 绘制合同 缺字：跳过绘制但推进 16（回退宽）",
           "status": "passed",
           "title": "缺字：跳过绘制但推进 16（回退宽）",
-          "duration": 0.18166700000000446,
+          "duration": 0.18604200000000048,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -741,7 +597,7 @@
           "fullName": "R09 renderSpans 绘制合同 maxChars=1 跨 span：只画首字符，返回已画宽度",
           "status": "passed",
           "title": "maxChars=1 跨 span：只画首字符，返回已画宽度",
-          "duration": 0.40945899999999824,
+          "duration": 0.4002090000000038,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -751,14 +607,14 @@
           "fullName": "R09 renderSpans 绘制合同 forceRgba 覆盖 span.color；span.color 经 colorRgba 映射",
           "status": "passed",
           "title": "forceRgba 覆盖 span.color；span.color 经 colorRgba 映射",
-          "duration": 0.16291599999999562,
+          "duration": 0.1612920000000031,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926280383,
-      "endTime": 1790926280386.4094,
+      "startTime": 1790933192042,
+      "endTime": 1790933192045.4001,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/text/text-render.glm-runtime-resource.test.ts"
@@ -770,7 +626,7 @@
           "fullName": "charsShown 默认 24ms/字",
           "status": "passed",
           "title": "默认 24ms/字",
-          "duration": 0.8279160000000019,
+          "duration": 0.864291999999999,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -780,7 +636,7 @@
           "fullName": "charsShown 慢速 48ms/字",
           "status": "passed",
           "title": "慢速 48ms/字",
-          "duration": 0.12350000000000705,
+          "duration": 0.1151660000000021,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -790,7 +646,7 @@
           "fullName": "isLineDone 全字显示前 = 未完成",
           "status": "passed",
           "title": "全字显示前 = 未完成",
-          "duration": 0.07566699999999571,
+          "duration": 0.12112500000000637,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -800,7 +656,7 @@
           "fullName": "isLineDone 全字显示后(无 autoAdvance)= 完成",
           "status": "passed",
           "title": "全字显示后(无 autoAdvance)= 完成",
-          "duration": 0.05408400000000313,
+          "duration": 0.053792000000001394,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -810,7 +666,7 @@
           "fullName": "isLineDone 有 autoAdvance:全字后还要再等",
           "status": "passed",
           "title": "有 autoAdvance:全字后还要再等",
-          "duration": 0.06895800000000918,
+          "duration": 0.06854200000000787,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -820,7 +676,7 @@
           "fullName": "countChars 单 span = 其字符数",
           "status": "passed",
           "title": "单 span = 其字符数",
-          "duration": 0.15420799999999701,
+          "duration": 0.14733400000000074,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -830,14 +686,14 @@
           "fullName": "countChars 多 span 求和(忽略 color,只数 text)",
           "status": "passed",
           "title": "多 span 求和(忽略 color,只数 text)",
-          "duration": 0.29366699999999923,
+          "duration": 0.11079200000000355,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790926283149,
-      "endTime": 1790926283151.2937,
+      "startTime": 1790933193549,
+      "endTime": 1790933193551.1472,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/packages/reforge/src/text/typewriter.test.ts"

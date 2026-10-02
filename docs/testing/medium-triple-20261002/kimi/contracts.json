@@ -248,9 +248,9 @@
     {
       "id": "K6-3",
       "anchor": "author-flow-stages.ts:47-51",
-      "condition": "深拷贝 organized→source 新位点：第二stage entry与branch嵌套臂",
-      "fullName": "K6 editing an organized second stage entry or a nested branch arm never leaks back into the source machine",
-      "oracle": "改organized stages[1].entry.prepare与body[0].branch.then→原flow toStrictEqual 等于快照（旧证仅stage[0] body/entry/onNo）"
+      "condition": "深拷贝 organized→source 新位点：第二stage body与branch嵌套臂",
+      "fullName": "K6 editing an organized second stage nested branch arm never leaks back into the source machine",
+      "oracle": "改organized stages[1].body[0].branch.then嵌套臂与body尾→原flow toStrictEqual 等于快照; fixture与organized产物均过公开checkBaseScriptFlow(allowSceneEntry)合法校验（旧证仅stage[0] body/entry/onNo, 不覆盖第二态branch臂; r1修: 原b.entry子轴经公开校验真实拒收'只允许 onEnter initial state', 去entry保留合法nested-arm方向）"
     }
   ],
   "existingProof": [
