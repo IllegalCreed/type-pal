@@ -56,6 +56,10 @@ Codex2026-10-02核准build allowed仅新测；本README不声称已自动发到�
 
 ## 2026-10-02 独立审核 r1
 
+当前以[窄返工二审r2](codex-medium-r2-review-20261002.md)及[机器证据](codex-medium-r2-review-20261002.json)为准：
+Grok代码/数据accept待Codex统一接入；Kimi/Cursor业务数据通过，仅剩判据/安全/净新计数窄项。
+新31/53/114、Editor3801/Reforge2257绿，静态零；原有效针不重采、软预算不加量，不main/done/正式覆盖结算。
+
 [三中包审核与逐项返工](codex-medium-r1-review-20261002.md) / [机器证据](codex-medium-r1-review-20261002.json)。
 三卡均counter/rework，包test已独立全绿，静态零诊断；阻塞是合法输入/排重与反控证据，不是软预算没填满。
 不合main、不done，85%未进行本批正式结算。最新提示词在各任务卡末尾，原Owner一次窄修。

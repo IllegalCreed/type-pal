@@ -8,9 +8,9 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GROK-BOOT-RESOURCES-MEDIUM-1 | [启动资源并发/降级中包](tasks/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | rework | Grok / 一次窄返工 | 19例、全包2792绿；三新针闭合，C3图标键旧已证需替换；软预算不强补 |
-| TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 | [当前恢复地址/步骤组织中包](tasks/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | rework | Kimi / 一次窄返工 | 32例、两包2257/1255绿；仅非法b.entry与judge/raw/范围；9延期不扩量 |
-| TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 | [选中步骤/移动预览中包](tasks/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | rework | Cursor / 一次窄返工 | 37执行、全包3804绿；非法label/两重复/旧绿0与过滤collection/逐合同账 |
+| TEST-GROK-BOOT-RESOURCES-MEDIUM-1 | [启动资源并发/降级中包](tasks/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | review | Codex / 当时main排重与正式门 | C5独立强旧14绿仅新1红，四目标闭合；19例/31新绿，2792全测同对象复用，无作者返工 |
+| TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 | [当前恢复地址/步骤组织中包](tasks/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | rework | Kimi / 仅report转换层拒收 | K6与四三態闭合，114/2257绿；丢runtime计数/零叶suite状态须修，只重判不重采 |
+| TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 | [选中步骤/移动预览中包](tasks/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | rework | Cursor / 判据与精确清理安全 | 六数据与旧3/12/12闭合，53/3801绿；find误收/未登记前缀删除/C4计数与自己导航，只窄修 |
 | E2E-004-1 | [端菜与使用桂花酒赠道士](tasks/E2E-004-1-meal-and-beggar-wine.md) | review | 用户 / 004观感与脚本可读性 | 两引擎各自verify通过；NPC正文/显式调用，质量零诊断、6012保持 |
 | EDITOR-ENTITY-NAMES-1 | [实体名称与稳定身份分离](tasks/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | review | 用户 / 实体名称体验 | 16实体含四门扇；本轮仅补label，门回归/作者检查绿，6012保持 |
 | E2E-SCRIPT-NAMES-1 | [随剧情命名方案与步骤](tasks/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 用户 / 命名与步骤界面体验 | 5方案22步骤补名；独立accept、静态零诊断，6012保持 |
