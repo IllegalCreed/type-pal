@@ -1,0 +1,9 @@
+    performMagic({
+      state: st,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [spellDef(7, { scriptOnUse: 10 })],
+      magics: [magicDef(7, { type: 'normal', baseDamage: 0 })],

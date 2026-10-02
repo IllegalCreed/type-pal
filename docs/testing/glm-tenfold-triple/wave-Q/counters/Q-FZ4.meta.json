@@ -1,0 +1,57 @@
+{
+  "id": "Q-FZ4",
+  "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 无 gs：施法音缓冲跳过（无宿主侧副作用），脚本照跑",
+  "targetNameSubstring": "敌方 cast 无 gs：施法音缓冲跳过",
+  "axis": "输入轴单轴变异：spell scriptOnUse 10→0（合法哨兵；RunTriggerScript(0) 即返回 → runScript 不被调 → toHaveBeenCalled() 恰一红；playMagicAnim 仍 emit——断言不涉）；断言不动。",
+  "sha256": {
+    "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+    "mutated": "53ac42bd0a22ec8951090e1c20d0dda54c6fa0afd0c18083b4e206a3c9fe1cbe",
+    "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected \"vi.fn()\" to be called at least once",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FZ4.positive.json",
+      "raw": "Q-FZ4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-FZ4.mutant.json",
+      "raw": "Q-FZ4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FZ4.restored.json",
+      "raw": "Q-FZ4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

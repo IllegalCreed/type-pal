@@ -1,0 +1,57 @@
+{
+  "id": "Q-FZ1",
+  "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
+  "targetNameSubstring": "fizzle（scriptOnUse 失败）施法音仍即时播",
+  "axis": "输入轴单轴变异：role 默认施法音 9→10（合法音 id；fizzle 应播 [10] → toEqual([9]) 恰一红）；断言不动。",
+  "sha256": {
+    "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+    "mutated": "b20adf977b66be75a8a433671c9dec2a39e41ac04761fa3197fe949861ce8811",
+    "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 10 ] to deeply equal [ 9 ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FZ1.positive.json",
+      "raw": "Q-FZ1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-FZ1.mutant.json",
+      "raw": "Q-FZ1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FZ1.restored.json",
+      "raw": "Q-FZ1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

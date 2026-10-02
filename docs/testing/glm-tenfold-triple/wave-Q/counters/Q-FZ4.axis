@@ -1,0 +1,1 @@
+输入轴单轴变异：spell scriptOnUse 10→0（合法哨兵；RunTriggerScript(0) 即返回 → runScript 不被调 → toHaveBeenCalled() 恰一红；playMagicAnim 仍 emit——断言不涉）；断言不动。

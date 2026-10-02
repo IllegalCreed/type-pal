@@ -1,0 +1,7 @@
+      spells: [spellDef(7, { scriptOnUse: 10 })],
+      magics: [magicDef(7)],
+      playerRoles: roles(),
+      bus,
+      commands: COMMANDS,
+      runScript,
+      // gs 不注入（合法缺省——敌 cast 音缓冲依赖 gs，无 gs 即无 pendingSounds 通道）

@@ -1,14 +1,28 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r11 收窄）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r12 续批）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r11 候选**（r10 复核 Q-R10-01～02 闭合；已关闭项不重开；
-r10 候选 d1414ec0/pin 751933d1 保留供独立复核）。不合 main、不标 done。
+本文件描述 **r12 候选**（r11 复核主账关闭后按完整续批范围推进；已关闭项不重开；
+r11 候选 d816b1fa/pin 17512c69 保留供独立复核）。不合 main、不标 done。
 
-## r11 当前结论
+## r12 续批（描述同步 + Q08 performMagic 失败/音频残余臂）
+
+- **描述同步（r11 复核遗留，不重采针）**：FP3 索引 axis 修正为 '1 sprites, 0 frames'
+  （meta/断言早已如此，仅索引字符串旧值）；yj2-encoder 终止符注释更正为 8+6 bit
+  （扩展段 = data2-2；此前多的 2 个零位在真终止之后属 padding，严格流本就有效）。
+- **Q08 新批**：`battle-magic-fizzle-audio.glm-q.test.ts`（4 例 typed 零强转）——
+  ①fizzle（scriptOnUse 失败）施法音仍即时播（fight.c:4184 vs 4215 真值；旧例未断言
+  pendingSounds）；②magicSound=0 不 push 空 promise 音（pendingCastSound>0 门）；
+  ③敌方 cast 无 gs：施法音缓冲跳过、脚本照跑；④敌方 cast 施法音即时回落（未建链
+  路径 enemy.magicSound 即时 push，fight.c:4695）。**Q-FZ1～5 五针**三态全 VALID。
+- 规模更新：**140 执行 / 19 文件 + 2 fixture / 66 存档（56 执行目标，净新结构上限 54）**；
+  结构净新用例上限 139（扣 C114）/ 缺口至少 561。
+- 门禁：pal-extract 363 / game typecheck 0（新文件）；三包串行全测与全量门禁见末批。
+
+## r11 当前结论（历史）
 
 - **136 执行 / 结构净新上限 135（仅扣已登记 C114 旧 room0 cross-check）/ 缺口至少 565**。
 - 反控：**61 存档满足业务单断言红 / 52 个不同执行目标 / 净新合同目标结构上限 51**

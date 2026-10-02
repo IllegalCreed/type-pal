@@ -1,0 +1,1 @@
+      playerRoles: { roles: [role({ magicSound: 1 })] }, // 变异轴：0→1（合法非零音 id → 应 push [1]）

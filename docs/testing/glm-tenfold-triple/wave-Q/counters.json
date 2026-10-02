@@ -1,7 +1,7 @@
 {
-  "count": 61,
+  "count": 66,
   "allValid": true,
-  "distinctTargets": 52,
+  "distinctTargets": 56,
   "duplicatedTargets": [
     "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts :: Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
     "packages/game/src/framebuffer-ports.glm-q.test.ts :: Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
@@ -11,7 +11,8 @@
     "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts :: Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
     "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
     "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
-    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）"
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+    "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts :: Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）"
   ],
   "retired": [
     {
@@ -20,7 +21,7 @@
       "alsoSameTargetAs": "Q05-RC3"
     }
   ],
-  "quotaNotes": "61 存档满足业务单断言红 / 52 个不同执行目标 / 净新合同目标结构上限 51（C114 与 S1-RC4 是同一旧 room0 合同及其反控，只扣一次）。FP4 是把原共享全管线身份重定为独立边界拒绝目标（目标 +1，非新增存档）；FP1/2/3/5 共享同一 file×fullName（同一合同目标四条输入轴）。原 50 数量门已足，不再补针。三态来源（r11 真实差分）：51 组业务证据未变 + 5 Q10 更新 + 5 FP 更新 = 61。r11（Q-R10-01）收窄：y2 fixture 删除未用回引接口/可选位模式/反查（r10 的 LZSS 扩展位多写 2 bit 被 Codex 严格读流证伪——literal7+回引+literal9 末字节 178 非 9），只保留已严格验证的 literal-only 流 + 0xFFF 终止符；撤回 r10 回引全往返主张。",
+  "quotaNotes": "r12：66 存档满足业务单断言红 / 55 个不同执行目标 / 净新合同目标结构上限 54（C114 与 S1-RC4 同一旧 room0 合同只扣一次）。新增 Q-FZ1～5 五针归属 4 个新执行目标（fizzle 施法音/零音不 push/敌 cast 无 gs/敌 cast 即时回落——后两者为不同 fullName）。反控数量门已足；缺口以用例/组账计。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
@@ -3335,7 +3336,7 @@
       "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
       "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "targetNameSubstring": "全管线合成输入走到底",
-      "axis": "输入轴单轴变异：MGO 1→2 个合法 YJ2 sprite chunk（合法；sprite blobs written 1→2 → toContain('0 sprites') 恰一红——注意正控现含 1 sprite 断言须同步）；断言不动。",
+      "axis": "输入轴单轴变异：MGO 1→2 个合法 YJ2 sprite chunk（合法；sprite blobs written 1→2 sprites → toContain('1 sprites, 0 frames') 恰一红）；断言不动。",
       "sha256": {
         "original": "f76c60bdaab22717816fc2c6a011b0036a72ed869949ef779a9a9c09874c3c41",
         "mutated": "9b4cf7d868c6d7302bf65c86cdefc331d9369075198a833cd95ba32cd5d79274",
@@ -3497,6 +3498,291 @@
           },
           "json": "Q-FP5.restored.json",
           "raw": "Q-FP5.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FZ1",
+      "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle（scriptOnUse 失败）施法音仍即时播（sdlpal fight.c:4184 vs 4215）",
+      "targetNameSubstring": "fizzle（scriptOnUse 失败）施法音仍即时播",
+      "axis": "输入轴单轴变异：role 默认施法音 9→10（合法音 id；fizzle 应播 [10] → toEqual([9]) 恰一红）；断言不动。",
+      "sha256": {
+        "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+        "mutated": "b20adf977b66be75a8a433671c9dec2a39e41ac04761fa3197fe949861ce8811",
+        "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ 10 ] to deeply equal [ 9 ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ1.positive.json",
+          "raw": "Q-FZ1.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FZ1.mutant.json",
+          "raw": "Q-FZ1.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ1.restored.json",
+          "raw": "Q-FZ1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FZ2",
+      "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） fizzle 施法音=0（magicSound 0）不 push 空 promise 音",
+      "targetNameSubstring": "fizzle 施法音=0（magicSound 0）不 push 空 promise 音",
+      "axis": "输入轴单轴变异：第 2 例显式 magicSound 0→1（合法非零音 id；pendingCastSound>0 → 应初始化并 push [1] → toBeUndefined() 恰一红）；断言不动。",
+      "sha256": {
+        "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+        "mutated": "fb5d6e20872d64ef0ea0369e941fd715b9dc862defef3b01c8d3766f3792966e",
+        "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ 1 ] to be undefined",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ2.positive.json",
+          "raw": "Q-FZ2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FZ2.mutant.json",
+          "raw": "Q-FZ2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ2.restored.json",
+          "raw": "Q-FZ2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FZ3",
+      "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
+      "targetNameSubstring": "敌方 cast 施法音即时回落",
+      "axis": "输入轴单轴变异：enemyDef 默认 magicSound 47→48（合法音 id；即时回落应 push [48] → toContain(47) 恰一红——注意敌 cast 用 enemies[0] 该默认值）；断言不动。",
+      "sha256": {
+        "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+        "mutated": "b5bfc22a84a10e2fb1dfcb863fdf15717c8097abc2197766cf1f8aa899bf0452",
+        "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ 48 ] to include 47",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ3.positive.json",
+          "raw": "Q-FZ3.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FZ3.mutant.json",
+          "raw": "Q-FZ3.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ3.restored.json",
+          "raw": "Q-FZ3.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FZ4",
+      "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 无 gs：施法音缓冲跳过（无宿主侧副作用），脚本照跑",
+      "targetNameSubstring": "敌方 cast 无 gs：施法音缓冲跳过",
+      "axis": "输入轴单轴变异：spell scriptOnUse 10→0（合法哨兵；RunTriggerScript(0) 即返回 → runScript 不被调 → toHaveBeenCalled() 恰一红；playMagicAnim 仍 emit——断言不涉）；断言不动。",
+      "sha256": {
+        "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+        "mutated": "53ac42bd0a22ec8951090e1c20d0dda54c6fa0afd0c18083b4e206a3c9fe1cbe",
+        "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected \"vi.fn()\" to be called at least once",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ4.positive.json",
+          "raw": "Q-FZ4.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FZ4.mutant.json",
+          "raw": "Q-FZ4.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ4.restored.json",
+          "raw": "Q-FZ4.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FZ5",
+      "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
+      "targetNameSubstring": "敌方 cast 施法音即时回落",
+      "axis": "输入轴单轴变异：敌 casterIdx 0→5（enemies 长 1，属显式索引输入；enemies[5]?.e.magicSound ?? 0 → 0 → 不 push → toContain(47) 恰一红）。如实登记：越界索引为运行时可选链语义的显式输入（非私有态/强转）。",
+      "sha256": {
+        "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+        "mutated": "902caf05b1be74975077e7db9ed52b0e93452cd2979ebea3b6b232fe482dcb7d",
+        "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: the given combination of arguments (undefined and number) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a number",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ5.positive.json",
+          "raw": "Q-FZ5.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FZ5.mutant.json",
+          "raw": "Q-FZ5.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FZ5.restored.json",
+          "raw": "Q-FZ5.restored.txt"
         }
       },
       "verdict": "VALID"

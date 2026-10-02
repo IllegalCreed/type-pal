@@ -1,0 +1,9 @@
+    performMagic({
+      state: st,
+      casterIsEnemy: true,
+      casterIdx: 5, // 变异轴：越界敌槽（enemies 长 1；合法输入域外的显式索引——pendingCastSound 回落 0 不 push）
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [spellDef(7, { scriptOnUse: 10 })],
+      magics: [magicDef(7, { type: 'normal', baseDamage: 0 })],

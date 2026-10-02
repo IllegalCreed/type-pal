@@ -1,0 +1,1 @@
+输入轴单轴变异：敌 casterIdx 0→5（enemies 长 1，属显式索引输入；enemies[5]?.e.magicSound ?? 0 → 0 → 不 push → toContain(47) 恰一红）。如实登记：越界索引为运行时可选链语义的显式输入（非私有态/强转）。

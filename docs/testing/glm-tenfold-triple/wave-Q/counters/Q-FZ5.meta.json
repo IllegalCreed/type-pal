@@ -1,0 +1,57 @@
+{
+  "id": "Q-FZ5",
+  "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic 失败/音频残余臂（typed） 敌方 cast 施法音即时回落（未建链路径 enemy.magicSound=47 即时 push）",
+  "targetNameSubstring": "敌方 cast 施法音即时回落",
+  "axis": "输入轴单轴变异：敌 casterIdx 0→5（enemies 长 1，属显式索引输入；enemies[5]?.e.magicSound ?? 0 → 0 → 不 push → toContain(47) 恰一红）。如实登记：越界索引为运行时可选链语义的显式输入（非私有态/强转）。",
+  "sha256": {
+    "original": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92",
+    "mutated": "902caf05b1be74975077e7db9ed52b0e93452cd2979ebea3b6b232fe482dcb7d",
+    "restored": "8019e1bedfcdc86171f0ea34fce4ef2311fccad2cc8a60669406cbcfa4456f92"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: the given combination of arguments (undefined and number) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a number",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FZ5.positive.json",
+      "raw": "Q-FZ5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-FZ5.mutant.json",
+      "raw": "Q-FZ5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FZ5.restored.json",
+      "raw": "Q-FZ5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

@@ -1,0 +1,1 @@
+输入轴单轴变异：enemyDef 默认 magicSound 47→48（合法音 id；即时回落应 push [48] → toContain(47) 恰一红——注意敌 cast 用 enemies[0] 该默认值）；断言不动。

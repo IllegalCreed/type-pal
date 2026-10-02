@@ -135,11 +135,11 @@ export function yj2EncodeLiterals(data: Uint8Array): Uint8Array {
 
   // 0xFFF 终止符（yj1.c:416）：回引 symbol 0x100 的 Huffman 码 + LZSS 位。
   // decoder 读法：低 8 bit（b0）→ data2[b0&0xf] → 再读 (data2[b0]+6-8) 扩展位；
-  // 取 b0=0：data2[0]=8，总读 8+8=16 bit（扩展 8 bit）。temp = b0 | (ext<<8)，
+  // 取 b0=0：data2[0]=8，总读 8+6=14 bit（扩展段 6 bit，非 8）。temp = b0 | (ext<<8)，
   // ext 低 6 位全 1 → temp=0x3F → >>8=0 → pos = 0 | (data1[0]=0x3F << 6) = 0xFFF。
   emit(0x100)
   for (let i = 0; i < 8; i++) bits.push(0) // b0 = 0x00（LSB 先）
-  const extra = YJ2_DATA2[0]! // = 8
+  const extra = YJ2_DATA2[0]! - 2 // 扩展段 = data2-2 = 6 bit（primary 总读 data2+6）
   const ext = 0x3f // 低 6 位全 1（高位 2 位为 0）
   for (let i = 0; i < extra; i++) bits.push((ext >> i) & 1)
 
