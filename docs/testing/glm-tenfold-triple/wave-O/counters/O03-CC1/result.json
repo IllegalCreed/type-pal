@@ -1,35 +1,35 @@
 {
   "id": "O03-CC1",
-  "contract": "工程写排序：scenes/index 排在最后",
+  "contract": "map 路径委派：write-plan 调 serializeMigrationJson 保留 path（去参后 map 序列化退化为普通 JSON）",
   "target": {
     "file": "src/migration-write-plan.glm-o.test.ts",
-    "title": "工程写按 scenes/index 最后排序；map 内容走专用序列化"
+    "title": "map 路径委派专用序列化：write 内容=serializeMigrationJson(value, path)（排序臂由旧 boundaries:57-64/test:166-171 证）"
   },
   "control": {
     "exitCode": 0,
-    "executed": 15,
-    "passed": 15,
+    "executed": 14,
+    "passed": 14,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 15,
-    "passed": 14,
+    "executed": 14,
+    "passed": 13,
     "failed": 1,
-    "failedFullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
-    "failureMessageHead": "AssertionError: expected 'projects/pal/content/zz-sidecar.json' to be 'projects/pal/content/scenes/index.json' // Object.is equality"
+    "failedFullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 map 路径委派专用序列化：write 内容=serializeMigrationJson(value, path)（排序臂由旧 boundaries:57-64/test:166-171 证）",
+    "failureMessageHead": "AssertionError: expected '{\\n  \"version\": 4,\\n  \"width\": 1,\\n  …' to be '{\\n  \"version\": 4,\\n  \"width\": 1,\\n  …' // Object.is equality"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 15,
-    "passed": 15,
+    "executed": 14,
+    "passed": 14,
     "failed": 0
   },
   "hashes": {
     "original": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
-    "mutated": "7a59f62f3675344d7c4f191e52bace90e1270e3c71d39887f76f1329ab6aba0d",
+    "mutated": "74f859e2d1409385938e8cca8c061fed14db703064a9f6a69e47e6baf8cee14c",
     "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
-    "rebuilt": "7a59f62f3675344d7c4f191e52bace90e1270e3c71d39887f76f1329ab6aba0d"
+    "rebuilt": "74f859e2d1409385938e8cca8c061fed14db703064a9f6a69e47e6baf8cee14c"
   },
   "patchRebuiltAndVerified": true
 }

@@ -405,109 +405,106 @@
     "oldAssertion": "旧 :318-331「scene index 双边不同重排冲突」仅证重排必冲突；共存正控未证 → gap 新轴（O-R10 修正原 :244 错锚）",
     "source": "migration-merge.ts:264-273 strictOrder 仅双方互异重排才冲突 + :276-295 orderedIds 并集追加"
   },
-  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化": {
-    "condition": "4 写入：actors/scenes-index/真实 convertSourceTilemap 地图/zz-sidecar（字典序在 index 之后）",
-    "source": "migration-write-plan.ts:42-46 projectWriteOrder 权重 + :50 serializeMigrationJson map 专用",
-    "oldAssertion": "write-plan.boundaries:34-74 集合无字典序更晚的非场景文件，无法区分「权重置后」与「字典序」；map 专用序列化内容未断言 → 区分臂新轴",
-    "caller": "公开规划入口 buildMigrationTransactionChanges（migration-write-plan.ts:21；工程 IO 公开层——仓内无非测试调用方，与事务三入口同一登记口径）",
-    "classification": "residual-arm"
-  },
-  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：工程写入与规划快照门 写入目标未纳入规划快照 → fail-loud": {
-    "condition": "writes 含快照外 content/ghost.json",
-    "source": "migration-write-plan.ts:34-36 plannedHash managedFiles 门",
-    "oldAssertion": "旧 :93-100 为写+删同文件重复门；快照未登记臂未证 → gap 新轴",
-    "caller": "公开规划入口 buildMigrationTransactionChanges（migration-write-plan.ts:21；工程 IO 公开层——仓内无非测试调用方，与事务三入口同一登记口径）",
-    "classification": "residual-arm"
-  },
-  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：工程写入与规划快照门 托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud": {
-    "condition": "files/managedFiles 有 a.json 而 hashes 空",
-    "source": "migration-write-plan.ts:37-39 hash/files 一致性门",
-    "oldAssertion": "旧测试经真实快照构造，不一致臂未证 → gap 新轴",
-    "caller": "公开规划入口 buildMigrationTransactionChanges（migration-write-plan.ts:21；工程 IO 公开层——仓内无非测试调用方，与事务三入口同一登记口径）",
-    "classification": "residual-arm"
-  },
-  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：工程写入与规划快照门 删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null": {
-    "condition": "deletes=['content/gone.json']（managedFiles 登记、files 无正文）",
-    "source": "migration-write-plan.ts:54-60 deletes→expectedPreviousHash（null 当无正文）",
-    "oldAssertion": "旧 :93 写删互斥 / :197 退役路径 hash；计划删除的 hash 派生臂未证 → gap 新轴",
-    "caller": "公开规划入口 buildMigrationTransactionChanges（migration-write-plan.ts:21；工程 IO 公开层——仓内无非测试调用方，与事务三入口同一登记口径）",
-    "classification": "residual-arm"
-  },
-  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud": {
-    "condition": "retirement path ∈ {assets/other/x.png, assets/migrated/../x.png, sha='nothex'} 三轴",
-    "source": "migration-write-plan.ts:64-70 退役计划守卫（前缀/段/hex）",
-    "oldAssertion": "boundaries:75 仅合法 retirement；三非法臂未证 → gap 新轴（排序臂已由 :75 删重）",
-    "caller": "公开规划入口 buildMigrationTransactionChanges（migration-write-plan.ts:21；工程 IO 公开层——仓内无非测试调用方，与事务三入口同一登记口径）",
-    "classification": "residual-arm"
-  },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：退役资源与重复目标 工程写与退役删除同目标 → 重复工程目标 fail-loud": {
     "condition": "writes 与 retiredAssets 同指 assets/migrated/dup.png",
     "source": "migration-write-plan.ts:78-79 全目标查重门",
     "oldAssertion": "旧 :93 为 plan 内部写+删互斥；写×退役跨源撞同门未证 → 变体臂新轴",
-    "caller": "公开规划入口 buildMigrationTransactionChanges（migration-write-plan.ts:21；工程 IO 公开层——仓内无非测试调用方，与事务三入口同一登记口径）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）": {
     "condition": "projects/pal/content/link.json → repo 外 victim.txt 符号链接",
     "source": "migration-transaction.ts:78-80 assertNoSymlinkPath（提交路径）",
     "oldAssertion": "transaction.boundaries:102-146 六轴无 symlink；链外文件不读臂未证 → gap 新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal 绝对路径目标被 strictRepoRel 拒绝": {
     "condition": "journal write target='/etc/passwd'",
     "source": "migration-transaction.ts:67-72 strictRepoRel（journal 侧）",
     "oldAssertion": "boundaries:102 六轴（operations/kind/hash/staged/version/id）无绝对路径 target → gap 新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal write 操作缺 staged → strictRepoRel 拒绝": {
     "condition": "journal write 操作整体缺 staged 字段",
     "source": "migration-transaction.ts:126-131 staged 缺失→路径无效",
     "oldAssertion": "boundaries:102 的 staged 轴为值错（路径不符）与 hash 轴（缺有效 staging）；字段缺失臂不同文案 → 变体臂新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） journal 根非对象 / scope 未知 / project scope 越界 / precondition 非对象 逐轴拒绝": {
     "condition": "journal='null'、scope='weird'、project scope 指向 baselines/、preconditions=['not-an-object'] 四轴",
     "source": "migration-transaction.ts:105-106/:101/:87-89/:140-142",
     "oldAssertion": "boundaries:102 六轴不含此四臂（operations 轴是值非数组非根非对象）→ gap 新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） manifest 前置条件指向 symlink 时恢复拒绝（不读取链外文件）": {
     "condition": "manifest precondition target=assets/link.bin→repo 外 real.bin",
     "source": "migration-transaction.ts:147-152 前置目标 symlink 守卫（恢复路径）",
     "oldAssertion": "旧测试无 manifest 前置 symlink；不读链外文件+manifest 不落盘未证 → gap 新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 多操作事务按序恢复且 afterOperation 收到 journal 操作与下标；完成后 staging 目录清理": {
     "condition": "写+删+manifest 三操作带 afterOperation 记录 [target,index]",
     "source": "migration-transaction.ts:231-256 applyJournal 顺序 + afterOperation 回调 + :258-262 cleanup",
     "oldAssertion": "transaction.boundaries:86-101 证补完/幂等/journal 清理；afterOperation 收 journal 操作与下标、transactions/<id> 目录清空未证 → 观测臂新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） baseline 目标在提交窗口被改 → 提交窗口守卫拒绝（双操作触发 assertPreviousTarget）": {
     "condition": "双 baseline 操作，index0 后改第二目标为 user-edit",
     "source": "migration-transaction.ts:208-212 assertPreviousTarget（baseline scope）",
     "oldAssertion": "旧 :231-261 提交窗口守卫为 project scope；baseline 域同守卫未证 → 域臂新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 删除已不存在的托管目标（规划 hash=null）为合法 no-op": {
     "condition": "expectedPreviousHash=null 且磁盘无目标",
     "source": "migration-transaction.ts:244-248（无 staged 的 delete 分支静默通过）",
     "oldAssertion": "旧测试删除目标均在盘；no-op 臂未证 → gap 新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
   },
   "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 相同改动集合产出相同事务 id（staging 目录可复算）；不同内容 id 不同": {
     "condition": "两 repo 同 content 提交（中断捕获）比对 journal id；不同 content 不同 id",
     "source": "migration-transaction.ts:277-296（id 由改动集合派生）",
     "oldAssertion": "旧测试未观察事务 id 派生/复算；确定性 id 臂未证 → gap 新轴",
-    "caller": "公开事务提交/恢复入口 commitMigrationTransaction（migration-transaction.ts:277）/recoverMigrationTransaction（:264）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务",
     "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：工程写入与规划快照门 map 路径委派专用序列化：write 内容=serializeMigrationJson(value, path)（排序臂由旧 boundaries:57-64/test:166-171 证）": {
+    "condition": "单条合法 map write（convertSourceTilemap 真实构造 JSON 往返），snapshot 登记同值",
+    "source": "migration-write-plan.ts:50 serializeMigrationJson(value, path) 委派（map 分支在 migration-baseline.ts:33-34）",
+    "oldAssertion": "排序臂 existing-proof（boundaries:57-64 scenes/z 晚于 index、旧 test:166-171 s000 晚于 index 已分出权重 vs 字典序）；旧 next-wave:90-96 仅 items 普通路径，map 路径委派未证 → Codex 去参变异独证的新轴",
+    "classification": "normal-input",
+    "axis": "map 路径向 serializeMigrationJson(value, path) 的委派",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务"
+  },
+  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：工程写入与规划快照门 删除改动无 content：正文缺席挂 null、正文在场挂规划字节 hash（null 计算臂由旧 next-wave:103-109 证）": {
+    "condition": "deletes=[gone]（managed 登记、files/hashes 皆空）→ null；deletes=[present]（files+hashes 在场）→ 携带该规划字节 hash",
+    "source": "migration-write-plan.ts:54-60 deletes→expectedPreviousHash（无 content）",
+    "oldAssertion": "null 计算臂 existing-proof（next-wave:103-109 写臂）；删除环无 content 挂 null 与非 null 在场挂 hash 未证 → 新轴（非 null 臂 p13 补在场证据闭合）",
+    "classification": "normal-input",
+    "axis": "删除改动的 hash 派生（缺席 null / 在场规划 hash）",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务"
+  },
+  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 buildMigrationTransactionChanges：退役资源与重复目标 退役计划越界诊断含 id -> path 完整后缀（三守卫臂由旧 test:75-90 拒绝表证）": {
+    "condition": "retirement path=assets/other/x.png（非 migrated 前缀）",
+    "source": "migration-write-plan.ts:64-70 退役守卫（文案 `${id} -> ${path}`）",
+    "oldAssertion": "三守卫臂 existing-proof（旧 test:75-90「拒绝越界或缺少完整指纹的资源退役计划」拒绝表：assets/author.png 前缀、../author.png 段、not-a-sha256 正则）；id->path 诊断后缀为生产诊断合同，pending 核定不计净新",
+    "classification": "pending-diagnostic",
+    "axis": "退役计划诊断完整后缀",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务"
+  },
+  "packages/migrate/src/migration-write-plan.glm-o.test.ts :: O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 中断后 recover 清理真实 transactions/<id> 目录（补完/journal 清理/幂等由旧 tx-boundaries:86-101 证，此处只钉目录臂）": {
+    "condition": "二操作事务 index0 后中断 → journal 留存 transactions/<id>/stage；recover 后目录消失",
+    "source": "migration-transaction.ts:258-262 cleanup（recover 路径删除事务目录）",
+    "oldAssertion": "tx-boundaries:86-101 证补完/幂等/journal 清理；transactions/<id> 目录清理未证（Codex 独证旧 28 全绿仅目录断言红）→ 窄新轴；正常 commit 的目录清理不能替代 recover 臂",
+    "classification": "residual-arm",
+    "axis": "recover 后真实事务目录清理",
+    "caller": "生产链：migrate-content.mts:116-125 直接调用 buildMigrationTransactionChanges（输入构造 :69 snapshot/:70 plan/:85-89 retiredAssets）；下游 :126+ 提交事务"
   }
 }

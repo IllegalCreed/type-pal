@@ -5,21 +5,23 @@ Owner GLM O；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-O-1-supply-validation
 （自派发提交 `8b3ca062953b17a12178f8d1a9e36657971234b1` 建独立 worktree）。
 生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；verify-targets --wave O 通过（冻结 hash 有效；白名单路径随批次增长，以 [targets.json](../targets.json) 与 verifier 输出为准，194 为派发时历史数）。
 
-## 交付状态（r13 续批后）：469 执行/净新上限 468、65 反控/63 不同目标
+## 交付状态（p13 合并裁决后）：468 执行/净新上限 466、65 反控/63 不同目标
 
 Codex 2026-10-01 counter 的 O-01/02/03 已闭合；O-R9-01～03 亦闭合（判据/typed/去重）。
 **r9 续审删除 19 行旧证重复**（grid/entity-lifecycle/author-dialogue/rewards 同条件同答案，
 已登记 existing-proof）；**r10 续审再删 2 行 merge 重复**（:318/:244，O02-CC2 退役）；**r12 按报告裁决再删
-10 行 project-io 重复**（+ chunks 退役域不复活）；**r13 write-plan 域逐行旧正文裁决
-再删 6 行**（boundaries:75 退役排序、旧 :114/:132/:174 baseline 差异化三行、
-:103/:114 manifest 前置、:132/:151 manifest 最后、tx-boundaries:86 中断恢复）。
-「497/487/485/475」为含重复旧数；本表为去重后唯一主映射真实账：
+10 行 project-io 重复**（+ chunks 退役域不复活）；**r13 write-plan 域删重 6 行**（五旧例删除接受）+ **p13 Kimi/Grok 合并裁决**：
+两快照拒收再删（next-wave:76/:81 同守卫同文案）；排序臂归旧（boundaries:57-64 +
+test:166-171 已分权重 vs 字典序）仅留 map 委派新轴（Codex 去参变异独证）；
+删除行补非 null 在场证据；退役行收窄诊断后缀（三守卫归旧 test:75-90，后缀 pending）；
+恢复误删的 recover 清理 transactions/<id> 窄轴。
+「497/487/485/475/469」为含重复旧数；本表为去重后唯一主映射真实账：
 
 | 批 | 用例（唯一主映射） | 反控 |
 |---|---:|---:|
 | O01 | 72 | 5 |
 | O02 | 56 | 2 |
-| O03 | 25 | 5 |
+| O03 | 24 | 5 |
 | O04 | 37 | 5 |
 | O05 | 48 | 5 |
 | O06 | 42 | 7 |
@@ -27,7 +29,7 @@ Codex 2026-10-01 counter 的 O-01/02/03 已闭合；O-R9-01～03 亦闭合（判
 | O08 | 72 | 3 |
 | O09 | 58 | 8 |
 | O10 | 26 | 6 |
-| **合计** | **469 执行（净新上限 468†）** | **65（63 目标）** |
+| **合计** | **468 执行（净新上限 466†）** | **65（63 目标）** |
 
 † resources.herb=0 为同条件 cross-check 不计净新；9 枚退役针（O08-CC8/9、O09-CC13/14/15/17/18、
 O08-CC11、O02-CC2）目标测试因去重删除，历史证据目录保留。
@@ -65,7 +67,7 @@ r9 续审：上述 r6 增量中的隐藏经验分配/几何反解等 19 行经�
 新增 rich-text 标记识别残余 9 轴（未知色名/错配闭合/空内容/零间隔/同名嵌套/redAlt 交替/
 大小写/孤儿闭合/内容含 <）+ CC19/CC20 两枚反控。
 
-以下子域尚未建模（缺口至少 232 例；231/234/204/214/216/226 为历史口径），非“不可合法构造”证明；后续按同法（typed 合法 fixture +
+以下子域尚未建模（缺口至少 234 例；231/234/204/214/216/226/232 为历史口径），非“不可合法构造”证明；后续按同法（typed 合法 fixture +
 真实公开入口）继续：locale 大表、script.ts 执行器深域、
 bake-assets CLI mkdtemp 临时工程、migrate pal-assets 真实语料 census 轴
 （loadPal* 需 extracted corpus，属 fast 排除域）、world-sprite layout 语义深域、
@@ -80,7 +82,7 @@ unit 层（fast 覆盖口径）充分验证，不读真实工程、不写盘。
 
 ## 未完成范围与原因（真实残余账）
 
-O01–O10 全部批次已有交付（见上表唯一主映射）；**余量 232 例**为各批深域：
+O01–O10 全部批次已有交付（见上表唯一主映射）；**余量 234 例**为各批深域：
 locale 大表、script.ts 执行器深域、bake-assets CLI mkdtemp 临时工程、
 migrate pal-assets 真实语料 census 轴（fast 排除域）、world-sprite layout 语义深域、
 equip/throw 效果域、ambience/skill 深域。已交付部分不含凑数用例（r6 审查指出的

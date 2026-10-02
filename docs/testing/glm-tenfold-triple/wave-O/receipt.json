@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 469 执行/净新上限 468（herb=0 不计）, 65 反控/63 目标; r13 write-plan 域裁决闭合（删重 6+真账 15）; 371 空条件待逐域; 缺口至少 232",
+  "deliveryStatus": "PARTIAL — 468 执行/净新上限 466（herb=0 + 退役诊断 pending 不计）, 65 反控/63 目标; p13 合并裁决闭合; 371 空条件/214 token 锚待逐域; 缺口至少 234",
   "batches": {
     "O01": {
       "tests": 72
@@ -37,13 +37,13 @@
     }
   },
   "totals": {
-    "newCases": 469,
-    "netNewCeiling": 468,
-    "netNewNote": "resources.herb=0 同条件 cross-check 不计净新；r9 删 19 + r10 删 2 + r12 删 10 + r13 删 6 行旧证重复均登记 existing-proof",
+    "newCases": 468,
+    "netNewCeiling": 466,
+    "netNewNote": "resources.herb=0 同条件 cross-check 不计净新；退役诊断后缀合同 pending 不计净新（Codex 接收口径）；r9 删19 + r10 删2 + r12 删10 + r13 删6 + p13 删2 行旧证重复均登记 existing-proof",
     "uniqueBatchMapping": {
       "O01": 72,
       "O02": 56,
-      "O03": 25,
+      "O03": 24,
       "O04": 37,
       "O05": 48,
       "O06": 42,
@@ -53,7 +53,7 @@
       "O10": 26
     },
     "byPackage": {
-      "migrate": 236,
+      "migrate": 235,
       "content": 207,
       "shared": 26
     },
@@ -61,8 +61,10 @@
     "distinctCounterTargets": 63,
     "retiredCounters": 9,
     "ledgerTrueAccount": {
-      "overridesRows": 81,
+      "overridesRows": 80,
       "emptyConditionRemaining": 371,
+      "tokenAnchorRemaining": 214,
+      "pendingRows": ["退役计划越界诊断后缀（生产诊断合同待 Codex 核定）"],
       "openDomains": [
         "migration-plan",
         "pal-current-publication",
@@ -108,7 +110,7 @@
     "counter-judge.mjs（唯一 judge）",
     "run-counter.selftest.mjs（22 用例经同一 judge）"
   ],
-  "candidateHead": "74b094c89e0b5f451832b24faa50757ccc7be321",
+  "candidateHead": "TO-BE-PINNED-P13",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -146,10 +148,11 @@
     "r11-batch2-survey": "project-io 域调查：与旧 boundaries:34/82/101、next-wave:27/40/53、旧:30-104 高度重叠，「Set 复制不别名」行疑为 boundaries:82 精确重复——已登记账本 note，下轮先逐行旧正文裁决去重再补真账（write-plan/plan 同法）；本轮上下文不足未展开，未以调查当闭合",
     "O-R12-01": "撤回「单侧真重排必冲突由旧 :318 证」未证附言（Codex 探针：合法三场景+ours 单侧重排+theirs=base → conflicts=[]），标题定稿「一方尾增、一方改同位字段可共存（公共子序一致）」；O02-CC1/CC3 passed 邻居旧标题致执行身份过期，已重采三相（不改旧日志冒充重跑）；其余 63 原针保留",
     "O-R12-02": "project-io 按报告六条裁决直接删重：scene 发现/scene 坏JSON/托管坏字节/未改动默认通过/Set 别名/非托管过滤（boundaries:34-111、next-wave:40、旧:30 同条件同答案）+ 同法复核四条：chunks 退役域不复活（boundaries:65-67）、maps 非数组臂（:72-79）、TOCTOU 改动臂（:93-96）、多出键臂（旧:63+单守卫 :125-132）——共删 10 行登记 existing-proof；保留 8 残余臂精确收窄标题并补真账（条件/caller/源行区/旧锚）",
-    "r13-write-plan": "write-plan 域逐行旧正文裁决：删重 6 行（boundaries:75 退役排序+hash 逐字节同答案；旧 :114+:132+:174 baseline 一致跳过/漂移写/退役删除三行；:103+:114 manifest 无前置/一致无改动；:132+:151 manifest 最后；tx-boundaries:86 二操作中断恢复同条件）+ 空留 describe 清理；保留 15 臂全部补真账（条件/生产 caller=公开规划入口同 IO 层口径/源行区/旧锚）；O03-CC1/CC2/CC3 因执行集变化重采（65/65 再判定通过）"
+    "r13-write-plan": "write-plan 域逐行旧正文裁决：删重 6 行（boundaries:75 退役排序+hash 逐字节同答案；旧 :114+:132+:174 baseline 一致跳过/漂移写/退役删除三行；:103+:114 manifest 无前置/一致无改动；:132+:151 manifest 最后；tx-boundaries:86 二操作中断恢复同条件）+ 空留 describe 清理；保留 15 臂全部补真账（条件/生产 caller=公开规划入口同 IO 层口径/源行区/旧锚）；O03-CC1/CC2/CC3 因执行集变化重采（65/65 再判定通过）",
+    "p13-merged-adjudication": "Kimi/Grok 合并裁决落地：①15 行 caller 修正为真实生产链 migrate-content.mts:116-125（输入构造 :69/:70/:85-89）——原「仓内无非测试调用方」系 .mts 脚本被 grep 漏检；②两快照拒收删重（next-wave:76/:81 同守卫同文案完全旧证）；③排序臂归旧（boundaries:57-64 scenes/z 与 test:166-171 s000 已分权重/字典序）仅留 map 委派新轴并收窄标题；④删除行收窄标题为「无 content：缺席挂 null/在场挂规划 hash」并补非 null 在场证据闭合 pending；⑤退役行收窄为 id->path 诊断后缀（三守卫归旧 test:75-90，后缀合同 pending 不计净新）；⑥恢复误删的 recover 清理 transactions/<id> 目录窄轴（Codex 独证旧 28 全绿仅目录断言红）；O03-CC1/CC2/CC3 重采（CC1 变异重定为 map 委派去参轴），65/65 再判定通过"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "160a77ecfb801a5ac85bd272835d945b4255f28c",
+  "remoteFinalCandidate": "TO-BE-PINNED-P13",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"

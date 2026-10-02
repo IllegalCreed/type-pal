@@ -1,6 +1,6 @@
 # exit=1 signal=null errored=null
 # === stdout ===
-JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-L6UCD4/vitest-injected.json
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-CKHq1M/vitest-injected.json
 undefined
-/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-L6UCD4/packages/migrate:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/migration-write-plan.glm-o.test.ts --project unit --reporter=json --outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-L6UCD4/vitest-injected.json
+/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-CKHq1M/packages/migrate:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/migration-write-plan.glm-o.test.ts --project unit --reporter=json --outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-CKHq1M/vitest-injected.json

@@ -3,26 +3,26 @@
   "contract": "退役迁移资源路径越界 fail-loud",
   "target": {
     "file": "src/migration-write-plan.glm-o.test.ts",
-    "title": "退役资源路径越界或 sha 非法 → fail-loud"
+    "title": "退役计划越界诊断含 id -> path 完整后缀（三守卫臂由旧 test:75-90 拒绝表证）"
   },
   "control": {
     "exitCode": 0,
-    "executed": 15,
-    "passed": 15,
+    "executed": 14,
+    "passed": 14,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 15,
-    "passed": 14,
+    "executed": 14,
+    "passed": 13,
     "failed": 1,
-    "failedFullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
+    "failedFullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役计划越界诊断含 id -> path 完整后缀（三守卫臂由旧 test:75-90 拒绝表证）",
     "failureMessageHead": "AssertionError: expected [Function] to throw an error"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 15,
-    "passed": 15,
+    "executed": 14,
+    "passed": 14,
     "failed": 0
   },
   "hashes": {

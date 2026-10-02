@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 15,
-    "passed": 15,
+    "executed": 14,
+    "passed": 14,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 15,
-    "passed": 14,
+    "executed": 14,
+    "passed": 13,
     "failed": 1,
     "failedFullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
     "failureMessageHead": "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 15,
-    "passed": 15,
+    "executed": 14,
+    "passed": 14,
     "failed": 0
   },
   "hashes": {

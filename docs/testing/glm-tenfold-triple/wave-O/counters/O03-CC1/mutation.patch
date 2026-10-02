@@ -1,7 +1,7 @@
 diff --git a/packages/migrate/src/migration-write-plan.ts b/packages/migrate/src/migration-write-plan.ts
-index 642c92ee5..ce998bfc8 100644
+index 642c92ee5..92a2a0e65 100644
 --- a/packages/migrate/src/migration-write-plan.ts
 +++ b/packages/migrate/src/migration-write-plan.ts
-@@ -42 +42 @@ export function buildMigrationTransactionChanges(args: {
--  const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 1 : 0)
-+  const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 0 : 0)
+@@ -50 +50 @@ export function buildMigrationTransactionChanges(args: {
+-      content: serializeMigrationJson(value, path),
++      content: serializeMigrationJson(value),

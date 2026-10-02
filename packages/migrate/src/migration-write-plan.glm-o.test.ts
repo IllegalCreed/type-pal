@@ -102,8 +102,6 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
     expect(mapChange.content).toBe(serializeMigrationJson(REAL_MAP as MigrationJson, MAP))
   })
 
-
-
   test('删除改动无 content：正文缺席挂 null、正文在场挂规划字节 hash（null 计算臂由旧 next-wave:103-109 证）', () => {
     const repo = tempRepo()
     const plan = { writes: new Map<string, MigrationJson>(), deletes: ['content/gone.json'] }

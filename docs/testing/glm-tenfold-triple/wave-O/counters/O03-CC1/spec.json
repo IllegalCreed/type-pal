@@ -1,14 +1,14 @@
 {
   "id": "O03-CC1",
-  "contract": "工程写排序：scenes/index 排在最后",
+  "contract": "map 路径委派：write-plan 调 serializeMigrationJson 保留 path（去参后 map 序列化退化为普通 JSON）",
   "test": {
     "file": "src/migration-write-plan.glm-o.test.ts",
-    "title": "工程写按 scenes/index 最后排序；map 内容走专用序列化",
-    "target": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化"
+    "title": "map 路径委派专用序列化：write 内容=serializeMigrationJson(value, path)（排序臂由旧 boundaries:57-64/test:166-171 证）",
+    "target": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 map 路径委派专用序列化：write 内容=serializeMigrationJson(value, path)（排序臂由旧 boundaries:57-64/test:166-171 证）"
   },
   "mutation": {
     "file": "src/migration-write-plan.ts",
-    "find": "const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 1 : 0)",
-    "replace": "const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 0 : 0)"
+    "find": "content: serializeMigrationJson(value, path),",
+    "replace": "content: serializeMigrationJson(value),"
   }
 }

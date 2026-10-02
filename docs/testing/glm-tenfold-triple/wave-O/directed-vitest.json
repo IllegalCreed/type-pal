@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 469,
-  "passed": 469,
+  "numTotalTests": 468,
+  "passed": 468,
   "failed": 0,
   "tests": [
     {
@@ -420,27 +420,17 @@
     },
     {
       "file": "packages/migrate/src/migration-write-plan.glm-o.test.ts",
-      "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
+      "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 map 路径委派专用序列化：write 内容=serializeMigrationJson(value, path)（排序臂由旧 boundaries:57-64/test:166-171 证）",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-write-plan.glm-o.test.ts",
-      "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 写入目标未纳入规划快照 → fail-loud",
+      "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 删除改动无 content：正文缺席挂 null、正文在场挂规划字节 hash（null 计算臂由旧 next-wave:103-109 证）",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-write-plan.glm-o.test.ts",
-      "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-write-plan.glm-o.test.ts",
-      "fullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-write-plan.glm-o.test.ts",
-      "fullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
+      "fullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役计划越界诊断含 id -> path 完整后缀（三守卫臂由旧 test:75-90 拒绝表证）",
       "status": "passed"
     },
     {
@@ -471,6 +461,11 @@
     {
       "file": "packages/migrate/src/migration-write-plan.glm-o.test.ts",
       "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） manifest 前置条件指向 symlink 时恢复拒绝（不读取链外文件）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/migrate/src/migration-write-plan.glm-o.test.ts",
+      "fullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 中断后 recover 清理真实 transactions/<id> 目录（补完/journal 清理/幂等由旧 tx-boundaries:86-101 证，此处只钉目录臂）",
       "status": "passed"
     },
     {
