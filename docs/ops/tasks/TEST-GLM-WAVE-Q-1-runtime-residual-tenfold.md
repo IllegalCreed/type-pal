@@ -8,7 +8,23 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex r18独立复核（2026-10-02，当前优先；候选作者r17）
+## Codex r19交付复核与进度检查（2026-10-02，当前优先）
+
+固定2030ce06f5f784d72af377a2fefa71906b6662cf，新增2 CLI接线方向accept，新10绿/147身份/3090静态零，旧BA1退休原字节保持。Q-R19-01三新产品针共同metadata错误counter：mutated hash为summary对象，注册fullName多前导空格；一次修生产器/校验/三针，不重采旧68。147净新上限146/700≤20.9%，至少554例。
+
+[当前进度/复核与合并返工](../../testing/glm-tenfold-triple/codex-opq-r19-progress-20261002.md)、
+[机器记录](../../testing/glm-tenfold-triple/codex-opq-r19-progress-20261002.json)。
+原700/组数/目标/流程没有缩减，三卡数量上限合计704/2100=33.5%，至少1396例未完；不是main覆盖率。
+剩余可达性盘点由Codex承担，下批实施清单核定前不再给泛化续派，不转嫁贡献者凑数或重复旧窄修。
+代码阶段用户手动选GLM-5.3；以下为本轮唯一合并返工提示。
+
+### 下一位GLM Q提示词（用户手动转发）
+
+```text
+处理TEST-GLM-WAVE-Q-1本轮唯一合并返工Q-R19-01，代码模型GLM-5.3由用户手动选择。唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal，分支codex/glm-wave-q-runtime-residual-r1，固定2030ce06f5f784d72af377a2fefa71906b6662cf。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r19-progress-20261002.md/json与同树Q任务卡最新段。两新CLI字体/lookup代码方向、新10定向及静态零accept；BA1坏输入针退休原字节保持，真实产品变异方向accept，不重做旧闭合项或旧68。一次闭合BA1P/FL1/FL2共同生产器错误：sha256.mutated现在是测试summary对象而不是64位hex，targetFullName都多一个前导空格、与真实failed.fullName逐字不等；修变量覆盖，mutation hash/test hash/phase summary分变量，目标直接取注册的实际JSON完整file×fullName，不自行拼空ancestor前缀。提交可复现生产器/唯一校验与拒收自测在Q证据白名单，拒收对象hash、非hex、fullname附加空白、错file/身份、执行异常；实际变异阶段先采product SHA，恢复同判据，meta/index/raw/三态与最终hash一起核，仅这三针重采或有真实原实采hash才复算，不拿期望重建hash冒作实采。保存当前坏尝试为历史，别覆盖旧退休日志或重采旧68，最终pin后完整lint0/0/0/docs/diff/verifier与真实SHA，一次交全部闭合结果。原700/50组/50目标/10流程不縮，不合main/done、不官方门、不改产品/旧测/配置/基线/真实数据/其它Owner/共享文档。本轮不要再追加两例并称大卡完成；下一新增实施子批须先由Codex核出实际合同清单，盘点组织由Codex承担，不转嫁给你。
+```
+
+## Codex r18独立复核（2026-10-02，历史；候选作者r17）
 
 固定c1ec0482db1557a34dd5114888187431f7333c7a。两新CLI F/ABC与FBP合同accept，新extract365全绿/145身份、三typecheck及3076静态0/0/0。**Q-R18-01 counter**：BA1 raw2→3B同fallback域却保留旧2B expected，输入/golden错配不算业务反控；独立相应expected3B时2绿，另产品附加byte旧6绿仅新保真红/恢复8绿，源恢复。BA2跨尺寸域接受，旧67原字节保持；69存档结构齐/业务上限68/目标60与有效上限59分列，不凑针。145净新上限144/≥556例、原700/50组/50目标/10流程不缩。
 

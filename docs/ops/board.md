@@ -31,9 +31,9 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / publication逐子轴旧证明真账后续合法余量 | r17恢复/删重accept，新80绿/460身份/64针/静态零；新41旧锚模板错，actor尾旧强证扣新；≤456/≥244、310空条件未完 |
-| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 连续原合法余族与真账，不重复窄修 | r17合法输入/G07/格式accept，新155绿/98身份/16活跃/静态零；C01JSON值及raw保持，≥602与F14/F18未完 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / BA1退役或真产品针后续合法余族 | r17两CLI合同accept，新extract365绿/145身份/静态零；BA1同域输入/golden错配counter，旧67保持；上限144/≥556未完 |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | Codex / 真实剩余清单核定后派整批 | 本批+0、点名范围/四针更新接收；新45绿/460身份/静态零，净新上限456≤65.1%/≥244未完，不再纯文字轮 |
+| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | Codex / 实际余族清单与有限交付窗口 | 本批+4/三针accept，新130绿/102身份/静态零；上限≤14.6%/≥598、19针/18流程仍部分，旧闭合不重做 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 三针同源metadata一次闭合；Codex盘点余量 | 本批+2方向accept，新10绿/147身份/静态零；3新针hash对象与fullname空白counter，旧68保持；上限146≤20.9%/≥554未完 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待失败通知与恢复产品选择、窄准入 | Kimi短审已接收不续派；旧SAVE8合法红/当前SAVE10静读分列，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |

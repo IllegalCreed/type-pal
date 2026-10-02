@@ -10,7 +10,17 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex r18独立复核（2026-10-02，当前优先；候选作者r17）
+## Codex r19交付复核与进度检查（2026-10-02，当前优先）
+
+固定9aca638d8005b79816f65b262b691be6c0eca19d，点名角色cross-check/shop/catalog范围与四针重采接收，新45绿/460身份/64再判/3233静态零。本轮新增0；净新上限456/700≤65.1%，至少244例。模板未代表publication全域语义闭合，“生成基值”实际baseline保留归因在集中盘点修，不另纯文字返工轮。
+
+[当前进度/复核与合并返工](../../testing/glm-tenfold-triple/codex-opq-r19-progress-20261002.md)、
+[机器记录](../../testing/glm-tenfold-triple/codex-opq-r19-progress-20261002.json)。
+原700/组数/目标/流程没有缩减，三卡数量上限合计704/2100=33.5%，至少1396例未完；不是main覆盖率。
+剩余可达性盘点由Codex承担，下批实施清单核定前不再给泛化续派，不转嫁贡献者凑数或重复旧窄修。
+本轮无下一位Agent窄返工提示词，等待Codex核定实际残余子批；原作者树/SHA保留，不main/done或清树。
+
+## Codex r18独立复核（2026-10-02，历史；候选作者r17）
 
 固定e5f53fe486b6463ed9d38162cb1f3952ba85c09c。incoming-only写入恢复/两前置删重/fixture扣列及四针真重采accept；新80绿/460身份/64再判hash/静态0/0/0，旧60与C4退休原字节保持。**counter仅新增真账及原余量**：41新override中38行套pal.test一个it模板，但实际三it；角色尾部保留已由旧:179-191完整九ID+作者对象强证，可留fast cross-check不计新。混合shop/items逐子轴，不能全新/全删。460净新上限≤456/≥244例，310空条件/174token仍未完，700/60组/50目标不缩。
 
