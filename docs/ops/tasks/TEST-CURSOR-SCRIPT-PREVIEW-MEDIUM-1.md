@@ -10,6 +10,18 @@ Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Branch: `codex/cursor-script-preview-medium-r1`
 
+## Codex 独立审核 r3（2026-10-02，当前优先）
+
+固定6808d3ab1d920102603e801ab4dd0c68aa0a82bf，本地/远端一致且干净。原R2五假绿拒收、六针原数据/旧3-12-12、34执行/33净新/C4-03cross-check及自身导航闭合；8清理自测新执行通过，历史JSON/raw/scope字节保持，不重采业务。产品/测试/配置未变，53定向相邻/Editor3801/typecheck明确复用；新2853文件静态完整0/0/0、diff/12冻结/137白名单通过，docs只剩父共享导航归Codex。
+**counter仅CURSOR-R3-01/02，Status仍rework**：真实Vitest一个failed叶含AssertionError+afterEach Error，原judge只取首条误收；原positive pending3→todo3同和错配也误收。Set只登记路径，登记目录移动后同路径不同inode替换物被误删，原stale自测只unregister+非法父目录未证真实失效登记。
+[实际反例与两项合并清单](../../testing/medium-triple-20261002/codex-medium-r3-review-20261002.md)、[机器证据](../../testing/medium-triple-20261002/codex-medium-r3-review-20261002.json)。仅自造哨兵受影响，未触用户/作者文件；不重开已闭项、不增预算或改测试，旧六针只重判。未main/done/official或覆盖结算。
+
+### 下一位Cursor提示词（当前，一次合并窄修）
+
+```text
+Cursor 继续 TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1，仅闭 CURSOR-R3-01/02。原树 /Users/zhangxu/.codex/worktrees/cursor-script-preview-medium/type-pal，分支 codex/cursor-script-preview-medium-r1，固定6808d3ab1d920102603e801ab4dd0c68aa0a82bf。先只读审核根 /Users/zhangxu/.codex/worktrees/medium-test-dispatch/type-pal 的本卡最新段及 docs/testing/medium-triple-20261002/codex-medium-r3-review-20261002.md/json。R3-01保留并判完整failureMessages数组/文本及suite错误：实际Vitest的一业务AssertionError叠afterEach Error不能因只取首条而valid；Pending/Todo分别与真实叶状态闭合、合法计数/success一致，原pending3→todo3错配必须拒收。补真实复合拒收、错配拒收与忠实单红正样本，合法范围外未选中skip保持；runner/selftest/恢复用唯一judge，六针原字节重判不重采。R3-02登记并核真实目录对象/必要Git身份：旧已登记目录移走、同合法路径新inode替换物必须保留拒收；不要先unregister/换非法父目录或重新register替换物冒作失效登记通过。自建同路径替换哨兵、成功/失败/中断精确只清本次对象，保留登记AND合法路径、无Git失败rm兜底、cap/symlink/串行，不清他人目录或全局prune。原find五反例/六针业务与旧3-12-12/history、C4扣列/自身导航已闭，不重做、不加量，34执行/33净新保持。仅本卡证据工具/账/回执可写，产品/新旧测试/配置/基线/其它Owner/共享文档只读；最终lint完整0/0/0、docs仅父导航归Codex、diff/verifier，一次真实40位SHA推原分支。不main/done/官方门/清原树；Kimi/Grok无需动作。
+```
+
 ## 目标与容量
 
 用户2026-10-02授权Grok/Kimi/Cursor各一批**中等体量**。本卡候选8组，预计32–45例，硬上限48例，6个不同合法新oracle反控目标。
@@ -112,7 +124,7 @@ CURSOR-R1-01～04：空label非法；C1-04/05重复；旧绿执行0、focusJson�
 
 - 交接日志：Codex固定候选独立counter已落卡，下一步为原Owner按下面提示词一次修齐，再固定新SHA二审；不重开未变闭合项。
 
-## Codex 独立审核 r2（2026-10-02，当前）
+## Codex 独立审核 r2（2026-10-02，历史；以r3为准）
 
 固定候选：`36e409420018f9c9cea4d70d70186e3c466f3a0b`。[完整二审与机器证据](../../testing/medium-triple-20261002/codex-medium-r2-review-20261002.md)。
 
@@ -122,7 +134,7 @@ CURSOR-R1-01～04：空label非法；C1-04/05重复；旧绿执行0、focusJson�
 
 - 交接日志：Codex固定提交二审落卡；原Owner一次修齐下面当前窄项，未变已闭项保持。
 
-## 下一位Agent提示词
+## 历史下一位Agent提示词（以顶部r3为准）
 
 ```text
 Cursor 接手 TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 一次收齐 CURSOR-R2-01～03，原树 /Users/zhangxu/.codex/worktrees/cursor-script-preview-medium/type-pal、分支 codex/cursor-script-preview-medium-r1，固定 36e409420018f9c9cea4d70d70186e3c466f3a0b。只读审查根 /Users/zhangxu/.codex/worktrees/medium-test-dispatch/type-pal 下本卡r2段及 docs/testing/medium-triple-20261002/codex-medium-r2-review-20261002.md/json，不merge审查分支。空label/两旧标题撤回、六针真实JSON/raw/hash/声明scope和旧3/12/12执行以及r0历史字节已关闭；独立53/3801全绿、静态零，不重做原四项或重采未变六针。R2-01改commonChecks的allLeaves.find：不能压掉同file/fullName重复叶。保留完整原report检查顶层计数闭合/异常和全部额外红，再筛真实叶，以完整file×fullName多重集合及每相状态比较，未选中skip仍可明确排除不改passed。加入二同身份passed却expected1、red+pending重复、两red同身份、目标red+非声明red、numTotal99实际1五类拒收与忠实正样本；runner/selftest/恢复共享唯一judge。现六针仅重判保存原字节，测试/范围不变不重采。R2-02清理安全：cleanupExact只要前缀就删未登记目录的&&逻辑已独立自建哨兵证明；改精确本会话登记AND合法临时父路径/基名前缀，不能includes祖先前缀即授权。Git移除/锁/路径身份失败保留报错，不能rm兜底。自建哨兵拒收未登记同前缀/祖先含前缀/失效登记，证明成功/失败/可捕获中断只清本次树；保留symlink依赖/cap/串行，不清其它目录或全局prune。R2-03 C4-03与本波C4-02同battle两臂分发、精确向量更弱；虚线note公共alternatives已证，可保留执行cross-check，仅将净新34降≤33并登记，不要求删源码/凑例，因此不用重采。补自己cursor README到cleanup-evidence导航；父共享导航由Codex。仅本卡证据工具/账/回执可写，产品/新旧测试/配置/基线/其它Owner/共享文档只读，最后pin后lint完整0/0/0/docs/diff/verifier，一个真实40位SHA和一次全部闭合结果；不main/done/官方门/清原树或其它counter目录。

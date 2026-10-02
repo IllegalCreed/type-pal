@@ -54,7 +54,15 @@ README必须列新执行/净新/旧证明/阻塞/needle不同目标/未完账，
 
 Codex2026-10-02核准build allowed仅新测；本README不声称已自动发到第三方或作者已开工。
 
-## 2026-10-02 独立审核 r1
+## 2026-10-02 当前独立审核 r3
+
+[Kimi/Cursor三审与当前Cursor提示词](codex-medium-r3-review-20261002.md)、[机器证据](codex-medium-r3-review-20261002.json)、[真实运行与反例](codex-medium-r3-evidence/README.md)。
+Kimi完整转换+共享judge accept，2/23自测、四针原三态/最终hash重判通过，32例按中量软预算接收，不续派；Grok此前accept保持。
+Cursor原五误收/六业务证据/旧3-12-12、C4扣净新和自身导航闭合，但实际afterEach复合错误/状态计数错配误收、同路径对象替换误删仍counter；只修两个工具窄项，34/33不加量、旧六针不重采。
+本轮只新跑辅助工具/轻门；114/2257/1255及53/3801/所属包typecheck有同对象证明明确复用。
+未main/done/official覆盖结算；所有当前边界在卡面顶部，不重执行历史提示词。
+
+## 2026-10-02 独立审核 r1/r2（历史）
 
 当前以[窄返工二审r2](codex-medium-r2-review-20261002.md)及[机器证据](codex-medium-r2-review-20261002.json)为准：
 Grok代码/数据accept待Codex统一接入；Kimi/Cursor业务数据通过，仅剩判据/安全/净新计数窄项。

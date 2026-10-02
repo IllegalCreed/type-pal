@@ -1,6 +1,6 @@
 # TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 — 当前脚本恢复地址与作者步骤组织中包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: test-coverage / kimi-medium
 Coding Owner: Kimi（仅白名单新增测试、fixture、专属证据）
@@ -9,6 +9,14 @@ Reviewer: Codex（独立验收/正式结算）
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Branch: `codex/kimi-current-continuation-medium-r1`
+
+## Codex 独立审核 r3（2026-10-02，当前优先）
+
+固定43a3849bae2cbe02c43a28287fb0945e5d03ac4f，本地/远端一致且干净。**代码/证据accept，转review待统一接入**；KIMI-R2-01已闭合，完整report转换/唯一judge实跑2接受23拒收，原四针12相按67/67/67/50同一非零身份重判与最终源/测试/重建mutant hash独立复算通过，三旧绿35/35/18保持，无业务重采。
+独立真实Vitest的一个AssertionError叠afterEach Error沿本实际转换+judge拒收。新工具阶段产品/测试/配置字节相对bced8883零变，114定向相邻、Reforge2257/content1255与两typecheck明确复用；本次2784文件lint完整0/0/0、diff/12冻结/37白名单通过，docs仅共享kimi导航1项归Codex。
+[独立结论与原始反例](../../testing/medium-triple-20261002/codex-medium-r3-review-20261002.md)、[机器证据](../../testing/medium-triple-20261002/codex-medium-r3-review-20261002.json)。receipt自测文字21以实跑/入库机器23为准，候选占位以本节已核真实40位SHA固定，Codex统一接入时维护准确回执，不单开纯文字pin轮。
+32例与原9deferredBudget按中量软预算接收，不加量、不续派大包；仍未main/done/official ratchet/protected或覆盖结算。母产品draft与其它卡不随此推进。
+**无下一位Kimi返工提示词，等待Codex正式门与接入；下方r1/r2交接仅历史，不再执行。**
 
 ## 目标与容量
 
@@ -111,7 +119,7 @@ KIMI-R1-01/02：仅一非法b.entry子轴；严格judge、原raw提交与三態�
 
 - 交接日志：Codex固定候选独立counter已落卡，下一步为原Owner按下面提示词一次修齐，再固定新SHA二审；不重开未变闭合项。
 
-## Codex 独立审核 r2（2026-10-02，当前）
+## Codex 独立审核 r2（2026-10-02，历史；已闭合）
 
 固定候选：`bced8883a1d60a980e6e442707bed6ced6618fa6`。[完整二审与机器证据](../../testing/medium-triple-20261002/codex-medium-r2-review-20261002.md)。
 
@@ -121,7 +129,7 @@ KIMI-R1-01/02业务数据闭合：合法K6/32新例、四针67/67/67/50三態/�
 
 - 交接日志：Codex固定提交二审落卡；原Owner一次修齐下面当前窄项，未变已闭项保持。
 
-## 下一位Agent提示词
+## 历史下一位Agent提示词（r3已关闭，不再执行）
 
 ```text
 Kimi 接手 TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 最后一个采样判据窄项 KIMI-R2-01，原树 /Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal、分支 codex/kimi-current-continuation-medium-r1，固定 bced8883a1d60a980e6e442707bed6ced6618fa6。只读审查根 /Users/zhangxu/.codex/worktrees/medium-test-dispatch/type-pal 下本卡r2段与 docs/testing/medium-triple-20261002/codex-medium-r2-review-20261002.md/json，不merge审查分支。K6合法公开checker/32新例/四针三態67/67/67/50、全部最终hash、12原JSON/raw和三旧绿已关闭；独立114/2257绿、静态零，绝不重做或重采四业务针。只修 mutants.mjs 的 report→run 转换及共享judge：当前只传message/todo/leaves，丢numRuntimeErrorTestSuites、failed零叶suite状态与顶层执行计数，独立“目标业务红叠空message failed零叶collection + runtime=1”被误收。完整原report判collection/runtime/未处理异常、顶层Total/Passed/Failed/Pending/Todo与真实叶闭合、signal/spawn，再按完整file×fullName多重集合和相位状态；clean/variant/restored同判据。补真实拒收自测与忠实完整正样本，修后对现四针原三態真实复算并保留原字节；只有实际测试/依赖/执行集变化才重采，不为工具修订重跑业务变异。保持32与9deferred不加量。仅kimi证据工具/回执白名单可写，产品/测试/旧测/配置/基线/其它Owner/共享文档只读；最后pin后lint完整0/0/0、docs/diff/verifier，交一个真实40位SHA及修复与复算结果。父导航由Codex，不另做纯pin轮，不main/done/官方门/清原树。
