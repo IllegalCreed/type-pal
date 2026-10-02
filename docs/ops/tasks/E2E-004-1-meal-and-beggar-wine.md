@@ -1,6 +1,6 @@
 # E2E-004-1 - 端菜与使用桂花酒赠道士
 
-Status: build
+Status: review
 Phase: ops
 Capability: E2E-R4-1 / W1
 Coding Owner: entity_names（显式NPC调用/作者内容）；Root（旧003合同/接收）；e2e004_runner（新004工具），各文件单一Owner
@@ -27,7 +27,7 @@ Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
 - Root追加白名单：`project-reference.pal.test.ts`仅修当前内容的精确golden及真实语义见证；总entityAddress38111不变，
   e20→e19新转向引用、e19auto退役、两处持久appearance与net+1正文均显式核。规则/预算/边界未放宽。
   `004-final-frozen-quality.log`全仓check七包10957测试与所有types、docs/工具门绿，lint2757文件0/0/0；
-  后续仅新meal工具124项及完整lint另核。两旧全仓引用fixture失败保留，不追溯改成passed。
+  后续仅新meal工具最终126项及完整lint另核。两旧全仓引用fixture失败保留，不追溯改成passed。
 - 第一阶段历史game004完整候选4e1a5ab79已独立accept；当前新工具重跑失败只作诊断：真实保存克隆时机、
   正常touch边界与当前导航采样待窄修，不改产品/作者/旧001–003，不放行任意切场/伪造落步。
   Root已复读2ad222444并接为3ba3708df：正常ready held步不读取整份traceRPC，异常边界先up再证明本leg普通落步，
@@ -36,11 +36,14 @@ Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
   6ac574406严格本leg e15真实hide提交＋后续party IP＋当前scene2/owner15/IP服务闭包后转完整13行验收。
   正式game004 05-39-02-763Z passed；Root逐项复算401源/三trace/两档与两次F5真实clone输入/恰好一条成功ack，
   World/Canvas fresh相等，40正文及正常菜单/站位/唯一耗酒/最后真实移动通过，必要两图已看。
-  最后cursor/trace/footprint夹缝另以同DOM快照窄修，不改产品或该冻结回执；工具回归接收后收口review。
+  最后cursor/trace/footprint夹缝由fd377664d（Root89bc9b5e5）同DOM快照窄修：active直接用冻结足迹，
+  inactive才核严格marker；不改产品或该冻结回执。Root复读两文件、独立126工具/完整lint0/0/0，
+  用已复算真实05-39 trace回放入口正例及active零夹层RPC；此回放不是新E2E，fd也不冒称另跑完整剧情。
 - 用户再次确认6012无草稿、允许更新；Root先核保存禁用，main安全ff到c46a458d2，原服务PID88523与Chrome页保持。
   仅正常刷新一次，再选e62交互方案“赠桂花酒：约定山神庙学剑”；实际播放到首句后reset，页面就绪、保存仍禁用，
   main除用户原有`.zcodeignore`无脏改。截图`main/build/e2e/004-editor-delivery/6012-npc-owned-gift.png`已目视核。
-  当前产品技术验证与6012最小交付完成，待当前game工具处理；用户观感与capture另排，不宣称done。
+  当前产品技术验证、工具增量接收与6012最小交付完成：Codex独立accept，转review等待用户体验，
+  capture另排，不宣称done或同revision both汇总通过。贡献者已停止写入，原失败及冻结报告全部保留。
 
 ### 用户最小体验复验（无需代跑技术测试）
 

@@ -8,7 +8,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-004-1 | [端菜与使用桂花酒赠道士](tasks/E2E-004-1-meal-and-beggar-wine.md) | build | 内容/调用Owner / Root独立接收 | 显式await NPC当前方案；正文可场景预览，6012保持 |
+| E2E-004-1 | [端菜与使用桂花酒赠道士](tasks/E2E-004-1-meal-and-beggar-wine.md) | review | 用户 / 004观感与脚本可读性 | 两引擎各自verify通过；NPC正文/显式调用，质量零诊断、6012保持 |
 | EDITOR-ENTITY-NAMES-1 | [实体名称与稳定身份分离](tasks/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | review | 用户 / 实体名称体验 | 16实体含四门扇；本轮仅补label，门回归/作者检查绿，6012保持 |
 | E2E-SCRIPT-NAMES-1 | [随剧情命名方案与步骤](tasks/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 用户 / 命名与步骤界面体验 | 5方案22步骤补名；独立accept、静态零诊断，6012保持 |
 | EDITOR-SCRIPT-PREVIEW-1 | [可读指令、选中步骤播放与移动轨迹](tasks/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 用户 / 体验验收 | 独立counter闭合；editor3721绿、静态零诊断；6012保持 |
@@ -107,7 +107,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 004前提及capture | 双引擎各自真实001→002→003链已核，非同revision汇总；母卡未收口 |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / capture；005待用户定范围 | 两引擎各自001→004链已核，非同revision汇总；母卡未收口 |
 | E2E-002-FEEDBACK-1 | [主角遮挡反馈与连续方向输入](tasks/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md) | review | User / 观感验收 | 队伍局部透视、NPC正常遮挡与连续held独立技术接收；旧6051未更新 |
 | E2E-003-1 | [下楼、道士交谈与厨房交代](tasks/E2E-003-1-inn-stairs-and-kitchen.md) | review | User / 003体验验收 | 真实双引擎003及静态零诊断已核；止于交代不取菜，004 counter另留 |
 | SCRIPT-COMPLETE-1 | [完成语义与空结束步骤](tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 用户检视 / Codex收口 | 443纯结束fold已集成；完整10648项与静态零诊断，6012更新且保持运行 |
