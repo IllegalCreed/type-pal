@@ -119,7 +119,31 @@ Codex核74源hash、公开入口、旧证明与GC-1分配，**build allowed仅�
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r5；覆盖旧交接）
++## Codex r6独立复核（2026-10-02，最新；覆盖旧交接）
+
+固定6459e906097594277bd0761d48367a0c148d5d9b，证据57221d6de0c1a7e74e6cd10f51b219b4b7dec006。
+旧10诊断/最终17核定+700候选分离/完整.not oracle修复接受，原package/依赖/配置全字节未变，
+明确复用独立723/723与typecheck零，未新跑全Editor4503或54变异/12视觉。
+**counter/rework**：final pin新增receipt.reworkCloses一格式error，原候选完整lint1/0/0；
+自有副本judge/generate/正常format后完整3289文件0/0/0，生成717合同语义改动0，不冒称作者HEAD绿。
+新docs/diff/716冻结/120分配源/849白名单过，54三态仅C05-10三JSON格式值不变，净新目标50门保持。
+真账612旧matcher/19裸export/104 caller-none未闭，105旧blob中C05-G05-06一错配，
+C05-G01-03值相等≠引用、C03-G04-03失败≠恢复、C04时长oracle须按子轴；中间空洞已accept不重开。
+C01-G01-10引用tab可见新增旧证明，717净新结构上限≤702不是702已接收；700/70组/50/12不缩。
+staging builder实跑C03仍自动70 human-ledger，自动输出应候选不人审；真实17核定保留，
+修小项后继续C01-C10完整源条件/caller/合法输入/旧完整matcher/全部oracle真账，不仅交工具完成。
+
+[详细审核与当前直接提示词](../../testing/grok-cursor-large/codex-cursor-r6-review-20261002.md)、
+[机器证据](../../testing/grok-cursor-large/codex-cursor-r6-review-20261002.json)。
+未作者/main/浏览器/UI/模型操作，未官方门/覆盖结算；Kimi/Grok限额短审done不续派。
+
+### 下一位Cursor提示词（当前；用户手动转发）
+
+```text
+继续TEST-CURSOR-ASSET-UI-LARGE-1，唯一Cursor Owner。原树/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal，分支codex/cursor-asset-ui-large-r1，固定6459e906097594277bd0761d48367a0c148d5d9b，证据57221d6de0c1a7e74e6cd10f51b219b4b7dec006。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md最新段及同树docs/testing/grok-cursor-large/codex-cursor-r6-review-20261002.md/json。旧10诊断/最终17核定+700候选分离/.not完整oracle进展accept，旧723/typecheck/54针及净新50目标门/12视觉保持，不重做、不全重采、不补针。只闭CURSOR-R6-01/02并连续C01-C10真实账：最终pin后receipt.reworkCloses仍1格式error，正常格式化保留值，所有最后回执/SHA编辑后完整根lint0/0/0，不只验前一提交或过滤目录。C05-G05-06旧文件blob错配，SpriteActionEditor.test.tsx真实16cb19c3a212375371d688afe32faa0262c33026，核完整旧matcher/新notice部分轴；C05-G01-03旧deep toEqual不证明新同引用toBe，C03-G04-03旧失败alert不证明坏→好恢复，C04-G07-05旧帧序不独证全部duration，新旧按子轴pending/核定，不自动裁全旧。C01-G01-10同公开引用tab/panel旧:811-842已更强证明，existing-proof扣新；保留C05-G01-06中间空洞已accept。staging builder实跑C03仍自动70条human-ledger，自动输出须false/staging-draft，不把候选直接并成人审，保留真实17核定；修工具后继续实质逐条件旧正文核验，不再仅交工具完成。717执行/净新上限≤702仍未全量排重，612 oldMatcher none/19裸export条件/104 caller-none逐项真实source守卫/合法输入/生产caller或有证N/A/旧完整SHA-fullName-matcher/全部业务oracle，真差额不足700才补；原700/70组/50目标/12流程不缩。仅原editor新.cursor-r1测试/专属fixture/cursor证据可写，74源/派发0704d3de6d3d2a2099475a42f601b654bba08579/冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，其它Owner/产品/旧测/配置/baseline/真实数据/共享文档只读，不擅迁main版本。每批定向相邻/typecheck阶段推送后继续真账，只源/执行集真变重采受影响针；末批Editor全包/静态0/0/0/docs/diff/verifier/真实完整SHA及准确未完账。不合main、不done、不官方门、不清原树或共享临时树。
+```
+
+## Codex r5独立复核（2026-10-02，历史）
 
 固定f7f64784e176eb233ae74a67fe811270f0f8dea5，证据cac301580d1988e65c97eedf55b623e98289e596。
 新723定向相邻绿/717身份、54三态结构hash/patch对应；新C05-10中间空洞为旧尾空位未覆条件，

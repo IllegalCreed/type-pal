@@ -1,5 +1,12 @@
 # Grok / Cursor 两条独立大测试包
 
+2026-10-02最新：[Cursor r5返工后二审（Codex r6）](codex-cursor-r6-review-20261002.md)、
+[机器证据](codex-cursor-r6-review-20261002.json)。旧10诊断/最终17核定+700候选/.not oracle进展accept，
+源码/依赖未变明确复用独立723/typecheck与54针/12视觉，不重复重门或补针。
+最后pin新增receipt一格式error，612旧matcher/105旧锚一blob错配与不等价语义、staging生产器
+自动70人审项仍counter；新增C01引用tab旧证明后结构上限≤702，原700目标不缩，连续真账而非工具回执。
+未main/done/正式结算；Grok/Kimi限额短审已接收done不续派，旧400包accept保持。
+
 2026-10-02当前：[Cursor r5与GLM三路合并复核/四份直接交接](../glm-tenfold-triple/codex-opqc-r13-review-20261002.md)、
 [机器证据](../glm-tenfold-triple/codex-opqc-r13-review-20261002.json)。新723定向相邻/54结构针对应，
 中间空洞新条件独证旧3绿仅新红，净新目标50数量门关闭，不再换针；完整lint5error+5warning、
