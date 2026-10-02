@@ -8,7 +8,21 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
-## Codex r19交付复核与进度检查（2026-10-02，当前优先）
+## Codex 有限接续批准入（2026-10-02，当前优先）
+
+用户要求后续任务；[本轮固定有限清单](../../testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md)与本节覆盖下方泛化历史交接。
+仅F14/F18两条未证功能流；原102测试/19活跃针/18真实流程保持，实际视觉用Flash。
+**build allowed仅本节限定Owner白名单阶段**；Status仍rework/partial，原700总目标不改，完成此子批不等整卡done。
+模型由用户在提示词外手动选择：GLM-5.3-Flash视觉（本轮无代码阶段）；无Codex UI/自动投递/代切模型。
+共享审查树只读，不merge到作者树；已闭窄项不重做，单次完整有限包交付，无main/official coverage/done准入。
+
+### 下一位GLM P提示词（当前有限包；用户手动转发）
+
+```text
+接手 TEST-GLM-WAVE-P-1 的F14/F18视觉补验，唯一GLM P Owner，Status仍rework。原树 /Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal，分支 codex/glm-wave-p-editor-residual-r1，起点8878616db429db90d3aaced88a638dc60871e6b1。只读审查根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal：先读AGENTS、READ-FIRST、P卡最新有限接续段、共同协议和 docs/testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md 的P范围；不merge审查分支。原102测试/19针/18条已证流程保留，这次只补F14/F18，不混代码补测或旧工具返工。用公开buildBlankProject建独占mkdtemp自有工程，在自有临时候选副本、独立浏览器上下文/空闲端口运行；读回project id、初始URL和manifest，绝不PAL/6012/用户原工程，不照旧配方写仓库projects或固定共享tmp。F14区分beginCreate与实际create：合法编号/名称表单真实提交，核对象存在/选中、撤销条目；编辑菜单undo对象消失、redo恢复、保存/公开重开同stable id，缺默认战场提示按真实配置记录不修产品。F18在375x700实际打开导航，分别到场景/地图，核面板/选中和地址；恢复宽窗仍保持选中，再做一次真实键盘可达。每流给before/action/undo或navigation/recovery真实相位、操作路径、可见及公开状态oracle、最少有效截图sha256、console分级和pageError/rejection。失败只一次正常操作+一次针对性复试，留精确工具或产品blocked证据，另一流继续；不无限/force点击、私有态、改源码或用源码推断代看图。仅wave-P/browser与回执证据可写；产品/旧测/配置/基线/真实数据/其它Owner/共享文档只读。包源不变不重复全测/旧针/覆盖，pin后lint0/0/0、docs/diff/verifier、真实完整SHA推送交Codex；如工具不可用如实未证，不能把候选20/20当独立accept。不main/done/official门/清原树。这是固定P候选证据，不冒称新main体验已验。
+```
+
+## Codex r19交付复核与进度检查（2026-10-02，上一轮；已闭项保留）
 
 固定8878616db429db90d3aaced88a638dc60871e6b1，本轮4例/三针窄项accept，新130绿/102身份/2854静态零。102净新上限/700≤14.6%，至少598例，19活跃/29工作组/18流程仍未完。原旧闭合项不再返工；下一实施子批由Codex先核真实剩余合同清单，不再泛化“继续700”或让贡献者只交4例就报整卡完成。
 

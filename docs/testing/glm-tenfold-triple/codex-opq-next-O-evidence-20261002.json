@@ -1,0 +1,2206 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TEST-GLM-WAVE-O-1",
+  "candidateHead": "9aca638d8005b79816f65b262b691be6c0eca19d",
+  "sourceLedgerSha256": "0bc13bf5728918ec53391545cfa827331780d025fdb1e42f678a3a1b1540f9a9",
+  "purpose": "Close existing delivered evidence only; no search for the remaining 244 new contracts",
+  "missingCondition": 310,
+  "tokenAnchorsWithinThoseRows": 174,
+  "rows": [
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 全量写入报告 written/files/bytes 并落盘到 projects/pal",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 内容漂移的目标被重写（written=1）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录只校验磁盘字节，绝不复制来源（authored 计数来自 binaries）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 catalog 缺迁移资源条目 → fail-loud",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 binaries 重复 AssetId → fail-loud",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 catalog 两条记录同 path → 路径冲突 fail-loud",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录被改写（bytes 漂移）→ fail-loud",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录 mediaType 被改写 → fail-loud（origin 轴被所有权前缀守卫前置拦截）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 迁移源 bytes/hash 与自身 catalog 记录不符 → fail-loud",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 非 sourced 的未知所有权记录（legacy-migrated 无来源）→ fail-loud",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录磁盘字节漂移 → assertBytes fail-loud（缺失/bytes/sha 三轴）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 目标为目录时 rename 失败 → 临时文件清理且错误传播",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：合成 catalog 的确定性物化 资源路径越界（catalog path 含 ..）被路径门拒绝",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 planPalAssetRetirements：退役推导合同 磁盘文件缺失 → 跳过；authored 与仍在 target 的记录不退役",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 planPalAssetRetirements：退役推导合同 磁盘字节漂移 → fail-loud（不退役被改文件）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O04",
+      "id": "O04 bakeIndexedRgba：indexed RGBA → 真彩合同 不透明像素按 R 查表填充且 alpha=255",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 bakeIndexedRgba：indexed RGBA → 真彩合同 A=0 保持全透明（不查表）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 bakeIndexedRgba：indexed RGBA → 真彩合同 palette 越界下标落到黑色不透明；缺失 alpha 通道按透明处理",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：合成 505 段三向闭包 合法语料：3 个非空段 + 502 空段全部通过并登记 RIFF 证据",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 非 505 → 精确诊断",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 与 chunks 长度不一致 → 精确诊断",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：合成 505 段三向闭包 asset-manifest 重复 sound / 目录非规范文件 / 集合不闭包 逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 合法合成语料通过全部 census 并产出 378 个登记项",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：metadata/manifest 形状边界 metadata 非对象与 chunkCount 非整数 → 精确诊断",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：metadata/manifest 形状边界 asset-manifest.files 非数组 → 精确诊断",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：metadata/manifest 形状边界 目录多余非空 wav → 目录轴不闭包报 extra",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalSoundAssets：metadata/manifest 形状边界 全部 505 段为空 → 零非空音效仍通过（空目录闭包）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 portraits manifest count 非正整数 → 精确诊断",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 items 数量/零哨兵漂移 → 物品图标哨兵诊断",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O04",
+      "id": "O04 materializePalAssets：混合所有权与嵌套目录 authored + 双 generated 混合计数与嵌套目录创建",
+      "testFile": "packages/migrate/src/pal-assets.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 buildPalContentSupply：供应输入守卫残余 源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 buildPalContentSupply：供应输入守卫残余 生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 buildPalContentSupply：供应输入守卫残余 scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 buildPalContentSupply：供应输入守卫残余 实体 spriteNum<=0 不产生场景实体",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 validatePalCurrentPublication：装备战斗精灵引用门 合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写角色不在 equipableBy → 发布门拒绝",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未注册战斗精灵 → 发布门拒绝",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O03/O05",
+      "id": "O03 合成 catalog 自检补充 sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）",
+      "testFile": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 item141 被覆写为全队隐形 3 回合且 battleOnly",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 141 物品结构化克隆返回（输入不被共享引用）",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 puppet 效果不注入 battleOnly",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 无消息的 generated 物品整批跳过（不触碰 current）",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 current 缺同 id 物品 → fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 craft 数量漂移与 recipes 漂移分别 fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 非法消息（空白/未修剪）→ fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 resource pool 漂移轴：数量/结构/消息逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 generated/current 内部重复 id → fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 入口缺 0x06 门 → fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x06 门参数非法（非整数/第三操作数非零）→ fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 分支引用越界 / 未以 end 结束 / 未知指令逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 合法 0x30/0x1b/0x1c 效果与 top/narration 风格进入结构化脚本",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 applyPalCasualtyOverlays：入口缺失 / 角色缺 battler / locale 键漂移 逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 Store0 数量 ≠1 / item 定义缺失或不可用 → fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 显式 label 与数组地址不一致 → label 索引拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 craft 形状漂移：itemId 非法 / 失败块缺失 / 产物缺失 逐轴返回 undefined",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 pool 形状漂移：0x34 缺 end / 失败地址非法 / 失败块非旁白 逐轴返回 undefined",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 buildPalItemMessageSources / translate*：窄消息形状漂移 applyPalItemMessageSources：current 缺用途 → fail-loud",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 源 Store0 数量/零奖励 轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 item268/270 结构漂移轴（recipes 桶、消息、资源池数量）逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）",
+      "testFile": "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 createPalWorldSpriteRegistry：布局证据与变体 spriteRef 未注册（无场景证据直接取）→ fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名清单重复 semanticId → fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 current/generated 缺语义 SpriteDef → fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 纯迁移核仍生成 legacy 重复定义 → fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 生成场景引用集合与别名清单漂移 → fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 清单外场景引用 legacy id → fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 非 object 实体（原始值）在引用扫描时 fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 item 私有脚本可达 + canonical label → 报告确定性 label 与 path",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 canonical 但不可达（无 item 选择边）→ 零 item root 拒绝",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 opaque 摘要名节点可达但仍存活 → 永久门禁拒绝",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 同一地址重复注册（同场景重复出现）→ 节点重复拒绝",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O05",
+      "id": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud",
+      "testFile": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyCarriedStatus：叠加规则 坏状态（confused）已有不刷新；为 0 时可设",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyCarriedStatus：叠加规则 好状态（bravery）仅活人：hp 0 拒绝；活人取更长回合",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyCarriedStatus：叠加规则 非法回合 fail-loud（不可携带 puppet 轴对 typed 调用方不可构造，登记 unreachable）",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyTemporaryPoisonResistance：取大语义 首次设置返回 true；更小值不覆盖返回 false；更大值覆盖",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyTemporaryPoisonResistance：取大语义 非正整数 fail-loud",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyActorConditionSeed：新建世界物化 毒从 tickIndex=0 物化 + 状态 + 毒抗全落地",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyActorConditionSeed：新建世界物化 未知毒 id fail-loud（缺表）",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison：未知毒 → 精确 applyActorCondition.poisonId 诊断",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison 三段链经统一入口（cured 路径）",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply status：好状态仅活人；坏状态直接生效",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 applyActorCondition / clearActorCondition：宿主命令轴 clear poison：移除匹配毒；clear status：移除匹配状态；未命中 false",
+      "testFile": "packages/content/src/actor-condition.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 非数组 / 元素非对象 / kind 非字符串 逐轴拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 退役 kind（jumpScript/setEntityAuto/clearSceneScripts）被拒且报退役",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 分支：缺 cond / then 非数组 / else 非数组 逐轴拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 loop：mode/cond/body/yield/maxIterations 全键与越界值",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 startBattle：onLose/onFlee 子树递归校验（未知 kind 在子树内报错）",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 confirm：onNo 必填且递归；teleportOut onFail 递归",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 selectEntityBehavior：channel/selection 三态与未知 kind",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 selectSceneHooks：onEnter/onTeleport 选择值逐轴校验",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 openShop：shop 非整数与 mode 非法 逐轴拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseAuthorCommands：kind 域与结构轴 setMultiEntityState / setEntityPosRelParty 形状轴",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseScriptFlow：stages 与 stateMachine stages：空 stages / 重复 stage id / 未知 next 逐轴拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseScriptFlow：stages 与 stateMachine stateMachine：initial/states/next 结构与 branch transition 递归",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseSceneHooks：channel/initial/variants 合法单钩子通过；未知 initial 拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseSceneHooks：channel/initial/variants 空 variants / 非法 order / 未知字段 逐轴拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseSceneHooks：channel/initial/variants onTeleport 钩子走同域校验且禁 scene-entry 命令",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseScriptLibrary：self 域与 body self 三态合法 / 非法值拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseScriptLibrary：self 域与 body 坏 body / description 非字符串 / 未知字段 逐轴拒绝",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkBaseScriptLibrary：self 域与 body callScript 引用形状（script 稳定 id 字符串）",
+      "testFile": "packages/content/src/author-script-core.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateStampTemplates：id/origin/anchor 残臂 合法模板通过并产出锚点",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateStampTemplates：id/origin/anchor 残臂 anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateStampTemplates：id/origin/anchor 残臂 migrated origin 合法",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateTilesets：退役字段与唯一 id 合法通过；resolveTilesetAsset 命中与未知拒绝",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateTilesets：退役字段与唯一 id catalog 注入时 asset 必须存在",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateWorldVariableRegistryV1：id/name 边界 空键 / 非法 id 字符 / 超长 name 逐轴拒绝",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateMapIndex / mapAssetById path 重复拒绝；mapAssetById 命中与未命中",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateMapIndex / mapAssetById 非法 map 条目（缺 id）拒绝",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+      "testFile": "packages/content/src/data-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 decideByRules：act 首命中与跳过序 沉默时 cast 规则跳过继续匹配（普攻兜底）",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 decideByRules：act 首命中与跳过序 when 不命中继续下一条；全部不命中 → null",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 decideByRules：act 首命中与跳过序 turnStart 通道规则不参与 act 决策（act 只取 at=act 首命中）",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 evalAiCond：all/any/not 与数值条件 嵌套 all/any/not 组合求值",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 evalAiCond：all/any/not 与数值条件 allyCount 比较符 <=/>= 与 playerInParty",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 pickAiTarget：策略与稳定并列序 lowestHp/highestHp/lowestMp/strongest 各自取极值",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 pickAiTarget：策略与稳定并列序 strongest 全并列时取槽序靠前（稳定，key 严格小于才换 best）",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 pickAiTarget：策略与稳定并列序 空 players → fail-loud",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 buildActionQueue：dualMove 相对位与稳定排序 无 dualMove：dex 降序、同 dex 敌人先于队员",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2：dex2<=dex 时第二次在后（fIsSecond 次序标记）",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2 且 dex2>dex：第一次标记 fIsSecond（先动高 dex）",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 无 dex2：补 dex-1 的第二次动作",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 战斗状态：tick/apply/canAct/canCastMagic tickBattleStatus：正计数递减、原地修改（>999 视为永久同样递减）",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
+      "testFile": "packages/content/src/enemy-ai.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 checkEnemyFallback：兜底行动域 合法 cast/pass 通过；chancePercent 越界拒绝",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 checkEnemyFallback：兜底行动域 action 非法 kind（attack 不属 fallback 域）拒绝",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 checkEnemyHookFlow：游标程序状态结构 合法状态机通过；initial 未命中状态拒绝",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 checkEnemyHookFlow：游标程序状态结构 空 states / 状态缺 body 拒绝",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 checkEnemyHookFlow：游标程序状态结构 transition 分支递归（branch 深层 transition 校验）",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 checkEnemyAi：顶层聚合 resistanceToSorcery 越界（>10）拒绝；合法通过",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 checkEnemyAi：顶层聚合 rules 元素 at 域拒绝（合法 turnStart/act）",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 initialWorldVariablesV1：fresh-record 初始化 flag/number 分桶到 flags/vars 且值来自 initial",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 initialWorldVariablesV1：fresh-record 初始化 空 registry → 双空桶；输入 registry 不被引用泄漏（fresh records）",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 initialWorldVariablesV1：fresh-record 初始化 sys: 命名空间保留给引擎（registry 校验拒绝）",
+      "testFile": "packages/content/src/enemy-script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseFrameSequence：头部轴 索引越界 / 非法 JSON 逐轴拒绝；合法最小文件解析",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 parseFrameSequence：头部轴 colorTreatment 进索引并经 JSON（含 UTF-8 解码域）往返",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateFrameSequenceIndex：字段轴 非对象/codec 非法/宽度非法/空帧表 逐轴拒绝",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateFrameSequenceIndex：字段轴 block bytes 越界 payload / 覆盖不连续 / 尾随数据 逐轴拒绝",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 encodeFrameSequenceSync：输入轴 尺寸非法 / defaultFrameMs 非法 / colorTreatment 非法 / 空 frames 逐轴拒绝",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 encodeFrameSequenceSync：输入轴 rgba 字节长不符 / durationMs 非法 逐轴拒绝",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 encodeFrameSequenceSync：输入轴 多帧每帧 durationMs 进索引；往返后帧序稳定",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 encodeFrameSequenceSync：输入轴 provider 字节变换被调用且其输出登记进 block bytes",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 resolveFrameSequencePlayback：回放解析 全序列回放与显式 range 回放的帧数/duration",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 resolveFrameSequencePlayback：回放解析 越界 startFrame/endFrame → 拒绝（无 range 形参，直接 options）",
+      "testFile": "packages/content/src/frame-sequence.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 healHp/healMp：钳位与死亡跳过 healHp：不足上限加满差额；恰好上限 HP 零变化但消耗照扣",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 healHp/healMp：钳位与死亡跳过 allAllies 消耗语义：consuming 扣一件；非 consuming 不扣",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 scaleCurrentHp：分数缩放 scaleCurrentHp trunc 截断（99→49）与满血减半（100→50）",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 scaleCurrentHp：分数缩放 满血 ×2/1 仍钳 maxHP 不越界",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 menu 透传与 applyStatus 防御轴 menuAfterUse 透传到成功 outcome（close）",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 menu 透传与 applyStatus 防御轴 applyStatus 不可携带状态（puppet 经 AuthorItemUseEffect 域不可构造；已知合法 sleep 正常）",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08",
+      "id": "O08 复合链顺序与 gate 显式阈值 gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08",
+      "id": "O08 复合链顺序与 gate 显式阈值 applyPoison 自毒经统一入口（毒 defs 缺失=纯加毒）",
+      "testFile": "packages/content/src/item-effects.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 equipItem：四拒绝前置与成功流 成功装上：入槽、扣包 1、旧件回包 1",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 worldResourceValue：键域合同（仅保留未证轴） resources 键在对象存在但值为 0 的显式零与缺键 0 分开（独立读取语义）",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 curePoison 显式 id 轴（世界执行器） 显式 poisonId 只解指定毒、其它保留",
+      "testFile": "packages/content/src/item-equip.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 unknown-item：物品不存在",
+      "testFile": "packages/content/src/item-use.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器",
+      "testFile": "packages/content/src/item-use.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 not-owned：背包与装备均无该物品",
+      "testFile": "packages/content/src/item-use.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 missing-target：needsTarget 且指定目标不在 party（typed 缺键直证）",
+      "testFile": "packages/content/src/item-use.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 validateAssetCatalog：kind/origin/路径轴 非法 kind / 非法 sha 逐轴拒绝",
+      "testFile": "packages/content/src/item-use.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
+      "testFile": "packages/content/src/item-use.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 validateAssetCatalog：kind/origin/路径轴 版本漂移拒绝",
+      "testFile": "packages/content/src/item-use.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 collectPoisonDefinitionReferences：关系边收集 lethalWith 与 counters 各产一条带精确 where 的引用",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 collectPoisonDefinitionReferences：关系边收集 无关系毒不产引用",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 poisonCurableBy：可解度秩 common 可被任一档解；incurable 不可被 common/severe 解",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 applyPoisonSelf：三段链 身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 applyPoisonSelf：三段链 无关系 → 纯加毒（applied）；缺表同路径",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O08 applyPoisonSelf：三段链 缺 defs 时 counters/lethalWith 关系不可判定 → 纯加毒",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 parseRichText：颜色标记解析 无标记 / 空串 → 单 span 非空数组",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 parseRichText：颜色标记解析 未闭合标记按纯文本；未知颜色不识别",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 parseRichText：颜色标记解析 多段颜色标记顺序解析",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O08/O09",
+      "id": "O09 lookupText：locale 缺键合同 命中返回文本；缺键原样返回 textId（调用方可见诊断）",
+      "testFile": "packages/content/src/poison.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 checkRuntimeHostileBehavior：策略域 合法最小 hostile 通过；victory hide 带 ticks 合法",
+      "testFile": "packages/content/src/runtime-hostile.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝",
+      "testFile": "packages/content/src/runtime-hostile.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 checkRuntimeHostileBehavior：策略域 onLose 自定义命令递归校验（未知 kind 在子树报错）",
+      "testFile": "packages/content/src/runtime-hostile.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 checkRuntimeHostileBehavior：策略域 chase：非正 speed 拒绝；负 range 拒绝",
+      "testFile": "packages/content/src/runtime-hostile.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateRuntimeScenes：脚本归置轴 onEnter 平铺字段拒绝（必须位于 hooks）",
+      "testFile": "packages/content/src/runtime-hostile.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateRuntimeScenes：脚本归置轴 onTeleport 平铺字段拒绝（必须位于 hooks）",
+      "testFile": "packages/content/src/runtime-hostile.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateRuntimeScenes：脚本归置轴 entities 非数组拒绝",
+      "testFile": "packages/content/src/runtime-hostile.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 同 id 稳定、不同 id 可落不同分片；shared 桶数边界",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 global 域脚本按 global/<domain> 分片；未登记 domain → undefined",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 scene 前缀 → scene/<id> 分片",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 findScriptOwnerChunk / getScriptBody：归属与读取 单 owner 命中；跨 chunk 重复 id fail-loud；未登记 undefined",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 findScriptOwnerChunk / getScriptBody：归属与读取 getScriptBody：先按派生分片直取，未命中再全局寻 owner",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 normalize 按 id 排序合并 chunks 并保留合法体",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O07",
+      "id": "O07 checkScriptIndex：结构轴 version 漂移 / shards 缺失 逐轴拒绝；合法索引通过",
+      "testFile": "packages/content/src/script-library.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 纯摆位/外观类命令安全（safe）",
+      "testFile": "packages/content/src/script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）",
+      "testFile": "packages/content/src/script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 wait 因不读取目标世界而安全（PAL 入场等待数帧合同）",
+      "testFile": "packages/content/src/script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe",
+      "testFile": "packages/content/src/script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 stage 游标：stageIndexFor / applyStageNext stageIndexFor：默认 0、钳制到 stages 上限",
+      "testFile": "packages/content/src/script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 stage 游标：stageIndexFor / applyStageNext applyStageNext：advance 递增 / 数字重置 / undefined 不变",
+      "testFile": "packages/content/src/script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O07",
+      "id": "O07 emptyProjectedWorldScriptState：初始形状 flags/vars/entityState/stages 初始为空域",
+      "testFile": "packages/content/src/script.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateShops / shopBuy / shopSell / sellableItems shopBuy：钱不够 null；成功扣钱入包",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateShops / shopBuy / shopSell / sellableItems shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateShops / shopBuy / shopSell / sellableItems sellableItems 过滤 count=0 与不可卖",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 spriteDefinitionFrameDemand / FrameIndices directional 帧需求 = framesPerDir*4 + poses 绝对帧",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 spriteDefinitionFrameDemand / FrameIndices static 帧需求 = 1",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 validateEnemyTeamStructure：槽位形状 非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O09",
+      "id": "O09 checkRuntimeScenes：运行态场景入口 非法场景（entry 缺 facing）拒绝；合法最小场景通过",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 checkThrowSpec：投掷规格边界 effects 空 / target 非法 逐轴拒绝",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 checkThrowSpec：投掷规格边界 presentation 非 magic 拒绝",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 resolveDialogueIdentity / collectCommandTargetReferences 身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 resolveDialogueIdentity / collectCommandTargetReferences loadScene 命令收集目标场景引用",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 buildWorld / instantiate：实例域边界 instantiate：无 battler fail-loud；battler 角色取 baseStats",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O09",
+      "id": "O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断",
+      "testFile": "packages/content/src/small-guards.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 party 引用不存在角色 → 精确 where+message",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 party 引用无 battler 角色 → 不可入队拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 inventory 引用不存在物品 → 拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 seedStats 未知角色 → 拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 seedConditions 四轴：未知角色/无 battler/不在 party/未知毒",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 合法 seedConditions（在 party + 已注册毒）无 issue",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 敌 AI 与敌队：走访与引用闭包 AI 条件 all/any/not 递归走访命中未知角色",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 敌 AI 与敌队：走访与引用闭包 敌 cast 未知技能 / 带 prepare / 效果不受 runtime 支持 三轴",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 敌 AI 与敌队：走访与引用闭包 transform/summon 未知目标经敌 hook effect 通道 → 拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 敌 AI 与敌队：走访与引用闭包 敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 敌 AI 与敌队：走访与引用闭包 敌 steal（warn）/attackEquivItem（error）物品引用逐轴",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 页 animation 绑定未知精灵/未知动作 逐轴拒绝（poses 收集）",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 teleportOut.onFail 内 giveItem 未知物品 → onFail 子树被收集并拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 setEntityTriggerActivation/selectEntityBehavior 指向未知场景与实体 → 实体地址轴",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 selectEntityBehavior 指向存在场景的未知实体 → 实体轴拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 hostile 敌队未知 → 场景实体轴拒绝；敌队存在则无 issue",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 初始仙术与 issue 去重 initialMagic 未知技能 → 拒绝；同技能重复引用只产一条 issue（去重）",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 初始仙术与 issue 去重 每个入口独立完整校验（同一引用坏例逐入口报告，不跨入口合并）",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 初始仙术与 issue 去重 coveredBy 自援护拒绝（运行时天然不触发）",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 初始仙术与 issue 去重 合体技未知技能 → 拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 毒/对话台词/商店/诊断闭包 castable 死亡台词文本 id 缺 locale → 拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 毒/对话台词/商店/诊断闭包 商店未知物品 → 拒绝；runScript 未知共享脚本 → 拒绝",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06/O08",
+      "id": "O06 毒/对话台词/商店/诊断闭包 敌队空缺省与空 bundle 组合不产敌簇 issue",
+      "testFile": "packages/content/src/validate-refs.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateStartWorldResources：资源池边界 resources 缺席直接通过（不做键检查）",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateStartWorldResources：资源池边界 空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateStartWorldResources：资源池边界 合法资源键（非负整数）通过",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateStartWorld：当前入口世界形状 缺键/未知键/party 非法/money 非法/背包条目非法 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateStartWorld：当前入口世界形状 seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateCurrentManifestStartup：manifest 字段轴 缺键/内容版本漂移/保存版本漂移 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateCurrentManifestStartup：manifest 字段轴 空内容键 / 非字符串路径 / 空入口表 / 入口缺键 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateScenes：运行态场景形状残臂 命名落点：空 id/label 非字符串/缺 pos/facing 非法 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateScenes：运行态场景形状残臂 entry.pos 缺 height / facing 非法 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateSprites：layout/poses 残臂 directional 缺 framesPerDir / 非正整数 拒绝；static 通过",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateSprites：layout/poses 残臂 kind 非法 / asset 不在 catalog / kind 不符 / 退役 spriteNum 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateSprites：layout/poses 残臂 poses：空 steps / 非 sound cue / loopFrom 越界 / 非法 label 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 locale：非字符串值与换行（默认禁软换行）拒绝；allowSoftWrap 放开",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 stamp：id 含斜杠 / 缺 anchor / anchor 越界 / 空视觉瓦片 逐轴拒绝",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 mapIndex：version 漂移与重复 id 拒绝；合法最小索引通过",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 migrationDiagnostics：version 漂移拒绝；空诊断表通过",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O06",
+      "id": "O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 worldVariables：flag/number 初始值类型与 kind 白名单 逐轴校验",
+      "testFile": "packages/content/src/validate.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝",
+      "testFile": "packages/shared/src/mkf.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 MKF：容器合同 合法容器：chunkCount 与逐 chunk 边界读取",
+      "testFile": "packages/shared/src/mkf.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 MKF：容器合同 chunk 越界读 fail-loud（负数）",
+      "testFile": "packages/shared/src/mkf.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseIndexedRleChunk：legacy 坏尾三轴 纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy 前缀全无效 → 坏尾前不含有效帧拒绝",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 encodeSpriteChunk：上限与空容器 encodeRleFrame：透明段写满 width*height（尾透明补跳段）",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 decompressYj2：头部与位流轴（真实解码入口） uncompLen=0 → 空输出（不读位流）",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 decompressYj2：头部与位流轴（真实解码入口） 非空字面向量：三字面位流按序输出（复用冻结判定向量，不复述旧断言）",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 decompressYj2：头部与位流轴（真实解码入口） 回引向量：重叠回引复制不越界且长度由头部封顶（冻结判定向量）",
+      "testFile": "packages/shared/src/rle.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 YJ2 长流自适应树：权重互换与归约 重复字面长流（树满前）确定性解压：N 字节恒等往返",
+      "testFile": "packages/shared/src/yj2-encode.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 YJ2 长流自适应树：权重互换与归约 头部 uncompLen 大于位流字面数：读到 0 尾字节按路径 0 走树（确定性输出）",
+      "testFile": "packages/shared/src/yj2-encode.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": false
+    },
+    {
+      "batch": "O10",
+      "id": "O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令",
+      "testFile": "packages/shared/src/yj2-encode.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 encodeRleFrame：游程分段与尾透明 尾透明补跳段写满 width*height；跳段同样 0x7F 分段",
+      "testFile": "packages/shared/src/yj2-encode.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 encodeRleFrame：游程分段与尾透明 透明/opaque 交替边界：1px opaque 后跟 1px 透明",
+      "testFile": "packages/shared/src/yj2-encode.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    },
+    {
+      "batch": "O10",
+      "id": "O10 encodeSpriteChunk：偶对齐 pad 与多帧偏移表 奇长帧后 pad 0x00；下一帧从偶偏移开始",
+      "testFile": "packages/shared/src/yj2-encode.glm-o.test.ts",
+      "missingCondition": true,
+      "tokenAnchor": true
+    }
+  ],
+  "testSha256": {
+    "packages/migrate/src/pal-assets.glm-o.test.ts": "c70fa926769b97563114e100a1df5b091cb9b56baefd3f6d115ca9022dce41b3",
+    "packages/migrate/src/pal-content-supply.glm-o.test.ts": "ba12e26d315ba5c1789b9993e440acab2d052e2839a9a107ec865f4d73d80c1b",
+    "packages/migrate/src/pal-supply-guards.glm-o.test.ts": "6d7ba480388bb1d45d285775bf057a8aa3cd5ddec51d2e7c6c005f903468f44d",
+    "packages/migrate/src/pal-world-sprites.glm-o.test.ts": "37f162eb6bf893cf5d024a8fcd47d1156f65ffc20d830c2e5d9d6d19e66a0c50",
+    "packages/content/src/actor-condition.glm-o.test.ts": "82e073cc5c99fa9bcef2f47277a6876b6572cf4d774289f4908f3cbbb765ce3f",
+    "packages/content/src/author-script-core.glm-o.test.ts": "fad5cf07efb0f718540f56dd2e843a1653a30b4374d020e31c6e32aa5a891d23",
+    "packages/content/src/data-guards.glm-o.test.ts": "17c69f48298435809b17f6ccafd628a9eacb782400b1da42a46056c666069b09",
+    "packages/content/src/enemy-ai.glm-o.test.ts": "7e90ef90fb2f0d5d6fc1f080c2fc35d0c4c0508532d89172d466308059643cd9",
+    "packages/content/src/enemy-script.glm-o.test.ts": "3a19e24565c95a1b9e7b8178f6339268e6a69f11fa2949059ac571102e9b5346",
+    "packages/content/src/frame-sequence.glm-o.test.ts": "e23cb5f89c0e5778dd0d7f1f392ea3a3408775440a4f85de019171904efd74b3",
+    "packages/content/src/item-effects.glm-o.test.ts": "a48dbe3545c7eadf47713af5bac9bbd69bf4d9f9d83fcf39e4a3c361bc601f86",
+    "packages/content/src/item-equip.glm-o.test.ts": "a0f4e52e504a688ca5641f27213f5bf59bd6002d7186055397439f4faf203c39",
+    "packages/content/src/item-use.glm-o.test.ts": "8b04467977a6bab1fc0683162efcd31fb34c0a43b7004922843483d7dec1f4fe",
+    "packages/content/src/poison.glm-o.test.ts": "f06846d26500e59cc4b3406eded17880f2e1674572c241f72f4c9db1a4277286",
+    "packages/content/src/runtime-hostile.glm-o.test.ts": "9567f68925d8dbf910c10bd45567e63a80ca2ede257a95f53e53c988c5156261",
+    "packages/content/src/script-library.glm-o.test.ts": "47cf8cf02b9058cc799124449536b347e77dc479cbf2c0782204701e1491d5bc",
+    "packages/content/src/script.glm-o.test.ts": "3977f7319f32b62fb656309e8f0f1efce09304bda8b566bf7a350fd9ed555ca0",
+    "packages/content/src/small-guards.glm-o.test.ts": "2dcbed437c34205838b7419546935cebd5a27a1c053b38ecb114f4a811f269b2",
+    "packages/content/src/validate-refs.glm-o.test.ts": "c08fb08022f68a4bbc28a9679f01d35b364f2ecb5ec00bfae6d2c85cb5a894f5",
+    "packages/content/src/validate.glm-o.test.ts": "3e3340ae0f47508385c00ed77d50e67767bc5b3fc2eca1c3e0d5a2c222c2c1f6",
+    "packages/shared/src/mkf.glm-o.test.ts": "51443aa4eff529f98e5ec01506abf12d0e93845428eef635125dbac64f129a94",
+    "packages/shared/src/rle.glm-o.test.ts": "3b3c70b2cf8b54b95404a45c80925a5fde0d583896664ecb9bd57e493a0ac0fc",
+    "packages/shared/src/yj2-encode.glm-o.test.ts": "6985421e6428b1bce2092e2a8f4364a67a90fe1134d04c2b02d133629219f659"
+  }
+}

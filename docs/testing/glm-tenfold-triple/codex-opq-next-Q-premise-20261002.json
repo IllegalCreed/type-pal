@@ -1,0 +1,108 @@
+{
+  "candidate": "6a0a3ef64518365cae043976c941a7e3e1639b7c",
+  "fixture": "OBJECT item61 offset6 -> legal isolated end entry3; scene entry1/2 cannot reach3",
+  "productSourceSha256": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "stdoutSha256": "320f69f8f7dd48c43aba26e5f18055aa22514c0d217d2f47a7063d5e2cb6d2f1",
+  "stderrSha256": "36c172260a3ea4b83aad77bf7ac37e364d38bef6c93a6647b0b8f703121bcf96",
+  "shared": {
+    "segments": [
+      {
+        "name": "shared",
+        "commands": [
+          {
+            "op": "end",
+            "label": "L_3"
+          }
+        ]
+      }
+    ]
+  },
+  "scene": {
+    "scene": 0,
+    "segments": [
+      {
+        "name": "scene-0.entries",
+        "commands": [
+          {
+            "op": "showDialog",
+            "messageIndex": 0,
+            "text": "HELLO MSG",
+            "label": "L_1"
+          },
+          {
+            "op": "end",
+            "label": "L_2"
+          }
+        ]
+      }
+    ]
+  },
+  "all": {
+    "segments": [
+      {
+        "name": "all",
+        "commands": [
+          {
+            "op": "giveItem",
+            "itemId": 61,
+            "count": 1,
+            "_item": "ITEMNAME"
+          },
+          {
+            "op": "showDialog",
+            "messageIndex": 0,
+            "text": "HELLO MSG",
+            "label": "L_1"
+          },
+          {
+            "op": "end",
+            "label": "L_2"
+          },
+          {
+            "op": "end",
+            "label": "L_3"
+          }
+        ]
+      }
+    ]
+  },
+  "item": {
+    "id": 61,
+    "bitmap": 0,
+    "price": 0,
+    "scriptOnUse": 0,
+    "scriptOnEquip": 3,
+    "scriptOnThrow": 0,
+    "scriptDesc": 0,
+    "flags": {
+      "usable": false,
+      "equipable": false,
+      "throwable": false,
+      "consuming": false,
+      "applyToAll": false,
+      "sellable": false,
+      "equipableBy": [false, false, false, false, false, false]
+    },
+    "_name": "ITEMNAME"
+  },
+  "expectedShared": {
+    "segments": [
+      {
+        "name": "shared",
+        "commands": [
+          {
+            "op": "end",
+            "label": "L_3"
+          }
+        ]
+      }
+    ]
+  },
+  "ok": true,
+  "stdoutTail": "bjects, 1 scene ranges\n[pal-extract] palette written (2 chunks)\n[pal-extract] character sprites: 全 MGO.MKF chunks (dump-all, no filter) …\n[pal-extract] sprite scan: 1 / 1 MGO chunks 可解\n[pal-extract] sprite blobs written: 1 sprites, 0 frames total\n[pal-extract] battle sprites: 全 F.MKF + ABC.MKF chunks (dump-all) …\n[pal-extract] battle sprite blobs written: 0 sprites, 0 frames total\n[pal-extract] battle backgrounds from FBP.MKF …\n[pal-extract] battle backgrounds written: 0 / 5 chunks\n[extract] asset-manifest.json: 47 files, 1MB, version=86d04837c5d18b4b\n[pal-extract] done. output → /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-q-next-premise.Hfnrq4DvQk/isolated/data/extracted\n",
+  "stderr": "[pal-extract] unifont-cn.bdf 缺,跳过 font\n",
+  "parent": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-q-next-premise.Hfnrq4DvQk"
+}

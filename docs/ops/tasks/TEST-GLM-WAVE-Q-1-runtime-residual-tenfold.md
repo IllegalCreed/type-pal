@@ -8,7 +8,21 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex r20选择性接收（2026-10-02，当前优先；作者r19）
+## Codex 有限接续批准入（2026-10-02，当前优先）
+
+用户要求后续任务；[本轮固定有限清单](../../testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md)与本节覆盖下方泛化历史交接。
+已核12种OBJECT入口接线+2组合，共14有限条目；新增精确两文件，旧147/71保持，五新产品反控由Codex独立阶段统一实采。
+**build allowed仅本节限定Owner白名单阶段**；Status仍rework/partial，原700总目标不改，完成此子批不等整卡done。
+模型由用户在提示词外手动选择：GLM-5.3文本；无Codex UI/自动投递/代切模型。
+共享审查树只读，不merge到作者树；已闭窄项不重做，单次完整有限包交付，无main/official coverage/done准入。
+
+### 下一位GLM Q提示词（当前有限包；用户手动转发）
+
+```text
+接手 TEST-GLM-WAVE-Q-1 的Q10有限CLI接线补测，唯一GLM Q Owner，Status仍rework。原树 /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal，分支 codex/glm-wave-q-runtime-residual-r1，起点6a0a3ef64518365cae043976c941a7e3e1639b7c。只读审查根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal：先读AGENTS/CLAUDE第一阶段纪律、Q卡最新有限段、共同协议及 docs/testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md 的Q十二字段+两组合表和正控证据；不merge审查分支。Q-R19字段错误已闭，旧147/71存档及退休历史不动，不执行或修固定共享tmp工具。按表固定顶层fullName完成Q-NEXT1-01～14：四item hook、三spell、三enemy、两player经真实CLI进入entryIps/disasm/roundtrip/slice/落盘，另同ip别名和scene/global重合。旧parser字段映射与纯slice归属已证，不当新；旧CLI三个文件全零global hook，未证明实际接线。新建仅 packages/pal-extract/src/cli-global-entries.glm-q.test.ts 与 src/__tests__/glm-q/cli-global-entry-inputs.ts，借用已验纯工厂但不改旧工厂/旧三个CLI文件。mkdtemp独占复制CLI树、完整自包含SSS/DATA/YJ2尾管线，hook ip均合法且前12单域单字段非零、默认scene不可达，敌引用完整。真实子进程exit0+roundtrip OK+done，核对应data hook、all完整label/command、shared完整命令/顺序、scene无错复制及入口数，不能只看文件存在或mock核心。Codex已跑item.equip公开正控，不是14条已跑；两组合不复制算法做oracle。源码/旧测/配置/基线/真实data/其它Owner/共享文档只读，禁止unsafe桥/扩timeout/新机制/剧情/世界后门。新14+旧CLI10及实际相邻parser/slice、pal-extract typecheck/全测，末pin后lint完整0/0/0/docs/diff/verifier；未变其它两包明确复用不冒称新跑。新五代表产品反控由Codex独立阶段统一实采，你不新增/修工具、不伪造已跑、不重采旧71。一次完整14条有限清单交真实40位SHA、directed逐file/fullName/status、逐合同真账/测试与证据及pin区间、准确累计和缺口；若一条有更强旧证或真缺陷仅停该条举证，其它继续。不改原700/50组目标，不main/done/官方门/清原树，不只加两例就报整卡完成。
+```
+
+## Codex r20选择性接收（2026-10-02，上一轮；已闭项保留；作者r19）
 
 固定6a0a3ef64518365cae043976c941a7e3e1639b7c。三针原字段错误关闭：actual/rebuilt SHA、精确file/fullName、三态2→单红→2/exit0→1→0对应，旧68及退休历史原字节保持，bad.meta保留原坏对象。新自测7过/三旧拒三新过；3094文件静态完整0/0/0/docs/diff/verifier通过。包/依赖/配置字节无变明确复用独立10，不新业务重跑。
 

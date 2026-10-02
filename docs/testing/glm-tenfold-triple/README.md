@@ -1,5 +1,12 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
+2026-10-02后续：[三份有限接续批与模型/准入](codex-opq-next-batch-20261002.md)、
+[O固定310现有交付证据名单](codex-opq-next-O-evidence-20261002.json)、
+[Q真实CLI准入正控](codex-opq-next-Q-premise-20261002.json)。
+O整包证据/P两未证真实流程/Q十二入口+两组合，不泛化催700、不重做已闭字段或全采旧针；
+O/Q用户手动选5.3文本，P选5.3-Flash视觉。新Q五代表反控由Codex独立阶段统一采，不再作者工具散点返工。
+原三卡仍partial/rework、总目标不缩；无自动投递/UI/模型操作/main/done/85%结算。
+
 2026-10-02当前：[Q作者r19修复证据选择性接收（Codex r20）](codex-q-r20-reception-20261002.md)、
 [机器记录](codex-q-r20-reception-20261002.json)。三针SHA/精确身份字段关闭，旧68/退休历史保持，新自测7与三旧拒/三新过，静态零。
 只接收修复数据，不推广固定共享/tmp执行器或误收wrong-file/恢复身份漂移的粗判据；后续统一入口归Codex，不再GLM散点返工。

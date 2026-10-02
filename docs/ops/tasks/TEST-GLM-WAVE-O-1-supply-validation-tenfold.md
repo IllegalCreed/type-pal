@@ -10,7 +10,21 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex r19交付复核与进度检查（2026-10-02，当前优先）
+## Codex 有限接续批准入（2026-10-02，当前优先）
+
+用户要求后续任务；[本轮固定有限清单](../../testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md)与本节覆盖下方泛化历史交接。
+固定310已有行/23文件证据整包；含174近似锚，原测试与旧64针不动。不寻找原剩余244新合同。
+**build allowed仅本节限定Owner白名单阶段**；Status仍rework/partial，原700总目标不改，完成此子批不等整卡done。
+模型由用户在提示词外手动选择：GLM-5.3文本；无Codex UI/自动投递/代切模型。
+共享审查树只读，不merge到作者树；已闭窄项不重做，单次完整有限包交付，无main/official coverage/done准入。
+
+### 下一位GLM O提示词（当前有限包；用户手动转发）
+
+```text
+接手 TEST-GLM-WAVE-O-1 的有限证据整包，唯一GLM O Owner，Status仍rework。原树 /Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal，分支 codex/glm-wave-o-supply-validation-r1，起点9aca638d8005b79816f65b262b691be6c0eca19d。只读审查根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal：先读AGENTS、READ-FIRST、O卡最新有限接续段、glm-tenfold-triple共同协议，以及 docs/testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md 的O范围和 codex-opq-next-O-evidence-20261002.json；不得merge审查分支。固定名单来自460现有交付中的310空condition行，174个token旧锚包含在其中，不相加；23测试文件hash已钉。这次只补你已交付证据，不让你寻找另外244新合同，更不重新补700。逐id读实际完整断言、源码守卫与caller、合法typed或unknown/IO输入、旧blob+真实完整fullName+全部matcher、精确oracle及适用域；现有泛化caller/nearest token改真实锚。新/旧证明/混合子轴/不可合法输入/blocked分列，发现重复或非法只登记counter并扣净新，本轮不改测试或删历史。确保人工overrides重建后不被生成器覆盖、不输出空条件或新模板，完整名单一次闭合；没证据如实blocked。原publication点名/map/incoming写入/恢复目录/旧64针已闭，不重做、不重采。仅wave-O证据生成器/账/README/receipt可写，产品/旧测/配置/基线/真实数据/其它Owner/共享文档只读。无测试代码变化就不重复包全测/覆盖；最终pin后lint完整0/0/0、docs/diff/verifier，交真实40位SHA、证据变更与准确净新/未完账并推送。不main/done/official门/清原树，不自己缩原700，做完本完整有限包再交。
+```
+
+## Codex r19交付复核与进度检查（2026-10-02，上一轮；已闭项保留）
 
 固定9aca638d8005b79816f65b262b691be6c0eca19d，点名角色cross-check/shop/catalog范围与四针重采接收，新45绿/460身份/64再判/3233静态零。本轮新增0；净新上限456/700≤65.1%，至少244例。模板未代表publication全域语义闭合，“生成基值”实际baseline保留归因在集中盘点修，不另纯文字返工轮。
 
