@@ -38,12 +38,9 @@ import type {
   StepEvent,
 } from '@type-pal/reforge'
 import {
-  compileRuntimeScriptFlow,
   executeScriptHostEffect,
-  FlowRuntimeCoordinator,
-  ProjectScriptRuntimeHost,
-  RuntimeScriptRunner,
-  RuntimeSharedScriptResolver,
+  type RuntimeScriptRunner,
+  ScriptProjectRuntime,
   ScriptRunner,
 } from '@type-pal/reforge'
 
@@ -305,6 +302,8 @@ export class Playback {
     flow: AuthorScriptFlow,
     options: {
       scene: AuthorSceneDef
+      /** 只读作者定义；可解析异场景绑定，不加载其地图，也不切换预览场景。 */
+      scenes?: readonly AuthorSceneDef[]
       sharedScripts: AuthorScriptLibrary
       actorsById: Readonly<Record<string, ActorDef>>
       self?: EntityAddress
@@ -346,128 +345,138 @@ export class Playback {
       inventory: [],
       entityLifecycles: {},
     }
-    const coordinator = new FlowRuntimeCoordinator()
-    const runtimeHost = new ProjectScriptRuntimeHost(scratch, coordinator, {
-      lifecycleReferences: buildEntityLifecycleReferenceIndex([runtimeScene]),
-      executeEffect: (command, context, signal, commitControl) => {
-        if (
-          command.kind === 'suspendEntity' ||
-          command.kind === 'hideEntity' ||
-          command.kind === 'restoreEntity' ||
-          command.kind === 'removeEntity'
-        ) {
-          if (command.target.scene === runtimeScene.id) {
-            const overlay = this.ov(command.target.entity)
-            if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
-              overlay.hidden = true
-            else if (command.kind === 'restoreEntity') {
-              overlay.hidden = false
-              overlay.frame = 0
+    const sceneDefinitions = new Map((options.scenes ?? []).map((scene) => [scene.id, scene]))
+    sceneDefinitions.set(options.scene.id, options.scene)
+    const resolvedScenes = new Map([[runtimeScene.id, runtimeScene]])
+    const runtime = new ScriptProjectRuntime(
+      { sharedScripts: runtimeSharedScripts },
+      scratch,
+      digest,
+      {
+        lifecycleReferences: buildEntityLifecycleReferenceIndex([...sceneDefinitions.values()]),
+        beforeStep: () => this.waitForCommandGate(ac),
+        onStep: (event, owner) => recordStep(event, owner),
+        executeEffect: (command, context, signal, commitControl) => {
+          if (
+            command.kind === 'suspendEntity' ||
+            command.kind === 'hideEntity' ||
+            command.kind === 'restoreEntity' ||
+            command.kind === 'removeEntity'
+          ) {
+            if (command.target.scene === runtimeScene.id) {
+              const overlay = this.ov(command.target.entity)
+              if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
+                overlay.hidden = true
+              else if (command.kind === 'restoreEntity') {
+                overlay.hidden = false
+                overlay.frame = 0
+              }
             }
+            return
           }
-          return
-        }
-        return executeScriptHostEffect(
-          this.host,
-          command as unknown as BaseRuntimeLeafCommand,
-          context,
-          signal,
-          { currentSceneId: () => runtimeScene.id, ...(commitControl ? { commitControl } : {}) },
-        )
-      },
-      scene: (sceneId) => {
-        if (sceneId !== runtimeScene.id)
-          throw new Error(`预览仅加载当前场景 ${runtimeScene.id}，无法解析 ${sceneId}`)
-        return runtimeScene
-      },
-      currentSceneId: () => runtimeScene.id,
-      currentSceneSessionId: () => `${runtimeScene.id}:${key}`,
-      entityPosRelativeToParty: (target, dcol, drow) => {
-        if (target.scene !== runtimeScene.id)
-          throw new Error(`预览相对摆位不属于当前场景: ${target.scene}/${target.entity}`)
-        const entity = this.scene.entities.find((candidate) => candidate.id === target.entity)
-        return {
-          col: this.view.player.pos.col + dcol,
-          row: this.view.player.pos.row + drow,
-          height: entity?.pos.height ?? 0,
-        }
-      },
-      query: {
-        hasItem: (itemId, atLeast) => this.host.query.hasItem(itemId, atLeast),
-        ownsItem: (itemId, atLeast) => this.host.query.ownsItem(itemId, atLeast),
-        itemEquipped: (itemId, atLeast) => this.host.query.itemEquipped(itemId, atLeast),
-        allFullHp: () => this.host.query.allFullHp(),
-        money: () => this.host.query.money(),
-        inParty: (actorId) => this.host.query.inParty(actorId),
-        entityInScene: (target) =>
-          target.scene === runtimeScene.id && this.host.query.entityInScene(target.entity),
-        facingEntity: (target, range) =>
-          target.scene === runtimeScene.id && this.host.query.facingEntity(target.entity, range),
-      },
-      confirm: (signal) => this.requestConfirm(signal),
-      startBattle: (request, signal) =>
-        this.host.startBattle(
-          request.enemyTeamId,
-          {
-            auto: request.auto,
-            boss: request.boss,
-            fieldId: request.fieldId,
-            ...(request.music !== undefined ? { music: request.music } : {}),
-            ...(request.choreography ? { choreography: [...request.choreography] } : {}),
-          },
-          signal,
-        ),
-      teleportOut: (signal) => this.host.teleportOut(signal),
-      revealSceneEntry: (reveal, signal) =>
-        this.host.revealSceneEntry?.(reveal, signal) ?? Promise.resolve(),
-      wait: (ms, signal) => this.host.wait(ms, signal),
-      waitWorldTick: (signal) => this.host.wait(100, signal),
-      yieldMacroTask: (signal) =>
-        new Promise<void>((resolve, reject) => {
-          const abort = (): void => {
-            clearTimeout(timer)
-            reject(new DOMException('preview aborted', 'AbortError'))
+          return executeScriptHostEffect(
+            this.host,
+            command as unknown as BaseRuntimeLeafCommand,
+            context,
+            signal,
+            { currentSceneId: () => runtimeScene.id, ...(commitControl ? { commitControl } : {}) },
+          )
+        },
+        scene: (sceneId) => {
+          const cached = resolvedScenes.get(sceneId)
+          if (cached) return cached
+          const source = sceneDefinitions.get(sceneId)
+          if (!source) throw new Error(`预览没有作者场景定义 ${sceneId}，无法解析绑定`)
+          const resolved: RuntimeSceneDef = resolveAuthorDialogueTree(
+            source,
+            options.actorsById,
+            `preview.scene.${sceneId}`,
+          )
+          resolvedScenes.set(sceneId, resolved)
+          return resolved
+        },
+        currentSceneId: () => runtimeScene.id,
+        currentSceneSessionId: () => `${runtimeScene.id}:${key}`,
+        entityPosRelativeToParty: (target, dcol, drow) => {
+          if (target.scene !== runtimeScene.id)
+            throw new Error(`预览相对摆位不属于当前场景: ${target.scene}/${target.entity}`)
+          const entity = this.scene.entities.find((candidate) => candidate.id === target.entity)
+          return {
+            col: this.view.player.pos.col + dcol,
+            row: this.view.player.pos.row + drow,
+            height: entity?.pos.height ?? 0,
           }
-          const timer = setTimeout(() => {
-            signal.removeEventListener('abort', abort)
-            resolve()
-          }, 0)
-          signal.addEventListener('abort', abort, { once: true })
-          if (signal.aborted) abort()
-        }),
-    })
-    const runner = new RuntimeScriptRunner(
-      runtimeHost,
-      ac.signal,
-      new RuntimeSharedScriptResolver(runtimeSharedScripts, digest),
+        },
+        query: {
+          hasItem: (itemId, atLeast) => this.host.query.hasItem(itemId, atLeast),
+          ownsItem: (itemId, atLeast) => this.host.query.ownsItem(itemId, atLeast),
+          itemEquipped: (itemId, atLeast) => this.host.query.itemEquipped(itemId, atLeast),
+          allFullHp: () => this.host.query.allFullHp(),
+          money: () => this.host.query.money(),
+          inParty: (actorId) => this.host.query.inParty(actorId),
+          entityInScene: (target) =>
+            target.scene === runtimeScene.id && this.host.query.entityInScene(target.entity),
+          facingEntity: (target, range) =>
+            target.scene === runtimeScene.id && this.host.query.facingEntity(target.entity, range),
+        },
+        confirm: (signal) => this.requestConfirm(signal),
+        startBattle: (request, signal) =>
+          this.host.startBattle(
+            request.enemyTeamId,
+            {
+              auto: request.auto,
+              boss: request.boss,
+              fieldId: request.fieldId,
+              ...(request.music !== undefined ? { music: request.music } : {}),
+              ...(request.choreography ? { choreography: [...request.choreography] } : {}),
+            },
+            signal,
+          ),
+        teleportOut: (signal) => this.host.teleportOut(signal),
+        revealSceneEntry: (reveal, signal) =>
+          this.host.revealSceneEntry?.(reveal, signal) ?? Promise.resolve(),
+        wait: (ms, signal) => this.host.wait(ms, signal),
+        waitWorldTick: (signal) => this.host.wait(100, signal),
+        yieldMacroTask: (signal) =>
+          new Promise<void>((resolve, reject) => {
+            const abort = (): void => {
+              clearTimeout(timer)
+              reject(new DOMException('preview aborted', 'AbortError'))
+            }
+            const timer = setTimeout(() => {
+              signal.removeEventListener('abort', abort)
+              resolve()
+            }, 0)
+            signal.addEventListener('abort', abort, { once: true })
+            if (signal.aborted) abort()
+          }),
+      },
     )
-    runner.beforeStep = () => this.waitForCommandGate(ac)
-    runner.onStep = (event) => {
+    const recordStep = (
+      event: Parameters<NonNullable<RuntimeScriptRunner['onStep']>>[0],
+      owner?: EntityAddress,
+    ): void => {
       this.stepNumber++
-      this.activePath = event.path.join('/')
+      const child =
+        owner && (owner.scene !== options.self?.scene || owner.entity !== options.self?.entity)
+      this.activePath = `${child ? `entity:${owner.scene}/${owner.entity}/` : ''}${event.path.join('/')}`
       const command =
-        event.command.kind === 'leaf'
-          ? (event.command.command as { kind: string; entity?: string })
-          : ({ kind: event.command.kind } as { kind: string; entity?: string })
+        event.command.kind === 'leaf' ? event.command.command : { kind: event.command.kind }
       const target = this.poiOf(command)
+      if ('target' in command && command.target?.scene === runtimeScene.id)
+        this.poi = { kind: 'entity', id: command.target.entity }
       if (target) this.poi = target
       this.onUi?.()
     }
-    void runner
-      .runFlow(
-        compileRuntimeScriptFlow(runtimeFlow, {
-          canonicalContentDigest: digest,
-          timing: options.timing ?? 'interactive',
-          allowSceneEntry: options.allowSceneEntry,
-        }),
-        {
-          cursorController: { reachSafePoint: () => 'continue' },
-          ...(options.cursor ? { cursor: structuredClone(options.cursor) } : {}),
-          ...(options.self ? { self: structuredClone(options.self) } : {}),
-          allowSceneEntry: options.allowSceneEntry,
-          runSceneEntry: options.runSceneEntry,
-        },
-      )
+    void runtime
+      .runPreviewFlow(runtimeFlow, {
+        signal: ac.signal,
+        cursor: options.cursor,
+        self: options.self,
+        timing: options.timing,
+        allowSceneEntry: options.allowSceneEntry,
+        runSceneEntry: options.runSceneEntry,
+      })
       .then(() => {
         if (this.abort === ac) {
           this.stepRequested = false

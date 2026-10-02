@@ -140,6 +140,10 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
     signal: AbortSignal,
   ): Promise<void> {
     switch (command.kind) {
+      case 'runEntityTrigger':
+        throw new Error(
+          'runEntityTrigger 需要当前 ScriptProjectRuntime 调用桥，不能由基础 host 透传',
+        )
       case 'setFlag':
         this.world.flags[command.flag] = command.value
         break

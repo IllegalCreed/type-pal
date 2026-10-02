@@ -230,6 +230,12 @@ export function collectScriptMovementPreview(options: {
         break
       }
       switch (command.kind) {
+        case 'runEntityTrigger':
+          notes.add(
+            `调用 ${command.target.scene}/${command.target.entity} 当前交互方案：内部轨迹未展开，后续起点不确定。`,
+          )
+          invalidate(route)
+          break
         case 'stopScript':
           route.stop = 'script'
           break

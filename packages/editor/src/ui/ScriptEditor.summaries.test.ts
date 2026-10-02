@@ -60,6 +60,13 @@ const context: CanonicalScriptEditorContext = {
 }
 const target = { scene: 's003', entity: 'e56' }
 
+test('explicit entity invocation shows a named stable target and its waiting/current-scene contract', () => {
+  const summary = describeCanonicalCommand({ kind: 'runEntityTrigger', target }, conditionContext)
+  expect(summary.label).toBe('大厅李大娘 · e56 执行交互方案')
+  expect(summary.detail).toContain('等执行完成后继续')
+  expect(summary.detail).toContain('切场、战斗在调用返回后编排')
+})
+
 const conditionContext: CanonicalScriptEditorContext = {
   ...context,
   shellScenes: [

@@ -189,6 +189,9 @@ function compileBaseAuthorCommand(
 ): ExecutableBaseCommand {
   const after = boundaries(timing, boundaryPolicy)
   switch (command.kind) {
+    case 'runEntityTrigger':
+      if (timing !== 'interactive') throw new Error('runEntityTrigger 仅允许 interactive 编译时序')
+      return { kind: 'leaf', command: clone(command), after }
     case 'stopScript':
       return { kind: 'stop', after }
     case 'branch':

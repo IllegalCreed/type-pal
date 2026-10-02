@@ -1201,7 +1201,7 @@ export async function bootGame(
     try {
       const canonical = sceneResources.peek(activeScene.scene.id)
       if (!canonical || !scriptRuntime) return false
-      return scriptRuntime.runEntityBehavior(canonical, entityId, 'trigger', { signal })
+      return await scriptRuntime.runEntityBehavior(canonical, entityId, 'trigger', { signal })
     } finally {
       inlineTriggerOwners.delete(entityId)
     }
@@ -1744,7 +1744,11 @@ export async function bootGame(
         // If this chase command is already inside self's trigger, that trigger is the terminal
         // delivery. A scene hook / another entity may still execute self's trigger inline in the
         // same activity lineage, preserving command order without consuming the global runner slot.
-        if (runnerTriggerOwnerId !== entityId && !inlineTriggerOwners.has(entityId))
+        if (
+          runnerTriggerOwnerId !== entityId &&
+          !inlineTriggerOwners.has(entityId) &&
+          !scriptRuntime?.isEntityTriggerActive({ scene: activeScene.scene.id, entity: entityId })
+        )
           await runInlineEntityTrigger(entityId, signal)
         if (currentMotionSceneSessionId() !== continuationSceneToken)
           throw asyncIntentAbortError(`追逐 ${entityId} 的 inline trigger 已切换场景`)

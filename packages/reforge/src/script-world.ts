@@ -588,6 +588,11 @@ export class FlowRuntimeCoordinator {
     return this.epochForKey(ownerKey(owner))
   }
 
+  /** 只读活跃身份查询；epoch失效的在途lease仍然是busy，不允许同owner重新租用。 */
+  isOwnerActive(owner: PersistentFlowOwner): boolean {
+    return this.active.has(ownerKey(owner))
+  }
+
   bump(owner: PersistentFlowOwner): number {
     const key = ownerKey(owner)
     const epoch = this.epochForKey(key) + 1

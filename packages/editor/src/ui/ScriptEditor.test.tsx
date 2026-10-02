@@ -3,6 +3,7 @@
 import {
   type AssetCatalogV1,
   type AuthorCommand,
+  type AuthorSceneDef,
   type AuthorScriptFlow,
   RUNTIME_COMMAND_KINDS,
   type SceneDef,
@@ -11,6 +12,7 @@ import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { ScriptEditSession, UpdateSharedScriptCommand } from '../core/script-editor.js'
 import {
   AUTHOR_COMMAND_PRESENTATION_,
@@ -553,6 +555,97 @@ describe('CanonicalScriptEditor author presentation', () => {
 
     await act(async () => rows[2]!.querySelector<HTMLButtonElement>('[aria-label="删除"]')!.click())
     expect(host.querySelectorAll<HTMLElement>('.cmd-row')).toHaveLength(2)
+  })
+
+  test('inserts, retargets, copies and deletes an explicit invocation while preserving stable entity IDs', async () => {
+    const scene: AuthorSceneDef = {
+      id: 's001',
+      mapId: 'map',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [
+        { id: 'e1', label: '同名道士', zone: true, pos: { col: 1, row: 0, height: 0 } },
+        { id: 'e2', label: '同名道士', zone: true, pos: { col: 2, row: 0, height: 0 } },
+      ],
+    }
+    const reader: EditorAssetReader = {
+      projectId: 'test',
+      record: () => {
+        throw new Error('form must not read assets')
+      },
+      readBytes: async () => {
+        throw new Error('form must not read assets')
+      },
+      readRoleBytes: async () => {
+        throw new Error('form must not read assets')
+      },
+      urlFor: async () => {
+        throw new Error('form must not read assets')
+      },
+    }
+    const context: CanonicalScriptEditorContext = {
+      state: { scenes: [scene], items: [], sharedScripts: {} },
+      currentSceneId: 's001',
+      currentEntityId: 'e1',
+      shellScenes: [],
+      locale: {},
+      assetCatalog: { version: 1, assets: {} },
+      assetReader: reader,
+      audioResolver: reader,
+      references: { choices: () => [], has: () => false, label: (_kind, id) => id },
+      battleSprites: [],
+    }
+    let saved: AuthorCommand[] = []
+    function Harness() {
+      const [body, setBody] = useState<AuthorCommand[]>([])
+      return (
+        <CanonicalScriptBodyEditor
+          body={body}
+          context={context}
+          onChange={(next) => {
+            saved = next
+            setBody(next)
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((button) => button.textContent?.includes('添加指令'))!
+        .click(),
+    )
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[data-command-kinds="runEntityTrigger"]')!.click(),
+    )
+    expect(saved).toEqual([{ kind: 'runEntityTrigger', target: { scene: 's001', entity: 'e1' } }])
+    await act(async () =>
+      host
+        .querySelector<HTMLElement>('.cmd-row')!
+        .dispatchEvent(new MouseEvent('dblclick', { bubbles: true })),
+    )
+    expect(host.querySelector('[role="dialog"]')?.textContent).toContain('等执行完成后继续')
+    const options = await openCombobox('实体')
+    const option = [...options.querySelectorAll<HTMLElement>('[role="option"]')].find((entry) =>
+      entry.textContent?.includes('e2'),
+    )!
+    expect(option.textContent).toContain('同名道士')
+    await act(async () => option.click())
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((button) => button.textContent === '完成')!
+        .click(),
+    )
+    expect(saved).toEqual([{ kind: 'runEntityTrigger', target: { scene: 's001', entity: 'e2' } }])
+    expect(host.querySelector('.cmd-row')?.textContent).toContain('同名道士 · e2')
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('.cmd-row [aria-label="复制"]')!.click(),
+    )
+    expect(saved).toHaveLength(2)
+    expect(saved[1]).toEqual(saved[0])
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('.cmd-row [aria-label="删除"]')!.click(),
+    )
+    expect(saved).toEqual([{ kind: 'runEntityTrigger', target: { scene: 's001', entity: 'e2' } }])
   })
 
   test('[reorder-family:script-siblings] nested reorder follows locally, then external undo/redo clears path identity', async () => {

@@ -6,11 +6,13 @@ import {
   type EntityLifecycleCommand,
   type EntityLifecycleReferenceIndex,
   emptyWorldScriptState,
+  type FlowCursor,
   type RuntimeCommand,
   type RuntimeEntityBehavior,
   type RuntimeEntityDef,
   type RuntimeSceneDef,
   type RuntimeSceneHook,
+  type RuntimeScriptFlow,
   type WorldScriptState,
   type WorldState,
 } from '@type-pal/content'
@@ -35,7 +37,11 @@ import {
   BaseProjectScriptRuntimeHost,
   type ScriptEffectCommitControl,
 } from './script-project-core.js'
-import type { ScriptGateBoundary, ScriptRuntimeContext } from './script-runner-core.js'
+import type {
+  ScriptGateBoundary,
+  ScriptRuntimeContext,
+  ScriptStepEventLike,
+} from './script-runner-core.js'
 import { FlowRuntimeCoordinator, resolveEntityBehavior, resolveSceneHook } from './script-world.js'
 
 export interface ProjectScriptHostOptions
@@ -53,6 +59,19 @@ export interface ProjectScriptHostOptions
     lifecycleCommit?: Readonly<EntityLifecycleCommandCommit>,
   ): void | Promise<void>
   scene(sceneId: string): RuntimeSceneDef | Promise<RuntimeSceneDef>
+  /** 当前factory内部调用桥；直接基础/独立host不能把新leaf当日志效果吞掉。 */
+  invokeEntityTrigger?(
+    target: EntityAddress,
+    context: Readonly<ScriptRuntimeContext>,
+    signal: AbortSignal,
+  ): Promise<void>
+  /** 同runtime+exact signal的显式调用域，最终派发前同步复核。 */
+  guardExecution?(signal: AbortSignal, kind?: string): void
+  beforeStep?(
+    event: ScriptStepEventLike<RuntimeLeafCommand>,
+    owner?: EntityAddress,
+  ): void | Promise<void>
+  onStep?(event: ScriptStepEventLike<RuntimeLeafCommand>, owner?: EntityAddress): void
 }
 
 function isLifecycleCommand(command: RuntimeLeafCommand): command is EntityLifecycleCommand {
@@ -100,6 +119,10 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
       executeEffect: _executeEffect,
       worldChanged,
       scene,
+      invokeEntityTrigger: _invoke,
+      guardExecution: _guard,
+      beforeStep: _beforeStep,
+      onStep: _onStep,
       ...retainedOptions
     } = options
     this.retainedHost = new BaseProjectScriptRuntimeHost(script, coordinator, {
@@ -136,6 +159,15 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     signal: AbortSignal,
   ): Promise<void> {
     signal.throwIfAborted()
+    this.options.guardExecution?.(signal, command.kind)
+    if (command.kind === 'runEntityTrigger') {
+      if (context.timing !== 'interactive')
+        throw new Error('runEntityTrigger 仅允许 interactive 执行')
+      if (!this.options.invokeEntityTrigger)
+        throw new Error('runEntityTrigger 缺少当前project runtime调用桥')
+      await this.options.invokeEntityTrigger(command.target, context, signal)
+      return
+    }
     if (!isLifecycleCommand(command)) {
       await this.retainedHost.execute(retainedBaseCommand(command), context, signal)
       return
@@ -171,12 +203,14 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     request: Parameters<ScriptRuntimeHost['startBattle']>[0],
     signal: AbortSignal,
   ): Promise<BattleResult> {
+    this.options.guardExecution?.(signal, 'startBattle')
     return await withScriptActivityLineage(this, this.coordinator, signal, () =>
       this.options.startBattle(request, signal),
     )
   }
 
   teleportOut(signal: AbortSignal): Promise<boolean> {
+    this.options.guardExecution?.(signal, 'teleportOut')
     return this.retainedHost.teleportOut(signal)
   }
 
@@ -270,6 +304,11 @@ export class ScriptProjectRuntime {
   private readonly shared: RuntimeSharedScriptResolver
   private readonly script: WorldScriptState
   private readonly hostScene: ProjectScriptHostOptions['scene']
+  private readonly observers: Pick<ProjectScriptHostOptions, 'beforeStep' | 'onStep'>
+  private readonly invocationScopes = new WeakMap<
+    AbortSignal,
+    { scene: string; session: string | number }
+  >()
 
   constructor(
     readonly project: Pick<LoadedCurrentProjectCore, 'sharedScripts'>,
@@ -282,9 +321,110 @@ export class ScriptProjectRuntime {
     this.coordinator = new FlowRuntimeCoordinator(host.flowCompleted)
     if (!world.script) world.script = emptyWorldScriptState()
     this.script = world.script
-    this.host = new ProjectScriptRuntimeHost(world, this.coordinator, host)
+    this.observers = { beforeStep: host.beforeStep, onStep: host.onStep }
+    this.host = new ProjectScriptRuntimeHost(world, this.coordinator, {
+      ...host,
+      guardExecution: (signal, kind) => this.guardInvocation(signal, kind),
+      invokeEntityTrigger: (target, context, signal) =>
+        this.invokeEntityTrigger(target, context, signal),
+    })
     this.shared = new RuntimeSharedScriptResolver(project.sharedScripts, canonicalContentDigest)
     this.hostScene = (id) => host.scene(id)
+  }
+
+  private guardInvocation(signal: AbortSignal, kind?: string): void {
+    const scope = this.invocationScopes.get(signal)
+    if (!scope) return
+    signal.throwIfAborted()
+    if (
+      this.host.currentSceneId() !== scope.scene ||
+      this.host.currentSceneSessionId() !== scope.session
+    )
+      throw new DOMException('runEntityTrigger 当前场景会话已替换', 'AbortError')
+    if (
+      kind &&
+      [
+        'loadScene',
+        'loadLastSave',
+        'quitToTitle',
+        'gameOver',
+        'teleportOut',
+        'startBattle',
+      ].includes(kind)
+    )
+      throw new Error(`runEntityTrigger 当前场景演出禁止 ${kind}；切场、战斗请在调用返回后编排`)
+  }
+
+  private runner(signal: AbortSignal, owner?: EntityAddress): RuntimeScriptRunner {
+    const runner = new RuntimeScriptRunner(this.host, signal, this.shared)
+    const kind = (event: ScriptStepEventLike<RuntimeLeafCommand>): string =>
+      event.command.kind === 'leaf' ? event.command.command.kind : event.command.kind
+    if (this.invocationScopes.has(signal) || this.observers.beforeStep)
+      runner.beforeStep = async (event) => {
+        this.guardInvocation(signal, kind(event))
+        await this.observers.beforeStep?.(event, owner)
+        this.guardInvocation(signal, kind(event))
+      }
+    // onStep is synchronous after the runner's gate/checkpoint awaits, including control nodes.
+    runner.onStep = (event) => {
+      this.guardInvocation(signal, kind(event))
+      // Shared calls retain their original entry path; forbid only this new foreground leaf.
+      const prepare = [1, 2].some(
+        (index) => event.path[index] === 'entry' && event.path[index + 1] === 'prepare',
+      )
+      if (kind(event) === 'runEntityTrigger' && prepare)
+        throw new Error('scene-entry prepare 禁止 runEntityTrigger，仅允许呈现后的 interactive')
+      this.observers.onStep?.(event, owner)
+      this.guardInvocation(signal, kind(event))
+    }
+    return runner
+  }
+
+  isEntityTriggerActive(target: EntityAddress): boolean {
+    return this.coordinator.isOwnerActive({ kind: 'entity-behavior', target, channel: 'trigger' })
+  }
+
+  private async invokeEntityTrigger(
+    target: EntityAddress,
+    context: Readonly<ScriptRuntimeContext>,
+    signal: AbortSignal,
+  ): Promise<void> {
+    signal.throwIfAborted()
+    if (context.timing !== 'interactive')
+      throw new Error('runEntityTrigger 仅允许 interactive 执行')
+    const sceneId = this.host.currentSceneId()
+    const session = this.host.currentSceneSessionId()
+    if (target.scene !== sceneId)
+      throw new Error(`runEntityTrigger 目标不属于当前场景：${target.scene}/${target.entity}`)
+    if (this.isEntityTriggerActive(target))
+      throw new Error(`runEntityTrigger busy/重入：${target.scene}/${target.entity}`)
+    const scene = await this.hostScene(target.scene)
+    signal.throwIfAborted()
+    if (this.host.currentSceneId() !== sceneId || this.host.currentSceneSessionId() !== session)
+      throw new DOMException('runEntityTrigger 解析期间场景会话已替换', 'AbortError')
+    const entity = entityAt(scene, target)
+    if (this.world.entityLifecycles?.[target.scene]?.[target.entity]?.phase === 'removed')
+      throw new Error(`runEntityTrigger 目标已永久removed：${target.scene}/${target.entity}`)
+    if (this.isEntityTriggerActive(target))
+      throw new Error(`runEntityTrigger busy/重入：${target.scene}/${target.entity}`)
+    const resolved = resolveRuntimeEntityBehavior(entity, this.script, target, 'trigger')
+    if (!resolved || resolved.cursor.kind === 'completed') return
+    if (!registeredScriptActivityLease(this.host, this.coordinator, signal))
+      throw new Error('runEntityTrigger 缺少同host/exact signal的父activity lineage')
+    const previous = this.invocationScopes.get(signal)
+    this.invocationScopes.set(signal, previous ?? { scene: sceneId, session })
+    try {
+      this.guardInvocation(signal)
+      const ran = await this.runEntityBehavior(scene, target.entity, 'trigger', { signal })
+      this.guardInvocation(signal)
+      if (!ran)
+        throw new Error(
+          `runEntityTrigger 无法取得目标owner（busy）：${target.scene}/${target.entity}`,
+        )
+    } finally {
+      if (previous) this.invocationScopes.set(signal, previous)
+      else this.invocationScopes.delete(signal)
+    }
   }
 
   async runEntityBehavior(
@@ -329,7 +469,7 @@ export class ScriptProjectRuntime {
       active.lease.close()
       throw new Error(`script behavior 在激活后消失: ${scene.id}/${entityId}/${channel}`)
     }
-    const runner = new RuntimeScriptRunner(this.host, options.signal, this.shared)
+    const runner = this.runner(options.signal, target)
     try {
       await withRegisteredScriptActivityLineage(
         this.host,
@@ -394,7 +534,7 @@ export class ScriptProjectRuntime {
       active.lease.close()
       throw new Error(`script scene hook 在激活后消失: ${scene.id}/${slot}`)
     }
-    const runner = new RuntimeScriptRunner(this.host, options.signal, this.shared)
+    const runner = this.runner(options.signal)
     try {
       await withRegisteredScriptActivityLineage(
         this.host,
@@ -427,7 +567,7 @@ export class ScriptProjectRuntime {
     options: RunProjectCommandsOptions,
   ): Promise<void> {
     await withScriptActivityLineage(this.host, this.coordinator, options.signal, async () => {
-      const runner = new RuntimeScriptRunner(this.host, options.signal, this.shared)
+      const runner = this.runner(options.signal, options.self)
       await runner.runFlow(
         compileRuntimeScriptFlow(
           {
@@ -473,6 +613,54 @@ export class ScriptProjectRuntime {
       .find((effect) => effect.script.id === scriptId)?.script
     if (!script) throw new Error(`item private script 不存在: ${itemId}/${scriptId}`)
     await this.runCommands(script.body, options)
+  }
+
+  /** 编辑器仅在scratch factory调用；选中flow/cursor不改实际绑定，owner仍参与真实重入保护。 */
+  async runPreviewFlow(
+    flow: RuntimeScriptFlow,
+    options: RunProjectCommandsOptions & {
+      cursor?: FlowCursor
+      allowSceneEntry?: boolean
+      runSceneEntry?: boolean
+    },
+  ): Promise<void> {
+    options.signal.throwIfAborted()
+    const lease = options.self
+      ? this.coordinator.begin(
+          {
+            kind: 'entity-behavior',
+            target: options.self,
+            channel: options.timing === 'auto' ? 'auto' : 'trigger',
+          },
+          () => {},
+        )
+      : this.coordinator.beginActivity()
+    if (!lease) throw new Error('preview flow owner busy')
+    try {
+      await withRegisteredScriptActivityLineage(
+        this.host,
+        this.coordinator,
+        options.signal,
+        lease,
+        () =>
+          this.runner(options.signal, options.self).runFlow(
+            compileRuntimeScriptFlow(flow, {
+              canonicalContentDigest: this.canonicalContentDigest,
+              timing: options.timing ?? 'interactive',
+              allowSceneEntry: options.allowSceneEntry,
+            }),
+            {
+              cursorController: { reachSafePoint: () => 'continue' },
+              ...(options.cursor ? { cursor: structuredClone(options.cursor) } : {}),
+              ...(options.self ? { self: structuredClone(options.self) } : {}),
+              allowSceneEntry: options.allowSceneEntry,
+              runSceneEntry: options.runSceneEntry,
+            },
+          ),
+      )
+    } finally {
+      lease.close()
+    }
   }
 
   /** Restore preflight: validate every saved auto address before replacing the live world. */
