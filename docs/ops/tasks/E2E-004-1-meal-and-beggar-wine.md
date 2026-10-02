@@ -1,6 +1,6 @@
 # E2E-004-1 - 端菜与使用桂花酒赠道士
 
-Status: build
+Status: rework
 Phase: ops
 Capability: E2E-R4-1 / W1
 Coding Owner: entity_names（作者内容）；e2e004_runner（执行器），各文件单一Owner
@@ -10,6 +10,30 @@ Visual Verification Owner: Codex
 Visual Verification Timing: mixed
 Contributor: Codex 子 Agent；e2e004_phase1_premise独立只读核验
 Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
+
+## 当前裁决与停止线（2026-10-02）
+
+用户明确：使用桂花酒应触发绑定在醉道士身上的剧情方案；开发者在NPC身上找剧情，且须能在场景内预览。
+因此撤销下文旧准入中“将成功正文内联到272私有use、删除NPC赠酒方案”的设计及对应实现授权。
+旧签字和准入保留为历史，不再授权该内容写入；内容Owner已暂停，主树尚未搬移正文。
+
+- 当前目标：完整赠酒正文仍归s003/e62的“赠桂花酒：约定山神庙学剑”方案；物品仅检查使用条件并显式发起执行。
+- 正文不得复制到物品/共享脚本；不用额外玩家移动、全局touch轮询或调试后门补启动。
+- 当前产品仍只有切换绑定，没有作者可用的可靠立即执行入口；先核既有runEntityBehavior及其活动/取消边界，
+  再登记最窄的显式调用能力与准入，不用已撤销的“无需runtime/schema变更”设计覆盖新范围。
+- e19无用姿态循环、持久端菜外观的已核事实仍有效，但作者测试和产品写入暂停至修订设计准入。
+- 独立工具Owner可继续第一阶段正常输入诊断及回执修正；Reforge正式004等待当前作者/调用能力冻结。
+
+下一位Agent提示：内容Owner只报告并保留当前候选，不reset/删除、不执行旧内联；只读审计席核最小显式NPC调用及反例；
+Root更新真值矩阵、单一Owner范围并独立准入后才恢复产品施工。6012服务和用户页面继续保持。
+
+本轮只读桥核验（不是新build准入）：runtime-script-project.ts:290已能运行实体当前绑定的trigger，
+但作者词表没有立即调用指令；coordinator的实体/通道单活动键会拒绝重复进入，调用方不得吞false冒充执行成功。
+子链必须继承同一AbortSignal/activity lineage，不新建控制器；否则遇到已关闭save gate可能等待自己。
+编辑器playback.ts:350/439当前直接构造scratch host/runner，只补主壳入口不能证明场景预览可执行新调用。
+auto没有前台输入所有权，不能仅凭父lease直接发起前台剧情；本段需求仅interactive调用，不默认扩张auto能力。
+main.ts:1195旧inline helper的return Promise/finally会提早释放owner标记；新桥不得直接继承该错误栈语义。
+这些是对新能力边界的核验，不授权顺带改写无关追逐/保存/输入机制。
 
 ## 用户范围（2026-10-02）
 
