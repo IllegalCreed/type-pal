@@ -801,6 +801,10 @@ export class Playback {
       this.view.player.spriteId = spriteId
       this.log(`🎭 ${actorId} 换精灵 ${spriteId}`)
     },
+    setActorAppearance: async (actorId, patch) => {
+      // 单角色大世界预览沿用换精灵 overlay；不修改作者角色或模拟立绘/战斗外观。
+      if (patch.spriteId !== undefined) await this.host.setActorSprite(actorId, patch.spriteId)
+    },
     setEntityState: (id, state) => {
       const o = this.ov(id)
       o.hidden = state <= 0
