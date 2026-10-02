@@ -22,6 +22,7 @@ import {
 } from './meal-contract.mjs'
 import {
   mealGameBoundaryCommitted,
+  mealGameServingStarted,
   mealGameTouchDestination,
   navigateMealRoute,
 } from './meal-journey.mjs'
@@ -1021,4 +1022,52 @@ test('004 busy or scene-exit evidence releases every held direction before a cos
     },
   })
   assert.deepEqual(actions, ['down', 'up', 'proof'])
+})
+test('004 natural game serving startup requires this-leg hide commit, actual serving IP and owner, not merely inactive state', () => {
+  const observer = {}
+  let ms = 0
+  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(observer, {
+    now: () => ++ms,
+  })
+  const initial = {
+    scene: 's001',
+    actors: {
+      party: { position: [1248, 1104], ip: 469 },
+      e15: { position: [1264, 1096], visible: true, state: 1, trigger: 'L_469', triggerMode: 5 },
+    },
+    inventory: [],
+    persistent: {},
+    money: 500,
+  }
+  observer.__mealPoint('render:world', initial)
+  const startOrder = observer.__readMealEvidence().events.at(-1).order
+  observer.__mealPoint('commit:applyRawOpcode', {
+    ...initial,
+    actors: { ...initial.actors, e15: { ...initial.actors.e15, visible: false, state: 0 } },
+  })
+  observer.__mealPoint('tick:tickEventSystem', {
+    ...initial,
+    actors: {
+      party: { ...initial.actors.party, ip: 472 },
+      e15: { ...initial.actors.e15, visible: false, state: 0 },
+    },
+  })
+  const trace = observer.__readMealEvidence(),
+    cursor = { scene: 2, owner: 15, ip: 472 }
+  assert.equal(trace.pages.length, 0, 'first dialogue need not already have a fully rendered page')
+  assert.equal(mealGameServingStarted(trace, startOrder, cursor), true)
+  for (const patch of [{ scene: 4 }, { owner: 19 }, { ip: 565 }, { ip: undefined }])
+    assert.equal(mealGameServingStarted(trace, startOrder, { ...cursor, ...patch }), false)
+  assert.equal(
+    mealGameServingStarted(trace, trace.events.at(-1).order, cursor),
+    false,
+    'an old leg cannot authorize the handoff',
+  )
+  const hiddenOnly = structuredClone(trace)
+  hiddenOnly.events = hiddenOnly.events.filter((event) => event.state?.ip !== 472)
+  // Keep the original collector prefix valid; an inactive entity without an entered body is not a marker.
+  const prefix = { ...trace, events: trace.events.slice(0, -1) }
+  assert.equal(mealGameServingStarted(prefix, startOrder, cursor), false)
+  const beforeHide = { ...trace, events: trace.events.slice(0, 2) }
+  assert.equal(mealGameServingStarted(beforeHide, startOrder, cursor), false)
 })

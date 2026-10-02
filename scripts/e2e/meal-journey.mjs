@@ -153,6 +153,47 @@ export function mealGameTouchDestination(target, col, row) {
   )
 }
 
+/** A hidden serving zone is not success: prove this leg actually entered its original body. */
+export function mealGameServingStarted(trace, startOrder, cursor) {
+  assertMealCollector(trace)
+  if (
+    cursor.scene !== 2 ||
+    cursor.owner !== 15 ||
+    !Number.isInteger(cursor.ip) ||
+    cursor.ip < 469 ||
+    cursor.ip >= 541
+  )
+    return false
+  const hidden = trace.events.find(
+    (event) =>
+      event.order > startOrder &&
+      event.kind === 'actor' &&
+      event.scene === 's001' &&
+      event.id === 'e15' &&
+      event.source === 'commit:applyRawOpcode' &&
+      event.before?.visible === true &&
+      event.before.state === 1 &&
+      event.state.visible === false &&
+      event.state.state === 0 &&
+      event.state.trigger === 'L_469' &&
+      event.state.triggerMode === 5,
+  )
+  return (
+    !!hidden &&
+    trace.events.some(
+      (event) =>
+        event.order > hidden.order &&
+        event.kind === 'actor' &&
+        event.id === 'party' &&
+        event.scene === 's001' &&
+        ['tick:tickEventSystem', 'render:world'].includes(event.source) &&
+        Number.isInteger(event.state.ip) &&
+        event.state.ip >= 470 &&
+        event.state.ip < 541,
+    )
+  )
+}
+
 export async function runMealJourney(engine) {
   const options = mealArguments(process.argv.slice(2)),
     predecessor = await readMealPredecessor(options['--from'], engine),
@@ -717,11 +758,28 @@ export async function runMealJourney(engine) {
         // First-stage idle touch can start e15 immediately after entering its true footprint.
         // Keep its first hide/95 even if they preceded the next ready-state observation.
         if (engine === 'game') phaseOrder = servingStartOrder
-        await navigate(
-          's001',
-          await touchDestination(15, mealServingDestination),
-          (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue),
-        )
+        let servingStarted = false
+        if (engine === 'game') {
+          const cursor = await page.evaluate(() => ({
+            scene: window.__tpgs.wNumScene,
+            owner: window.__tpgs.eventCursor?.currentEventObjectId,
+            ip: window.__tpgs.eventCursor?.ip,
+          }))
+          servingStarted = mealGameServingStarted(await evidence(), servingStartOrder, cursor)
+          if (servingStarted)
+            report.servingEntryHandoff = {
+              context: contextLabel,
+              startOrder: servingStartOrder,
+              cursor,
+              source: 'actual e15 hide commit and original serving-body cursor',
+            }
+        }
+        if (!servingStarted)
+          await navigate(
+            's001',
+            await touchDestination(15, mealServingDestination),
+            (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue),
+          )
         const serveShown = await finishDialogue('s001', MEAL_ROWS.slice(2, 15))
         assert.equal(await inventory(), 1, 'serving did not give exactly one wine')
         assert.equal((await snapshot()).actors.e15.visible, false)
