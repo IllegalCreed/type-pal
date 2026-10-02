@@ -8,7 +8,7 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "r14 续批：测试提交 d98768b3f（P04 首批+ledger 真账），证据随其后提交；最终远端候选以推送 tip 为准（head 不引用自身提交）",
+  "headNote": "r17 返工：测试提交 b6209ef53（合法输入 actor-references 合同+G07 公开投影路径），证据提交 16052761b（counter JSON 格式清零+C01 退役+账本同步）；此后仅 receipt pin docs-only；最终远端候选以推送 tip 为准（head 不引用自身提交）",
   "counts": {
     "contractsExecuted": 98,
     "workGroups": 25,
@@ -56,11 +56,11 @@
     "directedVitest": "98/98 passed（r17 返工后真实重生，directed-vitest.json，全 11 个 wave-P 文件）",
     "fullEditorSuite": "518 files / 3872 tests 全绿 exit 0（P03b 8 例入集）",
     "typecheck": "exit 0",
-    "rootLint": "PASS 2825 files 0/0/0",
+    "rootLint": "PASS 2841 files 0 error / 0 warning / 0 info（r17 最终证据后完整根 lint）",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
     "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（工具未改沿用）",
-    "docsGate": "docs: PASS 817 Markdown / 4285 links / 0 issues（C13 退役说明改目录 README 后过门）"
+    "docsGate": "docs: PASS 818 Markdown / 4285 links / 0 issues（content20 SAVE8 冻结口径）"
   },
   "notDone": [
     "P02 剩余暗区",
