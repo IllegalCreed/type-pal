@@ -1,6 +1,11 @@
 // @vitest-environment jsdom
-import { validateAuthorScenes, validateCurrentManifestStartup } from '@type-pal/content'
+import {
+  validateAuthorScenes,
+  validateCurrentManifestStartup,
+  validateSceneIndex,
+} from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
+import sceneIndexJson from '../../../projects/pal/content/scenes/index.json' with { type: 'json' }
 import roomsJson from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
 import innJson from '../../../projects/pal/content/scenes/s003.json' with { type: 'json' }
 import manifestJson from '../../../projects/pal/manifest.json' with { type: 'json' }
@@ -8,7 +13,7 @@ import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-
 import { drain, key } from './__tests__/runtime-shell/driver.js'
 import { advance, state } from './__tests__/runtime-shell/scenarios.js'
 import type { FileSource } from './file-source.js'
-import { loadCurrentProjectFrom } from './project-loader.js'
+import { loadAllScenes, loadCurrentProjectFrom, loadScene } from './project-loader.js'
 import type { CurrentSavePayload } from './save/types.js'
 
 let host: ShellHost | undefined
@@ -29,6 +34,13 @@ type Case = 'wine' | 'wrong-position' | 'kitchen' | 'serve'
 
 async function project(caseId: Case, wineCount = 1) {
   const scenes = validateAuthorScenes(structuredClone([roomsJson, innJson]))
+  // Only these two complete scene definitions belong to this isolated integration case.
+  // Keep real paths/IDs and all other resource catalogs; the production loader still validates
+  // every indexed scene. An executed reference to any other scene must fail, never use a dummy.
+  const sceneIndex = validateSceneIndex({
+    ...sceneIndexJson,
+    scenes: sceneIndexJson.scenes.filter((entry) => scenes.some((scene) => scene.id === entry.id)),
+  })
   const manifest = validateCurrentManifestStartup(structuredClone(manifestJson)).manifest
   const current = caseId === 'kitchen' || caseId === 'serve' ? 's001' : 's003'
   manifest.defaultEntryId = 'meal-test'
@@ -99,9 +111,10 @@ async function project(caseId: Case, wineCount = 1) {
     }
   const documents = new Map<string, unknown>([
     ['manifest.json', manifest],
+    ['content/scenes/index.json', sceneIndex],
     ...scenes.map((scene) => [`content/scenes/${scene.id}.json`, scene] as const),
   ])
-  const delivered: Array<{ actual: unknown; before: unknown }> = []
+  const delivered: Array<{ path: string; actual: unknown; before: unknown }> = []
   const source: FileSource = {
     async readText(path) {
       if (documents.has(path)) return JSON.stringify(documents.get(path))
@@ -115,7 +128,7 @@ async function project(caseId: Case, wineCount = 1) {
     },
     async readJson<T>(path: string): Promise<T> {
       const actual = JSON.parse(await source.readText(path))
-      delivered.push({ actual, before: structuredClone(actual) })
+      delivered.push({ path, actual, before: structuredClone(actual) })
       return actual
     },
     async readBytes(path) {
@@ -129,7 +142,19 @@ async function project(caseId: Case, wineCount = 1) {
     source,
     scenes,
     assertPristine: () => {
-      for (const { actual, before } of delivered) expect(actual).toEqual(before)
+      for (const { path, actual, before } of delivered) expect(actual, path).toEqual(before)
+      expect(
+        [
+          ...new Set(
+            delivered
+              .filter(
+                ({ path }) =>
+                  path.startsWith('content/scenes/') && path !== 'content/scenes/index.json',
+              )
+              .map(({ path }) => path),
+          ),
+        ].sort(),
+      ).toEqual(['content/scenes/s001.json', 'content/scenes/s003.json'])
     },
   }
 }
@@ -177,6 +202,7 @@ async function boot(caseId: Case, wineCount = 1, query = '', restore?: CurrentSa
   h.overrides.set(ENGINE_CHROME.fontBdf, async () => new Response(await readFile(font, 'utf8')))
   const fixture = await project(caseId, wineCount)
   const loaded = await loadCurrentProjectFrom(fixture.source)
+  expect(loaded.sceneIds).toEqual(['s001', 's003'])
   const { WorldScenePresentation } = await import('./world-scene-presentation.js')
   const visual = vi.spyOn(WorldScenePresentation.prototype, 'sprites')
   await (await import('./main.js')).bootGame(loaded, { kind: 'project', projectId: 'pal' })
@@ -353,4 +379,15 @@ test('a normal landing executes the actual serving body, restores the persistent
   await key(served.h, 'ArrowDown')
   expect(state().world.inventory.find((entry) => entry.itemId === '272')?.count).toBe(1)
   served.fixture.assertPristine()
+})
+
+test('the isolated scene index preserves production validation and fails closed outside its real input scope', async () => {
+  host = await installShellHost()
+  const fixture = await project('kitchen')
+  const loaded = await loadCurrentProjectFrom(fixture.source)
+  expect((await loadAllScenes(loaded)).map((scene) => scene.id)).toEqual(['s001', 's003'])
+  // s004 exists on disk, but it is not this case's indexed input. No dummy scene or ignored
+  // reference may turn an accidentally executed later-plot dependency into a successful case.
+  await expect(loadScene(loaded, 's004')).rejects.toThrow('SceneId "s004" 不在 scene index')
+  fixture.assertPristine()
 })
