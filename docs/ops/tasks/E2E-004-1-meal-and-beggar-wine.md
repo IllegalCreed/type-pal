@@ -1,9 +1,9 @@
 # E2E-004-1 - 端菜与使用桂花酒赠道士
 
-Status: rework
+Status: build
 Phase: ops
 Capability: E2E-R4-1 / W1
-Coding Owner: entity_names（作者内容）；e2e004_runner（执行器），各文件单一Owner
+Coding Owner: entity_names（显式NPC调用/作者内容）；Root（旧003合同/接收）；e2e004_runner（新004工具），各文件单一Owner
 Generation Owner: N/A
 Reviewer: Codex 独立验收
 Visual Verification Owner: Codex
@@ -15,17 +15,17 @@ Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
 
 用户明确：使用桂花酒应触发绑定在醉道士身上的剧情方案；开发者在NPC身上找剧情，且须能在场景内预览。
 因此撤销下文旧准入中“将成功正文内联到272私有use、删除NPC赠酒方案”的设计及对应实现授权。
-旧签字和准入保留为历史，不再授权该内容写入；内容Owner已暂停，主树尚未搬移正文。
+旧签字和准入保留为历史，不再授权该内容写入；暂停期间主树未搬移正文，下方修订准入取代旧内联设计。
 
 - 当前目标：完整赠酒正文仍归s003/e62的“赠桂花酒：约定山神庙学剑”方案；物品仅检查使用条件并显式发起执行。
 - 正文不得复制到物品/共享脚本；不用额外玩家移动、全局touch轮询或调试后门补启动。
-- 当前产品仍只有切换绑定，没有作者可用的可靠立即执行入口；先核既有runEntityBehavior及其活动/取消边界，
-  再登记最窄的显式调用能力与准入，不用已撤销的“无需runtime/schema变更”设计覆盖新范围。
-- e19无用姿态循环、持久端菜外观的已核事实仍有效，但作者测试和产品写入暂停至修订设计准入。
+- 基线只有切换绑定，没有作者可用的可靠立即执行入口；本轮已核既有runEntityBehavior及其活动/取消边界，
+  下面登记最窄显式调用准入，不用已撤销的“无需runtime/schema变更”设计覆盖新范围。
+- e19无用姿态循环、持久端菜外观的已核事实仍有效，按修订准入恢复作者回归和施工。
 - 独立工具Owner可继续第一阶段正常输入诊断及回执修正；Reforge正式004等待当前作者/调用能力冻结。
 
-下一位Agent提示：内容Owner只报告并保留当前候选，不reset/删除、不执行旧内联；只读审计席核最小显式NPC调用及反例；
-Root更新真值矩阵、单一Owner范围并独立准入后才恢复产品施工。6012服务和用户页面继续保持。
+下一位Agent提示：内容Owner保留旧红日志并修订测试，不reset/删除、不执行旧内联；按下方修订白名单施工，
+Root独立核同一候选并接收。6012服务和用户页面继续保持。
 
 本轮只读桥核验（不是新build准入）：runtime-script-project.ts:290已能运行实体当前绑定的trigger，
 但作者词表没有立即调用指令；coordinator的实体/通道单活动键会拒绝重复进入，调用方不得吞false冒充执行成功。
@@ -34,6 +34,51 @@ Root更新真值矩阵、单一Owner范围并独立准入后才恢复产品施�
 auto没有前台输入所有权，不能仅凭父lease直接发起前台剧情；本段需求仅interactive调用，不默认扩张auto能力。
 main.ts:1195旧inline helper的return Promise/finally会提早释放owner标记；新桥不得直接继承该错误栈语义。
 这些是对新能力边界的核验，不授权顺带改写无关追逐/保存/输入机制。
+
+## 修订准入：显式执行NPC当前交互方案（2026-10-02）
+
+用户再次要求继续推进，NPC正文归属/场景预览已明确，无待问产品选择。Root已直接读以下调用域并核独立反例。
+
+| 维度 | 当前事实与目标 |
+| --- | --- |
+| 原始/第一阶段UX参考 | item272正常场景use守卫面对e62，再启动L650；原始39648/39649字节、game/menu-driver.ts:704及event-system.ts:3344。独立game004正常菜单静止use已交候选回执，尚待Root接收。 |
+| 当前二阶段 | items272只select/touch，main.ts:3848新touch仅playerMoved；runEntityBehavior已复用目标trigger游标/self/lease。coordinator:600单owner拒绝busy；lineage:20按exact host/signal登记父活动。 |
+| 作者与预览 | author-script-core.ts:191/273没有立即调用；editor/playback.ts:350/439直接scratch host/runner，须真实接入调用，不能仅目录有条目。 |
+| 目标 | 普通新leaf runEntityTrigger(target)，同一前台链立即await目标当前trigger/current cursor；正文留e62，item只守卫→select→run。不是新方案/步骤层级，不模拟玩家按互动键。 |
+
+合同已收窄，作为实现/独立反控要求：
+
+- 仅interactive可用；auto直接或经shared编译/执行都明确拒绝，scene-entry prepare禁止。不新增auto抢前台调度。
+- 不切绑定/重置游标，不检查自然touch/interact距离；作者条件决定能否调用。无绑定/disabled/completed明确no-op；
+  missing、异当前场景、异session、永久removed明确失败。允许存在实体的隐藏/临时生命周期下纯显式调用，
+  不把它当玩家自然交互；目标自身隐藏后仍完成对白尾段。004面对条件已检查可见性。
+- busy、同目标重入、A→B→A必须错误并中止调用者尾段，不能把false全当成功或等待自己；无绑定/完成与busy不得混淆。
+- 使用同一AbortSignal、host/coordinator与activity lineage；子self为目标、返回父self不变；子stop只结束子，abort向父传播，
+  finally释放owner/lease。父save gate关闭未ready时允许同lineage子链，完整结束前不可假ready；不新增存档执行栈/兼容分支。
+- 主壳追逐self识别实际活跃子trigger，不能再次租自己的owner。旧inline helper必要的return await修复在白名单内，
+  不扩张追逐/自动调度/保存政策。目标选中行为和步骤的持久权仍在现有coordinator。
+- 编辑器scratch用同一运行桥，真实执行子链；暂停/单步/停止与错误不能被日志桩替代，作者树零写回。
+  移动轨迹遇到无法静态确定的目标当前方案，显示调用边界并使后续起点unknown，不能画假连接。
+- 作者目录/默认命令/地址表单/中文重点摘要齐全，名称为“执行实体交互方案”，说明“等执行完成后继续”。
+  现有精确EntityAddress引用collector可复用，补缺目标/重命名/复制/删除反控，不扩张共享collector猜字段。
+
+最强替代解释：桥只有主壳可跑而预览不支持、同owner被静默截断、auto借lease误抢前台、fork signal/save自死锁。
+推翻条件：静止正常use仍需落步、任何上述反控不拒绝/不释放、父尾在子完成前执行、正文不在NPC或预览修改作者树。
+Root premise verified / design agree / build allowed：独立审计的条件性counter按上述合同逐项转成硬验收，并非忽略counter。
+
+### 修订单一Owner白名单
+
+- entity_names（codex/e2e-004-content）：content作者命令类型/形状/auto与prepare门；reforge编译/项目runtime/host桥及
+  coordinator最窄只读活跃查询、main子owner识别与inline await；editor命令目录/ScriptEditor表单摘要/preview scratch/轨迹边界，
+  各自相邻或新增测试；s001/s003/items已核内容修正和实际剧情命名、pal-meal-author/shell测试。
+  禁止save codec/version、整体schema版本/旧兼容、资产供应、全局touch、自动调度、公共配置/规则、其他实体剧情扩张。
+  保留旧红日志，修订旧内联回归为NPC所有权；优先先交能力与测试冻结SHA，再交作者内容SHA，均不合main。
+- Root：docs/看板/索引、package004命令、scripts/e2e/kitchen-contract.mjs及其test（现行持久取菜表达的严格003交接合同）；
+  只读独立复核新工具/能力/内容，必要补测另窄授权后才改贡献者文件，最终集中质量门/正式RF002→003→004及6012交付。
+- e2e004_runner：已有新meal-*工具交付4e1a5ab7965c1e40262a4677c65a3203d3ef5051停写；必要工具counter窄返工另派。
+
+零诊断门保持；测试红→绿、禁重入/异session/auto/shared/save/abort、真实scratch预览、实际main菜单use与持久208回归必须有证据。
+尚未实现/未跑的RF项不得报pass；第一阶段回执不外推新引擎。
 
 ## 用户范围（2026-10-02）
 
