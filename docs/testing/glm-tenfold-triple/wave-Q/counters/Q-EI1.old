@@ -1,0 +1,4 @@
+    st.enemies.push({
+      ...st.enemies[0]!,
+      e: enemyWithHealth(80),
+    })

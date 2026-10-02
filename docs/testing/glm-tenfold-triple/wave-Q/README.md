@@ -1,12 +1,13 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r13 fizzle 合法化）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r14 续批1）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r13 候选**（r12 复核 Q-R12-01/02 闭合；已关闭项不重开；
-r12 候选 1c752fc2/pin 08ddbf06 保留供独立复核）。不合 main、不标 done。
+本文件描述 **r14 候选**（r13 复核：fizzle 两例已 accept，**结构净新上限 137 /
+缺口至少 563**；已关闭项不重开；r13 候选 8fb2f3de/pin 2ae2a100 保留供独立复核）。
+不合 main、不标 done。
 
 ## r13 相对 r12 的改动（Q-R12-01/02）
 
@@ -21,10 +22,9 @@ r12 候选 1c752fc2/pin 08ddbf06 保留供独立复核）。不合 main、不标
    精确单动画/callback 次数/ctx）更强直证；「未建链即时施法音」已由 M6 旧例
    （:1297-1342，敌 cast 音 62+效果音 55 完整数组）直证。FZ3/4/5 退役保留历史，
    不换音效 id 充新。文件头「数字缓冲」未交主张撤回（本文件无数字 oracle）。
-3. **账目**：140→**138 执行**（r12 新增 4 例未接收；本批净 2 例合法 fizzle 亦待
-   Codex 接收）；**合法性结构上限 135 / 缺口至少 565**（r12 的 139/561 随未接收
-   4 例一并修正）。反控 **63 存档 / 54 执行目标 / 净新结构上限 53**；FZ1/FZ2 在
-   合法文件上重采全 VALID。
+3. **账目（r13 复核后更新）**：两个音频例已 accept——138 执行扣已登记 C114 后
+   **结构净新上限 137 / 缺口至少 563**（旧 135/565 随批同步，不另开数量返工）。
+   反控 **63 存档 / 54 执行目标 / 净新结构上限 53**。
 
 ## r12 续批（历史；其中 4 例已按 r12 复核修正/删除）
 

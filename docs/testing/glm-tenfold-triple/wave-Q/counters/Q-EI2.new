@@ -1,0 +1,5 @@
+      state: st,
+      casterIsEnemy: true, // 变异轴：反转唯一差异（敌 cast → E1 被排除门挡下）
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,

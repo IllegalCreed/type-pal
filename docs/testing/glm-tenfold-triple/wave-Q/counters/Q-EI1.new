@@ -1,0 +1,4 @@
+    st.enemies.push({
+      ...st.enemies[0]!,
+      e: enemyWithHealth(90), // 变异轴：友军 HP 80→90（合法生命值；断言 toBe(80) 恰一红）
+    })

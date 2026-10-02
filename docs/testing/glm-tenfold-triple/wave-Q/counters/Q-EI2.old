@@ -1,0 +1,5 @@
+      state: st,
+      casterIsEnemy: false, // 唯一差异：队员 cast
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,

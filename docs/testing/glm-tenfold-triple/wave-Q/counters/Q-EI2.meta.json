@@ -1,0 +1,57 @@
+{
+  "id": "Q-EI2",
+  "file": "packages/game/src/battle-magic-enemy-inline.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 对照：同输入由队员 cast → E1 运行（敌 HP 扣减 + enemy 目标数字）",
+  "targetNameSubstring": "对照：同输入由队员 cast",
+  "axis": "输入轴单轴变异：对照例 casterIsEnemy false→true（并相应改 target 轴为合法敌施法形态；E1 不再运行 → toBeLessThan(100) 与数字计数断言红）；断言不动。如实登记：本枚同时翻转 targetIsEnemy/targetIdx 以保持输入域合法（敌施法目标是队员）。",
+  "sha256": {
+    "original": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5",
+    "mutated": "3d2538abc8adaad8218200e6aadd5cda82122360646f2d54664bb586f065c05c",
+    "restored": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 100 to be less than 100",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-EI2.positive.json",
+      "raw": "Q-EI2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-EI2.mutant.json",
+      "raw": "Q-EI2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-EI2.restored.json",
+      "raw": "Q-EI2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

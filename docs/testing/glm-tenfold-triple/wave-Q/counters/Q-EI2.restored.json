@@ -1,0 +1,60 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 2,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790915488320,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门）"],
+          "fullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 敌 cast 时 E1 不结算（施法敌自身与友军 HP 原样、无 enemy 目标数字）",
+          "status": "passed",
+          "title": "敌 cast 时 E1 不结算（施法敌自身与友军 HP 原样、无 enemy 目标数字）",
+          "duration": 3.888582999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门）"],
+          "fullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 对照：同输入由队员 cast → E1 运行（敌 HP 扣减 + enemy 目标数字）",
+          "status": "passed",
+          "title": "对照：同输入由队员 cast → E1 运行（敌 HP 扣减 + enemy 目标数字）",
+          "duration": 1.0122919999998885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790915489555,
+      "endTime": 1790915489560.0122,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-magic-enemy-inline.glm-q.test.ts"
+    }
+  ]
+}

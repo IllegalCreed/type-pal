@@ -1,0 +1,57 @@
+{
+  "id": "Q-EI1",
+  "file": "packages/game/src/battle-magic-enemy-inline.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 敌 cast 时 E1 不结算（施法敌自身与友军 HP 原样、无 enemy 目标数字）",
+  "targetNameSubstring": "敌 cast 时 E1 不结算",
+  "axis": "输入轴单轴变异：友军敌 HP 80→90（合法生命值；敌 HP 原样断言 toBe(80) 恰一红，其余断言仍绿）；断言不动。",
+  "sha256": {
+    "original": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5",
+    "mutated": "5afea242cf32ade9c2f189fb793a7a92799b83228d2c14b4c4aab616ac77a029",
+    "restored": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 90 to be 80 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-EI1.positive.json",
+      "raw": "Q-EI1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-EI1.mutant.json",
+      "raw": "Q-EI1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-EI1.restored.json",
+      "raw": "Q-EI1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

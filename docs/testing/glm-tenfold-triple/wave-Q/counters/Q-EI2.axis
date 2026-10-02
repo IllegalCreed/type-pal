@@ -1,0 +1,1 @@
+输入轴单轴变异：对照例 casterIsEnemy false→true（并相应改 target 轴为合法敌施法形态；E1 不再运行 → toBeLessThan(100) 与数字计数断言红）；断言不动。如实登记：本枚同时翻转 targetIsEnemy/targetIdx 以保持输入域合法（敌施法目标是队员）。

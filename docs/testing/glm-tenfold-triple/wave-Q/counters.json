@@ -1,7 +1,7 @@
 {
-  "count": 63,
+  "count": 65,
   "allValid": true,
-  "distinctTargets": 54,
+  "distinctTargets": 56,
   "duplicatedTargets": [
     "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts :: Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
     "packages/game/src/framebuffer-ports.glm-q.test.ts :: Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
@@ -21,21 +21,21 @@
     },
     {
       "id": "Q-FZ3",
-      "reason": "Q-R12-02：对应「敌方 cast 施法音即时回落」例已由旧 actions.test.ts M6 敌 cast 音完整数组直证（:1297-1342），existing-proof 删重；证据保留",
+      "reason": "Q-R12-02 existing-proof 删重；证据保留",
       "alsoSameTargetAs": null
     },
     {
       "id": "Q-FZ4",
-      "reason": "Q-R12-02：对应「敌方 cast 无 gs 脚本照跑」例已由旧 actions.test.ts「敌人 cast→不扣 MP+仍 emit+仍 runScript」（:1859-1894）更强直证（精确单动画/callback/ctx），existing-proof 删重；证据保留",
+      "reason": "Q-R12-02 existing-proof 删重；证据保留",
       "alsoSameTargetAs": null
     },
     {
       "id": "Q-FZ5",
-      "reason": "Q-R12-02：越界敌槽轴依附已删的 enemy 例；证据保留历史",
+      "reason": "Q-R12-02 依附已删 enemy 例；证据保留",
       "alsoSameTargetAs": null
     }
   ],
-  "quotaNotes": "r13：63 存档满足业务单断言红 / 54 个不同执行目标 / 净新合同目标结构上限 53（C114 与 S1-RC4 同一旧 room0 只扣一次）。r13（Q-R12-01/02）：fizzle 两例改真实 runScript + 合法 [end,raw0x41,end] entry1（0x41 真实置 fScriptSuccess=false）；两个 enemy 例按旧更强直证删除（FZ3/4/5 退役保留历史）；撤回 r12 文件头「数字缓冲」未交主张。140→138 执行：新增 4 例未接收，合法性结构上限仍 135 / 缺口至少 565（r12 的 139/561 随 4 例未接收一并修正）。",
+  "quotaNotes": "r14：65 存档满足业务单断言红 / 56 个不同执行目标 / 净新合同目标结构上限 55（C114 与 S1-RC4 同一旧 room0 只扣一次）。r14 新增 Q-EI1/2 两针（新执行目标：敌 cast E1 排除对照对）。数量门已足，不凑针。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
@@ -3626,6 +3626,120 @@
           },
           "json": "Q-FZ2.restored.json",
           "raw": "Q-FZ2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-EI1",
+      "file": "packages/game/src/battle-magic-enemy-inline.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 敌 cast 时 E1 不结算（施法敌自身与友军 HP 原样、无 enemy 目标数字）",
+      "targetNameSubstring": "敌 cast 时 E1 不结算",
+      "axis": "输入轴单轴变异：友军敌 HP 80→90（合法生命值；敌 HP 原样断言 toBe(80) 恰一红，其余断言仍绿）；断言不动。",
+      "sha256": {
+        "original": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5",
+        "mutated": "5afea242cf32ade9c2f189fb793a7a92799b83228d2c14b4c4aab616ac77a029",
+        "restored": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 90 to be 80 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-EI1.positive.json",
+          "raw": "Q-EI1.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-EI1.mutant.json",
+          "raw": "Q-EI1.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-EI1.restored.json",
+          "raw": "Q-EI1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-EI2",
+      "file": "packages/game/src/battle-magic-enemy-inline.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 对照：同输入由队员 cast → E1 运行（敌 HP 扣减 + enemy 目标数字）",
+      "targetNameSubstring": "对照：同输入由队员 cast",
+      "axis": "输入轴单轴变异：对照例 casterIsEnemy false→true（并相应改 target 轴为合法敌施法形态；E1 不再运行 → toBeLessThan(100) 与数字计数断言红）；断言不动。如实登记：本枚同时翻转 targetIsEnemy/targetIdx 以保持输入域合法（敌施法目标是队员）。",
+      "sha256": {
+        "original": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5",
+        "mutated": "3d2538abc8adaad8218200e6aadd5cda82122360646f2d54664bb586f065c05c",
+        "restored": "ac06e375e6bfe5e7f5a3dfcf9f4f0a1fb271dee4363aed8b4a770644651f67c5"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 100 to be less than 100",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-EI2.positive.json",
+          "raw": "Q-EI2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-EI2.mutant.json",
+          "raw": "Q-EI2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-EI2.restored.json",
+          "raw": "Q-EI2.restored.txt"
         }
       },
       "verdict": "VALID"
