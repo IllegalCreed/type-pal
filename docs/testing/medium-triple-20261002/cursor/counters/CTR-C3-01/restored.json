@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790931757890,
+  "startTime": 1790934127770,
   "success": true,
   "testResults": [
     {
@@ -61,7 +61,7 @@
           "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
           "status": "passed",
           "title": "C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
-          "duration": 3.4193329999999946,
+          "duration": 1.8480410000000234,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -265,11 +265,11 @@
           "tags": []
         }
       ],
-      "startTime": 1790931758416,
-      "endTime": 1790931758419.4194,
+      "startTime": 1790934128129,
+      "endTime": 1790934128130.8481,
       "status": "passed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-CTR-C3-01-geOYP8/packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-CTR-C3-01-k6T8vF/packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts"
     }
   ]
 }

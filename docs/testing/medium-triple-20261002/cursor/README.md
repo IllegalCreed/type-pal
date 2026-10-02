@@ -31,8 +31,15 @@ Owner: Cursor · Branch: `codex/cursor-script-preview-medium-r1` · BASE: `f5c7f
 3. **CURSOR-R1-03**：旧测不再套用新 case grep；三枚旧绿真实非零。
 4. **CURSOR-R1-04**：原 JSON 落盘；judge 始终对完整报告拒收 collection；声明 scope 另文件；产品/测试三态 hash；selftest 钉复合拒收。
 
+## 临时树回收（资源交付硬要求）
+
+- `node_modules`：**symlink**，禁止整仓递归复制。
+- 并发 / 活树：`MAX_CONCURRENCY=1`、`MAX_LIVE_TREES=1`、磁盘软顶 2 GiB。
+- 成功 / 失败 / SIGTERM：`counter-cleanup.selftest.mjs` + `cleanup-evidence/` 零残留实测。
+- 只清本会话精确路径；`live-registry.json` 登记不可捕获终止遗留供核验，不做全局 prune。
+
 ## 未完账
 
 1. **DOC-PARENT-NAV**：共享 `medium-triple-20261002/README.md` 链入 `cursor/` 仍属 Codex 只读维护。
 
-等待 Codex 二审；不合 main、不 done。
+等待 Codex 独立验收；不合 main、不 done。

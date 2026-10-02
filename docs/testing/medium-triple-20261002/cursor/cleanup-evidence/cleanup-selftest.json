@@ -1,0 +1,92 @@
+{
+  "at": "2026-10-02T09:42:43.089Z",
+  "maxConcurrency": 1,
+  "maxLiveTrees": 1,
+  "ownedAfter": [],
+  "prefixTemps": [],
+  "orphansReportOnly": [],
+  "registry": {
+    "updatedAt": "2026-10-02T09:42:35.735Z",
+    "prefix": "cursor-mid-counter-",
+    "maxLiveTrees": 1,
+    "maxConcurrency": 1,
+    "maxOwnerTempGiB": 2,
+    "ownedExactPaths": []
+  },
+  "results": [
+    {
+      "label": "success-cleanup",
+      "ok": true,
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-H477SB",
+      "exists": false,
+      "stillListed": false,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-H477SB",
+        "owned": true,
+        "gitRemoveOk": true,
+        "dirRemoved": true,
+        "pathExistsAfter": false,
+        "listedInGitWorktreeAfter": false,
+        "error": null
+      }
+    },
+    {
+      "label": "failure-cleanup",
+      "ok": true,
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-qUAl9a",
+      "exists": false,
+      "stillListed": false,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-qUAl9a",
+        "owned": true,
+        "gitRemoveOk": true,
+        "dirRemoved": true,
+        "pathExistsAfter": false,
+        "listedInGitWorktreeAfter": false,
+        "error": null
+      }
+    },
+    {
+      "label": "cap-refuse-then-cleanup",
+      "ok": true,
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-DwEs0Z",
+      "exists": false,
+      "stillListed": false,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-DwEs0Z",
+        "owned": true,
+        "gitRemoveOk": true,
+        "dirRemoved": true,
+        "pathExistsAfter": false,
+        "listedInGitWorktreeAfter": false,
+        "error": null
+      }
+    },
+    {
+      "label": "max-live-trees",
+      "ok": true,
+      "refused": true,
+      "MAX_LIVE_TREES": 1
+    },
+    {
+      "label": "interrupt-sigterm",
+      "ok": true,
+      "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-SS9ynx",
+      "after": {
+        "reason": "signal",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-SS9ynx",
+        "report": {
+          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-SS9ynx",
+          "owned": true,
+          "gitRemoveOk": true,
+          "dirRemoved": true,
+          "pathExistsAfter": false,
+          "listedInGitWorktreeAfter": false,
+          "error": null
+        },
+        "existsAfter": false
+      }
+    }
+  ],
+  "allOk": true
+}

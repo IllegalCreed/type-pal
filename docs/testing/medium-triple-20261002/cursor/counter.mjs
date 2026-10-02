@@ -2,9 +2,9 @@
 /**
  * Cursor script-preview medium 反控取证（白名单 docs/testing/medium-triple-20261002/cursor/**）。
  *
- * 三态：positive → mutated（mkdtemp 隔离树单针）→ restored。
- * --grep 仅用于新测声明范围；--old 跑完整旧文件且绝不复用新 grep。
- * 原 JSON/raw 原样落盘；judge 对完整 JSON 拒收 collection/runtime，再按声明 fullName 核身份。
+ * 三态：positive → mutated（隔离 worktree + symlink deps）→ restored。
+ * 临时树精确登记；失败/异常/可捕获中断均走 finally 回收；禁止 process.exit 跳过 finally。
+ * 不递归复制 node_modules；并发与磁盘上限见 counter-lifecycle.mjs。
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -15,12 +15,20 @@ import {
   mkdtempSync,
   readdirSync,
   readFileSync,
-  rmSync,
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { judgeClean, judgeMutant, leavesOf } from './counter-judge.mjs'
+import {
+  cleanupAllOwned,
+  cleanupExact,
+  createCounterWorktree,
+  linkNodeModules,
+  listPrefixTempsInTmpdir,
+  ownedPaths,
+  registerOwned,
+} from './counter-lifecycle.mjs'
 
 const args = process.argv.slice(2)
 function need(name) {
@@ -48,14 +56,23 @@ const declaredFullNames = [expectFullname]
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
+let exitCode = 0
+let counterTree = null
+let cleanupReport = null
+/** Patch mkdtemps also registered for exact cleanup. */
+const patchDirs = []
+
 function buildPatch(original, mutated) {
   const tmp = mkdtempSync(join(tmpdir(), 'cursor-mid-patch-'))
+  registerOwned(candidateRoot, tmp)
+  patchDirs.push(tmp)
+  let text = ''
+  let buildError = null
   try {
     const aPath = join(tmp, 'a')
     const bPath = join(tmp, 'b')
     writeFileSync(aPath, original)
     writeFileSync(bPath, mutated)
-    let text
     try {
       text = execFileSync(
         'diff',
@@ -65,11 +82,15 @@ function buildPatch(original, mutated) {
     } catch (error) {
       text = error.stdout ?? ''
     }
-    if (!text.trim()) throw new Error('empty patch')
-    return text
+    if (!text.trim()) buildError = new Error('empty patch')
   } finally {
-    rmSync(tmp, { recursive: true, force: true })
+    const report = cleanupExact(candidateRoot, tmp)
+    const idx = patchDirs.indexOf(tmp)
+    if (idx >= 0) patchDirs.splice(idx, 1)
+    if (report.pathExistsAfter) buildError = new Error(`patch tmp residue: ${tmp}`)
   }
+  if (buildError) throw buildError
+  return text
 }
 
 function syncMid1Tests(fromRoot, toRoot) {
@@ -99,23 +120,7 @@ function syncMid1Tests(fromRoot, toRoot) {
   }
 }
 
-const linkNodeModules = (from, to) => {
-  if (existsSync(from)) {
-    rmSync(to, { recursive: true, force: true })
-    cpSync(from, to, { recursive: true, verbatimSymlinks: true, dereference: false })
-  }
-}
-
-function cleanup(counterTree) {
-  if (!counterTree) return
-  try {
-    execFileSync('git', ['worktree', 'remove', '--force', counterTree], { cwd: candidateRoot })
-  } catch {
-    rmSync(counterTree, { recursive: true, force: true })
-  }
-}
-
-/** @param {string | null} namePattern null = 跑完整文件（旧测专用，禁止沿用新 case grep） */
+/** @param {string | null} namePattern null = 跑完整文件（旧测专用） */
 function runVitest(tree, spec, namePattern) {
   const bin = join(candidateRoot, 'node_modules', '.bin', 'vitest')
   const vitestArgs = ['run', spec, '--maxWorkers=1', '--reporter=json', '--reporter=default']
@@ -200,8 +205,56 @@ const collect = (run, scopeNames) => {
 
 const testFileAbs = (tree) => join(tree, 'packages', 'editor', testSpec)
 
-let exitCode = 0
-let counterTree = null
+function finalizeCleanup(reason) {
+  const reports = []
+  if (counterTree) {
+    cleanupReport = cleanupExact(candidateRoot, counterTree)
+    reports.push(cleanupReport)
+    counterTree = null
+  }
+  for (const patch of [...patchDirs]) {
+    reports.push(cleanupExact(candidateRoot, patch))
+  }
+  patchDirs.length = 0
+  if (ownedPaths().length) reports.push(...cleanupAllOwned(candidateRoot))
+  const evidenceDir = join(
+    candidateRoot,
+    'docs/testing/medium-triple-20261002/cursor/cleanup-evidence',
+  )
+  mkdirSync(evidenceDir, { recursive: true })
+  const evidence = {
+    id,
+    reason,
+    at: new Date().toISOString(),
+    reports,
+    ownedAfter: ownedPaths(),
+    prefixTempsInTmpdir: listPrefixTempsInTmpdir(),
+    zeroResidue:
+      ownedPaths().length === 0 &&
+      reports.every((report) => !report.pathExistsAfter && !report.listedInGitWorktreeAfter),
+  }
+  writeFileSync(
+    join(evidenceDir, `last-cleanup-${id}.json`),
+    `${JSON.stringify(evidence, null, 2)}\n`,
+  )
+  return evidence
+}
+
+function onSignal(signal) {
+  exitCode = signal === 'SIGINT' ? 130 : 143
+  try {
+    finalizeCleanup(`signal:${signal}`)
+  } catch (error) {
+    console.error(`[${id}] cleanup on ${signal} failed:`, error)
+  }
+  // After cleanup only — never skip finalizeCleanup via early process.exit in try body.
+  process.exitCode = exitCode
+  process.exit(exitCode)
+}
+
+process.on('SIGINT', () => onSignal('SIGINT'))
+process.on('SIGTERM', () => onSignal('SIGTERM'))
+
 try {
   if (!existsSync(join(candidateRoot, productFile)))
     throw new Error(`product file missing: ${productFile}`)
@@ -212,10 +265,7 @@ try {
   const mutated = original.replace(findText, replaceText)
   const patch = buildPatch(original, mutated)
 
-  counterTree = mkdtempSync(join(tmpdir(), `cursor-mid-counter-${id}-`))
-  execFileSync('git', ['worktree', 'add', '--detach', counterTree, 'HEAD'], {
-    cwd: candidateRoot,
-  })
+  counterTree = createCounterWorktree(candidateRoot, id)
   const rel = (p) => join(counterTree, p)
   syncMid1Tests(candidateRoot, counterTree)
   linkNodeModules(join(candidateRoot, 'node_modules'), rel('node_modules'))
@@ -235,6 +285,7 @@ try {
     grep,
     oldSpec,
     declaredFullNames,
+    depsMode: 'symlink-node_modules',
     candidateHead: execFileSync('git', ['rev-parse', 'HEAD'], {
       cwd: candidateRoot,
       encoding: 'utf8',
@@ -313,7 +364,6 @@ try {
   if (!mutantJudge.valid) throw new Error(`mutated invalid: ${mutantJudge.reasons.join(',')}`)
 
   if (oldSpec) {
-    // 旧测：完整文件、零 grep，非零执行才可宣称 old-green/new-red
     const oldOnMutant = runVitest(counterTree, oldSpec, null)
     const oldStats = collect(oldOnMutant, null)
     writeFileSync(join(outDir, 'old-on-mutated.json'), JSON.stringify(oldOnMutant.json, null, 2))
@@ -427,7 +477,11 @@ try {
   exitCode = 2
   console.error(`[${id}] ${error instanceof Error ? error.message : String(error)}`)
 } finally {
-  cleanup(counterTree)
+  const evidence = finalizeCleanup(exitCode === 0 ? 'success' : 'failure')
+  if (!evidence.zeroResidue) {
+    exitCode = exitCode === 0 ? 3 : exitCode
+    console.error(`[${id}] cleanup residue: ${JSON.stringify(evidence.ownedAfter)}`)
+  }
 }
 
-process.exit(exitCode)
+process.exitCode = exitCode
