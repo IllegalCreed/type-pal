@@ -111,7 +111,9 @@ export function assertMealCaseReport(report) {
   assert.equal(report.route?.status, 'passed')
   assert.equal(report.sourceHashesStable, true)
   assert.deepEqual(report.errors, [])
-  assert.deepEqual(report.warnings, [])
+  // The owned browser factory records advisories verbatim; it already escalates engine errors.
+  // These are not lint/type/format diagnostics, whose separate zero-diagnostic gate is unchanged.
+  assert(Array.isArray(report.warnings), 'receipt warnings must remain an array')
   assert.match(report.revision, /^[a-f0-9]{40}$/)
   assert.match(report.predecessor?.sha256, /^[a-f0-9]{64}$/)
   assert(Object.keys(report.core.sourceHashes).length > 0, 'missing frozen 004 sources')

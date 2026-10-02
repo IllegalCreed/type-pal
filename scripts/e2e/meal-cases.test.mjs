@@ -202,6 +202,23 @@ test('004 suite requires six distinct current case receipts, not two story passe
   assertMealCaseReport(receipt('game', 'story'))
 })
 
+test('004 retains browser advisories verbatim without confusing them with engine errors or static diagnostics', () => {
+  const report = receipt('reforge', 'story')
+  report.warnings = [
+    'Failed to load resource: the server responded with a status of 404 (Not Found)',
+    'Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently',
+  ]
+  const before = structuredClone(report)
+  assertMealCaseReport(report)
+  assert.deepEqual(report, before, 'receipt validator must not erase or rewrite advisories')
+  for (const warnings of [undefined, {}, 'Canvas2D advisory'])
+    assert.throws(() => assertMealCaseReport({ ...report, warnings }), /warnings.*array/)
+  assert.throws(() =>
+    assertMealCaseReport({ ...report, errors: ['[script] actual engine failure'] }),
+  )
+  assert.throws(() => assertMealCaseReport({ ...report, scope: 'unverified scope' }), /scope/)
+})
+
 test('004 drive DTO never clones the actor tape and cannot conceal collector errors', () => {
   const host = {},
     inputs = new Map()
