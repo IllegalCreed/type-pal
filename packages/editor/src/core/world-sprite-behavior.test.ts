@@ -109,8 +109,7 @@ describe('describeSpriteReferenceBehavior', () => {
     const result = describeSpriteReferenceBehavior(input, reference, definition, 16)
 
     expect(result.preview).toMatchObject({ kind: 'unavailable' })
-    expect(result.detail).toContain('安全预算')
-    expect(result.detail).toContain('尚未确定帧序')
+    expect(result.detail).toBe('暂时无法推断这段脚本的帧序，请到场景中播放确认。')
     expect(result.detail).not.toContain('#0')
     expect(result.detail).not.toContain('检测到')
     expect(input).toEqual(before)
@@ -127,9 +126,9 @@ describe('describeSpriteReferenceBehavior', () => {
     if (result.preview?.kind !== 'variants') throw new Error('应保留截断采样片段')
     expect(result.preview.variants).toHaveLength(1)
     expect(result.preview.variants[0]?.steps.map((step) => step.frame)).toEqual([3, 4, 3, 4])
-    expect(result.preview.variants[0]?.note).toContain('安全预算处截断')
-    expect(result.detail).toContain('尚未确定完整帧序')
-    expect(result.label).not.toContain('随机')
+    expect(result.preview.variants[0]?.note).toContain('仅展示已分析的部分')
+    expect(result.detail).toBe('目前只能推断部分帧序，请到场景中播放确认。')
+    expect(result.label).toBe('自动脚本部分帧序')
   })
 
   test('真正执行到的帧 #0 可保留为截断前缀，正常定帧 #0 仍可证明循环', () => {
@@ -171,8 +170,8 @@ describe('describeSpriteReferenceBehavior', () => {
     if (result.preview?.kind !== 'variants') throw new Error('应保留截断采样片段')
     expect(result.preview.variants).toHaveLength(1)
     expect(result.preview.variants[0]?.steps.map((step) => step.frame)).toEqual([3])
-    expect(result.preview.variants[0]?.note).toContain('安全预算处截断')
-    expect(result.detail).toContain('尚未确定完整帧序')
+    expect(result.preview.variants[0]?.note).toContain('仅展示已分析的部分')
+    expect(result.detail).toBe('目前只能推断部分帧序，请到场景中播放确认。')
   })
 
   test('48 tick 截断后即使所有策略帧序相同也不声称完整循环', () => {
@@ -194,7 +193,7 @@ describe('describeSpriteReferenceBehavior', () => {
     expect(result.preview.variants[0]?.steps.map((step) => step.frame)).toEqual(
       Array.from({ length: 48 }, (_, index) => index + 1),
     )
-    expect(result.preview.variants[0]?.note).toBe('0% 为各判断的局部命中率；此示例在安全预算处截断')
+    expect(result.preview.variants[0]?.note).toBe('0% 为各判断的局部命中率；仅展示已分析的部分')
   })
 
   test('无帧的跳转耗尽命令预算也不造帧；仅朝向脚本保持不可确定帧序', () => {
@@ -203,7 +202,7 @@ describe('describeSpriteReferenceBehavior', () => {
       empty: { version: 1, id: 'empty', scripts: { loop: [{ kind: 'jumpScript', ref }] } },
     })
     expect(result.preview).toMatchObject({ kind: 'unavailable' })
-    expect(result.detail).toContain('安全预算')
+    expect(result.detail).toBe('暂时无法推断这段脚本的帧序，请到场景中播放确认。')
     expect(
       behavior([{ body: [{ kind: 'setEntityFacing', entity: 'e001', facing: 'left' }] }]).preview,
     ).toMatchObject({ kind: 'unavailable' })
