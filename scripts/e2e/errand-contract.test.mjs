@@ -3,13 +3,17 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import vm from 'node:vm'
 import ts from 'typescript'
+import { sha256 } from './browser-journey.mjs'
 import {
+  assertErrandCaseReport,
   assertErrandCollector,
   assertErrandRestored,
   assertErrandStory,
   assertErrandSuite,
+  ERRAND_GUARD_ROWS,
   ERRAND_PHASE_ROWS,
   errandArguments,
+  errandCaseRows,
   errandScene,
   validateErrandPredecessor,
 } from './errand-contract.mjs'
@@ -242,4 +246,129 @@ test('005 evidence requires contiguous sequence and successful atomic restore, n
   const echo = structuredClone(restored)
   echo.restoreCommits[0].source = 'requested:load'
   assert.throws(() => assertErrandRestored(echo, payload, 'reforge'))
+})
+
+const caseReceipt = (engine, caseName) => {
+  const world =
+    engine === 'game'
+      ? {
+          scene: 5,
+          cash: 550,
+          actors: [
+            { id: 83, triggerLabel: 'L_955' },
+            { id: 19, sState: 0 },
+          ],
+        }
+      : {
+          position: { sceneId: 's004' },
+          world: {
+            money: 550,
+            script: {
+              entityState: { s001: { e19: 0 } },
+              behaviors: {
+                entities: {
+                  s004: {
+                    e83: {
+                      trigger: {
+                        selection: { value: 'report-aunt-illness' },
+                        cursor: { at: { stage: 'urge-return' } },
+                      },
+                      auto: { selection: { value: 'legacy-002' } },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }
+  const frame = { width: 320, height: 200, nonBlack: 40000, sha256: 'd'.repeat(64) }
+  const contexts = Array.from({ length: caseName === 'saves' ? 2 : 1 }, () => ({
+    initialDatabases: [],
+  }))
+  const checks = [
+    ...Object.keys(ERRAND_PHASE_ROWS),
+    'controlMove',
+    'causality',
+    'end',
+    ...(caseName === 'guards' ? Object.keys(ERRAND_GUARD_ROWS) : []),
+    ...(caseName === 'saves' ? ['endRestore', 'backgroundContinuation'] : []),
+  ]
+  return {
+    engine,
+    case: caseName,
+    fragment: '005',
+    kind: 'verify',
+    profile: 'verify',
+    name: `${engine}-005-${caseName}`,
+    status: 'passed',
+    sourceHashesStable: true,
+    errors: [],
+    revision: 'a'.repeat(40),
+    predecessor: { sha256: 'b'.repeat(64) },
+    core: {
+      status: 'passed',
+      sourceHashes: { 'fixture.js': 'c'.repeat(64) },
+      rows: errandCaseRows(caseName),
+    },
+    route: { status: 'passed' },
+    checks: Object.fromEntries(checks.map((key) => [key, 'passed'])),
+    contexts,
+    contextTraces: contexts.map(() => ({ sha256: 'e'.repeat(64) })),
+    storyEndWorld: world,
+    storyEndWorldHash: sha256(JSON.stringify(world)),
+    endFrame: frame,
+    ...(caseName === 'saves'
+      ? {
+          checkpoint: { path: '005.end.save.json', sha256: 'f'.repeat(64) },
+          endWorld: world,
+          endWorldHash: sha256(JSON.stringify(world)),
+          restoredWorld: structuredClone(world),
+          restoredWorldHash: sha256(JSON.stringify(world)),
+          restoredFrame: frame,
+          backgroundContinuation: { from: [1, 1], to: [2, 2] },
+          frameContract: 'dynamic: no whole-canvas pixel equality',
+        }
+      : {}),
+  }
+}
+test('005 suite refuses missing specialists, duplicate cases, stale revisions, partial rows and false save claims', () => {
+  const reports = ['game', 'reforge'].flatMap((engine) =>
+    ['story', 'guards', 'saves'].map((caseName) => caseReceipt(engine, caseName)),
+  )
+  assertErrandSuite(reports)
+  for (const mutate of [
+    (r) => {
+      r.pop()
+    },
+    (r) => {
+      r[1] = structuredClone(r[0])
+    },
+    (r) => {
+      r[1].revision = 'b'.repeat(40)
+    },
+    (r) => {
+      r[0].core.rows.pop()
+    },
+    (r) => {
+      delete r[2].checks.endRestore
+    },
+    (r) => {
+      r[0].checkpoint = { path: 'fake' }
+    },
+    (r) => {
+      r[2].restoredWorld.cash = 600
+    },
+    (r) => {
+      r[2].backgroundContinuation.to = [1, 1]
+    },
+    (r) => {
+      r[0].storyEndWorld.scene = 2
+      r[0].storyEndWorldHash = sha256(JSON.stringify(r[0].storyEndWorld))
+    },
+  ]) {
+    const bad = structuredClone(reports)
+    mutate(bad)
+    assert.throws(() => assertErrandSuite(bad))
+  }
+  assertErrandCaseReport(reports[0])
 })

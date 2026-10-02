@@ -3,7 +3,9 @@ import { writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import {
+  assertErrandCaseReport,
   assertErrandCollector,
+  assertErrandEndWorld,
   assertErrandRestored,
   assertErrandStory,
   ERRAND_GUARD_ROWS,
@@ -59,6 +61,19 @@ export async function runErrandJourney(engine) {
         milestones: {},
         contextTraces: [],
       })
+      report.predecessorSourceDifferences = Object.entries(predecessor.report.hashes)
+        .filter(([file, hash]) => contract.hashes[file] && contract.hashes[file] !== hash)
+        .map(([file, hash]) => ({ file, predecessor: hash, current: contract.hashes[file] }))
+      if (engine === 'game')
+        assert(
+          report.predecessorSourceDifferences.every(
+            ({ file }) =>
+              !file.startsWith('packages/game/') &&
+              !file.startsWith('packages/shared/') &&
+              !file.startsWith('data/extracted/'),
+          ),
+          'first-stage predecessor gameplay source changed',
+        )
       let page,
         phase = 'bootstrap',
         phaseOrder = -1,
@@ -414,6 +429,7 @@ export async function runErrandJourney(engine) {
           engine === 'game' ? readWorld : readMealReforgeEndWorld,
         )
         report.storyEndWorldHash = sha256(JSON.stringify(report.storyEndWorld))
+        assertErrandEndWorld(report.storyEndWorld, engine)
         report.endFrame = await waitForOpeningFrame(page, until)
         assertErrandStory(await evidence(), engine, shownAll)
         report.checks.causality = 'passed'
@@ -430,6 +446,7 @@ export async function runErrandJourney(engine) {
                 : 'formal dumpSave following genuine 004 and complete 005',
           }
           report.endWorld = errandSaveView(saved.payload, engine)
+          assertErrandEndWorld(report.endWorld, engine)
           report.endWorldHash = sha256(JSON.stringify(report.endWorld))
           report.endFrame = await waitForOpeningFrame(page, until)
           await page.screenshot({ path: resolve(out, '005-save.png') })
@@ -464,6 +481,7 @@ export async function runErrandJourney(engine) {
         report.sourceHashesStable = JSON.stringify(after.hashes) === JSON.stringify(contract.hashes)
         assert.deepEqual(after.hashes, contract.hashes, '005 sources changed during run')
       }
+      assertErrandCaseReport({ ...report, status: 'passed' })
     },
   })
 }
