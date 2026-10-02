@@ -349,7 +349,31 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```
 
 
-## Codex r14独立复核（2026-10-02，最新；覆盖旧交接）
+## Codex r15独立复核（2026-10-02，最新；覆盖旧交接）
+
+固定250207ed731ba6f92733e0dd0f2eba6bc027dfcb，证据839601a1372b185465ac1535edd22f93d88df118。
+**Q-R14撤回/退役修复和本轮新三E2合同accept，整卡仍partial/rework**：EI1/2共20原文件字节不变，
+旧63组不变，新185定向相邻绿/typecheck零、3058静态0/0/0、docs/diff/716冻结/754白名单过；
+141身份按新game+未变另两包报告对齐，Reforge2150/extract363字节及原报告SHA复用，未新跑全game2810。
+真实enemy-AI数字target→battle-system→performMagic生产链与三队员输入合法，旧单队员不能证范围，
+旧单元clamp不能证emit value。自有树旧2+新3，错all派发仅新AoE红、错显示delta仅新超杀数字红，
+旧2全绿/恢复5绿、源精确恢复；87未选中明示，不算原卡针。65存档index/meta/三态hash/身份/退出复算，
+63旧+2新输入对照，不全变异重放。ET2 HP30→200为非超杀区对照，正确HP135/delta65，不叫产品钳制坏了；
+随正常真账修措辞/适用域，不重采或另起纯注释轮。141上限140/≥560例与原700/50组仍未完，
+不凑针、不重复旧fizzle等修项，直接原Q07/Q08合法余族/Q10隔离CLI/完整真账连续推进。
+
+[独立接收与当前提示词](../../testing/glm-tenfold-triple/codex-q-r15-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-q-r15-review-20261002.json)。
+D-Q01-1仍产品draft，Kimi/Grok限额子卡done不续派；未作者/main/UI/模型/正式门或覆盖结算。
+用户发送代码前手动选GLM-5.3。
+
+### 下一位GLM Q提示词（当前；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal，分支codex/glm-wave-q-runtime-residual-r1，固定已审250207ed731ba6f92733e0dd0f2eba6bc027dfcb，测试/证据839601a1372b185465ac1535edd22f93d88df118。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-q-r15-review-20261002.md/json。Q-R14撤回/退役20原文件、旧63不变和新三例E2多队员AoE/normal非目标边界/超杀emit数字accept，新185相邻绿/141身份/3058静态0/0/0/docs/diff/verifier过；独立旧2绿仅新派发或数字红，源恢复。不要再返工enemy-inline/fizzle/slot/投影/CLI或全重采65，不凑针。ET1/2是合法输入对照，不是产品源码变异；ET2 HP30→200已离开超杀区，正确HP135/delta65，随正常真账把“钳制双失效”改为非超杀分区对照、明确oracle适用域，保留原证据，不另交纯措辞轮或冒作Codex独立产品反证。141执行/净新结构上限140/≥560缺口、65存档56目标净新结构上限55仅部分，原700/50组/50有效不同目标不缩。直接连续Q07/Q08合法typed生命周期余族、Q10 mkdtemp合成公共CLI和逐合同真账：真实源守卫/caller/合法输入/旧完整fullName-matcher/精确oracle，先排重不换数值凑例；不只交小批完成回执，阶段推送后直接下一合法组。避让Grok46，game/extract与Reforge分阶段，D-Q01-1仍另产品draft、不夹修、不learnedSpells/capture新机制、不PAL剧情/世界后门。只原Q新测/fixture/wave-Q可写，其它Owner/产品/旧测/配置/baseline/真实数据/共享文档只读，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变、不擅迁main版本。每批定向相邻/typecheck并准确累计账，只有源/执行集真变重采受影响合法针；末批三包全测/静态0/0/0/docs/diff/verifier/真实完整SHA和未完账，最后所有pin编辑后再根lint/diff。不合main、不done、不官方门、不清原树，不给Kimi/Grok扩量。
+```
+
+## Codex r14独立复核（2026-10-02，历史）
 
 固定39412086e25574910e6c33f1b388e433cf047a62，测试9b3e82348ce1ced945e464ddc9e802243bbc9234。
 新158定向相邻/typecheck零，3050文件静态0/0/0、docs/diff/716冻结/734白名单通过；140身份按
