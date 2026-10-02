@@ -293,6 +293,8 @@ export async function readMealContract(root = repoRoot) {
     'packages/content/src/runtime-script.ts',
     'packages/content/src/author-script.ts',
     'packages/game/src/core/menu/menu-driver.ts',
+    'packages/game/src/core/save/api.ts',
+    'packages/game/src/core/save/indexed-db.ts',
     'packages/game/src/core/menu/inventory-menu.ts',
     'packages/game/src/core/menu/inventory-action-menu.ts',
     'packages/game/src/core/menu/in-game-menu.ts',
@@ -411,8 +413,18 @@ export function assertMealCollector(trace) {
     ...trace.frames,
     ...trace.menus,
     ...trace.dispatches,
+    ...trace.saveCaptures,
+    ...trace.saveCompletions,
   ].sort((a, b) => a.order - b.order)
-  for (const list of [trace.events, trace.pages, trace.frames, trace.menus, trace.dispatches])
+  for (const list of [
+    trace.events,
+    trace.pages,
+    trace.frames,
+    trace.menus,
+    trace.dispatches,
+    trace.saveCaptures,
+    trace.saveCompletions,
+  ])
     list.forEach((e, i) => {
       assert.equal(e.seq, i, 'meal sequence gap')
     })
@@ -427,6 +439,28 @@ export function assertMealCollector(trace) {
       assert.deepEqual(e.before, prior.get(key) ?? null, 'lost meal actor continuity')
       prior.set(key, e.state)
     }
+}
+
+export function assertMealGameSaveInput(trace, beforeCount, beforeCompletions, arm, payload) {
+  assertMealCollector(trace)
+  const captured = trace.saveCaptures.slice(beforeCount),
+    completed = trace.saveCompletions.slice(beforeCompletions)
+  assert.equal(captured.length, 1, 'F5 did not produce exactly one new save input capture')
+  assert.equal(completed.length, 1, 'F5 did not produce exactly one completed save write')
+  assert.equal(captured[0].source, 'before:Save.saveSlot:deepClone')
+  assert.equal(completed[0].source, 'commit:Save.saveSlot')
+  assert.equal(captured[0].slot, arm.slot)
+  assert.deepEqual(captured[0].arm, arm, 'save input belongs to staging or another phase')
+  assert.equal(completed[0].captureSeq, captured[0].seq)
+  assert.equal(completed[0].slot, arm.slot)
+  assert.deepEqual(completed[0].arm, arm)
+  assert(completed[0].order > captured[0].order, 'save completion preceded its input')
+  assert.deepEqual(
+    mealSaveView(payload, 'game'),
+    captured[0].world,
+    'actual saved payload differs from synchronous save input',
+  )
+  return captured[0]
 }
 
 /** Story dependencies from real commits/pages, not command counts or sampled coordinates. */

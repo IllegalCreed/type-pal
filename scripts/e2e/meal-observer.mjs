@@ -5,11 +5,15 @@ export function installMealObserver() {
     frames = [],
     menus = [],
     dispatches = [],
+    saveCaptures = [],
+    saveCompletions = [],
     restoreCommits = [],
     errors = []
   const prior = new Map(),
     pageInstances = new WeakMap()
-  let latestMenu = { active: false },
+  let armedSave = null,
+    saveArmId = 0,
+    latestMenu = { active: false },
     order = 0,
     sample = 0,
     overflow = false,
@@ -89,6 +93,89 @@ export function installMealObserver() {
   }
   globalThis.__mealPoint = point
   globalThis.__mealError = fail
+  globalThis.__mealArmSaveCapture = (phase, slot) => {
+    if (typeof phase !== 'string' || !phase || !Number.isInteger(slot))
+      throw new Error('invalid save observation arm')
+    armedSave = { id: saveArmId++, phase, slot }
+    return structuredClone(armedSave)
+  }
+  globalThis.__mealGameSaving = (slot, gs) => {
+    try {
+      for (const key of [
+        'party',
+        'partyMembers',
+        'PlayerRolesRuntime',
+        'inventory',
+        'rgScene',
+        'rgObject',
+        'rgEventObject',
+        'allEventObjects',
+      ])
+        if (gs[key] === undefined) throw new Error(`missing save input ${key}`)
+      const world = JSON.parse(
+        JSON.stringify({
+          scene: gs.wNumScene,
+          party: gs.party,
+          members: gs.partyMembers,
+          roles: gs.PlayerRolesRuntime,
+          cash: gs.dwCash,
+          inventory: gs.inventory,
+          scenes: gs.rgScene,
+          objects: gs.rgObject,
+          eventObjects: gs.rgEventObject,
+          actors: gs.allEventObjects.map(
+            ({
+              id,
+              x,
+              y,
+              sState,
+              facing,
+              triggerLabel,
+              triggerResume,
+              triggerMode,
+              spriteNum,
+              autoTriggerOnce,
+            }) => ({
+              id,
+              x,
+              y,
+              sState,
+              facing,
+              triggerLabel,
+              triggerResume,
+              triggerMode,
+              spriteNum,
+              autoTriggerOnce,
+            }),
+          ),
+        }),
+      )
+      const seq = saveCaptures.length
+      append(
+        saveCaptures,
+        { source: 'before:Save.saveSlot:deepClone', slot, arm: armedSave, world },
+        8,
+      )
+      return seq
+    } catch (error) {
+      fail(error)
+      return undefined
+    }
+  }
+  globalThis.__mealGameSaved = (captureSeq) => {
+    try {
+      const captured = saveCaptures[captureSeq]
+      if (!captured || saveCompletions.some((entry) => entry.captureSeq === captureSeq))
+        throw new Error('unmatched or duplicated save completion')
+      append(
+        saveCompletions,
+        { source: 'commit:Save.saveSlot', captureSeq, slot: captured.slot, arm: captured.arm },
+        8,
+      )
+    } catch (error) {
+      fail(error)
+    }
+  }
   globalThis.__mealMenu = (engine, menu) => {
     try {
       if (JSON.stringify(menu) !== JSON.stringify(latestMenu)) {
@@ -231,6 +318,8 @@ export function installMealObserver() {
       frames,
       menus,
       dispatches,
+      saveCaptures,
+      saveCompletions,
       latestMenu,
       restoreCommits,
       errors,
