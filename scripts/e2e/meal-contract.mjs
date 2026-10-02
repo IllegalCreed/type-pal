@@ -15,6 +15,12 @@ export const mealInventoryCount = (inventory, engine, id = '272') =>
   engine === 'game'
     ? (inventory.find((entry) => String(entry.itemId) === id)?.count ?? 0)
     : (inventory[id] ?? 0)
+
+/** Hash the exact bytes written, not a second serialization with different indentation. */
+export function mealTraceArtifact(trace) {
+  const bytes = JSON.stringify(trace, null, 2)
+  return { bytes, sha256: sha256(bytes) }
+}
 const normalize = (text) =>
   String(text ?? '')
     .replace(/<\/?[a-z]+>/gu, '')
