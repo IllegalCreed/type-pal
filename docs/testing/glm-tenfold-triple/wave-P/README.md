@@ -46,26 +46,40 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 | P-03 回执 | receipt.json 重写：测试/证据锚点为 `47a3e49a`，其后仅 wave-P 证据与回执 docs/JSON 提交，最终远端候选见 receipt（不引用自身 SHA） |
 | P-04 视觉 | 20 条浏览器流程记录（r2 指出多为静态观察；r3 已补 F02/F06/F09/F13/F15 实动相位，F14/F18 如实登记未证，18/20 完整证明） |
 
-## 当前候选（从树生成，2026-10-01 rework）
+## 当前候选（从树生成，2026-10-02 r14 续批）
 
 | 项 | 数量 | 说明 |
 |---|---:|---|
-| 合法新用例 | **86 / 700**（执行数；r11 续批 P03b 8 例已含） | 67/67 绿（[directed-vitest.json](directed-vitest.json) 树内实跑；G09 三条重复断言已删）；逐合同 [contracts.json](contracts.json) |
-| 合同工作组 | 19 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 |
-| 有效反控 | **14 / 50**（P03-C13 退役：initial locator 轴旧测已完整 toEqual 直证；7 份 r9 原字节历史证据已恢复于 counters/P03-C13/ 并附 RETIRED.md，不计活跃） | 严格判据重跑，10/10 恰一目标红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
-| 浏览器流程 | **18 / 20 完整证明** | F01–F20 共 20 条；F14/F18 如实登记未证（[browser/browser-evidence.json](browser/browser-evidence.json)） |
-| 私有同分母 coverage | 上轮 +32/+16/+2（branches/statements/functions，分母 28489 不变） | 本轮合同未变，未重跑 |
+| 合法新用例 | **97 / 700**（执行数；r14 续批 P04 首批 11 例已含） | 97/97 绿（[directed-vitest.json](directed-vitest.json) 全 10 文件真实实跑；逐合同 [contracts.json](contracts.json) 全臂 oracle+当前行锚） |
+| 合同工作组 | 24 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 + P04-G01…G05 |
+| 有效反控 | **16 / 50**（+P04-C01 空id守卫、P04-C02 invert整键删除两个不同目标；P03-C13 退役档不计活跃） | 严格判据采样，逐针恰一红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
+| 浏览器流程 | **18 / 20 完整证明** | F14/F18 如实登记未证，另交视觉阶段（[browser/browser-evidence.json](browser/browser-evidence.json)） |
+| 私有同分母 coverage | 上轮 +32/+16/+2（分母 28489 不变） | r14 续批未重跑，不计入 |
 
-## 本轮真实改动（相对 8fb38fcc）
+## r14 续批真实改动（相对 691e33ccf）
+
+- 真账修复（r13 复核点名项）：G14 五owner/四fallback/两locator 全臂 oracle 补全；
+  G15 截断 oracle 补全+漂移行锚修正；G16-01/03 以 isDefined 之后的真实业务断言入账；
+  G16-02 axis 去除 use:command 旧称。全部人工核定，行锚为当前文件真实行。
+- P04 首批（actor/enemy 域，5 组 11 例）：actor-references includeScriptCommands 开关臂、
+  空 actorId 守卫、detail 标签策略回退五值、blocksDeletion 自援护豁免表、scriptChunks
+  分片 where 精确臂；enemy-commands withEnemy 替换/未命中语义、UpdateEnemyCommand
+  缺席臂/onDefeated 整键删除撤销/构造期快照、AddEnemyCommand invert。
+  排重锚：actor-references.test.ts 16-locator 全集例、C02 barrel+patch 主链例、
+  battle-data-delete-commands.test.ts 删除门禁例（旧 fullName 见 contracts.json）。
+- 反控 +2（不同目标）：P04-C01（actor-references.ts:48 空 id 守卫）、
+  P04-C02（enemy-commands.ts:69 invert 整键删除）。逐针 git apply+hash 独立验证。
+- 未完成（如实登记，不缩围）：**P02 残余与 P04 余族、P05–P10 未开工（603 例缺口）**、
+  反控 34 枚缺口、F14/F18 视觉另阶段。
+
+## r3 rework 轮真实改动（相对 8fb38fcc，历史）
 
 - 测试：仅 `project-diagnostics.glm-p.test.ts` 三条合同重建（typed-legal），总数不变。
 - 反控：P01-C03、P02-C10 重打；其余 8 枚三态证据原样保留（本轮未被 accept，
   维持「已提交」口径）。
 - 证据：browser/**（20 流程 + 55 截图哈希）、directed/contracts/counters 重生成、
   README/receipt 重写。
-- 未完成（如实登记，不缩围）：**P02 剩余与 P03–P10 未开工（614 例缺口）**、
-  反控 40 枚缺口。单会话上下文不足以完成十倍量级；按卡「缺合法缺口举证申请调整，
-  不自行缩围凑数」，请 Codex 据排重账决定续派方式。
+- 当时未完成账（历史）：614 例/40 针缺口——当前账见上方「当前候选」。
 
 ## 环境事实（复现注意）
 

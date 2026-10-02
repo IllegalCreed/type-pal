@@ -1,0 +1,85 @@
+{
+  "id": "P04-C01",
+  "productFile": "packages/editor/src/core/actor-references.ts",
+  "findText": "  if (typeof actorId !== 'string' || actorId.length === 0) return",
+  "replaceText": "  if (typeof actorId !== 'string') return",
+  "testSpec": "src/core/actor-references.glm-p.test.ts",
+  "expectFullname": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+  "candidateHead": "d98768b3f67a5490646626e604647beb9ce9921d",
+  "productSha256Candidate": "6fc2e5f5ea20a7e4a229218dc6d19a319515219a4c8b1fcec5822b52917508d3",
+  "patch": "--- a/packages/editor/src/core/actor-references.ts\n+++ b/packages/editor/src/core/actor-references.ts\n@@ -45,7 +45,7 @@\n   detail?: string,\n   ownerActorId?: string,\n ): void {\n-  if (typeof actorId !== 'string' || actorId.length === 0) return\n+  if (typeof actorId !== 'string') return\n   out.push({\n     actorId,\n     kind,\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 5,
+    "executedFullNames": [
+      "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+      "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+      "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+      "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+      "P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 5,
+      "identitySet": [
+        "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+        "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+        "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+        "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+        "src/core/actor-references.glm-p.test.ts×P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "28d6ae54e23cd3928820fc24ca2ad77e650771c91ad7cd0bfd0f5be2c975da4b",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 5,
+    "executedFullNames": [
+      "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+      "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+      "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+      "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+      "P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+    ],
+    "failed": [
+      {
+        "fullName": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+        "message": "AssertionError: expected [ { actorId: '', …(7) }, …(1) ] to deeply equal []",
+        "file": "src/core/actor-references.glm-p.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+      "message": "AssertionError: expected [ { actorId: '', …(7) }, …(1) ] to deeply equal []",
+      "file": "src/core/actor-references.glm-p.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 5,
+    "executedFullNames": [
+      "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+      "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+      "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+      "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+      "P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 5,
+      "identitySet": [
+        "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+        "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+        "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+        "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+        "src/core/actor-references.glm-p.test.ts×P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+      ]
+    }
+  }
+}

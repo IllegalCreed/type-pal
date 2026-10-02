@@ -1,6 +1,6 @@
 {
-  "total": 14,
-  "note": "r10.5：活跃 14 针逐条取自最终 receipt 并独立验证 git apply+hash+恰一红；judge：完整身份集+三相 raw+0→1→0 退出政策；P03-C13 退役存档在 counters/P03-C13/（r9 原字节，不计活跃索引）",
+  "total": 16,
+  "note": "r14：活跃 16 针逐条取自最终 receipt 并独立验证 git apply+hash+恰一红（+P04-C01/C02 两个不同目标）；judge：完整身份集+三相 raw+0→1→0 退出政策；P03-C13 退役存档在 counters/P03-C13/（r9 原字节，不计活跃索引）",
   "counters": [
     {
       "id": "P01-C01",
@@ -1431,6 +1431,148 @@
       "patch": "--- a/packages/editor/src/core/script-editor.ts\n+++ b/packages/editor/src/core/script-editor.ts\n@@ -1031,10 +1031,7 @@\n         ?.entities.find((entity) => entity.id === locator.entityId)\n         ?.pages?.some((page) => page.id === locator.pageId),\n     )\n-  return (\n-    state.scenes.find((scene) => scene.id === locator.sceneId)?.hooks?.[locator.slot]?.initial ===\n-    locator.hookId\n-  )\n+  return false\n }\n \n export function describeScriptCommandOwner(\n",
       "patchVerification": "ok",
       "outDir": "P03-C15"
+    },
+    {
+      "id": "P04-C01",
+      "productFile": "packages/editor/src/core/actor-references.ts",
+      "findText": "  if (typeof actorId !== 'string' || actorId.length === 0) return",
+      "replaceText": "  if (typeof actorId !== 'string') return",
+      "testSpec": "src/core/actor-references.glm-p.test.ts",
+      "expectFullname": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+      "productSha256Candidate": "6fc2e5f5ea20a7e4a229218dc6d19a319515219a4c8b1fcec5822b52917508d3",
+      "productSha256MutatedTree": "28d6ae54e23cd3928820fc24ca2ad77e650771c91ad7cd0bfd0f5be2c975da4b",
+      "patch": "--- a/packages/editor/src/core/actor-references.ts\n+++ b/packages/editor/src/core/actor-references.ts\n@@ -45,7 +45,7 @@\n   detail?: string,\n   ownerActorId?: string,\n ): void {\n-  if (typeof actorId !== 'string' || actorId.length === 0) return\n+  if (typeof actorId !== 'string') return\n   out.push({\n     actorId,\n     kind,\n",
+      "patchVerification": "ok",
+      "positive": {
+        "exitCode": 0,
+        "executed": 5,
+        "executedFullNames": [
+          "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+          "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+          "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+          "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+          "P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+        ],
+        "judge": {
+          "valid": true,
+          "reasons": [],
+          "executed": 5,
+          "identitySet": [
+            "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+            "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+            "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+            "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+            "src/core/actor-references.glm-p.test.ts×P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+          ]
+        }
+      },
+      "mutated": {
+        "exitCode": 1,
+        "numFailedTests": 1,
+        "target": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+        "message": "AssertionError: expected [ { actorId: '', …(7) }, …(1) ] to deeply equal []",
+        "judge": {
+          "valid": true,
+          "reasons": []
+        }
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 5,
+        "executedFullNames": [
+          "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+          "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+          "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+          "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+          "P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+        ],
+        "judge": {
+          "valid": true,
+          "reasons": [],
+          "executed": 5,
+          "identitySet": [
+            "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+            "src/core/actor-references.glm-p.test.ts×P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+            "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+            "src/core/actor-references.glm-p.test.ts×P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+            "src/core/actor-references.glm-p.test.ts×P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本"
+          ]
+        }
+      },
+      "outDir": "P04-C01"
+    },
+    {
+      "id": "P04-C02",
+      "productFile": "packages/editor/src/core/enemy-commands.ts",
+      "findText": "    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]",
+      "replaceText": "    for (const [k, v] of Object.entries(this.oldPatch)) if (false) delete restored[k]",
+      "testSpec": "src/core/enemy-commands.glm-p.test.ts",
+      "expectFullname": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+      "productSha256Candidate": "227e1462c3859194dbfc0db603416a7db307fdbff9606a2821babf964e6c7b25",
+      "productSha256MutatedTree": "057c78d901081e85417bd6765afe4bb4ebfbda79e91b1b3cd6e4e3824b6856ea",
+      "patch": "--- a/packages/editor/src/core/enemy-commands.ts\n+++ b/packages/editor/src/core/enemy-commands.ts\n@@ -66,7 +66,7 @@\n     const e = (state.enemies ?? []).find((x) => x.id === this.enemyId)\n     if (!e) return state\n     const restored = { ...e, ...this.oldPatch } as Record<string, unknown>\n-    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]\n+    for (const [k, v] of Object.entries(this.oldPatch)) if (false) delete restored[k]\n     return withEnemy(state, this.enemyId, restored as unknown as EnemyDef)\n   }\n }\n",
+      "patchVerification": "ok",
+      "positive": {
+        "exitCode": 0,
+        "executed": 6,
+        "executedFullNames": [
+          "P04-G04 withEnemy 替换语义与守卫 中位替换：其余条目同引用、替换槽为传入对象本身、原数组不变",
+          "P04-G04 withEnemy 替换语义与守卫 未命中 id 与 enemies 表缺席 → 返回同一 state 引用",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 缺席 id：apply 与 invert 均原引用返回",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 构造期快照：构造后修改入参 patch 对象不影响命令行为",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 AddEnemyCommand invert 按 id 精确移除，保留其余条目原引用"
+        ],
+        "judge": {
+          "valid": true,
+          "reasons": [],
+          "executed": 6,
+          "identitySet": [
+            "src/core/enemy-commands.glm-p.test.ts×P04-G04 withEnemy 替换语义与守卫 中位替换：其余条目同引用、替换槽为传入对象本身、原数组不变",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G04 withEnemy 替换语义与守卫 未命中 id 与 enemies 表缺席 → 返回同一 state 引用",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 AddEnemyCommand invert 按 id 精确移除，保留其余条目原引用",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 构造期快照：构造后修改入参 patch 对象不影响命令行为",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 缺席 id：apply 与 invert 均原引用返回"
+          ]
+        }
+      },
+      "mutated": {
+        "exitCode": 1,
+        "numFailedTests": 1,
+        "target": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+        "message": "AssertionError: expected true to be false // Object.is equality",
+        "judge": {
+          "valid": true,
+          "reasons": []
+        }
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 6,
+        "executedFullNames": [
+          "P04-G04 withEnemy 替换语义与守卫 中位替换：其余条目同引用、替换槽为传入对象本身、原数组不变",
+          "P04-G04 withEnemy 替换语义与守卫 未命中 id 与 enemies 表缺席 → 返回同一 state 引用",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 缺席 id：apply 与 invert 均原引用返回",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 构造期快照：构造后修改入参 patch 对象不影响命令行为",
+          "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 AddEnemyCommand invert 按 id 精确移除，保留其余条目原引用"
+        ],
+        "judge": {
+          "valid": true,
+          "reasons": [],
+          "executed": 6,
+          "identitySet": [
+            "src/core/enemy-commands.glm-p.test.ts×P04-G04 withEnemy 替换语义与守卫 中位替换：其余条目同引用、替换槽为传入对象本身、原数组不变",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G04 withEnemy 替换语义与守卫 未命中 id 与 enemies 表缺席 → 返回同一 state 引用",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 AddEnemyCommand invert 按 id 精确移除，保留其余条目原引用",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 构造期快照：构造后修改入参 patch 对象不影响命令行为",
+            "src/core/enemy-commands.glm-p.test.ts×P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 缺席 id：apply 与 invert 均原引用返回"
+          ]
+        }
+      },
+      "outDir": "P04-C02"
     }
   ]
 }

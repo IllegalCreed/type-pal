@@ -1,0 +1,100 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 5,
+  "numPassedTests": 5,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790918204803,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "P04-G01 collectActorReferences 选择性扫描与空 id 守卫"
+          ],
+          "fullName": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+          "status": "passed",
+          "title": "includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
+          "duration": 2.2937919999999394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G01 collectActorReferences 选择性扫描与空 id 守卫"
+          ],
+          "fullName": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+          "status": "passed",
+          "title": "空串 actor id 不产出任何引用边；同场非空 id 照常收集",
+          "duration": 1.861167000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G02 引用 detail 标签策略与自删除豁免"
+          ],
+          "fullName": "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
+          "status": "passed",
+          "title": "显式 detail 三值与策略回退两值精确",
+          "duration": 0.8005419999999503,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G02 引用 detail 标签策略与自删除豁免"
+          ],
+          "fullName": "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+          "status": "passed",
+          "title": "actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
+          "duration": 0.3687919999999849,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G03 scriptChunks 分片命令以 shared-script locator 入账"
+          ],
+          "fullName": "P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本",
+          "status": "passed",
+          "title": "where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本",
+          "duration": 0.16270800000006602,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790918206194,
+      "endTime": 1790918206200.1626,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/packages/editor/src/core/actor-references.glm-p.test.ts"
+    }
+  ]
+}

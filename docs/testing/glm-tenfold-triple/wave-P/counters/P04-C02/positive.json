@@ -1,0 +1,112 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 6,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790918221774,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "P04-G04 withEnemy 替换语义与守卫"
+          ],
+          "fullName": "P04-G04 withEnemy 替换语义与守卫 中位替换：其余条目同引用、替换槽为传入对象本身、原数组不变",
+          "status": "passed",
+          "title": "中位替换：其余条目同引用、替换槽为传入对象本身、原数组不变",
+          "duration": 1.9337500000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G04 withEnemy 替换语义与守卫"
+          ],
+          "fullName": "P04-G04 withEnemy 替换语义与守卫 未命中 id 与 enemies 表缺席 → 返回同一 state 引用",
+          "status": "passed",
+          "title": "未命中 id 与 enemies 表缺席 → 返回同一 state 引用",
+          "duration": 0.2234160000000429,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照"
+          ],
+          "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 缺席 id：apply 与 invert 均原引用返回",
+          "status": "passed",
+          "title": "缺席 id：apply 与 invert 均原引用返回",
+          "duration": 0.2227500000001328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照"
+          ],
+          "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+          "status": "passed",
+          "title": "patch 新增可选字段 onDefeated：apply 增键；invert 整键删除（恢复对象不含键）",
+          "duration": 0.16483399999992798,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照"
+          ],
+          "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 构造期快照：构造后修改入参 patch 对象不影响命令行为",
+          "status": "passed",
+          "title": "构造期快照：构造后修改入参 patch 对象不影响命令行为",
+          "duration": 0.07512499999984357,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照"
+          ],
+          "fullName": "P04-G05 UpdateEnemyCommand 缺席臂、字段增删撤销与构造期快照 AddEnemyCommand invert 按 id 精确移除，保留其余条目原引用",
+          "status": "passed",
+          "title": "AddEnemyCommand invert 按 id 精确移除，保留其余条目原引用",
+          "duration": 0.24125000000003638,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790918222922,
+      "endTime": 1790918222925.2412,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/packages/editor/src/core/enemy-commands.glm-p.test.ts"
+    }
+  ]
+}
