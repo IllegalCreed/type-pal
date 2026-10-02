@@ -1,8 +1,8 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **最近全表对账：2026-09-05；统一步骤候选复核：2026-10-03。** SCRIPT-GOV-2正在原子切换content22 / SAVE11，
-> 尚未独立集成收口；main上的content21 / SAVE10检查点仍属上一批证据，不能作为新格式前驱。
+> **最近全表对账：2026-09-05；统一步骤局部对账：2026-10-03。** 当前唯一格式content22 / SAVE11，
+> SCRIPT-GOV-2已独立验收并集成；001–005当前前驱链通过。content21 / SAVE10检查点是上一批历史证据。
 > [后台自动续跑快照](../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)已独立技术验收并合入main，
 > 001→003当前版本链与004存读专项通过；不以局部链替代完整Q1/Q2，也不声称本次重审了全表。
 > 入口、角色当前状态与 current-only 架构此前已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime

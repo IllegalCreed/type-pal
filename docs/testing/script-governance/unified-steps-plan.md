@@ -1,7 +1,7 @@
 # 统一步骤模型的治理范围
 
 目标已经由用户明确：作者只需要理解方案、步骤和步骤里的指令，不需要另一套连续流程或高级状态。
-首批用已有能力整理18套流程；余下147套在[SCRIPT-GOV-2](../../ops/tasks/SCRIPT-GOV-2-unified-author-steps.md)
+首批用已有能力整理18套流程；余下147套在[SCRIPT-GOV-2](../../ops/archive/tasks/done/SCRIPT-GOV-2-unified-author-steps.md)
 中统一处理。实现候选已获准进入build，采用content22、SAVE11、编译格式3；整体验证通过前不更新主工程。
 本文件说明治理理由与边界，具体合同以[脚本系统规范](../../phase2/specs/script-system.md)为准。
 
@@ -56,4 +56,4 @@
 [编译器](../../../packages/reforge/src/script-compiler-core.ts)、
 [作者模型](../../../packages/content/src/author-script-core.ts)及[完整机器分类](machine-census.json)。
 整体治理记录在[母任务卡](../../ops/tasks/SCRIPT-GOV-1-script-family-governance.md)，
-本批实现和独立验收记录在[SCRIPT-GOV-2](../../ops/tasks/SCRIPT-GOV-2-unified-author-steps.md)。
+本批实现和独立验收记录在[SCRIPT-GOV-2](../../ops/archive/tasks/done/SCRIPT-GOV-2-unified-author-steps.md)。
