@@ -5,7 +5,7 @@
   "branch": "codex/glm-wave-q-runtime-residual-r1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "candidateHead": "d1414ec08b33996c0f71d6ac006fc6b84d580743",
+  "candidateHead": "d816b1fac4ed024005d9ec20bfe5b8d620c98f19",
   "verifier": {
     "command": "node docs/testing/glm-tenfold-triple/verify-targets.mjs --wave Q --base 8b3ca062953b17a12178f8d1a9e36657971234b1",
     "frozenHashesValid": true,
@@ -58,5 +58,5 @@
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
   "reworkRound": 11,
-  "candidateHeadNote": "r10 口径：本字段为 r10 测试候选树的完整 40 位 SHA；其后仅本 docs-only pin 提交回填本字段与 Note，不改任何测试/产品文件（r2~r9 同口径）。"
+  "candidateHeadNote": "r11 口径：本字段为 r11 测试候选树的完整 40 位 SHA；其后仅本 docs-only pin 提交回填本字段与 Note，不改任何测试/产品文件（r2~r10 同口径）。"
 }
