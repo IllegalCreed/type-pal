@@ -154,7 +154,7 @@
     "p13-merged-adjudication": "Kimi/Grok 合并裁决落地：①15 行 caller 修正为真实生产链 migrate-content.mts:116-125（输入构造 :69/:70/:85-89）——原「仓内无非测试调用方」系 .mts 脚本被 grep 漏检；②两快照拒收删重（next-wave:76/:81 同守卫同文案完全旧证）；③排序臂归旧（boundaries:57-64 scenes/z 与 test:166-171 s000 已分权重/字典序）仅留 map 委派新轴并收窄标题；④删除行收窄标题为「无 content：缺席挂 null/在场挂规划 hash」并补非 null 在场证据闭合 pending；⑤退役行收窄为 id->path 诊断后缀（三守卫归旧 test:75-90，后缀合同 pending 不计净新）；⑥恢复误删的 recover 清理 transactions/<id> 目录窄轴（Codex 独证旧 28 全绿仅目录断言红）；O03-CC1/CC2/CC3 重采（CC1 变异重定为 map 委派去参轴），65/65 再判定通过"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED-P13",
+  "remoteFinalCandidate": "518d4258d49dc2c5251e6c980ee7490cd2b364d5",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
