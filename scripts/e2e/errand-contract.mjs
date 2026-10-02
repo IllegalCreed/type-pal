@@ -17,6 +17,13 @@ export const ERRAND_PHASE_ROWS = {
   zhang: [515, 516, 517, 518, 519, 521, 522],
   news: [282, 283, 284, 286, 288, 289, 290, 292, 293],
 }
+export const ERRAND_TRACE_MAX_BYTES = 16 * 1024 * 1024
+export function errandTraceArtifact(trace) {
+  const bytes = JSON.stringify(trace),
+    byteLength = Buffer.byteLength(bytes)
+  assert(byteLength <= ERRAND_TRACE_MAX_BYTES, '005 trace exceeds bounded evidence byte budget')
+  return { bytes, byteLength, sha256: sha256(bytes) }
+}
 export const ERRAND_GUARD_ROWS = {
   auntRepeat: [129, 130],
   zhangReminder: [524, 525, 526, 527],
@@ -66,7 +73,15 @@ export function assertErrandCaseReport(report) {
   assert.equal(report.contexts.length, report.case === 'saves' ? 2 : 1)
   for (const context of report.contexts) assert.deepEqual(context.initialDatabases, [])
   assert.equal(report.contextTraces.length, report.contexts.length)
-  for (const artifact of report.contextTraces) assert.match(artifact.sha256, /^[a-f0-9]{64}$/)
+  for (const artifact of report.contextTraces) {
+    assert.match(artifact.sha256, /^[a-f0-9]{64}$/)
+    assert(
+      Number.isInteger(artifact.byteLength) &&
+        artifact.byteLength > 0 &&
+        artifact.byteLength <= ERRAND_TRACE_MAX_BYTES,
+      'invalid or excessive trace byte size',
+    )
+  }
   assert.equal(report.storyEndWorldHash, sha256(JSON.stringify(report.storyEndWorld)))
   assertErrandEndWorld(report.storyEndWorld, report.engine)
   assert(openingFrameMatches(report.endFrame), '005 end canvas invalid')
@@ -131,6 +146,7 @@ export async function readErrandReceipt(path, contract) {
       'unknown 005 trace path',
     )
     const bytes = await readFile(resolve(dirname(path), artifact.path), 'utf8')
+    assert.equal(Buffer.byteLength(bytes), artifact.byteLength, 'trace byte count differs')
     assert.equal(sha256(bytes), artifact.sha256, 'trace bytes changed')
     const trace = JSON.parse(bytes)
     assertErrandCollector(trace)

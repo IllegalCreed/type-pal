@@ -16,6 +16,7 @@ import {
   errandReforgeTouchDestination,
   errandSaveView,
   errandScene,
+  errandTraceArtifact,
   readErrandContract,
   readErrandPredecessor,
 } from './errand-contract.mjs'
@@ -181,10 +182,15 @@ export async function runErrandJourney(engine) {
       }
       const saveTrace = async (label) => {
         const trace = await evidence()
-        const bytes = JSON.stringify(trace, null, 2),
+        const artifact = errandTraceArtifact(trace),
           path = `${label}.trace.json`
-        await writeFile(resolve(out, path), bytes)
-        report.contextTraces.push({ context: contextLabel, path, sha256: sha256(bytes) })
+        await writeFile(resolve(out, path), artifact.bytes)
+        report.contextTraces.push({
+          context: contextLabel,
+          path,
+          sha256: artifact.sha256,
+          byteLength: artifact.byteLength,
+        })
         assertErrandCollector(trace)
         return trace
       }

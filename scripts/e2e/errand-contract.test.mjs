@@ -13,10 +13,12 @@ import {
   assertErrandSuite,
   ERRAND_GUARD_ROWS,
   ERRAND_PHASE_ROWS,
+  ERRAND_TRACE_MAX_BYTES,
   errandArguments,
   errandCaseRows,
   errandReforgeTouchDestination,
   errandScene,
+  errandTraceArtifact,
   validateErrandPredecessor,
 } from './errand-contract.mjs'
 import { installErrandObserver, readErrandGame, readErrandReforge } from './errand-observer.mjs'
@@ -76,7 +78,12 @@ test('005 snapshot stays bounded while routeActors include all current blocking 
   assert(JSON.stringify(state).length < 3000)
 })
 test('005 rendered observer captures Xianglan position on every shown row', () => {
-  const context = vm.createContext({ structuredClone, performance, addEventListener() {} })
+  const context = vm.createContext({
+    structuredClone,
+    performance,
+    TextEncoder,
+    addEventListener() {},
+  })
   vm.runInContext(`(${installErrandObserver.toString()})()`, context)
   vm.runInContext(
     `__errandPoint('commit:test',{scene:'s004',actors:{e83:{position:[1700,1300]}},money:550});
@@ -189,6 +196,38 @@ test('005 hot-path progress excludes full-world resume tapes but keeps relevant 
   assert.equal(observed.persistent.unrelated, undefined)
   assert.equal(observed.persistent.s005.e123.trigger.resume, undefined)
   assert(JSON.stringify(observed).length < 3000, 'hot DTO scaled with the world continuation tape')
+})
+test('005 byte budgets reject runaway tape and keep atomic snapshot accounting separate', () => {
+  const artifact = errandTraceArtifact({ example: '香兰' })
+  assert.equal(artifact.byteLength, Buffer.byteLength(artifact.bytes))
+  assert.equal(artifact.sha256, sha256(artifact.bytes))
+  assert.throws(
+    () => errandTraceArtifact({ runaway: 'x'.repeat(ERRAND_TRACE_MAX_BYTES) }),
+    /byte budget/,
+  )
+  const context = vm.createContext({
+    structuredClone,
+    performance,
+    TextEncoder,
+    addEventListener() {},
+  })
+  vm.runInContext(`(${installErrandObserver.toString()})()`, context)
+  vm.runInContext(
+    `__errandGameSaving(1,{completePersistentData:'x'.repeat(5*1024*1024)});
+    __errandPoint('commit:one',{scene:'s004',actors:{},money:550,persistent:{text:'x'.repeat(2*1024*1024)}});
+    __errandPoint('commit:two',{scene:'s004',actors:{},money:550,persistent:{text:'y'.repeat(2*1024*1024)}});`,
+    context,
+  )
+  const trace = context.__readErrandEvidence()
+  assert.equal(
+    trace.saveCaptures.length,
+    1,
+    'full atomic snapshot must not share ordinary event budget',
+  )
+  assert(trace.byteSizes.atomicSnapshots > 5 * 1024 * 1024)
+  assert(trace.byteSizes.events <= 4 * 1024 * 1024)
+  assert.equal(trace.overflow, true)
+  assert.throws(() => assertErrandCollector(trace), /overflow/)
 })
 
 const storyTrace = () => {
@@ -512,7 +551,7 @@ const caseReceipt = (engine, caseName) => {
     route: { status: 'passed' },
     checks: Object.fromEntries(checks.map((key) => [key, 'passed'])),
     contexts,
-    contextTraces: contexts.map(() => ({ sha256: 'e'.repeat(64) })),
+    contextTraces: contexts.map(() => ({ sha256: 'e'.repeat(64), byteLength: 100 })),
     storyEndWorld: world,
     storyEndWorldHash: sha256(JSON.stringify(world)),
     endFrame: frame,

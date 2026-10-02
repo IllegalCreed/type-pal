@@ -13,18 +13,31 @@ export function installErrandObserver() {
   let final = null,
     order = 0,
     instance = 0,
-    overflow = false
+    overflow = false,
+    eventBytes = 0,
+    snapshotBytes = 0
+  const encoder = new TextEncoder()
   const append = (list, value, limit = 16000) => {
     if (list.length >= limit) {
       overflow = true
       return
     }
-    list.push({
+    const event = {
       seq: list.length,
       order: order++,
       atMs: performance.now(),
       ...structuredClone(value),
-    })
+    }
+    const bytes = encoder.encode(JSON.stringify(event)).byteLength
+    const snapshot = [restoreCommits, gameRestores, saveCaptures].includes(list)
+    if (snapshot ? snapshotBytes + bytes > 8 * 1024 * 1024 : eventBytes + bytes > 4 * 1024 * 1024) {
+      overflow = true
+      order--
+      return
+    }
+    if (snapshot) snapshotBytes += bytes
+    else eventBytes += bytes
+    list.push(event)
   }
   const fail = (error) => {
     if (errors.length < 10) errors.push(String(error))
@@ -197,6 +210,7 @@ export function installErrandObserver() {
       overflow,
       final,
       order: order - 1,
+      byteSizes: { events: eventBytes, atomicSnapshots: snapshotBytes },
     })
   globalThis.__readErrandDrive = (after) =>
     structuredClone({
