@@ -1,6 +1,6 @@
 # SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Codex Root
@@ -10,6 +10,14 @@ Visual Verification Owner: Codex / User
 Visual Verification Timing: dev-functional
 Contributor: Codex
 Branch: codex/e2e-003
+
+## 2026-10-02清账收口（当前结论）
+
+`4c476f2f`结构整理、`63b2a951`单步卡、`d01d60d4`步骤列表标题均独立接收并已实看。e56当时46状态已由SCRIPT-AUTHOR-2/SAVE-AUTO后续化简，剩余后期复杂flow归母卡，不据本卡猜名或批量重写。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
 
 ## 用户目标与范围
 
@@ -49,7 +57,7 @@ Branch: codex/e2e-003
 
 ## 上下文与设计
 
-- [二阶段铁律](../../phase2/READ-FIRST.md)、[现行作者合同](../../phase2/specs/script-system.md)、
+- [二阶段铁律](../../../../phase2/READ-FIRST.md)、[现行作者合同](../../../../phase2/specs/script-system.md)、
   [完成语义](SCRIPT-COMPLETE-1-explicit-flow-completion.md)、[003卡](E2E-003-1-inn-stairs-and-kitchen.md)。
 - `script-compiler-core.ts:300–367`：默认逐指令节拍相同；transition节拍不能盲转。
 - `script-runner-core.ts:172–300/366`：正文执行、safe-point、stop/confirm语义。

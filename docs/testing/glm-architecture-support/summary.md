@@ -2,7 +2,7 @@
 
 日期 2026-09-25（r1 交付 3967a376 → r2 717d507d/9e5ba310 → r3 闭 Codex r2 counter 1e4e3382 的 C1～C4）。
 贡献者：GLM（证据/测试贡献者，**不充独立第三方**）；接收复核：Codex。
-任务卡：[ARCH-SUPPORT-GLM-1](../../ops/tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)（draft，不进 build）。
+任务卡：[ARCH-SUPPORT-GLM-1](../../ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)（draft，不进 build）。
 
 ## 起点/终点与白名单核验
 

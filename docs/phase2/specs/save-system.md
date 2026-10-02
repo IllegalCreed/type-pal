@@ -83,4 +83,4 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
   fail-loud 回归。
 - `packages/content/src/character.ts`：`CONTENT_VERSION = 21`、
   `CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 10`。
-- [后台脚本快照修复任务](../../ops/tasks/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)：前提、反控和当前交付状态。
+- [后台脚本快照修复任务](../../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)：前提、反控和当前交付状态。

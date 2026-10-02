@@ -1,6 +1,6 @@
 # V0 视觉小样（视觉通路证明）
 
-日期：2026-09-25。任务：[ARCH-SUPPORT-GLM-1](../../ops/tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)。
+日期：2026-09-25。任务：[ARCH-SUPPORT-GLM-1](../../ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)。
 起点 SHA：`3270473862d1e1574f266b70b65de89ca8b65352`（生产文件与冻结 b11d4bc9 零 diff，已核
 `git diff b11d4bc9..32704738 -- packages/ scripts/` 为空）。
 

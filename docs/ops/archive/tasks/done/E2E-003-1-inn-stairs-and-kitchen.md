@@ -1,6 +1,6 @@
 # E2E-003-1 - 下楼、道士交谈与厨房交代
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E2E-R4-1 / W1
 Coding Owner: Codex
@@ -10,6 +10,14 @@ Visual Verification Owner: Codex / User
 Visual Verification Timing: mixed
 Contributor: Codex
 Branch: codex/e2e-003
+
+## 2026-10-02清账收口（当前结论）
+
+正式`edca85df`的14对白、楼梯12实际步频、真实存档/恢复已独立验收；SAVE10当前链再次通过。厨房自动朝向counter已由004修复，不再悬挂在003。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
 
 ## 用户范围（2026-10-01）
 
@@ -118,7 +126,7 @@ render/world-scene-presentation由独立贡献者拥有，Root不与其同时写
   Root RF `reforge-003-2026-10-01T06-54-19-263Z`（edca85df）各passed；并非同revision的both汇总。
   14正文/说话人、实际12楼梯commit/draw脚步、合法held路线、不取菜、生产保存及fresh-context恢复通过。
   Root独立重算两实际档字节hash、核完整World/Canvas相等，目视RF厨房交代画面，桌上菜仍可见。
-  详见[003回执](../../testing/e2e-003.md)，原失败目录/内容保持，不重复已证视觉路线。
+  详见[003回执](../../../../testing/e2e-003.md)，原失败目录/内容保持，不重复已证视觉路线。
 - RF首轮failed实为collector把正式start之前的读档placement当成故事移动。
   edca85df只收窄剧情移动/隐藏到正式phase，全局continuity/gap仍保留；90工具回归包含真实过早移动反控。
 - Root独立读取贡献者ef562134五文件补充，独立92工具测试绿后集成75e35a45：

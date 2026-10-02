@@ -19,7 +19,7 @@ Visual Verification Timing: e2e-consolidated（001独立执行器首批）
 详见[003回执](../../testing/e2e-003.md)；003新统一门/用户观感与004厨房朝向counter各自记录。
 本母卡仍build：004以后、跨片段完整runner、capture录像音轨及全局Q1/Q2未完成。
 
-2026-10-02用户已定义[004](E2E-004-1-meal-and-beggar-wine.md)：取酒菜→送苗族跟班→正常物品菜单赠桂花酒给醉道士→
+2026-10-02用户已定义[004](../archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md)：取酒菜→送苗族跟班→正常物品菜单赠桂花酒给醉道士→
 完整剧情结束且恢复移动，包含物品使用，不停在得到桂花酒。现已落实NPC正文归属与显式await，
 当前RF002→003→004正常重建并passed；历史game004也已独立accept，新工具game重跑诊断另记。
 40正文、正常菜单取消/失败/静止成功、唯一耗酒、持久端菜外观、完整剧情/恢复移动及两次fresh存读皆有实证，

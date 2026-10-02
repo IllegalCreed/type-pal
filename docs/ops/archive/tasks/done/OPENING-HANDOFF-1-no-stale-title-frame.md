@@ -1,11 +1,19 @@
 # OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单
 
-Status: review
+Status: done
 Owner: opening_handoff（受委派贡献者）
 Reviewer: Codex Root（独立验收）
 Phase: phase2
 Capability: E1
 Visual Verification Timing: mixed
+
+## 2026-10-02清账收口（当前结论）
+
+`b7784da3a`实际菜单红控/自然视频撤层绿控及完整RF001已由Root读源、核报告、看图独立接收；撤层全黑后首场景正常，排除了永黑通过。共享文档登记缺项后来已闭。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
 
 ## 目标与范围
 

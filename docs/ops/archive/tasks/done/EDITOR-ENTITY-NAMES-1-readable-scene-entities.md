@@ -1,6 +1,6 @@
 # EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: entity_names 贡献者（交付）；Root存量步骤字段窄修（独立accept）
@@ -10,6 +10,14 @@ Reviewer: Codex Root 独立验收
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Branch: codex/editor-entity-names
+
+## 2026-10-02清账收口（当前结论）
+
+`e111a273e`的C1/C2/C3/T1全部闭合，完整editor3757项绿；四门扇补名`a05a572f5`已独立核映射/无正文漂移并在6012实际交付。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
 
 ## 目标与边界
 
@@ -41,9 +49,9 @@ Branch: codex/editor-entity-names
 
 ## 上下文锚点与设计
 
-- [第二阶段铁律](../../phase2/READ-FIRST.md)：稳定身份、作者真源、仅当前版本。
+- [第二阶段铁律](../../../../phase2/READ-FIRST.md)：稳定身份、作者真源、仅当前版本。
 - [前批方案/步骤命名](E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md)：label元数据，不改执行，已核剧情范围和digest边界。
-- [脚本合同](../../phase2/specs/script-system.md)、[E2E合同](../../testing/e2e.md)：后续走过的内容同步核读命名。
+- [脚本合同](../../../../phase2/specs/script-system.md)、[E2E合同](../../../../testing/e2e.md)：后续走过的内容同步核读命名。
 - `entity-commands.ts:138–196`不可变patch与undo；`script-editor-projection.ts:30–75`主属性会话和脚本真值保存合并。
 - `ScriptEditor.tsx:640–649`当前摘要只读脚本会话；名称从主属性会话编辑时必须及时供给脚本摘要/目标选择，不能等保存重开才更新。
 - 唯一显示解析器，不从sprite猜角色；可选名称表示当前未填写，非旧版本fallback。空输入清除label，guard拒绝非空白字符串之外的显式值。

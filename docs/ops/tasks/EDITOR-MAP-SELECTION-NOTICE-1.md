@@ -1,6 +1,6 @@
 # EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义
 
-Status: build
+Status: review
 Owner: pre005_editor_edges（实现）；Codex Root（独立验收）
 Phase: phase2
 Capability: editor-authoring / map-selection
@@ -24,7 +24,15 @@ Esc 清选区只派发 `clear-selection`；`packages/editor/src/ui/EditorDiagnos
 把最近的 `workspaceNotice` 持续渲染为底部消息。原版/一阶段 N/A（现行编辑器
 通知设计，不是原版地图机制），二阶段行为已核；未见通知自动过期证据。
 
-## 待产品选择
+## Root实测与独立接收
+
+`beb5ac462`共享清选回调仅处理真正清空，原Esc高优先级分支不变；Root独立87项定向通过。
+6014实际选一个地图格点分别Esc、Inspector清空，两次底栏均“选区已清空。”且Inspector回地图属性，
+保存/撤销仍disabled，不修改地图。截图`build/pre005/map-escape-cleared.png`和`map-inspector-cleared.png`。
+既有MapMode.kimi-workflows的65条act警告在未改main复现，`d406cbcee`只修真实资源完成等待边界；
+Root独立5/5且无stderr。未抑制console、改fixture或静态规则。统一质量门归母卡。
+
+## 初始产品歧义（已由母卡核实）
 
 O1 暂不定为产品 bug：若底栏表达“当前选区”，before → after 应在 Esc 后清除或
 更新选择数量；若底栏表达“最近操作事件”，可保留历史文案，但需清楚标示其不是

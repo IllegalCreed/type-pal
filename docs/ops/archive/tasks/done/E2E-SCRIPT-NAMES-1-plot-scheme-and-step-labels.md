@@ -1,6 +1,6 @@
 # E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Codex Root
@@ -9,6 +9,14 @@ Reviewer: Codex 独立只读专项复核
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Branch: codex/e2e-script-names
+
+## 2026-10-02清账收口（当前结论）
+
+`19b68078b`独立accept，5方案22步骤的元数据保真、当前加载重开与实际界面均有证据。功能与这批已核名称收口，后期命名继续SCRIPT-AUTHOR-2。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
 
 ## 目标与范围
 
@@ -44,10 +52,10 @@ e61随行进房换身（`s003.json:7136/8638`）。既有RF002正式终点三人
 
 ## 上下文锚点
 
-- [第二阶段铁律](../../phase2/READ-FIRST.md)：当前作者内容为真源，不重新启动已退役完整转换核。
-- [现行脚本合同](../../phase2/specs/script-system.md)：方案→步骤→指令，跨方案显式选择，作者稳定ID不变。
-- [脚本合理化母卡](SCRIPT-AUTHOR-2-readable-inn-choreography.md)：已核客栈名称、单步路线及已闭合保存counter；未核全PAL不宣称完成。
-- [E2E合同](../../testing/e2e.md)、`projects/pal/e2e-checkpoints/README.md`：RF002三人入房，RF003不取菜。
+- [第二阶段铁律](../../../../phase2/READ-FIRST.md)：当前作者内容为真源，不重新启动已退役完整转换核。
+- [现行脚本合同](../../../../phase2/specs/script-system.md)：方案→步骤→指令，跨方案显式选择，作者稳定ID不变。
+- [脚本合理化母卡](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)：已核客栈名称、单步路线及已闭合保存counter；未核全PAL不宣称完成。
+- [E2E合同](../../../../testing/e2e.md)、`projects/pal/e2e-checkpoints/README.md`：RF002三人入房，RF003不取菜。
 - `project-io.ts:1–9`：作者工作副本序列化/重开必须保真；`character.ts:168–170`现行21/SAVE10，只接受现行版本。
 
 ## 设计与验收

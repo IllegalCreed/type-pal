@@ -203,7 +203,7 @@ Branch: codex/e2e-003
 
 ### 单步骤保存问题技术闭合（2026-10-01）
 
-- [SAVE-AUTO-CHECKPOINT-1](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)冻结`f1d1ffb53`已通过独立只读accept、
+- [SAVE-AUTO-CHECKPOINT-1](../archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)冻结`f1d1ffb53`已通过独立只读accept、
   完整reforge2178测试及全仓硬性静态零诊断；重新生成当前SAVE10的RF001→002→003全部passed。
 - e56路线现在为一个普通步骤，原10条指令及六目标坐标/速度、交谈开放与最后选择时序保留；
   自动走位途中可保存，不等待作者整步结束，也没有隐藏作者状态或新parallel/join结构。
@@ -214,12 +214,12 @@ Branch: codex/e2e-003
 ### E2E命名要求补充（用户2026-10-02）
 
 - 用户要求s003/e59自动行为3及后续实际走过的方案与步骤都有剧情用途名，供开发人员理解。
-  [E2E-SCRIPT-NAMES-1](E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md)补5个方案/22个步骤名称，并补普通stage的可选label及可保存编辑入口。
+  [E2E-SCRIPT-NAMES-1](../archive/tasks/done/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md)补5个方案/22个步骤名称，并补普通stage的可选label及可保存编辑入口。
 - E2E回执必须区分实际执行和相邻复读正文核读；后期未核方案不猜名、不冒充全PAL命名完成。
   本批只改作者label，所有稳定ID、命令、步骤去向与执行编排不变，详细地址/依据在子卡。
 - 命名合同已补入`docs/testing/e2e.md`；总卡仍build，不把本批补名等同4587存量模板治理全部完成。
 
-004增量：[E2E-004-1](E2E-004-1-meal-and-beggar-wine.md)已落实正常物品显式await NPC当前方案，
+004增量：[E2E-004-1](../archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md)已落实正常物品显式await NPC当前方案，
 完整正文保留醉道士实体；厨房无意义姿态auto退役，转身由取菜正文显式表达，端菜外观持久保存。
 实际经过8个对象及方案/步骤补用途名，RF002→003→004正常实跑passed，未核后期命名债仍保留。
 上方4587为当时快照，不作为004后的实时census；不因本片段完成标总卡done。

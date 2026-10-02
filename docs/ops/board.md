@@ -9,17 +9,13 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | PRE-005-DEBT-1 | [005前边角与验收欠账](tasks/PRE-005-DEBT-1-current-edge-closeout.md) | build | Codex / 三独立包及统一收口 | 005暂停；三编辑器缺陷、录制/台账/退役清理；素材库按发布阶段 |
-| E2E-004-1 | [端菜与使用桂花酒赠道士](tasks/E2E-004-1-meal-and-beggar-wine.md) | review | 用户 / 连续观感复验 | 六case通过，末句至旁白一期1.20/二期1.22秒，6012保持 |
-| E2E-004-2 | [连续剧情演示与呈现时钟修正](tasks/E2E-004-2-continuous-story-and-presentation-clock.md) | review | 用户 / 默认story连续演示 | 混钟修正；质量零诊断，取消/存读已独立 |
-| EDITOR-ENTITY-NAMES-1 | [实体名称与稳定身份分离](tasks/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | review | 用户 / 实体名称体验 | 16实体含四门扇；本轮仅补label，门回归/作者检查绿，6012保持 |
-| E2E-SCRIPT-NAMES-1 | [随剧情命名方案与步骤](tasks/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 用户 / 命名与步骤界面体验 | 5方案22步骤补名；独立accept、静态零诊断，6012保持 |
-| EDITOR-SCRIPT-PREVIEW-1 | [可读指令、选中步骤播放与移动轨迹](tasks/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 用户 / 体验验收 | 独立counter闭合；editor3721绿、静态零诊断；6012保持 |
-| OPENING-HANDOFF-1 | [视频结束不露旧菜单](tasks/OPENING-HANDOFF-1-no-stale-title-frame.md) | review | 用户 / 体验验收 | 真实撤层像素红→绿、RF001绿；Root独立接收 |
+| E2E-CAPTURE-1 | [001–004本地原声录像](tasks/E2E-CAPTURE-1-local-001-004-media.md) | build | pre005_media_probe / Root验收 | 原声小样已核；正常剧情窄capture，非系列发布准入 |
+| EDITOR-AUTO-LOCATOR-1 | [自动脚本引用定位](tasks/EDITOR-AUTO-LOCATOR-1-current-script-target.md) | build | pre005_editor_edges / Root验收 | 实看发现旧导航只到实体却选交互页，接现行auto方案定位 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 窄返工 | r2 尚有3双强转、非法短色板、旧JSON及RC1哈希不符 |
-| EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | build | 独立Owner / Root验收 | 空预算不造帧，部分路径不冒充完整循环 |
-| EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | build | pre005_editor_edges / Root验收 | 补Esc与Inspector真实清选操作通知，原取消优先级保留 |
+| EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | review | Codex / 统一质量门 | 合成边界不造帧，实际引用页直白提示；导航另卡 |
+| EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | review | Codex / 统一质量门 | Esc/Inspector实测通过，旧act警告已清 |
 
 **当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 
@@ -110,14 +106,8 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / capture；005待用户定范围 | 两引擎各自001→004链已核，非同revision汇总；母卡未收口 |
-| E2E-002-FEEDBACK-1 | [主角遮挡反馈与连续方向输入](tasks/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md) | review | User / 观感验收 | 队伍局部透视、NPC正常遮挡与连续held独立技术接收；旧6051未更新 |
-| E2E-003-1 | [下楼、道士交谈与厨房交代](tasks/E2E-003-1-inn-stairs-and-kitchen.md) | review | User / 003体验验收 | 真实双引擎003及静态零诊断已核；止于交代不取菜，004 counter另留 |
-| SCRIPT-COMPLETE-1 | [完成语义与空结束步骤](tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 用户检视 / Codex收口 | 443纯结束fold已集成；完整10648项与静态零诊断，6012更新且保持运行 |
-| SCRIPT-STEPS-1 | [首次对话与复读回归步骤](tasks/SCRIPT-STEPS-1-redundant-machine-cleanup.md) | review | User / 步骤列表体验验收 | 单卡与标题组已修、6012实检；e56后台剧情切换债已审计，正文未改 |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
-| SAVE-AUTO-CHECKPOINT-1 | [后台自动脚本不阻塞保存](tasks/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | review | 用户体验 / Codex收口 | 已推main，6012原服务保留；独立accept、reforge2178/静态零诊断/001→003通过；开场旧菜单帧另记未修 |
-| EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | build | pre005_editor_edges / Root验收 | 修明确清除，保留其它落点编辑的朝向继承 |
-| ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
+| EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | review | Codex / 统一质量门 | 三落点真实表单和完整writer重开通过；不冒称原生OS保存 |
 
 2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：
 正常出房至e56、20正文/500文/三人实际进房、真实002新上下文全量World与Canvas恢复均通过。

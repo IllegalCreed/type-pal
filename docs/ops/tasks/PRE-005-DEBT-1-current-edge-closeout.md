@@ -24,7 +24,8 @@ Branch: codex/pre-005-cleanup
 | 切场景朝向保持无法清除 | 三落点可去掉显式facing，其余继承/过渡/保存重开保持 | pre005_editor_edges |
 | 地图清选通知残留 | 真正Esc清选和Inspector清空均给既有清空通知，其它Esc取消语义不变 | pre005_editor_edges |
 | 深链预览伪造帧0 | 无真实采样不造帧；预算截断不伪装完整循环，当前真实资源UI可解释 | pre005_sprite_preview |
-| 001–004录制与音轨 | 对已验片段建设窄capture能力及原声/画面/语义回执；先交实际可行样本再冻结范围 | e2e004_runner，准入另补 |
+| 001–004录制与音轨 | 原声小样已核，按[E2E-CAPTURE-1](E2E-CAPTURE-1-local-001-004-media.md)建设正常剧情录制 | pre005_media_probe |
+| 自动脚本引用定位 | 实际“编辑自动脚本”到auto方案，非错误交互页；[窄卡](EDITOR-AUTO-LOCATOR-1-current-script-target.md) | pre005_editor_edges |
 | 已验收任务与过期文档 | 按用户批准/独立证据闭合对应卡；历史失败不改写，当前文档不再宣称仅001/002或旧版本 | Root |
 | 旧证据/分支/worktree | 先保全真实checkpoint/trace/截图和来源，再仅清理确认退役的精确对象 | Root |
 
@@ -41,7 +42,8 @@ ARCH-SUPPORT已接收材料与实际产品实现分开核账；长期覆盖比�
 - `MapMode.tsx:2646/3336`两个显式清选入口缺通知；鼠标完成及切平移已有“选区已清空”事实。
   底栏仍是操作通知，不改成新全局状态系统；补清选事件与两种可能语义都一致。
 - `world-sprite-behavior.ts:612/988/995/1057/1103`预算截断后捏造默认0，单variant丢截断信息并称“检测到”；
-  运行时可执行的17层链因此在编辑器伪报。当前WorldSpriteLibrary引用行消费detail，旧mock-prop不是实际UI证据。
+  运行时可执行的17层链因此在编辑器伪报。复核纠正：WorldSpriteLibrary普通定义引用行消费detail，
+  自动行为引用被前置过滤后走另一行，目前仍硬编码通用说明。须补真实自动引用行，旧mock-prop不是实际UI证据。
 
 最强替代解释及反控分别写各子卡；用户新授权已足够处理这些保持既有合同的修复，不重复申请旧“待选项”。
 Root `premise verified / design agree / build allowed`，限以下文件域。录制公共接口和生命周期待实际调查样本后单独准入。
@@ -56,6 +58,21 @@ Root `premise verified / design agree / build allowed`，限以下文件域。�
   原6条chance示例与截断提示保持，空预算采样不得默认#0；partial单variant不得丢失不完整语义。
 - Root：本卡/子卡/看板/索引/当前文档/历史工具退役、独立验收、证据保全及git收口。贡献者不同时写这些文件。
 
+### 测试异步警告窄包（2026-10-02）
+
+pre005_editor_edges在未改main523cf97d上直接复现`MapMode.kimi-workflows.test.tsx`的65条React act警告；
+不是本轮两个生产修复引入，但本批清当前测试欠账一并处理。Root准入只改该测试文件的真实异步等待边界，
+等待资源ready、通知等已有完成见证并纳入act；保留五项业务断言，不改产品/fixture/规则，不屏蔽console。
+本项没有新产品行为，原版/一阶段N/A；最强反例是仍有未等待的工作或测试在真实完成前通过。
+独立提交，五例通过且无act警告后交Root复核；Coding Owner为pre005_editor_edges，build allowed。
+
+### 朝向真实writer补证
+
+Root浏览器已核三落点保持选择→完成→重开弹层，原落点/坐标/过渡保留。
+pre005_sprite_preview追加唯一白名单`packages/editor/src/core/project-open-workflows.test.ts`，仅测试三落点
+通过现行完整writer/授权/finishOpen保存重开，无facing保持缺席、显式facing仍存在。FSA/IDB仅宿主替身，
+不得mock serializer/guard/writer/loader，不声称原生OS picker验证。Root准入build allowed，独立提交。
+
 ## 验收和退出条件
 
 对应真实用户入口与有意义负例通过，最小功能浏览器验证、保存/重开范围按实际记录；
@@ -67,6 +84,10 @@ Root `premise verified / design agree / build allowed`，限以下文件域。�
 
 三个独立包先在523cf97d基线上建立隔离分支，实施包读取本卡及自身子卡后按白名单执行，交冻结SHA并停写。
 Root收齐后核当前真实入口和质量门，再统一合并推送。005在本批收口前不启动。
+
+用户询问17层是否真实存在后，Root实际枚举PAL共享库与294场景及content全文：共享库为空，callScript零处；
+17层是合成边界反控，不是当前剧情编排问题。修复不增加作者步骤限制；用户可见说明已改为无法推断/只能推断部分帧序。
+本轮当前剧情重点仍为走位、对白、方案切换和已走片段连续性，不把合成边界当成实际剧情欠账。
 
 原只读e2e004_phase1_premise已交独立前提，实施开始前因模型容量失败；无实现改动。
 Root将唯一实现Owner交pre005_sprite_preview，保留原独立证据。entity_names同样只读阶段容量失败，

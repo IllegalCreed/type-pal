@@ -1,6 +1,6 @@
 # EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹
 
-Status: review
+Status: done
 Owner: Codex Root
 Reviewer: editor_preview_audit（独立只读） / Codex Root（集成）
 Phase: phase2
@@ -11,6 +11,14 @@ Branch: codex/editor-script-preview
 单文件Owner分派：Root负责选中cursor链与指令摘要；movement_preview在codex/editor-movement隔离树独占
 `core/script-movement-preview.ts`及相邻测试、`ui/PreviewCanvas.tsx`及相邻测试，Root独立接收；
 editor_preview_audit只读独立复核。贡献者不改共享卡/6012，不合main。
+
+## 2026-10-02清账收口（当前结论）
+
+`839cad2a7`路线/停止语义counter闭合；`739a02982`工具栏与简洁图例实际验证。后者为`e111a273e`祖先，后续完整editor3757项通过已闭旧15秒测试超时；原失败日志不改。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
 
 ## 目标与范围
 

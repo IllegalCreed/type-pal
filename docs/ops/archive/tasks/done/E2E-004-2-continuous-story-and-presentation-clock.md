@@ -1,6 +1,6 @@
 # E2E-004-2 - 连续剧情演示与呈现时钟修正
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E2E-R4-1 / X3 / W1
 Coding Owner: entity_names（主壳呈现时钟）；e2e004_runner（004工具）；Root（独立反控/文档/接收），各文件单一Owner
@@ -8,6 +8,14 @@ Reviewer: Codex Root独立验收；e2e004_phase1_premise独立一手前提/源�
 Visual Verification Owner: Codex
 Visual Verification Timing: e2e-consolidated
 Branch: codex/e2e-004-continuity（Root）；贡献者另从554b8a055隔离开分支
+
+## 2026-10-02清账收口（当前结论）
+
+`9a488c02`六case通过，`7a01ba090`回执模型复核不冒称新演出；一期1.20秒/二期1.22秒和用户最新“非常好”确认连续演示。原comparison failed与六child原字节保留。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
 
 ## 用户反馈与边界（2026-10-02）
 
@@ -80,10 +88,10 @@ Root `premise verified / design agree / build allowed`：源码、历史政策�
 
 ## 上下文
 
-- [第二阶段铁律](../../phase2/READ-FIRST.md)、[一期知识harvest N/X](../../phase2/reference/phase1-knowledge-harvest.md)、[工程经验](../../phase1/engineering-notes.md)。
-- [004收据](../../testing/e2e-004.md)、[E2E合同](../../testing/e2e.md)、[现行脚本合同](../../phase2/specs/script-system.md)。
-- [X3历史溶解](../archive/tasks/done/X3-opening-dither-speaker-inheritance.md)仅视觉与独立snapshot算法参考，旧入场前瞻已退役，不复活。
-- [现行debug时钟范围](../../phase2/guides/debug-tools.md)、当前main/RuntimeFrameSession/GameplayClock/DialogBox/typewriter。
+- [第二阶段铁律](../../../../phase2/READ-FIRST.md)、[一期知识harvest N/X](../../../../phase2/reference/phase1-knowledge-harvest.md)、[工程经验](../../../../phase1/engineering-notes.md)。
+- [004收据](../../../../testing/e2e-004.md)、[E2E合同](../../../../testing/e2e.md)、[现行脚本合同](../../../../phase2/specs/script-system.md)。
+- [X3历史溶解](X3-opening-dither-speaker-inheritance.md)仅视觉与独立snapshot算法参考，旧入场前瞻已退役，不复活。
+- [现行debug时钟范围](../../../../phase2/guides/debug-tools.md)、当前main/RuntimeFrameSession/GameplayClock/DialogBox/typewriter。
 
 ## 交接
 

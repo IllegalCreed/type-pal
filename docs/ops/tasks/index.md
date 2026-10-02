@@ -8,24 +8,14 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [E2E-002-FEEDBACK-1 - 主角遮挡反馈与连续方向输入](E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-003-1 - 下楼、道士交谈与厨房交代](E2E-003-1-inn-stairs-and-kitchen.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-004-1 - 端菜与使用桂花酒赠道士](E2E-004-1-meal-and-beggar-wine.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-004-2 - 连续剧情演示与呈现时钟修正](E2E-004-2-continuous-story-and-presentation-clock.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [E2E-CAPTURE-1 — 已验001–004本地原声录像](E2E-CAPTURE-1-local-001-004-media.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤](E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离](EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹](EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单](OPENING-HANDOFF-1-no-stale-title-frame.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-AUTO-LOCATOR-1 — 精灵引用跳转到实际自动方案](EDITOR-AUTO-LOCATOR-1-current-script-target.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](PRE-005-DEBT-1-current-edge-closeout.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理](SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤](SCRIPT-STEPS-1-redundant-machine-cleanup.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | 以任务卡当前准入与看板分工为准。 |
@@ -60,6 +50,7 @@
 | [ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器](../archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检](../archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](../archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](../archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10-1 - 混乱敌人攻击同伴](../archive/tasks/done/B10-1-enemy-confused-attack.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)](../archive/tasks/done/B10-poison-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）](../archive/tasks/done/B11-1-player-casualty-scripts.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -95,8 +86,13 @@
 | [E2E-002-1 — 正常出房路线、e56 演出与脚本编排审查](../archive/tasks/done/E2E-002-1-inn-route-and-trio.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-002-CHOREO-1 — 三苗人对白期间的显式接管](../archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-002-DOOR-1 — 开门呈现的持久语义](../archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-002-FEEDBACK-1 - 主角遮挡反馈与连续方向输入](../archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-002-SAVE-1 — 已完成 auto 的保存安全点](../archive/tasks/done/E2E-002-SAVE-1-completed-auto-safe-point.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-003-1 - 下楼、道士交谈与厨房交代](../archive/tasks/done/E2E-003-1-inn-stairs-and-kitchen.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-004-1 - 端菜与使用桂花酒赠道士](../archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-004-2 - 连续剧情演示与呈现时钟修正](../archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-1 - 空白工程可玩性:烟测缝隙全清](../archive/tasks/done/E2E-1-blank-project-playable.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤](../archive/tasks/done/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E6-1 - 实体位置控制权运行态检视与调试面板重开](../archive/tasks/done/E6-1-runtime-authority-inspector.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E9 - 商店/当铺(openShop 全链:UI + 数据 + 结算)](../archive/tasks/done/E9-shop-pawnshop.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-1 - 编辑器一级模块与创作闭环审查](../archive/tasks/done/ED-1-editor-authoring-closure-audit.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -150,6 +146,7 @@
 | [ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零](../archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORLD-VARIABLES-1 - 世界变量定义表与作者工作台](../archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-CONDITION-INPARTY-1 — 队伍成员条件选择角色](../archive/tasks/done/EDITOR-CONDITION-INPARTY-1-actor-picker.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离](../archive/tasks/done/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性](../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-ITEM-AUTHORING-1 - 物品作者记录与脚本引用身份](../archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -158,6 +155,7 @@
 | [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐](../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮](../archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹](../archive/tasks/done/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [JS1 - 酒神一生九次限用与移除(持久化计数器)](../archive/tasks/done/JS1-jiu-shen-nine-use-limit.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -176,6 +174,7 @@
 | [N1-1 - 对话控制码退出内容与运行时](../archive/tasks/done/N1-1-dialogue-control-code-retirement.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [N3-1 - 结构化控制流、实体具名行为与内部脚本退役](../archive/tasks/done/N3-1-script-control-flow-modernization.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [N6 - 共享脚本/子程序创作闭环](../archive/tasks/done/N6-shared-script-authoring.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单](../archive/tasks/done/OPENING-HANDOFF-1-no-stale-title-frame.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-0001 - 建立三贤人系统协作工作流](../archive/tasks/done/OPS-0001-agent-workflow-bootstrap.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-GA4 - 同意后启用独立 GA4 页面浏览](../archive/tasks/done/OPS-GA4-consent-pageviews.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-MAP-1 - 能力地图真值对账与选择器校准](../archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -190,9 +189,12 @@
 | [QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧](../archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R2 - 事件脚本单一模型与 unmigrated 退役](../archive/tasks/done/R2-script-single-model.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存](../archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复](../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理](../archive/tasks/done/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤](../archive/tasks/done/SCRIPT-STEPS-1-redundant-machine-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-COMMAND-FORMS-1 — 当前命令弹层参数与输入保真](../archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](../archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | done | 完成证据、历史签字与交接见原卡。 |

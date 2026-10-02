@@ -103,7 +103,7 @@ machine下一state误执行。用核心门测试、真实正式主壳自动机/�
 - 2026-09-30 v2独立design agree：贡献者直接核真实lease/CAS与主壳门；to:hidden/suspended晚5tick
   F5反例已红。Root重新核定build allowed；产品修改仍由Root独占，v1未被集成。
 - 2026-10-01 v2实现冻结`43092cc0`：核心/真实主壳55项通过，已独立核nested与旧epoch边界。
-  completion增量见[SCRIPT-COMPLETE-1](../../../tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md)，不抹掉旧to反控。
+  completion增量见[SCRIPT-COMPLETE-1](SCRIPT-COMPLETE-1-explicit-flow-completion.md)，不抹掉旧to反控。
   冻结`b83faa50`真实002正常20行/500/进房后生产保存仅15ms，三人的lease不再挂住屏障；
   fresh-context已loaded，整体报告仍failed（正常e62循环在晚到二次dump期间推进），归工具取证域。
   F5/F9证据为6项真实主壳回归，RF浏览器正式链是dumpSave，不混称。

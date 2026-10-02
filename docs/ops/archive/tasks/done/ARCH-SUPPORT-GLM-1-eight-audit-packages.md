@@ -1,6 +1,6 @@
 # ARCH-SUPPORT-GLM-1 — 八组并行准备取证
 
-Status: draft
+Status: done
 Phase: ops
 Capability: 架构治理只读准备，不开产品实现门
 Coding Owner: Codex
@@ -11,16 +11,24 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: Kimi（本队列用户豁免）
 Branch: codex/glm-architecture-support-r1
 
+## 2026-10-02清账收口（当前结论）
+
+仅关闭八包只读材料接收：`58cdf938`已独立accept，最后P5-GRAPH-1反控闭合。2026-10-02复查发现机账17张截图的`/tmp/glm-arch-visual/`原件全部不存在；历史哈希/接收记录保留，不声称当前原件齐备，不补造截图或宣称相关产品全部实现。
+本轮按用户“先清当前边角再继续005”授权核既定范围与证据，Codex技术accept并归档。
+除004上述明确认可外，不补写用户逐项体验签名；下文旧pending/返工/提示保留为过程记录，非当前阻塞。
+本次不重跑未变剧情来重复取证。原声录像由E2E-CAPTURE-1承接；全量Q1/Q2、后期命名和发布素材库未因此完成。
+无下一位Agent提示词，本卡已收口；[清账母卡](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)继续当前未完事项。
+
 ## 授权与目标
 
 用户2026-09-25告知GLM已有视觉能力，要求多分配并行任务。
 本卡只在draft阶段采集架构/回归/功能视觉证据，**不授权改产品或正式测试**；
 Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的独立第三方。
-完整工作包：[八组范围/白名单/纪律/交付](../../testing/glm-architecture-support/README.md)。
+完整工作包：[八组范围/白名单/纪律/交付](../../../../testing/glm-architecture-support/README.md)。
 
 ## 前提与上下文
 
-- 根协议/CLAUDE/READ-FIRST、[架构队列](../audits/architecture-debt.md)。
+- 根协议/CLAUDE/READ-FIRST、[架构队列](../../../audits/architecture-debt.md)。
 - 生产冻结b11d4bc9，当前fast7972/637；本卡不要求重算覆盖率。
 - App5170/MapMode3819/ScriptEditor4361/CommandForm2098/BattleSession3022/event-system5784/migrate-content3314，
   为本轮只读wc实测；规模仅作定位，不作为缺陷证明。
@@ -55,7 +63,7 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex定点接收席位（2026-09-25，f4236474）
 
 **counter，仅余P5-GRAPH-1；Status仍draft。**
-[逐行复核和唯一完成条件](../../testing/glm-architecture-support/codex-f423-review.md)。
+[逐行复核和唯一完成条件](../../../../testing/glm-architecture-support/codex-f423-review.md)。
 
 通过：38/38报告ID和分类一致；V1旧risk、P5测试表、P6扩大结论、P4门归属/三段动画清理、summary命令链均已修。
 最终GLM JSON Biome exit0、check:docs PASS；5文件增量，产品/正式测试/基线、原机账/旧反证零改。
@@ -68,8 +76,8 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex r3接收席位（2026-09-25，1410916e）
 
 **继续counter，仅保留定点残项；Status仍draft，不开build、不标done。**
-[r3具体行与完成条件](../../testing/glm-architecture-support/codex-r3-review.md)、
-[本席r3机账](../../testing/glm-architecture-support/codex-r3-evidence.json)。
+[r3具体行与完成条件](../../../../testing/glm-architecture-support/codex-r3-review.md)、
+[本席r3机账](../../../../testing/glm-architecture-support/codex-r3-evidence.json)。
 
 已闭：C2主要源码真值、38唯一ID/21covered+12risk+5N/A及八包合计、hash引用清理、最终JSON Biome exit0；
 产品零漂移、旧Codex六文件、22源码hash与17图均未变；39旧独立定向证据保留，不重跑。
@@ -84,9 +92,9 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex r2接收席位（2026-09-25，717d507d / 9e5ba310）
 
 **继续counter，收窄返工；Status仍draft，不开build、不标done。**
-[r2报告与精确锚点](../../testing/glm-architecture-support/codex-r2-review.md)、
-[本席机账](../../testing/glm-architecture-support/codex-r2-evidence.json)、
-[只读复算器](../../testing/glm-architecture-support/codex-r2-probe.mjs)。
+[r2报告与精确锚点](../../../../testing/glm-architecture-support/codex-r2-review.md)、
+[本席机账](../../../../testing/glm-architecture-support/codex-r2-evidence.json)、
+[只读复算器](../../../../testing/glm-architecture-support/codex-r2-probe.mjs)。
 
 已闭合：白名单、产品零漂移、旧Codex三文件未改；38唯一ID与JSON19/14/5小计、22个源码hash、17图哈希与尺寸；
 新增6图对应可见布局；derivedStore/cancel/50vs81/hooks三轴/preparing门/SCC/双向校验及6参数的更正方向；
@@ -106,9 +114,9 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex接收席位（2026-09-25，候选3967a376）
 
 **counter；仍为draft，build未开放，不标done。**
-完整理由与返工提示：[独立接收报告](../../testing/glm-architecture-support/codex-intake-review.md)；
-[机账](../../testing/glm-architecture-support/codex-intake-evidence.json)；
-[冻结只读复算器](../../testing/glm-architecture-support/codex-intake-probe.mjs)。
+完整理由与返工提示：[独立接收报告](../../../../testing/glm-architecture-support/codex-intake-review.md)；
+[机账](../../../../testing/glm-architecture-support/codex-intake-evidence.json)；
+[冻结只读复算器](../../../../testing/glm-architecture-support/codex-intake-probe.mjs)。
 
 | 包 | 本席结论 | 阻断摘要 |
 |---|---|---|
@@ -152,7 +160,7 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 ARCH-SUPPORT-GLM-1 的八包只读准备取证。
 先同步并读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
-docs/ops/tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md 与
+docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md 与
 docs/testing/glm-architecture-support/README.md，严格按工作包八组连续执行。
 用户已确认你具备视觉能力，允许本包实际浏览器/截图/交互初审；先完成一个完整视觉小样证明工具通路，
 再做P1～P6、V1～V2。无法实际看图时如实blocked，先完成非视觉组。

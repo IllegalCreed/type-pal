@@ -17,7 +17,7 @@
 
 ## 0. 先做一次启动校验
 
-1. 读根AGENTS/CLAUDE、phase2 READ-FIRST、任务卡、[旧包接收记录](../../ops/tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)。
+1. 读根AGENTS/CLAUDE、phase2 READ-FIRST、任务卡、[旧包接收记录](../../ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)。
    旧包报告是检索线索，已列风险不是已证缺陷；遇到原文与源码不同以本轮一手证据纠正，不复述错误。
 2. 新worktree不切main、不复用旧取证分支叠实现；核目标生产文件与86e928b5零diff。
    指定分支/路径若已存在，先核归属和未提交改动，不覆盖、不force重建。

@@ -1,8 +1,9 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **最近全表对账：2026-09-05；存档合同更新：2026-10-01。** 当前候选唯一格式为 content21 / SAVE10；
-> 后台自动续跑快照正在 [SAVE-AUTO-CHECKPOINT-1](../ops/tasks/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) 验证，未宣布验收。
+> **最近全表对账：2026-09-05；存档合同局部对账：2026-10-02。** 当前唯一格式为 content21 / SAVE10；
+> [后台自动续跑快照](../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)已独立技术验收并合入main，
+> 001→003当前版本链与004存读专项通过；不以局部链替代完整Q1/Q2，也不声称本次重审了全表。
 > 入口、角色当前状态与 current-only 架构此前已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
 > fallback 保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。X4/A7 已随
 > `ARCH-CURRENT-ONLY-1` 收口为 ✅。本轮对账见

@@ -2,7 +2,12 @@
 
 [测试入口](../README.md) / [任务卡](../../ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md) /
 [机账](evidence.json) / [五针工具](mutants.mjs)（[配置](mutants.config.mjs)） /
-[真实缺陷诊断](diagnostics.test.ts)（[隔离配置](diagnostics.config.mjs)）
+[朝向缺陷修复卡](../../ops/tasks/EDITOR-SCENE-FACING-1-clear-override.md)
+
+2026-10-02：本页以下计数与红绿结论为原补测批历史。朝向保持缺陷已由当前产品回归覆盖，
+旧`FORM_DIAGNOSTIC_FIX`加载时替换oracle与独立应红测试退役；原文件可从Git `523cf97d`恢复。
+当前三落点提交/序列化/重开回归见`packages/editor/src/ui/CommandForm.current-scene.test.tsx`，
+不再要求已修产品重现历史失败。
 
 起点7bd8f064，产品/旧测试/配置/资产零改。五文件51项全部由公开CanonicalScriptBodyEditor双击
 真实命令行进入弹层→控件事件→完成；**不直接强转作者命令给旧CommandForm**。
@@ -51,12 +56,7 @@ node docs/testing/codex-command-forms/mutants.mjs
   仅在隔离Vite load中改保持选项调用，原断言转绿，源文件hash不变。保留普通失败诊断，
   不加入官方绿套件，也不改产品。修复归[独立卡](../../ops/tasks/EDITOR-SCENE-FACING-1-clear-override.md)。
 
-```sh
-# 应业务红：输出多出 facing:left
-env -u NODE_COMPILE_CACHE pnpm exec vitest run --config docs/testing/codex-command-forms/diagnostics.config.mjs
-# 隔离一行oracle应绿；不写源码
-env -u NODE_COMPILE_CACHE FORM_DIAGNOSTIC_FIX=true pnpm exec vitest run --config docs/testing/codex-command-forms/diagnostics.config.mjs
-```
+历史原红/隔离oracle绿命令随专属诊断退役；历史证据仍在原任务卡与Git，未将历史红改写成绿。
 
 ## 全仓门
 

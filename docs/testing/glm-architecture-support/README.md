@@ -1,6 +1,6 @@
 # GLM 架构治理并行支持包 r1
 
-任务：[ARCH-SUPPORT-GLM-1](../../ops/tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)。
+任务：[ARCH-SUPPORT-GLM-1](../../ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)。
 生产冻结 **b11d4bc9**；Codex正独立实施A3帧循环，GLM不改其代码/测试/任务卡。
 用户2026-09-25确认GLM有视觉能力并要求多分任务；本包允许实际视觉取证，最终由Codex复核。
 

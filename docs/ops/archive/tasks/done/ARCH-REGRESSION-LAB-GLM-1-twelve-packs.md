@@ -29,7 +29,7 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 ## 前提与上下文
 
 - AGENTS/CLAUDE/READ-FIRST及[十三批架构队列](../../../audits/architecture-debt.md)。
-- [上一包的最终接收席位](../../../tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)与工作包里的精确源码/旧测试目录。
+- [上一包的最终接收席位](ARCH-SUPPORT-GLM-1-eight-audit-packages.md)与工作包里的精确源码/旧测试目录。
 - 准备前提：现有模块已有真实调用者和可执行测试入口；本包列的是需核对的验证轴，**不预断每轴均缺测或有bug**。
   例如MapMode取消实现已存在；derivedStore.start返回stop；同名测试/截图存在不等于完整合同已证。
 - 当前官方fast8034项/641生产文件仅作冻结背景，不由GLM重算或写基线；实验候选不计入该数字。

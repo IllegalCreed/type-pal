@@ -69,8 +69,9 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 
 历史准入核对见[前置欠账台账](pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
 2026-09-27已建[R4准备卡](../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)与[路线方案讨论稿](e2e-route-proposal.md)，
-003～010作者边界与连续checkpoint仍待建设；[001一阶段首批runner](e2e-001.md)已准入，
-采用正常输入与正式存读档，不包含二阶段对话适配或全量NPC事件时序。迁移写盘保护已收口，不改变版本顺序。
+001～004作者边界及两阶段各自连续checkpoint链现已建设，见[001](e2e-001.md)、[002](e2e-002.md)、
+[003](e2e-003.md)、[004](e2e-004.md)；005以后作者边界待确认。正常输入、对话适配、正式存读档和
+关键NPC事件已执行；不同冻结revision的历史报告不冒称同revision汇总。当前content21/SAVE10，旧版本准入顺序仅作历史。
 用户本次将Codex从主动补覆盖转为E2E；GLM/Cursor后台补测不阻塞，尚未授权实现加速旁路。
 
 ### 剧情脚本合理化（用户，2026-09-30）
@@ -297,10 +298,12 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
 
 ## 9. 已有机制与待建项
 
-- **Reforge DEV存档导出（接口已收口）**：`await window.__tpE2e.dumpSave()`取得当前SAVE8/content20独立快照；
-  已修复裸绑三参builder的接线，现与普通保存共用安全快照队列，等待脚本安全点后捕获，不写用户槽/缩略图/计数。
+- **Reforge DEV存档导出（接口已收口）**：`await window.__tpE2e.dumpSave()`取得当前SAVE10/content21独立快照；
+  与普通保存共用安全快照队列，自动脚本按可恢复指令边界捕获，不等待全地图自动行为结束，
+  不写用户槽/缩略图/计数。前台能否存档仍遵守菜单控制权，快速存档不绕过手动存档准入。
   超时/捕获失败reject，调用方须处理错误，不生成下一段检查点；取得快照不替代业务结束断言。
-  [实现与验证](checkpoint-export.md)、[任务卡](../ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)；R4连续文件恢复链仍待建立。
+  [接口实现与历史验证](checkpoint-export.md)、[后台续跑快照](../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)；
+  001→004各段当前版本保存/正式恢复链见各段回执。
   DEV控制台示例（正式runner还须完成结束断言和文件落盘）：
 
   ```js
@@ -316,9 +319,12 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
   注入 world 并跳到碎片起点。
 - **机读观察点**:`canvas.dataset.rfScene` / `rfRender` / `rfSceneEntry`、`window.__reforge` 和战斗态
   `__rfBattle`;详见 [`docs/ops/guides/browser-verification.md`](../ops/guides/browser-verification.md)。
-- **当前已登记碎片**:仅 `001`、`002`;`003+` 的作者边界、完整 checkpoint 链和自动执行仍待建设。
-- **尚缺**:第一阶段等价的全流程碎片 runner、两阶段统一语义目录、执行回执、`capture` profile、
-  编辑器工作流 E2E 和 Content Studio 窄录制适配。
+- **当前已登记并执行碎片**：`001`～`004`；两阶段各自拥有runner、正常输入、来源链与执行回执。
+  `004`默认`story`只走正常剧情；取消/错误站位/耗酒边界归`items`，存读档归`saves`，`both`汇总六个真实case。
+  后续段不得重新把专项测试插入正常剧情演示。
+- **尚缺**：`005+`完整主支线、Q1/Q2全矩阵、完整编辑器工作流E2E与Content Studio窄录制适配。
+  001～004本地原声录制正在[005前清账](../ops/tasks/PRE-005-DEBT-1-current-edge-closeout.md)核建设边界，
+  现有无声屏幕捕获不等于原声音轨已完成，也不据局部技术小样宣布系列`capture-ready`。
 
 
 PAL 已登记的剧情边界见 [碎片目录](../../projects/pal/e2e-checkpoints/README.md)；实际 checkpoint 与执行回执仍由对应 E2E 批次生成。
