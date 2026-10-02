@@ -29,6 +29,50 @@ export function instrumentMealTrace(source, file) {
     anchors = []
   const walk = (node) => {
     if (
+      file.endsWith('/reforge/src/main.ts') &&
+      ts.isIfStatement(node) &&
+      node.expression.getText(ast) === 'dither.output'
+    ) {
+      assert.equal(
+        node.thenStatement.getText(ast),
+        'ctx.putImageData(dither.output, 0, 0)',
+        'meal dither actual output anchor changed',
+      )
+      const block = node.parent
+      assert(
+        ts.isBlock(block) &&
+          ts.isIfStatement(block.parent) &&
+          block.parent.expression.getText(ast) === 'dither',
+        'meal dither render owner changed',
+      )
+      // The inherited isolated renderer hook wraps its body in try/finally. Resolve the
+      // lexical function, not a guessed number of parent blocks from transformed source.
+      let owner = block.parent
+      while (owner && !ts.isFunctionLike(owner)) owner = owner.parent
+      assert(
+        ts.isFunctionDeclaration(owner) &&
+          owner.name?.text === 'render' &&
+          !owner.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.AsyncKeyword),
+        'meal dither synchronous render owner changed',
+      )
+      const step = block.statements.filter(
+        (s) =>
+          ts.isVariableStatement(s) &&
+          s.declarationList.declarations.some(
+            (d) =>
+              d.name.getText(ast) === 'step' &&
+              d.initializer?.getText(ast) === 'Math.floor(pr * DITHER_TOTAL_STEPS)',
+          ),
+      )
+      assert.equal(step.length, 1, 'meal dither step anchor changed')
+      assert(step[0].end < node.getStart(ast), 'dither sampled before output step')
+      anchors.push('actualReforgeDitherOutput')
+      edits.push({
+        at: node.end,
+        text: '\nif(dither.output) globalThis.__mealDither?.({pr,step,prepareMs:dither.prepareMs,startedAt:dither.startedAt,durationMs:dither.durationMs,isZeroFrame});\n',
+      })
+    }
+    if (
       file.endsWith('/game/src/core/save/api.ts') &&
       ts.isMethodDeclaration(node) &&
       node.name.getText(ast) === 'saveSlot'
@@ -179,7 +223,7 @@ export function instrumentMealTrace(source, file) {
   }
   walk(ast)
   const expected = file.endsWith('/reforge/src/main.ts')
-    ? ['actualSceneMaterialization', 'actualReforgeMenuRender']
+    ? ['actualSceneMaterialization', 'actualReforgeMenuRender', 'actualReforgeDitherOutput']
     : file.endsWith('/menu-session.ts')
       ? ['actualReforgeItemDispatch']
       : file.endsWith('/game/src/core/event-system.ts')

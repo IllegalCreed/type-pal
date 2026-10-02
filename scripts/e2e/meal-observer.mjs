@@ -8,6 +8,8 @@ export function installMealObserver() {
     saveCaptures = [],
     saveCompletions = [],
     restoreCommits = [],
+    inputs = [],
+    dithers = [],
     errors = []
   const prior = new Map(),
     pageInstances = new WeakMap()
@@ -18,7 +20,8 @@ export function installMealObserver() {
     sample = 0,
     overflow = false,
     final = null,
-    pageInstance = 0
+    pageInstance = 0,
+    inputPhase = 'bootstrap'
   const fail = (error) => {
     if (errors.length < 12) errors.push(String(error))
     else overflow = true
@@ -93,6 +96,48 @@ export function installMealObserver() {
   }
   globalThis.__mealPoint = point
   globalThis.__mealError = fail
+  globalThis.__mealSetInputPhase = (phase) => {
+    if (typeof phase !== 'string' || !phase) throw new Error('invalid meal input phase')
+    inputPhase = phase
+  }
+  for (const type of ['keydown', 'keyup'])
+    globalThis.addEventListener?.(type, (event) => {
+      if (
+        !['Enter', 'Escape', 'F5', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(
+          event.key,
+        )
+      )
+        return
+      append(
+        inputs,
+        { source: 'actual:dom-key', type, key: event.key, repeat: event.repeat, phase: inputPhase },
+        1500,
+      )
+    })
+  globalThis.__mealDither = (value) => {
+    try {
+      if (
+        !Number.isFinite(value.pr) ||
+        value.pr < 0 ||
+        value.pr > 1 ||
+        value.step !== Math.floor(value.pr * 72) ||
+        !Number.isFinite(value.prepareMs) ||
+        value.prepareMs < 0 ||
+        !Number.isFinite(value.startedAt) ||
+        !Number.isFinite(value.durationMs)
+      )
+        throw new Error('invalid actual dither output')
+      const previous = dithers.at(-1)
+      if (
+        !previous ||
+        previous.value.startedAt !== value.startedAt ||
+        previous.value.step !== value.step
+      )
+        append(dithers, { source: 'render:dither-output', phase: inputPhase, value }, 256)
+    } catch (error) {
+      fail(error)
+    }
+  }
   globalThis.__mealArmSaveCapture = (phase, slot) => {
     if (typeof phase !== 'string' || !phase || !Number.isInteger(slot))
       throw new Error('invalid save observation arm')
@@ -322,9 +367,25 @@ export function installMealObserver() {
       saveCompletions,
       latestMenu,
       restoreCommits,
+      inputs,
+      dithers,
       errors,
       overflow,
       final,
+    })
+  // Only the rendered pages needed to decide a confirmation cross the hot-path RPC.
+  // The full tape remains unchanged and is required at every phase closure.
+  globalThis.__readMealDrive = (afterOrder = order - 1) =>
+    structuredClone({
+      order: order - 1,
+      pages: pages.filter((page) => page.order > afterOrder),
+      latestMenu,
+      latestFrame: frames.at(-1) ?? null,
+      aunt: final?.actors.e19
+        ? { facing: final.actors.e19.facing, frame: final.actors.e19.frame }
+        : null,
+      errors,
+      overflow,
     })
 }
 
@@ -362,7 +423,7 @@ export function readMealGame() {
         }
       : null,
     menu: menu ? { kind: menu.kind, cursor: menu.state?.selection?.cursor } : null,
-    menuView: window.__readMealEvidence?.().latestMenu,
+    menuView: window.__readMealDrive?.().latestMenu,
     actors: Object.fromEntries(
       [15, 16, 19, 20, 24, 25, 26, 56, 62].map((id) => [`e${id}`, actor(id)]),
     ),
@@ -383,7 +444,7 @@ export function readMealReforge() {
     world = window.__rfWorld
   return {
     boot: window.__tpObserve?.readBoot?.(),
-    menuView: window.__readMealEvidence?.().latestMenu,
+    menuView: window.__readMealDrive?.().latestMenu,
     runtime,
     scene: runtime?.sceneId,
     position: runtime
@@ -407,4 +468,14 @@ export function readMealReforge() {
         .filter((e) => !e.hidden && e.collide)
         .map((e) => ({ col: e.pos.col, row: e.pos.row, collide: true })) ?? [],
   }
+}
+
+/** Actual live world and position only. This is not a save export or a restore input. */
+export function readMealReforgeEndWorld() {
+  const runtime = window.__tpObserve.readRuntime()
+  if (!runtime || !window.__rfWorld) throw new Error('missing actual meal end world')
+  return structuredClone({
+    world: window.__rfWorld,
+    position: { sceneId: runtime.sceneId, ...runtime.position, facing: runtime.facing },
+  })
 }

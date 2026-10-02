@@ -10,11 +10,14 @@ import { kitchenGrid, kitchenReady, kitchenScene } from './kitchen-contract.mjs'
 import {
   assertMealCollector,
   assertMealDialogue,
+  assertMealDrive,
   assertMealEnd,
+  assertMealEndWorld,
   assertMealGameSaveInput,
   assertMealPhase,
   MEAL_ROWS,
   mealArguments,
+  mealCasePlan,
   mealInventoryCount,
   mealSaveView,
   mealServingDestination,
@@ -23,7 +26,12 @@ import {
   readMealPredecessor,
 } from './meal-contract.mjs'
 import { selectMealWine } from './meal-menu.mjs'
-import { installMealObserver, readMealGame, readMealReforge } from './meal-observer.mjs'
+import {
+  installMealObserver,
+  readMealGame,
+  readMealReforge,
+  readMealReforgeEndWorld,
+} from './meal-observer.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { appendBounded } from './opening-policy.mjs'
 
@@ -210,14 +218,28 @@ export async function mealGameServingEntry(readObservation, readTrace, startOrde
   return { kind: 'started', cursor: observation.cursor }
 }
 
+/** A waiting runtime page is confirmable only after that same page was actually rendered. */
+export function mealRenderedConfirmation(dialog, trace, engine) {
+  const page = trace.pages.at(-1)?.page
+  if (!page || !dialog) return false
+  if (engine === 'game')
+    return (
+      page.title === (dialog.title ?? null) &&
+      (dialog.text === null || page.lines.includes(dialog.text))
+    )
+  return (
+    page.phase === 'waiting-input' &&
+    ['dialogueId', 'cueIndex', 'pageIndex', 'pageStartedAtMs'].every(
+      (key) => page[key] === dialog[key],
+    )
+  )
+}
+
 export async function runMealJourney(engine) {
   const options = mealArguments(process.argv.slice(2)),
+    plan = mealCasePlan(options.case),
     predecessor = await readMealPredecessor(options['--from'], engine),
     contract = await readMealContract()
-  assert(
-    !options.baseline || engine === 'reforge',
-    'stationary old-transfer counter is Reforge-only',
-  )
   const maps = Object.fromEntries(
     await Promise.all(
       ['s001', 's003'].map(async (sid) => [
@@ -235,7 +257,7 @@ export async function runMealJourney(engine) {
     ),
   )
   await runBrowserJourney({
-    name: `${engine}-004${options.baseline ? '-stationary-baseline' : ''}`,
+    name: `${engine}-004-${options.case}`,
     packageName: `@type-pal/${engine}`,
     environment: engine === 'game' ? { E2E: '1' } : { VITE_PROJECT_ID: 'pal' },
     arguments: [options.headless ? '--headless' : '--headed'],
@@ -245,7 +267,11 @@ export async function runMealJourney(engine) {
     journey: async ({ newPage, baseURL, out, report, until, health }) => {
       report.fragment = '004'
       report.engine = engine
-      report.kind = options.baseline ? 'counter-diagnostic' : 'verify'
+      report.kind = 'verify'
+      report.case = options.case
+      report.scope = plan.scope
+      report.checks = {}
+      report.rpc = []
       report.predecessor = {
         report: predecessor.reportPath,
         revision: predecessor.revision,
@@ -276,8 +302,35 @@ export async function runMealJourney(engine) {
         contextLabel,
         phaseOrder = -1
       const read = engine === 'game' ? readMealGame : readMealReforge
+      const rpc = async (label, action) => {
+        const startedAtMs = performance.now(),
+          wallAtMs = Date.now()
+        let status = 'failed'
+        try {
+          const value = await action()
+          status = 'completed'
+          return value
+        } finally {
+          const endedAtMs = performance.now()
+          appendBounded(
+            report.rpc,
+            {
+              label,
+              phase,
+              context: contextLabel,
+              clock: 'node-monotonic',
+              wallAtMs,
+              startedAtMs,
+              endedAtMs,
+              durationMs: endedAtMs - startedAtMs,
+              status,
+            },
+            5000,
+          )
+        }
+      }
       const snapshot = async () => {
-        const s = await page.evaluate(read),
+        const s = await rpc('snapshot', () => page.evaluate(read)),
           key = JSON.stringify(s)
         if (key !== lastKey) {
           appendBounded(
@@ -290,30 +343,34 @@ export async function runMealJourney(engine) {
         return s
       }
       const press = async (key, reason) => {
-        appendBounded(report.actions, { key, reason, phase, context: contextLabel }, 500)
+        const action = {
+          key,
+          reason,
+          phase,
+          context: contextLabel,
+          requestedAtMs: Date.now(),
+          startedAtMs: performance.now(),
+        }
+        appendBounded(report.actions, action, 500)
         console.log(`[${engine}-004] ${key}: ${reason}`)
         try {
           await page.keyboard.down(key)
         } finally {
           await page.keyboard.up(key)
+          action.completedAtMs = Date.now()
+          action.durationMs = performance.now() - action.startedAtMs
         }
       }
-      const evidence = () => page.evaluate(() => window.__readMealEvidence())
-      const evidenceOrder = async () => {
-        const t = await evidence()
-        return Math.max(
-          -1,
-          ...[
-            ...t.events,
-            ...t.pages,
-            ...t.frames,
-            ...t.menus,
-            ...t.dispatches,
-            ...t.saveCaptures,
-            ...t.saveCompletions,
-          ].map((e) => e.order),
+      const evidence = () =>
+        rpc('full-trace', () => page.evaluate(() => window.__readMealEvidence()))
+      const drive = async (afterOrder = phaseOrder) => {
+        const dto = await rpc('drive', () =>
+          page.evaluate((order) => window.__readMealDrive(order), afterOrder),
         )
+        assertMealDrive(dto)
+        return dto
       }
+      const evidenceOrder = async () => (await drive()).order
       const ready = (s) => kitchenReady(s, engine),
         inScene = (s, sid) => kitchenScene(s, engine, sid)
       const bootstrap = async (label, bytes) => {
@@ -409,6 +466,18 @@ export async function runMealJourney(engine) {
         })
         return t
       }
+      const finishCase = async (label) => {
+        const trace = await saveTrace(label)
+        const partition = partitionInnMoves(
+          committedInnMoves(trace, -1),
+          report.route.legs.filter((l) => l.context === contextLabel),
+        )
+        report.route.committedSteps = partition.steps
+        report.route.scriptedOrPlacement = partition.placements
+        report.route.status = 'passed'
+        report.core.status = 'passed'
+        report.core.sourceHashes = contract.hashes
+      }
       const navigate = async (sid, destination, finished) => {
         const startOrder = await evidenceOrder()
         const navigateDriver = engine === 'game' ? navigateMealRoute : navigateInnRoute
@@ -474,11 +543,10 @@ export async function runMealJourney(engine) {
       }
       const beginPhase = async (label) => {
         phase = label
+        await rpc('input-phase', () =>
+          page.evaluate((label) => window.__mealSetInputPhase(label), label),
+        )
         phaseOrder = await evidenceOrder()
-      }
-      const phaseTrace = async () => {
-        const t = await evidence()
-        return { ...t, pages: t.pages.filter((e) => e.order > phaseOrder) }
       }
       const finishDialogue = async (sid, ids, { holdAunt = false, failure = false } = {}) => {
         const c = {
@@ -494,11 +562,17 @@ export async function runMealJourney(engine) {
           const s = await snapshot()
           assert(inScene(s, sid), 'dialogue left expected scene')
           assert.equal(s.cash, 500)
-          const trace = await phaseTrace(),
+          const trace = await drive(),
             shown = assertMealDialogue(trace, engine, c, false),
             dialog = engine === 'game' ? s.dialog : s.runtime?.dialogue
           if (ready(s)) {
-            assertMealDialogue(trace, engine, c)
+            const full = await evidence()
+            assertMealCollector(full)
+            assertMealDialogue(
+              { ...full, pages: full.pages.filter((e) => e.order > phaseOrder) },
+              engine,
+              c,
+            )
             if (!failure) report.core.rows.push(...shown.keys())
             return shown
           }
@@ -507,14 +581,13 @@ export async function runMealJourney(engine) {
             (engine === 'game'
               ? ['waiting-page-key', 'waiting-end-key'].includes(dialog.phase)
               : dialog.phase === 'waiting-input')
-          if (confirming) {
-            assert(trace.pages.at(-1)?.page, 'confirmation before actual rendered page')
+          if (confirming && mealRenderedConfirmation(dialog, trace, engine)) {
             if (holdAunt && !held) {
               const began = performance.now()
               await until(
                 async () => {
-                  const t = await evidence(),
-                    a = t.final?.actors.e19
+                  const t = await drive(),
+                    a = t.aunt
                   assert.equal(a?.facing, 'down', 'aunt pose overwritten during pickup dialogue')
                   assert.equal(a.frame, 0)
                   return performance.now() - began
@@ -703,17 +776,22 @@ export async function runMealJourney(engine) {
         await beginPhase('pickup')
         await interact('e20', 's001')
         const pickupShown = await finishDialogue('s001', [141, 142], {
-          holdAunt: !options.baseline,
+          holdAunt: plan.holdAunt,
         })
         assert.equal((await snapshot()).actors.e20.visible, false)
         assert.equal(await inventory(), 0)
         await until(
-          evidence,
-          (t) => t.frames.some((f) => [208, 'sprite-208'].includes(f.frame.sprite)),
+          drive,
+          (t) => [208, 'sprite-208'].includes(t.latestFrame?.frame.sprite),
           'actual carrying-meal frame',
         )
         assertMealPhase(await evidence(), engine, pickupShown, 'pickup', phaseOrder)
-        if (!options.baseline) {
+        report.checks.pickup = 'passed'
+        if (plan.saveRestore) {
+          const pose = (await drive()).aunt
+          assert.equal(pose?.facing, 'up', 'aunt did not explicitly return to cooking after pickup')
+          report.pickupPoseReturn = pose
+          report.checks.pose = 'passed'
           await beginPhase('carry-save')
           const saved = await capture('004.carry')
           if (engine === 'game')
@@ -737,10 +815,11 @@ export async function runMealJourney(engine) {
           report.carryCheckpoint.restoredWorldHash = restored.worldHash
           report.carryCheckpoint.restoredFrame = restored.frame
           await until(
-            evidence,
-            (t) => t.frames.some((f) => [208, 'sprite-208'].includes(f.frame.sprite)),
+            drive,
+            (t) => [208, 'sprite-208'].includes(t.latestFrame?.frame.sprite),
             'restored carried-meal actual frame',
           )
+          report.checks.carryRestore = 'passed'
         }
         await beginPhase('kitchen-exit')
         await navigate(
@@ -823,11 +902,12 @@ export async function runMealJourney(engine) {
         assert.equal(await inventory(), 1, 'serving did not give exactly one wine')
         assert.equal((await snapshot()).actors.e15.visible, false)
         await until(
-          evidence,
-          (t) => t.frames.at(-1)?.frame.sprite === (engine === 'game' ? 2 : 'li-xiaoyao'),
+          drive,
+          (t) => t.latestFrame?.frame.sprite === (engine === 'game' ? 2 : 'li-xiaoyao'),
           'serving restores ordinary party frame',
         )
         assertMealPhase(await evidence(), engine, serveShown, 'serve', phaseOrder)
+        report.checks.serve = 'passed'
         await beginPhase('guest-room-exit')
         await navigate(
           's001',
@@ -843,58 +923,69 @@ export async function runMealJourney(engine) {
             ready(s) &&
             JSON.stringify(kitchenGrid(s.position, engine)) === '[131,52]',
         )
-        await beginPhase('cancel-use')
-        const beforeCancelInventory = (await snapshot()).inventory,
-          beforeCancelTrigger = await taoistTrigger()
-        await chooseWine()
-        await page.screenshot({ path: resolve(out, '004-cancel-menu.png') })
-        const cancelDispatch = (await evidence()).dispatches.length
-        await closeMenus()
-        assert.deepEqual(
-          (await snapshot()).inventory,
-          beforeCancelInventory,
-          'cancel changed inventory',
-        )
-        assert.deepEqual(
-          await taoistTrigger(),
-          beforeCancelTrigger,
-          'cancel changed taoist trigger',
-        )
-        assert.equal(
-          (await evidence()).dispatches.length,
-          cancelDispatch,
-          'cancel dispatched item use',
-        )
-        assert.equal(await inventory(), 1)
-        await beginPhase('wrong-facing-use')
-        const beforeInvalidInventory = (await snapshot()).inventory,
-          beforeInvalidTrigger = await taoistTrigger()
-        await chooseWine()
-        await page.screenshot({ path: resolve(out, '004-invalid-menu.png') })
-        await press('Enter', 'normal wine use away from taoist')
-        await until(
-          snapshot,
-          (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue),
-          'actual rejected use prompt',
-        )
-        await finishDialogue('s003', [], { failure: true })
-        assert.deepEqual(
-          (await snapshot()).inventory,
-          beforeInvalidInventory,
-          'invalid use changed inventory',
-        )
-        assert.deepEqual(
-          await taoistTrigger(),
-          beforeInvalidTrigger,
-          'invalid use changed taoist trigger',
-        )
-        assert.equal(await inventory(), 1, 'failed use consumed wine')
-        assert.equal((await snapshot()).actors.e62.visible, true, 'failed use hid taoist')
-        report.invalidUse = {
-          status: 'passed',
-          dispatches: (await evidence()).dispatches.filter((e) => e.order > phaseOrder).length,
+        if (plan.itemChecks) {
+          await beginPhase('cancel-use')
+          const beforeCancelInventory = (await snapshot()).inventory,
+            beforeCancelTrigger = await taoistTrigger()
+          await chooseWine()
+          await page.screenshot({ path: resolve(out, '004-cancel-menu.png') })
+          const cancelDispatch = (await evidence()).dispatches.length
+          await closeMenus()
+          assert.deepEqual(
+            (await snapshot()).inventory,
+            beforeCancelInventory,
+            'cancel changed inventory',
+          )
+          assert.deepEqual(
+            await taoistTrigger(),
+            beforeCancelTrigger,
+            'cancel changed taoist trigger',
+          )
+          assert.equal(
+            (await evidence()).dispatches.length,
+            cancelDispatch,
+            'cancel dispatched item use',
+          )
+          assert.equal(await inventory(), 1)
+          report.cancelUse = { status: 'passed', dispatches: 0 }
+          report.checks.cancel = 'passed'
+          await beginPhase('wrong-facing-use')
+          const beforeInvalidInventory = (await snapshot()).inventory,
+            beforeInvalidTrigger = await taoistTrigger()
+          await chooseWine()
+          await page.screenshot({ path: resolve(out, '004-invalid-menu.png') })
+          await press('Enter', 'normal wine use away from taoist')
+          await until(
+            snapshot,
+            (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue),
+            'actual rejected use prompt',
+          )
+          await finishDialogue('s003', [], { failure: true })
+          assert.deepEqual(
+            (await snapshot()).inventory,
+            beforeInvalidInventory,
+            'invalid use changed inventory',
+          )
+          assert.deepEqual(
+            await taoistTrigger(),
+            beforeInvalidTrigger,
+            'invalid use changed taoist trigger',
+          )
+          assert.equal(await inventory(), 1, 'failed use consumed wine')
+          assert.equal((await snapshot()).actors.e62.visible, true, 'failed use hid taoist')
+          report.invalidUse = {
+            status: 'passed',
+            dispatches: (await evidence()).dispatches.filter((e) => e.order > phaseOrder).length,
+          }
+          assert.equal(report.invalidUse.dispatches, 1)
+          report.checks.invalidUse = 'passed'
+          assert.deepEqual(
+            report.core.rows,
+            plan.rows.map((id) => `dlg.${id}`),
+          )
+          await finishCase('004-items')
+          return
         }
-        assert.equal(report.invalidUse.dispatches, 1)
         await beginPhase('taoist-front')
         const a = (await snapshot()).actors.e62,
           [tc, tr] = kitchenGrid(a.position, engine)
@@ -914,30 +1005,6 @@ export async function runMealJourney(engine) {
         await page.screenshot({ path: resolve(out, '004-use-menu.png') })
         const frozenPosition = (await snapshot()).position
         await press('Enter', 'normal selected wine use; no movement to repair missing entry')
-        if (options.baseline) {
-          const began = Date.now()
-          await until(
-            async () => {
-              const s = await snapshot()
-              assert.deepEqual(s.position, frozenPosition, 'baseline moved after use')
-              assert(!s.runtime?.dialogue, 'baseline unexpectedly started gift')
-              assert.equal(await inventory(), 1)
-              return ready(s) && Date.now() - began >= 2000
-            },
-            Boolean,
-            'baseline stationary use does not start gift',
-            5000,
-          )
-          report.counter = {
-            status: 'confirmed',
-            reason: 'normal stationary wine use returned without gift dialogue',
-            position: frozenPosition,
-            inventory: 1,
-          }
-          report.core.status = 'counter-confirmed'
-          await saveTrace('004-stationary-baseline')
-          return
-        }
         await until(
           snapshot,
           (s) => {
@@ -955,6 +1022,7 @@ export async function runMealJourney(engine) {
         assert.equal(giftDispatch.length, 1, 'gift dispatched more than once')
         assert.equal(giftDispatch[0].request.itemId, '272')
         report.giftDispatch = giftDispatch
+        report.checks.gift = 'passed'
         assert.deepEqual(
           report.core.rows,
           MEAL_ROWS.map((id) => `dlg.${id}`),
@@ -986,12 +1054,34 @@ export async function runMealJourney(engine) {
           'no actual final ordinary input displacement',
         )
         report.controlMove = { from: start, to: destination, commits: moves }
+        report.checks.controlMove = 'passed'
+        if (!plan.saveRestore) {
+          const world = await rpc('live-end-world', () =>
+            page.evaluate(engine === 'game' ? readWorld : readMealReforgeEndWorld),
+          )
+          assertMealEndWorld(world, engine)
+          assert.deepEqual(
+            engine === 'game' ? world.inventory : world.world.inventory,
+            engine === 'game'
+              ? predecessor.payload.gs.inventory
+              : predecessor.payload.world.inventory,
+            '004 left unexpected inventory changes',
+          )
+          report.checks.end = 'passed'
+          report.storyEndWorld = world
+          report.storyEndWorldHash = sha256(JSON.stringify(world))
+          report.endFrame = await waitForOpeningFrame(page, until)
+          await page.screenshot({ path: resolve(out, '004-story-end.png') })
+          await finishCase('004-story')
+          return
+        }
         await beginPhase('end-save')
         await press('Escape', 'prove normal menu control')
         await until(readMenu, (m) => m.active, 'normal end menu opens')
         await closeMenus()
         const saved = await capture('004.end')
         assertMealEnd(saved.payload, engine)
+        report.checks.end = 'passed'
         assert.deepEqual(
           engine === 'game' ? saved.payload.gs.inventory : saved.payload.world.inventory,
           engine === 'game'
@@ -999,16 +1089,7 @@ export async function runMealJourney(engine) {
             : predecessor.payload.world.inventory,
           '004 left unexpected inventory changes',
         )
-        const trace = await saveTrace('004-story')
-        const partition = partitionInnMoves(
-          committedInnMoves(trace, -1),
-          report.route.legs.filter((l) => l.context === contextLabel),
-        )
-        report.route.committedSteps = partition.steps
-        report.route.scriptedOrPlacement = partition.placements
-        report.route.status = 'passed'
-        report.core.status = 'passed'
-        report.core.sourceHashes = contract.hashes
+        await finishCase('004-saves-story')
         report.endWorld = saved.world
         report.endWorldHash = saved.worldHash
         report.endFrame = saved.frame
@@ -1025,6 +1106,7 @@ export async function runMealJourney(engine) {
         report.restoredWorldHash = restored.worldHash
         report.restoredFrame = restored.frame
         assertMealEnd(engine === 'game' ? saved.payload : restored.world, engine)
+        report.checks.endRestore = 'passed'
         await saveTrace('004-restored')
       } finally {
         report.lastPhase = phase

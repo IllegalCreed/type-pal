@@ -37,16 +37,19 @@ const normalize = (text) =>
     .replace(/[∶：:]$/u, '')
 
 export function mealArguments(args, both = false) {
-  const options = { headless: false, baseline: false }
+  const options = { headless: false, case: 'story' }
+  let caseSet = false
   for (let i = 0; i < args.length; i++) {
     const key = args[i]
     if (['--headless', '--headed'].includes(key)) {
       assert(options.mode === undefined, 'choose one browser mode')
       options.mode = key
       options.headless = key === '--headless'
-    } else if (key === '--expect-stationary-no-gift') {
-      assert(!both && !options.baseline, 'baseline control is single-engine only')
-      options.baseline = true
+    } else if (key === '--case') {
+      assert(!both && !caseSet, 'choose one single-engine case; both requires all six')
+      options.case = args[++i]
+      mealCasePlan(options.case)
+      caseSet = true
     } else {
       assert(
         (both ? ['--game-report', '--reforge-report'] : ['--from']).includes(key),
@@ -60,6 +63,134 @@ export function mealArguments(args, both = false) {
   for (const key of both ? ['--game-report', '--reforge-report'] : ['--from'])
     assert(options[key], `required ${key}: genuine 003 report`)
   return options
+}
+
+export const MEAL_CASES = ['story', 'items', 'saves']
+
+/** Separate normal viewing from specialist checks, never a set of optional skipped assertions. */
+export function mealCasePlan(caseName) {
+  assert(MEAL_CASES.includes(caseName), 'unknown 004 case')
+  return {
+    scope: {
+      story: 'continuous normal 004 story; no specialist inputs or save/restore',
+      items: '004 item cancellation and unavailable-use checks after genuine normal serving',
+      saves: '004 slow-read pose and carrying/end production save/fresh-restore checks',
+    }[caseName],
+    holdAunt: caseName === 'saves',
+    saveRestore: caseName === 'saves',
+    itemChecks: caseName === 'items',
+    gift: caseName !== 'items',
+    rows: caseName === 'items' ? MEAL_ROWS.slice(0, 15) : MEAL_ROWS,
+  }
+}
+
+export function assertMealDrive(dto) {
+  assert.equal(dto.overflow, false, 'meal collector overflow')
+  assert.deepEqual(dto.errors, [], 'meal observer error')
+  assert(Number.isInteger(dto.order) && dto.order >= -1, 'invalid meal drive order')
+  assert(Array.isArray(dto.pages) && dto.pages.length <= 800, 'invalid bounded meal pages')
+  for (let i = 0; i < dto.pages.length; i++) {
+    const page = dto.pages[i]
+    assert(Number.isInteger(page.order) && page.order <= dto.order, 'invalid drive page order')
+    if (i) {
+      assert(page.order > dto.pages[i - 1].order, 'reordered drive page')
+      assert.equal(page.seq, dto.pages[i - 1].seq + 1, 'lost drive page')
+    }
+  }
+}
+
+export function assertMealCaseReport(report) {
+  const plan = mealCasePlan(report.case)
+  assert(['game', 'reforge'].includes(report.engine), 'invalid 004 engine')
+  assert.equal(report.fragment, '004')
+  assert.equal(report.name, `${report.engine}-004-${report.case}`)
+  assert.equal(report.scope, plan.scope, 'wrong 004 case scope')
+  assert.equal(report.kind, 'verify')
+  assert.equal(report.status, 'passed')
+  assert.equal(report.core?.status, 'passed')
+  assert.equal(report.route?.status, 'passed')
+  assert.equal(report.sourceHashesStable, true)
+  assert.deepEqual(report.errors, [])
+  assert.deepEqual(report.warnings, [])
+  assert.match(report.revision, /^[a-f0-9]{40}$/)
+  assert.match(report.predecessor?.sha256, /^[a-f0-9]{64}$/)
+  assert(Object.keys(report.core.sourceHashes).length > 0, 'missing frozen 004 sources')
+  for (const hash of Object.values(report.core.sourceHashes)) assert.match(hash, /^[a-f0-9]{64}$/)
+  assert.deepEqual(
+    report.core.rows,
+    plan.rows.map((id) => `dlg.${id}`),
+  )
+  const checks = [
+    'pickup',
+    'serve',
+    ...(plan.itemChecks ? ['cancel', 'invalidUse'] : ['gift', 'end', 'controlMove']),
+    ...(plan.saveRestore ? ['pose', 'carryRestore', 'endRestore'] : []),
+  ]
+  assert.deepEqual(Object.keys(report.checks).sort(), checks.sort(), 'missing/extra case checks')
+  for (const check of checks)
+    assert.equal(report.checks[check], 'passed', `004 ${check} not verified`)
+  assert.equal(report.contexts.length, plan.saveRestore ? 3 : 1, 'case mixed in extra contexts')
+  for (const context of report.contexts) assert.deepEqual(context.initialDatabases, [])
+  if (plan.saveRestore) {
+    assert.equal(report.checkpoint?.path, '004.end.save.json')
+    assert.match(report.checkpoint.sha256, /^[a-f0-9]{64}$/)
+    assert.equal(report.carryCheckpoint?.path, '004.carry.save.json')
+    assert(report.pickupPoseHold?.durationMs >= 3000)
+    for (const pair of [report, report.carryCheckpoint]) {
+      assert.equal(pair.endWorldHash ?? pair.worldHash, sha256(JSON.stringify(pair.endWorld)))
+      assert.equal(pair.restoredWorldHash, sha256(JSON.stringify(pair.restoredWorld)))
+      assert.deepEqual(pair.endWorld, pair.restoredWorld)
+      assert(openingFrameMatches(pair.restoredFrame, pair.endFrame), 'case restore canvas differs')
+    }
+    assertMealEndWorld(report.endWorld, report.engine)
+    assert.equal(
+      report.engine === 'game'
+        ? report.carryCheckpoint.endWorld.roles.rgwSpriteNum[0]
+        : report.carryCheckpoint.endWorld.world.party[0].appearance.spriteId,
+      report.engine === 'game' ? 208 : 'sprite-208',
+      'carry receipt lacks persistent meal appearance',
+    )
+  } else {
+    for (const key of [
+      'checkpoint',
+      'carryCheckpoint',
+      'restoredWorld',
+      'pickupPoseHold',
+      'restoredFrame',
+    ])
+      assert.equal(report[key], undefined, 'story/items cannot claim persistence coverage')
+    if (report.case === 'story') {
+      assertMealEndWorld(report.storyEndWorld, report.engine)
+      assert.equal(report.storyEndWorldHash, sha256(JSON.stringify(report.storyEndWorld)))
+      assert(openingFrameMatches(report.endFrame), 'story end canvas invalid')
+    } else {
+      assert.equal(report.cancelUse?.dispatches, 0)
+      assert.equal(report.invalidUse?.dispatches, 1)
+    }
+  }
+}
+
+export function assertMealSuite(reports) {
+  assert.equal(reports.length, 6, 'full 004 both requires six case reports')
+  for (const report of reports) assertMealCaseReport(report)
+  assert.deepEqual(
+    reports.map((r) => `${r.engine}/${r.case}`).sort(),
+    ['game', 'reforge'].flatMap((e) => MEAL_CASES.map((c) => `${e}/${c}`)).sort(),
+    'duplicate/missing 004 case',
+  )
+  for (const report of reports) {
+    assert.equal(report.revision, reports[0].revision, '004 cases ran different revisions')
+    assert.deepEqual(
+      report.core.sourceHashes,
+      reports[0].core.sourceHashes,
+      '004 cases ran different sources',
+    )
+    assert.deepEqual(
+      report.predecessor,
+      reports.find((r) => r.engine === report.engine).predecessor,
+      '004 cases used different genuine 003 predecessors',
+    )
+  }
 }
 
 /** Same reviewed persistent game projection as readWorld, not transient animation clocks. */
@@ -234,8 +365,7 @@ export function mealAuthorTextIds(scenes, item) {
     scenes.s001.entities.find((e) => e.id === 'e15').behaviors.trigger.default.flow,
     recordDialog,
   )
-  // Gift ownership is an authoring contract, not a fallback. Even the stationary baseline
-  // keeps the unique full body on e62; its deficient select-only transfer is tested at runtime.
+  // Gift ownership is an authoring contract, never a fallback to the item's private body.
   const gift = scenes.s003.entities.find((e) => e.id === 'e62')?.behaviors?.trigger?.[
     'c8-321c0a7d7de1'
   ]?.flow
@@ -289,6 +419,10 @@ export async function readMealContract(root = repoRoot) {
     'packages/reforge/src/script-activity-lineage.ts',
     'packages/reforge/src/script-host-adapter.ts',
     'packages/reforge/src/active-scene.ts',
+    'packages/reforge/src/dither-transition.ts',
+    'packages/reforge/src/runtime-frame-session.ts',
+    'packages/reforge/src/gameplay-clock.ts',
+    'packages/reforge/src/text/typewriter.ts',
     'packages/content/src/command-validation-options.ts',
     'packages/content/src/runtime-script.ts',
     'packages/content/src/author-script.ts',
@@ -407,6 +541,10 @@ export function assertMealDialogue(trace, engine, contract, complete = true) {
 export function assertMealCollector(trace) {
   assert.equal(trace.overflow, false, 'meal collector overflow')
   assert.deepEqual(trace.errors, [], 'meal observer error')
+  assert(
+    Array.isArray(trace.inputs) && Array.isArray(trace.dithers),
+    'missing current input/dither observations',
+  )
   const all = [
     ...trace.events,
     ...trace.pages,
@@ -415,6 +553,8 @@ export function assertMealCollector(trace) {
     ...trace.dispatches,
     ...trace.saveCaptures,
     ...trace.saveCompletions,
+    ...trace.inputs,
+    ...trace.dithers,
   ].sort((a, b) => a.order - b.order)
   for (const list of [
     trace.events,
@@ -424,6 +564,8 @@ export function assertMealCollector(trace) {
     trace.dispatches,
     trace.saveCaptures,
     trace.saveCompletions,
+    trace.inputs,
+    trace.dithers,
   ])
     list.forEach((e, i) => {
       assert.equal(e.seq, i, 'meal sequence gap')
@@ -537,17 +679,22 @@ export function assertMealPhase(trace, engine, shown, phase, startOrder) {
 }
 
 export function assertMealEnd(payload, engine) {
+  assertMealEndWorld(mealSaveView(payload, engine), engine)
+}
+
+/** Same complete end contract on read-only live persistence, without manufacturing a save. */
+export function assertMealEndWorld(view, engine) {
   const state = (scene, id) =>
     engine === 'game'
-      ? payload.gs.allEventObjects.find((e) => e.id === Number(id.slice(1)))?.sState
-      : payload.world.script.entityState?.[scene]?.[id]
+      ? view.actors.find((e) => e.id === Number(id.slice(1)))?.sState
+      : view.world.script.entityState?.[scene]?.[id]
   assert.equal(
-    engine === 'game' ? payload.gs.wNumScene : payload.position.sceneId,
+    engine === 'game' ? view.scene : view.position.sceneId,
     engine === 'game' ? 4 : 's003',
   )
-  assert.equal(engine === 'game' ? payload.gs.dwCash : payload.world.money, 500)
+  assert.equal(engine === 'game' ? view.cash : view.world.money, 500)
   assert.equal(
-    mealInventoryCount(engine === 'game' ? payload.gs.inventory : payload.world.inventory, engine),
+    mealInventoryCount(engine === 'game' ? view.inventory : view.world.inventory, engine),
     0,
     'wine not consumed',
   )
@@ -559,19 +706,19 @@ export function assertMealEnd(payload, engine) {
   ])
     assert.equal(state(scene, id), 0, `${id} remained active`)
   if (engine === 'game') {
-    assert.equal(payload.gs.PlayerRolesRuntime.rgwSpriteNum[0], 2, 'still carrying meal')
+    assert.equal(view.roles.rgwSpriteNum[0], 2, 'still carrying meal')
     assert.equal(
-      payload.gs.allEventObjects.find((e) => e.id === 19)?.triggerLabel,
+      view.actors.find((e) => e.id === 19)?.triggerLabel,
       'L_741',
       '005 aunt handoff missing',
     )
   } else {
     assert.equal(
-      payload.world.party[0].appearance?.spriteId ?? 'li-xiaoyao',
+      view.world.party[0].appearance?.spriteId ?? 'li-xiaoyao',
       'li-xiaoyao',
       'ordinary party appearance was not persisted',
     )
-    const s = payload.world.script.behaviors.entities.s001.e19.trigger
+    const s = view.world.script.behaviors.entities.s001.e19.trigger
     assert.equal(s.selection.value, 'c8-74bc98f07f8e', '005 aunt handoff missing')
     assert.equal(s.cursor, undefined, '005 already activated')
   }
