@@ -65,6 +65,9 @@ main.ts:1195旧inline helper的return Promise/finally会提早释放owner标记�
 - 主壳追逐self识别实际活跃子trigger，不能再次租自己的owner。旧inline helper必要的return await修复在白名单内，
   不扩张追逐/自动调度/保存政策。目标选中行为和步骤的持久权仍在现有coordinator。
 - 编辑器scratch用同一运行桥，真实执行子链；暂停/单步/停止与错误不能被日志桩替代，作者树零写回。
+  Root直接核现行e62末尾跨场景select s001/e19，而旧preview resolver仅当前scene会在207/209前报错；
+  追加SceneScriptWorkspace.tsx传现有props.state.scenes只读定义给scratch，仅解析跨场景绑定，不载其它地图/视觉切场。
+  未提供scene仍明确失败，不伪造空实体；实际PAL完整gift scratch需走到207/209并核作者树未改。
   移动轨迹遇到无法静态确定的目标当前方案，显示调用边界并使后续起点unknown，不能画假连接。
 - 作者目录/默认命令/地址表单/中文重点摘要齐全，名称为“执行实体交互方案”，说明“等执行完成后继续”。
   现有精确EntityAddress引用collector可复用，补缺目标/重命名/复制/删除反控，不扩张共享collector猜字段。
