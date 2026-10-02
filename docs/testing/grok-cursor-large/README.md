@@ -1,5 +1,12 @@
 # Grok / Cursor 两条独立大测试包
 
+2026-10-02当前：[Cursor r3独立复核与可复制返工](codex-cursor-r3-review-20261002.md)、
+[机器证据](codex-cursor-r3-review-20261002.json)。格式/EOF/DS键盘相位/非空fixture关闭，
+728定向相邻绿、717身份/52结构反控对应、静态完整0/0/0；仍708旧matcher未核与跨行oracle缺结果，
+四新增重复后净新结构上限704未全量排重，CTR-C05-08旧目标使净新目标上限49，至少缺1真新目标。
+只连续真账与真新目标，不重开已闭工具/视觉；未main/done/正式结算。同条审核回复直接交提示词，
+不等用户再提醒。[Grok r3](codex-grok-r3-review-20261002.md)仍代码证据accept待Codex统一门，无作者返工。
+
 2026-10-02最新：[Grok r3独立接收](codex-grok-r3-review-20261002.md)、
 [机器证据](codex-grok-r3-review-20261002.json)。生成格式最后窄项关闭，两selftest后根lint完整0/0/0，
 400/40组/40不同目标代码证据accept，卡review、等待Codex串行全仓check→官方ratchet→受保护strict-fast

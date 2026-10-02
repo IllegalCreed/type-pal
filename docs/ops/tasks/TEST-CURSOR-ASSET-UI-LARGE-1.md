@@ -119,7 +119,30 @@ Codex核74源hash、公开入口、旧证明与GC-1分配，**build allowed仅�
 ```
 
 
-## Codex r2 独立复核（2026-10-02，最新）
+## Codex 最新独立复核（2026-10-02，r3；覆盖旧窄返工）
+
+固定35c977f8407f0e79fa75421df4771fae67b51f27、证据c9067a8d2d45d36ddcc9b2819f418b1fb5492baa。
+生成格式/raw EOF、DS01键盘独立相位/DS02宽窄记录、C08非空fixture关闭；新728定向相邻全绿，
+717身份/59新文件匹配，typecheck/两selftest零、静态3268文件完整0/0/0、docs/diff/
+716冻结/120源/826白名单过。52业务三態结构与hash对应，50未变+2新增，未全重放。
+未新跑完整Editor4503，作者摘要不替独立门。整卡仍rework，只余真实合同账/净新目标验收：
+708 oldMatcher none、717 export锚、跨行oracle仍缺expected；新增四条旧证明使结构净新上限≤704，
+CTR-C05-08是旧零基index，净新目标上限≤49至少还缺1；CTR-C08-34非空退化已被旧:387证明，
+如无独立精确关系新轴则也转cross-check，需补第2目标。独立两旧+新诊断分别3红/2红，
+恢复35绿且两源逐字节HEAD，不冒称多红诊断是有效新针。原700/70组/50合法新目标/12流程不缩。
+
+[详细审核与最新完整返工提示词](../../testing/grok-cursor-large/codex-cursor-r3-review-20261002.md)、
+[机器证据](../../testing/grok-cursor-large/codex-cursor-r3-review-20261002.json)。
+不重复已闭窄修、不重拍原12流程、不全量重采52，连续C01–C10真账；本次起审核最终回复
+直接附可复制提示词，无需用户再提醒。未写作者树/未浏览器或会话操作/未main/done/正式结算。
+
+### 下一位Cursor提示词（用户手动转发；优先于下方历史）
+
+```text
+继续TEST-CURSOR-ASSET-UI-LARGE-1，唯一Cursor测试Owner，原树/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal、分支codex/cursor-asset-ui-large-r1，固定35c977f8407f0e79fa75421df4771fae67b51f27。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md最新段及docs/testing/grok-cursor-large/codex-cursor-r3-review-20261002.md/json，执行其CURSOR-R3-01～02最新完整范围。格式/EOF/键盘相位/非空fixture/旧judge与typed等待关闭，不重做、不重拍整12、不全重采52。连续C01-C10逐条件真账，708旧matcher未核、source仍export参数和跨行oracle缺结果不能算closed；保留分片，核生产caller/合法构造/旧完整fullName及matcher/精确新expected。四旧证明C05-G01-01、C06-G07-02/03/04扣净新，上限704仍全量排重未完，真差额不足700才补。CTR-C05-08旧目标转cross-check，净新目标上限49至少补1；CTR-C08-34若无独立精确关系新轴则再扣，需第2。保留52结构有效旧证据，仅源/最终执行集变动重采受影响针。700/70组/50合法新目标/12流程不缩；派发冻结及74源Owner不变，仅原新测/专属fixture/cursor证据可写，产品/旧测/配置/baseline/真实数据/其它Owner/共享文档只读。每批定向相邻/typecheck推送后继续，末批Editor全包/静态0/0/0/docs/diff/verifier及真实完整SHA/真实未完账。不合main、不done、不官方门、不清原树或共享临时树。
+```
+
+## Codex r2独立复核（2026-10-02，历史）
 
 固定f2a1468d844d1678b5304b4ca7a110a480b2d174（测试2e1f7228dce7059d030c7ef3eec8c8aa6697c0d6），counter/rework。新Editor4493全绿/707身份对应/typecheck零，50三态源hash/patch/身份单红对应与50不同执行目标；四旧误收现拒收、纯错目标runner退出2无泄漏，typed桥/默认等待/_vitest-raw格式关闭，不重做旧工具。自测生成judge-selftest.json后lint1format error，区间raw probe末尾空行diff失败；docs/716冻结/120分配源/805白名单过。698旧matcher未锚、688条件仅export、97oracle截断，707扣9旧证后上限698未达700；两counter CTR-C09-04/29对应旧C09-G02-02/05，新增目标上限48，至少补2，不重新要求7。23截图hash过，多数流程阶段接受；DS01鼠标fallback可掩盖键盘，DS02宽键盘成立只补持久相位，C08-G02-02空every未证。700/70组/50新目标/12真流程不缩，未main/done/正式结算。
 
