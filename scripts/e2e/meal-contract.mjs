@@ -189,6 +189,68 @@ export async function readMealPredecessor(path, engine) {
   }
 }
 
+export function mealAuthorTextIds(scenes, item) {
+  const textIds = new Map()
+  const walk = (v, visit) => {
+    if (!v || typeof v !== 'object') return
+    visit(v)
+    for (const child of Object.values(v)) {
+      if (typeof child !== 'object') continue
+      if (Array.isArray(child)) {
+        for (const value of child) walk(value, visit)
+      } else walk(child, visit)
+    }
+  }
+  const recordDialog = (v) => {
+    if (v.kind === 'dialog')
+      for (const row of v.cue.rows) {
+        const m = /^dlg\.(\d+)/.exec(row.text)
+        if (m && MEAL_ROWS.includes(Number(m[1]))) textIds.set(Number(m[1]), row.text)
+      }
+  }
+  walk(item.use, (command) => {
+    if (command.kind === 'dialog')
+      assert(
+        command.cue.rows.every((row) => /^dlg\.12538(?:\.|$)/u.test(row.text)),
+        'wine private script may only contain its unavailable-use guard dialogue12538',
+      )
+    assert(
+      command.kind !== 'loseItem' || command.itemId !== '272',
+      'wine private script must not duplicate the NPC wine consumption',
+    )
+  })
+  walk(
+    scenes.s001.entities.find((e) => e.id === 'e20').behaviors.trigger['take-dishes'].flow,
+    recordDialog,
+  )
+  walk(
+    scenes.s001.entities.find((e) => e.id === 'e15').behaviors.trigger.default.flow,
+    recordDialog,
+  )
+  // Gift ownership is an authoring contract, not a fallback. Even the stationary baseline
+  // keeps the unique full body on e62; its deficient select-only transfer is tested at runtime.
+  const gift = scenes.s003.entities.find((e) => e.id === 'e62')?.behaviors?.trigger?.[
+    'c8-321c0a7d7de1'
+  ]?.flow
+  assert(gift, 'NPC e62 gift body is missing')
+  const giftRows = []
+  let consumption = 0
+  walk(gift, (command) => {
+    recordDialog(command)
+    if (command.kind === 'dialog')
+      for (const row of command.cue.rows) {
+        const match = /^dlg\.(\d+)/u.exec(row.text)
+        assert(match, 'NPC gift dialogue is not a current source row')
+        giftRows.push(Number(match[1]))
+      }
+    if (command.kind === 'loseItem' && command.itemId === '272') consumption++
+  })
+  assert.deepEqual(giftRows, MEAL_ROWS.slice(15), 'NPC e62 gift body is incomplete or duplicated')
+  assert.equal(consumption, 1, 'NPC e62 gift body must own the unique wine consumption')
+  for (const id of MEAL_ROWS) assert(textIds.has(id), `current 004 row missing ${id}`)
+  return textIds
+}
+
 export async function readMealContract(root = repoRoot) {
   const kitchen = await readKitchenContract(root),
     hashes = { ...kitchen.hashes }
@@ -248,17 +310,6 @@ export async function readMealContract(root = repoRoot) {
     MEAL_ROWS,
     'original 004 dialogue closure changed',
   )
-  const textIds = new Map()
-  const walk = (v) => {
-    if (!v || typeof v !== 'object') return
-    if (v.kind === 'dialog')
-      for (const row of v.cue.rows) {
-        const m = /^dlg\.(\d+)/.exec(row.text)
-        if (m && MEAL_ROWS.includes(Number(m[1]))) textIds.set(Number(m[1]), row.text)
-      }
-    for (const child of Object.values(v))
-      if (typeof child === 'object') Array.isArray(child) ? child.forEach(walk) : walk(child)
-  }
   const item = JSON.parse(
     await readFile(resolve(root, 'projects/pal/content/items.json'), 'utf8'),
   ).find((i) => i.id === '272')
@@ -268,17 +319,7 @@ export async function readMealContract(root = repoRoot) {
       item.use.menuAfterUse === 'close',
     'wine item-use contract changed',
   )
-  walk(
-    kitchen.scenes.s001.entities.find((e) => e.id === 'e20').behaviors.trigger['take-dishes'].flow,
-  )
-  walk(kitchen.scenes.s001.entities.find((e) => e.id === 'e15').behaviors.trigger.default.flow)
-  walk(item.use)
-  // This initial mapping only supplies source aliases for the diagnostic old transfer, not an alternate product entry.
-  if (!textIds.has(172))
-    walk(
-      kitchen.scenes.s003.entities.find((e) => e.id === 'e62').behaviors.trigger['c8-321c0a7d7de1']
-        ?.flow,
-    )
+  const textIds = mealAuthorTextIds(kitchen.scenes, item)
   for (const row of rows) {
     const id = Number(row.id.slice(4)),
       key = textIds.get(id)
