@@ -9,6 +9,7 @@ import {
   assertMealEnd,
   assertMealPhase,
   mealArguments,
+  mealAuthorTextIds,
   mealSaveView,
   mealTraceArtifact,
   readMealContract,
@@ -231,6 +232,37 @@ test('004 ordered original/current rendered dialogue rejects missing, replayed a
     corrupt(wrong)
     assert.throws(() => assertMealDialogue(wrong, 'game', c))
   }
+})
+test('004 author source keeps the complete unique gift body on e62, never on the wine private script', async () => {
+  const actual = await readMealContract()
+  assert.equal(mealAuthorTextIds(actual.scenes, actual.item).size, 40)
+  const mutant = () => {
+    const scenes = structuredClone(actual.scenes),
+      item = structuredClone(actual.item)
+    const taoist = scenes.s003.entities.find((e) => e.id === 'e62')
+    const gift = taoist.behaviors.trigger['c8-321c0a7d7de1'].flow
+    const privateBody = item.use.effects.find((e) => e.kind === 'itemPrivateScript').script.body
+    return { scenes, item, taoist, gift, privateBody }
+  }
+  const copied = mutant()
+  copied.privateBody.push(...structuredClone(copied.gift.stages[0].body))
+  assert.throws(() => mealAuthorTextIds(copied.scenes, copied.item), /private|NPC/)
+  const moved = mutant()
+  moved.privateBody.push(...structuredClone(moved.gift.stages[0].body))
+  delete moved.taoist.behaviors.trigger['c8-321c0a7d7de1']
+  assert.throws(() => mealAuthorTextIds(moved.scenes, moved.item), /private|NPC/)
+  const missing = mutant()
+  delete missing.taoist.behaviors.trigger['c8-321c0a7d7de1']
+  assert.throws(() => mealAuthorTextIds(missing.scenes, missing.item), /NPC/)
+  const lost = mutant()
+  lost.privateBody.push({ kind: 'loseItem', itemId: '272' })
+  assert.throws(() => mealAuthorTextIds(lost.scenes, lost.item), /private/)
+  const extraDialog = mutant()
+  extraDialog.privateBody.push({ kind: 'dialog', cue: { rows: [{ text: 'dlg.141' }] } })
+  assert.throws(() => mealAuthorTextIds(extraDialog.scenes, extraDialog.item), /private/)
+  const unrelatedDialog = mutant()
+  unrelatedDialog.privateBody.push({ kind: 'dialog', cue: { rows: [{ text: 'dlg.99999' }] } })
+  assert.throws(() => mealAuthorTextIds(unrelatedDialog.scenes, unrelatedDialog.item), /private/)
 })
 test('004 end rejects live taoist, carried sprite, missing wine decrement and entered005', () => {
   const { payload } = donor()
