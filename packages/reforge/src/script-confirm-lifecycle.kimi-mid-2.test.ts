@@ -23,10 +23,10 @@ function journal(promise: Promise<boolean>) {
 }
 
 // KM-LIFE-M01 captureFrame 是激活 port:拒绝激活(blocked/已有 active)零 IO,真激活恰一次。
-test('M01 refused activations never touch the capture port; a real activation captures exactly once', () => {
+test('M01 refused activations never touch the capture port; a real activation captures exactly once', async () => {
   const queue = new ScriptConfirmModalQueue<string>()
   const capture = vi.fn(() => 'captured')
-  void queue.enqueue('original', NOOP_SIGNAL)
+  const answer = queue.enqueue('original', NOOP_SIGNAL)
   expect(queue.activateIfPossible(false, capture)).toBe(false)
   expect(queue.activateIfPossible(false, capture)).toBe(false)
   expect(capture).not.toHaveBeenCalled()
@@ -42,6 +42,13 @@ test('M01 refused activations never touch the capture port; a real activation ca
   expect(capture).toHaveBeenCalledTimes(1)
   expect(queue.view).toMatchObject({ token: 1, frame: 'captured' })
   expect(queue.pendingCount).toBe(1)
+
+  queue.submitNo()
+  queue.presented()
+  queue.presented()
+  await expect(answer).resolves.toBe(false)
+  expect(queue.pendingCount).toBe(0)
+  expect(queue.view).toBeUndefined()
 })
 
 // KM-LIFE-M02 公开 view 是包装快照:改写返回对象不污染内部状态、下一 view 与最终答案。
