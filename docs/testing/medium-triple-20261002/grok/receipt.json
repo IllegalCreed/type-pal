@@ -1,0 +1,434 @@
+{
+  "task": "TEST-GROK-BOOT-RESOURCES-MEDIUM-1",
+  "owner": "grok",
+  "branch": "codex/grok-boot-medium-r1",
+  "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "frozenCandidate": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+  "parentAtWrite": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "candidateSha": null,
+  "candidateShaNote": "候选 SHA 是包含本回执的提交自身。本文件不预写该值，提交后在交付说明报告。没有 docs-only pin。",
+  "codexAccepted": false,
+  "done": false,
+  "mergedToMain": false,
+  "officialGateRun": false,
+  "storyOrE2eRun": false,
+  "productEdited": false,
+  "counts": {
+    "executed": 19,
+    "netNew": 19,
+    "existingProof": 6,
+    "notSeparatelyTested": 2,
+    "unreachable": 1,
+    "blocked": 1,
+    "budgetExpectedMin": 24,
+    "budgetExpectedMax": 32,
+    "budgetCap": 36
+  },
+  "needles": [
+    {
+      "id": "C1-assets-identity",
+      "batch": "G1",
+      "axis": "loadAssets rejection keeps the caller error object",
+      "source": "packages/game/src/shell/bootstrap-resources.ts",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "oldFile": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+      "accepted": true,
+      "reasons": [],
+      "oldGreenNewRed": true,
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 12,
+        "mutantFailed": 1,
+        "restored": 12
+      },
+      "assertionErrorHead": "AssertionError: expected Error: masked:Error: assets down to be Error: assets down // Object.is equality",
+      "sha256": {
+        "product": {
+          "original": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e",
+          "mutant": "529f51d3ea16bf12ed0f1404754bf84b884047f350a22a57b7c3206f0e0b0b43",
+          "restored": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e"
+        },
+        "test": {
+          "original": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+          "mutant": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+          "restored": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b"
+        }
+      },
+      "spawn": {
+        "original": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/bootstrap-resources.test.ts",
+            "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/original.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/packages/game"
+        },
+        "mutant": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/bootstrap-resources.test.ts",
+            "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/mutant.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/packages/game"
+        },
+        "restored": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/bootstrap-resources.test.ts",
+            "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/restored.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/packages/game"
+        }
+      },
+      "identityCount": 12
+    },
+    {
+      "id": "C2-settle-order",
+      "batch": "G1",
+      "axis": "soundfontSettled waits for resourcesReady on the success path",
+      "source": "packages/game/src/shell/bootstrap-resources.ts",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "oldFile": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+      "accepted": true,
+      "reasons": [],
+      "oldGreenNewRed": true,
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 12,
+        "mutantFailed": 1,
+        "restored": 12
+      },
+      "assertionErrorHead": "AssertionError: expected false to be true // Object.is equality",
+      "sha256": {
+        "product": {
+          "original": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e",
+          "mutant": "08b3abd6944d3b30720877022e7b85474ba49b7756ee5ce4b62733d77d2a2225",
+          "restored": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e"
+        },
+        "test": {
+          "original": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+          "mutant": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+          "restored": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b"
+        }
+      },
+      "spawn": {
+        "original": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/bootstrap-resources.test.ts",
+            "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/original.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game"
+        },
+        "mutant": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/bootstrap-resources.test.ts",
+            "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/mutant.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game"
+        },
+        "restored": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/bootstrap-resources.test.ts",
+            "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/restored.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game"
+        }
+      },
+      "identityCount": 12
+    },
+    {
+      "id": "C3-icon-index",
+      "batch": "G4",
+      "axis": "dialog icon frame index stays the sprite-group index",
+      "source": "packages/game/src/assets/dialog-assets.ts",
+      "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "oldFile": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+      "accepted": true,
+      "reasons": [],
+      "oldGreenNewRed": true,
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 6,
+        "mutantFailed": 1,
+        "restored": 6
+      },
+      "assertionErrorHead": "AssertionError: expected [] to deeply equal [ 49 ]",
+      "sha256": {
+        "product": {
+          "original": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+          "mutant": "59af92cd52331ea3a9603857138402ae8d722ffe23fb4b850af05c16fcc6173c",
+          "restored": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5"
+        },
+        "test": {
+          "original": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78",
+          "mutant": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78",
+          "restored": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78"
+        }
+      },
+      "spawn": {
+        "original": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+            "src/assets/dialog-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/original.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game"
+        },
+        "mutant": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+            "src/assets/dialog-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/mutant.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game"
+        },
+        "restored": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+            "src/assets/dialog-resources.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/restored.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game"
+        }
+      },
+      "identityCount": 6
+    },
+    {
+      "id": "C4-protect-snapshot",
+      "batch": "G5",
+      "axis": "protect is sampled again at eviction time",
+      "source": "packages/game/src/assets/loader.ts",
+      "testFile": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "oldFile": "packages/game/src/assets/loader.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction protect 切换后原先受保护的场景成为下一次淘汰对象",
+      "accepted": true,
+      "reasons": [],
+      "oldGreenNewRed": true,
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 13,
+        "mutantFailed": 1,
+        "restored": 13
+      },
+      "assertionErrorHead": "AssertionError: expected [ 2, 3 ] to deeply equal [ 2, 1 ]",
+      "sha256": {
+        "product": {
+          "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+          "mutant": "31d9bcb24bd8601b998cc0072191afe634803ac401fed44722509b8bfdf41db0",
+          "restored": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+        },
+        "test": {
+          "original": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+          "mutant": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+          "restored": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09"
+        }
+      },
+      "spawn": {
+        "original": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/assets/loader.test.ts",
+            "src/assets/scene-cache.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C4-protect-snapshot-Bqv6IC/original.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C4-protect-snapshot-Bqv6IC/packages/game"
+        },
+        "mutant": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/assets/loader.test.ts",
+            "src/assets/scene-cache.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C4-protect-snapshot-Bqv6IC/mutant.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C4-protect-snapshot-Bqv6IC/packages/game"
+        },
+        "restored": {
+          "command": [
+            "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+            "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/assets/loader.test.ts",
+            "src/assets/scene-cache.grok-mid-1.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C4-protect-snapshot-Bqv6IC/restored.json"
+          ],
+          "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C4-protect-snapshot-Bqv6IC/packages/game"
+        }
+      },
+      "identityCount": 13
+    }
+  ],
+  "directed": {
+    "file": "docs/testing/medium-triple-20261002/grok/directed-vitest.json",
+    "exitCode": 0,
+    "passed": 19,
+    "failed": 0,
+    "pending": 0,
+    "todo": 0
+  },
+  "packageTest": {
+    "command": "pnpm --filter @type-pal/game test",
+    "cwd": "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal",
+    "started": "2026-10-02T07:21:26Z",
+    "ended": "2026-10-02T07:21:55Z",
+    "vitestStart": "16:21:27",
+    "duration": "28.08s",
+    "exitCode": 1,
+    "summary": "Test Files  1 failed | 241 passed | 4 skipped (246); Tests  2764 passed | 13 skipped (2777)",
+    "failure": "FAIL src/dev/dev-panel.test.ts ENOENT open data/extracted/data/enemy-teams.json at src/dev/dev-panel.test.ts:18",
+    "skippedFiles": [
+      "src/__tests__/e2e-battle.test.ts (1 skipped)",
+      "src/assets/tileset-blob-snapshot.test.ts (6 skipped)",
+      "src/assets/sprite-blob-snapshot.test.ts (5 skipped)",
+      "src/assets/rng-blob-snapshot.test.ts (1 skipped)"
+    ],
+    "classification": "environment",
+    "dataExtractedGitignored": true,
+    "copiedRealData": false
+  },
+  "gates": {
+    "typecheck": {
+      "command": "pnpm --filter @type-pal/game exec tsc --noEmit",
+      "exitCode": 0
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "summary": "PASS — 2787 files; 0 errors / 0 warnings / 0 infos; complete report",
+      "note": "这是 gates 写入前的完整 lint。写入后再跑一次；第二次结果写在交付说明，本文件不再为第二次结果改写。"
+    },
+    "docs": {
+      "command": "node scripts/docs/check.mjs",
+      "exitCode": 1,
+      "summary": "docs: 822 Markdown / 4338 local links / 259 tasks / content21 SAVE10",
+      "issues": [
+        "docs/testing/medium-triple-20261002/README.md:1: 子目录未进入导航：docs/testing/medium-triple-20261002/grok"
+      ],
+      "note": "父 README 属 Codex，本波不改。grok/README.md 已链接本目录证据。"
+    },
+    "verify": {
+      "command": "node docs/testing/medium-triple-20261002/verify.mjs --owner grok --base f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+      "exitCode": 0,
+      "frozenFiles": 12,
+      "frozenHashesValid": true,
+      "changedPaths": 56,
+      "scopeValid": true
+    },
+    "judgeSelftest": {
+      "command": "node --test docs/testing/medium-triple-20261002/grok/judge.selftest.mjs",
+      "exitCode": 0,
+      "pass": 7,
+      "fail": 0
+    },
+    "diffCheck": {
+      "command": "git diff --check f5c7f904a3f623e3ca5b413ab43f78029d99fe11...HEAD",
+      "note": "提交后执行。提交前 HEAD 仍是 BASE，该三点区间为空。"
+    }
+  },
+  "unfinished": [
+    "新执行 19，低于预计 24。未凑数。",
+    "G3-full-decode blocked：默认端口完整 loadAll 解码停在该子轴。",
+    "G4-outer-catch unreachable：dialog-assets.ts:114-116。",
+    "G1-both-reject 与 G2-glyph-then-assets 为 not-separately-tested。",
+    "docs/testing/medium-triple-20261002/README.md 未链接 grok/。共享文档只读，docs check 预期失败。",
+    "game 全包 dev-panel.test.ts ENOENT。环境红保留。",
+    "Codex 尚未独立验收。未 done，未合 main。"
+  ]
+}

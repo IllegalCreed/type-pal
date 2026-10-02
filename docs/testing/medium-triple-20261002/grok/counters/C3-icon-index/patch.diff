@@ -1,0 +1,11 @@
+--- /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game/src/assets/dialog-assets.ts	2026-10-02 15:32:16
++++ /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/mutant-source.txt	2026-10-02 16:20:37
+@@ -79,7 +79,7 @@
+   const frames = parseSpriteChunk(buf)
+   const map = new Map<number, DialogSprite>()
+   frames.forEach((f, i) => {
+-    map.set(i, {
++    map.set(i + 1, {
+       width: f.width,
+       height: f.height,
+       indices: f.pixels,

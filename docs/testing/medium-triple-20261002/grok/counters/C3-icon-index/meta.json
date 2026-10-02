@@ -1,0 +1,90 @@
+{
+  "id": "C3-icon-index",
+  "batch": "G4",
+  "axis": "dialog icon frame index stays the sprite-group index",
+  "source": "packages/game/src/assets/dialog-assets.ts",
+  "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+  "oldFile": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+  "target": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+  "testNamePattern": null,
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "product": {
+      "original": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+      "mutant": "59af92cd52331ea3a9603857138402ae8d722ffe23fb4b850af05c16fcc6173c",
+      "restored": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5"
+    },
+    "test": {
+      "original": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78",
+      "mutant": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78",
+      "restored": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78"
+    }
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "spawn": {
+    "original": {
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "src/assets/dialog-resources.grok-mid-1.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/original.json"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game"
+    },
+    "mutant": {
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "src/assets/dialog-resources.grok-mid-1.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/mutant.json"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game"
+    },
+    "restored": {
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "src/assets/dialog-resources.grok-mid-1.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/restored.json"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game"
+    }
+  },
+  "counts": {
+    "original": 6,
+    "mutantFailed": 1,
+    "restored": 6
+  },
+  "assertionError": "AssertionError: expected [] to deeply equal [ 49 ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C3-icon-index-rIaI3L/packages/game/src/assets/dialog-resources.grok-mid-1.test.ts:57:65\n    at file:///Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+  "names": [
+    "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts\tL23 loadDialogAssets 全链路（fetch 全隔离） manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+    "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts\tL23 loadDialogAssets 全链路（fetch 全隔离） portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+    "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts\tgrok-mid-1 dialog parallel degradation portraits.json 的 count 不决定 PNG 请求次数",
+    "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts\tgrok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+    "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts\tgrok-mid-1 dialog parallel degradation 头像清单与图标清单在任一响应前都已发出",
+    "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts\tgrok-mid-1 dialog parallel degradation 重复 chunk 的第二次失败不删第一次精灵"
+  ]
+}

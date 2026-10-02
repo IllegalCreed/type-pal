@@ -1,0 +1,24 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/scene-cache.grok-mid-1.test.ts > grok-mid-1 scene cache eviction > protect 切换后原先受保护的场景成为下一次淘汰对象
+AssertionError: expected [ 2, 3 ] to deeply equal [ 2, 1 ]
+
+- Expected
++ Received
+
+  [
+    2,
+-   1,
++   3,
+  ]
+
+ ❯ src/assets/scene-cache.grok-mid-1.test.ts:40:21
+     38|     protectedId = 3
+     39|     await cache.loadScene(4)
+     40|     expect(evicted).toEqual([2, 1])
+       |                     ^
+     41|     expect(count(1)).toBe(1)
+     42|     expect(count(3)).toBe(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

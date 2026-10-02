@@ -1,0 +1,916 @@
+{
+  "task": "TEST-GROK-BOOT-RESOURCES-MEDIUM-1",
+  "owner": "grok",
+  "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "frozenCandidate": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+  "budget": {
+    "expectedMin": 24,
+    "expectedMax": 32,
+    "cap": 36
+  },
+  "counts": {
+    "executed": 19,
+    "netNew": 19,
+    "existingProof": 6,
+    "notSeparatelyTested": 2,
+    "unreachable": 1,
+    "blocked": 1
+  },
+  "executed": [
+    {
+      "id": "G1-assets-identity",
+      "group": "G1",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:54-61",
+      "caller": "packages/game/src/shell/bootstrap.ts:238 startBootstrapResourceLoad(SCENE_ID)",
+      "legalInput": "typed ports；loadAssets 拒绝一个 Error 实例；soundfont deferred 后 resolve",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+      "expected": "resourcesReady 拒绝且对象与传入 Error 全等；warn 未被调用；soundfontData resolve 同一 ArrayBuffer；soundfontSettled resolve undefined",
+      "notRepeated": "HEAD 启动顺序与 soundfont 自身拒绝"
+    },
+    {
+      "id": "G1-dialog-identity",
+      "group": "G1",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:54-61",
+      "caller": "packages/game/src/shell/bootstrap.ts:238",
+      "legalInput": "typed ports；loadDialogAssets 拒绝一个 Error 实例",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+      "expected": "resourcesReady 拒绝且对象全等；成功回调不跑；soundfontData 仍可 resolve",
+      "notRepeated": "不把 dialog 拒绝并进 assets 的 toBe"
+    },
+    {
+      "id": "G1-settle-before-ready",
+      "group": "G1",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:49-61",
+      "caller": "packages/game/src/shell/bootstrap.ts:238",
+      "legalInput": "四端口都是 deferred；先 resolve soundfont，资源三端口仍 pending",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+      "expected": "soundfontSettled 已兑现时 resourcesReady 仍 pending；三端口放开后 assets/glyphs/dialogAssets 与传入引用全等",
+      "notRepeated": "HEAD 用例是资源已就绪后 soundfont 才 resolve"
+    },
+    {
+      "id": "G2-dialog-holds",
+      "group": "G2",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:54-61",
+      "caller": "packages/game/src/shell/bootstrap.ts:238",
+      "legalInput": "只有 loadDialogAssets deferred，其余端口立即完成",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+      "expected": "dialog resolve 前 resourcesReady 不兑现；放开后 dialog/assets/glyphs 引用与端口返回值全等"
+    },
+    {
+      "id": "G2-assets-hold",
+      "group": "G2",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:54-61",
+      "caller": "packages/game/src/shell/bootstrap.ts:238",
+      "legalInput": "只有 loadAssets deferred",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+      "expected": "assets resolve 前 resourcesReady 不兑现；放开后三引用全等"
+    },
+    {
+      "id": "G2-glyph-does-not-open",
+      "group": "G2",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:56-59",
+      "caller": "packages/game/src/shell/bootstrap.ts:238",
+      "legalInput": "loadGlyphs 拒绝；assets 与 dialog 仍 deferred",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+      "expected": "warn 参数为原错误与固定文案；此时 resourcesReady 仍 pending；两端口放开后 glyphs 为 undefined，另外两引用全等",
+      "notRepeated": "HEAD glyph 用例在另外两路已经 resolve 时才观察降级"
+    },
+    {
+      "id": "G3-soundfont-bytes",
+      "group": "G3",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:27-37",
+      "caller": "packages/game/src/shell/bootstrap.ts:238 默认端口",
+      "legalInput": "不传 ports；fetch 返回真实 Response，soundfont 体为 4 字节，其余 URL 不响应",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+      "expected": "soundfontData 字节为 9,8,7,6；请求顺序为 soundfont、scene/12.json、glyphs.json、portraits.json、dialog-icons-raw.json；resourcesReady 仍 pending。不声称 loadAll 解码完成"
+    },
+    {
+      "id": "G3-http-503",
+      "group": "G3",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:29-33",
+      "caller": "packages/game/src/shell/bootstrap.ts:238 默认端口",
+      "legalInput": "真实 Response status 503",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+      "expected": "soundfontData 拒绝消息含 soundfont HTTP 503；soundfontSettled resolve；scene/12.json 已请求；resourcesReady 仍 pending"
+    },
+    {
+      "id": "G6-two-boots",
+      "group": "G6",
+      "classification": "new",
+      "source": "packages/game/src/shell/bootstrap-resources.ts:43-63",
+      "caller": "packages/game/src/shell/bootstrap.ts:238；生产每次 bootstrap 一次，隔离由两次公开调用证明",
+      "legalInput": "两套独立 typed ports",
+      "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+      "expected": "A 的 resourcesReady 拒绝且消息含 boot A assets；B 的 assets 引用与 soundfont ArrayBuffer 全等；A 的 soundfont 拒绝后 B 的 soundfontData 与 settled 仍成功"
+    },
+    {
+      "id": "G4-mixed-degrade",
+      "group": "G4",
+      "classification": "new",
+      "source": "packages/game/src/assets/dialog-assets.ts:48-117",
+      "caller": "loadDialogAssets 由 bootstrap-resources 默认端口调用；生产 bootstrap.ts:242 消费 dialogAssets",
+      "legalInput": "合成 PNG 与两帧 1×1 RLE；chunk 4 的 PNG 为 404，chunk 8 成功",
+      "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+      "expected": "iconFrames.get(0) 索引为 0x31、宽 1、opaque 1；get(1) 为 0x32；portrait 8 索引为 0x44；portrait 4 不在 map；warn 原文 dialog-assets: portrait 4 load failed, skip:；不出现 all assets failed",
+      "notRepeated": "400 D07 保留兄弟头像但图标 404；D14 保留图标但头像 map 为空"
+    },
+    {
+      "id": "G4-overlap",
+      "group": "G4",
+      "classification": "new",
+      "source": "packages/game/src/assets/dialog-assets.ts:101-112",
+      "caller": "loadDialogAssets",
+      "legalInput": "两份清单的 Response 都先挂起",
+      "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation 头像清单与图标清单在任一响应前都已发出",
+      "expected": "函数返回前 URL 顺序为 portraits.json、dialog-icons-raw.json；放开头像清单后才出现 08.png，此时图标清单仍未响应；完成后头像 8 像素为 0x15，iconFrames.size 为 2。不断言图标键 0"
+    },
+    {
+      "id": "G4-duplicate-chunk",
+      "group": "G4",
+      "classification": "new",
+      "source": "packages/game/src/assets/dialog-assets.ts:48-67",
+      "caller": "loadDialogAssets",
+      "legalInput": "同一 chunkIndex 6 出现两次；第一次 PNG 成功，第二次 404",
+      "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation 重复 chunk 的第二次失败不删第一次精灵",
+      "expected": "06.png 请求两次；portrait 6 仍是第一次像素 0x21；map size 1；iconFrames.size 为 2；warn 带 portrait 6。不断言图标键 0"
+    },
+    {
+      "id": "G4-count-ignored",
+      "group": "G4",
+      "classification": "new",
+      "source": "packages/game/src/assets/dialog-assets.ts:26-49",
+      "caller": "loadDialogAssets",
+      "legalInput": "portraits.json count 为 9，portraits 数组只有 chunk 3；图标清单 404",
+      "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation portraits.json 的 count 不决定 PNG 请求次数",
+      "expected": "只请求 portraits/03.png；头像 3 索引为 7,9；iconFrames.size 为 0；warn 原文 [dialog-assets] icons failed, skip:",
+      "notRepeated": "400 D04 是空数组；glm L23 的 count 与数组长度一致"
+    },
+    {
+      "id": "G5-protect-switch",
+      "group": "G5",
+      "classification": "new",
+      "source": "packages/game/src/assets/loader.ts:483-498",
+      "caller": "packages/game/src/shell/bootstrap.ts:630 protect: () => currentSceneId",
+      "legalInput": "maxEntries 2；protect 先返回 1，淘汰发生后再返回 3；SceneAssets 为完整合法对象",
+      "testFile": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction protect 切换后原先受保护的场景成为下一次淘汰对象",
+      "expected": "第一次超限淘汰 2；protect 改为 3 后加载 4 淘汰 1；3 与 4 仍命中；1 重取",
+      "notRepeated": "HEAD protect 常量 1 只证明淘汰 2；400 没有切换 protect"
+    },
+    {
+      "id": "G5-evict-reenter-hit",
+      "group": "G5",
+      "classification": "new",
+      "source": "packages/game/src/assets/loader.ts:469-498",
+      "caller": "onEvict 在 bootstrap.ts:632 同步删除 tileImages；本例用公开 loadScene 重入",
+      "legalInput": "maxEntries 2；onEvict(1) 同步调用 loadScene(2)",
+      "testFile": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近",
+      "expected": "淘汰顺序是 1 然后 3；2 的 fetcher 次数保持 1；3 下次重取"
+    },
+    {
+      "id": "G5-max-zero",
+      "group": "G5",
+      "classification": "new",
+      "source": "packages/game/src/assets/loader.ts:483-498",
+      "caller": "生产 maxEntries 为 16；0 是类型允许的另一合法上界，不是无限",
+      "legalInput": "maxEntries 0；protect 恒为 1",
+      "testFile": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction maxEntries 为 0 时仍淘汰未受保护场景",
+      "expected": "1 不被淘汰且引用不变、fetcher 一次；2 被淘汰但仍返回给调用方，再次 loadScene(2) 重取",
+      "notRepeated": "HEAD 无限缓存是省略 opts；400 D05 是 maxEntries 1"
+    },
+    {
+      "id": "G6-sibling-after-reject",
+      "group": "G6",
+      "classification": "new",
+      "source": "packages/game/src/assets/loader.ts:469-480",
+      "caller": "SceneAssetsCache.loadScene",
+      "legalInput": "先成功加载 1，再让 2 的 fetcher 拒绝",
+      "testFile": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction fetcher 拒绝后兄弟场景仍命中且不触发 onEvict",
+      "expected": "拒绝消息 scene 2 down；onEvict 为空；1 返回原引用且 fetcher 仍为 1 次；2 只尝试过 1 次",
+      "notRepeated": "400 D02 只重试失败 id，不观察兄弟命中"
+    },
+    {
+      "id": "G6-evict-throw",
+      "group": "G6",
+      "classification": "new",
+      "source": "packages/game/src/assets/loader.ts:497-498",
+      "caller": "onEvict 先于回调删除；生产回调是 Map.delete，这里用会抛的回调",
+      "legalInput": "maxEntries 2；onEvict(1) 抛出固定 Error；另一实例单独缓存 8",
+      "testFile": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响",
+      "expected": "loadScene(3) 拒绝且对象全等；1 已需重取；2 与 3 仍命中；另一实例的 8 仍是原引用"
+    },
+    {
+      "id": "G6-evict-refetch",
+      "group": "G6",
+      "classification": "new",
+      "source": "packages/game/src/assets/loader.ts:469-498",
+      "caller": "公开 loadScene；onEvict 只对 id 1 重入",
+      "legalInput": "maxEntries 2；淘汰 1 时同步再次 loadScene(1)",
+      "testFile": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction onEvict 重入重新获取受害者后继续淘汰下一个最旧场景",
+      "expected": "淘汰顺序 1 然后 2；1 的 fetcher 为 2 且最终命中；3 命中；2 下次重取"
+    }
+  ],
+  "dispositions": [
+    {
+      "id": "G1-start-order",
+      "classification": "existing-proof",
+      "reason": "HEAD bootstrap-resources.test.ts 已断言启动顺序 soundfont、assets、glyphs、dialog，以及 soundfont 未完成时 settled 仍为 false"
+    },
+    {
+      "id": "G1-glyph-only",
+      "classification": "existing-proof",
+      "reason": "HEAD 已断言另外两路已完成时 glyph 失败得到 glyphs undefined 和固定 warn"
+    },
+    {
+      "id": "G1-soundfont-rejection",
+      "classification": "existing-proof",
+      "reason": "HEAD 已断言 soundfont 拒绝保留消息且 settled resolve"
+    },
+    {
+      "id": "G1-both-reject",
+      "classification": "not-separately-tested",
+      "reason": "assets 与 dialog 同时拒绝只是 Promise.all 取先拒绝的那一个。两条单拒绝已各证身份。合取再写成 toBe 会让 C1 出现第二处业务红"
+    },
+    {
+      "id": "G2-glyph-then-assets",
+      "classification": "not-separately-tested",
+      "reason": "glyph 失败不提前开门与 assets 原错误身份已分开证明。把两者接成一次拒绝会和 C1 的唯一 toBe 重叠"
+    },
+    {
+      "id": "G3-full-decode",
+      "classification": "blocked",
+      "reason": "默认端口的完整 loadAll 要真实拉取并解码场景、tileset、精灵、战斗、UI 和图标。冻结候选 G01-A/B/C 已用夹具覆盖该管线。本波只停这个子轴，不改产品、不扩大源码，也不把 worktree 缺失的 data/extracted 补进来"
+    },
+    {
+      "id": "G4-outer-catch",
+      "classification": "unreachable",
+      "source": "packages/game/src/assets/dialog-assets.ts:114-116",
+      "reason": "loadPortraits 与 loadDialogIcons 都在 Promise.all 内各自 catch。清单失败、单张失败和非法 base64 都到不了外层 [dialog-assets] all assets failed。没有合法输入能先绕过两个 catch 再抛到外层"
+    },
+    {
+      "id": "G4-400-dialog",
+      "classification": "existing-proof",
+      "reason": "冻结候选 dialog-icons.grok-r1.test.ts 14 例已覆盖空清单、404、非法 base64、尺寸字段、单侧降级、pad URL 与 decoder 同一性。本波不重写"
+    },
+    {
+      "id": "G4-glm-empty-icons",
+      "classification": "existing-proof",
+      "reason": "HEAD glm L23 已覆盖单张 404 加图标清单 404 的空 icon map，以及 portraits.json 500 时两张 map 都空"
+    },
+    {
+      "id": "G5-G6-old-lru",
+      "classification": "existing-proof",
+      "reason": "HEAD loader.test.ts 的命中、字段透传、最旧淘汰、recency、恒定 protect、无限缓存，以及冻结候选 G01-D01 到 D10 的引用、失败重试、并发、缺席 protect、cap、改写隔离都不重复"
+    }
+  ],
+  "oldProofs": [
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "commit": "HEAD",
+      "blob": "dd84dff34533e4e84ef4f53164dbfeb5a5c67ef3",
+      "tests": [
+        {
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "matchers": [
+            "58: expect(order).toEqual(['soundfont', 'assets:7', 'glyphs', 'dialog'])",
+            "59: await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })",
+            "66: expect(settled).toBe(false)",
+            "68: await expect(load.soundfontSettled).resolves.toBeUndefined()"
+          ]
+        },
+        {
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "matchers": ["80: expect(loaded).toEqual({", "85: expect(warn).toHaveBeenCalledWith("]
+        },
+        {
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "matchers": [
+            "103: expect(rejection).toBeInstanceOf(Error)",
+            "104: expect((rejection as Error).message).toBe('soundfont failed')",
+            "105: await expect(load.soundfontSettled).resolves.toBeUndefined()"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "packages/game/src/assets/loader.test.ts",
+      "commit": "HEAD",
+      "blob": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+      "tests": [
+        {
+          "fullName": "loadAll fetch 失败 → 抛错",
+          "matchers": ["16: await expect(loadAll(1)).rejects.toThrow(/failed \\(404\\)/)"]
+        },
+        {
+          "fullName": "SceneAssetsCache(M3.5) 第一次 loadScene 调 fetcher,第二次 cache hit 不调",
+          "matchers": [
+            "37: expect(fetcher).toHaveBeenCalledTimes(1)",
+            "40: expect(fetcher).toHaveBeenCalledTimes(1) // cache hit",
+            "43: expect(fetcher).toHaveBeenCalledTimes(2)"
+          ]
+        },
+        {
+          "fullName": "SceneAssetsCache(M3.5) SceneAssets 字段透传",
+          "matchers": [
+            "59: expect(result.sceneId).toBe(5)",
+            "60: expect(result.tilemap.width).toBe(30)"
+          ]
+        },
+        {
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+          "matchers": [
+            "89: expect(evicted).toEqual([1])",
+            "90: expect(fetcher).toHaveBeenCalledTimes(3)",
+            "92: expect(fetcher).toHaveBeenCalledTimes(4)",
+            "94: expect(fetcher).toHaveBeenCalledTimes(4)"
+          ]
+        },
+        {
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) cache hit 刷新 recency:最近命中的不被淘汰",
+          "matchers": [
+            "105: expect(fetcher).toHaveBeenCalledTimes(3) // 1,2,3 各一次;1 的两次命中不增",
+            "107: expect(fetcher).toHaveBeenCalledTimes(4)"
+          ]
+        },
+        {
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+          "matchers": [
+            "122: expect(evicted).toEqual([2])",
+            "124: expect(fetcher).toHaveBeenCalledTimes(3)"
+          ]
+        },
+        {
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 不传 opts → 无限缓存(向后兼容,永不淘汰)",
+          "matchers": ["132: expect(fetcher).toHaveBeenCalledTimes(50) // 全 hit,无淘汰"]
+        }
+      ]
+    },
+    {
+      "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "commit": "HEAD",
+      "blob": "aecc99e9cca6d0177e64f073e240c3aa1b1d9cd1",
+      "tests": [
+        {
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "matchers": [
+            "61: expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([7, 9])",
+            "62: expect(assets.portraitFrames.has(4)).toBe(false) // 404 skip",
+            "63: expect(assets.iconFrames.size).toBe(0) // icons 404 → 空 map 降级",
+            "64: expect(warn).toHaveBeenCalled()"
+          ]
+        },
+        {
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "matchers": [
+            "75: expect(assets.portraitFrames.size).toBe(0)",
+            "76: expect(assets.iconFrames.size).toBe(0) // icons 也未 mock → 404 类错误 → 空"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "commit": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "blob": "fd46f6f329286b4bca83ebebf5b845cb02777d0e",
+      "tests": [
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map",
+          "matchers": [
+            "51: expect(assets.portraitFrames.size).toBe(0)",
+            "52: expect(assets.iconFrames.size).toBe(2)",
+            "53: expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])",
+            "54: expect(Array.from(assets.iconFrames.get(1)?.indices ?? [])).toEqual([0x22])",
+            "55: expect(Array.from(assets.iconFrames.get(1)?.opaque ?? [])).toEqual([1])"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准",
+          "matchers": [
+            "78: expect(portrait?.width).toBe(2)",
+            "79: expect(portrait?.height).toBe(1)",
+            "80: expect(Array.from(portrait?.indices ?? [])).toEqual([0, 3])",
+            "81: expect(Array.from(portrait?.opaque ?? [])).toEqual([0, 1])",
+            "82: expect(assets.iconFrames.size).toBe(0)"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D03 chunk 0 的头像 URL 补成 portraits/00.png",
+          "matchers": [
+            "106: expect(calls.some((url) => url.endsWith('/images/portraits/00.png'))).toBe(true)",
+            "107: expect(Array.from(assets.portraitFrames.get(0)?.indices ?? [])).toEqual([8, 9])"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D04 头像清单为空数组时不请求 PNG，图标照常解码",
+          "matchers": [
+            "126: expect(calls.some((url) => url.includes('/images/portraits/'))).toBe(false)",
+            "127: expect(assets.portraitFrames.size).toBe(0)",
+            "128: expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留",
+          "matchers": [
+            "152: expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([6, 7])",
+            "153: expect(assets.iconFrames.size).toBe(0)"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D06 两张头像分别以 chunk 8 和 12 为键",
+          "matchers": [
+            "180: expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])",
+            "181: expect(Array.from(assets.portraitFrames.get(12)?.indices ?? [])).toEqual([12, 2])",
+            "182: expect(assets.portraitFrames.size).toBe(2)"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在",
+          "matchers": [
+            "208: expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])",
+            "209: expect(assets.portraitFrames.has(4)).toBe(false)",
+            "210: expect(warn.mock.calls.some((args) => String(args[0]).includes('portrait 4'))).toBe(true)"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧",
+          "matchers": [
+            "225: expect(assets.iconFrames.size).toBe(2)",
+            "226: expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D12 图标清单 404 的 warn 写 icons failed，头像像素仍在",
+          "matchers": [
+            "248: expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([6, 7])",
+            "249: expect(assets.iconFrames.size).toBe(0)",
+            "250: expect(warn.mock.calls.some((args) => String(args[0]).includes('icons failed'))).toBe(true)"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE",
+          "matchers": [
+            "269: expect(icon?.width).toBe(2)",
+            "270: expect(icon?.height).toBe(1)",
+            "271: expect(Array.from(icon?.indices ?? [])).toEqual([0, 0x22])",
+            "272: expect(Array.from(icon?.opaque ?? [])).toEqual([0, 1])"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D14 单张头像 404 不会清掉已经解码的图标",
+          "matchers": [
+            "293: expect(assets.portraitFrames.size).toBe(0)",
+            "294: expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])",
+            "295: expect(assets.iconFrames.size).toBe(2)"
+          ]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D09 base64 /wCA 解出 [255, 0, 128]",
+          "matchers": ["299: expect(Array.from(base64ToBytes('/wCA'))).toEqual([255, 0, 128])"]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D10 base64 /w== 解出单字节 255",
+          "matchers": ["303: expect(Array.from(base64ToBytes('/w=='))).toEqual([255])"]
+        },
+        {
+          "fullName": "G02-D 对话图标与 base64 G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数",
+          "matchers": [
+            "307: expect(decodeRle).toBe(sharedDecodeRle)",
+            "308: expect(parseSpriteChunk).toBe(sharedParseSpriteChunk)"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "commit": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "blob": "e68faa86d0b97aaffe8d88641e5c801253644ec6",
+      "tests": [
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+          "matchers": [
+            "16: expect(await cache.loadScene(6)).toBe(asset)",
+            "17: expect(await cache.loadScene(6)).toBe(asset)",
+            "18: expect(fetcher).toHaveBeenCalledTimes(1)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+          "matchers": [
+            "27: await expect(cache.loadScene(3)).rejects.toThrow('net down')",
+            "29: expect(loaded.sceneId).toBe(3)",
+            "30: expect(loaded.mapNum).toBe(30)",
+            "31: expect(loaded.palette.colors).toHaveLength(256)",
+            "32: expect(fetcher).toHaveBeenCalledTimes(2)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+          "matchers": [
+            "46: expect(fetcher).toHaveBeenCalledTimes(2)",
+            "51: expect(await first).toBe(early)",
+            "52: expect(await second).toBe(late)",
+            "53: expect(await cache.loadScene(4)).toBe(late)",
+            "54: expect(fetcher).toHaveBeenCalledTimes(2)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+          "matchers": [
+            "68: expect(evicted).toEqual([1])",
+            "70: expect(fetcher).toHaveBeenCalledTimes(4)",
+            "72: expect(fetcher).toHaveBeenCalledTimes(4)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+          "matchers": [
+            "85: expect(fresh.sceneId).toBe(2)",
+            "86: expect(fresh.mapNum).toBe(12)",
+            "87: expect(evicted).toEqual([2])",
+            "89: expect(fetcher).toHaveBeenCalledTimes(2)",
+            "91: expect(fetcher).toHaveBeenCalledTimes(3)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+          "matchers": [
+            "104: expect(evicted).toEqual([0])",
+            "106: expect(evicted).toEqual([0, 5])",
+            "107: expect(fetcher).toHaveBeenCalledTimes(3)",
+            "109: expect(fetcher).toHaveBeenCalledTimes(3)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+          "matchers": [
+            "121: expect(evicted).toEqual([])",
+            "122: expect(fetcher).toHaveBeenCalledTimes(2)",
+            "125: expect(fetcher).toHaveBeenCalledTimes(2)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+          "matchers": [
+            "136: expect(again).not.toBe(first)",
+            "137: expect(again.mapNum).toBe(41)",
+            "138: expect(again.palette.colors).toHaveLength(256)",
+            "139: expect(fetcher).toHaveBeenCalledTimes(4)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+          "matchers": [
+            "153: expect(evicted).toEqual([1, 2])",
+            "156: expect(fetcher).toHaveBeenCalledTimes(4)",
+            "158: expect(fetcher).toHaveBeenCalledTimes(5)"
+          ]
+        },
+        {
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+          "matchers": [
+            "176: expect(await fast).toBe(second)",
+            "178: expect(await slow).toBe(first)",
+            "179: expect(await cache.loadScene(1)).toBe(first)",
+            "182: expect(refetched).not.toBe(second)",
+            "183: expect(refetched.mapNum).toBe(22)",
+            "184: expect(fetcher).toHaveBeenCalledTimes(3)"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "commit": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "blob": "77b58105320f6f66400f97440d488cc0f9c91681",
+      "tests": [
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+          "matchers": [
+            "29: expect(callsEnding(calls, '/data/scene/7.json')).toHaveLength(1)",
+            "30: expect(callsEnding(calls, '/data/tilemap/12.json')).toHaveLength(1)",
+            "31: expect(callsEnding(calls, '/data/tileset/12.rle')).toHaveLength(1)",
+            "32: expect(calls.some((url) => url.includes('/tilemap/7.json'))).toBe(false)",
+            "33: expect(assets.scene.mapNum).toBe(12)",
+            "34: expect(assets.tilemap.tileset).toBe('tileset/12.rle')"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+          "matchers": [
+            "40: expect(callsEnding(calls, '/events/scene-007.json')).toHaveLength(1)",
+            "41: expect(assets.events.scene).toBe(7)",
+            "42: expect(assets.events.segments[0]?.name).toBe('scene-007.onEnter')",
+            "43: expect(assets.events.segments[0]?.commands).toEqual([])"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+          "matchers": [
+            "49: expect(callsEnding(calls, '/data/palette/0.json')).toHaveLength(1)",
+            "50: expect(assets.palette.colors).toHaveLength(256)",
+            "51: expect(assets.palette.colors[4]).toEqual([4, 20, 40])",
+            "52: expect(assets.palette.cycles).toEqual([{ start: 10, length: 4, step: 1, frameInterval: 3 }])"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+          "matchers": [
+            "58: expect(callsEnding(calls, '/data/tileset/12.rle')).toHaveLength(1)",
+            "59: expect(assets.tileImages.size).toBe(2)",
+            "60: expect(Array.from(assets.tileImages.get(0)?.indices ?? [])).toEqual([0xaa])",
+            "61: expect(Array.from(assets.tileImages.get(1)?.indices ?? [])).toEqual([0xbb])",
+            "62: expect(Array.from(assets.tileImages.get(0)?.opaque ?? [])).toEqual([1])"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+          "matchers": [
+            "68: expect([...assets.characterSprites.keys()].sort((a, b) => a - b)).toEqual([2, 9, 71, 73])",
+            "69: expect(callsEnding(calls, '/data/sprite/2.rle')).toHaveLength(1)",
+            "70: expect(callsEnding(calls, '/data/sprite/0.rle')).toHaveLength(0)",
+            "72: expect(leader?.anchorX).toBe(2)",
+            "73: expect(leader?.anchorY).toBe(3)",
+            "74: expect(leader?.frames).toHaveLength(1)",
+            "75: expect(leader?.frames[0]?.width).toBe(5)",
+            "76: expect(leader?.frames[0]?.height).toBe(3)",
+            "77: expect(leader?.frames[0]?.indices[0]).toBe(0x3c)",
+            "78: expect(leader?.frames[0]?.indices.length).toBe(15)"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+          "matchers": [
+            "116: expect([...assets.characterSprites.keys()].sort((a, b) => a - b)).toEqual([9, 71, 73])",
+            "117: expect(callsEnding(calls, '/data/sprite/9.rle')).toHaveLength(1)"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+          "matchers": [
+            "123: expect([...assets.battleSprites.keys()].sort()).toEqual(['enemy-4', 'player-2'])",
+            "124: expect(assets.battleSprites.get('player-2')?.frames).toHaveLength(2)",
+            "125: expect(Array.from(assets.battleSprites.get('player-2')?.frames[1]?.indices ?? [])).toEqual([",
+            "128: expect(callsEnding(calls, '/data/battle-sprite/player/2.rle')).toHaveLength(1)",
+            "129: expect(callsEnding(calls, '/images/battle/bg/008.png')).toHaveLength(1)",
+            "131: expect(bg?.width).toBe(2)",
+            "132: expect(bg?.height).toBe(1)",
+            "133: expect(Array.from(bg?.indices ?? [])).toEqual([8, 9])"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+          "matchers": [
+            "139: expect([...assets.magicSprites.keys()].sort((a, b) => a - b)).toEqual([0, 4])",
+            "140: expect(assets.magicSprites.get(0)?.frames).toHaveLength(2)",
+            "141: expect(callsEnding(calls, '/data/magic/fire-00.rle')).toHaveLength(1)",
+            "142: expect(callsEnding(calls, '/data/magic/fire-04.rle')).toHaveLength(1)",
+            "143: expect(callsEnding(calls, '/data/magic/fire-07.rle')).toHaveLength(0)",
+            "144: expect(callsEnding(calls, '/data/magic/fire-09.rle')).toHaveLength(0)"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+          "matchers": [
+            "150: expect(callsEnding(calls, '/images/items/003.png')).toHaveLength(1)",
+            "151: expect(callsEnding(calls, '/images/items/012.png')).toHaveLength(1)",
+            "152: expect(Array.from(loaded.itemIcons.get(3)?.indices ?? [])).toEqual([3, 4])",
+            "153: expect(Array.from(loaded.itemIcons.get(12)?.indices ?? [])).toEqual([12, 13])",
+            "154: expect(loaded.uiSpriteFrames).toHaveLength(3)",
+            "155: expect(Array.from(loaded.uiSpriteFrames[0]?.indices ?? [])).toEqual([0, 1])",
+            "156: expect(Array.from(loaded.uiSpriteFrames[1]?.indices ?? [])).toEqual([1, 2])",
+            "157: expect(Array.from(loaded.uiSpriteFrames[2]?.indices ?? [])).toEqual([2, 3])"
+          ]
+        },
+        {
+          "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+          "matchers": [
+            "163: expect(callsEnding(calls, '/lookup/words.json')).toHaveLength(1)",
+            "164: expect(assets.words).toEqual(['甲', '乙'])",
+            "165: expect(assets.stores).toEqual([{ id: 3, items: [61, 0] }])",
+            "166: expect(assets.levelUpExp).toEqual([10, 20])",
+            "167: expect(assets.levelUpMagic).toEqual([[{ level: 2, magic: 296 }]])",
+            "168: expect(assets.enemies.map((enemy) => enemy.id)).toEqual([41])",
+            "169: expect(assets.battleEffectIndex).toEqual([3, 6])",
+            "170: expect(assets.enemyPos).toEqual({ layouts: [[{ x: 40, y: 80 }]] })",
+            "171: expect(assets.objectPlayers.map((row) => row.id)).toEqual([1])"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "commit": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "blob": "d4e5aecf6572bafbdb5f28b3c5f535ee212f4990",
+      "tests": [
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+          "matchers": [
+            "36: expect(callsEnding(calls, '/data/scene/0.json')).toHaveLength(1)",
+            "37: expect(callsEnding(calls, '/events/scene-000.json')).toHaveLength(1)",
+            "38: expect(callsEnding(calls, '/data/tilemap/4.json')).toHaveLength(1)",
+            "39: expect(assets.events.segments[0]?.name).toBe('scene-000.onEnter')",
+            "40: expect(assets.scene.sceneId).toBe(0)"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+          "matchers": [
+            "45: await expect(loadAll(7)).rejects.toThrow('assets: player-roles.json roles[0] missing')",
+            "46: expect(callsEnding(calls, '/data/tileset/12.rle')).toHaveLength(1)",
+            "47: expect(callsEnding(calls, '/data/sprite/71.rle')).toHaveLength(0)",
+            "48: expect(calls.some((url) => url.includes('/data/sprite/'))).toBe(false)"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+          "matchers": [
+            "62: expect([...assets.characterSprites.keys()].sort((a, b) => a - b)).toEqual([71, 73])",
+            "63: expect(callsEnding(calls, '/data/sprite/0.rle')).toHaveLength(0)",
+            "64: expect(callsEnding(calls, '/data/sprite/71.rle')).toHaveLength(1)",
+            "65: expect(callsEnding(calls, '/data/sprite/73.rle')).toHaveLength(1)"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+          "matchers": [
+            "90: expect([...assets.magicSprites.keys()]).toEqual([0])",
+            "91: expect(callsEnding(calls, '/data/magic/fire-00.rle')).toHaveLength(1)",
+            "92: expect(callsEnding(calls, '/data/magic/fire-04.rle')).toHaveLength(0)",
+            "93: expect(callsEnding(calls, '/data/magic/fire-07.rle')).toHaveLength(0)"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+          "matchers": [
+            "100: expect(callsEnding(calls, '/data/battle-sprites.json')).toHaveLength(1)",
+            "101: expect(callsEnding(calls, '/data/battle-bgs.json')).toHaveLength(1)",
+            "102: expect(calls.some((url) => url.includes('/battle-sprite/'))).toBe(false)",
+            "103: expect(calls.some((url) => url.includes('/images/battle/bg/'))).toBe(false)",
+            "104: expect(assets.battleSprites.size).toBe(0)",
+            "105: expect(assets.battleBgs.size).toBe(0)"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+          "matchers": [
+            "111: expect(callsEnding(calls, '/lookup/words.json')).toHaveLength(1)",
+            "112: expect(assets.words).toEqual([])"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+          "matchers": [
+            "117: await expect(loadAll(4)).rejects.toThrow(",
+            "120: expect(calls).toEqual(['/extracted/data/scene/4.json'])"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+          "matchers": [
+            "125: await expect(loadAll(7)).rejects.toThrow(",
+            "128: expect(callsEnding(calls, '/data/scene/7.json')).toHaveLength(1)",
+            "129: expect(callsEnding(calls, '/data/tilemap/12.json')).toHaveLength(1)",
+            "130: expect(calls.some((url) => url.includes('/tileset/'))).toBe(false)"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+          "matchers": [
+            "139: expect(calls).toEqual(['/extracted/data/palette/5.json'])",
+            "140: expect(loaded.colors).toHaveLength(256)",
+            "141: expect(loaded.colors[5]).toEqual([9, 8, 7])",
+            "142: expect(loaded.cycles).toEqual([{ start: 10, length: 4, step: 1, frameInterval: 3 }])"
+          ]
+        },
+        {
+          "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+          "matchers": [
+            "147: await expect(fetchPalette(12)).rejects.toThrow(",
+            "150: expect(calls).toEqual(['/extracted/data/palette/12.json'])"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "commit": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "blob": "834f1cd76bf1db306b3ca7aa11209efc05c771a5",
+      "tests": [
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+          "matchers": [
+            "34: expect(callsEnding(calls, '/data/object-players.json')).toHaveLength(1)",
+            "35: expect(assets.objectPlayers).toEqual([])",
+            "36: expect(assets.enemies.map((enemy) => enemy.id)).toEqual([41])",
+            "37: expect(warn.mock.calls.some((args) => String(args[0]).includes('object-players'))).toBe(true)"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+          "matchers": [
+            "44: expect(callsEnding(calls, '/lookup/words.json')).toHaveLength(1)",
+            "45: expect(assets.words).toEqual([])",
+            "46: expect(assets.stores).toEqual([{ id: 3, items: [61, 0] }])"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+          "matchers": [
+            "53: expect(assets.battleSprites.size).toBe(0)",
+            "54: expect(calls.some((url) => url.includes('/battle-sprite/'))).toBe(false)",
+            "55: expect(Array.from(assets.battleBgs.get(8)?.indices ?? [])).toEqual([8, 9])"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+          "matchers": [
+            "62: expect(assets.battleBgs.size).toBe(0)",
+            "63: expect(calls.some((url) => url.includes('/images/battle/bg/'))).toBe(false)",
+            "64: expect(assets.battleSprites.has('player-2')).toBe(true)",
+            "65: expect(assets.battleSprites.get('player-2')?.frames).toHaveLength(2)"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+          "matchers": [
+            "72: expect(callsEnding(calls, '/data/sprite/9.rle')).toHaveLength(1)",
+            "73: expect(assets.characterSprites.has(9)).toBe(false)",
+            "74: expect(assets.characterSprites.has(2)).toBe(true)",
+            "75: expect(assets.characterSprites.has(71)).toBe(true)",
+            "76: expect(assets.characterSprites.has(73)).toBe(true)"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+          "matchers": [
+            "83: expect(loaded.battleSprites.has('enemy-4')).toBe(false)",
+            "84: expect(Array.from(loaded.battleSprites.get('player-2')?.frames[1]?.indices ?? [])).toEqual(["
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+          "matchers": [
+            "97: expect(callsEnding(calls, '/images/battle/bg/008.png')).toHaveLength(1)",
+            "98: expect(callsEnding(calls, '/images/battle/bg/009.png')).toHaveLength(1)",
+            "99: expect(assets.battleBgs.has(8)).toBe(false)",
+            "100: expect(assets.battleBgs.get(9)?.width).toBe(2)",
+            "101: expect(Array.from(assets.battleBgs.get(9)?.indices ?? [])).toEqual([9, 10])"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+          "matchers": [
+            "108: expect(loaded.effectSprite).toBeUndefined()",
+            "109: expect(loaded.magicSprites.has(0)).toBe(true)"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+          "matchers": [
+            "116: expect(assets.magicSprites.size).toBe(0)",
+            "117: expect(assets.effectSprite?.frames).toHaveLength(2)",
+            "118: expect(Array.from(assets.effectSprite?.frames[0]?.indices ?? [])).toEqual([0x11])"
+          ]
+        },
+        {
+          "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+          "matchers": [
+            "128: expect(callsEnding(calls, '/images/ui/frame-01.png')).toHaveLength(1)",
+            "129: expect(assets.uiSpriteFrames).toHaveLength(2)",
+            "130: expect(Array.from(assets.uiSpriteFrames[0]?.indices ?? [])).toEqual([0, 1])",
+            "131: expect(Array.from(assets.uiSpriteFrames[1]?.indices ?? [])).toEqual([2, 3])",
+            "132: expect(assets.itemIcons.has(12)).toBe(false)",
+            "133: expect(Array.from(assets.itemIcons.get(3)?.indices ?? [])).toEqual([3, 4])"
+          ]
+        }
+      ]
+    }
+  ]
+}
