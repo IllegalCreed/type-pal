@@ -1,15 +1,22 @@
-# E2E-CAPTURE-1 — 已验001–004本地原声录像
+# E2E-CAPTURE-1 — 001–004本地录制工具与节省空间验证
 
-Status: rework
+Status: done
 Phase: ops
 Owner: Codex Root
 Coding Owner: pre005_media_probe
 Reviewer: Codex Root
 Visual Verification Timing: E2E集中批次
 
+## 当前交付结论（2026-10-02）
+
+录制工具代码和限空间短样已由Root及独立审查接收，首部counter闭合；本卡按用户删除录屏后的
+节省空间范围收口，**不声称修订后重录了八段整片，不恢复完整媒体验收结论，也不宣布系列capture-ready**。
+原八段程序passed和RF001片头反例均保留为历史；已有录像由用户删除，后续仅在明确需要时按段重录。
+002–004和普通verify不受001预热分支改变，当前PAL正文/游戏速度/存档没有变动。
+
 ## 范围与前提
 
-[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)已将当前001–004录制欠账列入本轮，
+[PRE-005-DEBT-1](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)已将当前001–004录制欠账列入本轮，
 用户选择先清当前边角，服务器素材库保持发布阶段。只建设本地碎片录像，不接Content Studio活动/发布，
 不宣布完整Q1/Q2或系列capture-ready。001–004仍共享已批准剧情边界、正常输入和结束断言。
 
@@ -114,3 +121,23 @@ Owner仍pre005_media_probe，build allowed仅capture-browser/local与相邻回�
 Root预审新增反控：原生video刚挂载但未解码时只画黑底，不能把该时点写成首个录制视频帧；
 firstDraw须在第一次真实drawImage(video)、readyState>=2之后记录，独立于DOM视觉来源切换。
 Owner补0.6秒晚解码反控；原生firstPresentedFrame不能替代被录合成帧。这不是调宽0.1秒判据。
+
+## 首部修复最终接收
+
+候选`71b363073`（Root接收`375e7975e`），仅两录制模块与相邻两测试：真实标题连续预录，
+原生编码前缀经ffprobe实际解出完整帧后才ready，调用者await arm后正常Enter；同一时间戳同时裁音视频。
+firstDraw只在真实drawImage(video)、readyState>=2之后登记一次；0.6秒晚解码且native首呈现为0仍拒绝。
+001准备阶段和最终发布前检查origin-clean，保留所有未知遮挡/音源失败/晚期健康/清理拒绝。
+live WebM前缀的已知EOF诊断保留为decoderNotes，其它解码诊断拒绝；不属于静态门豁免。
+
+Root逐行审读、核两源hash与最终小样一致、逐项stat确认媒体确已删除；独立席46项回归通过并accept。
+Root全E2E工具182/182、全仓lint2762文件0 error/warning/info；日志`build/pre005/intro-root-{tools,lint}.log`。
+最终实际Chrome短样`/tmp/type-pal-intro-prime.Uo4xlx/run-1790934372342/probe-report.json`：
+人为准备延迟600ms；encoder-start887.8ms→实际解码58个标题帧→ready1793.8→Enter1800.3→native play1809.4；
+原生首帧和真实合成首帧mediaTime均0，真实合成耗时0.2ms。raw3.2091s，以共同PTS0.936裁头，预期2.2731s、实际2.287s。
+原头0–0.6s红/绿/蓝完整保留13/12/12帧，440/660/880Hz音标幅度0.08003/0.07970/0.07950。
+媒体349239字节＋内存输入34372字节=383611字节，远低5MiB；五个输出均finally删除，零媒体残留。
+首轮合成输入B帧导致非零首PTS的前提错误只作原失败记录，不计产品失败，也未为其放宽首帧门。
+
+无下一位Agent提示词，代码/限空间短样验收收口；今后请求完整001素材时使用修订工具重新录制并复核，
+不以本卡done替代那次实际文件、观感或完整Q1/Q2验收。

@@ -24,7 +24,7 @@ Branch: codex/pre-005-cleanup
 | 切场景朝向保持无法清除 | 三落点可去掉显式facing，其余继承/过渡/保存重开保持 | pre005_editor_edges |
 | 地图清选通知残留 | 真正Esc清选和Inspector清空均给既有清空通知，其它Esc取消语义不变 | pre005_editor_edges |
 | 深链预览伪造帧0 | 无真实采样不造帧；预算截断不伪装完整循环，当前真实资源UI可解释 | pre005_sprite_preview |
-| 001–004录制与音轨 | 原声小样已核，按[E2E-CAPTURE-1](E2E-CAPTURE-1-local-001-004-media.md)建设正常剧情录制 | pre005_media_probe |
+| 001–004录制与音轨 | 原声小样已核，按[E2E-CAPTURE-1](../archive/tasks/done/E2E-CAPTURE-1-local-001-004-media.md)建设正常剧情录制 | pre005_media_probe |
 | 自动脚本引用定位 | 实际“编辑自动脚本”到auto方案，非错误交互页；[窄卡](../archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md) | pre005_editor_edges |
 | 已验收任务与过期文档 | 按用户批准/独立证据闭合对应卡；历史失败不改写，当前文档不再宣称仅001/002或旧版本 | Root |
 | 旧证据/分支/worktree | 先保全真实checkpoint/trace/截图和来源，再仅清理确认退役的精确对象 | Root |
