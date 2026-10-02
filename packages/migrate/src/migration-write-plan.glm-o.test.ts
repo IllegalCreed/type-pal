@@ -1,7 +1,18 @@
 /** TEST-GLM-WAVE-O-1 O03：写入计划（buildMigrationTransactionChanges）与 journal
- *  恢复的剩余合同。旧证：migration-write-plan.test.ts / transaction.test.ts 覆盖常规
- *  顺序与中断；本卡补齐规划快照 hash 门、退役资源校验、baseline 差异化写、
- *  manifest 最后提交条件、symlink/绝对路径拒绝与多操作恢复次序。全部 mkdtemp 隔离。
+ *  恢复的剩余合同。全部 mkdtemp 隔离。
+ *  existing-proof 扣除（O-R13 逐行旧正文裁决，删重 6 行不计净新）：
+ *  - 退役资源排序+expectedSha256：write-plan.boundaries:75-104 逐字节同答案（a/b 序+hash）；
+ *  - baseline 一致跳过/漂移产生写：旧:114-131（相同→空计划）+:132-150（nextBaseline
+ *    异于磁盘→baseline 正文写）+:174-196（未变跳过）；
+ *  - previousBaseline 独有删除：旧:174-196（old.json 删除改动+keep 跳过）同条件同答案；
+ *  - manifest 无前置拒绝/磁盘一致无改动：旧:103-111（同错误串）+:114-131；
+ *  - manifest 最后提交：旧:132-150（changes.at(-1) manifest）+:151-173（全序断言）；
+ *  - 中断 staging 消费恢复：transaction.boundaries:86-101（同条件：二操作中断→恢复补完
+ *    +幂等+journal 清理）。
+ *  保留臂：scenes/index 显式权重越字典序（boundaries:34 集合无法区分权重与字典序）、
+ *  map 专用序列化、规划快照三守卫、退役计划非法、写×退役重复、symlink 两轴、
+ *  journal 绝对路径/缺 staged/根坏/坏 scope/坏前置、afterOperation 观测、
+ *  baseline 提交窗口、删除 no-op、事务 id 复算。
  */
 
 import {
@@ -155,24 +166,6 @@ describe('O03 buildMigrationTransactionChanges：退役资源与重复目标', (
     expectedSha256: sha,
   })
 
-  test('退役迁移资源按 path 排序生成删除改动并带 expectedSha256', () => {
-    const repo = tempRepo()
-    const changes = buildMigrationTransactionChanges({
-      ...baseArgs(repo),
-      retiredAssets: [
-        retirement('assets/migrated/b.png', 'b'.repeat(64)),
-        retirement('assets/migrated/a.png', 'a'.repeat(64)),
-      ],
-    })
-    expect(
-      changes
-        .filter(({ scope }) => scope === 'project')
-        .map(({ target, expectedPreviousHash }) => ({ target, expectedPreviousHash })),
-    ).toEqual([
-      { target: 'projects/pal/assets/migrated/a.png', expectedPreviousHash: 'a'.repeat(64) },
-      { target: 'projects/pal/assets/migrated/b.png', expectedPreviousHash: 'b'.repeat(64) },
-    ])
-  })
 
   test('退役资源路径越界或 sha 非法 → fail-loud', () => {
     const repo = tempRepo()
@@ -211,100 +204,6 @@ describe('O03 buildMigrationTransactionChanges：退役资源与重复目标', (
         retiredAssets: [retirement(path)],
       }),
     ).toThrow('迁移写入计划包含重复工程目标')
-  })
-})
-
-describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 最后提交', () => {
-  test('baseline 文件与磁盘一致时不产生改动；漂移时产生 baseline 写', () => {
-    const repo = tempRepo()
-    const baseline: MigrationSnapshot = {
-      files: new Map([['content/shops.json', [{ id: 1 }]]]),
-      managedFiles: new Set(['content/shops.json']),
-    }
-    const changed = {
-      files: new Map([['content/shops.json', [{ id: 1 }, { id: 2 }]]]),
-      managedFiles: new Set(['content/shops.json']),
-    }
-    mkdirSync(resolve(repo, 'packages/migrate/baselines/pal/content'), { recursive: true })
-    writeFileSync(
-      resolve(repo, 'packages/migrate/baselines/pal/content/shops.json'),
-      `${JSON.stringify([{ id: 1 }, { id: 2 }], null, 2)}\n`,
-    )
-    const unchanged = buildMigrationTransactionChanges({
-      ...baseArgs(repo),
-      nextBaseline: changed,
-    })
-    // 磁盘已是目标内容 → 无 baseline 写。
-    expect(unchanged.filter(({ scope }) => scope === 'baseline')).toHaveLength(1) // 仅 _state.json
-    const drifting = buildMigrationTransactionChanges({
-      ...baseArgs(repo),
-      nextBaseline: baseline,
-    })
-    expect(
-      drifting.some(
-        ({ scope, target }) =>
-          scope === 'baseline' && target === 'packages/migrate/baselines/pal/content/shops.json',
-      ),
-    ).toBe(true)
-  })
-
-  test('previousBaseline 独有且磁盘仍存在的 baseline 文件产生删除改动', () => {
-    const repo = tempRepo()
-    const stale = 'packages/migrate/baselines/pal/content/old.json'
-    mkdirSync(resolve(repo, stale, '..'), { recursive: true })
-    writeFileSync(resolve(repo, stale), 'stale\n')
-    const changes = buildMigrationTransactionChanges({
-      ...baseArgs(repo),
-      previousBaseline: {
-        files: new Map([['content/old.json', 'stale']]),
-        managedFiles: new Set(['content/old.json']),
-      },
-      nextBaseline: { files: new Map(), managedFiles: new Set() },
-    })
-    expect(changes).toContainEqual({ target: stale, scope: 'baseline' })
-  })
-
-  test('nextManifest 无前置条件 → fail-loud；磁盘一致 → 无 manifest 改动', () => {
-    const repo = tempRepo()
-    expect(() =>
-      buildMigrationTransactionChanges({
-        ...baseArgs(repo),
-        nextManifest: legalManifest,
-      }),
-    ).toThrow('manifest 变更缺资源闭包前置条件')
-    const manifest = legalManifest
-    mkdirSync(resolve(repo, 'projects/pal'), { recursive: true })
-    writeFileSync(
-      resolve(repo, 'projects/pal/manifest.json'),
-      `${JSON.stringify(manifest, null, 2)}\n`,
-    )
-    const changes = buildMigrationTransactionChanges({
-      ...baseArgs(repo),
-      nextManifest: manifest,
-      manifestPreconditions: [{ target: 'projects/pal/assets/a.bin', hash: sha256('a') }],
-    })
-    expect(changes.some(({ scope }) => scope === 'manifest')).toBe(false)
-  })
-
-  test('manifest 变更排在全部改动最后（含 baseline 之后）', () => {
-    const repo = tempRepo()
-    mkdirSync(resolve(repo, 'projects/pal'), { recursive: true })
-    writeFileSync(resolve(repo, 'projects/pal/manifest.json'), 'old')
-    const changes = buildMigrationTransactionChanges({
-      ...baseArgs(repo),
-      plan: { writes: new Map<string, MigrationJson>([['content/a.json', {}]]), deletes: [] },
-      projectSnapshot: projectSnapshot({ 'content/a.json': {} }),
-      nextBaseline: {
-        files: new Map([['content/b.json', 'b']]),
-        managedFiles: new Set(['content/b.json']),
-      },
-      nextManifest: legalManifest,
-      manifestPreconditions: [{ target: 'projects/pal/assets/a.bin', hash: sha256('a') }],
-    })
-    expect(changes.at(-1)).toMatchObject({
-      scope: 'manifest',
-      target: 'projects/pal/manifest.json',
-    })
   })
 })
 
@@ -495,31 +394,6 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
     expect(readdirSync(resolve(control, 'transactions'))).toEqual([])
   })
 
-  test('中断后留下的 staging 在恢复中被消费并清理整个事务目录', () => {
-    const repo = tempRepo()
-    expect(() =>
-      commitMigrationTransaction(
-        repo,
-        [
-          writeOp('projects/pal/content/a.json', 'a\n'),
-          writeOp('projects/pal/content/b.json', 'b\n'),
-        ],
-        {
-          afterOperation: (_operation, index) => {
-            if (index === 0) throw new Error('halt')
-          },
-        },
-      ),
-    ).toThrow('halt')
-    const journal = JSON.parse(
-      readFileSync(resolve(repo, '.type-pal-migrate/pal-journal.json'), 'utf8'),
-    ) as { id: string; operations: Array<{ staged?: string }> }
-    const staged = resolve(repo, journal.operations[1]!.staged!)
-    expect(existsSync(staged)).toBe(true)
-    expect(recoverMigrationTransaction(repo)).toBe(true)
-    expect(readFileSync(resolve(repo, 'projects/pal/content/b.json'), 'utf8')).toBe('b\n')
-    expect(existsSync(resolve(repo, '.type-pal-migrate/transactions', journal.id))).toBe(false)
-  })
 
   test('baseline 目标在提交窗口被改 → 提交窗口守卫拒绝（双操作触发 assertPreviousTarget）', () => {
     const repo = tempRepo()
