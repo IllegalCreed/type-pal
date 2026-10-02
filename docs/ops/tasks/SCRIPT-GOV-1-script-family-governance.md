@@ -1,6 +1,6 @@
 # SCRIPT-GOV-1 剧本共性问题族治理
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: 分包独占，见下文
@@ -57,6 +57,26 @@ Branch: codex/script-governance
 ## 当前状态
 
 2026-10-02：用户批准开始治理。首批处于draft取证，产品build未开放；审计脚本只读输出候选，不冒充全量已修。
+
+### 首批精确准入
+
+Root与successor贡献者分别核原L2018/2024→2025、L3383/3386→3387→reset3383，
+原0x74为非满HP跳转（game event-system.ts:4309）。**Content build allowed**：
+Owner script_successor_repair独占s008/e180/trigger/legacy-001、s010/e191/trigger/legacy-001，
+locale仅新增缺少的dlg.719与dlg.1245，以及新增pal-script-successor-governance.test.ts。
+洪大夫初次给药后，后续须分伤者治疗/康健购药，治疗不得继续落入商店；老王两个步骤往复，不能只补一次尾句。
+旧behavior哈希分别8a6166eae128b309f985f5d2600ffab4fd6666eeb2a35872ec7d24ba7344fe6d、
+0ac7b72a839bc82ec54e9af3e434af3220d6ab4e23cb6318ea209e7211f6ef7c。
+同文件default/legacy-003有已读出的治疗分支fallthrough风险，另补源绑定/反控后核准，不先越界。
+
+Motion独立全量分类165=88 perCommand+77 transition；机械flatten不能改变auto每命令100ms与transition同拍语义。
+Root已读真实runStateMachine确认interactive continue不提交中间存档游标，尾restart是下次激活回初始。
+6个无外部handoff端点、全部节点构成continue链且尾restart的interactive方案获**结构批次build allowed**：
+s231/onEnter/default、s249/e4394、s250/e4411、s257/e4550、s277/e4736、s285/e4807（后五均trigger/default）。
+Owner script_motion_audit独占这6个scene JSON与新增pal-linear-script-governance.test.ts；
+沿真实边顺序拼正文、保留唯一初始entry、保留初始ID、一步省略next以重复。其他字段和命令逐项不变。
+须补真实compiler/runner及ProjectRuntime的分支/连续激活/切场取消/中断/自切绑定反控；不能仅凭叶trace相同收口。
+其他159机器、schema/runtime/editor、本轮保护场景暂不开放写入。两内容Owner按文件不交叉，locale只归successor Owner。
 
 ## 下一位 Agent 提示词
 
