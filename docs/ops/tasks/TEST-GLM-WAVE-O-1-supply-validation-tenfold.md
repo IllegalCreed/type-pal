@@ -10,7 +10,22 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex P r14 / O p13-b / Q r16复核（2026-10-02，当前优先）
+## Codex r18独立复核（2026-10-02，当前优先；候选作者r17）
+
+固定e5f53fe486b6463ed9d38162cb1f3952ba85c09c。incoming-only写入恢复/两前置删重/fixture扣列及四针真重采accept；新80绿/460身份/64再判hash/静态0/0/0，旧60与C4退休原字节保持。**counter仅新增真账及原余量**：41新override中38行套pal.test一个it模板，但实际三it；角色尾部保留已由旧:179-191完整九ID+作者对象强证，可留fast cross-check不计新。混合shop/items逐子轴，不能全新/全删。460净新上限≤456/≥244例，310空条件/174token仍未完，700/60组/50目标不缩。
+
+[审核与三份直接交接](../../testing/glm-tenfold-triple/codex-opq-r18-review-20261002.md)、
+[实跑机器记录](../../testing/glm-tenfold-triple/codex-opq-r18-review-20261002.json)、
+[逐针分表](../../testing/glm-tenfold-triple/codex-opq-r18-counters-20261002.json)。
+用户代码阶段手动选GLM-5.3，P视觉另阶段Flash；不UI/代切模型/自动发消息，不main/done/正式结算。
+
+### 下一位GLM O提示词（用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal，分支codex/glm-wave-o-supply-validation-r1，固定已审e5f53fe486b6463ed9d38162cb1f3952ba85c09c，证据ee706dc3f。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-opq-r18-review-20261002.md/json和counter分表。O-R17 incoming-only writes恢复、两preconditions旧例删重、fixture卫生扣列和四受影响针重采accept，新80相邻绿/460身份/64再判和hash/静态完整0/0/0，旧60及C4退休原字节保持，不重做map/恢复目录/旧针。只闭O-R18-01并连续真账：publication新41行的38个“旧pal.test只有一个it/条件差新轴”模板错误，实际三it；角色分区新例:62-86已由pal.test第二例:179-191整九ID顺序+作者对象deepEqual更强直证，移净新为existing-proof，可保留fast cross-check，不因full-only就重领合同。商店混合轴:121-129中ID1..20/no0旧:226-228已证，货单oracle另核；268/270字段保留/窄消息旧:217-225按子轴比，不整例一刀删。新catalog账只断言assets/actors两托管键，别夸全部写入；逐合同读旧完整fullName和所有matcher/真实源守卫与caller，修精确锚，不换成另一模板。声明旧证明没覆盖的拒收臂不自动全判旧。当前460执行/原净新上限457，扣角色旧合同后≤456/至少244例，310空condition与174 token旧锚仍未完；700/60组/50合法目标不缩。保持历史/当前口径和64存档/62目标，纯登记或分类变不重采；真改代码/标题执行集才重采受影响四针。修账后直接连续原合法深域，不只删除/工具/完成数字轮。CLI只mkdtemp合成工程，不触真实migrate含dry-run。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；不擅迁main的content21/SAVE10。只原Owner白名单新测/fixture/本波证据可写，产品/旧测/配置/baseline/真实数据/共享文档/其它Owner只读。每批定向相邻/typecheck提交推送后继续下一合法组；源或执行集真变仅重采受影响活跃针。最终回执/SHA编辑后根lint完整0/0/0、docs/diff/verifier，末批按原卡全包验证、真实40位SHA和准确余账。不合main、不done、不official ratchet/protected、不清原树或共享临时树，不跑PAL剧情/抢6012。
+```
+
+## Codex P r14 / O p13-b / Q r16复核（2026-10-02，历史）
 
 固定56e852f528497a18f2dff64e99f405080f1eae76、证据6c85d2ab3c01b6916771cdb1f2d7cf3b923c6ffb。最后pin格式/caller三路关闭，新34相邻绿/461身份/静态完整0/0/0/64存档再判hash对应。**counter/rework仅新误删轴及原余量**：theirs新增writes+删除混合轴旧boundaries只改已有文件/删除，未证新文件进入writes；独立控制恢复35绿、变异旧/保留34绿仅窄新1红。只恢复incoming-only进入writes，旧delete/summary不恢复、C4删除针仍退役且原字节保持；不重复旧map/目录/快照/全针采。461结构上限459/≥241缺口、353空条件/208 token旧锚与700/60组真账原目标仍未完，直接连续合法深域。
 

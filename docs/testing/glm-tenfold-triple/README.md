@@ -1,5 +1,12 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
+2026-10-02当前：[P/O/Q作者r17独立复核（Codex r18）与三份直接交接](codex-opq-r18-review-20261002.md)、
+[实跑机账](codex-opq-r18-review-20261002.json)、[逐针分表](codex-opq-r18-counters-20261002.json)。
+P合法输入/G07/格式窄项accept，新155绿/98身份/16活跃；O恢复/删重accept，但41新账旧证明模板counter，
+新80绿/460身份/64针，角色尾旧证明扣净新；Q新两CLI合同accept、extract365新全绿/145身份，BA1同域输入/golden错配counter。
+149存档结构复算，不冒作全业务有效或全重放；静态零，Reviewer环境失败修复后报告保留。
+三卡partial/rework，P≥602/O≥244/Q≥556例目标不缩；不main/done/正式结算，修受影响项后连续原合法余量。
+
 2026-10-02当前：[P r14 / O p13-b / Q r16独立复核与三份直接交接](codex-opq-r17-review-20261002.md)、
 [机器证据](codex-opq-r17-review-20261002.json)。新定向152/34/187全绿、最终98/461/143身份匹配；
 P最终12格式error/三非法或退役输入轴/G07整组停测不成立；O误删incoming新文件writes子轴独证，

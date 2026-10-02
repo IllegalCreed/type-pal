@@ -8,7 +8,22 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
-## Codex P r14 / O p13-b / Q r16复核（2026-10-02，当前优先）
+## Codex r18独立复核（2026-10-02，当前优先；候选作者r17）
+
+固定0f588c3e9f1e4f01bd37156b7781c3196524f17b，**P-R17合法输入/G07/格式窄项accept，原卡partial/rework**。新155相邻绿/98身份、typecheck/22判据及2841静态0/0/0；C02实际runner三态与四新JSON零诊断。16活跃/17索引存档含C01退休，旧14/C13原字节保持；C01仅JSON格式变、值相同、三raw原字节相同，不恢复坏格式，原字节措辞随正常账纠正。当前98/25组/16针/18流程，≥602例/45组/34针/F14-F18未完，原700/70组/50目标/20流程不缩，直接原合法余族与真账。
+
+[审核与三份直接交接](../../testing/glm-tenfold-triple/codex-opq-r18-review-20261002.md)、
+[实跑机器记录](../../testing/glm-tenfold-triple/codex-opq-r18-review-20261002.json)、
+[逐针分表](../../testing/glm-tenfold-triple/codex-opq-r18-counters-20261002.json)。
+用户代码阶段手动选GLM-5.3，P视觉另阶段Flash；不UI/代切模型/自动发消息，不main/done/正式结算。
+
+### 下一位GLM P提示词（用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal，分支codex/glm-wave-p-editor-residual-r1，固定已审0f588c3e9f1e4f01bd37156b7781c3196524f17b。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-opq-r18-review-20261002.md/json和counter分表。P-R17合法共享输入、空id/chunks撤回、自援护/details、G07公开loader→投影→保存校验及格式窄项accept，不再重做；新155定向相邻全绿、98身份对应/typecheck零/22判据过/2841文件静态完整0/0/0，C02实际runner三态6→单红→6和新生成四JSON零诊断通过。旧14/C13原字节保持；16活跃和17索引存档含C01退休分清，不重采不存在目标。C01四JSON仅机械格式改变、对象值不变，三raw原字节相同；随正常账撤回“JSON原字节保留”措辞，Git保留2cd548a8原对象，不恢复坏格式、不另交纯措辞轮。98执行/25工作组/16活跃/18流程仍partial，至少602例/45组/34针/F14-F18缺口；原700/70组/50有效不同目标/20流程不缩。直接连续P02残余/P04-G07余族/P05-P10和逐合同真账，不只报窄修完成；新合法公共投影要排旧全部oracle，不复制旧unsafe状态。旧fullEditor3872等摘要仅历史，未变报告不能替代变更后新全包，随末批更新真实口径。避让Cursor74及新中包范围，纯代码阶段不浏览器，F14/F18另阶段Flash。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；不擅迁main的content21/SAVE10。只原Owner白名单新测/fixture/本波证据可写，产品/旧测/配置/baseline/真实数据/共享文档/其它Owner只读。每批定向相邻/typecheck提交推送后继续下一合法组；源或执行集真变仅重采受影响活跃针。最终回执/SHA编辑后根lint完整0/0/0、docs/diff/verifier，末批按原卡全包验证、真实40位SHA和准确余账。不合main、不done、不official ratchet/protected、不清原树或共享临时树，不跑PAL剧情/抢6012。
+```
+
+## Codex P r14 / O p13-b / Q r16复核（2026-10-02，历史）
 
 固定2cd548a8bbf1b232c8d269a19867c322c4022921。**counter/rework**：新152相邻绿/98身份，但最终根lint12格式error；开关/where的非空chunks无当前producer，空id party被公开校验拒收，三例暂不计合法新，上限≤95/≥605缺口。七enemy/team命令oracle方向与details/self混合新轴保留，合法fixture须修；旧14/22判据/C13不重开。G07整组停测撤回：独立公共作者IO→loader→toEditorState→save-valid两identity引用真实出现，无测试侧cast，2/2+typecheck零。17机械结构针与C01业务未接受分开；原700/70组/50目标/20流程不缩，18/20与F14/F18未完，修受影响项后连续原合法余族。
 
