@@ -254,8 +254,7 @@ export function readErrandGame() {
   }
 }
 
-export async function readErrandReforge() {
-  const { resolveEntityTriggerActivation } = await import('/src/script-world.ts')
+export function readErrandReforge() {
   const runtime = window.__tpObserve?.readRuntime?.(),
     scene = window.__rfScene
   return {
@@ -273,10 +272,11 @@ export async function readErrandReforge() {
         {
           position: [e.pos.col, e.pos.row, e.pos.height],
           visible: !e.hidden,
-          activation: resolveEntityTriggerActivation(e, window.__rfWorld.script, {
-            scene: scene.id,
-            entity: e.id,
-          }),
+          // __rfScene is the live projection: this single page already resolves canonical
+          // behavior/page/activation overrides in refreshSceneViewBindings.
+          activation: e.pages?.[0]?.trigger
+            ? { on: e.pages[0].trigger.on, range: e.pages[0].trigger.range }
+            : null,
         },
       ]),
     ),

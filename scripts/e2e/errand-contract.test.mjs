@@ -19,7 +19,7 @@ import {
   errandScene,
   validateErrandPredecessor,
 } from './errand-contract.mjs'
-import { installErrandObserver, readErrandGame } from './errand-observer.mjs'
+import { installErrandObserver, readErrandGame, readErrandReforge } from './errand-observer.mjs'
 import { ERRAND_TRACE_TARGETS, instrumentErrandTrace } from './errand-trace-plugin.mjs'
 import { assertMealDialogue } from './meal-contract.mjs'
 
@@ -266,6 +266,34 @@ test('005 touch routing consumes actual dynamically resolved activation, not the
     errandReforgeTouchDestination({ ...target, activation: { on: 'interact', range: 3 } }),
   )
   assert.throws(() => errandReforgeTouchDestination({ ...target, activation: undefined }))
+})
+test('005 RF snapshot reads live projected trigger bindings without canonical page lookup', () => {
+  const state = vm.runInNewContext(`(${readErrandReforge.toString()})()`, {
+    window: {
+      __tpObserve: {
+        readRuntime: () => ({ sceneId: 's005', position: { col: 119, row: 57, height: 0 } }),
+      },
+      __rfWorld: {
+        money: 550,
+        script: { behaviors: { entities: { s003: { e73: { page: 'open' } } } } },
+      },
+      __rfScene: {
+        id: 's005',
+        entities: [
+          {
+            id: 'e123',
+            pos: { col: 116, row: 56, height: 0 },
+            pages: [{ trigger: { on: 'touch', range: 2, stages: [] } }],
+          },
+          { id: 'e73', pos: { col: 1, row: 1, height: 0 }, pages: [{ animation: {} }] },
+        ],
+      },
+    },
+  })
+  assert.equal(state.actors.e123.activation.on, 'touch')
+  assert.equal(state.actors.e123.activation.range, 2)
+  assert.equal(state.actors.e73.activation, null)
+  assert.equal(errandReforgeTouchDestination(state.actors.e123)(119, 57), false)
 })
 test('005 background continuation requires actual post-restore walk commits and free control', () => {
   const trace = {
