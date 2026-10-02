@@ -11,10 +11,12 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| QUALITY-OPQ-RETIREMENT-1 | [历史测试退役保护账](tasks/QUALITY-OPQ-RETIREMENT-1.md) | build | Codex / 精确五文件判据与全仓门 | 用户仅批准历史净减少16例，比例/生产范围/其它测试保护不变 |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫冻结收口](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | Codex / 历史身份保护账窄准入 | 470保留回归；check/ratchet过，5旧文件16身份缩减拒收；不作者续派 |
-| TEST-GLM-WAVE-P-1 | [Editor冻结收口](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | Codex / 同一全仓保护账 | 114保留/四新反控有效；18/20未证分列，不追量、不作者返工 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码冻结收口](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | Codex / 同一全仓保护账 | 175保留；产品draft独立，未main/done/清树，不续派 |
+| QUALITY-TEST-INPUTS-1 | [两旧测试输入窄维护](tasks/QUALITY-TEST-INPUTS-1.md) | draft | User / 待范围批准 | 仅固定I06随机输入、使PAL图像IO夹具在干净CI可重建；不得build |
+| TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 | [确认队列/活动权限生命周期中包](tasks/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | review | Codex / 独立接入 | 16代码accept，四针旧绿新单红/恢复绿；不作者返工、不夹O/P/Q |
+| QUALITY-OPQ-RETIREMENT-1 | [历史测试退役保护账](tasks/QUALITY-OPQ-RETIREMENT-1.md) | blocked | Codex / 两旧输入待准入 | 原16 counter闭合；新增game随机少1臂/CI头像5红，不降门 |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫冻结收口](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 470保留；原16已闭合，新strict少1随机臂/CI头像红；不作者续派 |
+| TEST-GLM-WAVE-P-1 | [Editor冻结收口](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 114保留/四反控有效；原16闭合，新增门阻塞；不作者返工 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码冻结收口](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 175保留；原16闭合，新增门阻塞；产品draft独立，不续派 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 窄返工 | r2 尚有3双强转、非法短色板、旧JSON及RC1哈希不符 |

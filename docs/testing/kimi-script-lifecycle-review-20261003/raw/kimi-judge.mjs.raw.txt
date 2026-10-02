@@ -1,0 +1,70 @@
+import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+const folder = import.meta.dirname
+const candidate = '42b3d303de3f2178e249b4ccbabf967e0affd194'
+const git = (...args) => execFileSync('git', args, { cwd: '/Users/zhangxu/illegal/type-pal', encoding: 'utf8' }).trim()
+assert.equal(git('rev-parse', candidate + '^{commit}'), candidate)
+assert.deepEqual(git('diff', '--name-only', '95ddc3adcb289ccfab7cd8ca916d80a6b502f139..' + candidate).split('\n'), ['docs/testing/kimi-script-lifecycle-medium-20261002/evidence/receipt.json'])
+const read = phase => JSON.parse(readFileSync(resolve(folder, phase + '.meta.json'), 'utf8'))
+const control = read('kimi-control')
+const identities = report => report.executions.map(x => x.file + ' :: ' + x.fullName).sort()
+const clean = report => {
+  assert.equal(report.exitCode, 0)
+  assert.equal(report.signal, null)
+  assert.equal(report.spawnError, null)
+  assert.equal(report.success, true)
+  assert.equal(report.numTotalTests, 50)
+  assert.equal(report.numPassedTests, 50)
+  assert.equal(report.numFailedTests, 0)
+  assert.equal(report.numPendingTests, 0)
+  assert.equal(report.numTodoTests, 0)
+  assert.equal(report.executions.length, 50)
+  assert.ok(report.executions.every(x => x.status === 'passed' && x.failureMessages.length === 0))
+  assert.deepEqual(identities(report), identities(control))
+}
+clean(control)
+const files = ['script-confirm-lifecycle.kimi-mid-2.test.ts', 'script-lineage-lifecycle.kimi-mid-2.test.ts']
+const author = JSON.parse(execFileSync('git', ['show', candidate + ':docs/testing/kimi-script-lifecycle-medium-20261002/evidence/directed-vitest.json'], { cwd: '/Users/zhangxu/illegal/type-pal', encoding: 'utf8' }))
+assert.equal(author.numTotalTests, 38)
+assert.equal(author.numPassedTests, 38)
+const authorIdentities = author.testResults.flatMap(f => f.assertionResults.map(a => f.name.split('/').at(-1) + ' :: ' + a.fullName)).sort()
+assert.deepEqual(control.executions.filter(x => !x.file.endsWith('script-confirm-modal.glm-q.test.ts')).map(x => x.file.split('/').at(-1) + ' :: ' + x.fullName).sort(), authorIdentities)
+for (const file of files) {
+  const bytes = execFileSync('git', ['show', candidate + ':packages/reforge/src/' + file], { cwd: '/Users/zhangxu/illegal/type-pal' })
+  assert.equal(createHash('sha256').update(bytes).digest('hex'), control.hashes['src/' + file])
+}
+const rows = ['M01', 'M02', 'M06', 'L03'].map(id => {
+  const mutant = read('kimi-' + id + '-mutated')
+  const restored = read('kimi-' + id + '-restored')
+  clean(restored)
+  assert.deepEqual(restored.hashes, control.hashes)
+  assert.equal(mutant.exitCode, 1)
+  assert.equal(mutant.signal, null)
+  assert.equal(mutant.spawnError, null)
+  assert.equal(mutant.numTotalTests, 50)
+  assert.equal(mutant.numPassedTests, 49)
+  assert.equal(mutant.numFailedTests, 1)
+  assert.equal(mutant.numPendingTests, 0)
+  assert.equal(mutant.numTodoTests, 0)
+  assert.deepEqual(identities(mutant), identities(control))
+  const failed = mutant.executions.filter(x => x.status !== 'passed')
+  assert.equal(failed.length, 1)
+  assert.ok(failed[0].fullName.startsWith(id + ' '))
+  assert.equal(failed[0].failureMessages.length, 1)
+  assert.ok(failed[0].failureMessages[0].startsWith('AssertionError:'))
+  assert.ok(mutant.executions.filter(x => !files.some(file => x.file.endsWith(file))).every(x => x.status === 'passed'))
+  const changedHashes = Object.keys(control.hashes).filter(path => mutant.hashes[path] !== control.hashes[path])
+  assert.deepEqual(changedHashes, [id === 'L03' ? 'src/script-activity-lineage.ts' : 'src/script-confirm-modal.ts'])
+  const spec = JSON.parse(readFileSync(resolve(folder, 'kimi-mutations.json'), 'utf8')).find(item => item.id === id)
+  const original = execFileSync('git', ['show', candidate + ':packages/reforge/src/' + spec.file], { cwd: '/Users/zhangxu/illegal/type-pal', encoding: 'utf8' })
+  assert.equal(original.split(spec.from).length, 2)
+  const rebuiltMutantHash = createHash('sha256').update(original.replace(spec.from, spec.to)).digest('hex')
+  assert.equal(rebuiltMutantHash, mutant.hashes[changedHashes[0]])
+  return { id, verdict: 'VALID', specifiedFailure: failed[0], original: 'kimi-control', mutant: 'kimi-' + id + '-mutated', restored: 'kimi-' + id + '-restored', oldGreen: 34, newGreen: 15, originalHash: control.hashes[changedHashes[0]], mutantHash: mutant.hashes[changedHashes[0]], rebuiltMutantHash, restoredHash: restored.hashes[changedHashes[0]] }
+})
+const receipt = { task: 'TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2', candidate, testsAndEvidence: '95ddc3adcb289ccfab7cd8ca916d80a6b502f139', codeVerdict: 'accept; final full-package/main admission pending separately', directed: { actual: 50, new: 16, mainAdjacent: 22, QAdjacent: 12, authorReported: 38, exactAuthorIdentitiesAligned: true }, sourceFixtureConfigHashes: control.hashes, controls: rows, noAuthorTreeWrites: true, noMainWrite: true, noNewTask: true }
+writeFileSync(resolve(folder, 'kimi-review.json'), JSON.stringify(receipt, null, 2) + '\n')
+console.log(JSON.stringify({ candidate, directed: receipt.directed, controls: rows.map(x => ({ id: x.id, verdict: x.verdict, oldGreen: x.oldGreen })), verdict: receipt.codeVerdict }))

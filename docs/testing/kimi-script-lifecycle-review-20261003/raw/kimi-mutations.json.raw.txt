@@ -1,0 +1,26 @@
+[
+  {
+    "id": "M01",
+    "file": "script-confirm-modal.ts",
+    "from": "    if (this.current || !canActivate) return false",
+    "to": "    if (this.current || !canActivate) {\n      captureFrame?.()\n      return false\n    }"
+  },
+  {
+    "id": "M02",
+    "file": "script-confirm-modal.ts",
+    "from": "      selectedYes: request.selectedYes,",
+    "to": "      get selectedYes() { return request.selectedYes },\n      set selectedYes(value: boolean) { request.selectedYes = value },"
+  },
+  {
+    "id": "M06",
+    "file": "script-confirm-modal.ts",
+    "from": "    request.signal.removeEventListener('abort', request.abort)\n    request.resolve(answer)",
+    "to": "    request.resolve(answer)"
+  },
+  {
+    "id": "L03",
+    "file": "script-activity-lineage.ts",
+    "from": "      latest = registration.lease\n  }",
+    "to": "      latest = registration.lease\n    else if (registration.coordinator === coordinator) latest = undefined\n  }"
+  }
+]

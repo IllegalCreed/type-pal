@@ -1,0 +1,16 @@
+{
+  "cwd": "/private/tmp/codex-opq-closure.U0so5f/counter",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/reforge",
+    "test",
+    "--reporter=json",
+    "--outputFile=/private/tmp/codex-opq-closure.U0so5f/kimi-full-reforge.json"
+  ],
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "stdout": "\n> @type-pal/reforge@0.0.0 test /private/tmp/codex-opq-closure.U0so5f/counter/packages/reforge\n> vitest run --passWithNoTests --reporter=json --outputFile=/private/tmp/codex-opq-closure.U0so5f/kimi-full-reforge.json\n\nJSON report written to /private/tmp/codex-opq-closure.U0so5f/kimi-full-reforge.json\n",
+  "stderr": ""
+}

@@ -1,6 +1,6 @@
 # QUALITY-OPQ-RETIREMENT-1 - 历史测试退役保护账窄维护
 
-Status: build
+Status: blocked
 Owner: Codex
 Reviewer: Codex（证据复核与反例验证，不冒称外部独立签字）
 Phase: ops
@@ -27,6 +27,7 @@ Visual Verification Timing: N/A
 ## 记录
 
 - 2026-10-03 Codex：前提verified，用户窄授权已记录；实现/验收pending，无其它Coding Owner。
+- 2026-10-03 Codex：`5c29b73be5441beb4adf94b63d0f14353d91d602` 精确五条实现accept，20新判据/原30工具均绿；全仓11875+345/typecheck/static零诊断，官方ratchet通过，protected逐条批准五个历史快照，原16 counter关闭。新strict仅game分支8280→8279拒收；定位旧I06随机屏外透明仙鹤，另GitHub现有5例缺ignored头像红，见[另行窄准入draft](QUALITY-TEST-INPUTS-1.md)。不降低任何比例、未推main/done/退休；用户的16项授权未外推为修改这两旧测试。
 
 ## 下一位 Agent 提示词
 

@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [Kimi生命周期中包二独立复核](kimi-script-lifecycle-review-20261003/README.md)：固定16例/四新业务反控，代码accept，正式接入另证。
 - [O/P/Q冻结交付收口](glm-tenfold-triple/README.md)（83文件/759保留回归，固定终点，不再追700/视觉配额；Codex负责正式门与可恢复退休）。
 
 - [GLM 三条独立大包 L–N](glm-next-triple/README.md)（2026-09-30 准入；18 组/62 源与 A–K 零交集，纯测试候选；Codex 独立验收和并集结算）。

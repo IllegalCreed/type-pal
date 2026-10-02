@@ -1,0 +1,26 @@
+import { spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+const root = resolve(import.meta.dirname, 'counter')
+const phase = process.argv[2]
+if (!/^kimi-(control|[A-Z0-9]+-(mutated|restored))$/.test(phase)) throw new Error('invalid phase')
+const files = ['src/script-confirm-lifecycle.kimi-mid-2.test.ts', 'src/script-lineage-lifecycle.kimi-mid-2.test.ts', 'src/script-confirm-modal.test.ts', 'src/script-activity-lineage.test.ts', 'src/script-confirm-modal.glm-q.test.ts']
+const env = { ...process.env, NO_COLOR: '1' }
+delete env.NODE_COMPILE_CACHE
+delete env.TYPE_PAL_COVERAGE_PROFILE
+delete env.TYPE_PAL_COVERAGE_BASE_REF
+const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
+const paths = [...files, 'src/script-confirm-modal.ts', 'src/script-activity-lineage.ts', 'src/script-world.ts', 'src/__tests__/save-lineage-fixture.ts', 'vite.config.ts', 'tsconfig.json', 'package.json']
+const hashes = Object.fromEntries(paths.map(path => [path, hash(readFileSync(resolve(root, 'packages/reforge', path)))]))
+const reportPath = resolve(import.meta.dirname, phase + '.json')
+const args = ['--filter', '@type-pal/reforge', 'exec', 'vitest', 'run', ...files, '--reporter=json', '--outputFile=' + reportPath]
+const result = spawnSync('pnpm', args, { cwd: root, env, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })
+writeFileSync(resolve(import.meta.dirname, phase + '.raw.txt'), result.stdout + result.stderr)
+let report = null
+try { report = JSON.parse(readFileSync(reportPath, 'utf8')) } catch {}
+const executions = report?.testResults.flatMap(file => file.assertionResults.map(item => ({ file: file.name.slice(root.length + 1), fullName: item.fullName, status: item.status, failureMessages: item.failureMessages }))) ?? []
+const meta = { root, phase, command: ['pnpm', ...args], exitCode: result.status, signal: result.signal, spawnError: result.error?.message ?? null, hashes, numTotalTests: report?.numTotalTests, numPassedTests: report?.numPassedTests, numFailedTests: report?.numFailedTests, numPendingTests: report?.numPendingTests, numTodoTests: report?.numTodoTests, success: report?.success, executions }
+writeFileSync(resolve(import.meta.dirname, phase + '.meta.json'), JSON.stringify(meta, null, 2) + '\n')
+console.log(JSON.stringify({ phase, exitCode: meta.exitCode, signal: meta.signal, tests: meta.numTotalTests, passed: meta.numPassedTests, failed: meta.numFailedTests, failures: executions.filter(x => x.status !== 'passed').map(x => ({ fullName: x.fullName, message: x.failureMessages[0]?.slice(0, 500) })) }))
+process.exitCode = result.status ?? 1

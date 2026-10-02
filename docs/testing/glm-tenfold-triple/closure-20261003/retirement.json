@@ -1,0 +1,143 @@
+{
+  "status": "exact retirement counter closed; independent unstable game branch blocks strict and main admission",
+  "protectedMainBase": "1b3bffb7977455ce579cc1e66ea0a39fb400b151",
+  "narrowUserApprovalDate": "2026-10-03",
+  "gateImplementationCommit": "5c29b73be5441beb4adf94b63d0f14353d91d602",
+  "checkPackages": {
+    "content": 1474,
+    "shared": 154,
+    "game": 2812,
+    "pal-extract": 381,
+    "reforge": 2473,
+    "editor": 3904,
+    "migrate": 677
+  },
+  "checkTotal": 11875,
+  "toolsTotal": 345,
+  "addedRetirementToolTests": 20,
+  "static": "seven package typecheck and complete lint error/warning/info zero",
+  "fast": {
+    "tests": 11461,
+    "sources": 722,
+    "total": {
+      "statements": {
+        "covered": 67005,
+        "total": 77181
+      },
+      "branches": {
+        "covered": 47924,
+        "total": 59911
+      },
+      "functions": {
+        "covered": 12691,
+        "total": 14660
+      },
+      "lines": {
+        "covered": 60084,
+        "total": 67575
+      }
+    }
+  },
+  "approvals": [
+    {
+      "file": "packages/migrate/src/pal-authored-overlays.test.ts",
+      "previous": 9,
+      "current": 7,
+      "previousIdentityDigest": "780bbc530a2977c1c7de6f3eb811a1ff59dc437b1a60213bc65566bf2942a575",
+      "currentIdentityDigest": "7c1553cce3b077559d53217b63869f7010bffa6e8e478e3956b1955b8073b2eb",
+      "fileSha256": "f6803fdee87e573551cca66c0f393a88030714e5ac5fd48b0325d5f072c7bc14"
+    },
+    {
+      "file": "packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts",
+      "previous": 8,
+      "current": 1,
+      "previousIdentityDigest": "90fb15943fb53f520eaf141f163c7821bd4657773b6945078746086291e19bc7",
+      "currentIdentityDigest": "27764260b6d82fcc6c73213133c21ecabbc470544f4bf628a4b24ada7b6d07e0",
+      "fileSha256": "1da70dfe87bd21e56dd83fb1ab238ec2cc52f4f50a6149dc6bbed98094e9fb6a"
+    },
+    {
+      "file": "packages/migrate/src/source-facts.boundaries.test.ts",
+      "previous": 3,
+      "current": 1,
+      "previousIdentityDigest": "e1b7db2bd53c26f9bdbd36baf9ed1d9611dc7d95f92166622e724631157df3f6",
+      "currentIdentityDigest": "7e0720ea0cae3984fc77e0b590bc311ed6e25ff03165e5b61159370bcbafe7e1",
+      "fileSha256": "40500d5ed102f4dbb4a3873b18a49da80a8f93260b2a9a3a1bd8da3c6c5772c9"
+    },
+    {
+      "file": "packages/migrate/src/world-sprite-layout-registry.test.ts",
+      "previous": 12,
+      "current": 11,
+      "previousIdentityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee",
+      "currentIdentityDigest": "1fa632b86555f5bd13b1050a308fd3f0b4267d6fe361da86e80a7bf83eb68849",
+      "fileSha256": "2aaef0130d9b20abe8af37183618648c82efcbb6fa15052b8f0e4b184fdfa3ea"
+    },
+    {
+      "file": "packages/reforge/src/render.test.ts",
+      "previous": 5,
+      "current": 1,
+      "previousIdentityDigest": "9d10d12f28431582e8c59f761f4f03296f9e621129ff30389321edbe89d62deb",
+      "currentIdentityDigest": "6ff88bee5f7e7fd6fb2b7d4103d73c9db56948d05fabb39498f3746bdeb0cb4a",
+      "fileSha256": "a4a475aea163b36b20a457cf1ca28805c2d3dec55c63e47d9b507e0301aed3da"
+    }
+  ],
+  "totalHistoricalNetCountDecrease": 16,
+  "metricsSourceAndOtherTestProtectionUnchanged": true,
+  "protectionRefSwitched": false,
+  "productOrOldTestEdits": false,
+  "gates": [
+    {
+      "name": "retirement-check",
+      "command": ["pnpm", "check"],
+      "protectedRef": null,
+      "started": "2026-10-02T16:39:08.288Z",
+      "finished": "2026-10-02T16:53:50.461Z",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "baselineBefore": "278801208893a6b2f993d0af48927393b23b67b0cf78a0aba3723fbd2db598e9",
+      "baselineAfter": "278801208893a6b2f993d0af48927393b23b67b0cf78a0aba3723fbd2db598e9"
+    },
+    {
+      "name": "retirement-ratchet",
+      "command": ["pnpm", "coverage:ratchet"],
+      "protectedRef": "1b3bffb7977455ce579cc1e66ea0a39fb400b151",
+      "started": "2026-10-02T16:54:14.597Z",
+      "finished": "2026-10-02T17:04:48.366Z",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "baselineBefore": "278801208893a6b2f993d0af48927393b23b67b0cf78a0aba3723fbd2db598e9",
+      "baselineAfter": "b5f33e46990d00a0c0fae75155b4e7668bfe1a750650573ccd55174e7e1daeb3"
+    },
+    {
+      "name": "retirement-strict",
+      "command": ["pnpm", "coverage:fast"],
+      "protectedRef": "1b3bffb7977455ce579cc1e66ea0a39fb400b151",
+      "started": "2026-10-02T17:05:51.265Z",
+      "finished": "2026-10-02T17:13:48.586Z",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "baselineBefore": "b5f33e46990d00a0c0fae75155b4e7668bfe1a750650573ccd55174e7e1daeb3",
+      "baselineAfter": "b5f33e46990d00a0c0fae75155b4e7668bfe1a750650573ccd55174e7e1daeb3"
+    }
+  ],
+  "newCounter": {
+    "ratchetBranches": 47925,
+    "strictBranches": 47924,
+    "commonBranchTotal": 59911,
+    "gameRatchet": 8280,
+    "gameStrict": 8279,
+    "commonGameTotal": 11278,
+    "localizedSource": "packages/game/src/shell/splash-fallback.ts:155",
+    "localizedInput": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts:46",
+    "branch": "155,7,1",
+    "strictHits": 0,
+    "diagnosticHits": 3,
+    "cause": "transparent crane fixture keeps real random start position; all cranes may be offscreen; opacity false arm not deterministically reached",
+    "diagnostic": "one game-only read-only run, not a substitute for strict; exact same 136 source/11278 branch denominator",
+    "currentMainCI": "https://github.com/IllegalCreed/type-pal/actions/runs/37022144308",
+    "ciCause": "pal-meal-shell.test.ts five failures: missing ignored assets/migrated/faces/li-xiaoyao.png",
+    "noMainPushOrDoneOrRetirement": true
+  }
+}
