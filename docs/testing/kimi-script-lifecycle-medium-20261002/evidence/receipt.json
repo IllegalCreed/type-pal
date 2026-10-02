@@ -7,7 +7,12 @@
   "sourceBase": "8990f0cde3edfe6feb908234aeafcc937daaec52",
   "canonicalVersions": { "content": 21, "save": 10 },
   "testsCommit": "9d384895b4fc6a1de3d700ddc5013dc8bc4491ab",
-  "candidateHead": "bf2274e1bc4fe5a95c90d45e3d4c917b3081f264",
+  "rework": {
+    "round": "r1（不加例不加范围）",
+    "tests": "ea8e28cec800915966b74bfbe041b2554a0c9fac — M01改async: 保存enqueue返回answer, 全部原断言保留; 末尾经公开submitNo+两次presented结算, await false, 断言pendingCount=0/view undefined",
+    "docs": "口径校正: 作者定向=新16+main旧22=38实执行, Q十二例仅按固定git对象blob对照排重不在执行集; L07自有reason身份仅适用预取消轴, gate等待轴返回coordinator规范化AbortError('script activation aborted')"
+  },
+  "candidateHead": "PENDING-PIN",
   "delivered": {
     "newCases": 16,
     "netNew": 16,
@@ -34,7 +39,7 @@
   "gates": {
     "directed": {
       "command": "pnpm --filter @type-pal/reforge exec vitest run src/script-confirm-lifecycle.kimi-mid-2.test.ts src/script-lineage-lifecycle.kimi-mid-2.test.ts src/script-confirm-modal.test.ts src/script-activity-lineage.test.ts --reporter=json",
-      "result": "38 passed / 0 failed / 0 pending / 0 todo (新16+同域旧22)",
+      "result": "38 passed / 0 failed / 0 pending / 0 todo (新16+main旧22=38实执行; Q十二例仅blob对照不在执行集)",
       "report": "directed-vitest.json"
     },
     "typecheck": { "reforge": 0 },

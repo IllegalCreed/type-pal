@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790948926840,
+  "startTime": 1790953062617,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "internal lineage uses actual live membership same runtime/exact signal/coordinator borrows live activity and cleans registration",
           "status": "passed",
           "title": "same runtime/exact signal/coordinator borrows live activity and cleans registration",
-          "duration": 1.286457999999982,
+          "duration": 1.17595799999998,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "internal lineage uses actual live membership different runtime waits as an independent root",
           "status": "passed",
           "title": "different runtime waits as an independent root",
-          "duration": 1.3703749999999673,
+          "duration": 0.8278750000000059,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "internal lineage uses actual live membership different signal waits as an independent root",
           "status": "passed",
           "title": "different signal waits as an independent root",
-          "duration": 0.34437500000001364,
+          "duration": 0.26741699999996627,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "internal lineage uses actual live membership different coordinator waits as an independent root",
           "status": "passed",
           "title": "different coordinator waits as an independent root",
-          "duration": 0.21029100000004064,
+          "duration": 0.196124999999995,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "internal lineage uses actual live membership registration refuses closed lease before body",
           "status": "passed",
           "title": "registration refuses closed lease before body",
-          "duration": 0.8036669999999617,
+          "duration": 0.7305410000000165,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "internal lineage uses actual live membership registration refuses foreign lease before body",
           "status": "passed",
           "title": "registration refuses foreign lease before body",
-          "duration": 0.23129199999999628,
+          "duration": 0.20933299999995825,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "internal lineage uses actual live membership registration refuses forged lease before body",
           "status": "passed",
           "title": "registration refuses forged lease before body",
-          "duration": 0.20291600000001608,
+          "duration": 0.19391600000000153,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,7 +104,7 @@
           "fullName": "internal lineage uses actual live membership registration refuses forged-persistent lease before body",
           "status": "passed",
           "title": "registration refuses forged-persistent lease before body",
-          "duration": 0.27729199999998855,
+          "duration": 0.2013329999999769,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "internal lineage uses actual live membership closed lease with pending finally cannot enter after ready, nor impersonate its replacement",
           "status": "passed",
           "title": "closed lease with pending finally cannot enter after ready, nor impersonate its replacement",
-          "duration": 0.6637920000000008,
+          "duration": 0.5890410000000088,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -124,7 +124,7 @@
           "fullName": "internal lineage uses actual live membership overlapping registrations settle out of order without erasing the live sibling",
           "status": "passed",
           "title": "overlapping registrations settle out of order without erasing the live sibling",
-          "duration": 0.13716700000003357,
+          "duration": 0.1877499999999941,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -134,7 +134,7 @@
           "fullName": "internal lineage uses actual live membership failed activity releases membership and does not strand later snapshots",
           "status": "passed",
           "title": "failed activity releases membership and does not strand later snapshots",
-          "duration": 0.21733299999999645,
+          "duration": 0.24033399999996163,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -144,7 +144,7 @@
           "fullName": "internal lineage uses actual live membership abort before registration or while waiting never invokes the body",
           "status": "passed",
           "title": "abort before registration or while waiting never invokes the body",
-          "duration": 0.8348330000000033,
+          "duration": 0.9832910000000084,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -154,7 +154,7 @@
           "fullName": "nested persistent leases preserve save and owner boundaries child/grandchild keep the barrier pending even if parent closes first",
           "status": "passed",
           "title": "child/grandchild keep the barrier pending even if parent closes first",
-          "duration": 0.7381660000000352,
+          "duration": 0.7529580000000351,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -164,7 +164,7 @@
           "fullName": "nested persistent leases preserve save and owner boundaries a busy owner is not duplicated; unrelated existing roots also block ready",
           "status": "passed",
           "title": "a busy owner is not duplicated; unrelated existing roots also block ready",
-          "duration": 0.10575000000000045,
+          "duration": 0.11083300000001373,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -174,7 +174,7 @@
           "fullName": "nested persistent leases preserve save and owner boundaries begin rejects closed parent even while gate is open",
           "status": "passed",
           "title": "begin rejects closed parent even while gate is open",
-          "duration": 0.13516700000002402,
+          "duration": 0.1383750000000532,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -184,7 +184,7 @@
           "fullName": "nested persistent leases preserve save and owner boundaries begin rejects foreign parent even while gate is open",
           "status": "passed",
           "title": "begin rejects foreign parent even while gate is open",
-          "duration": 0.0618750000000432,
+          "duration": 0.05995799999999463,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -194,7 +194,7 @@
           "fullName": "nested persistent leases preserve save and owner boundaries begin rejects forged parent even while gate is open",
           "status": "passed",
           "title": "begin rejects forged parent even while gate is open",
-          "duration": 0.05062499999996817,
+          "duration": 0.05062500000002501,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -204,14 +204,14 @@
           "fullName": "nested persistent leases preserve save and owner boundaries epoch invalidation does not kill live lineage, but never commits its stale cursor",
           "status": "passed",
           "title": "epoch invalidation does not kill live lineage, but never commits its stale cursor",
-          "duration": 0.13974999999999227,
+          "duration": 0.13908299999997098,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790948927341,
-      "endTime": 1790948927349.1396,
+      "startTime": 1790953063006,
+      "endTime": 1790953063013.1392,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal/packages/reforge/src/script-activity-lineage.test.ts"
@@ -223,7 +223,7 @@
           "fullName": "M01 refused activations never touch the capture port; a real activation captures exactly once",
           "status": "passed",
           "title": "M01 refused activations never touch the capture port; a real activation captures exactly once",
-          "duration": 2.223249999999993,
+          "duration": 2.3388750000000016,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -233,7 +233,7 @@
           "fullName": "M02 mutating a handed-out view wrapper never leaks into the next view or the final answer",
           "status": "passed",
           "title": "M02 mutating a handed-out view wrapper never leaks into the next view or the final answer",
-          "duration": 1.2258330000000086,
+          "duration": 0.2621249999999975,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -243,7 +243,7 @@
           "fullName": "M03 an early default-No submit stays false through the pending window",
           "status": "passed",
           "title": "M03 an early default-No submit stays false through the pending window",
-          "duration": 0.19225000000000136,
+          "duration": 0.18849999999999056,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -253,7 +253,7 @@
           "fullName": "M04 two presented frames without a submit keep the answer pending until an explicit submit",
           "status": "passed",
           "title": "M04 two presented frames without a submit keep the answer pending until an explicit submit",
-          "duration": 0.5522079999999931,
+          "duration": 0.3333329999999961,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -263,7 +263,7 @@
           "fullName": "M05 cancelling the middle queued request before activation preserves first and third in FIFO order",
           "status": "passed",
           "title": "M05 cancelling the middle queued request before activation preserves first and third in FIFO order",
-          "duration": 0.7143749999999898,
+          "duration": 0.6962919999999997,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -273,7 +273,7 @@
           "fullName": "M06 every settlement path removes exactly its own registered abort listener once",
           "status": "passed",
           "title": "M06 every settlement path removes exactly its own registered abort listener once",
-          "duration": 0.803167000000002,
+          "duration": 0.8462500000000119,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -283,7 +283,7 @@
           "fullName": "M07 a late abort of a settled first request leaves the truly active second request intact",
           "status": "passed",
           "title": "M07 a late abort of a settled first request leaves the truly active second request intact",
-          "duration": 0.2918339999999944,
+          "duration": 0.2560840000000013,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -293,14 +293,14 @@
           "fullName": "M08 an abort landing between the enqueue pre-check and listener registration still rejects cleanly",
           "status": "passed",
           "title": "M08 an abort landing between the enqueue pre-check and listener registration still rejects cleanly",
-          "duration": 0.17179099999999892,
+          "duration": 0.21679100000000062,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790948926981,
-      "endTime": 1790948926987.2917,
+      "startTime": 1790953062744,
+      "endTime": 1790953062750.2168,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal/packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts"
@@ -312,7 +312,7 @@
           "fullName": "ScriptConfirmModalQueue is FIFO, defaults to No and settles only after two presented frames",
           "status": "passed",
           "title": "is FIFO, defaults to No and settles only after two presented frames",
-          "duration": 1.8781250000000114,
+          "duration": 1.594417,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -322,7 +322,7 @@
           "fullName": "ScriptConfirmModalQueue Esc is always No and double-submit cannot change the answer",
           "status": "passed",
           "title": "Esc is always No and double-submit cannot change the answer",
-          "duration": 0.22687500000000682,
+          "duration": 0.19216699999999776,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -332,7 +332,7 @@
           "fullName": "ScriptConfirmModalQueue aborting active and queued requests rejects without choosing either branch",
           "status": "passed",
           "title": "aborting active and queued requests rejects without choosing either branch",
-          "duration": 0.5028329999999954,
+          "duration": 0.4301659999999998,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -342,14 +342,14 @@
           "fullName": "ScriptConfirmModalQueue session replacement rejects every request and late input is inert",
           "status": "passed",
           "title": "session replacement rejects every request and late input is inert",
-          "duration": 0.3227499999999992,
+          "duration": 0.29291699999999565,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790948927433,
-      "endTime": 1790948927436.3228,
+      "startTime": 1790953063080,
+      "endTime": 1790953063082.4302,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal/packages/reforge/src/script-confirm-modal.test.ts"
@@ -361,7 +361,7 @@
           "fullName": "L01 a rejected body on a borrowed lease keeps the same reason, drops the registration and never closes the lease",
           "status": "passed",
           "title": "L01 a rejected body on a borrowed lease keeps the same reason, drops the registration and never closes the lease",
-          "duration": 1.421291999999994,
+          "duration": 1.324750000000023,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -371,7 +371,7 @@
           "fullName": "L02 the latest scope settling first falls lookup back to the earlier live lease",
           "status": "passed",
           "title": "L02 the latest scope settling first falls lookup back to the earlier live lease",
-          "duration": 0.2983330000000137,
+          "duration": 0.21758299999999053,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -381,7 +381,7 @@
           "fullName": "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration",
           "status": "passed",
           "title": "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration",
-          "duration": 0.202083000000016,
+          "duration": 0.17929200000000378,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -391,7 +391,7 @@
           "fullName": "L04 two coordinators each return only their own registered lease for the same key and signal",
           "status": "passed",
           "title": "L04 two coordinators each return only their own registered lease for the same key and signal",
-          "duration": 0.20520800000002737,
+          "duration": 0.19999999999998863,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -401,7 +401,7 @@
           "fullName": "L05 a rejected scope on one signal leaves the other signal lineage borrowable and cleanable",
           "status": "passed",
           "title": "L05 a rejected scope on one signal leaves the other signal lineage borrowable and cleanable",
-          "duration": 0.2245409999999879,
+          "duration": 0.20437499999999886,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -411,7 +411,7 @@
           "fullName": "L06 a pending async body keeps its own transient live and the barrier waiting; rejection releases both with the same reason",
           "status": "passed",
           "title": "L06 a pending async body keeps its own transient live and the barrier waiting; rejection releases both with the same reason",
-          "duration": 0.516208000000006,
+          "duration": 0.4749170000000049,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -421,7 +421,7 @@
           "fullName": "L07 a pre-aborted signal surfaces its own exact reason and a gate-wait abort surfaces the coordinator reason with no late body",
           "status": "passed",
           "title": "L07 a pre-aborted signal surfaces its own exact reason and a gate-wait abort surfaces the coordinator reason with no late body",
-          "duration": 1.335125000000005,
+          "duration": 0.7963750000000118,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -431,14 +431,14 @@
           "fullName": "L08 re-entering the same lineage after a failed scope borrows a fresh live lease, never the closed one",
           "status": "passed",
           "title": "L08 re-entering the same lineage after a failed scope borrows a fresh live lease, never the closed one",
-          "duration": 0.7184160000000475,
+          "duration": 0.37137500000000045,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790948927338,
-      "endTime": 1790948927343.7185,
+      "startTime": 1790953063005,
+      "endTime": 1790953063008.3713,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal/packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts"
