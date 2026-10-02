@@ -8,6 +8,21 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
+## Codex P r14 / O p13-b / Q r16复核（2026-10-02，当前优先）
+
+固定ee3eea871280ec78ea2bdc3d012b1e4928491715，测试证据2bdb69cfd0537ea14f7fdb4a322a69b7e394898d。**r16两例及证据accept，原卡partial/rework**：新187绿/143身份/3067文件静态完整0/0/0，67三态hash/身份/退出对应、旧65原字节保持。E2真实wrapper玩家防御姿/完整受击向量/数字附着为新oracle；旧减伤计算/睡眠资格分列旧证明。AP1/2合法输入分区对照不是产品源变异；ET2 index措辞纠正、meta/raw历史不改，关闭不重开。143结构上限142/≥558例、67/58/57分列，700/50组/50目标/10流程不缩，针数量已足不凑针；连续原Q07/Q08/Q10合法余族与真账，不只交小批完成。
+
+[独立审核与直接提示词](../../testing/glm-tenfold-triple/codex-opq-r17-review-20261002.md)、
+[逐针/实跑机器记录](../../testing/glm-tenfold-triple/codex-opq-r17-review-20261002.json)。
+不写作者树、不自动UI/模型/派发，未main/done/官方覆盖结算；用户发送前手动选GLM-5.3，实际视觉另阶段Flash。
+以下当前交接覆盖历史，不给Kimi/Grok扩量。
+
+### 下一位GLM Q提示词（用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、分支codex/glm-wave-q-runtime-residual-r1，固定已审ee3eea871280ec78ea2bdc3d012b1e4928491715，测试/证据2bdb69cfd0537ea14f7fdb4a322a69b7e394898d。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-opq-r17-review-20261002.md/json。r16两例真实E2 EnemyMagic链的玩家防御姿/命中队员向量/受击相位/首hurt帧完整数字数组accept，新187相邻全绿、143身份对齐、根3067文件完整0/0/0；67三态哈希/身份/退出逐枚对应，旧65原字节不动，ET2 index非超杀措辞已改且meta/raw历史保留，关闭不重开。AP1/2是合法RNG/睡眠分区输入对照，不是产品源码变异，正确产品跨分区会改结果；减伤计算和睡眠资格单元已有旧证，本批新信用仅wrapper姿态/真实动画时序/完整向量与数字附着，不重领全部单元合同。143执行/净新结构上限142/至少558例、67存档58执行目标净新结构上限57仍部分，原700/50组/50不同有效目标/10流程不缩，针数量已足不凑针或全重采。直接连续Q07/Q08合法typed生命周期余族、Q10 mkdtemp合成公共CLI及逐合同真账，源条件/真实caller/合法输入/旧完整fullName-matcher/精确业务oracle，别统一套泛化结论或只交两例完成回执；阶段推送后继续下一合法组。避让Grok46，game/extract与Reforge分阶段，D-Q01-1/Kimi短审仍另产品draft不夹修，不learnedSpells/capture新机制、不PAL剧情/世界后门；不给Kimi/Grok扩量。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。仅原Owner白名单新测/专属fixture/本波证据可写；产品/旧测/配置/baseline/真实数据/其它Owner/共享文档只读，不擅迁main版本。每批定向相邻/typecheck，阶段提交推送后继续下一合法组；仅源或最终执行集真变重采受影响活跃针，历史原日志不改写，最后所有回执/SHA编辑后再根lint完整0/0/0+docs/diff/verifier，末批按原卡全包验证、真实完整SHA和准确余账。不合main、不标done、不跑official ratchet/protected、不清原树。
+```
+
 ## 最新新增合同边界与模型（2026-10-01 GC-1）
 
 [Grok保留game46源](../../testing/grok-cursor-large/targets.json)的后续新主合同/反控归Grok，

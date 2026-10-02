@@ -8,6 +8,21 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
+## Codex P r14 / O p13-b / Q r16复核（2026-10-02，当前优先）
+
+固定2cd548a8bbf1b232c8d269a19867c322c4022921。**counter/rework**：新152相邻绿/98身份，但最终根lint12格式error；开关/where的非空chunks无当前producer，空id party被公开校验拒收，三例暂不计合法新，上限≤95/≥605缺口。七enemy/team命令oracle方向与details/self混合新轴保留，合法fixture须修；旧14/22判据/C13不重开。G07整组停测撤回：独立公共作者IO→loader→toEditorState→save-valid两identity引用真实出现，无测试侧cast，2/2+typecheck零。17机械结构针与C01业务未接受分开；原700/70组/50目标/20流程不缩，18/20与F14/F18未完，修受影响项后连续原合法余族。
+
+[独立审核与直接提示词](../../testing/glm-tenfold-triple/codex-opq-r17-review-20261002.md)、
+[逐针/实跑机器记录](../../testing/glm-tenfold-triple/codex-opq-r17-review-20261002.json)。
+不写作者树、不自动UI/模型/派发，未main/done/官方覆盖结算；用户发送前手动选GLM-5.3，实际视觉另阶段Flash。
+以下当前交接覆盖历史，不给Kimi/Grok扩量。
+
+### 下一位GLM P提示词（用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、分支codex/glm-wave-p-editor-residual-r1，固定已审2cd548a8bbf1b232c8d269a19867c322c4022921。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-opq-r17-review-20261002.md/json。闭P-R17-01/02，不再重做旧14针/22判据/C13历史/合法cursor/默认等待：最终HEAD新增P04-C01/C02/C03各positive/mutated/restored/receipt共12 JSON格式error，正常format保留值且最终pin后完整验零。actor-references新5例仅满足类型不等于当前合法输入：开关例与where例复活非空ScriptChunkV1，真实open-local/main传{}；空id例startWorld.party=['','hero']被validateStartWorld拒收，未证明当前合法caller。开关臂改当前合法canonical共享/作者脚本输入；撤回无当前producer的chunks where臂；空id轴与C01停测/退役保留原字节，不计合法新合同，除非拿出当前公开合法临时输入生产链，不能改产品/旧格式/强转造输入。detail五值及self coveredBy有用oracle保留，补合法完整引用fixture，伴随levelUp旧证明分列；七个enemy/team纯命令oracle方向保留，不强迫所有中间draft命令都可保存。旧team test:105-112只断言slots，不能误删稳定id新轴；C02整键删除/C03稳定id可保留。闭P-R17-03：G07整组停测撤回，Codex无测试侧cast小样已buildBlankProject→当前作者文件→loadCurrentProjectFrom→toEditorState→assertProjectSaveValid，真实shared/enemy identity立绘两引用出现、chunks={}，Vitest2/2+typecheck零；按公开路径补G07，不复制旧测试强转，不新增接口。98执行/净新上限暂≤95/至少605例缺口，25工作组和17存档非全部已接受，18/20流程，700/70组/50不同有效目标/20真实流程不缩；修受影响项后连续原P02残余/P04余族/P05-P10与逐合同真账，不只交小批完成或数字回执。避让Cursor74保留源，纯代码阶段不浏览器，F14/F18另阶段视觉。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。仅原Owner白名单新测/专属fixture/本波证据可写；产品/旧测/配置/baseline/真实数据/其它Owner/共享文档只读，不擅迁main版本。每批定向相邻/typecheck，阶段提交推送后继续下一合法组；仅源或最终执行集真变重采受影响活跃针，历史原日志不改写，最后所有回执/SHA编辑后再根lint完整0/0/0+docs/diff/verifier，末批按原卡全包验证、真实完整SHA和准确余账。不合main、不标done、不跑official ratchet/protected、不清原树。
+```
+
 ## 最新新增合同边界与模型（2026-10-01 GC-1）
 
 [Cursor保留74源](../../testing/grok-cursor-large/targets.json)的后续新主合同/反控归Cursor，

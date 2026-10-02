@@ -10,6 +10,21 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
+## Codex P r14 / O p13-b / Q r16复核（2026-10-02，当前优先）
+
+固定56e852f528497a18f2dff64e99f405080f1eae76、证据6c85d2ab3c01b6916771cdb1f2d7cf3b923c6ffb。最后pin格式/caller三路关闭，新34相邻绿/461身份/静态完整0/0/0/64存档再判hash对应。**counter/rework仅新误删轴及原余量**：theirs新增writes+删除混合轴旧boundaries只改已有文件/删除，未证新文件进入writes；独立控制恢复35绿、变异旧/保留34绿仅窄新1红。只恢复incoming-only进入writes，旧delete/summary不恢复、C4删除针仍退役且原字节保持；不重复旧map/目录/快照/全针采。461结构上限459/≥241缺口、353空条件/208 token旧锚与700/60组真账原目标仍未完，直接连续合法深域。
+
+[独立审核与直接提示词](../../testing/glm-tenfold-triple/codex-opq-r17-review-20261002.md)、
+[逐针/实跑机器记录](../../testing/glm-tenfold-triple/codex-opq-r17-review-20261002.json)。
+不写作者树、不自动UI/模型/派发，未main/done/官方覆盖结算；用户发送前手动选GLM-5.3，实际视觉另阶段Flash。
+以下当前交接覆盖历史，不给Kimi/Grok扩量。
+
+### 下一位GLM O提示词（用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支codex/glm-wave-o-supply-validation-r1，固定已审56e852f528497a18f2dff64e99f405080f1eae76，证据6c85d2ab3c01b6916771cdb1f2d7cf3b923c6ffb。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md最新段及同树docs/testing/glm-tenfold-triple/codex-opq-r17-review-20261002.md/json。最后pin格式、recover:53/plan-commit:116-126/IO三路caller和大部分删重已accept，64旧三态/哈希/再判保持，不重做map/恢复目录/快照/旧针。只闭O-R17-01：删掉的theirs新增writes+删除deletes是混合轴，boundaries:30-64只改已有a与删old，未证incoming-only新文件进入writes。Codex同场旧23+保留11+窄例1，控制/恢复35绿；仅给writes.set加ours已有或map条件时旧/保留34全绿、只新托管文件writes精确值断言红。恢复仅incoming-only新文件进入writes子轴并补源:195-197/caller/旧全文matcher真账，不恢复旧delete/summary臂；O02-CC4原删除针退役仍正确，原字节保留，不借此复活旧针或凑新针。当前461执行/净新结构上限459/至少241例缺口；恢复后按真实执行和排重重算，不冒称全语义已核；353空条件与208 token旧锚待逐条件真账，原700/60组/50不同合法目标不缩，存档64/62已足不重领。直接连续原plan/write-plan及其它合法深域新缺口，不再仅删重、证据或完成数字轮。先核旧完整fullName及全部断言，真实输入/caller/精确oracle逐合同展开，旧485等摘要随正常批分历史/当前。CLI只mkdtemp合成工程，不触真实migrate含dry-run。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。仅原Owner白名单新测/专属fixture/本波证据可写；产品/旧测/配置/baseline/真实数据/其它Owner/共享文档只读，不擅迁main版本。每批定向相邻/typecheck，阶段提交推送后继续下一合法组；仅源或最终执行集真变重采受影响活跃针，历史原日志不改写，最后所有回执/SHA编辑后再根lint完整0/0/0+docs/diff/verifier，末批按原卡全包验证、真实完整SHA和准确余账。不合main、不标done、不跑official ratchet/protected、不清原树。
+```
+
 ## 目标、冻结与排重
 
 用户2026-09-30要求三张至少十倍规模的独立卡。O目标 **700合法未重复用例、60合同
