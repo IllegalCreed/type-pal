@@ -50,7 +50,7 @@
   "gates": {
     "editorFull": "4503/4503",
     "typecheck": "0 diagnostics",
-    "lint": "pending-root-lint-after-pin",
+    "lint": "0/0/0 (pnpm lint / lint-zero 3291 files after pin)",
     "judgeSelftest": "pass (R2 retained)",
     "flows": "12/12 (not re-run)",
     "docs": "PASS",
