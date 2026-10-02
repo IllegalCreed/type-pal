@@ -1,6 +1,6 @@
 # EDITOR-AUTO-LOCATOR-1 — 精灵引用跳转到实际自动方案
 
-Status: build
+Status: review
 Phase: phase2
 Owner: Codex Root
 Coding Owner: pre005_editor_edges
@@ -29,3 +29,13 @@ Root premise verified / design agree / build allowed。只允许改App.tsx与App
 现有其它定位、未保存内容与history保持，新增测试先红后绿；Root再用实际精灵库入口核auto选中。
 
 单一Owner隔离提交，自验不替代Root验收。无用户转交提示词，内部贡献者交付后由Root接收。
+
+## Root独立接收
+
+候选`45598749c`（Root接为`fcada709a`）直接审读：点击时读当前两个session，按实际initialPage与auto绑定，
+再核当前精灵身份；复用既有canonicalOwner/Page focus，不复活drawer.src旧语法、不改数据/history。
+贡献者5项先红后绿，Root独立App导航/真实工作台48项绿且stderr空、editor两段typecheck无诊断。
+同一测试裸focus导致的tooltip act警告用一行await act消除，未屏蔽console或改产品tooltip。
+Root在真实6014合成工程从精灵引用行点击，自动行为aria-selected=true、deep-empty的deep方案及实际共享调用正文可见；
+截图`build/pre005/auto-locator-final.png`，保存/撤销保持disabled。不是只看mock callback。
+主6012未操作；本轮全仓基线10989测试/七包types/2758文件静态零诊断已过，追加导航按以上独立验证，最终共享门归母卡。

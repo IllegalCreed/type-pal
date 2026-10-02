@@ -1,6 +1,6 @@
 # E2E-CAPTURE-1 — 已验001–004本地原声录像
 
-Status: rework
+Status: build
 Phase: ops
 Owner: Codex Root
 Coding Owner: pre005_media_probe
@@ -73,3 +73,13 @@ Root premise verified / design agree / build allowed，冻结当前窄范围如�
 
 Owner按同范围窄返工；旧小样/失败保留。普通verify、用户系统音量与6012不变。
 用户问声音后先停止重复有声探针，随后明确允许继续必要测试；当前自有capture Chrome静音输出，录音文件仍含原声。
+
+### 返工独立接收与正式录制准入
+
+新冻结`b9c776b0`，旧`227cecace`保留。Root直接读两次diff，独立席重新读真实音频caller/所有失败门并accept：
+成功回执发布前后healthy，失败重写failed；game001最终health在passed之前。decode观察返回原Promise，原回调/同步throw
+保持，cleanup恢复原型；console/网络失败只限制音频域。Owner174工具tests/2764静态零诊断，独立13项连接/解码/清理绿。
+有效探针`/tmp/type-pal-formal-capture-probe.7wwgnW/run-1790931364179`与`run-1790931365856`源码hash匹配新冻结，
+原report revision仍227，保持历史事实：BGM失败但SFX输出RMS0.0711、MP4独立解码RMS0.0692676仍failed；
+SFX被吞EncodingError时BGM RMS0.0707448，仍failed无成功媒体。双context仍running、清理全部true。
+此前两次无手势初态前提不满足的尝试不作音频失败证明。两P1闭合，Root准入集中八段，不改verify donor原字节。
