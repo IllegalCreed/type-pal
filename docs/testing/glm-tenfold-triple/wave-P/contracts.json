@@ -1,6 +1,6 @@
 {
-  "total": 97,
-  "note": "r14：oracle=每合同测试源真实断言（G14 五owner/四fallback/两locator、G15、G16 聚合全部臂补全；P04 新增 11 例含真实行锚）；P02-G03 三条为人工指定结果行保留；97 执行=directed-vitest.json 真实实跑身份。历史 r9 旧锚口径见 git。",
+  "total": 98,
+  "note": "r14（续批二）：+P04-G06 敌队稳定 id 合同；98 执行=directed-vitest.json 真实实跑身份。G07（collectEditorDialoguePortraitReferences 敌人/共享库 identity 立绘臂）停该组：identity 形 cue 仅在作者视图（ScriptEditorState）类型合法，EditorState 共享库/敌人表为运行时形（DialogueCue 无 identity），旧证经 as unknown 强转注入（actor-dialogue-commands.test.ts fixture）——不复制强转，待 Codex 裁决是否另开产品 draft。历史 r9 旧锚口径见 git。",
   "contracts": [
     {
       "batch": "P01",
@@ -1359,6 +1359,20 @@
       "axis": "本合同新轴: AddEnemy invert 按 id 移除且保留其余条目同引用",
       "oracle": "完整断言:\nexpect(applied.enemies?.map((entry) => entry.id)).toEqual(['enemy-a', 'enemy-b'])\nexpect(restored.enemies).toHaveLength(1)\nexpect(restored.enemies?.[0]).toBe(a)\n// src/core/enemy-commands.glm-p.test.ts:107-110",
       "classification": "undo-contract"
+    },
+    {
+      "batch": "P04",
+      "id": "P04-G06-1",
+      "file": "src/core/enemy-team-commands.glm-p.test.ts",
+      "fullName": "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表",
+      "status": "passed",
+      "condition": "pEditorState typed 夹具：单队 team-c1；patch { id: 'other', slots: [x,y,null,z] }",
+      "source": "packages/editor/src/core/enemy-team-commands.ts:77（id: this.teamId）",
+      "caller": "new UpdateEnemyTeamCommand(teamId, next).apply(state)",
+      "oldAssertion": "enemy-team-references.test.ts › keeps enemy-team constructors and in-use error on the old commands barrel（传入 id:other 但只断言 slots 截断——id 稳定臂未断言）；enemy-team-commands.glm-boundaries.test.ts › UpdateEnemyTeam：缺席 id apply 原引用（缺席臂已证）",
+      "axis": "本合同新轴: 敌队稳定 id 创建后不可经修改命令改名（next.id 被强制回 teamId）",
+      "oracle": "完整断言:\nexpect(applied.enemyTeams).toEqual([{ id: 'team-c1', slots: ['x', 'y', null, 'z'] }])\nexpect(applied.enemyTeams?.some((team) => team.id === 'other')).toBe(false)\n// src/core/enemy-team-commands.glm-p.test.ts:31-33",
+      "classification": "id-stability"
     }
   ]
 }
