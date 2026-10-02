@@ -15,7 +15,6 @@ import type { PalContentSupplySources } from './pal-content-supply.js'
 import {
   buildPalCurrentPublication,
   type PalCurrentPublication,
-  palAssetPreconditions,
   validatePalCurrentPublication,
 } from './pal-current-publication.js'
 import { buildPalCurrentManifest } from './pal-manifest.js'

@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 461,
-  "passed": 461,
+  "numTotalTests": 460,
+  "passed": 460,
   "failed": 0,
   "tests": [
     {
@@ -171,6 +171,11 @@
     {
       "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
       "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 普通文件经三方合并进入 target；summary 计数一致",
+      "status": "passed"
+    },
+    {
+      "file": "packages/migrate/src/migration-plan.glm-o.test.ts",
+      "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 incoming-only 新托管文件进入 writes 且值为精确正文（更新/删除臂由旧 boundaries:30-64 证）",
       "status": "passed"
     },
     {
@@ -890,17 +895,7 @@
     },
     {
       "file": "packages/migrate/src/pal-current-publication.glm-o.test.ts",
-      "fullName": "O01 palAssetPreconditions：真实发布产物的 manifest 前置计划 发布产物的每个 catalog 资源产出 projects/pal 前缀前置且 hash 透传",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/pal-current-publication.glm-o.test.ts",
-      "fullName": "O01 palAssetPreconditions：真实发布产物的 manifest 前置计划 前置计划输入为合成 catalog 时与记录逐条对齐（无角色 id 丢失）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/pal-current-publication.glm-o.test.ts",
-      "fullName": "O01 合成 catalog 自检：fixture 本身过现行 catalog 守卫 syntheticCatalog 的所有 path 位于 assets/generated 前缀",
+      "fullName": "O01 合成 catalog 自检（fixture 卫生，不计产品净新合同） syntheticCatalog 的所有 path 位于 assets/generated 前缀",
       "status": "passed"
     },
     {

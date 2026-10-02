@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 43,
-    "passed": 43,
+    "executed": 41,
+    "passed": 41,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 43,
-    "passed": 42,
+    "executed": 41,
+    "passed": 40,
     "failed": 1,
     "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud",
     "failureMessageHead": "AssertionError: expected [Function] to throw an error"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 43,
-    "passed": 43,
+    "executed": 41,
+    "passed": 41,
     "failed": 0
   },
   "hashes": {
