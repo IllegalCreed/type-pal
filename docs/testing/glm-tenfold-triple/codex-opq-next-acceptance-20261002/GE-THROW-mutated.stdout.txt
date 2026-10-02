@@ -1,0 +1,4 @@
+JSON report written to /private/tmp/codex-opq-next-review.vdKwnm/GE-THROW-mutated.vitest.json
+undefined
+/private/tmp/codex-opq-next-review.vdKwnm/Q/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/cli-global-entries.glm-q.test.ts src/cli-isolated.glm-q.test.ts src/cli-battle-assets.glm-q.test.ts src/cli-font-lookup.glm-q.test.ts --maxWorkers=1 --reporter=json --outputFile=/private/tmp/codex-opq-next-review.vdKwnm/GE-THROW-mutated.vitest.json

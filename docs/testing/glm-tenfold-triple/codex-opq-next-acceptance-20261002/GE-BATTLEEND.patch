@@ -1,0 +1,5 @@
+--- a/packages/pal-extract/src/cli.ts
++++ b/packages/pal-extract/src/cli.ts
+@@ -239,1 +239,1 @@
+-    if (eo.scriptOnBattleEnd > 0) globalScriptEntries.push(eo.scriptOnBattleEnd)
++    // Codex counter GE-BATTLEEND: skip this global-entry push

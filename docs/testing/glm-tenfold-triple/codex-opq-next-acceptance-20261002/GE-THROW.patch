@@ -1,0 +1,5 @@
+--- a/packages/pal-extract/src/cli.ts
++++ b/packages/pal-extract/src/cli.ts
+@@ -229,1 +229,1 @@
+-    if (it.scriptOnThrow > 0) globalScriptEntries.push(it.scriptOnThrow)
++    // Codex counter GE-THROW: skip this global-entry push

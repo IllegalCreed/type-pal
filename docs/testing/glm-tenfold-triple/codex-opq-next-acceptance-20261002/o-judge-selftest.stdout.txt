@@ -1,0 +1,28 @@
+TAP version 13
+# ok   正控：真实存档三相 flatten 后身份一致
+# ok   反例：同数量换一个 passed 邻居 fullName → 必须拒收
+# ok   反例：dropped 一例（数量变化）→ 必须拒收
+# ok   钉住旧 bug 语义：suite 直传对换邻居反例恒接受，flatten 后同例必拒
+# re-adjudicate.selftest: 4 passed, 0 failed
+# Subtest: docs/testing/glm-tenfold-triple/wave-O/re-adjudicate.selftest.mjs
+ok 1 - docs/testing/glm-tenfold-triple/wave-O/re-adjudicate.selftest.mjs
+  ---
+  duration_ms: 28.795375
+  type: 'test'
+  ...
+# selftest 27 判据用例全过（整段生命周期正控 8 + 拒收 20，全部经 counter-judge.mjs 唯一判据）
+# Subtest: docs/testing/glm-tenfold-triple/wave-O/run-counter.selftest.mjs
+ok 2 - docs/testing/glm-tenfold-triple/wave-O/run-counter.selftest.mjs
+  ---
+  duration_ms: 27.679292
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 34.244708

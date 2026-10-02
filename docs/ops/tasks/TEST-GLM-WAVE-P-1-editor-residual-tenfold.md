@@ -8,7 +8,13 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
-## Codex 证据索引交接（2026-10-02，当前优先）
+## Codex 文本索引独立接收（2026-10-02，当前优先）
+
+固定d18f9075724df1fc855b539a82effd0cf9de8cef，本地/远端一致且干净。**本次纯文本索引修订accept**：74/74实际PNG与74索引逐一SHA匹配，无遗漏/多项；旧66项表原值保留superseded，实际相位/result/console及产品/测试/PNG/旧针均无变。2854文件静态完整0/0/0、docs818 Markdown/4285链接/245任务、716冻结/251白名单/diff通过；没有新截图/全包/反控重跑。
+[独立接收](../../testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.md)、[机器证据](../../testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.json)。原102测试/19活跃针保留；F14保存重开host-blocked、F18固定P导航遮挡/键盘未证、18/20不变，不声称当前main UI已复现/修复，Status仍partial/rework、原700不缩。
+**无下一位GLM P提示词，无需用户再传P。** 已交文本索引不再返工或重拍图，下一有限新范围/宿主与当前UI核查由Codex负责，不授权作者修产品或泛化继续700；不main/done/正式结算。
+
+## Codex 证据索引交接（2026-10-02，历史；已接受）
 
 用户要求继续就直接给提示词。本阶段只准入P已交证据索引同步，不要求重跑受阻视觉。
 固定已推送候选 `6b7669693b2ea3fa7b1004c79017945eba29d7ca`；本地/远端已核匹配且树干净。

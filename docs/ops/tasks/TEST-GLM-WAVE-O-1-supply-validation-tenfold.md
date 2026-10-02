@@ -10,7 +10,19 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex 当前接收责任（2026-10-02，当前优先）
+## Codex 有限包独立验收（2026-10-02，当前优先）
+
+固定bd1416933259a6c5fa532d05329d1c33499f4fa8，310/310唯一行、23/23测试hash、460账重建逐字节一致、64旧针再判和27+4自测、3233文件静态完整0/0/0/docs/716冻结/786白名单/diff通过；本批产品/测试/旧反控零改动，不全包或全变异重跑。
+**counter仅O-NEXT-01～03**：新增it解析仍按长度5跳，真实it解析0；机器证据点名六行五旧证+一fixture不得计新，四行sound/队列必须按旧完整matcher拆子轴。原295上限现≤289/至少411例；不是其余289全部语义accept，原700/60组/50目标不缩。
+[独立原始证据与具体裁决](../../testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.md)、[精确行机器名单](../../testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.json)。其它已交310不要求整包重填，剩余新范围与独立语义审核由Codex继续负责；不泛化续700、不main/done/正式结算。
+
+### 下一位GLM O提示词（当前；用户先手动选GLM-5.3文本）
+
+```text
+继续 TEST-GLM-WAVE-O-1，原树 /Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支 codex/glm-wave-o-supply-validation-r1，固定 bd1416933259a6c5fa532d05329d1c33499f4fa8。先只读审核根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal 的O卡最新段及 docs/testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.md/json，完整执行 O-NEXT-01～03：修it解析长度并加真实解析自测；requiredExclusions六行改五existing-proof+一fixture-self-check；mixedRowsToSplit四行用旧完整matcher拆新旧子轴，撤回coveredBy的error误报。310结构/23hash/重建/64再判和静态已过，不重做整310、不改测试/产品/旧反控、不重采旧64；仅本波证据工具/账/README/receipt可写。原herb0已扣不二扣，净新最多289、至少411未完，700不缩；不自行扩搜余量。重建保留人工分类，解析自测/64再判、最终lint0/0/0/docs/diff/verifier，一次真实40位SHA提交推原分支。不main/done/官方门/清树，做完这份有限清单停止作者续做，下一新范围由Codex核定。
+```
+
+## Codex 上一轮接收责任（2026-10-02，历史）
 
 本轮有限包已推送 `bd1416933259a6c5fa532d05329d1c33499f4fa8`，作者树干净、本地/远端一致。310固定行全部在最终460行账中，condition与token近似锚结构已清零；作者按旧证明扣列报净新上限295。仅结构预检，不冒称已独立接受其全部分类。产品/测试本轮零改动，语义排重与后续真实残余清单由Codex承担。
 Status仍rework/partial，原700目标不缩，未完整独立验收/合main/done或覆盖结算。

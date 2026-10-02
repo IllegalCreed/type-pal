@@ -8,7 +8,20 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex 当前接收责任（2026-10-02，当前优先）
+## Codex 有限包独立验收（2026-10-02，当前优先）
+
+固定4ec6e0676d398815c96f44cb6c4d475cbe6ad771、测试2d6ced2034fd590c777d6a7b1f56d51d52bb4dd9。新14+旧CLI10独立24绿、extract全包381绿/三typecheck新跑零、3096文件静态0/0/0/docs/716冻结/835白名单/diff通过；旧147身份+14对应，旧71字节不变，其它两包2150/2812字节无变明确复用，不冒称新跑。
+五新代表产品针由Codex自有树实采15相，完整24身份、指定唯一AssertionError、exit0/1/0、源/测试/fixture/hash与patch重建结构有效，精确恢复；不使用作者旧/tmp工具、不把数据复算冒作重跑。
+**counter仅Q-NEXT-01/02**：新测试四双桥未清；DATA敌chunk70B实际id=[0]，OBJECT引用1不存在，公开parser/原版直接索引不减1，#08/09/10/14四轴合法性未接收，敌人针暂不业务接受。161执行/结构上限160与暂合法上限≤156/≥544未完分列，不整卡done/缩700。
+[完整独立门与两项合并修复](../../testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.md)、[机器证据](../../testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.json)。首次缺副本gitignored资产的环境红原报告保留，只读补资产后381新绿。源变化后五新针仍由Codex按最终hash重采，作者不修工具/旧71不重采；未main/官方覆盖。
+
+### 下一位GLM Q提示词（当前；用户先手动选GLM-5.3文本）
+
+```text
+继续 TEST-GLM-WAVE-Q-1，原树 /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、分支 codex/glm-wave-q-runtime-residual-r1，固定 4ec6e0676d398815c96f44cb6c4d475cbe6ad771。先只读审核根 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal 的Q卡最新段及 docs/testing/glm-tenfold-triple/codex-opq-next-acceptance-20261002.md/json，完整闭 Q-NEXT-01/02：删readHookTables四双桥，JSON IO保持unknown并真实值收窄，all/enemies也不靠断言跳板；新fixture DATA敌表建立index0 placeholder+完整index1（或等价合法引用），#08/09/10/14断言所引enemyId确实落表且字段一致，原版/parseEnemies不减1。只改新两个文件及本批wave-Q证据，保持14 fullName和全部业务oracle，旧工厂/三个旧CLI/71针零改动；禁止产品/配置/旧测/真实数据/其它Owner/共享文档写、any/never/ignore/timeout扩张/核心mock。Codex已独跑24/381和五针15相，五针最终重采仍由Codex做，不执行旧共享/tmp工具、不伪报五针或改旧档。修后24定向、相邻parser/slice、extract全包/typecheck及最终lint0/0/0/docs/diff/verifier，准确区分161执行/当前四未接收轴和最终合法账，一次真实40位SHA推原分支。冻结/派发不变，D-Q01-1不夹修，不main/done/官方门/清树；只这份完整有限清单，不扩新合同或泛化700，交付后停止作者续做，下一新范围由Codex核定。
+```
+
+## Codex 上一轮接收责任（2026-10-02，历史）
 
 本轮有限包已推送 `4ec6e0676d398815c96f44cb6c4d475cbe6ad771`，作者树干净、本地/远端一致。十四固定fullName在最终161份案例表中逐条passed；测试候选2d6ced2034fd590c777d6a7b1f56d51d52bb4dd9之后仅receipt pin。原代码/证据待独立实跑，五新产品反控明确归Codex，不是作者漏交，不重采旧71。
 Status仍rework/partial，原700目标不缩，未完整独立验收/合main/done或覆盖结算。

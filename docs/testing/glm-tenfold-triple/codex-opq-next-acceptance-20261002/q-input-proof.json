@@ -1,0 +1,15 @@
+{
+  "target": "Q-NEXT1-09 enemy.battleEnd entry",
+  "enemyChunkBytes": 70,
+  "enemyIds": [0],
+  "selected": {
+    "objectIndex": 398,
+    "enemyId": 1,
+    "resistanceToSorcery": 0,
+    "scriptOnTurnStart": 0,
+    "scriptOnBattleEnd": 3,
+    "scriptOnReady": 0
+  },
+  "referencedEnemyExists": false,
+  "source": "resources/parsers/enemies.ts:52-54,89-93; tables.test.ts:607-609; reference/sdlpal/fight.c:516"
+}

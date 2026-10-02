@@ -1,0 +1,28 @@
+{
+  "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+  "waves": [
+    {
+      "id": "O",
+      "sources": 105,
+      "missingBranches": 825
+    },
+    {
+      "id": "P",
+      "sources": 288,
+      "missingBranches": 5426
+    },
+    {
+      "id": "Q",
+      "sources": 323,
+      "missingBranches": 6136
+    }
+  ],
+  "totalSources": 716,
+  "scope": {
+    "owner": "O",
+    "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+    "changedPaths": 786
+  },
+  "frozenHashesValid": true,
+  "ownerOverlap": 0
+}

@@ -1,0 +1,5 @@
+--- a/packages/pal-extract/src/cli.ts
++++ b/packages/pal-extract/src/cli.ts
+@@ -243,1 +243,1 @@
+-    if (op.scriptOnFriendDeath > 0) globalScriptEntries.push(op.scriptOnFriendDeath)
++    // Codex counter GE-FRIENDDEATH: skip this global-entry push

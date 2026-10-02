@@ -1,0 +1,5 @@
+--- a/packages/pal-extract/src/cli.ts
++++ b/packages/pal-extract/src/cli.ts
+@@ -228,1 +228,1 @@
+-    if (it.scriptOnEquip > 0) globalScriptEntries.push(it.scriptOnEquip)
++    // Codex counter GE-EQUIP: skip this global-entry push
