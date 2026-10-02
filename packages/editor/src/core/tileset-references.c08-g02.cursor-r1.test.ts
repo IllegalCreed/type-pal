@@ -113,12 +113,32 @@ describe('C08-G02 tileset-references 边与证明门', () => {
   })
 
   test('C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source', async () => {
-    const maps = { 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }
-    maps['map-a'].layers[0]!.tiles[0]![0] = 0
-    maps['map-a'].layers[0]!.sources[0]![0] = 0
+    const base = buildBlankProjectMap(1, 1, TILESET_A)
+    const maps = {
+      'map-a': {
+        ...base,
+        version: 4 as const,
+        authoring: {
+          version: 1 as const,
+          stampPlacements: [
+            {
+              id: 'place-tree',
+              sourceStampId: 'c08-tree',
+              anchor: { row: 0, col: 0 },
+              visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+              gridPoints: [],
+            },
+          ],
+        },
+      },
+    }
     const batch = await indexedBatch(maps, [stampTemplate(TILESET_A)])
     const edges = stampPlacementReferences(batch, 'c08-tree')
+    expect(edges.length).toBeGreaterThan(0)
+    expect(edges.map((edge) => edge.relation.kind)).toEqual(['stamp-placement-source'])
+    expect(edges.map((edge) => edge.target)).toEqual([{ kind: 'stamp', id: 'c08-tree' }])
     expect(edges.every((edge) => edge.relation.kind === 'stamp-placement-source')).toBe(true)
+    expect(stampPlacementReferences(batch, 'missing-stamp')).toEqual([])
   })
 
   test('C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝', async () => {

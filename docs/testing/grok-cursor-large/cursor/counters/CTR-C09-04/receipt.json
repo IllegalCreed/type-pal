@@ -118,5 +118,8 @@
         "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts×C09-G02 编辑器试听 owner C09-G02-10 stop 对活动 owner 只 stop 一次"
       ]
     }
-  }
+  },
+  "classification": "existing-proof-cross-check",
+  "countsTowardNetNewTargets": false,
+  "crossCheckNote": "对应 existing-proof C09-G02-02 重复 claim 幂等；历史反控保留，不计新增合法合同目标"
 }

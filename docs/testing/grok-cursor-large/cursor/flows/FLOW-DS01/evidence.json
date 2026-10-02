@@ -14,7 +14,7 @@
       "height": 560
     }
   },
-  "expect": "手柄聚焦后 ArrowUp（或前移按钮）将 b 移到首位",
+  "expect": "手柄聚焦后 ArrowUp 将 b 移到首位（键盘合同；鼠标前移另列）",
   "before": {
     "flowId": "FLOW-DS01",
     "phase": "ready",
@@ -28,6 +28,20 @@
       "note": "real Canvas2D readback"
     }
   },
+  "afterKeyboard": {
+    "flowId": "FLOW-DS01",
+    "phase": "ready",
+    "label": "DsReorder：键盘前移（设计控件）",
+    "oracle": {
+      "order": ["b", "a", "c"]
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "afterMouse": null,
   "after": {
     "flowId": "FLOW-DS01",
     "phase": "ready",
@@ -41,7 +55,12 @@
       "note": "real Canvas2D readback"
     }
   },
-  "steps": ["focus handle b", "ArrowUp", "fallback move button"],
+  "focusBeforeKb": "b",
+  "focusAfterKb": "b",
+  "usedFallback": false,
+  "keyboardPass": true,
+  "mousePass": false,
+  "steps": ["focus handle b", "Enter", "ArrowUp", "Enter"],
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS01/wide-reorder.png",
@@ -57,6 +76,7 @@
     }
   ],
   "pass": true,
+  "counter": false,
   "console": {
     "entries": [
       {
@@ -98,5 +118,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T23:57:56.866Z"
+  "recordedAt": "2026-10-02T01:50:02.589Z"
 }

@@ -42,4 +42,3 @@ The latest test that might've caused the error is "probe single red plus unhandl
 - The error was thrown, while Vitest was running this test.
 - If the error occurred after the test had been completed, this was the last documented test before it was thrown.
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-

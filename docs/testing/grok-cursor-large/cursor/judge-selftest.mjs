@@ -3,6 +3,7 @@
  * CURSOR-R1-02：唯一 judge 拒收自测（模块直调 + 真实 CTR-C03-02 三态存档 + 真实 Vitest unhandled raw）。
  * 期望：四反例全部拒收；正常 CTR-C03-02 mutant/clean 仍收。
  */
+import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -101,6 +102,12 @@ const report = {
   allFourRejected: allRejected,
   pass: allRejected && baselineOk,
 }
-writeFileSync(join(here, 'judge-selftest.json'), `${JSON.stringify(report, null, 2)}\n`)
-console.log(JSON.stringify(report, null, 2))
+const outPath = join(here, 'judge-selftest.json')
+writeFileSync(outPath, `${JSON.stringify(report, null, 2)}\n`)
+// Biome formats short arrays inline; keep generated report lint-clean without manual pre-commit.
+execFileSync('pnpm', ['exec', 'biome', 'format', '--write', outPath], {
+  cwd: join(here, '../../../..'),
+  stdio: ['ignore', 'pipe', 'pipe'],
+})
+console.log(readFileSync(outPath, 'utf8'))
 if (!report.pass) process.exit(1)

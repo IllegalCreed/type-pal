@@ -424,33 +424,61 @@ const FLOW_DEFS = [
         '[data-flow-id="FLOW-DS01"] [data-ds-reorder-handle="true"][data-reorder-key="b"]',
       )
       await handleB.focus()
+      const focusBeforeKb = await page.evaluate(
+        () => document.activeElement?.getAttribute?.('data-reorder-key') ?? null,
+      )
       await page.keyboard.press('Enter')
       await page.keyboard.press('ArrowUp')
       await page.keyboard.press('Enter')
       await page.waitForTimeout(150)
-      let after = await readSnapshot(page)
-      if (after?.oracle?.order?.[0] !== 'b') {
+      const afterKeyboard = await readSnapshot(page)
+      const focusAfterKb = await page.evaluate(
+        () => document.activeElement?.getAttribute?.('data-reorder-key') ?? null,
+      )
+      const keyboardOrderOk =
+        Array.isArray(afterKeyboard?.oracle?.order) && afterKeyboard.oracle.order[0] === 'b'
+      const keyboardPass =
+        JSON.stringify(before?.oracle?.order) === JSON.stringify(['a', 'b', 'c']) &&
+        keyboardOrderOk &&
+        focusBeforeKb === 'b'
+      let afterMouse = null
+      let usedFallback = false
+      if (!keyboardPass) {
+        usedFallback = true
         await page
           .locator('[data-flow-id="FLOW-DS01"]')
           .getByRole('button', { name: /前移 B/ })
           .click()
         await page.waitForTimeout(150)
-        after = await readSnapshot(page)
+        afterMouse = await readSnapshot(page)
       }
+      const after = keyboardPass ? afterKeyboard : afterMouse
       const shotWide = await captureShot(page, resolve(outDir, 'wide-reorder.png'))
       await page.setViewportSize({ width: 640, height: 560 })
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-reorder.png'))
+      const mousePass =
+        usedFallback &&
+        Array.isArray(afterMouse?.oracle?.order) &&
+        afterMouse.oracle.order[0] === 'b'
       return {
         contract: 'reorder-order-oracle',
-        expect: '手柄聚焦后 ArrowUp（或前移按钮）将 b 移到首位',
+        expect: '手柄聚焦后 ArrowUp 将 b 移到首位（键盘合同；鼠标前移另列）',
         before,
+        afterKeyboard,
+        afterMouse,
         after,
-        steps: ['focus handle b', 'ArrowUp', 'fallback move button'],
+        focusBeforeKb,
+        focusAfterKb,
+        usedFallback,
+        keyboardPass,
+        mousePass,
+        steps: keyboardPass
+          ? ['focus handle b', 'Enter', 'ArrowUp', 'Enter']
+          : ['focus handle b', 'Enter', 'ArrowUp', 'Enter', 'mouse fallback 前移 B'],
         shots: [shotWide, shotNarrow],
-        pass:
-          JSON.stringify(before?.oracle?.order) === JSON.stringify(['a', 'b', 'c']) &&
-          Array.isArray(after?.oracle?.order) &&
-          after.oracle.order[0] === 'b',
+        // 键盘合同独立判定；鼠标纠正不得把 keyboardPass 改写成 true。
+        pass: keyboardPass,
+        counter: !keyboardPass,
       }
     },
   },
@@ -476,23 +504,38 @@ const FLOW_DEFS = [
         null,
         { timeout: 10_000 },
       )
-      const after = await readSnapshot(page)
+      const afterWideKeyboard = await readSnapshot(page)
       const shotWide = await captureShot(page, resolve(outDir, 'wide-select.png'))
       await page.setViewportSize({ width: 640, height: 520 })
       await combo.click()
       await page.waitForTimeout(80)
       await page.keyboard.press('ArrowUp')
       await page.keyboard.press('Enter')
-      const afterKb = await readSnapshot(page)
+      const afterNarrowKeyboard = await readSnapshot(page)
       const shotNarrow = await captureShot(page, resolve(outDir, 'narrow-select.png'))
+      const wideKeyboardPass =
+        before?.oracle?.value === 'b' && afterWideKeyboard?.oracle?.value === 'c'
       return {
         contract: 'select-value-oracle',
-        expect: '打开列表后 ArrowDown+Enter 将 value 从 b 变为 c',
+        expect: '宽窗键盘 ArrowDown+Enter：b→c；窄窗相位另记（回 b 不否决宽窗）',
         before,
-        after: afterKb,
-        steps: ['open select', 'ArrowDown+Enter → c', 'narrow ArrowUp+Enter'],
+        afterWideKeyboard,
+        afterNarrowKeyboard,
+        // 兼容旧读字段：after 保留窄窗终态；pass 只认已证宽窗键盘相位。
+        after: afterNarrowKeyboard,
+        phases: {
+          wideKeyboard: {
+            value: afterWideKeyboard?.oracle?.value ?? null,
+            pass: wideKeyboardPass,
+          },
+          narrowKeyboard: {
+            value: afterNarrowKeyboard?.oracle?.value ?? null,
+            note: '窄窗回 b 不是宽窗键盘失败',
+          },
+        },
+        steps: ['open select', 'wide ArrowDown+Enter → c', 'narrow ArrowUp+Enter'],
         shots: [shotWide, shotNarrow],
-        pass: before?.oracle?.value === 'b' && after?.oracle?.value === 'c',
+        pass: wideKeyboardPass,
       }
     },
   },
@@ -743,9 +786,21 @@ async function main() {
       })
     }
     await browser.close()
+    let indexFlows = summary
+    if (only?.length) {
+      // Partial re-run: merge into existing full index so CURSOR_FLOW_ONLY cannot shrink 12→N.
+      try {
+        const prev = JSON.parse(readFileSync(resolve(here, 'flow-index.json'), 'utf8'))
+        const byId = new Map((prev.flows ?? []).map((entry) => [entry.id, entry]))
+        for (const entry of summary) byId.set(entry.id, entry)
+        indexFlows = [...byId.values()].sort((a, b) => a.id.localeCompare(b.id))
+      } catch {
+        indexFlows = summary
+      }
+    }
     writeFileSync(
       resolve(here, 'flow-index.json'),
-      `${JSON.stringify({ port, baseUrl, flows: summary }, null, 2)}\n`,
+      `${JSON.stringify({ port, baseUrl, flows: indexFlows }, null, 2)}\n`,
     )
     console.log(JSON.stringify({ ok: true, port, flows: summary }, null, 2))
   } finally {

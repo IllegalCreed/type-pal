@@ -1,14 +1,27 @@
 #!/usr/bin/env node
 /**
- * Build contracts.json by parsing each *.cursor-r1.test.ts(x) case (not batch templates).
+ * Build per-batch contract shards + slim contracts-index.json by parsing each
+ * *.cursor-r1.test.ts(x) case (not batch templates).
  * Validates ordering against directed-vitest.json (passed only).
+ *
+ * Full contract bodies live in contracts/C01.json … C10.json (no field clipping).
+ * contracts-index.json holds totals + shard paths + id→shard map only.
  */
 import { execSync } from 'node:child_process'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, relative, resolve } from 'node:path'
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs'
+import { dirname, join, relative, resolve } from 'node:path'
 
 const root = process.cwd()
 const cursorDir = resolve(root, 'docs/testing/grok-cursor-large/cursor')
+const contractsDir = resolve(cursorDir, 'contracts')
 const directed = JSON.parse(readFileSync(resolve(cursorDir, 'directed-vitest.json'), 'utf8'))
 
 /** Frozen Cursor source anchor for old-test blob SHA (receipt sourceBase sibling). */
@@ -27,6 +40,8 @@ const EXISTING_PROOF_IDS = new Set([
 ])
 
 const idRe = /(C\d{2})-(G\d{2})-(\d{2})\b/
+
+const BATCHES = ['C01', 'C02', 'C03', 'C04', 'C05', 'C06', 'C07', 'C08', 'C09', 'C10']
 
 /** @type {Record<string, { oldTestSha: string, oldFile: string, oldFullName: string, oldMatcher: string, proofNote: string }>} */
 const EXISTING_PROOF_OLD = {
@@ -88,28 +103,40 @@ const EXISTING_PROOF_OLD = {
     proofNote: '旧 LRU get+evict 链；新例显式 get(a) 刷新后 load(c) 淘汰 b',
   },
   'C07-G01-02': {
-    oldTestSha: 'same-file-prior-case',
+    oldTestSha: blobSha('packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts'),
     oldFile: 'packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts',
     oldFullName:
       'C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind',
     oldMatcher:
       "expect(STATIC_IMAGE_KINDS).toEqual(['portrait','face','item-icon','battle-background'])",
-    proofNote: '四 kind 固定列表已锁定唯一性；Set.size/AssetKind 自相等为同包冗余',
+    proofNote:
+      '四 kind 固定列表已锁定唯一性；Set.size/AssetKind 自相等为同包冗余。prior-case: same cursor-r1 file case C07-G01-01; oldTestSha = git blob of that file at OLD_TEST_GIT (HEAD/hash-object fallback if missing)',
   },
   'C07-G01-10': {
-    oldTestSha: 'same-file-prior-case',
+    oldTestSha: blobSha('packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts'),
     oldFile: 'packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts',
     oldFullName:
       'C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind',
     oldMatcher:
       "expect(STATIC_IMAGE_KINDS).toEqual(['portrait','face','item-icon','battle-background'])",
-    proofNote: '四 kind 闭集已含否定 frame-animation/video/music 的语义',
+    proofNote:
+      '四 kind 闭集已含否定 frame-animation/video/music 的语义。prior-case: same cursor-r1 file case C07-G01-01; oldTestSha = git blob of that file at OLD_TEST_GIT (HEAD/hash-object fallback if missing)',
   },
 }
 
 function blobSha(repoPath) {
+  for (const rev of [OLD_TEST_GIT, 'HEAD']) {
+    try {
+      return execSync(`git rev-parse "${rev}:${repoPath}"`, {
+        cwd: root,
+        encoding: 'utf8',
+      }).trim()
+    } catch {
+      // try next rev
+    }
+  }
   try {
-    return execSync(`git rev-parse "${OLD_TEST_GIT}:${repoPath}"`, {
+    return execSync(`git hash-object "${repoPath}"`, {
       cwd: root,
       encoding: 'utf8',
     }).trim()
@@ -124,7 +151,7 @@ const sourceCache = new Map()
 function loadSource(relPath) {
   const key = relPath.replace(/\\/g, '/')
   if (sourceCache.has(key)) return sourceCache.get(key)
-  const abs = resolve(root, relPath)
+  const abs = resolve(root, key)
   if (!existsSync(abs)) return undefined
   const text = readFileSync(abs, 'utf8')
   const lines = text.split('\n')
@@ -141,6 +168,57 @@ function loadSource(relPath) {
   const entry = { lines, exports }
   sourceCache.set(key, entry)
   return entry
+}
+
+/**
+ * First meaningful body / condition lines after an export binding.
+ * @param {{ lines: string[] }} src
+ * @param {number} exportLine 1-based
+ * @param {string} sym
+ */
+function exportSnippet(src, exportLine, sym) {
+  const i = exportLine - 1
+  const line = src.lines[i] ?? ''
+  const collected = []
+
+  if (/^export const /.test(line)) {
+    let j = i
+    let depth = 0
+    let started = false
+    while (j < src.lines.length && collected.length < 4) {
+      const l = src.lines[j].trim()
+      for (const ch of l) {
+        if (ch === '[' || ch === '{' || ch === '(') {
+          depth++
+          started = true
+        }
+        if (ch === ']' || ch === '}' || ch === ')') depth--
+      }
+      collected.push(l)
+      if (started && depth <= 0) break
+      j++
+    }
+    return collected.join(' ').replace(/\s+/g, ' ')
+  }
+
+  if (/^export (?:async )?function /.test(line) || /^export class /.test(line)) {
+    let j = i + 1
+    while (j < src.lines.length && collected.length < 3) {
+      const raw = src.lines[j]
+      const l = raw.trim()
+      j++
+      if (!l || l === '{' || l === '}') continue
+      if (l.startsWith('//') || l.startsWith('*') || l.startsWith('/*')) continue
+      collected.push(l)
+      if (/\breturn\b|\bthrow\b|\bif\s*\(/.test(l)) break
+    }
+    if (collected.length === 0) {
+      return `export ${sym} (body not auto-parsed; export line only)`
+    }
+    return collected.map((l) => l.replace(/\s+/g, ' ').replace(/;?\s*$/, '')).join('; ')
+  }
+
+  return `export ${sym} (export line only; no function/const body snippet)`
 }
 
 function jsImportToRepoPath(fromFile, spec) {
@@ -262,7 +340,7 @@ function extractHeaderDedup(content) {
     .map((l) => l.replace(/^\s*\*\s?/, '').trim())
     .filter(Boolean)
   const line = lines.find((l) => l.includes('排重'))
-  return line ?? lines.join(' ').slice(0, 240)
+  return line ?? lines.join(' ')
 }
 
 /** @type {Map<string, Map<string, { startLine: number, endLine: number, body: string }>>} */
@@ -306,8 +384,8 @@ function extractExpectOracle(body) {
     expects.push(trimmed.replace(/\s+/g, ' '))
   }
   if (expects.length === 0) {
-    const throws = body.match(/await expect\([^)]+\)[\s\S]*?\.(rejects|resolves)/)
-    if (throws) return throws[0].replace(/\s+/g, ' ').slice(0, 400)
+    const throws = body.match(/await expect\([^)]+\)[\s\S]*?\.(rejects|resolves)[^\n]*/g)
+    if (throws) return throws.map((t) => t.replace(/\s+/g, ' ')).join(' | ')
     return 'no expect() — execution-only or implicit pass'
   }
   return expects.join(' | ')
@@ -327,6 +405,25 @@ function summarizeLegalInput(body) {
     hints.push('createWavPreviewTransport(stubReader, fakeBackend)')
   if (/installBrowserHardwarePorts\(/.test(body))
     hints.push('installBrowserHardwarePorts for real PNG decode')
+
+  // Exact fixture construction hints from the test body (no invented values).
+  const fixtureRes = [
+    /catalogOf\(\[[\s\S]*?\]\)/,
+    /loadCursorSpriteProject\([^)]*\)/,
+    /mountWorldSpriteLibrary\([^)]*\)/,
+    /mountFrameAnimationEditor\([^)]*\)/,
+    /new AudioPreviewCache\([^)]*\)/,
+    /createWavPreviewTransport\([^)]*\)/,
+    /\{\s*stop:\s*vi\.fn\(\)\s*\}/,
+    /installBrowserHardwarePorts\([^)]*\)/,
+  ]
+  for (const re of fixtureRes) {
+    const m = body.match(re)
+    if (!m) continue
+    const compact = m[0].replace(/\s+/g, ' ').trim()
+    hints.push(`fixture: ${compact}`)
+  }
+
   const calls = [
     ...body.matchAll(/\b(claim|release|stop|load|imageAssets|computePcmPeaks)\w*\(/g),
   ].map((x) => x[0])
@@ -349,18 +446,28 @@ function sourceConditionFor(primaryPath, body, symbols) {
   if (hits.length === 0) {
     const firstExport = [...src.exports.entries()][0]
     if (firstExport) {
+      const [sym, line] = firstExport
+      const snip = exportSnippet(src, line, sym)
       return {
-        sourceCondition: `${primaryPath}:${firstExport[1]} export ${firstExport[0]} (inferred)`,
+        sourceCondition: `${primaryPath}:${line} export ${sym} — ${snip} (inferred; no used export symbol matched in body)`,
         callerRefs: [],
       }
     }
-    return { sourceCondition: `${primaryPath}:1 module under test`, callerRefs: [] }
+    return {
+      sourceCondition: `${primaryPath}:1 module under test (no export map; export line only)`,
+      callerRefs: [],
+    }
   }
-  const cond = hits.map(({ sym, line }) => `${primaryPath}:${line} export ${sym}`).join('; ')
+  const cond = hits
+    .map(({ sym, line }) => {
+      const snip = exportSnippet(src, line, sym)
+      return `${primaryPath}:${line} export ${sym} — ${snip}`
+    })
+    .join('; ')
   return { sourceCondition: cond, callerRefs: hits }
 }
 
-function callerLines(testRepoPath, body, symbols, testStartLine) {
+function testCallerLines(testRepoPath, body, symbols, testStartLine) {
   const refs = []
   const lines = body.split('\n')
   for (let i = 0; i < lines.length; i++) {
@@ -368,6 +475,11 @@ function callerLines(testRepoPath, body, symbols, testStartLine) {
     for (const sym of symbols.keys()) {
       if (new RegExp(`\\b${sym}\\s*\\(`).test(line)) {
         refs.push(`${testRepoPath}:${testStartLine + i} ${sym}(…)`)
+      } else if (new RegExp(`\\b${sym}\\b`).test(line) && !/^\s*import\b/.test(line)) {
+        // constant / non-call reference inside the case
+        if (!refs.some((r) => r.includes(`${testRepoPath}:${testStartLine + i} ${sym}`))) {
+          refs.push(`${testRepoPath}:${testStartLine + i} ${sym}`)
+        }
       }
     }
     const chain = line.match(/\b([a-zA-Z_]\w*)\.(load|get|play|claim|stop|release)\s*\(/)
@@ -375,7 +487,140 @@ function callerLines(testRepoPath, body, symbols, testStartLine) {
       refs.push(`${testRepoPath}:${testStartLine + i} ${chain[1]}.${chain[2]}(…)`)
     }
   }
-  return [...new Set(refs)].slice(0, 8).join('; ') || `${testRepoPath}:${testStartLine} test invoke`
+  return [...new Set(refs)].slice(0, 12)
+}
+
+/** @type {Map<string, string[]> | null} */
+let prodCallerIndex = null
+
+function isTestPath(relPath) {
+  return (
+    /\.test\.[jt]sx?$/.test(relPath) ||
+    /\.spec\.[jt]sx?$/.test(relPath) ||
+    relPath.includes('/__tests__/')
+  )
+}
+
+function walkEditorSrcFiles(dir, out) {
+  for (const name of readdirSync(dir)) {
+    if (name === 'node_modules' || name === 'dist' || name.startsWith('.')) continue
+    const abs = join(dir, name)
+    const st = statSync(abs)
+    if (st.isDirectory()) {
+      walkEditorSrcFiles(abs, out)
+      continue
+    }
+    if (!/\.[jt]sx?$/.test(name)) continue
+    const rel = relative(root, abs).replace(/\\/g, '/')
+    if (isTestPath(rel)) continue
+    out.push(rel)
+  }
+}
+
+/**
+ * One-pass index: symbol → up to many production call/use sites.
+ * @returns {Map<string, string[]>}
+ */
+function buildProductionCallerIndex() {
+  /** @type {Map<string, string[]>} */
+  const index = new Map()
+  const files = []
+  const editorSrc = resolve(root, 'packages/editor/src')
+  if (!existsSync(editorSrc)) return index
+  walkEditorSrcFiles(editorSrc, files)
+  const callRe = /\b([A-Z]?[a-zA-Z_]\w*)\s*\(/g
+  const identRe = /\b([A-Z][A-Z0-9_]*|[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]*)\b/g
+  for (const rel of files) {
+    const text = readFileSync(resolve(root, rel), 'utf8')
+    const lines = text.split('\n')
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]
+      if (
+        /^\s*import\b/.test(line) ||
+        /^\s*export\s+(type|interface|function|const|class)\b/.test(line)
+      ) {
+        // Skip import / export definition lines; callers are non-definition uses only.
+        if (/^\s*import\b/.test(line) || /^\s*export\s+(?:async\s+)?function\b/.test(line)) continue
+        if (/^\s*export\s+const\b/.test(line)) continue
+        if (/^\s*export\s+class\b/.test(line)) continue
+        if (/^\s*export\s+(type|interface)\b/.test(line)) continue
+      }
+      callRe.lastIndex = 0
+      for (const m of line.matchAll(callRe)) {
+        const sym = m[1]
+        if (!sym || sym.length < 2) continue
+        if (
+          [
+            'if',
+            'for',
+            'while',
+            'switch',
+            'catch',
+            'return',
+            'await',
+            'typeof',
+            'new',
+            'function',
+            'expect',
+            'describe',
+            'test',
+            'it',
+            'vi',
+            'useMemo',
+            'useState',
+            'useEffect',
+            'useCallback',
+            'useRef',
+          ].includes(sym)
+        ) {
+          continue
+        }
+        const entry = `${rel}:${i + 1} ${sym}(…)`
+        const list = index.get(sym) ?? []
+        if (!list.includes(entry)) list.push(entry)
+        index.set(sym, list)
+      }
+      // Also index SCREAMING_SNAKE / PascalCase constant uses (non-call).
+      identRe.lastIndex = 0
+      for (const m of line.matchAll(identRe)) {
+        const sym = m[1]
+        if (!/^[A-Z][A-Z0-9_]+$/.test(sym) && !/^[A-Z][a-zA-Z0-9]+$/.test(sym)) continue
+        if (new RegExp(`\\b${sym}\\s*\\(`).test(line)) continue
+        const entry = `${rel}:${i + 1} ${sym}`
+        const list = index.get(sym) ?? []
+        if (!list.includes(entry)) list.push(entry)
+        index.set(sym, list)
+      }
+    }
+  }
+  return index
+}
+
+function productionCallersFor(symbols, body) {
+  if (!prodCallerIndex) prodCallerIndex = buildProductionCallerIndex()
+  const used = [...symbols.keys()].filter((sym) => new RegExp(`\\b${sym}\\b`).test(body))
+  const refs = []
+  for (const sym of used) {
+    const list = prodCallerIndex.get(sym) ?? []
+    for (const entry of list) {
+      if (!refs.includes(entry)) refs.push(entry)
+      if (refs.length >= 8) break
+    }
+    if (refs.length >= 8) break
+  }
+  return refs.slice(0, 8)
+}
+
+function formatCallerField(testRefs, prodRefs, testRepoPath, testStartLine) {
+  const testPart =
+    testRefs.length > 0
+      ? `test: ${testRefs.join('; ')}`
+      : `test: ${testRepoPath}:${testStartLine} test invoke`
+  const prodPart =
+    prodRefs.length > 0
+      ? `production: ${prodRefs.join('; ')}`
+      : 'production: none found in packages/editor/src (excl. *.test.*)'
+  return `${testPart} | ${prodPart}`
 }
 
 function oldAssertionFor(id, dedupHeader) {
@@ -493,10 +738,13 @@ for (const t of directed.tests ?? []) {
   }
   const oracle = extractExpectOracle(body)
   const legalInput = summarizeLegalInput(body)
+  const testRefs =
+    block != null ? testCallerLines(testRepoPath, body, symbols, block.startLine) : []
+  const prodRefs = productionCallersFor(symbols, body)
   const caller =
     block != null
-      ? callerLines(testRepoPath, body, symbols, block.startLine)
-      : `packages/editor/${t.file} (block not parsed)`
+      ? formatCallerField(testRefs, prodRefs, testRepoPath, block.startLine)
+      : `test: packages/editor/${t.file} (block not parsed) | production: none found in packages/editor/src (excl. *.test.*)`
   const oldAssertion = oldAssertionFor(id, dedupHeader)
   const axis =
     t.fullName
@@ -504,25 +752,17 @@ for (const t of directed.tests ?? []) {
       .replace(/\s+/g, ' ')
       .trim() || t.fullName
 
-  const clip = (value, max) =>
-    typeof value === 'string' && value.length > max ? `${value.slice(0, max)}…` : value
-  const clippedOld =
-    oldAssertion && typeof oldAssertion === 'object'
-      ? Object.fromEntries(
-          Object.entries(oldAssertion).map(([key, value]) => [key, clip(value, 160)]),
-        )
-      : oldAssertion
   contracts.push({
     id,
     batch,
     group,
     primarySource,
-    sourceCondition: clip(sourceCondition, 240),
-    caller: clip(caller, 240),
-    legalInput: clip(legalInput, 240),
-    oldAssertion: clippedOld,
-    axis: clip(axis, 240),
-    oracle: clip(oracle, 240),
+    sourceCondition,
+    caller,
+    legalInput,
+    oldAssertion,
+    axis,
+    oracle,
     classification: EXISTING_PROOF_IDS.has(id) ? 'existing-proof' : 'new-contract',
     file: t.file.startsWith('src/') ? t.file : `src/${t.file.replace(/^packages\/editor\//, '')}`,
     fullName: t.fullName,
@@ -537,22 +777,70 @@ if (contracts.length !== directed.passed) {
   )
 }
 
-writeFileSync(
-  resolve(cursorDir, 'contracts.json'),
-  `${JSON.stringify({ total: contracts.length, contracts }, null, 2)}\n`,
-)
+mkdirSync(contractsDir, { recursive: true })
+
+/** @type {Record<string, typeof contracts>} */
+const byBatch = Object.fromEntries(BATCHES.map((b) => [b, []]))
+for (const c of contracts) {
+  if (!byBatch[c.batch]) byBatch[c.batch] = []
+  byBatch[c.batch].push(c)
+}
+
+/** @type {{ batch: string, path: string, count: number, bytes: number }[]} */
+const shardMeta = []
+/** @type {Record<string, string>} */
+const idToShard = {}
+
+for (const batch of BATCHES) {
+  const list = byBatch[batch] ?? []
+  const relPath = `contracts/${batch}.json`
+  const abs = resolve(cursorDir, relPath)
+  const payload = {
+    batch,
+    count: list.length,
+    contracts: list,
+  }
+  const text = `${JSON.stringify(payload, null, 2)}\n`
+  writeFileSync(abs, text)
+  const bytes = Buffer.byteLength(text, 'utf8')
+  if (bytes >= 1024 * 1024) {
+    ledgerDebt.push(`${relPath}: shard size ${bytes} >= 1MiB`)
+  }
+  shardMeta.push({ batch, path: relPath, count: list.length, bytes })
+  for (const c of list) idToShard[c.id] = relPath
+}
+
+// Remove legacy monolithic ledger if present (Biome 1MiB gate).
+const legacyMonolith = resolve(cursorDir, 'contracts.json')
+if (existsSync(legacyMonolith)) {
+  rmSync(legacyMonolith)
+}
 
 const existingProof = contracts.filter((c) => c.classification === 'existing-proof').length
+const index = {
+  total: contracts.length,
+  existingProof,
+  netNewEstimate: contracts.length - existingProof,
+  shards: shardMeta,
+  idToShard,
+  note: 'Full contract bodies live in per-batch shards under contracts/; this index has no bodies.',
+}
+
+writeFileSync(resolve(cursorDir, 'contracts-index.json'), `${JSON.stringify(index, null, 2)}\n`)
+
 const summary = {
   total: contracts.length,
   existingProof,
   netNewEstimate: contracts.length - existingProof,
   ledgerDebtCount: ledgerDebt.length,
-  out: resolve(cursorDir, 'contracts.json'),
+  shards: shardMeta.map((s) => ({ batch: s.batch, path: s.path, count: s.count, bytes: s.bytes })),
+  outIndex: resolve(cursorDir, 'contracts-index.json'),
+  outShardsDir: contractsDir,
+  fieldClipping: false,
 }
 writeFileSync(
   resolve(cursorDir, 'generate-contracts-last.json'),
   `${JSON.stringify({ ...summary, ledgerDebt }, null, 2)}\n`,
 )
 
-console.log(JSON.stringify(summary))
+console.log(JSON.stringify(summary, null, 2))

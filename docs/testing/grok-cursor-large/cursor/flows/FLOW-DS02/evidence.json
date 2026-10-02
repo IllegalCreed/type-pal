@@ -14,8 +14,34 @@
       "height": 520
     }
   },
-  "expect": "打开列表后 ArrowDown+Enter 将 value 从 b 变为 c",
+  "expect": "宽窗键盘 ArrowDown+Enter：b→c；窄窗相位另记（回 b 不否决宽窗）",
   "before": {
+    "flowId": "FLOW-DS02",
+    "phase": "ready",
+    "label": "DsSelect：键盘改值（设计控件）",
+    "oracle": {
+      "value": "b"
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "afterWideKeyboard": {
+    "flowId": "FLOW-DS02",
+    "phase": "ready",
+    "label": "DsSelect：键盘改值（设计控件）",
+    "oracle": {
+      "value": "c"
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "afterNarrowKeyboard": {
     "flowId": "FLOW-DS02",
     "phase": "ready",
     "label": "DsSelect：键盘改值（设计控件）",
@@ -41,17 +67,27 @@
       "note": "real Canvas2D readback"
     }
   },
-  "steps": ["open select", "ArrowDown+Enter → c", "narrow ArrowUp+Enter"],
+  "phases": {
+    "wideKeyboard": {
+      "value": "c",
+      "pass": true
+    },
+    "narrowKeyboard": {
+      "value": "b",
+      "note": "窄窗回 b 不是宽窗键盘失败"
+    }
+  },
+  "steps": ["open select", "wide ArrowDown+Enter → c", "narrow ArrowUp+Enter"],
   "shots": [
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS02/wide-select.png",
-      "sha256": "a6998536429ef927c712063ec69f1fa26369ebaba0872a9a98ab8f9639bbf6b0",
+      "sha256": "205f7278a42ce024ef8102aeb45a1c8591045bae8d034004cb3c5322e75675e0",
       "width": 800,
       "height": 600
     },
     {
       "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS02/narrow-select.png",
-      "sha256": "39c9b47fc1f9c5dd9508d569822ad358ab538ae2b3fb48c4c2ad3935c4f35f12",
+      "sha256": "07094294cf184e16e6524e3e19c68bde58663108577affe9e714ffc0f0d89d73",
       "width": 640,
       "height": 520
     }
@@ -98,5 +134,5 @@
     "unattributedNetworkCount": 0,
     "consoleAttested": true
   },
-  "recordedAt": "2026-10-01T23:57:58.434Z"
+  "recordedAt": "2026-10-02T01:50:03.823Z"
 }
