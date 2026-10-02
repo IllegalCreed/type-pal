@@ -1,6 +1,10 @@
 // @vitest-environment jsdom
 import type { AuthorCommand } from '@type-pal/content'
+import { loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { fixtureSource } from '../core/__tests__/battle-trial-project.js'
+import { serializeProjectWithMapCopies, toEditorState } from '../core/project-io.js'
+import { buildBlankProject } from '../core/seed.js'
 import { choose, click, commandForm, input, row } from './__tests__/command-form-current-fixture.js'
 
 const transition = {
@@ -11,6 +15,53 @@ const transition = {
   evidenceId: 'fixture.transition',
 } as const
 describe('Current scene destination aggregate', () => {
+  test.each([
+    { name: 'default', target: {} },
+    { name: 'named', target: { entryId: 'door' } },
+    { name: 'temporary', target: { pos: { col: 2, row: 3, height: 4 } } },
+  ] as const)('$name destination clears explicit facing through submission and canonical reopening', async ({
+    target,
+  }) => {
+    const expected: AuthorCommand = { kind: 'loadScene', scene: 'start', ...target, transition }
+    const f = await commandForm({ ...expected, facing: 'left' })
+    await choose('朝向', '(保持)')
+    await f.finish(expected)
+
+    const source = fixtureSource(await buildBlankProject('scene-facing-roundtrip'))
+    const project = await loadCurrentProjectFrom(source)
+    const scenes = await loadAllAuthorScenes(project)
+    const scene = scenes[0]!
+    scene.entries = structuredClone(f.context.state.scenes[0]!.entries)
+    scene.hooks = {
+      onEnter: {
+        variants: {
+          arrival: {
+            label: '切场景',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [{ id: 'start', body: f.onChange.mock.calls[0]![0] }],
+            },
+          },
+        },
+      },
+    }
+    const files = await serializeProjectWithMapCopies(
+      toEditorState(project, scenes, {}, {}, []),
+      source,
+    )
+    const reopened = await loadCurrentProjectFrom(fixtureSource(files))
+    const saved = (await loadAllAuthorScenes(reopened))[0]!.hooks!.onEnter!.variants.arrival!.flow
+    if (saved.kind !== 'stages') throw new Error('expected saved arrival stages')
+    const command = saved.stages[0]!.body[0]!
+    expect(command).toEqual(expected)
+    expect(command).not.toHaveProperty('facing')
+    const reopenedForm = await commandForm(command)
+    expect(row('朝向').textContent).toContain('(保持)')
+    await choose('朝向', 'right')
+    await reopenedForm.finish({ ...expected, facing: 'right' })
+  })
   test('retargeting through the dialog clears old entry and preserves facing and source timing', async () => {
     const f = await commandForm({
       kind: 'loadScene',

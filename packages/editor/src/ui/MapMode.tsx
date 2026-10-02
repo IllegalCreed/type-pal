@@ -1243,6 +1243,12 @@ export function MapMode(props: {
     setWorkspaceNotice({ kind, message })
   }
 
+  const clearMapSelection = (): void => {
+    if (selection.kind === 'none') return
+    dispatchWorkspace({ type: 'clear-selection', mapId })
+    notifyWorkspace('info', '选区已清空。')
+  }
+
   const activateInspectorTab = (nextTab: MapInspectorTab): void => {
     setInspectorTab(nextTab)
     if (nextTab === 'draw') setDrawPanelVisited(true)
@@ -2643,7 +2649,7 @@ export function MapMode(props: {
       else if (canvasContextMenu) setCanvasContextMenu(undefined)
       else if (candidateMenu) setCandidateMenu(undefined)
       else if (stampGroupEditPlacementId) exitStampGroupEdit()
-      else dispatchWorkspace({ type: 'clear-selection', mapId })
+      else clearMapSelection()
       return
     }
     if (activeTool === 'stamp' && event.key === 'Enter') {
@@ -3333,7 +3339,7 @@ export function MapMode(props: {
                       }}
                       onValidationError={(message) => notifyWorkspace('error', message)}
                       onMoveToLayer={moveSelectionToLayer}
-                      onClearSelection={() => dispatchWorkspace({ type: 'clear-selection', mapId })}
+                      onClearSelection={clearMapSelection}
                     />
                   ) : selection.kind === 'stamp-placements' && liveMap ? (
                     <StampPlacementSelectionInspector
