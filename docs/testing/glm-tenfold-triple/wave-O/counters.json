@@ -301,26 +301,26 @@
       "contract": "maps index path 非字符串 fail-loud",
       "target": {
         "file": "src/migration-project-io.glm-o.test.ts",
-        "title": "maps index path 非字符串 / maps 非数组分别 fail-loud"
+        "title": "maps index map path 非字符串 fail-loud（maps 非数组臂由旧 boundaries:72-79 证）"
       },
       "control": {
         "exitCode": 0,
-        "executed": 18,
-        "passed": 18,
+        "executed": 8,
+        "passed": 8,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
-        "executed": 18,
-        "passed": 17,
+        "executed": 8,
+        "passed": 7,
         "failed": 1,
-        "failedFullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud",
+        "failedFullName": "O02 discoverProjectManagedFiles：maps 残余臂 maps index map path 非字符串 fail-loud（maps 非数组臂由旧 boundaries:72-79 证）",
         "failureMessageHead": "AssertionError: expected [Function] to throw an error"
       },
       "restored": {
         "exitCode": 0,
-        "executed": 18,
-        "passed": 18,
+        "executed": 8,
+        "passed": 8,
         "failed": 0
       },
       "hashes": {
@@ -2294,7 +2294,7 @@
   ],
   "reAdjudication": {
     "judge": "counter-judge.mjs@729d554d0（O-R9-01 判据）",
-    "result": "66/66 live pass（re-adjudication.json；CC10/CC16 重采；CC19/CC20 新采；8 枚退役）",
+    "result": "65/65 live pass（O-R12：CC1/CC3/CC5 因标题/执行集变化重采，其余 62 原针保留）",
     "evidence": "re-adjudication.json"
   }
 }

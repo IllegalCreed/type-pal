@@ -343,8 +343,64 @@
     "oldAssertion": "migration-transaction.test.ts:176-190 为中断钩子 + 恢复窗口破坏资源；本行为提交期前置失败留 pending → 相位臂新轴",
     "source": "migration-transaction.ts:223-227 assertPreconditions + journal 先落盘语义（applyJournal :231 起）"
   },
-  "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致；单侧真重排必冲突由旧 :318 证）": {
-    "condition": "scenes/index.json：base [a]，ours 尾增 b，theirs 改 a 的 path（单元素无重排可言；双侧互异真重排必冲突已由旧 :318 证）",
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 discoverProjectManagedFiles：maps 残余臂 maps index map path 非字符串 fail-loud（maps 非数组臂由旧 boundaries:72-79 证）": {
+    "condition": "maps/index.json {maps:[{path:7}]}（path 非字符串，其余字段省缺）",
+    "source": "migration-project-io.ts:19-56 discoverProjectManagedFiles（:48-51 maps 数组/元素 path 校验）",
+    "oldAssertion": "boundaries:72-79 已证 maps 非数组臂同错误串；map path 非字符串臂未证 → 残余臂新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 discoverProjectManagedFiles：maps 残余臂 合法 maps index 并入地图正文路径（旧 :86 仅证场景与 chunk 发现）": {
+    "condition": "maps/index.json 合法单地图 {id,name,path:content/maps/map-001.json}",
+    "source": "migration-project-io.ts:19-56 discoverProjectManagedFiles（:48-51 maps 数组/元素 path 校验）",
+    "oldAssertion": "旧 :86-102 仅证 scenes+chunks 发现（且 chunks 属退役域）；maps 正文发现未证 → gap 新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 discoverProjectManagedFiles：maps 残余臂 无任何索引时空工程仅返回种子托管集": {
+    "condition": "空工程（仅目录），seed={seed.json}，无任何 index 文件",
+    "source": "migration-project-io.ts:19-56 discoverProjectManagedFiles（:48-51 maps 数组/元素 path 校验）",
+    "oldAssertion": "旧 :86 有 scenes/scripts index；空工程退化路径未证 → gap 新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent：残余臂 绝对路径被 safeProjectPath 拒绝（../escape 臂由旧 boundaries:90-92 证）": {
+    "condition": "managed 集含 resolve(repo,x.json) 绝对路径",
+    "source": "migration-project-io.ts:56-63 safeProjectPath（resolve 后必须仍以工程根为前缀）",
+    "oldAssertion": "boundaries:90-92 已证 ../escape.json 臂（精确文案）；绝对路径臂未证 → 残余臂新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent：残余臂 目标托管集包含快照外文件（缺失视为未变更）时断言通过": {
+    "condition": "快照后磁盘未动，显式 targets 传入快照外新增 content/new.json（磁盘缺失）",
+    "source": "migration-project-io.ts:86-100 assertProjectSnapshotCurrent（缺失目标视为未变更）",
+    "oldAssertion": "boundaries:98-99 仅默认目标集；显式超集 targets 容忍臂未证 → gap 新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 非托管文件递归遍历子目录且 rel 路径为 posix": {
+    "condition": "工程内 nested/dir/file.json 单文件，managed/excluded 均空",
+    "source": "migration-project-io.ts:110-123（递归 readdir，rel 以 / 连接）",
+    "oldAssertion": "旧测试均平铺单层；递归子目录与 posix 分隔未证 → gap 新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 工程目录不存在 → 空 hash 表": {
+    "condition": "tempRepo 内未创建 projects/pal 目录",
+    "source": "migration-project-io.ts:110-123（目录缺失短路空表）",
+    "oldAssertion": "旧测试均有工程文件在场；目录缺失未证 → gap 新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-project-io.glm-o.test.ts :: O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 assertHashMapsEqual：等值映射通过；多键差异按排序报告（旧 :63 仅单键 changed 臂）": {
+    "condition": "等值 Map 通过；{a.txt 值变, b.txt 单侧独有} 两键差异",
+    "source": "migration-project-io.ts:125-132（changed 排序 join）",
+    "oldAssertion": "旧 :63-71 仅单键 changed；boundaries:101-117 仅证 20 上限；等值通过与多键排序消息未证 → 残余臂新轴",
+    "caller": "工程 IO 公开层（migration-project-io.ts 导出 API；仓内无非测试调用方——发布管线入口已随 CLI 退役，与事务三入口同一登记口径）",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/migration-merge.glm-o.test.ts :: O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致）": {
+    "condition": "scenes/index.json：base [a]，ours 尾增 b，theirs 改 a 的 path（单元素无重排；单侧重排行为未证不主张）",
     "caller": "生产链：createMigrationPlan（migration-plan.ts:134）managed 循环 :168 调 mergeManagedFile（migration-merge.ts:411）；plan 由 buildMigrationTransactionChanges（migration-write-plan.ts:21）消费",
     "oldAssertion": "旧 :318-331「scene index 双边不同重排冲突」仅证重排必冲突；共存正控未证 → gap 新轴（O-R10 修正原 :244 错锚）",
     "source": "migration-merge.ts:264-273 strictOrder 仅双方互异重排才冲突 + :276-295 orderedIds 并集追加"

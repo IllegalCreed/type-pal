@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790901445312,
+  "startTime": 1790912063261,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：ours/theirs 各自新增不同实体时按身份并集合并",
           "status": "passed",
           "title": "场景 entities：ours/theirs 各自新增不同实体时按身份并集合并",
-          "duration": 1.5862500000000068,
+          "duration": 1.5161659999999983,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：同一新增 id 双方正文不同 → add-add 冲突（无 base 身份）",
           "status": "passed",
           "title": "场景 entities：同一新增 id 双方正文不同 → add-add 冲突（无 base 身份）",
-          "duration": 0.6154169999999795,
+          "duration": 0.6207090000000335,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,9 +54,9 @@
           "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
           "status": "failed",
           "title": "场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
-          "duration": 4.046958000000018,
+          "duration": 3.9267079999999623,
           "failureMessages": [
-            "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/packages/migrate/src/migration-merge.glm-o.test.ts:51:54\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/packages/migrate/src/migration-merge.glm-o.test.ts:51:54\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ],
           "meta": {},
           "tags": []
@@ -66,17 +66,17 @@
           "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：单侧重复 id → invalid-identity 冲突",
           "status": "passed",
           "title": "场景 entities：单侧重复 id → invalid-identity 冲突",
-          "duration": 0.26787500000000364,
+          "duration": 0.2615000000000123,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["O02 mergeManagedFile：身份数组与失效身份（合成文件）"],
-          "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方新增、一方重排可共存（公共序一致）",
+          "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致）",
           "status": "passed",
-          "title": "scenes/index.json：一方新增、一方重排可共存（公共序一致）",
-          "duration": 0.3020410000000311,
+          "title": "scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致）",
+          "duration": 0.3230829999999969,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -86,7 +86,7 @@
           "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 已有场景文件缺 entities 键：双方同时建立 entities 仍按身份合并",
           "status": "passed",
           "title": "已有场景文件缺 entities 键：双方同时建立 entities 仍按身份合并",
-          "duration": 0.19916599999999107,
+          "duration": 0.2350839999999721,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -96,7 +96,7 @@
           "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 全新文件以 absent 为 base 直接合并 → add-add 冲突（不虚构身份合并）",
           "status": "passed",
           "title": "全新文件以 absent 为 base 直接合并 → add-add 冲突（不虚构身份合并）",
-          "duration": 0.20854099999996834,
+          "duration": 0.21779100000003382,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -106,7 +106,7 @@
           "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） skills.json /skills 身份模式合并双方新增仙术",
           "status": "passed",
           "title": "skills.json /skills 身份模式合并双方新增仙术",
-          "duration": 0.15737500000000182,
+          "duration": 0.16345799999999144,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -116,7 +116,7 @@
           "fullName": "O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 无 id 页条目：一方尾部追加、一方不变 → 追加保留",
           "status": "passed",
           "title": "无 id 页条目：一方尾部追加、一方不变 → 追加保留",
-          "duration": 0.6906249999999545,
+          "duration": 0.9366249999999923,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -126,7 +126,7 @@
           "fullName": "O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 无 id 页条目：等长改动允许元素级合并（长度变化才要求尾追加）",
           "status": "passed",
           "title": "无 id 页条目：等长改动允许元素级合并（长度变化才要求尾追加）",
-          "duration": 0.15016699999995353,
+          "duration": 0.19745799999998326,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -136,7 +136,7 @@
           "fullName": "O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 长度变化且前缀变动 → array-order 冲突（仅允许尾追加）",
           "status": "passed",
           "title": "长度变化且前缀变动 → array-order 冲突（仅允许尾追加）",
-          "duration": 0.16754200000002584,
+          "duration": 0.18579200000004903,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -146,7 +146,7 @@
           "fullName": "O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞 无 id 页条目：双方同改同一下标 → value 冲突 path 下钻到冲突叶",
           "status": "passed",
           "title": "无 id 页条目：双方同改同一下标 → value 冲突 path 下钻到冲突叶",
-          "duration": 0.07037500000001273,
+          "duration": 0.0766659999999888,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -156,7 +156,7 @@
           "fullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 stamps.json：ours authored 模板整条接管，theirs migrated 字段不灌回",
           "status": "passed",
           "title": "stamps.json：ours authored 模板整条接管，theirs migrated 字段不灌回",
-          "duration": 0.2932920000000081,
+          "duration": 0.3228330000000028,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -166,7 +166,7 @@
           "fullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 sprites.json：同一 ActionId 双方各自修改 → value 冲突（时间线原子）",
           "status": "passed",
           "title": "sprites.json：同一 ActionId 双方各自修改 → value 冲突（时间线原子）",
-          "duration": 0.16233299999998962,
+          "duration": 0.17616700000002083,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -176,7 +176,7 @@
           "fullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 sprites.json：三方动作删除语义 — 删除胜过未改动，双方修改才冲突",
           "status": "passed",
           "title": "sprites.json：三方动作删除语义 — 删除胜过未改动，双方修改才冲突",
-          "duration": 0.11412500000000136,
+          "duration": 0.1257919999999899,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -186,7 +186,7 @@
           "fullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入",
           "status": "passed",
           "title": "assets/index.json：ours authored 接管后迁移字段不再拼入",
-          "duration": 0.6142909999999802,
+          "duration": 0.6378749999999513,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -196,7 +196,7 @@
           "fullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json 合并结果非法（缺 version）时经 validateAssetCatalog 拒绝",
           "status": "passed",
           "title": "assets/index.json 合并结果非法（缺 version）时经 validateAssetCatalog 拒绝",
-          "duration": 0.3225840000000062,
+          "duration": 0.35554100000001654,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -206,7 +206,7 @@
           "fullName": "O02 mergeManagedFile：冲突快照保真与输入不可变 冲突记录的 base/ours/theirs 快照与输入子树深等且互不别名",
           "status": "passed",
           "title": "冲突记录的 base/ours/theirs 快照与输入子树深等且互不别名",
-          "duration": 0.1253330000000119,
+          "duration": 0.13816700000000992,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -216,7 +216,7 @@
           "fullName": "O02 mergeManagedFile：冲突快照保真与输入不可变 合并不修改三个输入（输入不可变）",
           "status": "passed",
           "title": "合并不修改三个输入（输入不可变）",
-          "duration": 0.06945900000005167,
+          "duration": 0.07749999999998636,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -226,7 +226,7 @@
           "fullName": "O02 mergeManagedFile：冲突快照保真与输入不可变 equal-but-invalid：三方相同的 scenes/index 重复 id 仍 fail-closed（快速路径不豁免）",
           "status": "passed",
           "title": "equal-but-invalid：三方相同的 scenes/index 重复 id 仍 fail-closed（快速路径不豁免）",
-          "duration": 0.0563340000000494,
+          "duration": 0.06741699999997763,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -236,7 +236,7 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 actors.json 根级数组按 id 身份合并双方新增角色",
           "status": "passed",
           "title": "actors.json 根级数组按 id 身份合并双方新增角色",
-          "duration": 0.12616700000000947,
+          "duration": 0.12954199999995808,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -246,7 +246,7 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 enemy-teams.json 根级数组按 id 合并；双方同 id 异文 → add-add",
           "status": "passed",
           "title": "enemy-teams.json 根级数组按 id 合并；双方同 id 异文 → add-add",
-          "duration": 0.16304200000001856,
+          "duration": 0.1566670000000272,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -256,7 +256,7 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 对象键含 \"/\" 时按 JSON Pointer 转义合并（无串键冲突）",
           "status": "passed",
           "title": "对象键含 \"/\" 时按 JSON Pointer 转义合并（无串键冲突）",
-          "duration": 0.06983300000001691,
+          "duration": 0.07045899999997118,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -266,7 +266,7 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 jsonPresent/jsonAbsent：显式 present 标志",
           "status": "passed",
           "title": "jsonPresent/jsonAbsent：显式 present 标志",
-          "duration": 0.04520800000000236,
+          "duration": 0.04629099999999653,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -276,7 +276,7 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 对象键级 delete-modify：ours 删键、theirs 改值 → 冲突 path=/键",
           "status": "passed",
           "title": "对象键级 delete-modify：ours 删键、theirs 改值 → 冲突 path=/键",
-          "duration": 0.05291699999997945,
+          "duration": 0.06012500000002774,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -286,7 +286,7 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 scenes pages：带 id 页条目走身份合并（双方各加不同页并集）",
           "status": "passed",
           "title": "scenes pages：带 id 页条目走身份合并（双方各加不同页并集）",
-          "duration": 0.08279200000004039,
+          "duration": 0.09720800000002328,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -296,7 +296,7 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 scenes stages：带 id 阶段走身份合并（stage 库新增并存）",
           "status": "passed",
           "title": "scenes stages：带 id 阶段走身份合并（stage 库新增并存）",
-          "duration": 0.09358299999996689,
+          "duration": 0.08833300000003419,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -306,17 +306,17 @@
           "fullName": "O02 mergeManagedFile：根级 id 数组文件与键转义 sidecar 标量映射：ours 与 base 相同 → 整树采纳 theirs（快速路径）",
           "status": "passed",
           "title": "sidecar 标量映射：ours 与 base 相同 → 整树采纳 theirs（快速路径）",
-          "duration": 0.04829100000000608,
+          "duration": 0.05366599999996424,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790901445633,
-      "endTime": 1790901445644.163,
+      "startTime": 1790912063658,
+      "endTime": 1790912063670.1567,
       "status": "failed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-wllgKf/packages/migrate/src/migration-merge.glm-o.test.ts"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-O7p2m1/packages/migrate/src/migration-merge.glm-o.test.ts"
     }
   ]
 }

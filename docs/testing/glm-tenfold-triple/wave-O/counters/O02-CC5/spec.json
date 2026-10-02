@@ -3,8 +3,8 @@
   "contract": "maps index path 非字符串 fail-loud",
   "test": {
     "file": "src/migration-project-io.glm-o.test.ts",
-    "title": "maps index path 非字符串 / maps 非数组分别 fail-loud",
-    "target": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud"
+    "title": "maps index map path 非字符串 fail-loud（maps 非数组臂由旧 boundaries:72-79 证）",
+    "target": "O02 discoverProjectManagedFiles：maps 残余臂 maps index map path 非字符串 fail-loud（maps 非数组臂由旧 boundaries:72-79 证）"
   },
   "mutation": {
     "file": "src/migration-project-io.ts",

@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 485,
-  "passed": 485,
+  "numTotalTests": 475,
+  "passed": 475,
   "failed": 0,
   "tests": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "file": "packages/migrate/src/migration-merge.glm-o.test.ts",
-      "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致；单侧真重排必冲突由旧 :318 证）",
+      "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致）",
       "status": "passed"
     },
     {
@@ -235,92 +235,42 @@
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scene index 登记的正文路径并入托管集",
+      "fullName": "O02 discoverProjectManagedFiles：maps 残余臂 maps index map path 非字符串 fail-loud（maps 非数组臂由旧 boundaries:72-79 证）",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scene index 非法 JSON → 托管索引解析失败（带 cause）",
+      "fullName": "O02 discoverProjectManagedFiles：maps 残余臂 合法 maps index 并入地图正文路径（旧 :86 仅证场景与 chunk 发现）",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 scripts index chunks 路径并入托管集；path 非字符串 fail-loud",
+      "fullName": "O02 discoverProjectManagedFiles：maps 残余臂 无任何索引时空工程仅返回种子托管集",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud",
+      "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent：残余臂 绝对路径被 safeProjectPath 拒绝（../escape 臂由旧 boundaries:90-92 证）",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 合法 maps index 并入地图正文路径",
+      "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent：残余臂 目标托管集包含快照外文件（缺失视为未变更）时断言通过",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 加载托管文件值与 hash；缺失文件跳过但保留托管登记",
+      "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 工程目录不存在 → 空 hash 表",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 托管 JSON 坏字节 → 托管 JSON 解析失败",
+      "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 assertHashMapsEqual：等值映射通过；多键差异按排序报告（旧 :63 仅单键 changed 臂）",
       "status": "passed"
     },
     {
       "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 绝对路径与 .. 越界路径被 safeProjectPath 拒绝",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 快照后文件被改动 → assertProjectSnapshotCurrent 报精确路径",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent 目标托管集包含快照外文件（缺失视为未变更）时断言通过",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual 非托管文件逐个入账；托管与排除文件不入账",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual 工程目录不存在 → 空 hash 表",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual assertHashMapsEqual：一致通过；差异报排序后的精确路径",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 project-io 补充：递归遍历与断言容忍 无任何索引时空工程仅返回种子托管集",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 project-io 补充：递归遍历与断言容忍 非托管文件递归遍历子目录且 rel 路径为 posix",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 project-io 补充：递归遍历与断言容忍 assertProjectSnapshotCurrent：未改动时默认目标集通过",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 project-io 补充：递归遍历与断言容忍 assertHashMapsEqual：actual 多出的键也被报告",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-project-io.glm-o.test.ts",
-      "fullName": "O02 project-io 补充：递归遍历与断言容忍 loadProjectMigrationSnapshot 保留传入托管集原序语义（Set 复制）",
+      "fullName": "O02 hashUnmanagedProjectFiles / assertHashMapsEqual：残余臂 非托管文件递归遍历子目录且 rel 路径为 posix",
       "status": "passed"
     },
     {
