@@ -1,9 +1,9 @@
 {
-  "source": "final-run (vitest run glm-q --reporter=json；reforge 沿用 r12 实跑（源未变），game r16 / pal-extract r18 实跑)",
+  "source": "final-run (vitest run glm-q --reporter=json；reforge 沿用 r12 实跑（源未变），game r16 / pal-extract r20 实跑)",
   "counts": {
-    "files": 23,
-    "total": 147,
-    "passed": 147,
+    "files": 24,
+    "total": 161,
+    "passed": 161,
     "failed": 0
   },
   "cases": [
@@ -1131,7 +1131,7 @@
       "title": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1797.84325
+      "duration": 863.0275419999999
     },
     {
       "file": "pal-extract/src/cli-battle-assets.glm-q.test.ts",
@@ -1139,7 +1139,7 @@
       "title": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 2255.0040829999994
+      "duration": 925.5901670000001
     },
     {
       "file": "pal-extract/src/cli-font-lookup.glm-q.test.ts",
@@ -1147,7 +1147,7 @@
       "title": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1903.807292
+      "duration": 861.8726250000001
     },
     {
       "file": "pal-extract/src/cli-font-lookup.glm-q.test.ts",
@@ -1155,7 +1155,119 @@
       "title": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 2790.3615420000006
+      "duration": 862.029792
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-01 item.use entry",
+      "title": "Q-NEXT1-01 item.use entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 874.725917
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-02 item.equip entry",
+      "title": "Q-NEXT1-02 item.equip entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 906.1169590000002
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-03 item.throw entry",
+      "title": "Q-NEXT1-03 item.throw entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 471.6336660000002
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-04 item.desc entry",
+      "title": "Q-NEXT1-04 item.desc entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 477.9533749999996
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-05 spell.use entry",
+      "title": "Q-NEXT1-05 spell.use entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 500.23766700000033
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-06 spell.success entry",
+      "title": "Q-NEXT1-06 spell.success entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 489.71087499999976
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-07 spell.desc entry",
+      "title": "Q-NEXT1-07 spell.desc entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 506.86104199999954
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-08 enemy.turnStart entry",
+      "title": "Q-NEXT1-08 enemy.turnStart entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 479.22166600000037
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-09 enemy.battleEnd entry",
+      "title": "Q-NEXT1-09 enemy.battleEnd entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 445.9374170000001
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-10 enemy.ready entry",
+      "title": "Q-NEXT1-10 enemy.ready entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 428.32187500000055
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-11 player.friendDeath entry",
+      "title": "Q-NEXT1-11 player.friendDeath entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 476.3854589999992
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-12 player.dying entry",
+      "title": "Q-NEXT1-12 player.dying entry",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 437.14016699999956
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-13 shared entry alias",
+      "title": "Q-NEXT1-13 shared entry alias",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 483.76216699999986
+    },
+    {
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-14 scene global overlap",
+      "title": "Q-NEXT1-14 scene global overlap",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 426.05370799999946
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1163,7 +1275,7 @@
       "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1800.7908750000001
+      "duration": 822.2951250000001
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1171,7 +1283,7 @@
       "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 2595.688083
+      "duration": 805.8092500000001
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1179,7 +1291,7 @@
       "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 905.8092499999993
+      "duration": 513.1638330000001
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1187,7 +1299,7 @@
       "title": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 944.5160829999995
+      "duration": 466.9664590000002
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1195,7 +1307,7 @@
       "title": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1090.1369999999997
+      "duration": 468.3361249999998
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1203,7 +1315,7 @@
       "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 935.6160829999999
+      "duration": 459.7412089999998
     }
   ]
 }

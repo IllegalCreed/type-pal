@@ -47,7 +47,7 @@
       "alsoSameTargetAs": null
     }
   ],
-  "quotaNotes": "r18：71 活跃存档满足业务单断言红 / 62 个不同执行目标 / 净新合同目标结构上限 61（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。r18：Q-BA1 按 Q-R18-01 退役（输入/golden 错配）并重采产品源变异 Q-BA1P（同目标，VALID）；新增 Q-FL1/2 两针（BDF 准入门 / lookup 载荷，均产品源码变异、新执行目标）。数量门已足，不凑针。",
+  "quotaNotes": "r20：71 活跃存档 / 62 个不同执行目标 / 净新合同目标结构上限 61 不变（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。r20 Q-NEXT1 有限批新增 14 执行例（CLI 全局入口接线），无新针——按 next-batch 协议，本批五个代表产品变异（item.equip/throw、spell.success、enemy.battleEnd、player.friendDeath 各跳过对应 push）由 Codex 独立验收阶段统一实采，作者不伪造已跑、不重采旧 71。数量门已足，不凑针。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {

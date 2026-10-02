@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 147
+    "total": 161
   },
   "contracts": [
     {
@@ -1982,6 +1982,202 @@
       "id": "C142",
       "batch": "Q10",
       "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-01 item.use entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:229-233 items 四 hook 收集（item61 base=61×14：scriptOnUse@4/scriptOnEquip@6/scriptOnThrow@8/scriptDesc@10，parsers/items.ts）",
+      "caller": "生产 caller = CLI 事件管线（parseItems(sss chunk2) → >0 push globalScriptEntries → entryIps → disasm label L_3 → slice 强制 shared）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例「OBJECT 表全 0：无全局脚本入口」（shared 空）；items.boundaries 为单元字段映射旧证",
+      "axis": "单 hook=3（item61 offset 4/6/8/10 四条各一；不换数字扩例）",
+      "oracle": "exit0+roundtrip OK+done；items.json item61 目标字段=3 其余 0（四表十二 hook 互斥核零）；all.json 4 命令 toEqual（giveItem/showDialog L_1/end L_2/end L_3）；scene-000 恰 [L_1,L_2]（hook 不误入 scene）；shared 恰 [{op:'end',label:'L_3'}]；stdout 'shared(含 1 item/spell/enemyObj script entries)'",
+      "classification": "new CLI wiring contract（item 四入口接线首证）"
+    },
+    {
+      "id": "C143",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-02 item.equip entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:229-233 items 四 hook 收集（item61 base=61×14：scriptOnUse@4/scriptOnEquip@6/scriptOnThrow@8/scriptDesc@10，parsers/items.ts）",
+      "caller": "生产 caller = CLI 事件管线（parseItems(sss chunk2) → >0 push globalScriptEntries → entryIps → disasm label L_3 → slice 强制 shared）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例「OBJECT 表全 0：无全局脚本入口」（shared 空）；items.boundaries 为单元字段映射旧证",
+      "axis": "单 hook=3（item61 offset 4/6/8/10 四条各一；不换数字扩例）",
+      "oracle": "exit0+roundtrip OK+done；items.json item61 目标字段=3 其余 0（四表十二 hook 互斥核零）；all.json 4 命令 toEqual（giveItem/showDialog L_1/end L_2/end L_3）；scene-000 恰 [L_1,L_2]（hook 不误入 scene）；shared 恰 [{op:'end',label:'L_3'}]；stdout 'shared(含 1 item/spell/enemyObj script entries)'",
+      "classification": "new CLI wiring contract（item 四入口接线首证）"
+    },
+    {
+      "id": "C144",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-03 item.throw entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:229-233 items 四 hook 收集（item61 base=61×14：scriptOnUse@4/scriptOnEquip@6/scriptOnThrow@8/scriptDesc@10，parsers/items.ts）",
+      "caller": "生产 caller = CLI 事件管线（parseItems(sss chunk2) → >0 push globalScriptEntries → entryIps → disasm label L_3 → slice 强制 shared）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例「OBJECT 表全 0：无全局脚本入口」（shared 空）；items.boundaries 为单元字段映射旧证",
+      "axis": "单 hook=3（item61 offset 4/6/8/10 四条各一；不换数字扩例）",
+      "oracle": "exit0+roundtrip OK+done；items.json item61 目标字段=3 其余 0（四表十二 hook 互斥核零）；all.json 4 命令 toEqual（giveItem/showDialog L_1/end L_2/end L_3）；scene-000 恰 [L_1,L_2]（hook 不误入 scene）；shared 恰 [{op:'end',label:'L_3'}]；stdout 'shared(含 1 item/spell/enemyObj script entries)'",
+      "classification": "new CLI wiring contract（item 四入口接线首证）"
+    },
+    {
+      "id": "C145",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-04 item.desc entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:229-233 items 四 hook 收集（item61 base=61×14：scriptOnUse@4/scriptOnEquip@6/scriptOnThrow@8/scriptDesc@10，parsers/items.ts）",
+      "caller": "生产 caller = CLI 事件管线（parseItems(sss chunk2) → >0 push globalScriptEntries → entryIps → disasm label L_3 → slice 强制 shared）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例「OBJECT 表全 0：无全局脚本入口」（shared 空）；items.boundaries 为单元字段映射旧证",
+      "axis": "单 hook=3（item61 offset 4/6/8/10 四条各一；不换数字扩例）",
+      "oracle": "exit0+roundtrip OK+done；items.json item61 目标字段=3 其余 0（四表十二 hook 互斥核零）；all.json 4 命令 toEqual（giveItem/showDialog L_1/end L_2/end L_3）；scene-000 恰 [L_1,L_2]（hook 不误入 scene）；shared 恰 [{op:'end',label:'L_3'}]；stdout 'shared(含 1 item/spell/enemyObj script entries)'",
+      "classification": "new CLI wiring contract（item 四入口接线首证）"
+    },
+    {
+      "id": "C146",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-05 spell.use entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:234-238 spells 三 hook 收集（spell296 base=296×14：scriptOnSuccess@4/scriptOnUse@6/scriptDesc@10，parsers/spells.ts SPELL_OFF）",
+      "caller": "同上（parseSpells → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）；spells.boundaries 为单元映射旧证",
+      "axis": "单 hook=3（spell296 offset 6/4/10 三条各一）",
+      "oracle": "spells.json spell296 目标字段=3 其余 0；all/scene/shared 同 item 四条（shared 恰 L_3）；stdout 计数 1",
+      "classification": "new CLI wiring contract（spell 三入口接线首证）"
+    },
+    {
+      "id": "C147",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-06 spell.success entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:234-238 spells 三 hook 收集（spell296 base=296×14：scriptOnSuccess@4/scriptOnUse@6/scriptDesc@10，parsers/spells.ts SPELL_OFF）",
+      "caller": "同上（parseSpells → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）；spells.boundaries 为单元映射旧证",
+      "axis": "单 hook=3（spell296 offset 6/4/10 三条各一）",
+      "oracle": "spells.json spell296 目标字段=3 其余 0；all/scene/shared 同 item 四条（shared 恰 L_3）；stdout 计数 1",
+      "classification": "new CLI wiring contract（spell 三入口接线首证）"
+    },
+    {
+      "id": "C148",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-07 spell.desc entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:234-238 spells 三 hook 收集（spell296 base=296×14：scriptOnSuccess@4/scriptOnUse@6/scriptDesc@10，parsers/spells.ts SPELL_OFF）",
+      "caller": "同上（parseSpells → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）；spells.boundaries 为单元映射旧证",
+      "axis": "单 hook=3（spell296 offset 6/4/10 三条各一）",
+      "oracle": "spells.json spell296 目标字段=3 其余 0；all/scene/shared 同 item 四条（shared 恰 L_3）；stdout 计数 1",
+      "classification": "new CLI wiring contract（spell 三入口接线首证）"
+    },
+    {
+      "id": "C149",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-08 enemy.turnStart entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:239-243 enemyObjects 三 hook 收集（enemy398 base=398×14：turnStart@4/battleEnd@6/ready@8；enemyId@0=1 完整合法引用指 DATA chunk1 唯一敌，parsers/enemies.ts）",
+      "caller": "同上（parseEnemyObjects → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）；enemies.boundaries 为单元旧证",
+      "axis": "单 hook=3 + enemyId=1（enemy398 offset 4/6/8 三条各一，敌引用完整非空敌）",
+      "oracle": "enemy-objects.json objectIndex398 目标字段=3 其余 0 + enemyId=1/resist=0；enemies.json 1 条（引用敌真实存在）；all/scene/shared 同上；stdout 计数 1",
+      "classification": "new CLI wiring contract（enemy 三入口接线首证）"
+    },
+    {
+      "id": "C150",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-09 enemy.battleEnd entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:239-243 enemyObjects 三 hook 收集（enemy398 base=398×14：turnStart@4/battleEnd@6/ready@8；enemyId@0=1 完整合法引用指 DATA chunk1 唯一敌，parsers/enemies.ts）",
+      "caller": "同上（parseEnemyObjects → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）；enemies.boundaries 为单元旧证",
+      "axis": "单 hook=3 + enemyId=1（enemy398 offset 4/6/8 三条各一，敌引用完整非空敌）",
+      "oracle": "enemy-objects.json objectIndex398 目标字段=3 其余 0 + enemyId=1/resist=0；enemies.json 1 条（引用敌真实存在）；all/scene/shared 同上；stdout 计数 1",
+      "classification": "new CLI wiring contract（enemy 三入口接线首证）"
+    },
+    {
+      "id": "C151",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-10 enemy.ready entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:239-243 enemyObjects 三 hook 收集（enemy398 base=398×14：turnStart@4/battleEnd@6/ready@8；enemyId@0=1 完整合法引用指 DATA chunk1 唯一敌，parsers/enemies.ts）",
+      "caller": "同上（parseEnemyObjects → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）；enemies.boundaries 为单元旧证",
+      "axis": "单 hook=3 + enemyId=1（enemy398 offset 4/6/8 三条各一，敌引用完整非空敌）",
+      "oracle": "enemy-objects.json objectIndex398 目标字段=3 其余 0 + enemyId=1/resist=0；enemies.json 1 条（引用敌真实存在）；all/scene/shared 同上；stdout 计数 1",
+      "classification": "new CLI wiring contract（enemy 三入口接线首证）"
+    },
+    {
+      "id": "C152",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-11 player.friendDeath entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:244-247 objectPlayers 两 hook 收集（player36 base=36×14：scriptOnFriendDeath@4/scriptOnDying@6，parsers/spells.ts PLAYER_OFF）",
+      "caller": "同上（parseObjectPlayers → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）",
+      "axis": "单 hook=3（player36 offset 4/6 两条各一）",
+      "oracle": "object-players.json（6 条）player36 目标字段=3 其余 0；all/scene/shared 同上；stdout 计数 1",
+      "classification": "new CLI wiring contract（player 两入口接线首证）"
+    },
+    {
+      "id": "C153",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-12 player.dying entry",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:244-247 objectPlayers 两 hook 收集（player36 base=36×14：scriptOnFriendDeath@4/scriptOnDying@6，parsers/spells.ts PLAYER_OFF）",
+      "caller": "同上（parseObjectPlayers → push → entryIps）",
+      "oldAssertion": "旧 fullName 锚：cli-isolated 事件例（全零 OBJECT）",
+      "axis": "单 hook=3（player36 offset 4/6 两条各一）",
+      "oracle": "object-players.json（6 条）player36 目标字段=3 其余 0；all/scene/shared 同上；stdout 计数 1",
+      "classification": "new CLI wiring contract（player 两入口接线首证）"
+    },
+    {
+      "id": "C154",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-13 shared entry alias",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:229-247 双 push 同 ip（item61.use=3 + player36.dying=3 → globalScriptEntries=[3,3]）+ slice.ts Set 归属去重 + disasm labelTargets Set",
+      "caller": "同 ip 别名组合（两独立 caller 指向同一合法 entry 3）",
+      "oldAssertion": "无旧证（旧 CLI 全零 OBJECT；slice.test 纯算法不覆盖 CLI 传参去重）",
+      "axis": "组合输入：两 hook 同 ip=3",
+      "oracle": "stdout 'shared(含 2 …)'（双 push 计数）；shared 恰一条 [{op:'end',label:'L_3'}]（不重复）；all.json L_3 恰一次；scene 不变 [L_1,L_2]；items/object-players 双表目标字段=3",
+      "classification": "new combo contract（同 ip 别名 labels/shared 不重复）"
+    },
+    {
+      "id": "C155",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "fullName": "Q-NEXT1-14 scene global overlap",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts:239-243 + slice.ts:141-155（globalReachable 命中强制 sceneCount≥2 → 归 shared、scene 排除不复制）",
+      "caller": "scene-global 重合组合（enemy398.ready=1 与 scene scriptOnEnter 同 ip1）",
+      "oldAssertion": "无旧证（旧 CLI 全零；slice.test 纯算法）",
+      "axis": "组合输入：enemy.ready=1 与 scene 入口重合",
+      "oracle": "shared 恰 [showDialog L_1（含 text）, end L_2]；scene-000 commands=[]（不复制）；all.json ip3 end 无 L_3 标签（无 hook 指向）；enemy398.ready=1/enemyId=1；stdout 计数 1",
+      "classification": "new combo contract（重合归属 shared、scene 不复制）"
+    },
+    {
+      "id": "C156",
+      "batch": "Q10",
+      "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
       "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
       "status": "passed",
@@ -1993,7 +2189,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C143",
+      "id": "C157",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -2007,7 +2203,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C144",
+      "id": "C158",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -2021,7 +2217,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C145",
+      "id": "C159",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -2035,7 +2231,7 @@
       "classification": "new full-pipeline contract target（r10 合法化重写；FP4 已独立为另一目标——见边界合同 override）"
     },
     {
-      "id": "C146",
+      "id": "C160",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -2049,7 +2245,7 @@
       "classification": "boundary-rejection contract（r10 新目标；如实登记为边界拒绝，不冒称合法正向资源）"
     },
     {
-      "id": "C147",
+      "id": "C161",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",

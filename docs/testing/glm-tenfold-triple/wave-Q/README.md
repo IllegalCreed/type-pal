@@ -1,14 +1,44 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r19 唯一合并返工）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r20 Q-NEXT1 有限批）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r19 候选**（r18 复核：字体/lookup 方向 accept，Q-R19-01 三针 meta
-生产器错误 counter；**当前 147 执行 / 结构净新上限 146 / 缺口至少 554**；r18 候选
-275527af4/pin 2030ce06f 保留供独立复核）。不合 main、不标 done。下一新增实施子批
-等待 Codex 核定真实清单。
+本文件描述 **r20 候选**（Q-NEXT1 有限批：Codex 核定的 12+2 CLI 全局入口接线；
+**当前 161 执行 / 结构净新上限 160 / 缺口至少 540**；r19 候选 1eb332b4a/pin 6a0a3ef64
+保留供独立复核）。不合 main、不标 done。
+
+## r20：Q-NEXT1-01～14 有限批（CLI 全局脚本入口接线，12 单 hook + 2 组合）
+
+按 next-batch 协议（codex-opq-next-batch-20261002.md 十二字段表）完成全部 14 条
+固定 fullName：
+
+1. **新文件**：`cli-global-entries.glm-q.test.ts`（14 例，每例真实 mkdtemp 子进程
+   CLI 实跑）+ 专属 fixture `__tests__/glm-q/cli-global-entry-inputs.ts`（借用已验
+   cli-pipeline-inputs 纯工厂；四指令 bytecode：ip0 giveItem 填充/ip1 showDialog/
+   ip2 **plain end**（end-advance 会 BFS 落穿吞掉 hook 目标，必须 0x0000）/ip3 独立
+   plain end=hook 目标；与 Codex 正控同构）。旧工厂与三个旧 CLI 文件零改动（旧 71
+   针零重采）。
+2. **逐条核验**（不只文件存在）：data 表目标 hook 字段=3 且四表十二 hook 互斥全零、
+   敌例 enemyId=1 完整引用 + enemies.json 落表、all.json 4 命令完整 toEqual（label/
+   text/_item）、scene-000 恰 [L_1 showDialog, L_2 end]（hook 不误入 scene）、shared
+   恰 [{op:'end',label:'L_3'}]、stdout 精确入口计数（'shared(含 N item/spell/enemyObj
+   script entries)'）。
+3. **两组合**：#13 同 ip 别名（item.use+player.dying=3）——双 push 计数 2、shared/all
+   的 L_3 恰一次不重复；#14 scene-global 重合（enemy.ready=1=scene 入口）——global
+   命中强制归 shared（恰 [L_1 showDialog, L_2 end]）、scene-000 commands=[] 不复制、
+   ip3 无 hook 指向故 all 中无 L_3 标签。
+4. **反控**：本批零新针——按协议五个代表产品变异（item.equip/throw、spell.success、
+   enemy.battleEnd、player.friendDeath 各跳过对应 push）由 Codex 独立验收阶段统一
+   实采，作者不伪造已跑；未执行/未修改共享 /tmp 工具。
+5. **账目**：161 执行（147 + 14）/ 扣 room0 旧合同（历史 C114 编号）后**结构净新
+   上限 160 / 缺口至少 540**；反控 71 存档 / 62 目标 / 净新上限 61 不变。原 700/50
+   组/50 目标/10 流程不缩；本批完成不等于整卡 done。
+6. 门禁：pal-extract 定向 24/24（新 14 + 旧 CLI 10）+ 相邻实际执行 slice/disasm/
+   roundtrip 5 文件 33 例 + parsers items/spells/enemies boundaries/tables 4 文件
+   107 例 + typecheck 0 + **全包 381/381**；reforge 2150 / game 2812 源未变明确
+   复用。pin 后完整 lint 0/0/0、docs/diff/verifier 见 receipt。
 
 ## r19：Q-R19-01 一次合并闭合（三针 meta 生产器错误，无新增用例）
 
