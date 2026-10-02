@@ -56,6 +56,8 @@ Codex已直接复核原L1436在布防后advance至524–527、再529–531，而
 批准补齐首次→提醒回店→天气复读及本段已核语义命名。原ID保持，奖励/布防只在首次；首包build allowed。
 e2e005_premise独立确认同证据，并指出s004首句前480ms不保证已经走到终点；报信走位暂不改，
 先取第一阶段真实对白/位置偏序。原L888返程是后台游标advance，不是空脚本；不为返程延迟玩家控制权。
+七条后续对白在现行locale不存在，内容Owner窄加`locale.json`的dlg.524–527/529–531，逐句来自原始提取；
+不触碰其它文案。原版遗漏不能以悬空locale引用代替修复。
 
 ## 验收与证据
 
@@ -71,6 +73,13 @@ e2e005_premise独立确认同证据，并指出s004首句前480ms不保证已经
 ## 进展
 
 2026-10-02：范围已批准，首包执行工具准入；当前无005实跑通过结论。独立前提/内容审查进行中。
+
+Codex独立以现行`assertMealCaseReport`和`mealSaveView`核归档004报告、档原字节及完整endWorld：
+game SHA `ebc52c79947551a94259ebc889dd927cf25222fef36e03ade3e04dea57d12e85`；
+Reforge SHA `955d19d8aeb691359f90272baaaab56eda5813ff804f06972380a03075571b21`，
+二者均为9a488c02的passed saves（不是story/capture）。6012 HTTP200，未重启。
+独立只读审查e2e005_premise签premise verified：原版L741/L1528/L1436/903/L1606，
+张四复读遗漏、L888后台返程及runEntityTrigger同scene交互父子约束均有直接证据；尚未作实际观感判断。
 
 ## 下一位 Agent 提示词
 
