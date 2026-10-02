@@ -42,7 +42,8 @@
     "P-R9-03": "Toolbar Home/End 用例重写：删除手工抢焦/空 act；vi.waitFor 可观察收敛（焦点落进托盘 + 全部选项挂载完成 ISOMETRIC_BRUSH_SIZES.length）后断言产品 rAF 落焦于当前值选项，再全部经产品键盘处理器移动；单文件连续 10/10 稳定，不扩 timeout、不 mock、不改产品",
     "P-R10-01": "三处 handoff 游标按行为真实 flow 对齐：talk=stage/start、auto2=state/machine-1/idle（入口 onEnter entry 的 to、item 私有脚本的 to、shared 分支的 from 全部经 LEGAL_CURSOR 表生成）；G12-03 expected 核真实合法映射；共同 fixture editorState() 返回前实际经过公开 new ScriptEditSession(structuredClone(state))（作者校验+引用闭包），非法即测试失败——r10 复核指出的拒收已在本地复现并以此修复，准入检查不计新业务合同",
     "P-R10-02": "Toolbar Home/End 删除 timeout:2000 扩张，vi.waitFor 使用默认 1000ms（可观察收敛：焦点入托盘+选项挂载完成）；独立默认等待连续 5/5 绿；不重开手设焦点/旧业务标题",
-    "P-R10-03": "C13 七份 r9 原字节历史证据恢复（receipt sha256 与 a3a7c3906^ 逐字节一致 96aa28e8…）+ RETIRED.md 明确退役不计活跃；contracts 去同上/仅 isDefined/截操作数（G12-03 oracle 补完整合法 cursor 映射，G13-01 axis 改 hook 变体容器真实轴）；账同步 78 执行/17 组/14 活跃目标/18 流程、9 旧三态未变+P02-C08 与 4 P03 更新；定向 78/78、lint 实测 2821"
+    "P-R10-03": "C13 七份 r9 原字节历史证据恢复（receipt sha256 与 a3a7c3906^ 逐字节一致 96aa28e8…）+ RETIRED.md 明确退役不计活跃；contracts 去同上/仅 isDefined/截操作数（G12-03 oracle 补完整合法 cursor 映射，G13-01 axis 改 hook 变体容器真实轴）；账同步 78 执行/17 组/14 活跃目标/18 流程、9 旧三态未变+P02-C08 与 4 P03 更新；定向 78/78、lint 实测 2821",
+    "P-R36-01-tail": "r11 复核：G14 条件“同上 fixture”已展开为逐合同真实输入条件；oracle 截操作数的合同全部替换为完整平衡断言（含 matcher 与 expected，file:line 锚）；G03 三条人工结果行保留"
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",

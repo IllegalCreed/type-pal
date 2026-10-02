@@ -13,7 +13,7 @@
       "caller": "createEditorAssetReader(source,state)",
       "oldAssertion": "editor-asset-reader 由 UI 测试经 assetBase 间接消费",
       "axis": "本合同新轴: 未知 AssetId 拒绝指名为直读新轴",
-      "oracle": "真实断言行: expect(() => reader.record('sprite.nowhere')).toThrow('AssetId \"sprite.nowhere\" 不在 catalog')  // src/core/editor-asset-io.glm-p.test.ts:87",
+      "oracle": "完整断言: expect(() => reader.record('sprite.nowhere')).toThrow('AssetId \"sprite.nowhere\" 不在 catalog')\n// src/core/editor-asset-io.glm-p.test.ts:87",
       "classification": "reader-contract"
     },
     {
@@ -27,7 +27,7 @@
       "caller": "createEditorAssetReader(source,state)",
       "oldAssertion": "editor-asset-reader 由 UI 测试经 assetBase 间接消费（PreviewCanvas.glm-ui-wave.test.tsx 的 record/kind 路径）；无旧直读 fullName",
       "axis": "本合同新轴: 期望 kind 与实际不符报双 kind 为新轴",
-      "oracle": "真实断言行: expect(() => reader.record(firstId, wrongKind)).toThrow( `AssetId \"${firstId}\" 期望 ${wrongKind}，实际 ${first.kind}`, )  // src/core/editor-asset-io.glm-p.test.ts:93",
+      "oracle": "完整断言: expect(() => reader.record(firstId, wrongKind)).toThrow(\n// src/core/editor-asset-io.glm-p.test.ts:93",
       "classification": "reader-contract"
     },
     {
@@ -41,7 +41,7 @@
       "caller": "createEditorAssetReader(source,state)",
       "oldAssertion": "save-preflight-boundaries P05 已证 pending blob 落盘",
       "axis": "本合同新轴: readBytes 的 pending 覆盖与副本语义为新轴",
-      "oracle": "真实断言行: expect(first).not.toBe(second)  // src/core/editor-asset-io.glm-p.test.ts:110",
+      "oracle": "完整断言: expect(first).not.toBe(second)\n// src/core/editor-asset-io.glm-p.test.ts:110",
       "classification": "reader-contract"
     },
     {
@@ -55,7 +55,7 @@
       "caller": "createEditorAssetReader(source,state)",
       "oldAssertion": "AssetRole 校验由 content 测试覆盖",
       "axis": "本合同新轴: readRoleBytes 缺角色指名/已登记角色读字节为新轴",
-      "oracle": "真实断言行: await expect(reader.readRoleBytes('audio.midiSoundfont')).rejects.toThrow( '项目缺资源角色 \"audio.midiSoundfont\"', )  // src/core/editor-asset-io.glm-p.test.ts:118",
+      "oracle": "完整断言: await expect(reader.readRoleBytes('audio.midiSoundfont')).rejects.toThrow(\n// src/core/editor-asset-io.glm-p.test.ts:118",
       "classification": "reader-contract"
     },
     {
@@ -69,7 +69,7 @@
       "caller": "createEditorAssetReader(source,state)",
       "oldAssertion": "PreviewCanvas 测试经 urlFor 间接消费",
       "axis": "本合同新轴: pending blob object URL（mediaType 透传、零源读取）为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(await reader.urlFor(firstId)).toBe('blob:mock-1')\n// src/core/editor-asset-io.glm-p.test.ts:140",
       "classification": "reader-contract"
     },
     {
@@ -83,7 +83,7 @@
       "caller": "classifyDirectoryPicker",
       "oldAssertion": "file-system-access.test.ts:16 已证 insecure-context 分类与文案",
       "axis": "本合同新轴: 非法 URL 的 localhostOrigin 回退为不同残余轴（r3 排重后仅保留本条）",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(result.available === false && result.message).toContain('http://localhost')\n// src/core/editor-asset-io.glm-p.test.ts:153",
       "classification": "pure-classifier"
     },
     {
@@ -97,7 +97,7 @@
       "caller": "scenesDir/palFingerprintPaths/enumerateSeedFiles",
       "oldAssertion": "seed.test.ts 「当前 manifest 不做路径兼容转换」已证不转换",
       "axis": "本合同新轴: scenesDir 三臂归一化（缺省/补斜杠/原样）为新轴",
-      "oracle": "真实断言行: expect(scenesDir(manifestOf({}))).toBe('content/scenes/')  // src/core/editor-asset-io.glm-p.test.ts:179",
+      "oracle": "完整断言: expect(scenesDir(manifestOf({}))).toBe('content/scenes/')\n// src/core/editor-asset-io.glm-p.test.ts:179",
       "classification": "pure-kernel"
     },
     {
@@ -111,7 +111,7 @@
       "caller": "scenesDir/palFingerprintPaths/enumerateSeedFiles",
       "oldAssertion": "workspace-context-boundaries.test.ts F3 已证指纹函数",
       "axis": "本合同新轴: palFingerprintPaths 缺省/自定义 scenes 归一与 maps 缺席为新轴",
-      "oracle": "真实断言行: expect(palFingerprintPaths(manifestOf({}))).toEqual([ PAL_DEVELOPMENT_SENTINEL_PATH, 'assets/index.json', 'content/scenes/index.json', 'manifest.json', ])  // src/core/editor-asset-io.glm-p.test.ts:185",
+      "oracle": "完整断言: expect(palFingerprintPaths(manifestOf({}))).toEqual([\n// src/core/editor-asset-io.glm-p.test.ts:185",
       "classification": "pure-kernel"
     },
     {
@@ -125,7 +125,7 @@
       "caller": "scenesDir/palFingerprintPaths/enumerateSeedFiles",
       "oldAssertion": "seed.test.ts 克隆清单主链已证",
       "axis": "本合同新轴: 克隆清单内容路径重复拒绝为新轴",
-      "oracle": "真实断言行: expect(() => enumerateSeedFiles(manifestOf({ actors: 'content/dup.json', skills: 'content/dup.json' }), { version: 1, scenes: [], }), ).toThrow('克隆输出路径重复: content/dup.json')  // src/core/editor-asset-io.glm-p.test.ts:197",
+      "oracle": "完整断言: expect(() =>\n      enumerateSeedFiles(manifestOf({ actors: 'content/dup.json', skills: 'content/dup.json' }), {\n        version: 1,\n        scenes: [],\n      }),\n    ).toThrow('克隆输出路径重复: content/dup.json')\n// src/core/editor-asset-io.glm-p.test.ts:197",
       "classification": "pure-kernel"
     },
     {
@@ -139,7 +139,7 @@
       "caller": "saveProjectAs",
       "oldAssertion": "save-as-boundaries.test.ts 「cancel Save As before file construction」已证取消臂",
       "axis": "本合同新轴: 带源目录缺源基线证据的校验期拒绝为新轴（293 读取证据臂 typed 不可达已登记 unreachable）",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: await expect(\n      saveProjectAs(context, async () => files as Record<string, unknown>, disk.dir),\n    ).rejects.toThrow('另存为缺少源项目基线，请重新打开项目')\n// src/core/editor-asset-io.glm-p.test.ts:220",
       "classification": "guard-rejection"
     },
     {
@@ -153,7 +153,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "project-diagnostics.test.ts 1240/1247 已证世界变量未登记与 flag-number 臂",
       "axis": "本合同新轴: manifest 缺注册表路径的保存门前缀为新轴（r3 重建为 typed-legal）",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, manifest: { ...state.manifest, content } }), ).toThrow('保存前世界变量校验失败：manifest 缺 worldVariables 注册表路径')  // src/core/project-diagnostics.glm-p.test.ts:34",
+      "oracle": "完整断言: expect(() =>\n      assertProjectSaveValid({ ...state, manifest: { ...state.manifest, content } }),\n    ).toThrow('保存前世界变量校验失败：manifest 缺 worldVariables 注册表路径')\n// src/core/project-diagnostics.glm-p.test.ts:34",
       "classification": "gate-section-rejection"
     },
     {
@@ -167,7 +167,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "validate.ts validateEnemies 逐字段臂由 content 侧测试覆盖",
       "axis": "本合同新轴: 保存门敌人分段前缀（空 battleSprite 值级违规）为新轴（r3 重建为 typed-legal）",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid(broken)).toThrow(/保存前场景数据校验失败.*pages\\[0\\]\\.id/)  // src/core/project-diagnostics.glm-p.test.ts:62",
+      "oracle": "完整断言: expect(() => assertProjectSaveValid(broken)).toThrow(/保存前场景数据校验失败.*pages\\[0\\]\\.id/)\n// src/core/project-diagnostics.glm-p.test.ts:62",
       "classification": "gate-section-rejection"
     },
     {
@@ -181,7 +181,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "author-script-core.test 系已证脚本库校验主链",
       "axis": "本合同新轴: 保存门共享脚本分段前缀（空 id 键）为新轴（r3 重建为 typed-legal）",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, enemies: [enemy] })).toThrow( /保存前敌人数据校验失败.*battleSprite/, )  // src/core/project-diagnostics.glm-p.test.ts:92",
+      "oracle": "完整断言: expect(() => assertProjectSaveValid(broken)).toThrow(/保存前场景数据校验失败.*pages\\[0\\]\\.id/)\n// src/core/project-diagnostics.glm-p.test.ts:62",
       "classification": "gate-section-rejection"
     },
     {
@@ -195,7 +195,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "EnemyTab.test / author-dialogue 测试已证对话主链",
       "axis": "本合同新轴: 保存门对话身份分段前缀（未知 Actor 指名）为新轴",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, sharedScripts: illegal })).toThrow( /保存前共享脚本校验失败.*script id/, )  // src/core/project-diagnostics.glm-p.test.ts:103",
+      "oracle": "完整断言: expect(() => assertProjectSaveValid(broken)).toThrow(/保存前场景数据校验失败.*pages\\[0\\]\\.id/)\n// src/core/project-diagnostics.glm-p.test.ts:62",
       "classification": "gate-section-rejection"
     },
     {
@@ -209,7 +209,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "ItemUseEffectEditor.test 已证 placeEntityInFront 表单",
       "axis": "本合同新轴: 保存门实体引用分段前缀（placeEntityInFront 悬空地址）为新轴",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, sharedScripts: scripts })).toThrow( /保存前对话身份校验失败.*ghost-actor/, )  // src/core/project-diagnostics.glm-p.test.ts:126",
+      "oracle": "完整断言: expect(() => assertProjectSaveValid({ ...state, sharedScripts: scripts })).toThrow(\n// src/core/project-diagnostics.glm-p.test.ts:126",
       "classification": "gate-section-rejection"
     },
     {
@@ -223,7 +223,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "validate.ts resources 校验由 content 测试覆盖",
       "axis": "本合同新轴: 保存门开局分段 collectValue 保留键拒绝为新轴",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, items: [item] })).toThrow( /保存前实体引用校验失败.*ghost-entity/, )  // src/core/project-diagnostics.glm-p.test.ts:152",
+      "oracle": "完整断言: expect(() => assertProjectSaveValid({ ...state, items: [item] })).toThrow(\n// src/core/project-diagnostics.glm-p.test.ts:152",
       "classification": "gate-section-rejection"
     },
     {
@@ -237,7 +237,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "project-diagnostics.test.ts 资源注册表校验主链已证",
       "axis": "本合同新轴: 保存门资源注册表分段前缀（bytes 负值）为新轴",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, manifest: { ...state.manifest, entryPoints: [entry] }, }), ).toThrow(/保存前开局数据校验失败.*collectValue/)  // src/core/project-diagnostics.glm-p.test.ts:166",
+      "oracle": "完整断言: expect(() =>\n      assertProjectSaveValid({\n        ...state,\n        manifest: { ...state.manifest, entryPoints: [entry] },\n      }),\n    ).toThrow(/保存前开局数据校验失败.*collectValue/)\n// src/core/project-diagnostics.glm-p.test.ts:166",
       "classification": "gate-section-rejection"
     },
     {
@@ -251,7 +251,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "project-diagnostics.test.ts 1145 已证 missing-sprite 内容引用臂",
       "axis": "本合同新轴: scene.mapId 悬空的内容引用臂为新轴",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, assetCatalog: catalog })).toThrow( /保存前资源注册表校验失败/, )  // src/core/project-diagnostics.glm-p.test.ts:179",
+      "oracle": "完整断言: expect(() => assertProjectSaveValid({ ...state, assetCatalog: catalog })).toThrow(\n// src/core/project-diagnostics.glm-p.test.ts:179",
       "classification": "gate-section-rejection"
     },
     {
@@ -265,7 +265,7 @@
       "caller": "assertProjectSaveValid",
       "oldAssertion": "validateScenes 主链由 content 测试覆盖",
       "axis": "本合同新轴: 保存门场景分段前缀（页记录缺 id）为新轴（r3 重建为 typed-legal）",
-      "oracle": "真实断言行: expect(() => assertProjectSaveValid({ ...state, scenes })).toThrow( /保存前内容引用校验失败.*ghost-map/, )  // src/core/project-diagnostics.glm-p.test.ts:189",
+      "oracle": "完整断言: expect(() => assertProjectSaveValid({ ...state, scenes })).toThrow(\n// src/core/project-diagnostics.glm-p.test.ts:189",
       "classification": "gate-section-rejection"
     },
     {
@@ -279,7 +279,7 @@
       "caller": "collectProjectIssues/collectEditorStatusIssues/createEditorStatusIssueCollector",
       "oldAssertion": "project-diagnostics.test.ts 436 已证 missing-entry-point-scene codes 与 duplicate target",
       "axis": "本合同新轴: 唯一 id 的 objectId 携带与空白 id #序号消息为新轴",
-      "oracle": "真实断言行: expect(named?.target).toEqual({ module: 'project', page: 'entrypoint', objectId: 'dlc' })  // src/core/project-diagnostics.glm-p.test.ts:221",
+      "oracle": "完整断言: expect(named?.target).toEqual({ module: 'project', page: 'entrypoint', objectId: 'dlc' })\n// src/core/project-diagnostics.glm-p.test.ts:221",
       "classification": "aggregation-shape"
     },
     {
@@ -293,7 +293,7 @@
       "caller": "collectProjectIssues/collectEditorStatusIssues/createEditorStatusIssueCollector",
       "oldAssertion": "project-diagnostics.test.ts 1095/1213 已证 seedStats/重复开局臂",
       "axis": "本合同新轴: resources 非法键的 issue 形状（path+target）为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(issue?.path).toBe('entryPoints[0].startWorld.resources')\n// src/core/project-diagnostics.glm-p.test.ts:248",
       "classification": "aggregation-shape"
     },
     {
@@ -307,7 +307,7 @@
       "caller": "collectProjectIssues/collectEditorStatusIssues/createEditorStatusIssueCollector",
       "oldAssertion": "project-diagnostics.test.ts 资源诊断 target 映射已证",
       "axis": "本合同新轴: catalog 非法时资产闭包诊断整体跳过为新轴",
-      "oracle": "真实断言行: expect(issues.find((issue) => issue.code === 'asset-catalog-invalid')).toBeDefined()  // src/core/project-diagnostics.glm-p.test.ts:263",
+      "oracle": "完整断言: expect(issues.find((issue) => issue.code === 'asset-catalog-invalid')).toBeDefined()\n// src/core/project-diagnostics.glm-p.test.ts:263",
       "classification": "aggregation-shape"
     },
     {
@@ -321,7 +321,7 @@
       "caller": "collectProjectIssues/collectEditorStatusIssues/createEditorStatusIssueCollector",
       "oldAssertion": "project-diagnostics.test.ts 1129 已证资源角色保存门",
       "axis": "本合同新轴: manifest-assets-invalid 的 issue 形状（path=assets/target=startup）为新轴",
-      "oracle": "真实断言行: expect(issue?.path).toBe('assets')  // src/core/project-diagnostics.glm-p.test.ts:278",
+      "oracle": "完整断言: expect(issue?.path).toBe('assets')\n// src/core/project-diagnostics.glm-p.test.ts:278",
       "classification": "aggregation-shape"
     },
     {
@@ -335,7 +335,7 @@
       "caller": "collectProjectIssues/collectEditorStatusIssues/createEditorStatusIssueCollector",
       "oldAssertion": "project-diagnostics.test.ts 已证 #24 缺失警告出现",
       "axis": "本合同新轴: #24 在场时警告静默的对照合同为新轴",
-      "oracle": "真实断言行: expect(messages).not.toContain('项目默认战场 #24 缺失；未显式指定战场的战斗会回落到黑底。')  // src/core/project-diagnostics.glm-p.test.ts:301",
+      "oracle": "完整断言: expect(messages).not.toContain('项目默认战场 #24 缺失；未显式指定战场的战斗会回落到黑底。')\n// src/core/project-diagnostics.glm-p.test.ts:301",
       "classification": "aggregation-shape"
     },
     {
@@ -349,7 +349,7 @@
       "caller": "collectProjectIssues/collectEditorStatusIssues/createEditorStatusIssueCollector",
       "oldAssertion": "project-diagnostics.test.ts 已证缓存忽略变量作者元数据",
       "axis": "本合同新轴: 同 state 对象的引用快路径（复用同一数组）为新轴",
-      "oracle": "真实断言行: expect(second).toBe(first)  // src/core/project-diagnostics.glm-p.test.ts:317",
+      "oracle": "完整断言: expect(second).toBe(first)\n// src/core/project-diagnostics.glm-p.test.ts:317",
       "classification": "aggregation-shape"
     },
     {
@@ -363,7 +363,7 @@
       "caller": "serializeProject(EditorState)",
       "oldAssertion": "project-io.test.ts 「shop create/copy/stock/delete save and reopen preserves occurrences and an explicit empty table」已证内容表序列化主链",
       "axis": "本合同新轴: stamps 未登记守卫为旧测未触达臂",
-      "oracle": "真实断言行: expect(() => serializeProject(unregistered)).toThrow( 'serializeProject: 项目有图章模板但 manifest.content.stamps 未登记', )  // src/core/project-io.glm-p.test.ts:170",
+      "oracle": "完整断言: expect(() => serializeProject(unregistered)).toThrow(\n// src/core/project-io.glm-p.test.ts:170",
       "classification": "guard-rejection"
     },
     {
@@ -377,7 +377,7 @@
       "caller": "serializeProject(EditorState)",
       "oldAssertion": "project-io-admission.test.ts 「declared stamps must be loaded explicitly, and the loaded nonempty table survives serialization/reopen」已证缺参抛错",
       "axis": "本合同新轴: 登记后的规范化产出与 parser round-trip 为新轴",
-      "oracle": "真实断言行: expect(files['content/stamps.json']).toBe(formatStampTemplates(stamped.stamps))  // src/core/project-io.glm-p.test.ts:186",
+      "oracle": "完整断言: expect(files['content/stamps.json']).toBe(formatStampTemplates(stamped.stamps))\n// src/core/project-io.glm-p.test.ts:186",
       "classification": "guard-rejection"
     },
     {
@@ -391,7 +391,7 @@
       "caller": "serializeProject(EditorState)",
       "oldAssertion": "battle-simulator-library.test.ts 「normal project history restores exact configuration, protects aliases and retains redo on no-op」已证库解析",
       "axis": "本合同新轴: serializeProject 的保留路径产物/空库省略为新轴",
-      "oracle": "真实断言行: expect( parseBattleSimulatorLibrary(files[BATTLE_SIMULATOR_PATH]).allies.map((entry) => entry.id), ).toEqual(['ally-p'])  // src/core/project-io.glm-p.test.ts:193",
+      "oracle": "完整断言: expect(\n      parseBattleSimulatorLibrary(files[BATTLE_SIMULATOR_PATH]).allies.map((entry) => entry.id),\n    ).toEqual(['ally-p'])\n// src/core/project-io.glm-p.test.ts:193",
       "classification": "guard-rejection"
     },
     {
@@ -405,7 +405,7 @@
       "caller": "serializeProject(EditorState)",
       "oldAssertion": "save-preflight-boundaries.test.ts P04 已证非 catalog 二进制豁免",
       "axis": "本合同新轴: pending blob 未登记 catalog 的序列化层拒绝为旧测未断言臂",
-      "oracle": "真实断言行: expect(() => serializeProject(pending)).toThrow( 'serializeProject: pending 资源未登记 catalog: assets/generated/ghost.rle', )  // src/core/project-io.glm-p.test.ts:209",
+      "oracle": "完整断言: expect(() => serializeProject(pending)).toThrow(\n// src/core/project-io.glm-p.test.ts:209",
       "classification": "guard-rejection"
     },
     {
@@ -419,7 +419,7 @@
       "caller": "serializeProject(EditorState)",
       "oldAssertion": "project-io.test.ts 「serializes only the current manifest and current author content paths」已证路径映射",
       "axis": "本合同新轴: 两内容表同路径的 addFile 冲突（skills 先于 items 的迭代序）为新轴",
-      "oracle": "真实断言行: expect(() => serializeProject(clashed)).toThrow( 'serializeProject: 输出路径冲突 \"content/dup.json\"（内容表 skills / 内容表 items）', )  // src/core/project-io.glm-p.test.ts:228",
+      "oracle": "完整断言: expect(() => serializeProject(clashed)).toThrow(\n// src/core/project-io.glm-p.test.ts:228",
       "classification": "guard-rejection"
     },
     {
@@ -433,7 +433,7 @@
       "caller": "serializeProject(EditorState)",
       "oldAssertion": "project-serialization-boundaries.test.ts S04 已证声明表按路径输出",
       "axis": "本合同新轴: 缺 content.maps 声明拒绝为旧测未触达臂",
-      "oracle": "真实断言行: expect(() => serializeProject(mapless)).toThrow( 'serializeProject: 项目缺 manifest.content.maps', )  // src/core/project-io.glm-p.test.ts:241",
+      "oracle": "完整断言: expect(() => serializeProject(mapless)).toThrow(\n// src/core/project-io.glm-p.test.ts:241",
       "classification": "guard-rejection"
     },
     {
@@ -447,7 +447,7 @@
       "caller": "serializeProject(EditorState)",
       "oldAssertion": "project-io.test.ts round-trip 主链已证有值表输出",
       "axis": "本合同新轴: 声明路径+state 缺数组的空表缺省臂为新轴",
-      "oracle": "真实断言行: expect(serializeProject(withoutEnemies)['content/enemies.json']).toEqual([])  // src/core/project-io.glm-p.test.ts:256",
+      "oracle": "完整断言: expect(serializeProject(withoutEnemies)['content/enemies.json']).toEqual([])\n// src/core/project-io.glm-p.test.ts:256",
       "classification": "guard-rejection"
     },
     {
@@ -461,7 +461,7 @@
       "caller": "toEditorState(...,battleSimulator)",
       "oldAssertion": "battle-simulator-library.test.ts 「parser/resolver detach nested data and section overrides never change presets」已证 parser 隔离",
       "axis": "本合同新轴: toEditorState 入参解析隔离（改 state 不动入参）为新轴",
-      "oracle": "真实断言行: expect(state.battleSimulator!.allies[0]!.config).toEqual({ members: [] })  // src/core/project-io.glm-p.test.ts:277",
+      "oracle": "完整断言: expect(state.battleSimulator!.allies[0]!.config).toEqual({ members: [] })\n// src/core/project-io.glm-p.test.ts:277",
       "classification": "projection-semantics"
     },
     {
@@ -475,7 +475,7 @@
       "caller": "toEditorState(...,battleSimulator)",
       "oldAssertion": "project-io.test.ts 「projects a current loaded project into one current editor state」已证值投影",
       "axis": "本合同新轴: poisons 直传别名 vs sceneIndex clone 的引用语义为新轴",
-      "oracle": "真实断言行: expect(state.poisons).toBe(project.poisons)  // src/core/project-io.glm-p.test.ts:300",
+      "oracle": "完整断言: expect(state.poisons).toBe(project.poisons)\n// src/core/project-io.glm-p.test.ts:300",
       "classification": "projection-semantics"
     },
     {
@@ -489,7 +489,7 @@
       "caller": "diffFiles(prev,next,computed)",
       "oldAssertion": "author-save-journal.test.ts 「catalog double writes retain separate prefix positions」间接消费 diff",
       "axis": "本合同新轴: computedSignatures 直读（字符串+二进制签名记录与 write 精确性）为新轴",
-      "oracle": "真实断言行: expect(diff.write.sort()).toEqual(['changed.json', 'new.bin'])  // src/core/project-io.glm-p.test.ts:331",
+      "oracle": "完整断言: expect(diff.write.sort()).toEqual(['changed.json', 'new.bin'])\n// src/core/project-io.glm-p.test.ts:331",
       "classification": "pure-kernel"
     },
     {
@@ -503,7 +503,7 @@
       "caller": "diffFiles(prev,next,computed)",
       "oldAssertion": "project-serialization-boundaries.test.ts S02 已证 copy-through 输出",
       "axis": "本合同新轴: diffFiles 字符串原文比较与 prev 独有键 remove 为新轴",
-      "oracle": "真实断言行: expect(diff.write).toEqual([])  // src/core/project-io.glm-p.test.ts:345",
+      "oracle": "完整断言: expect(diff.write).toEqual([])\n// src/core/project-io.glm-p.test.ts:345",
       "classification": "pure-kernel"
     },
     {
@@ -517,7 +517,7 @@
       "caller": "diffFiles(prev,next,computed)",
       "oldAssertion": "binary-signature.test.ts 「same-length payloads with different bytes cannot share a digest」已证签名函数",
       "axis": "本合同新轴: diffFiles 消费同长异字节判变为新轴",
-      "oracle": "真实断言行: expect((await diffFiles(prev, { 'assets/a.rle': b })).write).toEqual(['assets/a.rle'])  // src/core/project-io.glm-p.test.ts:356",
+      "oracle": "完整断言: expect((await diffFiles(prev, { 'assets/a.rle': b })).write).toEqual(['assets/a.rle'])\n// src/core/project-io.glm-p.test.ts:356",
       "classification": "pure-kernel"
     },
     {
@@ -531,7 +531,7 @@
       "caller": "preflightProjectWriteSet(files,removePaths)",
       "oldAssertion": "save-batch-open.test.ts P7 已证 battle-simulator 哨兵读侧",
       "axis": "本合同新轴: preflight 对 battle-simulator 字符串文件的解析/坏 kind 拒绝为新轴",
-      "oracle": "真实断言行: await expect( preflightProjectWriteSet({ ...catalogFree, [BATTLE_SIMULATOR_PATH]: JSON.stringify(emptyBattleSimulatorLibrary()), }), ).resolves.toBeUndefined()  // src/core/project-io.glm-p.test.ts:368",
+      "oracle": "完整断言: await expect(\n      preflightProjectWriteSet({\n        ...catalogFree,\n        [BATTLE_SIMULATOR_PATH]: JSON.stringify(emptyBattleSimulatorLibrary()),\n      }),\n    ).resolves.toBeUndefined()\n// src/core/project-io.glm-p.test.ts:368",
       "classification": "guard-rejection"
     },
     {
@@ -545,7 +545,7 @@
       "caller": "preflightProjectWriteSet(files,removePaths)",
       "oldAssertion": "save-preflight-boundaries.test.ts P01–P03 已证 catalog 资源臂",
       "axis": "本合同新轴: battle-simulator 非 JSON 语法错误传播为新轴",
-      "oracle": "真实断言行: await expect( preflightProjectWriteSet({ 'manifest.json': { assets: {} }, [BATTLE_SIMULATOR_PATH]: '{not-json', }), ).rejects.toThrow()  // src/core/project-io.glm-p.test.ts:383",
+      "oracle": "完整断言: await expect(\n      preflightProjectWriteSet({\n        'manifest.json': { assets: {} },\n        [BATTLE_SIMULATOR_PATH]: '{not-json',\n      }),\n    ).rejects.toThrow()\n// src/core/project-io.glm-p.test.ts:383",
       "classification": "guard-rejection"
     },
     {
@@ -559,7 +559,7 @@
       "caller": "preflightProjectWriteSet(files,removePaths)",
       "oldAssertion": "workspace-persistence.test.ts 「项目写入和删除都不能覆盖 workspace identity 旁车」已证写入口",
       "axis": "本合同新轴: preflight 纯函数入口的同守卫为独立入口臂",
-      "oracle": "真实断言行: await expect(preflightProjectWriteSet({ '.type-pal/workspace.json': '{}' })).rejects.toThrow( 'workspace identity 旁车', )  // src/core/project-io.glm-p.test.ts:392",
+      "oracle": "完整断言: await expect(preflightProjectWriteSet({ '.type-pal/workspace.json': '{}' })).rejects.toThrow(\n// src/core/project-io.glm-p.test.ts:392",
       "classification": "guard-rejection"
     },
     {
@@ -573,7 +573,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "project-copy.test.ts 「复制清单重复路径在私有暂存前拒绝，不调用源读取」已证重复拒绝",
       "axis": "本合同新轴: copy 与编辑产物同路径让位（编辑值胜出+恰一次 close）为新轴",
-      "oracle": "真实断言行: expect(result.snapshot.get('notes/same.txt')).toBe('editor wins')  // src/core/project-io.glm-p.test.ts:427",
+      "oracle": "完整断言: expect(result.snapshot.get('notes/same.txt')).toBe('editor wins')\n// src/core/project-io.glm-p.test.ts:427",
       "classification": "real-io-workflow"
     },
     {
@@ -587,7 +587,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "project-copy.test.ts 另存为删除清单流已证 removePaths 主链",
       "axis": "本合同新轴: copy 撞 removePaths 的让位优先级为新轴",
-      "oracle": "真实断言行: expect(result.snapshot.has('notes/gone.txt')).toBe(false)  // src/core/project-io.glm-p.test.ts:454",
+      "oracle": "完整断言: expect(result.snapshot.has('notes/gone.txt')).toBe(false)\n// src/core/project-io.glm-p.test.ts:454",
       "classification": "real-io-workflow"
     },
     {
@@ -601,7 +601,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "workspace-persistence.test.ts 授权消费合同已证",
       "axis": "本合同新轴: 非 firstSave 目标携带 copies 的守卫拒绝为新轴",
-      "oracle": "真实断言行: await expect( writeProject( await boundTarget(), { 'manifest.json': opened.project.manifest }, { copies: [{ path: 'assets/extra.bin', read: async () => new Blob(['x']) }], verifySource: async () => {},  // src/core/project-io.glm-p.test.ts:461",
+      "oracle": "完整断言: await expect(\n      writeProject(\n        await boundTarget(),\n        { 'manifest.json': opened.project.manifest },\n        {\n          copies: [{ path: 'assets/extra.bin', read: async () => new Blob(['x']) }],\n          verifySource: async () => {},\n        },\n      ),\n    ).rejects.toThrow('整笔复制只允许写入已授权的新项目目标')\n// src/core/project-io.glm-p.test.ts:461",
       "classification": "real-io-workflow"
     },
     {
@@ -615,7 +615,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "workspace-final-boundaries.test.ts 「a genuine finalized or expired writer scope cannot begin another author mutation」已证能力消费",
       "axis": "本合同新轴: 缺 verifySource 的准备期拒绝与目标零写为新轴",
-      "oracle": "真实断言行: await expect( writeProject( auth, { 'manifest.json': { id: 'glm-p-no-verify' } }, { copies: [{ path: 'notes/a.txt', read: async () => new Blob(['a']) }] }, ), ).rejects.toThrow('复制缺少来源复验，拒绝准备保存')  // src/core/project-io.glm-p.test.ts:478",
+      "oracle": "完整断言: await expect(\n      writeProject(\n        auth,\n        { 'manifest.json': { id: 'glm-p-no-verify' } },\n        { copies: [{ path: 'notes/a.txt', read: async () => new Blob(['a']) }] },\n      ),\n    ).rejects.toThrow('复制缺少来源复验，拒绝准备保存')\n// src/core/project-io.glm-p.test.ts:478",
       "classification": "real-io-workflow"
     },
     {
@@ -629,7 +629,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "author-save-conflict.test.ts 会话级增量保存已证",
       "axis": "本合同新轴: writeProject 直调的 prevSnapshot 精确写集与快照签名为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(projectFiles(disk.changes.closes)).toEqual(['manifest.json'])\n// src/core/project-io.glm-p.test.ts:503",
       "classification": "real-io-workflow"
     },
     {
@@ -643,7 +643,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "author-save-journal.test.ts 进度回调未直接断言",
       "axis": "本合同新轴: 进度不提早 100%（commit 前逐帧 <total、终帧恰一）为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(frames.length).toBeGreaterThan(0)\n// src/core/project-io.glm-p.test.ts:518",
       "classification": "real-io-workflow"
     },
     {
@@ -657,7 +657,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "project-copy.test.ts 空目录保留已证 directories 主链",
       "axis": "本合同新轴: directories 声明创建真实目录且不进快照为新轴",
-      "oracle": "真实断言行: expect(target.changes.creates).toContain('assets/generated/deep')  // src/core/project-io.glm-p.test.ts:543",
+      "oracle": "完整断言: expect(target.changes.creates).toContain('assets/generated/deep')\n// src/core/project-io.glm-p.test.ts:543",
       "classification": "real-io-workflow"
     },
     {
@@ -671,7 +671,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "author-save-conflict.test.ts 「own-page retry reconciles an uncertain close」已证恢复主链",
       "axis": "本合同新轴: 成功提交后 resumeOwnProjectSave 返回 null 的清洁合同为新轴",
-      "oracle": "真实断言行: expect(resumed).toBeNull()  // src/core/project-io.glm-p.test.ts:559",
+      "oracle": "完整断言: expect(resumed).toBeNull()\n// src/core/project-io.glm-p.test.ts:559",
       "classification": "real-io-workflow"
     },
     {
@@ -685,7 +685,7 @@
       "caller": "writeProject/resumeOwnProjectSave",
       "oldAssertion": "project-io.test.ts 未断言 close 顺序",
       "axis": "本合同新轴: manifest 引用表最后 close（sidecar 除外）为新轴",
-      "oracle": "真实断言行: expect(projectCloses).toContain('manifest.json')  // src/core/project-io.glm-p.test.ts:567",
+      "oracle": "完整断言: expect(projectCloses).toContain('manifest.json')\n// src/core/project-io.glm-p.test.ts:567",
       "classification": "real-io-workflow"
     },
     {
@@ -694,12 +694,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 页槽命中产出 entity-page locator 引用；路径携带页 id 与通道",
       "status": "passed",
-      "condition": "与 script-editor.test.ts 同构 typed fixture（AuthorSceneDef/items/sharedScripts，含状态机 prepare 的合法 CursorHandoff stateMap）",
+      "condition": "合法 typed fixture（scene+entity+pages+behaviors，trigger=talk）；behaviorReferences(state,target,trigger,talk) 页槽命中",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-editor.test.ts › canonical script editor commands › renames a behavior immutably and rewrites page plus nested project references（已证重写链；只读 page 引用收集无旧直测）",
       "axis": "本合同新轴: behaviorReferences 页槽 entity-page locator/路径",
-      "oracle": "真实断言行: expect(pageRef?.path).toBe('scenes.s001.entities.e1.pages.default.trigger')  // src/core/script-editor.p03.glm-p.test.ts:243",
+      "oracle": "完整断言: expect(pageRef?.path).toBe('scenes.s001.entities.e1.pages.default.trigger')\n// src/core/script-editor.p03.glm-p.test.ts:243",
       "classification": "reference-collection"
     },
     {
@@ -708,12 +708,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 嵌套命令 selection 命中产出 command 引用并保留完整命令路径",
       "status": "passed",
-      "condition": "与 script-editor.test.ts 同构 typed fixture（AuthorSceneDef/items/sharedScripts，含状态机 prepare 的合法 CursorHandoff stateMap）",
+      "condition": "同 fixture；三处 selection 命令（实体 body/hook body/共享 branch.then）路径集合",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-editor.test.ts › canonical script editor commands › tracks and rewrites cursor-handoff source behaviors without duplicate references（已证 cursorHandoff 重写）",
       "axis": "本合同新轴: 只读 selection 命中的完整命令路径集合",
-      "oracle": "真实断言行: expect(commandRefs).toContain( 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:258",
+      "oracle": "完整断言: expect(commandRefs).toContain(\n// src/core/script-editor.p03.glm-p.test.ts:258",
       "classification": "reference-collection"
     },
     {
@@ -722,12 +722,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）",
       "status": "passed",
-      "condition": "与 script-editor.test.ts 同构 typed fixture（AuthorSceneDef/items/sharedScripts，含状态机 prepare 的合法 CursorHandoff stateMap）",
+      "condition": "同 fixture；onEnter hook 机器 initial state entry.prepare 中 handoffCommand(talk,auto2) 命中",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-editor.test.ts › tracks and rewrites cursor-handoff source behaviors without duplicate references :334-368（已直证只读后缀路径断言 '…cursorHandoff.fromBehavior'——shared-script body 容器）；本合同为合法 onEnter entry.prepare 容器新轴",
       "axis": "本合同新轴: cursorHandoff.fromBehavior 只读引用（后缀路径）",
-      "oracle": "真实断言行: expect(handoff?.path).toBe('scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior') + locator toEqual + resolveCanonicalScriptCommand 解析 cursorHandoff stateMap 完整合法映射（talk stage/start → auto2 state/machine-1/idle）  // src/core/script-editor.p03.glm-p.test.ts:262-285",
+      "oracle": "完整断言: expect(handoff).toBeDefined()\n// src/core/script-editor.p03.glm-p.test.ts:274",
       "classification": "reference-collection"
     },
     {
@@ -736,12 +736,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G12 behaviorReferences 只读引用收集 不存在的 behaviorId → 空引用列表（只读收集不抛错）",
       "status": "passed",
-      "condition": "与 script-editor.test.ts 同构 typed fixture（AuthorSceneDef/items/sharedScripts，含状态机 prepare 的合法 CursorHandoff stateMap）",
+      "condition": "同 fixture；behaviorId=ghost（注册表与命令均无命中）",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "behaviorReferences(state,target,channel,behaviorId)",
       "oldAssertion": "script-references.test.ts › 覆盖场景入口、共享体互调、动态绑定与嵌套分支（已证 callScript 边）",
       "axis": "本合同新轴: 未知 behaviorId 空引用（只读不抛错）",
-      "oracle": "真实断言行: expect(behaviorReferences(editorState(), target, 'trigger', 'ghost')).toEqual([])  // src/core/script-editor.p03.glm-p.test.ts:306",
+      "oracle": "完整断言: expect(behaviorReferences(editorState(), target, 'trigger', 'ghost')).toEqual([])\n// src/core/script-editor.p03.glm-p.test.ts:306",
       "classification": "reference-collection"
     },
     {
@@ -750,12 +750,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G13 sceneHookReferences 与目标存在性 hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）",
       "status": "passed",
-      "condition": "同上 fixture + selectSceneHooks/disabled 合法 selection",
+      "condition": "同 fixture；enter-b 变体流内 selectSceneHooks 选择 enter-b（非 initial）",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "script-editor.test.ts › edits scene Hook variants through stable ids and rewrites selections（已证 hook 重写）",
       "axis": "本合同新轴: hook 变体流（scene-hook owner）内 selectSceneHooks 命令引用的完整 locator——旧测 :871-904 仅证 shared-script body 容器",
-      "oracle": "真实断言行: expect(command.path).toBe( 'scenes.s001.hooks.onEnter.variants.enter-b.flow.stages.start.body[0]', )  // src/core/script-editor.p03.glm-p.test.ts:316",
+      "oracle": "完整断言: expect(command.path).toBe(\n// src/core/script-editor.p03.glm-p.test.ts:316",
       "classification": "reference-collection"
     },
     {
@@ -764,12 +764,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G13 sceneHookReferences 与目标存在性 真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）",
       "status": "passed",
-      "condition": "同上 fixture + selectSceneHooks/disabled 合法 selection",
+      "condition": "同 fixture；enter-b 非 initial → 查询 enter-b 引用集",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "script-editor.test.ts › edits scene Hook variants through stable ids and rewrites selections :850-909（已证重写与 initial 保持；无旧直测查询非 initial hook 的只读引用集）",
       "axis": "本合同新轴: 非 initial hook 的引用形态约束",
-      "oracle": "真实断言行: expect(refs.filter((ref) => ref.kind === 'initial')).toHaveLength(0)  // src/core/script-editor.p03.glm-p.test.ts:330",
+      "oracle": "完整断言: expect(refs.filter((ref) => ref.kind === 'initial')).toHaveLength(0)\n// src/core/script-editor.p03.glm-p.test.ts:330",
       "classification": "reference-collection"
     },
     {
@@ -778,12 +778,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G13 sceneHookReferences 与目标存在性 destinationExists 三臂：command/entity-page/scene-hook-initial",
       "status": "passed",
-      "condition": "同上 fixture + selectSceneHooks/disabled 合法 selection",
+      "condition": "同 fixture；command/entity-page/scene-hook-initial 三臂分别存在与不存在对照",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "sceneHookReferences/canonicalScriptReferenceDestinationExists/resolveCanonicalScriptCommand",
       "oldAssertion": "script-references.test.ts › 缺场景、缺落点…（已证保存门阻断）",
       "axis": "本合同新轴: canonicalScriptReferenceDestinationExists 三臂真值",
-      "oracle": "真实断言行: expect(canonicalScriptReferenceDestinationExists(state, commandRef)).toBe(true)  // src/core/script-editor.p03.glm-p.test.ts:344",
+      "oracle": "完整断言: expect(canonicalScriptReferenceDestinationExists(state, commandRef)).toBe(true)\n// src/core/script-editor.p03.glm-p.test.ts:344",
       "classification": "reference-collection"
     },
     {
@@ -792,12 +792,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本",
       "status": "passed",
-      "condition": "同上 fixture 的五种合法 owner/locator 字面量",
+      "condition": "同 fixture；五种合法 owner 字面量",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "UI 展示经 ScriptBehaviorInspector 等间接消费；无旧直测 fullName",
       "axis": "本合同新轴: 五种 owner 中文标签精确值",
-      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'trigger', behaviorId: 'talk',  // src/core/script-editor.p03.glm-p.test.ts:376",
+      "oracle": "完整断言: expect(\n      describeScriptCommandOwner(state, {\n        kind: 'entity-behavior',\n        sceneId: 's001',\n        entityId: 'e1',\n        channel: 'trigger',\n        behaviorId: 'talk',\n      }),\n    ).toBe('场景 s001 / 实体 e1 / 交互脚本“标签-talk”')\n// src/core/script-editor.p03.glm-p.test.ts:376",
       "classification": "label-contract"
     },
     {
@@ -806,12 +806,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） 悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）",
       "status": "passed",
-      "condition": "同上 fixture 的五种合法 owner/locator 字面量",
+      "condition": "同 fixture；behavior/hook/item/script 四类 ghost id",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "UI 展示经 ScriptBehaviorInspector/引用面板间接消费；无旧直测 fullName——悬空 id 回退四臂无旧证",
       "axis": "本合同新轴: 悬空 id 回退 id 本身四臂",
-      "oracle": "真实断言行: expect( describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'auto', behaviorId: 'ghost',  // src/core/script-editor.p03.glm-p.test.ts:415",
+      "oracle": "完整断言: expect(\n      describeScriptCommandOwner(state, {\n        kind: 'entity-behavior',\n        sceneId: 's001',\n        entityId: 'e1',\n        channel: 'auto',\n        behaviorId: 'ghost',\n      }),\n    ).toContain('ghost')\n// src/core/script-editor.p03.glm-p.test.ts:415",
       "classification": "label-contract"
     },
     {
@@ -820,12 +820,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案",
       "status": "passed",
-      "condition": "同上 fixture 的五种合法 owner/locator 字面量",
+      "condition": "同 fixture；entity-page 与 scene-hook-initial 两种合法 locator",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "describe 文案由 UI 引用面板（ScriptBehaviorInspector 等）间接消费；无旧直测 fullName——两臂 describe 无旧证",
       "axis": "本合同新轴: entity-page 与 scene-hook-initial 两臂文案",
-      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'page', path: 'p', locator: { kind: 'entity-page', sceneId: 's001',  // src/core/script-editor.p03.glm-p.test.ts:447",
+      "oracle": "完整断言: expect(\n      describeCanonicalScriptReference(state, {\n        kind: 'page',\n        path: 'p',\n        locator: {\n          kind: 'entity-page',\n          sceneId: 's001',\n          entityId: 'e1',\n          pageId: 'default',\n          channel: 'trigger',\n        },\n      }),\n    ).toBe('场景 s001 / 实体 e1 / 页面“默认页” / 使用交互脚本')\n// src/core/script-editor.p03.glm-p.test.ts:447",
       "classification": "label-contract"
     },
     {
@@ -834,12 +834,12 @@
       "file": "src/core/script-editor.p03.glm-p.test.ts",
       "fullName": "P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference） describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）",
       "status": "passed",
-      "condition": "同上 fixture 的五种合法 owner/locator 字面量",
+      "condition": "同 fixture；onEnter entry.prepare 段 handoff 命令 locator（内联构造）",
       "source": "packages/editor/src/core/script-editor.ts",
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "script-editor.test.ts › locates state-machine commands and rejects an invalid command path :488-490（已精确整串断言机器正文段标签=existing-proof 不计新）；本合同为合法 entry.prepare 段整串标签新轴",
       "axis": "本合同新轴: 命令引用容器标签（连续流程/状态/正文段）",
-      "oracle": "真实断言行: expect( describeCanonicalScriptReference(state, { kind: 'command', path: 'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior', locator: { kind: 'command', owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },  // src/core/script-editor.p03.glm-p.test.ts:477",
+      "oracle": "完整断言: expect(\n      describeCanonicalScriptReference(state, {\n        kind: 'command',\n        path: 'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior',\n        locator: {\n          kind: 'command',\n          owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },\n          container: { kind: 'state', machineId: 'machine-1', stateId: 'idle', section: 'prepare' },\n          commandPath: '0',\n        },\n      }),\n    ).toBe(\n// src/core/script-editor.p03.glm-p.test.ts:477",
       "classification": "label-contract"
     },
     {
@@ -853,7 +853,7 @@
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "MapMode.test.tsx 700 已证笔刷面积托盘点选",
       "axis": "本合同新轴: 触发器 ArrowDown/Enter 开盘+aria-expanded 相位为新轴",
-      "oracle": "真实断言行: expect(onBrushSizeChange).toHaveBeenCalledWith(2) + await key(trigger2, 'Enter') 后 aria-expanded=true  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:83-87（开盘结果与尺寸提交，非初始 :74）",
+      "oracle": "人工结果行(r3.6已收): expect(onBrushSizeChange).toHaveBeenCalledWith(2) + Enter 后 aria-expanded=true // IsometricEditorToolbar.glm-p.test.tsx:75-87",
       "classification": "ui-keyboard"
     },
     {
@@ -867,7 +867,7 @@
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "MapMode.test.tsx › 笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入（已证托盘点选主链）；Escape 臂无旧 fullName",
       "axis": "本合同新轴: 托盘 Escape 关盘回焦触发器为新轴",
-      "oracle": "真实断言行: Escape 后 expect(trigger.getAttribute('aria-expanded')).toBe('false') 与 expect(document.activeElement).toBe(trigger)  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:96-97（关闭/回焦结果）",
+      "oracle": "人工结果行(r3.6已收): Escape 后 aria-expanded=false 且 document.activeElement===trigger // IsometricEditorToolbar.glm-p.test.tsx:93-96",
       "classification": "ui-keyboard"
     },
     {
@@ -881,7 +881,7 @@
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "glm-leaf-wave select.test 已证通用 select 键盘",
       "axis": "本合同新轴: 托盘 Home/End/ArrowLeft/Right 相对移焦为新轴",
-      "oracle": "真实断言行: End→options.at(-1)、ArrowLeft→at(-2)、Home→options[0]、ArrowRight→options[1] 四组 expect(document.activeElement)  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:117-121（键盘移焦结果）",
+      "oracle": "人工结果行(r3.6已收): Home/End/ArrowLeft/ArrowRight 四组 document.activeElement 精确断言 // IsometricEditorToolbar.glm-p.test.tsx:106-121",
       "classification": "ui-keyboard"
     },
     {
@@ -895,7 +895,7 @@
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "MapMode.test.tsx 675 已证非画笔工具隐藏托盘",
       "axis": "本合同新轴: disabled 托盘按键不开盘为新轴",
-      "oracle": "真实断言行: expect(heightTrigger.disabled).toBe(true)  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:129",
+      "oracle": "完整断言: expect(heightTrigger.disabled).toBe(true)\n// src/ui/IsometricEditorToolbar.glm-p.test.tsx:129",
       "classification": "ui-keyboard"
     },
     {
@@ -909,7 +909,7 @@
       "caller": "IsometricEditorToolbar + ToolOptionTray",
       "oldAssertion": "MapMode.test.tsx 701 已证绘制高度托盘挂载",
       "axis": "本合同新轴: 绘制高度按 maxPaintHeight 枚举与提交为新轴",
-      "oracle": "真实断言行: expect(heightTray, '绘制高度 tray').not.toBeNull()  // src/ui/IsometricEditorToolbar.glm-p.test.tsx:142",
+      "oracle": "完整断言: expect(heightTray, '绘制高度 tray').not.toBeNull()\n// src/ui/IsometricEditorToolbar.glm-p.test.tsx:142",
       "classification": "ui-keyboard"
     },
     {
@@ -923,7 +923,7 @@
       "caller": "LayerPaintContext/LayerStackControls",
       "oldAssertion": "MapMode.test.tsx 已证聚焦机制存在",
       "axis": "本合同新轴: LayerPaintContext 聚焦按钮 aria-pressed/文案互斥为直读新轴",
-      "oracle": "真实断言行: expect(button.textContent).toBe('聚焦当前')  // src/ui/LayerStackControls.glm-p.test.tsx:47",
+      "oracle": "完整断言: expect(button.textContent).toBe('聚焦当前')\n// src/ui/LayerStackControls.glm-p.test.tsx:47",
       "classification": "ui-control"
     },
     {
@@ -937,7 +937,7 @@
       "caller": "LayerPaintContext/LayerStackControls",
       "oldAssertion": "MapMode.test.tsx 已证图层高控件挂载",
       "axis": "本合同新轴: 显示高度滑杆 range 回调与 output 实时值为新轴",
-      "oracle": "真实断言行: expect(output.textContent).toBe('2')  // src/ui/LayerStackControls.glm-p.test.tsx:63",
+      "oracle": "完整断言: expect(output.textContent).toBe('2')\n// src/ui/LayerStackControls.glm-p.test.tsx:63",
       "classification": "ui-control"
     },
     {
@@ -951,7 +951,7 @@
       "caller": "LayerPaintContext/LayerStackControls",
       "oldAssertion": "MapMode.test.tsx 已证图层管理统一控件",
       "axis": "本合同新轴: addDisabledReason 禁用+原因段为直读新轴",
-      "oracle": "真实断言行: expect(byLabel('新增图层').disabled).toBe(true)  // src/ui/LayerStackControls.glm-p.test.tsx:107",
+      "oracle": "完整断言: expect(byLabel('新增图层').disabled).toBe(true)\n// src/ui/LayerStackControls.glm-p.test.tsx:107",
       "classification": "ui-control"
     },
     {
@@ -965,7 +965,7 @@
       "caller": "LayerPaintContext/LayerStackControls",
       "oldAssertion": "MapMode.test.tsx 已证最小层删除规则",
       "axis": "本合同新轴: 最小层规则 HelpTip 与原因段抑制关系为新轴",
-      "oracle": "真实断言行: expect(byLabel('删除选中图层：物件').disabled).toBe(true)  // src/ui/LayerStackControls.glm-p.test.tsx:116",
+      "oracle": "完整断言: expect(byLabel('删除选中图层：物件').disabled).toBe(true)\n// src/ui/LayerStackControls.glm-p.test.tsx:116",
       "classification": "ui-control"
     },
     {
@@ -979,7 +979,7 @@
       "caller": "LayerPaintContext/LayerStackControls",
       "oldAssertion": "MapMode.test.tsx › [reorder-family:layer-stack] 反向图层栈经 handle 单命令排序并可 undo/redo 与 图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand（已证图层管理主链）；原因段渲染无旧 fullName",
       "axis": "本合同新轴: add/delete 同因共享单段（false 条件 r3 反控针）为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(host.querySelectorAll('.layer-stack-disabled-reason')).toHaveLength(1)\n// src/ui/LayerStackControls.glm-p.test.tsx:126",
       "classification": "ui-control"
     },
     {
@@ -993,7 +993,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "MapSelectionInspector.glm-l.test.tsx 135 已证高度 alert 与空输入清错",
       "axis": "本合同新轴: 活动层隐藏警告文案为新轴",
-      "oracle": "真实断言行: expect(warningText()).toBe('⚠ 当前活动层已隐藏；请显式显示或切换图层后再修改。')  // src/ui/MapSelectionInspector.glm-p.test.tsx:93",
+      "oracle": "完整断言: expect(warningText()).toBe('⚠ 当前活动层已隐藏；请显式显示或切换图层后再修改。')\n// src/ui/MapSelectionInspector.glm-p.test.tsx:93",
       "classification": "ui-warning-and-commit"
     },
     {
@@ -1007,7 +1007,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "MapSelectionInspector.glm-l.test.tsx › L01 selection inspector gaps › 高度字段的非整数输入走 alert 校验，空输入只清错误不提交（已证高度校验）",
       "axis": "本合同新轴: 活动层锁定警告文案为新轴",
-      "oracle": "真实断言行: expect(warningText()).toBe('⚠ 当前活动层已锁定；请显式解锁或切换图层后再修改。')  // src/ui/MapSelectionInspector.glm-p.test.tsx:98",
+      "oracle": "完整断言: expect(warningText()).toBe('⚠ 当前活动层已锁定；请显式解锁或切换图层后再修改。')\n// src/ui/MapSelectionInspector.glm-p.test.tsx:98",
       "classification": "ui-warning-and-commit"
     },
     {
@@ -1021,7 +1021,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "glm-l 已证三通道清空 patch",
       "axis": "本合同新轴: 选区命中隐藏层成员警告（按层计数）为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(warningText()).toBe('⚠ 选区含 1 个隐藏层成员，整笔修改已禁用。')\n// src/ui/MapSelectionInspector.glm-p.test.tsx:109",
       "classification": "ui-warning-and-commit"
     },
     {
@@ -1035,7 +1035,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "glm-l 已证移动到图层回退",
       "axis": "本合同新轴: 选区命中锁定层成员警告为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(warningText()).toBe('⚠ 选区含 1 个锁定层成员，整笔修改已禁用。')\n// src/ui/MapSelectionInspector.glm-p.test.tsx:122",
       "classification": "ui-warning-and-commit"
     },
     {
@@ -1049,7 +1049,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "MapMode.test.tsx 已证 inspector 分区布局",
       "axis": "本合同新轴: 跨层选区副标题「、」连接与范围行为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(summary?.textContent).toContain('物件、地板')\n// src/ui/MapSelectionInspector.glm-p.test.tsx:133",
       "classification": "ui-warning-and-commit"
     },
     {
@@ -1063,7 +1063,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "glm-l 已证 tileId/collision 空输入静默",
       "axis": "本合同新轴: 纯格点选区「无视觉层」+范围为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(host.querySelector('.map-selection-summary')?.textContent).toContain('无视觉层')\n// src/ui/MapSelectionInspector.glm-p.test.tsx:147",
       "classification": "ui-warning-and-commit"
     },
     {
@@ -1077,7 +1077,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "glm-l commit() 显式 focusout 已证 blur 提交",
       "axis": "本合同新轴: Enter 键直触 blur 提交（无手动移焦）为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(onPatch).toHaveBeenCalledTimes(1)\n// src/ui/MapSelectionInspector.glm-p.test.tsx:166",
       "classification": "ui-warning-and-commit"
     },
     {
@@ -1091,7 +1091,7 @@
       "caller": "MapSelectionInspector(props) 于 DsInspectorHost",
       "oldAssertion": "glm-l 135 已证高度非整数 alert",
       "axis": "本合同新轴: tileId 负数校验消息与零 patch 为新轴",
-      "oracle": "真实断言行: （见测试块首条 expect；directed-vitest.json 为实跑记录）",
+      "oracle": "完整断言: expect(onPatch).not.toHaveBeenCalled()\n// src/ui/MapSelectionInspector.glm-p.test.tsx:187",
       "classification": "ui-warning-and-commit"
     }
   ]
