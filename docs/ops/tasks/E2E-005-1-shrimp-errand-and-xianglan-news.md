@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Codex（独立验收）
 Visual Verification Owner: Codex
 Visual Verification Timing: e2e-consolidated
-Branch: codex/e2e-005
+Branch: main（本轮隔离工作树已归档，已合本地分支已删除）
 
 ## 目标与范围
 
@@ -185,6 +185,8 @@ Root独立accept最终98a42d4e0的六份同版case，原字节416输入/413 Git�
 已定位s004/e83交互方案“回村报信：李大娘突然病倒”，真实界面为首报28指令→催回复读1指令两张步骤卡，
 保存仍disabled，未写任何UI测试改动。截图在主树`build/evidence-archive/e2e005-20261002/6012-xianglan-steps.jpg`。
 6012 HTTP200，原服务与用户页面没有关闭或重启。
+交付后实查6012仍由原node PID88523监听。托管e2e-005工作树已归档为可恢复附件，已合本地分支删除；
+保全证据在主树，其他Agent工作树与分支未动。
 
 ## 下一位 Agent 提示词
 
