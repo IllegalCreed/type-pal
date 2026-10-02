@@ -10,7 +10,7 @@
 |---|---|---|---|---|
 | TEST-GROK-BOOT-RESOURCES-MEDIUM-1 | [启动资源并发/降级中包](tasks/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | review | Codex / 当时main排重与正式门 | C5独立强旧14绿仅新1红，四目标闭合；19例/31新绿，2792全测同对象复用，无作者返工 |
 | TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 | [当前恢复地址/步骤组织中包](tasks/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | review | Codex / 当时main排重与正式门 | 43a3849b代码数据accept，2/23判据及四旧三態重判/hash通过；32例不加量，无作者返工 |
-| TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 | [选中步骤/移动预览中包](tasks/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | rework | Cursor / 完整错误与真实对象登记 | 6808d3ab旧五反例/六数据/C4扣列闭合；afterEach复合红与计数错配误收、同路径替换物误删，原针只重判 |
+| TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 | [选中步骤/移动预览中包](tasks/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | rework | Cursor / 严格错误类型与创建失败回滚 | ceeed046已闭R3/六原数据；AssertionError子串误收ReferenceError，create失败rm新旁路误删替换物，仅两工具项 |
 | E2E-004-1 | [端菜与使用桂花酒赠道士](tasks/E2E-004-1-meal-and-beggar-wine.md) | review | 用户 / 004观感与脚本可读性 | 两引擎各自verify通过；NPC正文/显式调用，质量零诊断、6012保持 |
 | EDITOR-ENTITY-NAMES-1 | [实体名称与稳定身份分离](tasks/EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | review | 用户 / 实体名称体验 | 16实体含四门扇；本轮仅补label，门回归/作者检查绿，6012保持 |
 | E2E-SCRIPT-NAMES-1 | [随剧情命名方案与步骤](tasks/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 用户 / 命名与步骤界面体验 | 5方案22步骤补名；独立accept、静态零诊断，6012保持 |

@@ -10,7 +10,13 @@ Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Branch: `codex/cursor-script-preview-medium-r1`
 
-## Codex 独立审核 r3（2026-10-02，当前优先）
+## Codex 独立审核 r4（2026-10-02，当前优先）
+
+固定ceeed04610247e60c463f2786cd533552050e563，R3完整错误/pending-todo/已登记目录对象校验闭合；judge与8清理自测新过、六原针重判6/6，53/3801/typecheck同对象复用，静态2855完整0/0/0、diff/12冻结/140白名单过，docs只父导航归Codex。
+counter仅R4-01真实ReferenceError消息含AssertionError被子串误收、R4-02新Git创建失败回滚无身份rm旁路误删替换哨兵；全为Codex派生坏输入/自造IO哨兵，不推翻六实际业务数据，不重采或扩预算。仍rework，未main/done/覆盖结算。
+[具体证据与一次提示词](../../testing/medium-triple-20261002/codex-cursor-r4-review-20261002.md)、[机器探针](../../testing/medium-triple-20261002/codex-cursor-r4-probe-20261002.json)。下一位Cursor完整提示词以该文r4为准，仅证据工具/回执白名单；已闭R3不重做。
+
+## Codex 独立审核 r3（2026-10-02，历史；已闭）
 
 固定6808d3ab1d920102603e801ab4dd0c68aa0a82bf，本地/远端一致且干净。原R2五假绿拒收、六针原数据/旧3-12-12、34执行/33净新/C4-03cross-check及自身导航闭合；8清理自测新执行通过，历史JSON/raw/scope字节保持，不重采业务。产品/测试/配置未变，53定向相邻/Editor3801/typecheck明确复用；新2853文件静态完整0/0/0、diff/12冻结/137白名单通过，docs只剩父共享导航归Codex。
 **counter仅CURSOR-R3-01/02，Status仍rework**：真实Vitest一个failed叶含AssertionError+afterEach Error，原judge只取首条误收；原positive pending3→todo3同和错配也误收。Set只登记路径，登记目录移动后同路径不同inode替换物被误删，原stale自测只unregister+非法父目录未证真实失效登记。
