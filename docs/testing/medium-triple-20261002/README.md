@@ -3,6 +3,8 @@
 当前[Cursor返工独立接收](codex-cursor-r5-review-20261002.md)、[机器门禁](codex-cursor-r5-review-20261002.json)、[反例复核](codex-cursor-r5-probe-20261002.json)：R4 两项关闭，代码/证据 accept、转 review，34/33/6 保持，不再作者返工或加量。
 Kimi/Grok已有accept保持，不追加额度；未main/done/正式覆盖。
 
+历史 [Cursor 四审与两项 counter](codex-cursor-r4-review-20261002.md) 原样保留，已由当前 r5 独立关闭，不再执行旧提示词。
+
 用户重新授权三人各一批中量任务；不是旧大卡缩围，也不追开自动连续大包。
 Grok/Kimi考虑此前额度余量设封顶，Cursor新卡与旧大卡返工独立。代码Owner由本表分隔，贡献者自验仍由Codex独立复核。
 
