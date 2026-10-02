@@ -1,12 +1,17 @@
 # EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0
 
-Status: draft
-Owner: Codex（待单独准入；不属 TEST-GLM-WAVE-L-1 测试 Owner 白名单）
+Status: build
+Owner: e2e004_phase1_premise（实现）；Codex Root（独立验收）
 Phase: phase2
 Capability: editor-authoring / world-sprite-preview
 Visual Verification Timing: dev-functional（实施时最小核预览文案）
 
 ## 已核前提与证据
+
+2026-10-02用户清边角准入见[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)。
+Root与独立核验复读当前真实链：core:612/988/995/1057/1103；Library现通过引用行直接消费detail，
+SpriteResourceViewer已不消费旧测试mock的automaticBehaviors。预算截断应明确未能确定完整帧序，不能默认#0或伪报唯一cycle。
+保留既有6种chance路径示例及部分证据的截断说明；不改运行时和预览预算。Root premise verified/design agree/build allowed。
 
 当前公开 `describeSpriteReferenceBehavior` 对合法 15/16 层 `callScript` 链显示
 真实帧 `#1 → #2`，17 层却显示脚本不存在的「检测到 #0」及 `cycle [#0]`。

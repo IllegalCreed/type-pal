@@ -1,12 +1,17 @@
 # EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义
 
-Status: draft
-Owner: Codex（待产品语义裁决；不属 TEST-GLM-WAVE-L-1 测试 Owner 白名单）
+Status: build
+Owner: pre005_editor_edges（实现）；Codex Root（独立验收）
 Phase: phase2
 Capability: editor-authoring / map-selection
 Visual Verification Timing: dev-functional（实施时最小地图选区/Esc 回显）
 
 ## 已核观察
+
+2026-10-02用户清边角准入见[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)。
+Root与独立核验确认底栏是操作通知；Esc真正清选和Inspector明确清空应如鼠标清选报告“选区已清空。”。
+此修复不依赖把底栏改成实时状态栏，故下方旧待选歧义已消解。两入口共享清选回调，保留其它Esc优先级。
+Root premise verified/design agree/build allowed，限MapMode及相邻回归，不改变全局通知机制。
 
 GLM L 候选 `e2b3f43770c9968d72b16a34f3d0173a271cc4ca` 的
 `docs/testing/glm-next-triple/wave-L/functional-visual.md` 与截图

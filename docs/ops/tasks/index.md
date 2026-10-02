@@ -16,11 +16,12 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤](E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离](EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹](EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单](OPENING-HANDOFF-1-no-stale-title-frame.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](PRE-005-DEBT-1-current-edge-closeout.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理](SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -275,3 +276,4 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
+
