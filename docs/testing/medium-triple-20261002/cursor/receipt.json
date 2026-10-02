@@ -10,11 +10,7 @@
   "netNew": 37,
   "countersValid": 6,
   "oldGreenNewRed": 3,
-  "oldGreenNewRedIds": [
-    "CTR-C1-01",
-    "CTR-C4-01",
-    "CTR-C6-01"
-  ],
+  "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"],
   "gates": {
     "mid1Vitest": "37/37 passed",
     "adjacentOldPreview": "15/15 passed (flow 3 + movement 12)",
