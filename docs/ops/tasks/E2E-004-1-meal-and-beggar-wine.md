@@ -124,6 +124,21 @@ Codex build allowed，白名单与单一写入Owner如下；新未知前提/产�
   原档67adca00b0a0ed1f1649f65ba5134a4d3f9a49c506b0c670a77840b2b597ad21，第一阶段/原始数据当前hash零差异，可各自复用。
 - 正式004必须等作者/工具都冻结再跑；开发diagnostic不冒充最终passed，原红保留。录屏/音轨独立，不由本批技术pass自动成立。
 
+### 端菜外观的现行持久表达（同轮前提增量）
+
+Root与当前审计席直接核：0x65原始写PlayerRoles的精灵持续跨交互；第一阶段真实保存包含该角色状态。
+新主壳main.ts:2139–2160的setActorSprite只写actorSpriteOverrides Map，:847/save快照只clone(world)，
+abortScript:4410清Map。取菜208直到e15送完才切本体，中间探索/菜单本来能存档，故不宜使用瞬态外观表达剧情持有状态。
+现行setActorAppearance（script.ts:152、main.ts:2164–2216）可仅覆写spriteId，写CharacterInstance.appearance随world保存，
+已有正常预载/恢复链，不需新增schema/save字段或版本。
+
+- build白名单增量：作者Owner将取菜→送完的两条外观写改为现行持久appearance(208→li-xiaoyao)，其他维度不写；
+  原帧/对白/路径不因此改动。实际中途保存/新上下文读回仍保持端菜，送完当前和读回均普通本体，作为本段反控。
+- 可证伪：基线中途F5/fresh恢复若仍渲染208且角色外观有真实持久数据，则推翻Map丢失判断；
+  候选若丢餐盘、持久旧208、影响portrait/battleSprite或写静态actor表，则不接收。
+- Owner仍只内容与相邻/新增真实主壳回归；禁止动save codec、runtime实现或增加兼容恢复。这是已支持能力的正确内容使用，
+  保持一阶段跨交互端菜/存读观感，没有新剧情或产品取舍待问。
+
 ### 当前交接提示
 
 准入增量替代draft提示：贡献者在Root提供的独立worktree按本卡白名单实施、自验提交/停写，给精确代码/测试/风险；
