@@ -584,7 +584,60 @@ export function App(props: {
   }
   const jumpToWorldSpriteAutomaticScriptInstance = (
     site: SpriteAutomaticScriptInstanceSite,
-  ): void => jumpToEvent(site.sceneId, `${site.entityId}:auto`)
+  ): void => {
+    const currentState = session.getState()
+    const currentScriptState = projectActiveScriptEditorState(
+      scriptSession.getStateSnapshot(),
+      currentState.items,
+    )
+    const entity = currentScriptState.scenes
+      .find((candidate) => candidate.id === site.sceneId)
+      ?.entities.find((candidate) => candidate.id === site.entityId)
+    const shellEntity = currentState.scenes
+      .find((candidate) => candidate.id === site.sceneId)
+      ?.entities.find((candidate) => candidate.id === site.entityId)
+    const page = initialCanonicalEntityPage(entity)
+    const behaviorId = page?.auto
+    const currentActors = Object.fromEntries(currentState.actors.map((actor) => [actor.id, actor]))
+    if (
+      !page ||
+      !behaviorId ||
+      !entity?.behaviors?.auto?.[behaviorId] ||
+      !shellEntity ||
+      resolveEntitySpriteId(shellEntity, currentActors) !== site.spriteId
+    ) {
+      rejectChangedProjectReference('自动脚本', `${site.sceneId}/${site.entityId}`)
+      return
+    }
+    if (!openProjectSceneReference(site.sceneId, site.entityId)) return
+    const revision = nextPreciseFocusRevision()
+    setCanonicalPageFocus({
+      sceneId: site.sceneId,
+      entityId: site.entityId,
+      pageId: page.id,
+      channel: 'auto',
+      behaviorId,
+      revision,
+    })
+    setCanonicalReferenceFocus(undefined)
+    setCanonicalOwnerFocus({
+      owner: {
+        kind: 'entity-behavior',
+        sceneId: site.sceneId,
+        entityId: site.entityId,
+        channel: 'auto',
+        behaviorId,
+      },
+      revision,
+    })
+    setDrawer({
+      open: true,
+      src: null,
+      internalScriptId: null,
+      commandPath: null,
+      focusRevision: revision,
+    })
+  }
   const openSharedScript = useCallback(
     (id: string): void => {
       const currentState = session.getState()

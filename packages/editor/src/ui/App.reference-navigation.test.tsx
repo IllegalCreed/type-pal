@@ -21,6 +21,11 @@ import {
 } from '../core/script-editor.js'
 import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
 import { createLocalWorkspaceContext } from '../core/workspace-context.js'
+import {
+  collectAutomaticScriptSpriteInstanceSites,
+  projectCanonicalSpritePreviewState,
+  type SpriteAutomaticScriptInstanceSite,
+} from '../core/world-sprite-behavior.js'
 import { App } from './App.js'
 
 const probes = vi.hoisted(() => ({
@@ -210,6 +215,43 @@ function canonicalState(): ScriptEditorState {
   }
 }
 
+function automaticScriptFixture() {
+  const shell = shellState()
+  const canonical = canonicalState()
+  const entity = canonical.scenes[0]!.entities[0]!
+  entity.initialPage = 'animated'
+  entity.pages = [
+    { id: 'first', label: '其它页面', trigger: 'default', auto: 'idle' },
+    { id: 'animated', label: '初始动画页', trigger: 'default', auto: 'moving' },
+  ]
+  entity.behaviors!.auto = Object.fromEntries(
+    ['idle', 'moving'].map((id, order) => [
+      id,
+      {
+        label: id,
+        order,
+        flow: {
+          kind: 'stages',
+          initial: 'initial',
+          stages: [
+            {
+              id: 'initial',
+              body: [
+                { kind: 'setEntityFrame', target: { scene: 's047', entity: 'e760' }, frame: order },
+              ],
+            },
+          ],
+        },
+      },
+    ]),
+  )
+  const site = collectAutomaticScriptSpriteInstanceSites(
+    projectCanonicalSpritePreviewState(shell, canonical),
+  )[0]
+  if (!site) throw new Error('fixture has no projected automatic script instance')
+  return { shell, canonical, site }
+}
+
 function itemReference(
   source: 'scene' | 'item',
   reference: Extract<CanonicalScriptReference, { kind: 'command' }>,
@@ -261,6 +303,7 @@ const sceneReference: Extract<CanonicalScriptReference, { kind: 'command' }> = {
 
 type DataModeProbe = {
   onOpenProjectReference: (reference: ProjectReferenceEdge) => void
+  onJumpWorldSpriteAutomaticScriptInstance: (site: SpriteAutomaticScriptInstanceSite) => void
   focusItemPrivateScript?: {
     itemId: string
     ability: 'use' | 'throw'
@@ -626,6 +669,95 @@ describe('App item reference navigation', () => {
     )
     expect(window.location.search).toContain('module=item')
     expect(host.textContent).toContain('实体 missing-entity 不再存在')
+  })
+
+  test('精灵自动脚本定位遵循非首初始页的非首方案且不修改双会话', async () => {
+    const { shell, canonical, site } = automaticScriptFixture()
+    const session = await renderApp(shell, canonical)
+    const navigation = probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe
+    await act(async () => navigation.onOpenProjectReference(itemReference('scene', sceneReference)))
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      focusReference: { reference: sceneReference },
+    })
+    const before = structuredClone(session.getState())
+    const scriptBefore = structuredClone(renderedScriptSession.getState())
+
+    await act(async () => navigation.onJumpWorldSpriteAutomaticScriptInstance(site))
+
+    expect(window.location.search).toContain('module=scene')
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      selectedEntityId: 'e760',
+      selectedPageId: 'animated',
+      focusReference: undefined,
+      focusOwner: {
+        owner: {
+          kind: 'entity-behavior',
+          sceneId: 's047',
+          entityId: 'e760',
+          channel: 'auto',
+          behaviorId: 'moving',
+        },
+      },
+    })
+    expect(session.getState()).toEqual(before)
+    expect(renderedScriptSession.getState()).toEqual(scriptBefore)
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(renderedScriptSession.getHistoryVersion()).toBe(0)
+    expect(session.isDirty()).toBe(false)
+    expect(renderedScriptSession.isDirty()).toBe(false)
+  })
+
+  test('精灵自动脚本旧引用在页绑定和方案删除后拒绝定位，不改未保存历史', async () => {
+    const { shell, canonical, site } = automaticScriptFixture()
+    const session = await renderApp(shell, canonical)
+    const jump = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onJumpWorldSpriteAutomaticScriptInstance
+    await act(async () => {
+      renderedScriptSession.dispatch(
+        new SetEntityPageBehaviorCommand(
+          { scene: 's047', entity: 'e760' },
+          'animated',
+          'auto',
+          undefined,
+        ),
+      )
+      renderedScriptSession.dispatch(
+        new DeleteEntityBehaviorCommand({ scene: 's047', entity: 'e760' }, 'auto', 'moving'),
+      )
+    })
+    const before = structuredClone(session.getState())
+    const scriptBefore = structuredClone(renderedScriptSession.getState())
+    const historyBefore = renderedScriptSession.getHistoryVersion()
+    const locationBefore = window.location.search
+
+    await act(async () => jump(site))
+
+    expect(window.location.search).toBe(locationBefore)
+    expect(host.textContent).toContain('引用位置已变化：自动脚本 s047/e760 不再存在')
+    expect(probes.sceneWorkspace).not.toHaveBeenCalled()
+    expect(session.getState()).toEqual(before)
+    expect(renderedScriptSession.getState()).toEqual(scriptBefore)
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(renderedScriptSession.getHistoryVersion()).toBe(historyBefore)
+    expect(renderedScriptSession.isDirty()).toBe(true)
+  })
+
+  test.each([
+    { name: '场景缺失', stale: { sceneId: 'missing-scene' } },
+    { name: '实体缺失', stale: { entityId: 'missing-entity' } },
+    { name: '精灵已换绑', stale: { spriteId: 'old-sprite' } },
+  ])('精灵自动脚本过期实例（$name）保留当前导航', async ({ stale }) => {
+    const { shell, canonical, site } = automaticScriptFixture()
+    await renderApp(shell, canonical)
+    const jump = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onJumpWorldSpriteAutomaticScriptInstance
+    const locationBefore = window.location.search
+
+    await act(async () => jump({ ...site, ...stale }))
+
+    expect(window.location.search).toBe(locationBefore)
+    expect(host.textContent).toContain('引用位置已变化')
+    expect(probes.sceneWorkspace).not.toHaveBeenCalled()
   })
 
   test('统一场景子对象 locator 精确打开命名落点、实体行为与场景方案', async () => {
@@ -1791,7 +1923,7 @@ describe('App item reference navigation', () => {
       '[aria-label="删除命名落点 营地"]',
     )!
     expect(namedEntryDelete.parentElement?.closest('button')).toBeNull()
-    namedEntryDelete.focus()
+    await act(async () => namedEntryDelete.focus())
     expect(document.activeElement).toBe(namedEntryDelete)
     await act(async () => namedEntryDelete.click())
     expect(Object.keys(session.getState().scenes[0]!.entries ?? {})).toHaveLength(0)
