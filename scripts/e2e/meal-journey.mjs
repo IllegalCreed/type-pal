@@ -194,6 +194,22 @@ export function mealGameServingStarted(trace, startOrder, cursor) {
   )
 }
 
+/** One atomic DOM observation chooses the branch; full evidence is fetched only for an inactive zone. */
+export async function mealGameServingEntry(readObservation, readTrace, startOrder) {
+  const observation = await readObservation(),
+    target = observation.target
+  assert(
+    target?.id === 15 && target.scene === 2 && observation.cursor.scene === 2,
+    'serving snapshot belongs to another scene/entity',
+  )
+  if (target.state > 0 && target.triggerMode >= 4) return { kind: 'navigate', target }
+  assert(
+    mealGameServingStarted(await readTrace(), startOrder, observation.cursor),
+    'inactive serving zone has no actual current-leg body-start evidence',
+  )
+  return { kind: 'started', cursor: observation.cursor }
+}
+
 export async function runMealJourney(engine) {
   const options = mealArguments(process.argv.slice(2)),
     predecessor = await readMealPredecessor(options['--from'], engine),
@@ -758,26 +774,49 @@ export async function runMealJourney(engine) {
         // First-stage idle touch can start e15 immediately after entering its true footprint.
         // Keep its first hide/95 even if they preceded the next ready-state observation.
         if (engine === 'game') phaseOrder = servingStartOrder
-        let servingStarted = false
+        let servingStarted = false,
+          servingDestination
         if (engine === 'game') {
-          const cursor = await page.evaluate(() => ({
-            scene: window.__tpgs.wNumScene,
-            owner: window.__tpgs.eventCursor?.currentEventObjectId,
-            ip: window.__tpgs.eventCursor?.ip,
-          }))
-          servingStarted = mealGameServingStarted(await evidence(), servingStartOrder, cursor)
+          const entry = await mealGameServingEntry(
+            () =>
+              page.evaluate(() => {
+                const gs = window.__tpgs,
+                  npc = gs.allEventObjects.find((actor) => actor.id === 15)
+                if (!npc || !gs.npcs.some((actor) => actor.id === 15))
+                  throw new Error('serving entity absent from actual scene')
+                return {
+                  target: {
+                    id: 15,
+                    scene: gs.wNumScene,
+                    state: npc.sState,
+                    triggerMode: npc.triggerMode,
+                    position: [npc.x, npc.y],
+                    anchor: [npc.autoTriggerAnchorX ?? npc.x, npc.autoTriggerAnchorY ?? npc.y],
+                  },
+                  cursor: {
+                    scene: gs.wNumScene,
+                    owner: gs.eventCursor?.currentEventObjectId,
+                    ip: gs.eventCursor?.ip,
+                  },
+                }
+              }),
+            evidence,
+            servingStartOrder,
+          )
+          servingStarted = entry.kind === 'started'
           if (servingStarted)
             report.servingEntryHandoff = {
               context: contextLabel,
               startOrder: servingStartOrder,
-              cursor,
+              cursor: entry.cursor,
               source: 'actual e15 hide commit and original serving-body cursor',
             }
-        }
+          else servingDestination = (col, row) => mealGameTouchDestination(entry.target, col, row)
+        } else servingDestination = await touchDestination(15, mealServingDestination)
         if (!servingStarted)
           await navigate(
             's001',
-            await touchDestination(15, mealServingDestination),
+            servingDestination,
             (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue),
           )
         const serveShown = await finishDialogue('s001', MEAL_ROWS.slice(2, 15))

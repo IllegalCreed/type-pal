@@ -22,6 +22,7 @@ import {
 } from './meal-contract.mjs'
 import {
   mealGameBoundaryCommitted,
+  mealGameServingEntry,
   mealGameServingStarted,
   mealGameTouchDestination,
   navigateMealRoute,
@@ -1063,11 +1064,61 @@ test('004 natural game serving startup requires this-leg hide commit, actual ser
     false,
     'an old leg cannot authorize the handoff',
   )
-  const hiddenOnly = structuredClone(trace)
-  hiddenOnly.events = hiddenOnly.events.filter((event) => event.state?.ip !== 472)
   // Keep the original collector prefix valid; an inactive entity without an entered body is not a marker.
   const prefix = { ...trace, events: trace.events.slice(0, -1) }
   assert.equal(mealGameServingStarted(prefix, startOrder, cursor), false)
   const beforeHide = { ...trace, events: trace.events.slice(0, 2) }
   assert.equal(mealGameServingStarted(beforeHide, startOrder, cursor), false)
+})
+test('004 game serving reads cursor and active footprint atomically without a trace RPC between them', async () => {
+  const live = {
+    target: { id: 15, scene: 2, state: 1, triggerMode: 5, anchor: [1264, 1096] },
+    cursor: { scene: 2, owner: undefined, ip: undefined },
+  }
+  const calls = []
+  const entry = await mealGameServingEntry(
+    async () => {
+      calls.push('snapshot')
+      return structuredClone(live)
+    },
+    async () => {
+      calls.push('trace')
+      live.target.state = 0
+      throw new Error('trace must not precede active footprint use')
+    },
+    10,
+  )
+  assert.equal(entry.kind, 'navigate')
+  assert.deepEqual(calls, ['snapshot'])
+  live.target.state = 0
+  live.cursor = { scene: 2, owner: 15, ip: 472 }
+  assert.equal(
+    mealGameTouchDestination(entry.target, 108, 30),
+    true,
+    'frozen active footprint survives natural startup after snapshot',
+  )
+  const host = {}
+  let ms = 0
+  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+    now: () => ++ms,
+  })
+  const noProof = {
+    scene: 's001',
+    actors: {
+      party: { position: [1248, 1104], ip: 472 },
+      e15: { position: [1264, 1096], visible: false, state: 0, trigger: 'L_469', triggerMode: 5 },
+    },
+    inventory: [],
+    persistent: {},
+    money: 500,
+  }
+  host.__mealPoint('render:world', noProof)
+  await assert.rejects(
+    mealGameServingEntry(
+      async () => structuredClone(live),
+      async () => host.__readMealEvidence(),
+      -1,
+    ),
+    /no actual current-leg/,
+  )
 })
