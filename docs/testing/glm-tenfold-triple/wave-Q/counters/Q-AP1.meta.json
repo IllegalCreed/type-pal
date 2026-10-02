@@ -1,0 +1,57 @@
+{
+  "id": "Q-AP1",
+  "file": "packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 全员自卫掷命中 → 除数+1 各落 32 + intro 尾帧三人防御姿 + 受击动画全员 + 数字挂 hurt 首帧",
+  "targetNameSubstring": "全员自卫掷命中",
+  "axis": null,
+  "sha256": {
+    "original": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370",
+    "mutated": "11201e6ab98bec10356a55c0ee8491a07a37f911553c7635b069e61e27f30859",
+    "restored": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 435, 435, 435 ] to deeply equal [ 468, 468, 468 ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-AP1.positive.json",
+      "raw": "Q-AP1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-AP1.mutant.json",
+      "raw": "Q-AP1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-AP1.restored.json",
+      "raw": "Q-AP1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

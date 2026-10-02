@@ -1,13 +1,38 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r15 续批2）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r16 续批3）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r15 候选**（r14 联合复核：enemy-inline 两例伪证/重复 counter 已撤回；
-**当前 141 执行 / 结构净新上限 140 / 缺口至少 560**；r14 候选 9b3e82348/pin 39412086e
+本文件描述 **r16 候选**（r15 复核：撤回保护 + E2 三例全 accept；
+**当前 143 执行 / 结构净新上限 142 / 缺口至少 558**；r15 候选 839601a13/pin 250207ed7
 保留供独立复核）。不合 main、不标 done。
+
+## r16 相对 r15 的改动（E2 自卫集成新批 + ET2 措辞随批修正）
+
+1. **新批 `battle-magic-e2-autodefend-poses.glm-q.test.ts`（2 例 typed 零强转）**：
+   ① **全员自卫掷命中**——attackAll + 数字 targetIdx、3 队员建链（EnemyMagic AoE）：
+   除数+1 各落 32（65→trunc(65/2)）、恰一帧带三人防御姿（magic.ts:953-967 L16 intro
+   尾帧注入 currentFrame 3——anim-timeline.test.ts:693/:772 的 currentFrame:3 是敌方
+   手势帧，非玩家防御姿）、受击 5 帧全员 frame4+红闪、bus 零即时数字 + hurt 首帧
+   damageNums 三条 32。② **睡眠队员无自卫资格**——同 roster 队员1 睡眠：满伤 65 且
+   无防御姿、清醒队友 32 + 防御姿（fight.c:4727-4735 资格门；单元层 :458 未覆盖
+   wrapper 级同场对照）。
+2. **反控 Q-AP1/2（输入轴分区对照，均新执行目标）**：AP1 自卫掷 range 0→1（命中→
+   未中分区）→ [468×3] vs [435×3] 恰一红；AP2 睡眠槽 [1]→[]（睡眠→清醒分区）→
+   [468,435,468] vs [468×3] 恰一红。均为合法输入对照非产品源变异——正确产品在对侧
+   分区本就返回对应结果，红证明 oracle 对分区输入有判别力（r15 复核确立的 ET 口径）。
+   三相 2/2→1/2→2/2、exit 0/1/0、恢复 hash 一致。
+3. **ET2 措辞随批修正（r15 复核要求，非纯措辞轮）**：counters.json 索引 Q-ET2 axis
+   改为「非超杀分区对照」——HP 30→200 已离开超杀区，正确产品本就返回 HP135/delta65；
+   红只证明 oracle 适用域限于超杀分区。原三态证据文件不改；Codex 独立产品 emit 反证
+   由复核另列，不冒作 ET2。
+4. **账目**：143 执行（141 + 2 新）/ 扣 room0 旧合同（历史 C114 编号）后**结构净新
+   上限 142 / 缺口至少 558**；反控 **67 存档（65 + 2 新）/ 58 不同执行目标 / 净新
+   合同目标结构上限 57**。700/50 组不缩，仅部分交付。
+5. 门禁：game 定向 39/39 + 相邻全包串行（见 receipt）/ typecheck ×3 零 / 根 lint 完整
+   0/0/0（pin 编辑后复跑）/ docs / diff / verifier。
 
 ## r15 相对 r14 的改动（Q-R14-01/02 撤回 + E2 目标语义新批）
 
@@ -30,9 +55,10 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
    value，单元层 :474 未覆盖 emit 路径。
 3. **反控 Q-ET1/2（输入轴单轴变异，均新执行目标）**：ET1 type 'attackAll'→'normal'
    （合法类型）→ AoE 例 HP 数组 [435,435,435] vs [500,435,500] 恰一红；ET2 剩余 HP
-   30→200（脱离超杀区）→ 钳制关系双失效（135≠0、65≠hpBefore）恰一红。期望随输入
-   捕获，红来自业务语义判别非初始答案错配。三相 3/3→2/3→3/3、exit 0/1/0、恢复
-   hash 一致。
+   30→200（超杀区→非超杀区）→ 超杀 oracle 适用域外分区对照（正确产品本就返回
+   HP135/delta65；135≠0、65≠hpBefore 恰一红）——r15 复核确立口径：ET1/2 为合法输入
+   对照非产品源变异。期望随输入捕获，红来自业务语义判别非初始答案错配。三相
+   3/3→2/3→3/3、exit 0/1/0、恢复 hash 一致。
 4. **账目（撤回 + 新批后）**：141 执行（138 + 3 新）/ 扣 room0 旧合同（历史 C114 编号）
    后**结构净新上限 140 / 缺口至少 560**；反控 **65 存档（63 保留 + 2 新增 − 2 退役）/
    56 不同执行目标 / 净新合同目标结构上限 55**。原 50 数量门不需要凑针；700/50 组不缩。

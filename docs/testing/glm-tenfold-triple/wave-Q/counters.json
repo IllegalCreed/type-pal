@@ -1,7 +1,7 @@
 {
-  "count": 65,
+  "count": 67,
   "allValid": true,
-  "distinctTargets": 56,
+  "distinctTargets": 58,
   "duplicatedTargets": [
     "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts :: Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
     "packages/game/src/framebuffer-ports.glm-q.test.ts :: Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
@@ -42,7 +42,7 @@
       "alsoSameTargetAs": "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts :: performMagic E1: inline 攻击法术伤害(player→enemy) 敌人施法 → 不走 inline path(player-only)，enemy 不被自己打"
     }
   ],
-  "quotaNotes": "r15：65 活跃存档满足业务单断言红 / 56 个不同执行目标 / 净新合同目标结构上限 55（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。r15 新增 Q-ET1/2 两针（E2 AoE 目标派发 / 超杀钳制数字，均新执行目标）；Q-EI1/2 按 Q-R14-01/02 联合复核退役（伪证/重复，证据保留）。数量门已足，不凑针。",
+  "quotaNotes": "r16：67 活跃存档满足业务单断言红 / 58 个不同执行目标 / 净新合同目标结构上限 57（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。r16 新增 Q-AP1/2 两针（L16 防御姿注入/睡眠资格门，均新执行目标）；Q-ET2 axis 措辞按 r15 复核改为非超杀分区对照（原三态证据文件不改）。数量门已足，不凑针。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
@@ -3699,7 +3699,7 @@
       "file": "packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
       "targetFullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） 超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负",
       "targetNameSubstring": "超杀：伤害钳到剩余 HP",
-      "axis": "输入轴单轴变异：超杀例剩余 HP 30→200（maxHP 500，合法；脱离超杀区）——钳制关系双双失效：HP 135≠0、数字 65≠hpBefore（期望随输入捕获，红来自钳制语义判别而非初始常量答案错配）。AoE/对照例夹具不受影响。",
+      "axis": "输入轴分区对照（非产品源变异）：剩余 HP 30→200（合法；超杀区→非超杀区）。正确产品在非超杀分区本就返回 HP135/delta65——红只证明「数字=剩余 HP/HP 落 0」oracle 的适用域限于超杀分区（dmg>剩余 HP），不是产品钳制失效。独立产品 emit 反证由 Codex r15 复核另列，不冒作本针。",
       "sha256": {
         "original": "f21e6e034c72269e708cfe6696ac121c4100789d49a8b29302a80266cea87252",
         "mutated": "1832b749c18cf5c20e5a0557a3f63ce76d056a8c5d607ac15d57a069603c7cc0",
@@ -3747,6 +3747,120 @@
           },
           "json": "Q-ET2.restored.json",
           "raw": "Q-ET2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-AP1",
+      "file": "packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 全员自卫掷命中 → 除数+1 各落 32 + intro 尾帧三人防御姿 + 受击动画全员 + 数字挂 hurt 首帧",
+      "targetNameSubstring": "全员自卫掷命中",
+      "axis": "输入轴分区对照（非产品源变异）：自卫掷结果 range 0→1（合法掷值；命中→未中分区）——除数 2→1 全员 65、防御姿帧消失、数字 65，HP/姿态/数字断言同随恰一红。红证明 oracle 对自卫掷分区有判别力；正确产品在未中分区本就返回满伤。",
+      "sha256": {
+        "original": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370",
+        "mutated": "11201e6ab98bec10356a55c0ee8491a07a37f911553c7635b069e61e27f30859",
+        "restored": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ 435, 435, 435 ] to deeply equal [ 468, 468, 468 ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-AP1.positive.json",
+          "raw": "Q-AP1.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-AP1.mutant.json",
+          "raw": "Q-AP1.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-AP1.restored.json",
+          "raw": "Q-AP1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-AP2",
+      "file": "packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
+      "targetFullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 睡眠队员无自卫资格 → 满伤 65 且无防御姿；清醒队友 32 + 防御姿（fight.c:4727-4735）",
+      "targetNameSubstring": "睡眠队员无自卫资格",
+      "axis": "输入轴分区对照（非产品源变异）：睡眠槽 [1]→[]（合法清醒 roster；睡眠→清醒分区）——资格门恢复后全员除数 2/468、防御姿含 idx1，恰一红。红证明 oracle 对睡眠资格门输入有判别力；正确产品在清醒分区本就自卫减伤。",
+      "sha256": {
+        "original": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370",
+        "mutated": "0e29a28767defbcd0c8742d84e6f19ff0cf375aeb25701f181db9c0f0e3080c2",
+        "restored": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ 468, 468, 468 ] to deeply equal [ 468, 435, 468 ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-AP2.positive.json",
+          "raw": "Q-AP2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-AP2.mutant.json",
+          "raw": "Q-AP2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-AP2.restored.json",
+          "raw": "Q-AP2.restored.txt"
         }
       },
       "verdict": "VALID"

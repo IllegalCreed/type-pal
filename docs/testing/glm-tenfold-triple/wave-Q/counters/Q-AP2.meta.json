@@ -1,0 +1,57 @@
+{
+  "id": "Q-AP2",
+  "file": "packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 睡眠队员无自卫资格 → 满伤 65 且无防御姿；清醒队友 32 + 防御姿（fight.c:4727-4735）",
+  "targetNameSubstring": "睡眠队员无自卫资格",
+  "axis": null,
+  "sha256": {
+    "original": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370",
+    "mutated": "0e29a28767defbcd0c8742d84e6f19ff0cf375aeb25701f181db9c0f0e3080c2",
+    "restored": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 468, 468, 468 ] to deeply equal [ 468, 435, 468 ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-AP2.positive.json",
+      "raw": "Q-AP2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-AP2.mutant.json",
+      "raw": "Q-AP2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-AP2.restored.json",
+      "raw": "Q-AP2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

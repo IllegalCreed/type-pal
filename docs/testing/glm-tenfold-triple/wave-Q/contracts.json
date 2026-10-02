@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 141
+    "total": 143
   },
   "contracts": [
     {
@@ -1646,6 +1646,34 @@
       "id": "C118",
       "batch": "Q08",
       "package": "game",
+      "file": "game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
+      "fullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 全员自卫掷命中 → 除数+1 各落 32 + intro 尾帧三人防御姿 + 受击动画全员 + 数字挂 hurt 首帧",
+      "status": "passed",
+      "source": "game core/battle/actions/magic.ts:248-252（DM6 AoE 预掷 target=all）+ :389（autoDefend → autoDefendIdxs）+ :953-967（intro 尾帧注入防御姿 frame3，L16/fight.c:4737-4738/4755-4756）+ :1026-1032（AoE hitPlayerIdxs → buildPlayerMagicHitReaction + attachDamageNumsToFirstFrame）",
+      "caller": "生产 caller = battle-system:2828-2846 敌魔法动作 → performMagic casterIsEnemy=true（attackAll + 数字 targetIdx，r15 已证派发强制全体）",
+      "oldAssertion": "旧 fullName 锚：magic.glm-next-wave.test.ts「DM6:敌方法术自动防御预掷先于脚本 > 预掷未中(range(0,3)!=0)→ 无 +1 减伤除数，伤害高于预掷命中(可证伪对照)」为 1 队员 hpAfter 比较；单元 :425 除数、:568 AoE 掷序不覆盖姿态注入与多队员受击帧",
+      "axis": "输入轴：自卫掷 range=0 全命中（反控 Q-AP1：掷 0→1 未中分区对照恰一红）",
+      "oracle": "HP 数组 toEqual([468,468,468])（65→trunc(65/2)=32）；恰一帧带玩家防御姿且三人齐备 [{side:player,idx:0/1/2,currentFrame:3}]；受击 5 帧 fighters 全员 frame4+iColorShift6、i=0 无位移；bus 零 showDamageNum + hurt 首帧 damageNums=[{player,0/1/2,32,blue}]",
+      "classification": "new contract（L16 防御姿注入 + AoE 多队员受击/数字挂帧 wrapper 级首证；corpus 防御姿 0 命中）"
+    },
+    {
+      "id": "C119",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
+      "fullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 睡眠队员无自卫资格 → 满伤 65 且无防御姿；清醒队友 32 + 防御姿（fight.c:4727-4735）",
+      "status": "passed",
+      "source": "game core/battle/magic-damage.ts rollAutoDefend 资格门（canAutoDefend = sleep/paralyzed/confused 全 0；fight.c:4727-4735 失能无资格不耗掷）→ 除数差（1 vs 2）+ magic.ts:957-965 仅 autoDefendIdxs 注入防御姿",
+      "caller": "生产 caller 同上（睡眠队员由 battle-system 状态机置 slot.status.sleep；本文件直构合法睡眠槽）",
+      "oldAssertion": "旧 fullName 锚：magic-damage.test.ts「applyEnemyMagicDamage > sleep 队员不触发 autoDefend(range==0 也不自卫)→ 满伤 65」为单元直调结果层；wrapper 级睡眠满伤+清醒减伤同场、姿态排除无旧断言",
+      "axis": "输入轴：睡眠槽 [1]（反控 Q-AP2：睡眠→清醒分区对照恰一红——资格门输入对照非产品源变异）",
+      "oracle": "HP 数组 toEqual([468,435,468])（睡眠除数 1 满伤 65、清醒除数 2 落 32）；防御姿恰 idx 0/2（睡眠者无）；hurt 首帧 damageNums=[{player,0,32},{player,1,65},{player,2,32}]",
+      "classification": "new contract（睡眠资格门 wrapper 级多队员同场首证）"
+    },
+    {
+      "id": "C120",
+      "batch": "Q08",
+      "package": "game",
       "file": "game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
       "fullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） attackAll + 数字 targetIdx=1 → 仍结算全体队员（type!=normal 强制 all，fight.c:4719）",
       "status": "passed",
@@ -1657,7 +1685,7 @@
       "classification": "new contract（E2 AoE 派发语义 performMagic 级首证；corpus 0 命中）"
     },
     {
-      "id": "C119",
+      "id": "C121",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
@@ -1671,7 +1699,7 @@
       "classification": "new contract（normal 单体边界 performMagic 级多队员首证）"
     },
     {
-      "id": "C120",
+      "id": "C122",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
@@ -1685,7 +1713,7 @@
       "classification": "new contract（E2 超杀数字语义 performMagic 级首证；与 E1 完整伤害显示构成双路径对照）"
     },
     {
-      "id": "C121",
+      "id": "C123",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
@@ -1699,7 +1727,7 @@
       "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
     },
     {
-      "id": "C122",
+      "id": "C124",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
@@ -1713,7 +1741,7 @@
       "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
     },
     {
-      "id": "C123",
+      "id": "C125",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -1727,7 +1755,7 @@
       "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
     },
     {
-      "id": "C124",
+      "id": "C126",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -1741,7 +1769,7 @@
       "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
     },
     {
-      "id": "C125",
+      "id": "C127",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -1755,7 +1783,7 @@
       "classification": "existing-proof cross-check（不计新；Q-R7-02 收窄）"
     },
     {
-      "id": "C126",
+      "id": "C128",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -1769,7 +1797,7 @@
       "classification": "needs independent oracle（r8 待改：getEnemyBasePos 计算 expected 非独立——见 Q-R7-02）"
     },
     {
-      "id": "C127",
+      "id": "C129",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1783,7 +1811,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C128",
+      "id": "C130",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1797,7 +1825,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C129",
+      "id": "C131",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1811,7 +1839,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C130",
+      "id": "C132",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1825,7 +1853,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C131",
+      "id": "C133",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1839,7 +1867,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C132",
+      "id": "C134",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1853,7 +1881,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C133",
+      "id": "C135",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1867,7 +1895,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C134",
+      "id": "C136",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1881,7 +1909,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C135",
+      "id": "C137",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1895,7 +1923,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C136",
+      "id": "C138",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1909,7 +1937,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C137",
+      "id": "C139",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1923,7 +1951,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C138",
+      "id": "C140",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1937,7 +1965,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C139",
+      "id": "C141",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1951,7 +1979,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C140",
+      "id": "C142",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1965,7 +1993,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C141",
+      "id": "C143",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",

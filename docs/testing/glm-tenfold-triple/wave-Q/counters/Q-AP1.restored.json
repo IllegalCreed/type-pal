@@ -1,0 +1,64 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 2,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790919549009,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031）"
+          ],
+          "fullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 全员自卫掷命中 → 除数+1 各落 32 + intro 尾帧三人防御姿 + 受击动画全员 + 数字挂 hurt 首帧",
+          "status": "passed",
+          "title": "全员自卫掷命中 → 除数+1 各落 32 + intro 尾帧三人防御姿 + 受击动画全员 + 数字挂 hurt 首帧",
+          "duration": 3.208958999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031）"
+          ],
+          "fullName": "Q08 performMagic E2 AoE 自卫预掷：防御姿注入与多队员受击（magic.ts:953-967/:1026-1031） 睡眠队员无自卫资格 → 满伤 65 且无防御姿；清醒队友 32 + 防御姿（fight.c:4727-4735）",
+          "status": "passed",
+          "title": "睡眠队员无自卫资格 → 满伤 65 且无防御姿；清醒队友 32 + 防御姿（fight.c:4727-4735）",
+          "duration": 0.6162080000000287,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790919549642,
+      "endTime": 1790919549645.6162,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts"
+    }
+  ]
+}
