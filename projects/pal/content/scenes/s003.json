@@ -12,6 +12,7 @@
   "entities": [
     {
       "id": "e44",
+      "label": "客栈大门出口",
       "pos": {
         "col": 137,
         "row": 76,
@@ -33,7 +34,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "走出客栈到盛渔村",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -53,7 +54,8 @@
                         "evidenceId": "pal-load-scene-1650"
                       }
                     }
-                  ]
+                  ],
+                  "label": "出门来到盛渔村外街"
                 }
               ]
             }
