@@ -160,7 +160,61 @@ describe('ED-3 PAL project reference index', () => {
           edge.relation.kind === 'command-target' && edge.relation.use === 'load-scene-entry',
       ),
     ).toHaveLength(795)
-    expect(edges.filter((edge) => edge.target.kind === 'shop')).toHaveLength(29)
+    const shopEdges = edges.filter((edge) => edge.target.kind === 'shop')
+    expect(shopEdges).toHaveLength(30)
+    // SCRIPT-GOV-1 restores the doctor's post-gift shop branch. Pin its exact owner,
+    // step and branch leaf as well as the total; this is not another first-gift reward.
+    expect(
+      shopEdges
+        .filter(
+          (edge) =>
+            edge.source.owner.kind === 'script-owner' &&
+            edge.source.owner.owner.kind === 'entity-behavior' &&
+            edge.source.owner.owner.sceneId === 's010' &&
+            edge.source.owner.owner.entityId === 'e191' &&
+            edge.source.owner.owner.behaviorId === 'legacy-001',
+        )
+        .map((edge) => ({
+          target: edge.target,
+          owner: edge.source.owner,
+          relation: edge.relation,
+          locator: edge.locator,
+        })),
+    ).toEqual([
+      {
+        target: { kind: 'shop', id: '1' },
+        owner: {
+          kind: 'script-owner',
+          owner: {
+            kind: 'entity-behavior',
+            sceneId: 's010',
+            entityId: 'e191',
+            channel: 'trigger',
+            behaviorId: 'legacy-001',
+          },
+        },
+        relation: { kind: 'command-target', use: 'open-shop-buy' },
+        locator: {
+          kind: 'canonical-script',
+          reference: {
+            kind: 'command',
+            path: 'scenes.s010.entities.e191.behaviors.trigger.legacy-001.flow.stages.care-and-shop.body[0].else[2]',
+            locator: {
+              kind: 'command',
+              owner: {
+                kind: 'entity-behavior',
+                sceneId: 's010',
+                entityId: 'e191',
+                channel: 'trigger',
+                behaviorId: 'legacy-001',
+              },
+              container: { kind: 'step', stepId: 'care-and-shop', section: 'body' },
+              commandPath: '0/else/2',
+            },
+          },
+        },
+      },
+    ])
     expect(
       edges.filter(
         (edge) =>
@@ -413,7 +467,90 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
     expect(battleSpriteEdges).toHaveLength(180)
-    expect(assetEdges).toHaveLength(6_010) // Zhang Si's restored follow-ups each retain his portrait.
+    expect(assetEdges).toHaveLength(6_014)
+    // The restored Xiulan/Ling'er follow-ups add one portrait each, and Anu's farewell
+    // adds both speakers' portraits. Preserve exact canonical ownership and command paths.
+    const restoredPortraitSteps = new Set([
+      'fathers-chronic-illness',
+      'urge-departure',
+      'anu-farewell',
+    ])
+    expect(
+      assetEdges
+        .filter(
+          (edge) =>
+            edge.locator.kind === 'canonical-script' &&
+            edge.locator.reference.locator.container.kind === 'step' &&
+            restoredPortraitSteps.has(edge.locator.reference.locator.container.stepId),
+        )
+        .map((edge) => {
+          if (
+            edge.target.kind !== 'asset' ||
+            edge.relation.kind !== 'asset-use' ||
+            edge.source.owner.kind !== 'script-owner' ||
+            edge.source.owner.owner.kind !== 'entity-behavior' ||
+            edge.locator.kind !== 'canonical-script' ||
+            edge.locator.reference.locator.container.kind !== 'step'
+          )
+            throw new Error('restored portrait requires an entity-owned canonical step')
+          const owner = edge.source.owner.owner
+          const locator = edge.locator.reference.locator
+          expect(locator.owner).toEqual(owner)
+          expect(edge.locator.reference.locator.container.section).toBe('body')
+          return [
+            owner.sceneId,
+            owner.entityId,
+            owner.channel,
+            owner.behaviorId,
+            edge.locator.reference.locator.container.stepId,
+            locator.commandPath,
+            edge.target.id,
+            edge.relation.expectedKind,
+          ]
+        })
+        .sort(),
+    ).toEqual([
+      [
+        's008',
+        'e177',
+        'trigger',
+        'legacy-002',
+        'fathers-chronic-illness',
+        '0',
+        'portrait.pal.035',
+        'portrait',
+      ],
+      [
+        's020',
+        'e342',
+        'trigger',
+        'legacy-001',
+        'urge-departure',
+        '0',
+        'portrait.pal.011',
+        'portrait',
+      ],
+      [
+        's174',
+        'e2875',
+        'trigger',
+        'legacy-003',
+        'anu-farewell',
+        '0',
+        'portrait.pal.029',
+        'portrait',
+      ],
+      [
+        's174',
+        'e2875',
+        'trigger',
+        'legacy-003',
+        'anu-farewell',
+        '2',
+        'portrait.pal.082',
+        'portrait',
+      ],
+    ])
     const baselineAssetReferences = collectEditorAssetReferences(state, canonical)
     const optimizedAssetReferences = diagnostics.assetSnapshot.references
     const assetReferenceIdentity = (reference: (typeof baselineAssetReferences)[number]): string =>
@@ -736,9 +873,11 @@ describe('ED-3 PAL project reference index', () => {
     // First-talk/kitchen adds forty rows and fifty-four aliases; no parity or payload gate is relaxed.
     // Two external kitchen pose references replace one retired page binding: net +1.
     // E2E-005: five fewer external addresses, one fewer behavior selection, two portrait uses.
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_242)
+    // SCRIPT-GOV-1: the exact shop leaf and four portrait leaves asserted above add five rows.
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_247)
     // The retired behavior selection also removes its parent entity/scene aliases.
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_157)
+    // The five new shop/portrait references each have one target and introduce no aliases.
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_162)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(
