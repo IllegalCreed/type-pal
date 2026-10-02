@@ -1,0 +1,259 @@
+{
+  "candidate": "b2cbb41f39d59928d9a4ecbf3d1a4abfd1deba31",
+  "base": "d18f9075724df1fc855b539a82effd0cf9de8cef",
+  "verdict": "NEXT2 finite code/evidence accept; original 700 card remains partial/rework; final whole-main gates remain Codex responsibility",
+  "controls": [
+    {
+      "id": "CURRENT-PERMISSION",
+      "valid": true,
+      "reasons": [],
+      "original": "p-control",
+      "mutated": "p-permission-mutated",
+      "restored": "p-permission-restored",
+      "originalReuse": "actual recent original/restored run, byte-identical product and support hashes",
+      "scope": 41,
+      "scopeIdentitySha256": "983bd0ec99b1169c377aadc96982cc7be84fe3d0d428c3c61e2de134838aca6f",
+      "sourceHashOriginal": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "sourceHashMutated": "2b813bf473da5a8eafa9f9efb101c7471ff956459e002fff2c65af86c3f98041",
+      "sourceHashRestored": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "supportHashSha256": "f13d85925ce06fd08256811fab68b219866348e9e3078d0f965d3f3b5d57f1d8",
+      "mutation": {
+        "from": "    if (state !== this.state) throw new Error('地图引用许可不属于当前编辑会话。')\n",
+        "to": "",
+        "rebuiltHash": "2b813bf473da5a8eafa9f9efb101c7471ff956459e002fff2c65af86c3f98041"
+      },
+      "failure": [
+        {
+          "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+          "fullName": "P-NEXT2-01 foreign state 不是当前权限 结构克隆/他 session state 整串拒收；当前 state 返回同一 batch",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/src/core/map-reference-session-next2.glm-p.test.ts:37:83\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SAVE-BATCH-MEMO",
+      "valid": true,
+      "reasons": [],
+      "original": "p-permission-restored",
+      "mutated": "p-save-cache-mutated",
+      "restored": "p-save-cache-restored",
+      "originalReuse": "actual recent original/restored run, byte-identical product and support hashes",
+      "scope": 41,
+      "scopeIdentitySha256": "983bd0ec99b1169c377aadc96982cc7be84fe3d0d428c3c61e2de134838aca6f",
+      "sourceHashOriginal": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "sourceHashMutated": "d4647a85e8153201bd4ae186f2215c905f5b61d9a318130c16cb70af08d9b860",
+      "sourceHashRestored": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "supportHashSha256": "f13d85925ce06fd08256811fab68b219866348e9e3078d0f965d3f3b5d57f1d8",
+      "mutation": {
+        "from": "  markSaved(): void {\n",
+        "to": "  markSaved(): void {\n    this.mapReferenceBatchCache = undefined\n",
+        "rebuiltHash": "d4647a85e8153201bd4ae186f2215c905f5b61d9a318130c16cb70af08d9b860"
+      },
+      "failure": [
+        {
+          "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+          "fullName": "P-NEXT2-04 良性保存保持引用快照身份 markSaved 后 batch 同引用且 generation/refVersion 不变",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected { version: 1, generation: 2, …(11) } to be { version: 1, generation: 2, …(11) } // Object.is equality\n\nIf it should pass with deep equality, replace \"toBe\" with \"toStrictEqual\"\n\nExpected: { version: 1, generation: 2, …(11) }\nReceived: serializes to the same string\n\n    at /private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/src/core/map-reference-session-next2.glm-p.test.ts:129:19\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "NONERROR-IO-MESSAGE",
+      "valid": true,
+      "reasons": [],
+      "original": "p-save-cache-restored",
+      "mutated": "p-nonerror-mutated",
+      "restored": "p-nonerror-restored",
+      "originalReuse": "actual recent original/restored run, byte-identical product and support hashes",
+      "scope": 41,
+      "scopeIdentitySha256": "983bd0ec99b1169c377aadc96982cc7be84fe3d0d428c3c61e2de134838aca6f",
+      "sourceHashOriginal": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "sourceHashMutated": "4a7118dbd7a1830253cfe77af4c0169164fc679412487b302322bd95053b4191",
+      "sourceHashRestored": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "supportHashSha256": "f13d85925ce06fd08256811fab68b219866348e9e3078d0f965d3f3b5d57f1d8",
+      "mutation": {
+        "from": "message: cause instanceof Error ? cause.message : String(cause),",
+        "to": "message: cause instanceof Error ? cause.message : 'map-load-error',",
+        "rebuiltHash": "4a7118dbd7a1830253cfe77af4c0169164fc679412487b302322bd95053b4191"
+      },
+      "failure": [
+        {
+          "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+          "fullName": "P-NEXT2-08 非 Error IO 拒绝的公开消息 loadMap 拒绝自有字符串：fail-closed 消息恰为 String(cause)",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ { mapId: 'lab-1', …(3) } ] to deeply equal [ ObjectContaining{…} ]\n    at /private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/src/core/map-reference-session-next2.glm-p.test.ts:228:28\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "NO-LOADER-SCAN-MESSAGE",
+      "valid": true,
+      "reasons": [],
+      "original": "p-nonerror-restored",
+      "mutated": "p-no-loader-mutated",
+      "restored": "p-no-loader-restored",
+      "originalReuse": "actual recent original/restored run, byte-identical product and support hashes",
+      "scope": 41,
+      "scopeIdentitySha256": "983bd0ec99b1169c377aadc96982cc7be84fe3d0d428c3c61e2de134838aca6f",
+      "sourceHashOriginal": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "sourceHashMutated": "41c00ab349aefe37a466b3c0f186d58e65210f2bb342bee76347834a218053b5",
+      "sourceHashRestored": "0d6f392c9384b54c80898a540cea0fadc7dc0d73cda592e930bb52d00ac8be00",
+      "supportHashSha256": "f13d85925ce06fd08256811fab68b219866348e9e3078d0f965d3f3b5d57f1d8",
+      "mutation": {
+        "from": "if (!loader) return Promise.reject(new Error(`未配置地图加载器，无法读取 \"${mapId}\"`))",
+        "to": "if (!loader) return Promise.reject(new Error('未配置地图加载器'))",
+        "rebuiltHash": "41c00ab349aefe37a466b3c0f186d58e65210f2bb342bee76347834a218053b5"
+      },
+      "failure": [
+        {
+          "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+          "fullName": "P-NEXT2-12 缺 loader 经扫描 API fail-closed 无 loadMap 选项：每图恰抛未配置消息、不完成健康批、零 hydrate/history",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ [ 'lab-1', '未配置地图加载器' ], …(2) ] to deeply equal [ [ 'lab-1', …(1) ], …(2) ]\n    at /private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/src/core/map-reference-session-next2.glm-p.test.ts:320:68\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "name": "p-full",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "test",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/p-full.json"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "d61352cdd7c344bfd9bca5d4c06fbb4795753549d7fdc339df033a126d99bc02",
+      "jsonSha256": "7ca00ef6d62d69b6eece6f2cc5efceda0832987812954a2aaef28275d436390c",
+      "executed": 3900,
+      "passed": 3898,
+      "failed": 2
+    },
+    {
+      "name": "p-typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/editor", "typecheck"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "d3245b8184d4eb9851eb89914a83a929edebebab9412af97259d56e7ff3336de"
+    },
+    {
+      "name": "p-lint",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "90dd76f6ca8b98665faf03001f967f89aea54f6798ef2fa10a06ad2bd0c9b9d8"
+    },
+    {
+      "name": "p-docs",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "b2fc1f76c2767eb6289dfa81eea65bf9e57a176a3303782d907476e2343542cf"
+    },
+    {
+      "name": "p-verifier",
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "P",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "0db2eeb1cac12c2e302c22cf9d7430c26ad28d960b06263517baefcccc4694d0"
+    }
+  ],
+  "environmentRecovery": {
+    "localizedEnvironment": true,
+    "fullFailures": [
+      {
+        "file": "tests/world-sprite-behavior.pal.test.ts",
+        "fullName": "PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览",
+        "status": "failed",
+        "failureMessages": [
+          "Error: ENOENT: no such file or directory, open '/private/tmp/codex-oq-next2-review.ydLzy0/P/projects/pal/assets/migrated/sprites/044.rle'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at actualFrameCount (/private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/tests/world-sprite-behavior.pal.test.ts:101:33)\n    at /private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/tests/world-sprite-behavior.pal.test.ts:136:30\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+        ]
+      },
+      {
+        "file": "tests/world-sprite-behavior.pal.test.ts",
+        "fullName": "035/072 保留实例行为预览，076 只由预制动作消费",
+        "status": "failed",
+        "failureMessages": [
+          "Error: ENOENT: no such file or directory, open '/private/tmp/codex-oq-next2-review.ydLzy0/P/projects/pal/assets/migrated/sprites/035.rle'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at actualFrameCount (/private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/tests/world-sprite-behavior.pal.test.ts:101:33)\n    at summariesFor (/private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/tests/world-sprite-behavior.pal.test.ts:196:13)\n    at /private/tmp/codex-oq-next2-review.ydLzy0/P/packages/editor/tests/world-sprite-behavior.pal.test.ts:201:12\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+        ]
+      }
+    ],
+    "recovery": {
+      "name": "p-old-pal-recovered",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "tests/world-sprite-behavior.pal.test.ts",
+        "--maxWorkers=1",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-oq-next2-review.ydLzy0/p-old-pal-recovered.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "runSha256": "a286e92be124ab0610d4209bcb6b2a79fa6c6c1c8dd4793ac34b50cd38d8a926",
+      "jsonSha256": "10a19909da0c93c8d477e70fa93e0c2cd755451b58d7219fd5899e9fe57e3f7e",
+      "executed": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "fullPackageAfterAssetCopyNotRerun": true,
+    "notClaimingFresh3900AllGreen": true
+  },
+  "failedOwnInvocation": {
+    "exitCode": 1,
+    "stderr": "file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/vitest@4.1.7_@types+node@25.9.1_@vitest+coverage-v8@4.1.7_jsdom@29.1.1_canvas@3.2.3__vi_cbf41ff481eacc87d29829f1c7d0901c/node_modules/vitest/dist/chunks/cac.BuBILSID.js:2193\n\t\t\tthrow new Error(`Expected a single value for option \"${command}\", received [${received}]`);\n\t\t\t      ^\n\nError: Expected a single value for option \"--maxWorkers <workers>\", received [1, 1]\n    at transform (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/vitest@4.1.7_@types+node@25.9.1_@vitest+coverage-v8@4.1.7_jsdom@29.1.1_canvas@3.2.3__vi_cbf41ff481eacc87d29829f1c7d0901c/node_modules/vitest/dist/chunks/cac.BuBILSID.js:2193:10)\n    at setDotProp (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/vitest@4.1.7_@types+node@25.9.1_@vitest+coverage-v8@4.1.7_jsdom@29.1.1_canvas@3.2.3__vi_cbf41ff481eacc87d29829f1c7d0901c/node_modules/vitest/dist/chunks/cac.BuBILSID.js:209:22)\n    at CAC.mri (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/vitest@4.1.7_@types+node@25.9.1_@vitest+coverage-v8@4.1.7_jsdom@29.1.1_canvas@3.2.3__vi_cbf41ff481eacc87d29829f1c7d0901c/node_modules/vitest/dist/chunks/cac.BuBILSID.js:593:9)\n    at CAC.parse (file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/vitest@4.1.7_@types+node@25.9.1_@vitest+coverage-v8@4.1.7_jsdom@29.1.1_canvas@3.2.3__vi_cbf41ff481eacc87d29829f1c7d0901c/node_modules/vitest/dist/chunks/cac.BuBILSID.js:510:27)\n    at file:///private/tmp/codex-oq-next2-review.ydLzy0/P/node_modules/.pnpm/vitest@4.1.7_@types+node@25.9.1_@vitest+coverage-v8@4.1.7_jsdom@29.1.1_canvas@3.2.3__vi_cbf41ff481eacc87d29829f1c7d0901c/node_modules/vitest/dist/cli.js:11:13\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n\nNode.js v22.23.2\n",
+    "report": "p-full-cli-attempt.run.json.raw.txt",
+    "note": "Codex first invocation duplicated maxWorkers already fixed in package script; CLI rejected before collecting any tests; corrected command newly reran full suite"
+  },
+  "directed": {
+    "actual": 12,
+    "delivered": 12,
+    "equal": true
+  },
+  "oldArchiveChanged": "",
+  "oldEvidenceChanged": "",
+  "counts": {
+    "oldExecuted": 102,
+    "next2": 12,
+    "cumulative": 114,
+    "remainingAtLeast": 586,
+    "oldAuthorCounters": 19,
+    "newCodexRepresentativeSamples": 4,
+    "oldProvenVisualFlows": 18,
+    "visualTarget": 20
+  },
+  "receiptCountsNormalization": "author top counts/contractsExecuted=102 excludes its separately registered next2 12; Codex records 114 without asking for a docs-only pin round",
+  "noOfficialCoverageMeasured": true,
+  "logParent": "/private/tmp/codex-oq-next2-review.ydLzy0"
+}

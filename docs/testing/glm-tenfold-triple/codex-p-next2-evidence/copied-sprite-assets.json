@@ -1,0 +1,2550 @@
+{
+  "readOnlySource": "/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal",
+  "selection": "ignored sprites/*.rle",
+  "copied": [
+    {
+      "path": "projects/pal/assets/migrated/sprites/001.rle",
+      "sha256": "4d60d18f9bdec62bbc91f9ffc1f6f2036785ede0e154dfe188cdbde48a96f55f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/002.rle",
+      "sha256": "53a0a3687f899238dc7e22e318b33c612c7afbebdaef40dda39da721748cf14f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/003.rle",
+      "sha256": "49050c5defff3bba5ba71df242362ab9d3d360c86d81b99d8fe0869b60c342e1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/004.rle",
+      "sha256": "032fa11fc4a13d0d4ca5a6813454fb2a7651885f223c19a44ebad0d49a497754"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/005.rle",
+      "sha256": "447d07e45a8fe7a86007ff5424903d2ce831c5401ba6c5fdf2eabd61aef8220f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/006.rle",
+      "sha256": "fdae4ef4e6b2bc36eda0042a291b92d8b751185c5c49fa6632232867953b4488"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/007.rle",
+      "sha256": "741b0cbdcce4a57bfb2980b3a4fcaf322de4a5fdbbc3b3efc126f50de92ac510"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/008.rle",
+      "sha256": "876841c36c4120b4e76372a97b041e2862f93f36d8e9d8a6e860ec915f73aec8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/009.rle",
+      "sha256": "cd100c988541b97cd38f63b1772662d0b6a94e0ca784b3309c706c8e8f42e4a1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/010.rle",
+      "sha256": "40d205f4abac2008d2b5665c856eaa17301bb36b2793b8719f1d3ce6f63fa4cb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/011.rle",
+      "sha256": "7ca962b7442cef2c61727064377116afff75dc8b5cc5986d7f22a78a046de657"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/012.rle",
+      "sha256": "3a7d3b9819021a0a0ce382a296a9013bc54b801a8779ba4fe876ca9545eea3b5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/013.rle",
+      "sha256": "e25c3a8a11e1454c9467f767acc30c9b917d8c5e009b9f343a3a3d2445787a5a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/014.rle",
+      "sha256": "43994610212fa19028dd806fc389768a66edd5961ba8cc3610ff25695feb80b9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/015.rle",
+      "sha256": "2243f0cb61d37cedf11bb88a23f4af8724a1d343f8c63c987d0adee6a2ba2a49"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/016.rle",
+      "sha256": "d0e632e98d3a120cd0c048850a69e32b6e71c5f6f33d5218e070351a33b35b3d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/017.rle",
+      "sha256": "b9d01f948dcdbc9ac5293222f1295c50abd8162533b20ba7bb45d230e053c1cc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/018.rle",
+      "sha256": "f46f228ad97c669637281cb9bffc51643761b67e0e432828a1d37e6d8cb51d62"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/019.rle",
+      "sha256": "4acfd96b7d19531f74b348f80f2cda8528fc73bd1bad14aeb3e599657c1127a0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/020.rle",
+      "sha256": "7d8b280ed0a364b0f7b43a5a74e7975597b8a72cd8044f3445c7738bb3c1e8c1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/021.rle",
+      "sha256": "6e7135ea5c05d5e9a0ff8390531f8392be1d68005278f13eeab5cb2d16a9b43c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/022.rle",
+      "sha256": "473b6f58445049ae0abd27bd5895f2b61ca143f4c014dd0b3194f4a20e887de6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/023.rle",
+      "sha256": "e5aaae65753207d173159060fd6fee1947f038f45d8b693fa3cdcb1f505e6629"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/024.rle",
+      "sha256": "d1a6786e082288ba2e0c21fc2b12377660caa0a0ba491c6c70f5058858bcacb1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/025.rle",
+      "sha256": "9f3a73dda32640d18e3de824ac3d7240f1a9fbdfe5b7dd43f3c9216ded385c13"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/026.rle",
+      "sha256": "6b9c77c1ce61461548f41f8226fa9981975fd398894345c25361ab5ef6db960d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/027.rle",
+      "sha256": "29f648ee8cae9c43dc6fa486cf66849ec3c25fce65ff2d4967ed4641a9070757"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/028.rle",
+      "sha256": "838fde71bd224ee37837fe09e283d43993b6c548ddcd5d8ecc3de11c6f73389e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/029.rle",
+      "sha256": "56e4963e3a7dce7ba90c129764678ead62ad587ba91e1a1f72de7fa2048e5228"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/030.rle",
+      "sha256": "4363a97f89af360ea869e0c67035b1b2ad721ade5b9377ab30ab88212baf5719"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/031.rle",
+      "sha256": "aab9d4885bbafab3e3c4a2b798e590b8acd69cfc6aae685083600298d0ced141"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/032.rle",
+      "sha256": "8183d0473fa854d0c19e1ae2250d9561cbbbdbc6411cd446e96865470f19446a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/033.rle",
+      "sha256": "30b58b5680a2e7fe3598627113698314c57e5c9836a17306556c5418814b7c13"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/034.rle",
+      "sha256": "be0a926ef16f508962c108272b8469b9f1ebb52ff07af604e0d56dfc0c4da841"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/035.rle",
+      "sha256": "eb326c5502e59edf0f4bc3d1eec2eb7e267eede716653becb412b51fc6234cf9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/036.rle",
+      "sha256": "9a2602199457a0b94384a3728e71927a4bb6c1c32ef774b45139ffb8672f2b3f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/037.rle",
+      "sha256": "de16abdc047452996ebd72132ded6265e105bb769efc8baaf5e55aec8c564e75"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/038.rle",
+      "sha256": "00fc2bb0bfba940601691d45437f3db026e122ab69eca304f4ec7cb4bd0ca271"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/039.rle",
+      "sha256": "0ad45b05cf9d8fb290c81a8e704fb4df78ff75c445d3d31f0d2676cfe3480dcf"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/040.rle",
+      "sha256": "89199fb4c68818b0cff1131575d727e19f321849e0ee1726a40830b45ee6e818"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/041.rle",
+      "sha256": "2f9d4b98d399d070357776d46ddc3f565cb1ae50a2077c7a8136b5f2e13f3f47"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/042.rle",
+      "sha256": "a464a04b6920f59b59570760d9b3659fae22ece997e250682cfc9fbb7807ca41"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/043.rle",
+      "sha256": "681efa44540494e6f3a2da2635b30f0ab32f629279515ae8165d5654a74ddb33"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/044.rle",
+      "sha256": "9615f95536f6f4c2811757f1cca24b3ee5f47a7958c6caecc920bb2fd8d0c5cb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/045.rle",
+      "sha256": "8392c5c9215c98a29f4564825118d822b04e8f3182a4711a61f6e4916fc707f8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/046.rle",
+      "sha256": "fec5f5b90c12fc4ff22dc780171fe9a7d1a2d9a7f76bf29f73e0e12bd40314cc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/047.rle",
+      "sha256": "41709d6fd48592465b76da79aac243961468b34f4ba5855790d5e0222aa94106"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/048.rle",
+      "sha256": "cf55e00a9dc67d699948fc6b5a8977ac8e237259fd118de895acd96586b9bbd3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/049.rle",
+      "sha256": "6db23ed3c3b65f1e5b8ba8431d7a11d16d5abc6e0af67af3eb12ecc53cc862ee"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/050.rle",
+      "sha256": "7254ecf9f10461cb3629e7ba9873c9ed95a40757f16baf0cbbfe13869c6942b5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/051.rle",
+      "sha256": "82d924080a35c6684a87d1df11e745d2e5ebfeeb1ed623a81b0acdcc8b9d9c66"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/052.rle",
+      "sha256": "907feb23e82e3ef518c49bd0991d03d2f3f89e1d55ff32e5659d20faef3e028c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/053.rle",
+      "sha256": "a89dcfe41db1aa5506d80b87d40a73fc6dce99e3ba438eacf146d3501cc855a9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/054.rle",
+      "sha256": "803b9b282f4fcce608dd2ed617ba4b7192a87869cf8b3af529d0b848765b8a4a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/055.rle",
+      "sha256": "52d4922b91c44079a8b470937ffc5f33cecf287d19303eeda570b1f753a141aa"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/056.rle",
+      "sha256": "c513fedc906603d2be49b786c8fa987f3f315f9b88a13abc0acc5683038c57c0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/057.rle",
+      "sha256": "e58c15b7a0b7f911166cf5c008efd28bab0b22cb3d55892e9ede1ec569e7072d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/058.rle",
+      "sha256": "b67208e9e819d19db01ca47b237abc9448f86fb2c5a172e2c99430eac2cc6cb8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/059.rle",
+      "sha256": "c1ce6f08bfb52c49abbf098336df87a32fa0320a7b6141c3471f05808dac21c8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/060.rle",
+      "sha256": "4944acf869790f3bc16668bbe34401609f5c8896684b34d4f8638ad7bd22fbf8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/061.rle",
+      "sha256": "c682ea6d63ce4a7aa1cbb0471862c9a93bb5e7d3ac621fefbd2a43b0f8865f2c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/062.rle",
+      "sha256": "16ac7424e43071cc035ab909a05d25bd308125599246ae4627f6b365460c2ef1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/063.rle",
+      "sha256": "1856e765fd990e822ea78ef22b44b73ce64d9541b4e10327db17c0a94a68098c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/064.rle",
+      "sha256": "734e9b26407b9aa7597f6d8aff4a94abd8dc631383826d7e72d5686dacc68299"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/065.rle",
+      "sha256": "bb0dca30e49b36887b2659e7f16ae60a21d89853ccb383a162071588c430a43e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/066.rle",
+      "sha256": "5ffbcc984d1fa61f250e49c3369e9193c7d81bbb9b6730b985f555f719ff4347"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/067.rle",
+      "sha256": "dda24c2a31852ffe8fbce9aa00cb87349455dd57d157fa8c57901def15a3e003"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/068.rle",
+      "sha256": "7b7fa266c5f06ff56308c9608c0dfd8475658b3e57277d36f46e518c8ed9cda9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/069.rle",
+      "sha256": "2f50679d348654106a04b07f24fda7efcbfa560c9556feecdf7062e54f0a7cde"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/070.rle",
+      "sha256": "ac75ee724a4a641ed95381ce89473074dbedb4b4ed81238c58ae4b765374f232"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/071.rle",
+      "sha256": "d22337655b2edb3d87ecfc6e95b173962afc97566cd811219acf7f4cfc8de50a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/072.rle",
+      "sha256": "7aeb7af1ffe726a369c4029a6fe53e23e1fab6ced45234304eb9b97d32d80434"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/073.rle",
+      "sha256": "40c83ab18c69876ccb3aa070f99dac8c4acd195cae60066a769e3cc72147592f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/074.rle",
+      "sha256": "c19adf33fdbbf055c0ee8afb3802828b6313ba854ed56b09e74289f2e4b5b218"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/075.rle",
+      "sha256": "d633a200cd51b04e1e710a434b641da99220727c51e32ccbc10696f7b7426027"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/076.rle",
+      "sha256": "70e8c265aa0f242516425e38dc0a469c24c3b1fb9b02a8680363a367884fbabd"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/077.rle",
+      "sha256": "6f7ad9ebdbcb5924ac87fb63c78730164bfff4b386337ac208b488362da34896"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/078.rle",
+      "sha256": "1a86cc195e7c71adcf44cadc895c20b686f9676f02a08f302ce7b4d1ed458cf9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/079.rle",
+      "sha256": "61eabe1161a61d53cc67d112dfc16778e78fea65023322dfe6158469d9ff9739"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/080.rle",
+      "sha256": "27bd55ba93028088cb690b4f4ebd213bbc51768fbe8602f312d170504c9c9593"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/081.rle",
+      "sha256": "3983f8ad212d57109c8184e8f8cf30bdb4ea90a21abcaefaa5c10a82ff4dda21"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/082.rle",
+      "sha256": "6ade76cc2a22a4f7d2dca0de90f0b1ceb81e425a2725bc75475b9b0c6155912d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/083.rle",
+      "sha256": "3285916f4bd5a0c3c9c2a71d4d9849a010d1c8cfd15009923e6a350d83a394ab"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/084.rle",
+      "sha256": "f5ec0869f4381ca3af3d315a0266d54cc9e534395b97403ea3abc2773d2c2dc2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/085.rle",
+      "sha256": "01285dced11c90290ba15d32098cbaffa70901c78fe75ba76947719b4f0ac250"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/086.rle",
+      "sha256": "0bb642d92312b98bd3cdf1911dd4fec96457d36bf1126160bc84db76d424d4e6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/087.rle",
+      "sha256": "5b3872cbe77d8dca4f656b526ab6ef770b817225d076c975063ed9ad94d2cc8a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/088.rle",
+      "sha256": "9867b20e6d250922b9fea8e0917110e1ef3dc2f5264ea7a868a4ab7b569cb350"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/089.rle",
+      "sha256": "36a60ff2ca5849e8cd4ca4e4dac96b590f6a4fd7cca18d29e9606055233e67e4"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/090.rle",
+      "sha256": "7c6e2cbcfed659f141e2f0edd05b3587264482a2b3feede0bd9251c83fde50ce"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/091.rle",
+      "sha256": "b269c539c7f3b47f9f8e2e4f30f62280476883811caedcb51962d4c5b9ae892c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/092.rle",
+      "sha256": "3ba6bc88af9f97c5d723aeb9f5aa775a518e2bccaff173a342c89f07ff7be9de"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/093.rle",
+      "sha256": "1f9a1721f0157cd740f02ce4c45a620c07dd92306da8773880d8d3f6e5a02570"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/094.rle",
+      "sha256": "73c53aab5b1bc1fe4c844140c31828b2eabd68283bee780125ca2b6fd45ce150"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/095.rle",
+      "sha256": "bc03c4ce3cf5e15e169e12112414e4f46a50a080e3376662953c59d9cbdcf10a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/096.rle",
+      "sha256": "d1ee66935fe161b431abea2089cda60774dea51ff7c7c91f088e8859d5f1a722"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/097.rle",
+      "sha256": "2524ef0a4f985a7d22f468374f359663dc277dd8b5c4cac5c72c653d7684bd56"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/098.rle",
+      "sha256": "c54a33ea4c9623303acb86db06479c61750228912b95ae7e4454ae2764dcb89b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/099.rle",
+      "sha256": "43dd477f3d463254d25bab8c2103d261c75ef2e12869f2b2526dafad4e0a273a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/100.rle",
+      "sha256": "fe817b34554db12ce43dc4d4adcb2d4041428c97e3bd873ea949a7c45c4b8b1b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/101.rle",
+      "sha256": "7c020728b7daf08b3e7686d092a77b9f6fbc098e6c741cd69989702a396fe49c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/102.rle",
+      "sha256": "6312f9238c1b82c81a53c454731b6d0e3220755a8bd0788a0e689c1320abc9ce"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/103.rle",
+      "sha256": "efd6ced83f86173ae3f66a14c9aa3bda74c64dfb28523390ae3eb4e147bd72f8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/104.rle",
+      "sha256": "f4f25f36edcda793911c68760cb659db5a7afeed138478f0e2d124bcebe721d8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/105.rle",
+      "sha256": "b510a90b8db7c904c91cf9e1ddd9642d3b6fbaa76c18cccc4be11eaac40e4543"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/106.rle",
+      "sha256": "fbbd52fcbb7107ae0ea812d7de180bdf07712a80a65ba8209cb8dc27acba8418"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/107.rle",
+      "sha256": "27e1af38c7f06969d1e4b50f6ed3742cc96c6520012728d94de48c9753cce134"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/108.rle",
+      "sha256": "a863b945147fe70c25f7646f8272cb244c51c71f6f5e7fdb222064c4997e77ec"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/109.rle",
+      "sha256": "150089e0dae5d1a9cad75863ee155dbedfac5b730a461de1acc8a693cd629adc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/110.rle",
+      "sha256": "b21a5088bfa69266ea9fa6e8a3a44f0f051be2d103b82e90a144c5a40a3d053c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/111.rle",
+      "sha256": "9228fc6be82c086680ea0a933a7a3c79df618d611ce5658b7f6088d97cc6c48d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/112.rle",
+      "sha256": "15c4ac0ed777a6e25b2f5d9cdbbfdc82f38cbd6bd54238043d115a8b8fe98da5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/113.rle",
+      "sha256": "901da98c9494a8c3b17447ec5b0be0d3c59349ade836f9fc7f6a602783dd8b86"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/114.rle",
+      "sha256": "3acdb518b1c0ba25fb964b485d3eb6f77342393442045b8df4f70a6a7bfcbadd"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/115.rle",
+      "sha256": "c277c26a2e78da45b8b450b81b7b4f7b0f855973438eaf16cec2f15403b5bcf2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/116.rle",
+      "sha256": "bbf9cc8464a3311c14d4733e65317563197c0fa786a45f770cb52a251c61a441"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/117.rle",
+      "sha256": "9c672cc4da7ca95eea7cd4aae3f623dcf15ee57f9f5574163e4790e8a57d5cdc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/118.rle",
+      "sha256": "418ed75672526a4fd38e38ba5ca3bce4a4725e1f5a48b397090e7eba235e7d5a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/119.rle",
+      "sha256": "22a7e4024cb5fe3860f3ef4d3c3dbfe11bf2bf1f77ccabe33e74b37dafe932c0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/120.rle",
+      "sha256": "76f54b25c00f23ee5f6b8a0d4cf3fabad81c0c0259fbe1db59a09eafe56ed1b8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/121.rle",
+      "sha256": "2e1f9b075dea72529917d3b269097b6d6417581e7cedadb5029be1941c335659"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/122.rle",
+      "sha256": "455fc59b1a5938c33fbddc0ae923613eae4f3ab6fd53c0fb907f02b15f10e296"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/123.rle",
+      "sha256": "2f1479aa52623441ac9c36c99339a6884c1a1bb33b0275cb16344d15a88965ed"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/124.rle",
+      "sha256": "eb4319fdcac7a0faebd5218938b2260db6c88eb3fd056906e9f6fa1730174ffe"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/125.rle",
+      "sha256": "14c20157e7dc546b4915ebc0baf934516d8e5d7667f404420bd40ec302f1174e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/126.rle",
+      "sha256": "69b36bdba842ea2a5086f1b53691cebfec070d52a4cdcb5c87eaa963388f9265"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/127.rle",
+      "sha256": "1a76c485b791ada707d7b8748ab561239de828a6d8f6c7134d68c83bb4a6b6e7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/128.rle",
+      "sha256": "f7416748226ebe889d0aa95b3619112a68a4cbfc0c2b5341058dec3982da6e40"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/129.rle",
+      "sha256": "71bd5cb7636692b75329cb9528622858cb57e6dcb96f91fe87e91425c1380a01"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/130.rle",
+      "sha256": "af3f743fe478d1298fcb3d8e98283554957447f0dab99f3c5f6b9ba8c290badb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/131.rle",
+      "sha256": "48ad497c5cb3190592374bc8f7b2d86fc816044d939f049752fc0b5ce79dd3d9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/132.rle",
+      "sha256": "7799b5e5a4ce2d55e933e7c0b7fcd2f809221ec675eba5979267869870d4016a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/133.rle",
+      "sha256": "678d7c4ba57262e6657850f362c0880fa5a367eff4dd0912b575f9b25e35916a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/134.rle",
+      "sha256": "2a460c249b90b49e5de53cddd06e62c9a12039861decf1f7fb0d68453e45d0a6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/135.rle",
+      "sha256": "ece43578aa5bfc817da78820f99194f81728bf8dc1e06ca428201ac8d992d11e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/136.rle",
+      "sha256": "d4c5e4634e0a9990c6cfdffebcb2168cbe33b3d347fb4532ccda3291e2c24f80"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/137.rle",
+      "sha256": "173764f6c237fb148022ef51ab022e57c746522b2d53d98d7bfe2fa1a9cd7e8d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/138.rle",
+      "sha256": "e6bfd86e71449a730d4f070eb226e938a47797ac9dc41bf0c0475ea756e48920"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/139.rle",
+      "sha256": "1e0eb5ffb9039cc885ca0f3747488956f2dabd6152cf9b45f99cc731a798c5ad"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/140.rle",
+      "sha256": "f711e3540072e75518536d4b10335cd113cdd1ef42712e9f652f29a259324de0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/141.rle",
+      "sha256": "d4282c8d5d8c72bc6c81fba8cc72988f559c82b8f8579131d583b26df8218f21"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/142.rle",
+      "sha256": "5f4ae8b3b18bd1d2515792db874a5cf4b0bf58a335805f0014fb6302a3dcdb75"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/143.rle",
+      "sha256": "17c0ea21928edbaa3733171a58b31f01e39736f27f78dbe0a2f4b20bcf1a4082"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/144.rle",
+      "sha256": "708745b54e5c83418494305e1559d148d4acac4ce84abeb58eb6aaf3a18da466"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/145.rle",
+      "sha256": "3365caa9f1befbcf3d4e35b446f7f044e99d5b29c4be17a10c954289fdb7a32c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/146.rle",
+      "sha256": "e747f6b09a5f0e5ecdbe01fc1c09af51245de8f5c3f8a201b8041a3746ffb880"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/147.rle",
+      "sha256": "fd14402224441115cc67ca903d25c6ac99504233c61990a7d59e8c6648083123"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/148.rle",
+      "sha256": "4388a0b99432b043e37f31bb90bbdb002847fac3f0b0246bda0a072bd34bcc2b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/149.rle",
+      "sha256": "9046ed905233aa5311d0f3a9a78b3f658210a5c3528bf51413ce31d2b56d5a5f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/150.rle",
+      "sha256": "c6fde846550b6c3eb88f1a8e9ed9f71610db65706fdb0458033aadb613abb2e5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/151.rle",
+      "sha256": "6ce1a86a960c77ed285a79f4f53e7c2eac65702621dd274a4768bfb811b2d085"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/152.rle",
+      "sha256": "e640a26565c7a301bd148f49567309683819f900b9e3930f12adfa7b6f740c78"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/153.rle",
+      "sha256": "5f677f617bb9e41e2d4208213fb6dad1ccda34981c774f7d154b99d8e9ea5863"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/154.rle",
+      "sha256": "1add3bbf23b90e5cd78277799f9cdcb20539666bbb916668ccfe4ac56dc97676"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/155.rle",
+      "sha256": "11a1ec0922be95ea45c10cbee50e4813b9aaa5c2a63a10eca1afb23a3a28b2e5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/156.rle",
+      "sha256": "1322073c1f96fe035e11b022521f1fbf3a20f60cd5496046d43e61f051ad524d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/157.rle",
+      "sha256": "a46ccffb36ec0d8db4b8b104655032eec16593832aa6d8ba6270423c5344ed36"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/158.rle",
+      "sha256": "82c13782457c2458c7686d8c0fb72879aa13a227dddfcd9258dce987d03f4698"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/159.rle",
+      "sha256": "720b693e744e3fa8c8b78b73a8f3c4ae841d0c32367ecc3042566fd85835aacc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/160.rle",
+      "sha256": "6bc41fd50324e00a596e4fa793101ad936a8e1478207650f008c32a1eeacaa35"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/161.rle",
+      "sha256": "5cbda9761ae422b9246a10b1cfc4623f89354cd1ae1e3b863332f2937865f254"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/162.rle",
+      "sha256": "230120bc9e8ae500c9fb032dcb9515456a18adc227bc199348c7b7dfbf4b8959"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/163.rle",
+      "sha256": "8792f83f857a66a92ea86deff90f36bcad909c7d9b66387868145e2221de6832"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/164.rle",
+      "sha256": "edd7c821f6cd754ef0a4132a12749246d561421d4dcac50f3ad826a2b281d944"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/165.rle",
+      "sha256": "a5be519787858618ff7a015feedafe916896894710542d4d539639857f656657"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/166.rle",
+      "sha256": "3a4c19cd9495fc8f46b5dfd8f3c0b46abfc46c8ca39ed9fb3619a236276dc60c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/167.rle",
+      "sha256": "d6a8b77b6937787b956d1f581d309ddb2aa8156cdced587548aef5ec799ccd3e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/168.rle",
+      "sha256": "e6ca482dec77bd29ae2c9694035750fea1dda100592dc1aba74bb3f50f699abb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/169.rle",
+      "sha256": "1e5c61bea0b04e412599acb9c7e4d295707d9f7ded44a3265104d7dcc2b10fcc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/170.rle",
+      "sha256": "5e2304cffbeb919ebefe5296ff84fdb3817bc556d6687ccd6b8b5fc2fdfc5d6f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/171.rle",
+      "sha256": "629fb90a10a6f645d4041a012a5be1136fe4101f3d513596c8a12121ffcba8e2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/172.rle",
+      "sha256": "9a83ca41f2a6c9ced5f72afd6b9a8a0891da986913c0a0109a16170eb5b1fa0e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/173.rle",
+      "sha256": "830d849ce23af585458813d3b3c62e569509bb88e070ebe4e0309949fdd0b905"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/174.rle",
+      "sha256": "75006426d661b107a0b5e79b82bf24784893c6ad07610df0e4f5ccf31045f624"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/175.rle",
+      "sha256": "dbeadcf923c18016d378da978da0501a95031d41a6093e66723ea8de4191a685"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/176.rle",
+      "sha256": "9882fa8c22961d3b25d6666f5998a742297f4f89f7893fbbf172e6c95752c20c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/177.rle",
+      "sha256": "68148c078834dff990a8827e5e5c4afd932558abac0b54bd5e22e41e4d8c2361"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/178.rle",
+      "sha256": "3e5948c53c999ddb2143e12dadb2a69c6f9523c4167b2a1a6735eb611825ec95"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/179.rle",
+      "sha256": "d171f5b4bd23b74d3410c59c648e930801d3661f8b0c44a64af09ee7137b2607"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/180.rle",
+      "sha256": "1474461a9a71a9b676a86210992ef1d9764388dd1999884a8b1f7a0e82800876"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/181.rle",
+      "sha256": "33e4981b4d0dfc3ae3caf2f6cbd9dd9364b966e279d83ede88af1dd73770641a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/182.rle",
+      "sha256": "7cb37bbf3b4e2d9229d5853d7401094b62f3b4d9d1591dc3536e5548dab5ea20"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/183.rle",
+      "sha256": "dd92a94f41aff8a7b44614b3892d2a3a17c874532560bfb5001b57ef0c537286"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/184.rle",
+      "sha256": "5b1b45d58e151cc5b4871741edda6fe4a4b4a9da4880cdef519870ecba353217"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/185.rle",
+      "sha256": "cf42bfe633f24509800ff4dc18f6ec2856ace063b36eb95306635eef5389ab8f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/186.rle",
+      "sha256": "daff4f3bae40230029c11f45500b217cbf176a80954d0babbac82a8c872efd79"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/187.rle",
+      "sha256": "80840e9feaae357c5cfdc69b83555db3913c3cc759b84b455441bd2599c1b4ce"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/188.rle",
+      "sha256": "b3b60d11cf2c669ba3a4e73f4d089758f747cd13436f587a463386f51785d5d2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/189.rle",
+      "sha256": "b0c12a77d92653f052cf7248b489471859d686513cb4f01fba153cb5bc267e9a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/190.rle",
+      "sha256": "cf8605d1a72b242596015a3844cff365ac684d64a6f9b82cea34eb1e12f63ce0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/191.rle",
+      "sha256": "7b69b01b0ca8cb813cb24be5b9660d5c4c071657a9b3e88e074c843df7ed23e3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/192.rle",
+      "sha256": "1f9f35287bd400f6790a85151f91f5f643161553c78b17701224c4e78c8550e9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/193.rle",
+      "sha256": "0398fdf4d6d0d6298df061dfd6d929c320038ffc931a3f60de30061d10513f5a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/194.rle",
+      "sha256": "3eabae169cdcb23b7f8516d7a06e5a3b2e2e8705a23f051e027f3386f5420759"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/195.rle",
+      "sha256": "4d13e0044c3941619dc95defe36a16b07fa889b4c55e79b5b696481db2171281"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/196.rle",
+      "sha256": "4717bbf0df0c4f73f8d46f6e27e072cdc55d9393a521adb8acbe8bb81b8261bf"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/197.rle",
+      "sha256": "e372cd42a22572346385958a124029ba7204cd065e43f53bebee9d81ffd92cc0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/198.rle",
+      "sha256": "52440ac6b22b1da45e81e27636f59913ccd5abaafbfb9ed513b1d55d4e6c68be"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/199.rle",
+      "sha256": "00b50094ce0c785a5e5f3638d44f664212fb2b8bf25d496eeb1f3341a1f3fdcc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/200.rle",
+      "sha256": "c968813d50bc91f9b9e714a10a449414f5b5937e688b5c7454890c5b6dd3729e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/201.rle",
+      "sha256": "85bca64cc8c6dd76371ea600f58170bd93e4f55dcab07c6d39dceceb62a61dcc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/202.rle",
+      "sha256": "2a189213c1194e3ca86f0e5e66761eb5498bb8a36e2965b201e7028572bc1673"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/203.rle",
+      "sha256": "0390fed60a9dc5102aaa9fb8ed8b228afeefd6b8a9f07a15942f95ead092d235"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/204.rle",
+      "sha256": "98b19a1bfb32c73348081c8653a8bfd7eeaad614c5e033233eeb36389bd1517a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/205.rle",
+      "sha256": "83a2466d45a2f12acb1d7186c47a3418a9121cc7eebf9786e5169f5770c06835"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/206.rle",
+      "sha256": "dcdd4c43fc09b79b617ba75b561c809a36aa4436611ff014536d69f136e7f3d2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/207.rle",
+      "sha256": "7f253416773fecb94f13fdfcee4631f0c1ff8aaa2ad85e3d9dad7caba7f68ebc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/208.rle",
+      "sha256": "40cc8a32fba044be5f681586f07fa41f1bf5d1a3122900c718fc291a3968bdba"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/209.rle",
+      "sha256": "baf1bef636372d812a41936fe1ee8e6f684322a070627c72986a87a85d7a04ae"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/210.rle",
+      "sha256": "24edc8758199642c38d9fbe266e563fd4d2465a6c41da5db4fd34dece8db9465"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/211.rle",
+      "sha256": "e2ce1917605da72d9e0a777247a0907a5be584fa73c9619874b835af0148d7af"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/212.rle",
+      "sha256": "6b7d1fc76a798e1da81b559454857c4f815b4c78c3807f6638b7e03ff4f36e84"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/213.rle",
+      "sha256": "5c8e90600cec01e344fc39ab7588aa61efb06ee1597c1b3f83507863a907b9e1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/214.rle",
+      "sha256": "9ad8814f9c3daa9cf7c7c1dfb6b666511207857b2bd78906b5eafab1bdf3de9b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/215.rle",
+      "sha256": "23a113f970769b055c1dbbb81b1d7a2ef0b48d83bc3fd301d33224d2e262c30f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/216.rle",
+      "sha256": "1db0e3a70feb98efa79a20347b358a8866b34e57de49ecc653ccfa27cb9ade2a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/217.rle",
+      "sha256": "9df881c3619f759f4c290a56daee32a3bd1fd1c51ec8b2f2b8fa5bf8d85c8e02"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/218.rle",
+      "sha256": "6afa2bcff9b655cc89abc6bd3dead2733d6ef2562c32306662d9782ce5ed074e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/219.rle",
+      "sha256": "9d0314c2f50a736a40d12d88ac9c3fde02491e20f2cc7f5eb75010c7754a1654"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/220.rle",
+      "sha256": "3605de6fe47f2a3a3aff2bb9ed89486788f1138692f8184ee9dfdf5048d585ad"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/221.rle",
+      "sha256": "dbd5a9a35e5ce88c4d74c5d8214e569d6775c5e8daa2b55ffc89a28bcce27a63"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/222.rle",
+      "sha256": "27699f226a4e04816ca59d8b5952f6219eb46f2b06de2fb50d14de4d662d5554"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/223.rle",
+      "sha256": "c77a92e45fb9b88265181308671607fc23611feeaf2d119ac43652d9c3ff5e4e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/224.rle",
+      "sha256": "41aad3d6318a9a3afbbe07e47762beafb5717f90ea7a8429b7d21f47a733dd9e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/225.rle",
+      "sha256": "0e384fc9bb87312503ee494ad8d4d0391b3c973c2a6abe37d728ff51beb2ffa0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/226.rle",
+      "sha256": "353100fa971d1851c9277173220f6fc55c9fb7733802baba11044030ac34a93d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/227.rle",
+      "sha256": "1f6fe4cfab80d1063e450893f3f4935c236cf3146c46bb3ba20f755b881c2d54"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/228.rle",
+      "sha256": "304b5101f5ad3cc53f551ce5ab74ee7958b918ee8e2973caa98f78e3850d05d1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/229.rle",
+      "sha256": "7f68edb7eb2e55d483e3e2eb6d287b265f1c3aac00846a16d65fefe9fecd3231"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/230.rle",
+      "sha256": "8a5d3c63caad3baa1b39cf327d7a492b979b332b2ede5be86675ba6b651b59f1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/231.rle",
+      "sha256": "d8934f087b029f927ea9d8e678bc91cd240cad9f521ec9558d9bec466ff952e4"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/232.rle",
+      "sha256": "fe4ce3e4fee81b74fd57e4aaa061ba186def48082342f3d249d4c078767fe867"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/233.rle",
+      "sha256": "ff9881e8c0b2d15f92406dc529dd7790cae4934206cdc805934003da30bbf9c5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/234.rle",
+      "sha256": "39ae993ffd2ea618952aca9177186da95e4550d64784f9fdee02a01a5aab729b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/235.rle",
+      "sha256": "3cfa15cbeafb287116c874eb8e81f5bb14bb8da2bc196fea045ae174de93671a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/236.rle",
+      "sha256": "89d32c132a5e33d8f676642900b2296a8849c3dc08367aec9ef34b6934ef5549"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/237.rle",
+      "sha256": "06278ce3eb01d8f17ed977e907e3ca760a5234efb722ca80a18457564839e9bc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/238.rle",
+      "sha256": "e1bdbb1f27d8dc16ad5ca7bc05e5dcdf17e739a04af600beaed45d40f938b286"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/239.rle",
+      "sha256": "9e798ee471221f22ba26d87726a8bf27768b077cc6cee42f12bc65ff13f30238"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/240.rle",
+      "sha256": "498748e836832259ed8007532bc1e5c15348f82500a1c0465e5f5bb17eaa3607"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/241.rle",
+      "sha256": "bf72be0d7e35a087223ee8b9a1634251a077bda7b18fe98abff822c8f6ef6055"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/242.rle",
+      "sha256": "36e753be947bd350c60ba5f3fff41acaa1dbba20be509af801b7339ccf26d23e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/243.rle",
+      "sha256": "83463f536f0106d9f96965c6a55200641cee237409baa50717148774f76e9e8b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/244.rle",
+      "sha256": "72c844e06fc04d6a63eaf25f704cb8e9007f78f8c94b25afab4444b9053ab2b5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/245.rle",
+      "sha256": "799fcf912747f9ef49bbdde0eee6c302491ace6915f4b348a8ac14ef44588fcf"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/246.rle",
+      "sha256": "2a329a50ad01e7ec53eaf7a348f46f19d0984ac7b3e0e632691b2e56a4fdf7c3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/247.rle",
+      "sha256": "23e9cf7974b1b23de30345318d087b2a2ec1822f4d78d669c9c972ef02e5e04a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/248.rle",
+      "sha256": "efd38c2426a20d50f815455ae1d133b7a3a5d480465cd2991cf1d857843974de"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/249.rle",
+      "sha256": "a4105019f9d724b6322e6ab79d9f4d12ae3dac4bf8390eda808865769da89624"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/250.rle",
+      "sha256": "bee3ed582c6383278fefdfa9d9e252c577c55eb4455e55a66d0f20b16067a40c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/251.rle",
+      "sha256": "34ac0b985f518bdd60dea7b8dc29bb190145eb78b589bcae0705f0cb4269a726"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/252.rle",
+      "sha256": "97bf917b6c2759884997d11f1e732f525ac55c8fd386d1f12eb01555820a4cd2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/253.rle",
+      "sha256": "2b34b7efaf596fc128795f5205fe29eed7bfd6f930638c293a4b31e248771753"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/254.rle",
+      "sha256": "c0405edc8ffc6cc0de73e78aa671a78b74bfa636e2ec263960210a38e4cc2a10"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/255.rle",
+      "sha256": "3ba2eba5774b2c47e3dd4c43a52e02489f6e6d3acdd7e5c1cc7bd11be8dc7997"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/256.rle",
+      "sha256": "93c1c9c259240d822e75892c27c100a18e142c843eda64406e95fe98aef19c08"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/257.rle",
+      "sha256": "e1fc26dca2ad088e7a1897420070e827f2c550943f1c632197c61762e8bb38ec"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/258.rle",
+      "sha256": "7aa0bb0bcf46cce50f0ecf08e3f5d8cd6865a016036acd3e029cde769fbde9e7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/259.rle",
+      "sha256": "dc6e44ad11fe068a09c8e3b5d1bf5afc23d44591eb8728923fe1a6fb0367f433"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/260.rle",
+      "sha256": "aa87040030a11c7d5d039adb6990ddeb78dc5123cbc0d03338109948334959d4"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/261.rle",
+      "sha256": "3adb746317fdf94cc6cf5b6036bc5eb48352080640ea7a8a2cd8aab25ae03927"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/262.rle",
+      "sha256": "de0d06220e5114851d075ce5194b68e8b4dcc23789e5f285743868b9014be8ce"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/263.rle",
+      "sha256": "ad955778684a59938f51d73075e965379011a19d8874e0981aaf2aa4209807ab"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/264.rle",
+      "sha256": "7c9c586087d7fbecab08d049561e383f60526741629da6d9ebef9f2036262901"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/265.rle",
+      "sha256": "47e7a131965c4a1ed3d3103a8c180a8bf6bc641f82ae062ee2d5e294fb46bb6b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/266.rle",
+      "sha256": "5c29f92cc69a9a11ded2494c35442af8ff77598db504686d92ca5f6634a6a20f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/267.rle",
+      "sha256": "c676b94e8902893128875b04624d813c964035e550dc2d22832f5fd2408288b0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/268.rle",
+      "sha256": "64a58fc781fdf37614fdfb9263107535b552b6dc0d666f8737e393bec2d659ff"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/269.rle",
+      "sha256": "95233ba183218ecc448f284a69059450827db7ef71d85b7ef03621bae85aa446"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/270.rle",
+      "sha256": "61751c9dadfab9fbe7ab077dea6eda00c436fab7ab85fda96b850b83c557ca9f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/271.rle",
+      "sha256": "c40ccc5785124f5eb8b216eaafbe54ffa2a67fc97d8c97913a20bd85405ad182"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/272.rle",
+      "sha256": "a255fe9c2ae4bfe1dbae7830f0a623c8ef478d941a7fbd92fb86f265f5197de9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/273.rle",
+      "sha256": "65094c646a14483a5713c29956e5b80ebaae991e3e38864f768bb3116575b5b1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/274.rle",
+      "sha256": "dd7c0393a8fc0af5b155c4f0f066269f7390529f82b20259ece216927bc2ab84"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/275.rle",
+      "sha256": "2642d79b4e26a2fc7ecc519ccb37eb65a2353c36402a1f7c1db384de496966cf"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/276.rle",
+      "sha256": "cdd96e8213bad37b850c1837a131a624dfd53a65efca6dcc7a552d218bf3104b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/277.rle",
+      "sha256": "ed60b54e5b29e886567cf08548654210082f334e17dd596fcf7d202ab5af5a73"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/278.rle",
+      "sha256": "ffd002cddb03a174fda1286631918a14069d89cffe5b2ca5b26f4dd3c1a01260"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/279.rle",
+      "sha256": "51a63a34c49c9b821fbde8a625b59c066c2f389cb1c495239a8010d0e3ca71df"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/280.rle",
+      "sha256": "96a346e839d977443828f332ea02066051cd4abe711c6af5b7909bd39d9308d1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/281.rle",
+      "sha256": "d637b6af7472097483e310e49d55fb1e548f6259639fac93c089285a3e9c29a6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/282.rle",
+      "sha256": "c40a0ae92154527e4399950a1798ff80e22c83205e81bf0cff640be7d05bea3e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/283.rle",
+      "sha256": "8ddd77b3320feb7a63a893b2db48d34970e0bb71dcfe775341c37042d3df2be4"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/284.rle",
+      "sha256": "a34a8c4e11056bbe548d5ca0698e93345643a9494ad9fb9c1fb45fb7ef96271a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/285.rle",
+      "sha256": "911ac8a55cff735679d51d42b9a0be077332ecc81951dfac11d925691f2325b3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/286.rle",
+      "sha256": "25370a0b7b07cdd8dbd0fdee670b971258f2a36ce80f447e09aa2e7bd1ab3734"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/287.rle",
+      "sha256": "5d1ac9add385414ed91e2179277e3241cda7da89b5332b93537e5a5954d74d4a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/288.rle",
+      "sha256": "01ab11c5d049e5c590aff4e993eb01808d768752cde4526e7588771733ed5178"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/289.rle",
+      "sha256": "961dab3c4b1f518d06976e1d3a7c6b825ec742d7f94c10ad8f6aabb1f92aadff"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/290.rle",
+      "sha256": "8803d4b27c84197d409a629f9b929ba905c8cd84415be12c4887a920e3729336"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/291.rle",
+      "sha256": "0edd311e7ba907e1f1039805424b00eb9356c23f7a768bd29708fcc749be18d1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/292.rle",
+      "sha256": "eeb5de3257ce6ef05a6f12ea8d367046b2c53a84741ba43c956264498a6c04e3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/293.rle",
+      "sha256": "c04c199eb69e14ccecb35b3a920454d7f742985566cfe1ec9430d3198020b85c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/294.rle",
+      "sha256": "ece4841f25fd1e9fd93abe244fc84edb5b557b5572ca9871603152ad088c20bb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/295.rle",
+      "sha256": "491685d8bc3f18d724ff58891bb189f52fa0b0f46dcdb6ac9f0e8b1b38049add"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/296.rle",
+      "sha256": "99fbd6e0a2b2e5834e5f620276b86e69599ca9e0ad317f9d0c86cc3a4701a577"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/297.rle",
+      "sha256": "18ffa591bdc594861d7849829299502ce4ff6dd8064644a6d58b93a0a7ed8126"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/298.rle",
+      "sha256": "35f309765f40f3418d39b5fac2d0db303f34b125ab515ac687c5122697fb9a7a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/299.rle",
+      "sha256": "0aacd6c21c057df558edc0f90074bf0b92a4d281fe2545b22dc96a1fe6f7bc0a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/300.rle",
+      "sha256": "813af95d95739eee4dafa037ba2e670006b2a48c9facfe161c38e94d8143d582"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/301.rle",
+      "sha256": "7aedc1c7731f7de662e6cbf5101fe778994bfc0b6c4a0c8dfbdb8d02337a5909"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/302.rle",
+      "sha256": "8cf7dd3f6f261ad1be476a9d07c7894f39c9cda888abebe27a31e2b6af98bd69"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/303.rle",
+      "sha256": "8bebdd863ce729edfe77dbc09ebeeed9809a6b4f0d539a218e20c459eadfa1c8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/304.rle",
+      "sha256": "c8711f4801f44c1ac09f960640d963b1ed27d4ef1e15381c04d6f6b2ee97f1d5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/305.rle",
+      "sha256": "d77688ed1130ac5e162eb218a90303b1bcc465f4208e545eac8907643c8601b6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/306.rle",
+      "sha256": "36c05f6566cd4fd624593538f7b56b5fcdfb51f9024f471a61371fb6a564e4a6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/307.rle",
+      "sha256": "8d578ace51da061f79b9f4d23a360c8d335b5276ea32163e856f5a9ac7d6dc50"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/308.rle",
+      "sha256": "fde50ebae07c4865464dd2ee4181143c555556f341dc93f1c2dcda8c4e261ecd"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/309.rle",
+      "sha256": "88b7f3e013ace992b2b77ce4be3ea1a4ff40989de68fbb477f211b34b81a33c3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/310.rle",
+      "sha256": "0557d9c395c707d7dee363bd85c25ee0c68e031de1575f63ed25454a4769563a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/311.rle",
+      "sha256": "5fad6534eebfdbfb3b071151a3ed9b0fa1c27b5c1d46d34113823ab2f16c690c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/312.rle",
+      "sha256": "6ee199266a355d48689b1ddd11609e153f5307d4b0f7a1d42ef49f11100ce97e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/313.rle",
+      "sha256": "b48d8d39f4397acb7392d6c15c5ce5de9e45aff77b715b67aee1891fb0bd732b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/314.rle",
+      "sha256": "81aa88db6e3489a66c15ec09f4906e12db2df9d4527af958717d52f43d304435"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/315.rle",
+      "sha256": "b478f9add586a45ff91e28919b69130cd427eed0b0d3728666e3fb7395e3f0af"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/316.rle",
+      "sha256": "0f6bd915a0636d8583b08877207152e422cc47514333f6a21092fc33a73426a3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/317.rle",
+      "sha256": "1f841196a58b99c54ba62c709513182eddf87fd9e018f72daa4f6796cbd06207"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/318.rle",
+      "sha256": "662dbb1a6040d27bf03c3504a8be776501490752dadf9011f352e27a45e27cb3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/319.rle",
+      "sha256": "5c6bab7bea719ae72b4405cbef9c5e6ef751d4c27abbb1e5500c7397f81cf01d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/320.rle",
+      "sha256": "33748ffcf68bae5f38517483ac69182a71693ccc8f6d251fb797c7bde1b4236d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/321.rle",
+      "sha256": "9867be77d4956f9e1be51e70ebeb480b9f4a6796f3e512c1c0748126ecf034b4"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/322.rle",
+      "sha256": "03c2930123c76ddbb4bb6692e61737a233eaa1a0bb6faece68ce2fcfecb9ddc2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/323.rle",
+      "sha256": "068fcd1599d7a226850a1fc51d9c2b02a15eb6ce6b5dc5684f3e61a7a9bdd595"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/324.rle",
+      "sha256": "e0f96075d158b600718028103eba024fe125d8b467879519871711f5d655a059"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/325.rle",
+      "sha256": "5cbcef095c0eac6c0a5e721a35f5d3d7df655b8096bce7278985a222daf3a6bc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/326.rle",
+      "sha256": "e43870b75311584953566364a5b441207d2230d9c23659f5e19ad50762b95039"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/327.rle",
+      "sha256": "83b8775566e8c8ce0da0199a83489b597024e133a3a81744fb53e670762d1873"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/328.rle",
+      "sha256": "b8bb2ec2bc0948194373372bec1f580e7629b021bbedf5ad4bb11c5d246a10c5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/329.rle",
+      "sha256": "aa7345117477b28d890a2dbda54adcc590a5dc2d26cf92f6b8ed527918b68357"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/330.rle",
+      "sha256": "649722e450b9459b1dbd116b50415947e2ebae9408126e657c200d6a5d39f6e2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/331.rle",
+      "sha256": "55fa14081b5954a3bf942d86041fe23b48f79e5cd586d6cc5654ee2ae8dad650"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/332.rle",
+      "sha256": "02dcec885bca7510950965f9b415081f8ee69fb0331fcba7c81d2d0464d4348e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/333.rle",
+      "sha256": "8360d1c25415ad30288d87a3c722ccb70bec08a2595ea098467abf8297072281"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/334.rle",
+      "sha256": "359e7c1ce08d56ec6b7015552d975e3691a6f85b900de4b604b87b6942667f92"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/335.rle",
+      "sha256": "a8429fd2d0c85d16738faf17261752a5814a729c7c8e95fe4272f7d217c42d18"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/336.rle",
+      "sha256": "efe8a61ccf9509bc82f267b46fc6e0b7ef8c549af678c6f353a7be72fbbed926"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/337.rle",
+      "sha256": "a07fc7e95af4e7e25731346868976a546b64dbe3ec9496d31bae6ddb25065d0a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/338.rle",
+      "sha256": "3e58e68a196bc0589e2530b4184a5e82e22838f5b8c4333c46182ba767a380e8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/339.rle",
+      "sha256": "999386f227035582d29c814ce609f0573b2006849856eb1e19a0be03fe7ec30a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/340.rle",
+      "sha256": "170b1f4644764651a92992a921d9267dbdfca8332d4c5ed95ed524b317f4af1d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/341.rle",
+      "sha256": "19730ab567e66c46064ddc9dc61a35a19c67a9250bdc8a70aca0556905d29f29"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/342.rle",
+      "sha256": "9d114a782df8182216388ea8ab194e16b084be304ac164be6d14a74c122b3899"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/343.rle",
+      "sha256": "01ebf64654c2a070842f0d221baab6ac7634b58e72f55c25f2eeb254b09b030a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/344.rle",
+      "sha256": "a67f20ec1b4c993ec8c8ce7ffa3e9cd4102842182ede54c2aab32cae0a739a71"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/345.rle",
+      "sha256": "75cf91ec44ea649fd70a037a50131e9725fad38a10ff89eede34dece44ab3803"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/346.rle",
+      "sha256": "4646f73a3f93075d1a1a184a3651d8ccfea18629d7dc95175061a2305963fc16"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/347.rle",
+      "sha256": "3a9ab3f5114f84d87241434d635f23d0bb1f687f9aece71445c823fd510bbbd4"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/348.rle",
+      "sha256": "025dc857f0862110b21245f28314f8f47e6563a4ffb3ca5f2c9bd6b27c76a3ed"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/349.rle",
+      "sha256": "79bbae8555dccee1aaf91a7083eda70862d9035fe89f47355270ee3894a74d77"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/350.rle",
+      "sha256": "974bc333469a305623c262135fe6c3a2d3e42f258701d694fed3c621a736c613"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/351.rle",
+      "sha256": "23e6854a779f1b51182c15c69399ecd45014b86f4588fdd719b721e68d1cffd8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/352.rle",
+      "sha256": "7ebc05c67110cc5e1f05079db8ca579f2d213ad5911f9a3fb5d9180712c51942"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/353.rle",
+      "sha256": "1483771c09a7753f4c2580ca0015b661a86fd85c5494d83c64d2c31c8d68eefc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/354.rle",
+      "sha256": "c2b034021916cbff357277dbdbadd30c431be1fb573a9bd8459d632cdb66a8e0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/355.rle",
+      "sha256": "3cc10241025bca3b3b7b170f897919deefb0a9ec39fffedc40b5a6d2a849b4a6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/356.rle",
+      "sha256": "4b426a9e8dba1708e179da9237faff5e6fe084e50939f6b890d22b825efaeb22"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/357.rle",
+      "sha256": "578058f621405e36925b9dc9dc3c4d48ff9b4a691f59cea90b7ecd39183d69b9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/358.rle",
+      "sha256": "71989f3859f36668f2e4ff4037b673f35210e22e183d90447ef2e06ccd3d6c69"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/359.rle",
+      "sha256": "cb82ef189e3daba736b512d012d372efd527f37f5b2560b64c14e4edf6b8bbc9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/360.rle",
+      "sha256": "edfc5ebb6b59b256e3c3a58b62e6544db60efeda720f01c2d8422efe423501ef"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/361.rle",
+      "sha256": "07668ff483db7932cc6af68f1498ac352e0c1694dfebe5be5bbc668387177ef7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/362.rle",
+      "sha256": "ce5c10dd94d8abf7d6ef15d9e78d45cda15719c1fc7de0f96824d27af9390db6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/363.rle",
+      "sha256": "565c2c1374d745686f4ab49b73a8d79a01cd2f4fe7c8df07f477bce327ef8ecb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/364.rle",
+      "sha256": "eb6ca191ddc074d3b8e2703478abc50ff8f2545c77521f05e153af36570646e4"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/365.rle",
+      "sha256": "81cd3a0205fa3c35ed0da64ea25b3f155988c495aed32020b0d530e558340591"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/366.rle",
+      "sha256": "66cad5bb324e8e5fcd912df27cb3eadb3e5cdfd38d4bcd366a08ac0fbff312cc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/367.rle",
+      "sha256": "c6fc871b13f102a7ff2b39e7702bc0e3fe1fb14425418550da5841bb81f6761a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/368.rle",
+      "sha256": "89e1777b41aabe07b2fba0617043f2e47424496248207a860b4a02060ae679de"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/369.rle",
+      "sha256": "4bbc1ffe5446b0be876fd0d8fa0754a9e08088858f30c18cfe5f49690d813070"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/370.rle",
+      "sha256": "e9406b8fd8f305d3d628ee7a10f52df8a7d6b11d69551583e7ff1ae005d80b0e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/371.rle",
+      "sha256": "3adead208c1db5d7f692fecbc5a56db587271f7a7d43de621adecf9fa4c94af3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/372.rle",
+      "sha256": "f465c7e8037d58b31f8bffc3d364892ecc090b5e455c63842732041f9ef4a6f5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/373.rle",
+      "sha256": "11a634c06b2538dcab7306a906c13772361ca248467dcf4a2eeb927fea9abf77"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/374.rle",
+      "sha256": "928e3b681c746f733068f2477164f97ce33d3feba67fb984bc2a3c2a375716b7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/375.rle",
+      "sha256": "a9213239f9c8204ab2879e2687df2810e4d67902762e3595e2958d901ecae69c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/376.rle",
+      "sha256": "caaa1786ae2ab04e3a6bdd4ad8c69f38ffdcd80a2f67242b4cd4928e52b9098a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/377.rle",
+      "sha256": "0513bed950f874521ca2aa1c28a71d1aee1ebdc1874652d9c3f98c27de35534b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/378.rle",
+      "sha256": "ec567858b47f05fc6819ae2035ab0ec2dd33fae95fea45fae3774e93bc00544e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/379.rle",
+      "sha256": "df41e44b637a06ea572e3336009e3c2520c51281fdccd0677d4d2a262e2cd215"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/380.rle",
+      "sha256": "db98a562810e4ad16a9bd694b1cbfe1f4608fc6abafb9152db343b14900b5e1d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/381.rle",
+      "sha256": "d59cea1e6722f0fab6ba1ef13de41baa6a70c36fb860ec35ec68171c836341b9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/382.rle",
+      "sha256": "fa0ef7f628d64e48bebe7498f3b5fe1b740931a2fa4a6650ef440c3b192af9f6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/383.rle",
+      "sha256": "582e9fdbb12e288e86b6412eb6a9ea1d2ad4614f5cbd21c9db8b183fdb03eb39"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/384.rle",
+      "sha256": "b91786a8fc327826f72d925f2fd528cb98b3cb9d24a1010d86a6625185ce1b7b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/385.rle",
+      "sha256": "3792a45e15f114b95d3865651d8cafeeb2011efe5300ecde5b808fd46a923341"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/386.rle",
+      "sha256": "231f375319c846418662b5cb5f8d67e4b8f7915080e897bf7bb03171d6d16ca2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/387.rle",
+      "sha256": "6d702d7fea0afe7bc3f869076adcacec062ab3f4aa94b4f3ef17d0f73d134535"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/388.rle",
+      "sha256": "10bbd30c51939c37edc9822369568fbfa82b370fb9a78a4a7d428a5b34400364"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/389.rle",
+      "sha256": "fa8ac00f8d4a0287ab3a5b026ecdbd11eae546289e0c1a0fcedb704a2f23bd94"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/390.rle",
+      "sha256": "6eabf020bb5aa556e24ccf734db40393401da49265fc35929bdd863595d57731"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/391.rle",
+      "sha256": "51b91c18daa70ec6c4ade1c7efaf266ffc25a8293930aa094fdf6f0bcde1649f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/392.rle",
+      "sha256": "68a3f70b975dc0b2ee831f22bc5e2c3edae979530988128c731300f0c7c5be68"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/393.rle",
+      "sha256": "e53d927c8dbf06e38dd6db89099cea2649bff8bfe988d344fbad55c6e52bdf82"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/394.rle",
+      "sha256": "78938dfa25e138762441b404f0221009e760dc6c87d6401d7bac2f59f3d3eac6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/395.rle",
+      "sha256": "421e71779f213b0452195acd960071489362993455e6130a913bf075f3e5a79b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/396.rle",
+      "sha256": "1d04a4e16732c6807f2ce0b1365d2bf6a95ded8860ec992e275b9ea61290615b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/397.rle",
+      "sha256": "b905d961b450715a5710834b9ca91fae6e6d07954e16d86f6342537f1065830c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/398.rle",
+      "sha256": "40948686cd27e6babb3b080f79e1ca5f18015347bb0c2f2e9f4799bcabeaf2e3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/399.rle",
+      "sha256": "c86fe7e2157f8bdaa6ca447cbb7cf791ade4d2dd687e123f32bed4951a37c9f9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/400.rle",
+      "sha256": "bad522581b8f3bdfc60f84791e3a06d52504678ca4aad9a49ebc1733c04a90b0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/401.rle",
+      "sha256": "5d420702c0a38cf116fdce1cbf80cc1049ed71fc639fbb9204b6689c597fdc3d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/402.rle",
+      "sha256": "83463f536f0106d9f96965c6a55200641cee237409baa50717148774f76e9e8b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/403.rle",
+      "sha256": "0d83d6a6e59c59b753b639a4fca85e9bafd9cdc70c0e0cfe3df17e412a83d493"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/404.rle",
+      "sha256": "75355dcfe09b7f696a0913db4d14056e3cb34565a103823d5673e83ef83e025b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/405.rle",
+      "sha256": "83f130d153e594c0dea030bba3613e684fe6be654cc3a902a001a7c5be34ace6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/406.rle",
+      "sha256": "24b6b5ba8b0d02fee6252c6c3fbd20999c53423c2fb46a76b9db930d65106b26"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/407.rle",
+      "sha256": "066bb25e30723842ef619d65402c079c48b16f69af915b11edab26337bf3b616"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/408.rle",
+      "sha256": "f3e79bba109bbdbdaa9b408a0ecb76de1456727a606ac452a314b6d2e3b287e6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/409.rle",
+      "sha256": "f19bae592dda6fb0f132a6a6fde3afd5b03191b086f00eb9b88a73840ac94876"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/410.rle",
+      "sha256": "a9a56b6d60e6911c0cec785dd4a3c52121ca026c5e3e049d99ffa114f806261b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/411.rle",
+      "sha256": "daa2aff66d713e1aa989bb9772a0d53054eae8d6c869d7ccca12fbd7ba75f913"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/412.rle",
+      "sha256": "2762b41b0a3831480cb7bf8af2d005aa404fa5cdb5a991c1f94be2c4e31bfcad"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/413.rle",
+      "sha256": "33f0049e5ea7504b0bc9f0b1a0dd4fe388f6e0f094f06e1414c0a5440834a631"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/414.rle",
+      "sha256": "d838369eefaa04b90f2e2951e4f4ef663434ba833c5426a2e0a474cf532ce0a5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/415.rle",
+      "sha256": "14d4a9b71b9da8596aa9b8cba6ee56589d768a7f241beb82b40ed0bb749e2574"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/416.rle",
+      "sha256": "564b271a4956479949995f4ffc2e0cd8616873e3d826b75c3da4fc3616eb0afc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/417.rle",
+      "sha256": "74a1db746ff447745687528daabf1249fe0a96887a7140f78df90594b2f0e0f0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/418.rle",
+      "sha256": "ffe079c5406e02390a9b8c1f84092ca90f4ea3a73830d97e53e127c393046b4f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/419.rle",
+      "sha256": "c0a6fd0987cff99780128a3225ac450e747d23c11951c4038f43173c84548eb7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/420.rle",
+      "sha256": "267057e51708eeadd62dbfe56502cc1505c10213339c1c0738743ca4dbd5c54d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/421.rle",
+      "sha256": "a2e05ad0c10f52a6d1f64aecc01c45bad42b70aa365cd75790124136a58f910e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/422.rle",
+      "sha256": "673b033f53044fb7ba6ae94cd461808840d5d56ec21ccdb943ce08e2e741525a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/423.rle",
+      "sha256": "819286c183573a488e9e61b815858d82b6470ae732a28ecf06d0c6c3b089f6cc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/424.rle",
+      "sha256": "b494e558d6f53acc1924f6f2fd32fa5c810ce761f15bc3200052336bc76e29ff"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/425.rle",
+      "sha256": "d64e206ca5867197d130ac6064ec59de3653b6a6af5d05338be1f2fa8336043e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/426.rle",
+      "sha256": "cb2e5c4761bfda0e2c07a8c005aebdc7e1153838b01aa8c3bb48e371114714a8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/427.rle",
+      "sha256": "39c97b5dcdd3e8027a1e0dd1ed38f0be8ec8deaa8b2ad706cdc09eeec61ff68b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/428.rle",
+      "sha256": "9eb41b0124fe8c227fd3e0cc938a3d2e3f5701a90ab52ad0d4e06bb59118023b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/429.rle",
+      "sha256": "a2a44da802c1a34f17b8adff84edc89352e2bfc5a27cbbbe2eacdc7a564cf1d1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/430.rle",
+      "sha256": "9c084a0ee007454b63a2756406c307ec983331f11d5de2ab3932306100d8a42b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/431.rle",
+      "sha256": "f1b7f4f9404467dcb109c10a783f97711cd688b29881c87f57ac75cfea07eb09"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/432.rle",
+      "sha256": "c5bc87348c885f124cf059f44ba68585ed923ddc212601535ba75bdaea039f9b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/433.rle",
+      "sha256": "e39d4dcbf5335885f1274b0fc6fa01f948cbb856a7d89cd19cbf3c4088528790"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/434.rle",
+      "sha256": "b24f6f09649fd140f998730ff22cc1a93a06bf684d4c0218a2c45646e4bd34d6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/435.rle",
+      "sha256": "bd40ab04726b7c65d22f11fcb39d8cc22b94eac8d2c73993aefe6fa883cc7aed"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/436.rle",
+      "sha256": "d77bd8af3d22520745ec54f2e2f72855775762cbd0c5820dc14e49d97acfbfc7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/437.rle",
+      "sha256": "1c746e233a2b6f89e83370c6b9a6b3657907723b9b6d8bfb09c47ab9e3126bcc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/438.rle",
+      "sha256": "dbdd248b0b9f98a585dbedfdff1a150f805ff8294b9b530c298126e4fe7daacf"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/439.rle",
+      "sha256": "79111d83eb13e1e9ae5b34a06db4dfd3a52af1db1e0519c072ecc3ec9d9ae6c5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/440.rle",
+      "sha256": "3a0070d41894dae0c3e3bf678d15c77b3d2c808f3b66de4c9862b8046ca1743c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/441.rle",
+      "sha256": "ffe548cd86a04a43b389f563d6abde59d1e3830b9b09849b12ffb1a40bcf88ab"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/442.rle",
+      "sha256": "5155552729cff583d7e682a39547dea79e57de88d007b540ccfa04caceebdb33"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/443.rle",
+      "sha256": "1349bbbd4fd007cdb36de64f2508801914777abb2fc0e23a46b44666fa229233"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/444.rle",
+      "sha256": "4afe5d1b6512fef6f73b5dbd870f3e1373af4105238e685cef0be9fc8018ca5d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/445.rle",
+      "sha256": "4fcdf59cd92dddb7307c8104c5c09669f57fc911487839f445954ba403097107"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/446.rle",
+      "sha256": "f6b398ff3fa6001e739bc35e50cf6da9403186871d6492b9fe530af924289aa0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/447.rle",
+      "sha256": "2b00fcc1c0c89a54c10e0dff63c23851da59788d47353e9a0215dfc9590a62f3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/448.rle",
+      "sha256": "5f63eb81066fc735c648be61211351e5986e29990d5cf8d0fcdb211802691f96"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/449.rle",
+      "sha256": "b2aed6c5814938ccd7124435bf69bd5a8940af266e00c05985bfde000338d589"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/450.rle",
+      "sha256": "a9982ab3584523b393f6db384cdd8f9174d2269d7c05794a7a5f820964afd2ca"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/451.rle",
+      "sha256": "c21cb64b7a452502b57be4e9abbb3fa317e7010ddcc45130436855345ab460cb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/452.rle",
+      "sha256": "241d439fb10c5bed00535c87df181759e6737a11840c48190f4d401681ac2fc1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/453.rle",
+      "sha256": "1a7cf0ce3eafbdb868a7dbd57c2c367b8b55534978f2445a2acab166c76a3e00"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/454.rle",
+      "sha256": "0b717990aa73ac24e3e4020f23e9ae078ca1643454fd2df3a59f59bc5fb152d9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/455.rle",
+      "sha256": "07469cdbb797dc7952207bc4cad93d4bda9d848d1ae47b0ec6f70e1d9d114b60"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/456.rle",
+      "sha256": "6d6d4bbbb5bea62c514c9053b59f4191b9bcc7910ba7c10de98fe3d6960f71e3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/457.rle",
+      "sha256": "ed131c14d5081bc393002a44099eb5d9e907d4f0613657ca843854c349b415ce"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/458.rle",
+      "sha256": "e2769bed575319b54324a21d3db7b6bed83c0ee35ccc68b89d3f3dd6dca5a43c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/459.rle",
+      "sha256": "e23485ed6bc6914380a01cbe240554384eb83b653e46fd556331e5493908bd33"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/460.rle",
+      "sha256": "2fd6301071d1e81517d3adbc320a80efbd19f70965a414637a38bcdc353cdc66"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/461.rle",
+      "sha256": "69e9b913b4b5e2e566982237478e7ee7dc85f8a91b13834efadb92db92533996"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/462.rle",
+      "sha256": "e7cd1a8a25c1a648ca65d41ca0b7773376a693f6da89abcd269af88f92aef3a5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/463.rle",
+      "sha256": "a2ab74008946ed5b5cd405d9722b558c7eca1cff8a076133a69bfa2eeebc3672"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/464.rle",
+      "sha256": "80855e1793d8d27ef07e3a4fc12dc40210685f0808b458a6c5d76abcb26eabed"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/465.rle",
+      "sha256": "1e0d841a0ff265949955ffb8b9eef03de93e609e27efed1d690fdcc71cac8c00"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/466.rle",
+      "sha256": "1df451e2d40d745b87203d54ab481186fcaf1f607662cec9c824bc4c9f9e0295"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/467.rle",
+      "sha256": "c5ca6c9493f4e25d641d686c1c96ad2aaf30df3cd31c9a27c357eabf6343fd56"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/468.rle",
+      "sha256": "8e6b6fa4ef37de31c191c6b3f1fb5abce7d154a1d3d251fdbf23192cda4ad021"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/469.rle",
+      "sha256": "a7cd89ab42fbdbaffb9f8c8bdbf02168b6cdf7024d7ff136a281cf5081d80511"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/470.rle",
+      "sha256": "47209a83c2fdb44cb5c5d469768e866e9daf92e2d4a669ec4691ed5703b02722"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/471.rle",
+      "sha256": "c23a2f4c40601329297ec64717aa14df50bbfee760e8c5a505a947dcaa81e50d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/472.rle",
+      "sha256": "95a3dce90926379b91ea8e60dfb61168934b506755b3567747c1f1477206e737"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/473.rle",
+      "sha256": "8bdfd187633d4861d3fe2db39a7691c4308a4ce604aef4539d78e8f966835f4f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/474.rle",
+      "sha256": "15c887140e30640d18912ab6edacbb2fc3624b247adfeefb4b86927c491cfdcf"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/475.rle",
+      "sha256": "b5adcdf1683b1551c1eca1d77e55c931986e1d4dfedd30d0d43a5663665dbb87"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/476.rle",
+      "sha256": "108ec69e01fbc45500966cb097dc3c4a84406ab6f143df34db29eb28598160e7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/477.rle",
+      "sha256": "675a8326b963634624452f5578e7c2edd64a1f484bdd880f6058e03d4cbb280d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/478.rle",
+      "sha256": "39cfcffa6745920faf683458329067c75d9feae509516209521a293a51f89adc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/479.rle",
+      "sha256": "845870c0bf1379edf683e94059376e8f2025ec5885ebcc7e23065d6aaac5d2de"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/480.rle",
+      "sha256": "4b1babd3b85f5a006c57ad3333cbf9c1441223c07f451ed5d2e4973d0d520deb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/481.rle",
+      "sha256": "e588a3f37ceaa2756eeebac8b66d18bbad8e440d9df5b951c61037018b1a43aa"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/482.rle",
+      "sha256": "3f9564c33e4743f63e5296ffe257cbd632e1d29b1f1450e077d6b6e8b9c849f2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/483.rle",
+      "sha256": "1f5730de176845c871348d9286312e5e498f5ef0cb76a6a7977398302f244d42"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/484.rle",
+      "sha256": "e88175fbb29d98ec653b31dadaf535e933d2b2b222b4dbb317c30ec9db5e6bd9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/485.rle",
+      "sha256": "6ec1bc3e67a0dee225bdeeb6c43853b98a510dc5ae4302a014b0a4d55c678880"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/486.rle",
+      "sha256": "4a21b409ce6ac8f540a446d1c4c6f098cdaff3500ff680aa0da6039fe3a1f96b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/487.rle",
+      "sha256": "62f4f85e734ec88faea0b6408af599aeb491c1b46061c3584722550160b34cbb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/488.rle",
+      "sha256": "c1231e3a0496c0bebbde97517a8150e1500dd1a304b0934a1f1fe394d77788fa"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/489.rle",
+      "sha256": "a3818822957edf4563d9db7026dccea16d15ae0af690a268e806094edf9eb4c0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/490.rle",
+      "sha256": "eb46f81da0d284f0400455dbd977949e4b76cc176b4c25f8ffd89129a26a2a6c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/491.rle",
+      "sha256": "9c41e85f62f44da0890880d5d52bb69f5e2f67ab5bf277c00f077cbb5edd6221"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/492.rle",
+      "sha256": "f0b10c3fa63cb92ef0f91609f2b55a676c1b4ae584fb8b099db694467908cb9b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/493.rle",
+      "sha256": "28c29bced9da334f64012bee3681b0494ea25a48b61ae111109ba0c307a67949"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/494.rle",
+      "sha256": "db15aa15974e4888b4448b030fbba14e618e027509dc64f41cdda4a57f3a37ba"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/495.rle",
+      "sha256": "5e4a1acc26811ce2d87656ca3f7f2ac63990e5abb52c96f70134b70ad7b5b177"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/496.rle",
+      "sha256": "8c963f6a65e6926780b7095b21618e678839b8c65db9913d022d202d9d17b8d7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/497.rle",
+      "sha256": "4af41cb546d597136582d926f975ccd946a3ea054d93d25fded60d7a9f8b5eac"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/498.rle",
+      "sha256": "72f295488bf5e993b06cb0fa5b3bf577215564f7e9c9557967a131cce1c68e1d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/499.rle",
+      "sha256": "addc34a343e2f82f06175cd44862e58e38f549cce3f6795fe82124a9e6739594"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/500.rle",
+      "sha256": "352b2bf84ae2bcdcd1f43e4f0b9e8f99b5b57354df50b483c12ef5f5bece15fb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/501.rle",
+      "sha256": "97d3179df3811acc0fc3bbda282b59d234e15e07fa6632e7450aa9d71964e56a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/502.rle",
+      "sha256": "4e0c819f34d3d1de2d57f42be8a4f2f28d043af7374f4a5e5cc03f37585d79d5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/503.rle",
+      "sha256": "f72261aef72b0fa4f75dadc0c1604b821f0f26fc588f44992d6b1fe0036056f9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/504.rle",
+      "sha256": "dc0803c8d5e130bde1b0db83220b78a2ae7c203e5dc9f37ca6229e406b101ca6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/505.rle",
+      "sha256": "6294b7b7ec2bd1f00b9e63490aea6e8f8d4cc2bcd676271d5060f6078dcd8e6e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/506.rle",
+      "sha256": "016d0b838d7f0d466ae6e44f58b5ebbf2c09c1171223584fc62e8c2baeb1d7ae"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/507.rle",
+      "sha256": "ff405f8d16e5e99ae30b12e07eb3cf4ca3a88156ba9c6ad01811cb3c69ddf3cd"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/508.rle",
+      "sha256": "ee0ee60ae30e6ad5a7e1518814406c5af152f9c267490bdb2ecf803a82863186"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/509.rle",
+      "sha256": "3600cbef8856b4c9a9ee7c2b7c3a9fc70b5bc75b20c637af815a7a8ae31215d7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/510.rle",
+      "sha256": "7e28deeb9479b85120d68c767acf4abca6f7ae4602b1baecdeada7c55bedec9d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/511.rle",
+      "sha256": "aee8cae925a047cf22caed57f32afbdf3234bceb8be83bd9ec3cf14e2b212de0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/512.rle",
+      "sha256": "afe7dfe31a12bba9feb3be557dabee7587a80caef92e395b6c4e2cf0a8880b2d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/513.rle",
+      "sha256": "0268d20103bdb9f7ed7905b9aba217ae0585966cc8af07d33e9cc32e22584bba"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/514.rle",
+      "sha256": "55c5dcab4002f49e1b0368972cc91fdddf12da20f652972ca294812060de891c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/515.rle",
+      "sha256": "76a9465eb5f7af91ab06b03722dbf0b9acb3995958fd79bb6e117be6005549b9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/516.rle",
+      "sha256": "aab1738db440f53e1bf3ec5ecca60d89b415eb4f9ec75fbaa45353a1ce131ecd"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/517.rle",
+      "sha256": "9a93983a6c73aeeb9a1c805b84407b2e59709b56f3fe3f382188d2859c9a063b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/518.rle",
+      "sha256": "d7ade038f3e04a9a6366c2f46eb2661b9477b5e55cfc4a6d09c3499ac0bdfcfc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/519.rle",
+      "sha256": "5ea3a2121ced1ebf607e512470a53a5d23413a8f4b35ddebb8a1589e1d820c8a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/520.rle",
+      "sha256": "d72586058297e8ae3b7c1ef47a9bae759502a903156867d49c4047735ca29bcc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/521.rle",
+      "sha256": "478590d5601b2ce8da0cdd059dd6c548ffa993a3197169d0120b1552bdd68e8d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/522.rle",
+      "sha256": "09ae850dae7e87f934dddddcc2d0ffaeb7fb664bc0afbb27d5fb25b3518da91b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/523.rle",
+      "sha256": "851b4cf936d77c8b4c644c5eaa28a5ea0e15a9c1cfb53a1a83747e5fe30dd910"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/524.rle",
+      "sha256": "9f175fbc481c4aa832f50fc8e5ae36dad688d1ae0c96a8b818d4e15be76aeef2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/525.rle",
+      "sha256": "7bb11789de79843eafbe2dcd70d26dad302281c619873d18db2d6f54d2136569"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/526.rle",
+      "sha256": "faf3836d213b7f8cb2737de3ed7570d37fa4c0e012ef9b1915863c88308601d6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/527.rle",
+      "sha256": "447f604477fe40eb0d0987fc1f86f3735555ff11138ed946bef9981361c59690"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/528.rle",
+      "sha256": "73bb980738e53794460f4cb5c145d112d826796a0a62021ee3539a8c919c80e3"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/529.rle",
+      "sha256": "96bcba952c3c51a5f1c903076cabc36f3653713ca7fdd04797d46dc1ef8636e7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/530.rle",
+      "sha256": "83f76a41110734054bc7094dacd7a9d6daae52260ea014a3903553a72f91e03e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/531.rle",
+      "sha256": "d1eeabdbb844754e6315ed061c184053323718e9e9b1c3aed6e7b36c48e43e7a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/532.rle",
+      "sha256": "3237e0a7be65b35c7d0a729850ec43ac606b82244c5732a82a57ace1b02c1f67"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/533.rle",
+      "sha256": "e0570e288cc54e4b127fb5c90bf0b89cef8200c6c7e5e47ef8c324031a4ff6ed"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/534.rle",
+      "sha256": "ced7f31ad4b6055d728ff6d039c8739629bc664f969ac8c87a5c9b05758002b1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/535.rle",
+      "sha256": "05e9133d3ca2ac6ad3fce361d6b1ca667758be6ca0344067c0e901f336879318"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/536.rle",
+      "sha256": "7b841123032d1f50861c139cec0371d4d930c5fb59060132f9ad9ddccd165f05"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/537.rle",
+      "sha256": "98a112c6ecf917159bc68df1bdb1810d56947cb277b2c26dacf946ca30483981"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/538.rle",
+      "sha256": "58e75bdd0f9cb03a4f6fb7f76bdc95fe05ce1b518bc125b0a2976087c52efbde"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/539.rle",
+      "sha256": "f7055a43d6b7842739111fb1579a6d7fbc9cfc60ff10329363403a1398c4d564"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/540.rle",
+      "sha256": "c2bf76a20dccee9e07e33802cae69fd2a4be9a11d872d57d5309cb6bf4e8b144"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/541.rle",
+      "sha256": "a1ddb849c12f5278df5e0555302fa0a5358a95d9a6986d29a621c467265ebdfb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/542.rle",
+      "sha256": "681514017bd4246c50acdb7c02874cd407ccb21bfb203177ccd9f55978250a66"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/543.rle",
+      "sha256": "5c107d488a98654610b552b38c0a6d6ba4702ee1775fb2526920ffac2c271c8e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/544.rle",
+      "sha256": "4c144786b956d02c3d4d6cefdadc39ac25adeff0415d8887637da6d69ba72b1c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/545.rle",
+      "sha256": "e25a5c2904fe035b40d7c44236169fadb9835683c395b75edf11ecc211dd606a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/546.rle",
+      "sha256": "cc4550b2ca09b4e60c6a345b93fb3f4f685583736487814c80f71ebe85928011"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/547.rle",
+      "sha256": "b9dc88647370ce6a88ca0418ccba759b2f8b9b58700e3a9aaf0c82051de43200"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/548.rle",
+      "sha256": "9dc2ed40533dec5524485e5f8b81c2ea1f06edf623d4af34c53ae83ffe961cb1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/549.rle",
+      "sha256": "7cd1e9e53eda7c9b83c02d5a1bc334b7d7a553c8bab659e8211b4dd26d4ae705"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/550.rle",
+      "sha256": "ceea9bb1e98f6d0c7922e24dd7859195bb0fe4576ad015b1a1de41e84e2a5e7b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/551.rle",
+      "sha256": "f775add2062ce18507469162531c14329870bd3db6fd492e3474856c5526017c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/552.rle",
+      "sha256": "ea7c51347b65e8ca77f11b6423d425d67e5b955679c093ac577fdff5994264a9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/553.rle",
+      "sha256": "57cc1e2231a91e910c61ef9f4b3ef9d38152006f5e84b287a4e57467964fc3a2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/554.rle",
+      "sha256": "912d377065407db21c6291ae56620e5e45fe38e62c384097ef280d844d81e94c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/555.rle",
+      "sha256": "486dca8b9fab52adc11736803bec835c085250b3c83d476678a7e6efaacdbf55"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/556.rle",
+      "sha256": "e4d133589d7dca8db84c614cc03a757d63942e8974f17aa11d2b82614720e565"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/557.rle",
+      "sha256": "b347b5c797660440b59a9352d9b031dc26c929f69aed820b415a9d7cce70e1a5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/558.rle",
+      "sha256": "e12f697d1b6d28ef23b88c1391dd17d3ff1a6d89a2c74ca4dd06b3a241ed0706"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/559.rle",
+      "sha256": "36a0eae100689c5f1a21ca335fae2650dc73c07c49b5cc18ca49cfc3c728f90f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/560.rle",
+      "sha256": "b40df2097629aacd227f680791458ac78e5b2c6da7156249249c77466687df5c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/561.rle",
+      "sha256": "9dc0fbd4bd55c9d1df8cab2ed34ae0e32f033bb011ad467283ca5b8a0efc53b7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/562.rle",
+      "sha256": "75cbb93a2d15a304f5177a6a71b4993f61decdc84131d3d712e692614c8e29e5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/563.rle",
+      "sha256": "1391adf80b043717c0e086786d6289af794a8245bdadd90fb2e6611c130028ba"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/564.rle",
+      "sha256": "a2a0c3c4ca801a1ad63deff87077f747bac5367b1a7f6e7b8bd8ed67034739aa"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/565.rle",
+      "sha256": "6fc548035af295dd613df1a4ef5788aaebedf6dabc671b8e4c0a04ec9436fb83"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/566.rle",
+      "sha256": "3e050fcd7f79811e7adb2525c112a7b6fc6ed66265c5477c452a7d3565a2429f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/567.rle",
+      "sha256": "c67c8033f12731dacf3d5bce9d662faa49d40308ffd5e19064b632d1ce3a3d7e"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/568.rle",
+      "sha256": "5d4f7dd955452cf2aba6cbcf93a0dddd315b06ddf884c906a96e45efcea5cc9d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/569.rle",
+      "sha256": "95eaccfd5accb35cbf3b4d9d88deff485275db180dc16fb2d8419dcd7cd87d98"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/570.rle",
+      "sha256": "c94c0098c3f98a746af80ea2e1439d3712892db87f4c821a74a248859b7d9b26"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/571.rle",
+      "sha256": "04153630142321aaa888a67cdb43adbaae5e50c0faca969f9cb0a011d5014374"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/572.rle",
+      "sha256": "d8c7a01ebd629992792944daf2335c5928b3d53b7eda440a32bb2f83b26382c0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/573.rle",
+      "sha256": "ff0b5c71e347f76d5c59c2c8bd470dec23495ed622bd78704f68fc89ac957205"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/574.rle",
+      "sha256": "ab60953aba2ad84e16b15ae1b14e00e0a28a7abcacd6bb7a5e38f4476a79834b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/575.rle",
+      "sha256": "fbd2998f6a65ea8fddf184dd2fb68b7a3d8bb9cf74fe1cea507aeea03d525e4c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/576.rle",
+      "sha256": "506af3d95164dcd82c6c852c46a95b6cbeb391f1b32e1b3e6205c46c949e47c7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/577.rle",
+      "sha256": "eb9f68b05dca8759d043c729ce9126c4e45d8aaf6c606da97418dadfee2a0296"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/578.rle",
+      "sha256": "34ce556290a9cc25adabeed324156a179a8a63dfd0580132439b06e586bbaa6f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/579.rle",
+      "sha256": "6e634dbff3396d94edf8159f1f6738965e5e71c2cfd5d13f5dac79b2f5dafd1c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/580.rle",
+      "sha256": "7f4b890bac8055384ff922e6416004a5e8d076adf1c2b12e57f8d16bfdaeee9b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/581.rle",
+      "sha256": "29c1182c598a2fce39309b951fa9a9b1409db3ff4f5e993a6c3449b626151670"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/582.rle",
+      "sha256": "28fa672ace09b409851dc2007fcc9330639881088d2915511d290488022cc46f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/583.rle",
+      "sha256": "8f48ee0ca680a74a7d130b4e29766bc5c3bdaf93d9720323cbd646239c8f1667"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/584.rle",
+      "sha256": "236e251e6f38c6d46bfcc155c108c683694498ed1db5513827680760ba337cd1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/585.rle",
+      "sha256": "52f077ac1cb4785f4da7982b74c247b920f7512a5022bd009e58b1624bed4b7c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/586.rle",
+      "sha256": "267225325d098153196c36b3cd419b15ed2c2403019e987d330d052e4f4f8b10"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/587.rle",
+      "sha256": "e887830433eb38004b5ba72fc7420301b2e1878809daf440993c145f984e7148"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/588.rle",
+      "sha256": "bbbc0398298535bc1fa87c7c2ced7e09748c8aa635ae0b965c1af8a888b120b1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/589.rle",
+      "sha256": "e70410de52c49528b4135169214beb644377d88339145f06d34d393671d9446c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/590.rle",
+      "sha256": "c48c4fca132572bdcfa0fe7342dccf6ab21cd48fafe20e5758f13cb2b669f6cc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/591.rle",
+      "sha256": "63f39d8f68bd212c3fe62b08d67913b3fd424fbab36b5de5ce33b702b6f948f1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/592.rle",
+      "sha256": "a670cb7fb01d2bd04580e416fc3a7b26c6055ca156b3387fa6ac8a0dc74b8afd"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/593.rle",
+      "sha256": "19c59387e9505b0e7e56b7ec529b22cfc6570ab2dc8999b0f7c49ce3bddaaafe"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/594.rle",
+      "sha256": "2a05c9c5478fe82d622af26159586f6611a1fa10f58b4f3421c4ab178a1790d6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/595.rle",
+      "sha256": "3b56135904f8cff9c811d7ec8bedb09b76ed0fac15051ef764f04b9fe2839051"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/596.rle",
+      "sha256": "119cd545f2a6750884496d6f4cacdf30ad9d7ce46d42e3a9c84a0eb6ea283799"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/597.rle",
+      "sha256": "8bb842c156f055cd0a2a5d2e1997749c18b1f62cae74636c3f7bad27783ca5f5"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/598.rle",
+      "sha256": "25796697c9f88e1241c9b5b5deb1cc747708217afaacadfa0a8f36c90926c3bc"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/599.rle",
+      "sha256": "899672fc1fe7d1858b3c47ee672a4e1ae0469f7e96d31d3e1291a94356b6cf79"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/600.rle",
+      "sha256": "23754aca3c85b0acf32d668a8b8b43659dfb764ae5eac1d874358b9c483cdda1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/601.rle",
+      "sha256": "d7b86dccdf78aa8610c898f0e4c95758b829919fdb15ddb8b38bf60e6d4b4f10"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/602.rle",
+      "sha256": "f5530ef853bbef893eaeef32cedbf92abd085eccd3a1ed7bf8b7d5822bac6cc7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/603.rle",
+      "sha256": "e8b47e8a4f0b3684b396c2a6f469a28371e8fa75ffe3a3287a6cbec0ceaa63c7"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/604.rle",
+      "sha256": "baecc2cec48de47cb59673f59076a78c8655edd6dfe3b57dd5d6052fc75a11c0"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/605.rle",
+      "sha256": "a5e0422bf2064d45e2a6c3c5fcd5aaaf52214f3712c4196ffbd3582e82ad33f6"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/606.rle",
+      "sha256": "51118a3d2190def70863d3ffc2d599477b4a9482b097a9c0a74d1444237f6c3d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/607.rle",
+      "sha256": "907fb3b90b6e347e4d0d1cf15c138f7a5c1f3c5fe1b6057390a631315f428ace"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/608.rle",
+      "sha256": "dec60955b87adbdf2985c7fdf36502d22bdeff34bd5c04af05d13dbd59fc522a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/609.rle",
+      "sha256": "f6753af81585db24e8064830328c4a8886dc546d7b1ffb1973a40b6ee30f1be8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/610.rle",
+      "sha256": "3e12c35e0e57e2cdb64d53769c410c8d8f85258ad2d367b994fe3113fc6602a9"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/611.rle",
+      "sha256": "2ff6ff516d9cc65e3963c65c5dee1e6f0e4d1a0e1c658ab74d467e9b9721de6b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/612.rle",
+      "sha256": "36313889350b6fbb4c4caf7b3ff9b1b5ef67a0e845829611655f955988483045"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/613.rle",
+      "sha256": "e56705213389dea14653e36c7d4f37b0f424424852081b13e500bdb26b535a3c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/614.rle",
+      "sha256": "9a38d8ecb71b18d87e443a4ced069e658abc732935354a67f8997f54bafd4a9b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/615.rle",
+      "sha256": "f54258ab130019787790be57f346ece5508281a2f0e57793934b37f776907671"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/616.rle",
+      "sha256": "85dd809d60651fa8242cabc30e4c1f55d2137433e6f3f64051cd799616e47b1d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/617.rle",
+      "sha256": "83a87930e1a0594ba0d96f2f6b9fd4661f81d1b37ef9d666eeac0beb02a0a65a"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/618.rle",
+      "sha256": "85423c48e023a75a67233db646fab77ec36d73f681f133ceacebff512aca582d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/619.rle",
+      "sha256": "cd753724d935db2f1a7ced4be9fc1a05f22be0e18b2a0ff12ebf522639ab730c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/620.rle",
+      "sha256": "51839f8388a5ab9857f94cf49412ee4ee8b4f60622f24fdfcada444585aa3ce2"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/621.rle",
+      "sha256": "28ed63d5785953fb6e126bf437dbb4af34fb7ea4df951c8ccd9a5220f3babbdb"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/622.rle",
+      "sha256": "1fa67161b2624947524b6077b635181f5e12897991bfd45470648f74687aa064"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/623.rle",
+      "sha256": "81c2b1ab978b6543f21e815881d3d90dca7895bd4d8b6291e58b1bcf9dca004d"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/624.rle",
+      "sha256": "dd0404096198a28d001d3219fa781a1f4e76f4afb20ddc8cffedcddf6f1e9c7c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/625.rle",
+      "sha256": "61a7251d3a96d6e1d054db99a933cbb270f9facc0b8b1d9973bb02947a79e4e1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/626.rle",
+      "sha256": "d4b4f3149518b56ba53e838f0dcd16ed70e4ff746e89469b4c7da991d1cc9e3f"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/627.rle",
+      "sha256": "5ecb457e15ae0f9c4a54bec29cdb8923d52a9799e16ea4802105d521625f9ee8"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/628.rle",
+      "sha256": "8364226f3d0586645927636505332dc1d44c2e82b327f8561455fff09fb7b504"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/629.rle",
+      "sha256": "1bb9f9fae47cb870dc473fb12a2523a5bd10ee81bd0a3f995a17d9e2ad1977d1"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/630.rle",
+      "sha256": "9f1279da4edc417356d766fe6f946b43f69f5f68447e80efdcba82fb8a76ed4c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/631.rle",
+      "sha256": "ec641d772c5cbfb345527c67021be3c9d5d274944c5875033595114988ace68c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/632.rle",
+      "sha256": "40bd5ad20a65ab899fffcb6ae9562e17e766c3e224dbe292c17738c78664133b"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/633.rle",
+      "sha256": "e53355b955d2f90d9bf80e62ea77da3cd720fe4f7b76ffe8fb708f23b0732309"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/634.rle",
+      "sha256": "a1c201acecf1aa302b232f82231d7e3251747b30d737d7a807754aca6289f4ec"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/635.rle",
+      "sha256": "9acb227d196c3d7587b91cc014d8b042eaaf2ca5ed7d1e08158c6e0f23645b7c"
+    },
+    {
+      "path": "projects/pal/assets/migrated/sprites/636.rle",
+      "sha256": "633bdea3a7710aff60faa0b62ba5e60329b68abf8adb9fea82b6c7837518f29e"
+    }
+  ]
+}

@@ -1,7 +1,10 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
+2026-10-02 P NEXT2：[十二合同独立接收](codex-p-next2-acceptance-20261002.md)、[机器记录](codex-p-next2-acceptance-20261002.json)、[实际三态/全包与两旧PAL环境恢复](codex-p-next2-evidence/README.md)。
+b2cbb41f代码/证据accept，无P作者返工；41/四代表针/静态完整零通过。全包3898+两缺RLE环境红，补自有副本资产后相关旧文件转绿，不冒称新整包全绿。114/700、18/20保持，原卡partial/rework；下一合法范围和正式main门归Codex。
+
 2026-10-02 当前：[O/Q NEXT2 独立验收与两份合并返工提示词](codex-oq-next2-review-20261002.md)、[机器记录](codex-oq-next2-review-20261002.json)、[八枚有效代表控制/完整原始证据](codex-oq-next2-evidence/README.md)。
-84/48 定向相邻、1441/2164 全包、型检/静态完整 0/0/0/docs/716 冻结通过；counter 仅 O 类型桥/真实 IO/真往返，Q 独立 G/B oracle。O12、Q06/14 扣列不补数；旧 64/71 档案与 Q161 旧账保持，不重采。用户手动选 GLM-5.3 文本后各一次修齐；P 正在执行的 NEXT2 不重复派。未 main/done/正式覆盖。
+84/48 定向相邻、1441/2164 全包、型检/静态完整 0/0/0/docs/716 冻结通过；counter 仅 O 类型桥/真实 IO/真往返，Q 独立 G/B oracle。O12、Q06/14 扣列不补数；旧 64/71 档案与 Q161 旧账保持，不重采。用户手动选 GLM-5.3 文本后各一次修齐；P NEXT2 已独立接收，不重复派。未 main/done/正式覆盖。
 
 NEXT2 派发记录：[完整有限实施清单与三个提示词](codex-opq-next2-dispatch-20261002.md)、[38候选id/源hash/白名单](codex-opq-next2-packet-20261002.json)、[三个公开API准入小样3绿](codex-opq-next2-preflight-20261002.json)。
 O完整帧异步IO12候选、P引用扫描生命周期12、Q溶解计划/输出/owner14，主源与main字节一致且不重叠；用户先手动选GLM-5.3文本。

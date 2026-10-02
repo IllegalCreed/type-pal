@@ -8,7 +8,16 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
-## Codex NEXT2实施准入（2026-10-02，当前优先）
+## Codex NEXT2 独立接收（2026-10-02，当前优先）
+
+固定 b2cbb41f39d59928d9a4ecbf3d1a4abfd1deba31，本地/远端一致且作者树干净。**NEXT2 12合同代码/证据accept，无作者返工；原700卡仍partial/rework，不main/done/正式结算。**
+合法seed→文件级多图→公开loader→懒state→保存门链与实际IO成立，新12/相邻41绿；四代表产品针每相完整41身份/指定唯一AssertionError/exit0-1-0/恢复与重建hash有效，旧19档案/102账保持。新typecheck/2858静态完整0/0/0/docs/diff/716冻结/255白名单过。
+Editor全包3900执行，3898绿+两旧PAL缺ignored RLE环境红；只读补自有副本资产后该旧文件复跑同两身份转绿，不冒称新整包3900全绿。正式main门仍由Codex负责，不将环境问题返工给作者。
+114执行/净新结构上限114/至少586未完；receipt顶层旧102由Codex归一，不索要纯计数pin。700/70组/50/20不缩，18/20流程保持、不重跑受阻视觉。
+[完整接收](../../testing/glm-tenfold-triple/codex-p-next2-acceptance-20261002.md)、[机器证据](../../testing/glm-tenfold-triple/codex-p-next2-acceptance-20261002.json)、[原始三态/全包/局部恢复](../../testing/glm-tenfold-triple/codex-p-next2-evidence/README.md)。
+无下一位GLM P提示词，当前有限包完成作者停止续做；下一真实范围和集成由Codex核定。下方派发仅历史，不重执行。
+
+## Codex NEXT2实施准入（2026-10-02，历史派发；已交）
 
 用户要求O/P/Q继续，**build allowed仅NEXT2精确有限清单**，本原700卡仍partial/rework、总目标不缩。
 [本批完整范围/门/反控责任](../../testing/glm-tenfold-triple/codex-opq-next2-dispatch-20261002.md)、[12候选id/源hash/独占白名单](../../testing/glm-tenfold-triple/codex-opq-next2-packet-20261002.json)。
