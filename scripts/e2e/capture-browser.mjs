@@ -2,6 +2,7 @@
 export function installLocalCapture() {
   const connect = AudioNode.prototype.connect
   const disconnect = AudioNode.prototype.disconnect
+  const decode = BaseAudioContext.prototype.decodeAudioData
   const mixer = new AudioContext({ sampleRate: 48000 })
   const mixed = mixer.createMediaStreamDestination()
   const buses = new Map()
@@ -32,6 +33,17 @@ export function installLocalCapture() {
     if (failures.length < 20) failures.push(String(error))
     if (recorder?.state === 'recording') recorder.stop()
     phase = 'failed'
+  }
+  BaseAudioContext.prototype.decodeAudioData = function (...args) {
+    try {
+      const result = decode.apply(this, args)
+      // Observe rejection without replacing the application's Promise or callbacks.
+      void result.then(undefined, (error) => fail(`audio decode failed: ${error}`))
+      return result
+    } catch (error) {
+      fail(`audio decode failed: ${error}`)
+      throw error
+    }
   }
   const connectTap = (node, output) => {
     let bus = buses.get(node.context)
@@ -291,6 +303,7 @@ export function installLocalCapture() {
     window.removeEventListener('pointerdown', onGesture, true)
     AudioNode.prototype.connect = connect
     AudioNode.prototype.disconnect = disconnect
+    BaseAudioContext.prototype.decodeAudioData = decode
     for (const edge of edges) {
       try {
         disconnect.call(edge.node, edge.destination, edge.output, 0)
@@ -328,7 +341,9 @@ export function installLocalCapture() {
     cleanup: {
       complete: cleaned,
       prototypesRestored:
-        AudioNode.prototype.connect === connect && AudioNode.prototype.disconnect === disconnect,
+        AudioNode.prototype.connect === connect &&
+        AudioNode.prototype.disconnect === disconnect &&
+        BaseAudioContext.prototype.decodeAudioData === decode,
       mixerClosed: mixer.state === 'closed',
       tracksEnded:
         !recordedStream ||

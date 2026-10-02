@@ -150,6 +150,7 @@ export async function runBrowserJourney({
       }
       for (const script of initScripts) await context.addInitScript(script)
       page = await context.newPage()
+      capture.observe(page)
       page.on('pageerror', (e) => error(e.message))
       page.on('console', (m) => {
         // HTTP project state absence explicitly means a clean project; do not exempt any asset failure.

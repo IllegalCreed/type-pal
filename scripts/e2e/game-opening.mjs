@@ -192,6 +192,7 @@ async function newContext(label) {
   await context.addInitScript(installOpeningTrace)
   await context.addInitScript(installOpeningMatrix)
   page = await context.newPage()
+  capture.observe(page)
   page.on('pageerror', (error) => appendBounded(report.errors, `${label}: ${error.message}`, 50))
   page.on('console', (message) => {
     if (
@@ -424,8 +425,9 @@ try {
     'passed',
     '001 dialogue/movement ordering differs; inspect npc-trace.json',
   )
-  report.status = 'passed'
   capture.assertComplete()
+  checkHealth()
+  report.status = 'passed'
   console.log(
     `[001] PASS: ${capture.enabled ? 'local capture' : `real checkpoint ${report.checkpoint.sha256}`}\n${out}`,
   )

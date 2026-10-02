@@ -84,6 +84,12 @@ function harness({ codec = true, obscured = false } = {}) {
     async close() {
       this.state = 'closed'
     }
+    decodeAudioData(_bytes, success, failure) {
+      if (this.decodeFailure) throw this.decodeFailure
+      const result = this.decodeResult ?? Promise.resolve({ decoded: true })
+      if (success || failure) void result.then(success, failure)
+      return result
+    }
   }
   class Recorder {
     static isTypeSupported() {
@@ -112,6 +118,7 @@ function harness({ codec = true, obscured = false } = {}) {
   const env = {
     AudioNode: Node,
     AudioContext: Context,
+    BaseAudioContext: Context,
     MediaRecorder: Recorder,
     MediaStream: Stream,
     MutationObserver: class {
@@ -198,6 +205,63 @@ test('native disconnect rejection does not drop recording state; intermediate ro
   assert.equal(source.edges.length, 2)
   await h.api.finish(true)
   assert.equal(source.edges.length, 1)
+})
+
+test('decode observer preserves Promise identity and native callbacks on success', async () => {
+  const h = harness(),
+    app = new h.Context()
+  const decoded = { actualBuffer: true }
+  app.decodeResult = Promise.resolve(decoded)
+  let callback
+  const result = app.decodeAudioData(new ArrayBuffer(1), (value) => {
+    callback = value
+  })
+  assert.equal(result, app.decodeResult)
+  assert.equal(await result, decoded)
+  assert.equal(callback, decoded)
+  assert.deepEqual([...h.api.state().failures], [])
+  await h.api.finish(true)
+})
+
+test('decode observer preserves synchronous native throws', async () => {
+  const h = harness(),
+    app = new h.Context()
+  const error = new TypeError('native invalid decode argument')
+  app.decodeFailure = error
+  assert.throws(
+    () => app.decodeAudioData(null),
+    (caught) => caught === error,
+  )
+  const result = await h.api.finish()
+  assert.equal(result.phase, 'failed')
+  assert.match(result.failures.join(' '), /native invalid decode argument/)
+  assert(Object.values(result.cleanup).every(Boolean))
+})
+
+test('SFX decode rejection fails capture while another BGM output remains connected', async () => {
+  const h = harness(),
+    sfx = new h.Context(),
+    bgm = new h.Context(),
+    music = new h.Node(bgm)
+  music.connect(bgm.destination)
+  h.api.arm({ videoPath: null })
+  const error = new Error('native SFX decode rejected')
+  sfx.decodeResult = Promise.reject(error)
+  let callback
+  const promise = sfx.decodeAudioData(new ArrayBuffer(1), undefined, (value) => {
+    callback = value
+  })
+  assert.equal(promise, sfx.decodeResult)
+  await assert.rejects(promise, (caught) => caught === error)
+  assert.equal(callback, error)
+  assert.equal(bgm.state, 'running')
+  assert(music.edges.some((edge) => edge.destination === bgm.destination))
+  const result = await h.api.finish()
+  assert.equal(result.phase, 'failed')
+  assert.match(result.failures.join(' '), /audio decode failed/)
+  assert(Object.values(result.cleanup).every(Boolean))
+  assert.equal(bgm.state, 'running')
+  await assert.rejects(() => h.api.chunk(0, 100), /no completed capture/)
 })
 
 test('stop returns actual ownership counters and restores originals without closing source contexts', async () => {

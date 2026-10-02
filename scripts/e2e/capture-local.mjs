@@ -18,6 +18,18 @@ export const captureCleanupComplete = (cleanup) =>
     (key) => cleanup?.[key] === true,
   )
 
+export const isAudioFailureMessage = (type, text) =>
+  ['warning', 'error'].includes(type) &&
+  /^\[(audio|bgm|sfx)\]/iu.test(text) &&
+  /fail|error|失败|静默|不可用|停用|取不到|拒绝|不是有效/iu.test(text)
+export function isAudioResource(url) {
+  const path = new URL(url).pathname
+  return (
+    /\.(wav|mid|midi|ogg|mp3|m4a|sf2|sf3)$/iu.test(path) ||
+    /\/spessasynth_processor(?:\.min)?\.js$/u.test(path)
+  )
+}
+
 /** Detached live observation; no save-slot writes or invented checkpoint envelope. */
 export async function readCaptureWorld(page, engine) {
   return page.evaluate(async (engine) => {
@@ -70,8 +82,19 @@ export function createLocalCapture({ enabled, report, out, health }) {
   let activePage
   let start
   let completed = false
-  const check = async (page) => {
+  const audioFailures = []
+  const observations = new Map()
+  const healthy = () => {
     health()
+    assert.deepEqual(audioFailures, [], 'captured audio pipeline failed')
+  }
+  const audioFailure = (detail) => {
+    if (audioFailures.length < 20) audioFailures.push(detail)
+    report.errors ??= []
+    if (report.errors.length < 50) report.errors.push(`[capture-audio] ${detail}`)
+  }
+  const check = async (page) => {
+    healthy()
     const state = await page.evaluate(() => window.__localCapture.state())
     assert.deepEqual(state.failures, [], 'browser capture failed')
     return state
@@ -80,6 +103,24 @@ export function createLocalCapture({ enabled, report, out, health }) {
     enabled,
     async install(context) {
       if (enabled) await context.addInitScript(installLocalCapture)
+    },
+    observe(page) {
+      if (!enabled || observations.has(page)) return
+      const listeners = {
+        console: (message) => {
+          if (isAudioFailureMessage(message.type(), message.text())) audioFailure(message.text())
+        },
+        response: (response) => {
+          if (response.status() >= 400 && isAudioResource(response.url()))
+            audioFailure(`HTTP ${response.status()}: ${response.url()}`)
+        },
+        requestfailed: (request) => {
+          if (isAudioResource(request.url()))
+            audioFailure(`request failed: ${request.url()} ${request.failure()?.errorText ?? ''}`)
+        },
+      }
+      for (const [name, listener] of Object.entries(listeners)) page.on(name, listener)
+      observations.set(page, listeners)
     },
     async arm(page, semantic, videoPath = null, startOnVideo = Boolean(videoPath)) {
       if (!enabled) return
@@ -224,8 +265,8 @@ export function createLocalCapture({ enabled, report, out, health }) {
         frames.some((frame) => frame.nonBlack),
         'all sampled frames are empty/black',
       )
-      report.media = {
-        status: 'passed',
+      const receipt = {
+        status: 'running',
         kind: 'local-fragment-capture',
         semanticStart: start,
         semanticEnd: semantic,
@@ -240,10 +281,24 @@ export function createLocalCapture({ enabled, report, out, health }) {
         native: { path: native, sha256: hash(await readFile(native)) },
         video: { path: target, sha256: hash(await readFile(target)) },
       }
-      completed = true
-      await writeFile(resolve(out, 'capture.json'), `${JSON.stringify(report.media, null, 2)}\n`)
+      try {
+        // Encoding/decoding yields late browser/server failures and interrupts. A valid
+        // media file cannot overrule the journey's health when publishing its receipt.
+        healthy()
+        report.media = { ...receipt, status: 'passed' }
+        await writeFile(resolve(out, 'capture.json'), `${JSON.stringify(report.media, null, 2)}\n`)
+        healthy()
+        completed = true
+      } catch (error) {
+        report.media = { ...receipt, status: 'failed', failure: String(error) }
+        await writeFile(resolve(out, 'capture.json'), `${JSON.stringify(report.media, null, 2)}\n`)
+        throw error
+      }
     },
     async cleanup(failed = false) {
+      for (const [page, listeners] of observations)
+        for (const [name, listener] of Object.entries(listeners)) page.off(name, listener)
+      observations.clear()
       if (!enabled || !activePage || (completed && !failed)) return
       report.media ??= { kind: 'local-fragment-capture' }
       report.media.status = 'failed'
