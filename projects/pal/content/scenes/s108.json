@@ -168,6 +168,7 @@
     },
     {
       "id": "e1998",
+      "label": "婢女",
       "pos": {
         "col": 100,
         "row": 57,
@@ -298,7 +299,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "少夫人离家：婢女辩护与同情",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -323,6 +324,57 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "告知少夫人吵架后离家",
+                  "next": "defend-her-sincerity"
+                },
+                {
+                  "id": "defend-her-sincerity",
+                  "label": "为少夫人的真心辩护",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.婢　女"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.6957"
+                          },
+                          {
+                            "text": "dlg.6958"
+                          },
+                          {
+                            "text": "dlg.6959"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "next": "pity-young-madam"
+                },
+                {
+                  "id": "pity-young-madam",
+                  "label": "同情少夫人的处境",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.婢　女"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.6961"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

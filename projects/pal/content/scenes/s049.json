@@ -933,6 +933,7 @@
     },
     {
       "id": "e811",
+      "label": "居民",
       "pos": {
         "col": 115,
         "row": 47,
@@ -1020,7 +1021,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "尸患平息：居民感激",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1045,6 +1046,32 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "赞叹少侠除妖身手",
+                  "next": "village-at-peace"
+                },
+                {
+                  "id": "village-at-peace",
+                  "label": "庆幸白河村恢复安宁",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.4036"
+                          },
+                          {
+                            "text": "dlg.4037"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }
@@ -1182,6 +1209,7 @@
     },
     {
       "id": "e813",
+      "label": "守桥壮丁",
       "pos": {
         "col": 66,
         "row": 9,
@@ -1253,7 +1281,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "尸患平息：守桥壮丁解脱",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1341,6 +1369,29 @@
                         ]
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "确认尸妖已灭",
+                  "next": "holiday-relief"
+                },
+                {
+                  "id": "holiday-relief",
+                  "label": "庆幸终于可以放假",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守桥壮丁"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.4031"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

@@ -64,6 +64,7 @@
     },
     {
       "id": "e844",
+      "label": "骆员外",
       "pos": {
         "col": 75,
         "row": 26,
@@ -390,7 +391,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "尸患平息：骆员外囤米赔本",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -415,6 +416,32 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "埋怨除妖后生意赔本",
+                  "next": "unsold-rice"
+                },
+                {
+                  "id": "unsold-rice",
+                  "label": "叹糯米只能等端午再卖",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.4018"
+                          },
+                          {
+                            "text": "dlg.4019"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

@@ -1,0 +1,1188 @@
+{
+  "task": "SCRIPT-GOV-1",
+  "status": "author-verified; pending independent Root acceptance",
+  "baseline": "68a7b88dd",
+  "hashDefinition": "SHA-256 over JSON.stringify subtree, except locale text hashes over UTF-8 text.",
+  "source": {
+    "events": "data/extracted/events/all.json",
+    "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d"
+  },
+  "bindings": [
+    {
+      "scene": "s010",
+      "entity": "e191",
+      "behavior": "legacy-001",
+      "sourceInstaller": 1062,
+      "sourceEntry": 2018,
+      "sourceSegments": [
+        {
+          "start": 2018,
+          "end": 2024,
+          "terminal": "advance",
+          "next": 2025,
+          "sha256": "c18f71ef6a0d250709f278208245bede365d43f8f89552d311cf59487d5e190f"
+        },
+        {
+          "start": 2025,
+          "end": 2030,
+          "terminal": "repeat",
+          "next": 2025,
+          "sha256": "a244a2c612a8ff1455ae02e04a2ade4b6ef19770141176ac49206e3274831733"
+        },
+        {
+          "start": 2008,
+          "end": 2017,
+          "terminal": "branch-return",
+          "next": 2025,
+          "sha256": "00290c35cd037e6f1af4834c3521793c8ab7ab821d4d09a46053711b15f0deb3"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s002",
+          "path": "/entities/3/behaviors/trigger/default/flow/stages/0/body/12"
+        }
+      ],
+      "beforeSha256": "8a6166eae128b309f985f5d2600ffab4fd6666eeb2a35872ec7d24ba7344fe6d",
+      "afterSha256": "52de064f3cf87c0e2f3f1bc6eec6f1447c2a67c53e4e4c6c0e724840ab489943",
+      "firstBodySha256": "79d15cd7c55e8b426f043ba34af384e97dbc69f85f64039f81f1d04e2883f44b",
+      "entityLabel": "洪大夫",
+      "behaviorLabel": "婶婶病重：赠灵芝与诊治购药",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "赠灵芝助婶婶",
+          "next": "care-and-shop"
+        },
+        {
+          "id": "care-and-shop",
+          "label": "伤者免费诊治，康健者购药",
+          "next": "care-and-shop"
+        }
+      ]
+    },
+    {
+      "scene": "s008",
+      "entity": "e180",
+      "behavior": "legacy-001",
+      "sourceInstaller": 2335,
+      "sourceEntry": 3383,
+      "sourceSegments": [
+        {
+          "start": 3383,
+          "end": 3386,
+          "terminal": "advance",
+          "next": 3387,
+          "sha256": "c28add37b1c10b1a6483a401c94d32d97b797ddc8190d558afa1c8dded6e385f"
+        },
+        {
+          "start": 3387,
+          "end": 3388,
+          "terminal": "reset",
+          "next": 3383,
+          "sha256": "fe96f57d6053ff297920190d203ad4f76cbde86c3922c964bfd59950beeb7ab7"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s011",
+          "path": "/entities/1/behaviors/trigger/default/flow/stages/0/body/88"
+        }
+      ],
+      "beforeSha256": "0ac7b72a839bc82ec54e9af3e434af3220d6ab4e23cb6318ea209e7211f6ef7c",
+      "afterSha256": "1f702d71e28252597a4722fb1674cfaf767c5ccb97eae81aea8987a6115dc441",
+      "firstBodySha256": "352139e4d8cc5304569b2155713d5d78327c2b4c8b0f0fe8662d827482b6d6a7",
+      "entityLabel": "老王",
+      "behaviorLabel": "求药归来：问候与称赞孝心",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "问候求药归来",
+          "next": "praise-filial-piety"
+        },
+        {
+          "id": "praise-filial-piety",
+          "label": "称赞孝心",
+          "next": "initial"
+        }
+      ]
+    },
+    {
+      "scene": "s008",
+      "entity": "e177",
+      "behavior": "legacy-001",
+      "sourceInstaller": 2152,
+      "sourceEntry": 2158,
+      "sourceSegments": [
+        {
+          "start": 2158,
+          "end": 2188,
+          "terminal": "advance",
+          "next": 2189,
+          "sha256": "38a51dc81562cd2e0c1f840b1767e46384db5bcc3885a11426e05b8efa4d73f8"
+        },
+        {
+          "start": 2189,
+          "end": 2190,
+          "terminal": "repeat",
+          "next": 2189,
+          "sha256": "09cd539bf071c1b7d48e5583992955e265fff75b97e3e9e524c069ae801c6b29"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s008",
+          "path": "/hooks/onEnter/variants/legacy-001/flow/stages/0/body/22"
+        }
+      ],
+      "beforeSha256": "169b21c08f1f6a7b9bd7a5c0cf93c0fb5ef332195346f8f6d7fe34bcfc908396",
+      "afterSha256": "27e9e8b397a1a17bd8be03af9a5532480ac40cc25945bb170bf6c758be76c21a",
+      "firstBodySha256": "04337d431d73724a4a8a5547dc3cbb4050d8f65f6e182b3b4e534d27cb16c0ed",
+      "entityLabel": "丁秀兰",
+      "behaviorLabel": "夜访丁家：挽留与怄气",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "挽留逍遥并质疑学剑之约",
+          "next": "pout"
+        },
+        {
+          "id": "pout",
+          "label": "赌气催逍遥走",
+          "next": "pout"
+        }
+      ]
+    },
+    {
+      "scene": "s008",
+      "entity": "e177",
+      "behavior": "legacy-002",
+      "sourceInstaller": 2338,
+      "sourceEntry": 2461,
+      "sourceSegments": [
+        {
+          "start": 2461,
+          "end": 2464,
+          "terminal": "advance",
+          "next": 2465,
+          "sha256": "914535f39c7bcc9115a3a8ccf62faa2ab066cb35ec2c8f4c3eb171961660a154"
+        },
+        {
+          "start": 2465,
+          "end": 2469,
+          "terminal": "repeat",
+          "next": 2465,
+          "sha256": "4a2b4b78f5516c539c7bd5f0f22380d0568c4e605710089fe820c04e22a60310"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s011",
+          "path": "/entities/1/behaviors/trigger/default/flow/stages/0/body/91"
+        }
+      ],
+      "beforeSha256": "24b633bc44c2a057d038ffa4fd6e56056a82c11b24888e7baf38b62302270969",
+      "afterSha256": "c4fd2b7b4f76f0fb8d8c920c5f163d20ba96255860142058e71fa56ed7e9fc1d",
+      "firstBodySha256": "5f9a616b14af32c9e6e3442a8839f19dbf728858ceab3fd542e578f4afedbab9",
+      "entityLabel": "丁秀兰",
+      "behaviorLabel": "探病问候：诉说父亲久病",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "询问探病来意",
+          "next": "fathers-chronic-illness"
+        },
+        {
+          "id": "fathers-chronic-illness",
+          "label": "说起爹爹旧疾",
+          "next": "fathers-chronic-illness"
+        }
+      ]
+    },
+    {
+      "scene": "s008",
+      "entity": "e176",
+      "behavior": "legacy-004",
+      "sourceInstaller": 3188,
+      "sourceEntry": 3254,
+      "sourceSegments": [
+        {
+          "start": 3254,
+          "end": 3258,
+          "terminal": "advance",
+          "next": 3259,
+          "sha256": "34c000fc85c48afed7f80c7a8b236a1dd4d0c37b05edbcd236ecf2b1b4949996"
+        },
+        {
+          "start": 3259,
+          "end": 3260,
+          "terminal": "repeat",
+          "next": 3259,
+          "sha256": "c3cdb50499aee1727d73b8767296b64bc27bc9d62ee610612a7a23317f7812ed"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s002",
+          "path": "/entities/6/behaviors/trigger/default/flow/stages/0/body/56"
+        }
+      ],
+      "beforeSha256": "0004bfdec57ca1e68d01a42ec29ff1a5945b6fe2a105d45b61ecb2c0ba67f144",
+      "afterSha256": "d6500f2d0f8a6abb2a59105e22678141ebebe8971185a974926edbcbfd677aed",
+      "firstBodySha256": "d55804affc2f6a9a474431b077e46975a6a823e9ce23a8c814b6d25a9c2c169e",
+      "entityLabel": "丁香兰",
+      "behaviorLabel": "远行前：香兰道别",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "询问逍遥远行",
+          "next": "remember-me"
+        },
+        {
+          "id": "remember-me",
+          "label": "叮咛别忘记自己",
+          "next": "remember-me"
+        }
+      ]
+    },
+    {
+      "scene": "s020",
+      "entity": "e342",
+      "behavior": "legacy-001",
+      "sourceInstaller": 4762,
+      "sourceEntry": 4778,
+      "sourceSegments": [
+        {
+          "start": 4778,
+          "end": 4780,
+          "terminal": "advance",
+          "next": 4781,
+          "sha256": "476a4e93ccfa09db85e747768487b333a1345074f085fdb922d017ccd2ce6cba"
+        },
+        {
+          "start": 4781,
+          "end": 4783,
+          "terminal": "repeat",
+          "next": 4781,
+          "sha256": "c3c904a6cc12a4e6509ac1600bab7f119f3a47e70f1791dc8ad8d650fb175ffc"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s020",
+          "path": "/entities/7/behaviors/trigger/default/flow/stages/0/body/294"
+        }
+      ],
+      "beforeSha256": "46227a62979d15610563473e9b87cae81f0d39f68acb4683d5598285289c3db5",
+      "afterSha256": "92c5fc9b1d233d7c87329255d34fda4d28f438cc7a81c3acec9075f9aa4cbf31",
+      "firstBodySha256": "980f38199cbb75950b4e82a3fadd13eca209fdab6dc36ff57ef75917f10e9c03",
+      "entityLabel": "赵灵儿",
+      "behaviorLabel": "离岛告别：叮嘱与催行",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "叮嘱一路小心",
+          "next": "urge-departure"
+        },
+        {
+          "id": "urge-departure",
+          "label": "催逍遥避开姥姥离岛",
+          "next": "urge-departure"
+        }
+      ]
+    },
+    {
+      "scene": "s035",
+      "entity": "e591",
+      "behavior": "legacy-001",
+      "sourceInstaller": 8532,
+      "sourceEntry": 9124,
+      "sourceSegments": [
+        {
+          "start": 9124,
+          "end": 9127,
+          "terminal": "advance",
+          "next": 9128,
+          "sha256": "b22735593d167b5f8717cea30580030f82c0b7dd2a9b6ed920858a43b1e14dbb"
+        },
+        {
+          "start": 9128,
+          "end": 9130,
+          "terminal": "repeat",
+          "next": 9128,
+          "sha256": "db0e8cf658e4ad362c9f0670fe3acb0ed22291a07e307b4b891d54f50f1f8732"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s036",
+          "path": "/entities/1/behaviors/trigger/default/flow/stages/0/body/18"
+        }
+      ],
+      "beforeSha256": "0db5934c7cc399ab44193a7d56a7932958a528e6017f7765ccc1dc21550d89ca",
+      "afterSha256": "313cc909627979c9e4009fe03218a42bf97f1d4e69441229e7e78617993e528d",
+      "firstBodySha256": "1635613582effd2eae958d7641beac6ad639c82ed63f66fb7e7b0decad8b47e6",
+      "entityLabel": "丫鬟",
+      "behaviorLabel": "林府丫鬟指路与问候",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "告知小姐在后花园赏月",
+          "next": "polite-greeting"
+        },
+        {
+          "id": "polite-greeting",
+          "label": "向姑爷问候",
+          "next": "polite-greeting"
+        }
+      ]
+    },
+    {
+      "scene": "s050",
+      "entity": "e844",
+      "behavior": "legacy-001",
+      "sourceInstaller": 12399,
+      "sourceEntry": 11053,
+      "sourceSegments": [
+        {
+          "start": 11053,
+          "end": 11056,
+          "terminal": "advance",
+          "next": 11057,
+          "sha256": "efc96f9f4cd8f7bd3b59445dab26b0d5a817ddf38194d359b80558f79a026cba"
+        },
+        {
+          "start": 11057,
+          "end": 11060,
+          "terminal": "repeat",
+          "next": 11057,
+          "sha256": "1c3bf4ce02db6417388521db56e09b2e268db8916b6405e117e48a08613cdfa5"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s059",
+          "path": "/entities/45/behaviors/trigger/default/flow/stages/0/body/29"
+        }
+      ],
+      "beforeSha256": "9ed8fbf97ea263c177eb3298dfe353cfc5aa1bdc03e4abf4960d5ebeef3f1505",
+      "afterSha256": "c704f1fceb2e7d9402c7ad83350de3692833957715e1d1135c5908f836eb56d3",
+      "firstBodySha256": "9828b1942fb52eece153587dbfc3e307484fde27a3a56b02e852af67cd48ed0a",
+      "entityLabel": "骆员外",
+      "behaviorLabel": "尸患平息：骆员外囤米赔本",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "埋怨除妖后生意赔本",
+          "next": "unsold-rice"
+        },
+        {
+          "id": "unsold-rice",
+          "label": "叹糯米只能等端午再卖",
+          "next": "unsold-rice"
+        }
+      ]
+    },
+    {
+      "scene": "s049",
+      "entity": "e813",
+      "behavior": "legacy-001",
+      "sourceInstaller": 12400,
+      "sourceEntry": 11061,
+      "sourceSegments": [
+        {
+          "start": 11061,
+          "end": 11075,
+          "terminal": "advance",
+          "next": 11076,
+          "sha256": "1f0ef8059ea6aa66e3266720e5df37695971b2405596b28b8d1e1b12861288ed"
+        },
+        {
+          "start": 11076,
+          "end": 11078,
+          "terminal": "repeat",
+          "next": 11076,
+          "sha256": "624873d7de0a4100205efbf2b676b0c8912ca8c84a25165c0c0baec3232febba"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s059",
+          "path": "/entities/45/behaviors/trigger/default/flow/stages/0/body/30"
+        }
+      ],
+      "beforeSha256": "fc5dffb96fa76b984a7213b60544969615b81222893702b883a362afff6a8516",
+      "afterSha256": "6346d099f5e765c693935c987cacac1ab280f1198a291a13be6573d4256ba7f7",
+      "firstBodySha256": "75214472ba92c5766be9a332237e5fe562c929cfac570acb46fd6e53e50db234",
+      "entityLabel": "守桥壮丁",
+      "behaviorLabel": "尸患平息：守桥壮丁解脱",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "确认尸妖已灭",
+          "next": "holiday-relief"
+        },
+        {
+          "id": "holiday-relief",
+          "label": "庆幸终于可以放假",
+          "next": "holiday-relief"
+        }
+      ]
+    },
+    {
+      "scene": "s049",
+      "entity": "e811",
+      "behavior": "legacy-001",
+      "sourceInstaller": 12401,
+      "sourceEntry": 11079,
+      "sourceSegments": [
+        {
+          "start": 11079,
+          "end": 11082,
+          "terminal": "advance",
+          "next": 11083,
+          "sha256": "33a899a90fc74717bef2476504c14267c5f92b9b5c4f31ca06d162028969e85c"
+        },
+        {
+          "start": 11083,
+          "end": 11086,
+          "terminal": "repeat",
+          "next": 11083,
+          "sha256": "33f18c380d8fd828b1e7d4759bf895b3a90062fed54ef80e7fc7cd2cf69cac5d"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s059",
+          "path": "/entities/45/behaviors/trigger/default/flow/stages/0/body/31"
+        }
+      ],
+      "beforeSha256": "db327a1f5bbc4476d9f874b1c7c80108d712d046987078bfb1c0d06eb1fc48b0",
+      "afterSha256": "29c8969a3c95f5763c5b6f0aa34fb524b2125644f855780ac50cf2a3c920c40d",
+      "firstBodySha256": "6feb2650a0b4d6b9b768375953c2d0c526ad50cddcf5cfcb325e8eaa522cd969",
+      "entityLabel": "居民",
+      "behaviorLabel": "尸患平息：居民感激",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "赞叹少侠除妖身手",
+          "next": "village-at-peace"
+        },
+        {
+          "id": "village-at-peace",
+          "label": "庆幸白河村恢复安宁",
+          "next": "village-at-peace"
+        }
+      ]
+    },
+    {
+      "scene": "s051",
+      "entity": "e883",
+      "behavior": "legacy-001",
+      "sourceInstaller": 12404,
+      "sourceEntry": 11087,
+      "sourceSegments": [
+        {
+          "start": 11087,
+          "end": 11092,
+          "terminal": "advance",
+          "next": 11093,
+          "sha256": "5d4dd853d530278426f8a2fa0e585f87cfe113a891f48e8d259ff12a454204ac"
+        },
+        {
+          "start": 11093,
+          "end": 11096,
+          "terminal": "repeat",
+          "next": 11093,
+          "sha256": "74d8eee7dd3d38d63e94dc55b3b64bf8e46f28f46acd7f8bb7c6fd0c1ef9ab30"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s059",
+          "path": "/entities/45/behaviors/trigger/default/flow/stages/0/body/34"
+        }
+      ],
+      "beforeSha256": "5fe2216ff76ccdbc037285b9fa158533f16c50c6e9a4e1e1a67a6c68da1b8e48",
+      "afterSha256": "2fbd79988b73a4507cc6aef64e7b0e149d6f6e56103013e4a75b746ffb9abc86",
+      "firstBodySha256": "6cc01c2d8af8309e5240454a87a7f73705a1749ab2fbdcd797901293f0bc13d9",
+      "entityLabel": "居民",
+      "behaviorLabel": "尸患平息：居民夸口",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "自称早已看出少侠不凡",
+          "next": "boast-of-restraint"
+        },
+        {
+          "id": "boast-of-restraint",
+          "label": "夸口自己只是不想出手",
+          "next": "boast-of-restraint"
+        }
+      ]
+    },
+    {
+      "scene": "s097",
+      "entity": "e1782",
+      "behavior": "legacy-001",
+      "sourceInstaller": 13631,
+      "sourceEntry": 14055,
+      "sourceSegments": [
+        {
+          "start": 14055,
+          "end": 14058,
+          "terminal": "advance",
+          "next": 14059,
+          "sha256": "d3da8471c3af4be06ee036d8ccfeda20135854ded17e9a5c9b8bd560cd6bc0da"
+        },
+        {
+          "start": 14059,
+          "end": 14061,
+          "terminal": "reset",
+          "next": 14055,
+          "sha256": "831067bcdb574c622656076bfe989b6a70d3ab9cd47083ffee12913b7e597320"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s097",
+          "path": "/entities/6/behaviors/trigger/default/flow/stages/0/body/25"
+        }
+      ],
+      "beforeSha256": "eff0e121e17c8e4262d55163d6621bfdcc5e9619422949c64aad70a889625d5a",
+      "afterSha256": "77bee1eefcf7b9650fb673e8f442f70a4a4547e33bf8ad6287c7661f69407065",
+      "firstBodySha256": "aea2a08833dbaedb9cc63d14b824a0ed77dd086a5d4cbc17b2ebba3ee0368568",
+      "entityLabel": "古董商",
+      "behaviorLabel": "行李失窃：古董商诉苦",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "哭诉行李财产被偷",
+          "next": "lament-bankruptcy"
+        },
+        {
+          "id": "lament-bankruptcy",
+          "label": "哀叹金元宝古董尽失",
+          "next": "initial"
+        }
+      ]
+    },
+    {
+      "scene": "s093",
+      "entity": "e1740",
+      "behavior": "legacy-001",
+      "sourceInstaller": 13855,
+      "sourceEntry": 14331,
+      "sourceSegments": [
+        {
+          "start": 14331,
+          "end": 14333,
+          "terminal": "advance",
+          "next": 14334,
+          "sha256": "25bfb3092d725bba7c660638c8019999fa81d325986c52cf03bc3b3e10f71c55"
+        },
+        {
+          "start": 14334,
+          "end": 14338,
+          "terminal": "repeat",
+          "next": 14334,
+          "sha256": "d8cdfd6cadbc810aefd7652b790924bf900fa100bb479b2a822d424be4b9a613"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s086",
+          "path": "/entities/5/behaviors/trigger/default/flow/stages/0/body/16"
+        }
+      ],
+      "beforeSha256": "af6bae18bd1f6f1ad80e5766f757d10d15c049c175f011d30e2629d83c9665c0",
+      "afterSha256": "53391e6862731cd66c73519103e8772953e434c8ee2f45c2cde10996bc96a8e4",
+      "firstBodySha256": "04caf763a36a0c4c55df3cab60cb535cde010fef48ddae3dcc67f199de96053e",
+      "entityLabel": "掌柜",
+      "behaviorLabel": "追查女飞贼：掌柜问讯",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "询问是否抓到女飞贼",
+          "next": "elusive-thief"
+        },
+        {
+          "id": "elusive-thief",
+          "label": "感叹女飞贼狡猾",
+          "next": "elusive-thief"
+        }
+      ]
+    },
+    {
+      "scene": "s108",
+      "entity": "e1998",
+      "behavior": "legacy-001",
+      "sourceInstaller": 19193,
+      "sourceEntry": 19199,
+      "sourceSegments": [
+        {
+          "start": 19199,
+          "end": 19202,
+          "terminal": "advance",
+          "next": 19203,
+          "sha256": "021e78574ff6c829257041e5b900626ba858c4eab12af27e4acdf1913aa93719"
+        },
+        {
+          "start": 19203,
+          "end": 19207,
+          "terminal": "advance",
+          "next": 19208,
+          "sha256": "12c00f170dfef2ddf12ab6edd1cd5308827ea360307474038184622d258066ed"
+        },
+        {
+          "start": 19208,
+          "end": 19210,
+          "terminal": "repeat",
+          "next": 19208,
+          "sha256": "fa00b235824b26644e235a9b7734c646c4dd45e2f115cc0837da728ff708a7d4"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s108",
+          "path": "/entities/10/behaviors/trigger/default/flow/stages/0/body/93"
+        }
+      ],
+      "beforeSha256": "348fb41e24b01f5ffb88f79fb3a432db5fcc7e593a06971ad02924547673428a",
+      "afterSha256": "94100fbc707cc433a976360bed73b3e86a20e2204a9090f1a9f2069766f962b6",
+      "firstBodySha256": "822ca723ec467cd2d7e5eeab2ea968793d0949eb7558312cc360f80af4b0e0fa",
+      "entityLabel": "婢女",
+      "behaviorLabel": "少夫人离家：婢女辩护与同情",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "告知少夫人吵架后离家",
+          "next": "defend-her-sincerity"
+        },
+        {
+          "id": "defend-her-sincerity",
+          "label": "为少夫人的真心辩护",
+          "next": "pity-young-madam"
+        },
+        {
+          "id": "pity-young-madam",
+          "label": "同情少夫人的处境",
+          "next": "pity-young-madam"
+        }
+      ]
+    },
+    {
+      "scene": "s100",
+      "entity": "e1812",
+      "behavior": "legacy-001",
+      "sourceInstaller": 19781,
+      "sourceEntry": 19865,
+      "sourceSegments": [
+        {
+          "start": 19865,
+          "end": 19868,
+          "terminal": "advance",
+          "next": 19869,
+          "sha256": "c6a570f54491173c2efdde73aa50d06a06b1c87d22e88c79920e1b0e778b4162"
+        },
+        {
+          "start": 19869,
+          "end": 19872,
+          "terminal": "repeat",
+          "next": 19869,
+          "sha256": "93786c143cecb84ebc81ab334c3be00f7b80d15bd50c74267c4732e88183d9e6"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s108",
+          "path": "/hooks/onEnter/variants/legacy-001/flow/stages/0/body/68"
+        }
+      ],
+      "beforeSha256": "5f358119ac6c9b5a20f9294053dd41b848c30eacad896730726d9084e5e2e126",
+      "afterSha256": "bf1d442c61ee9deaa208b74994bcb507cfce83fc1df5ca58e4b8298b8cbabfcb",
+      "firstBodySha256": "5894169422d498215eefc8f34e911b09c0ddfd07447b3265de252a2abd197084",
+      "entityLabel": "守卫",
+      "behaviorLabel": "尚书府守卫：道士离府与禁令",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "告知道士仓惶离府",
+          "next": "guard-orders"
+        },
+        {
+          "id": "guard-orders",
+          "label": "说明没有命令不得入府",
+          "next": "guard-orders"
+        }
+      ]
+    },
+    {
+      "scene": "s234",
+      "entity": "e4212",
+      "behavior": "legacy-001",
+      "sourceInstaller": 31626,
+      "sourceEntry": 32326,
+      "sourceSegments": [
+        {
+          "start": 32326,
+          "end": 32335,
+          "terminal": "advance",
+          "next": 32336,
+          "sha256": "398fb8dd93a09b0535e6c2d8d468146284f455a44f13c24906c77b07a819bf28"
+        },
+        {
+          "start": 32336,
+          "end": 32339,
+          "terminal": "repeat",
+          "next": 32336,
+          "sha256": "52d6c20223a3801909fa01d06e3b9855944945e0fa1ac3cb21888c666782b914"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s233",
+          "path": "/hooks/onEnter/variants/default/flow/stages/0/body/50"
+        }
+      ],
+      "beforeSha256": "184667a6a4500bbb9f3e92573ae63a10ebd807a30bbeb6ab4b7dd4df2e280d14",
+      "afterSha256": "9683788057675620f6517f69b556584f2d30ddfac60ce628f541ab0b37b311e4",
+      "firstBodySha256": "fa3709421f39802c227b00467b194662608179f1e70d522f65a6f7ba4b534d1b",
+      "entityLabel": "白苗族长",
+      "behaviorLabel": "止战商议：惊叹灵儿与追问办法",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "惊叹灵儿如巫后再世",
+          "next": "ask-for-plan"
+        },
+        {
+          "id": "ask-for-plan",
+          "label": "追问化解战争的办法",
+          "next": "ask-for-plan"
+        }
+      ]
+    },
+    {
+      "scene": "s132",
+      "entity": "e2313",
+      "behavior": "legacy-001",
+      "sourceInstaller": 17823,
+      "sourceEntry": 20013,
+      "sourceSegments": [
+        {
+          "start": 20013,
+          "end": 20027,
+          "terminal": "reset",
+          "next": 15923,
+          "sha256": "18274b6243280a03ec2b52dadaa34a5f37c0544ff2b65f26b527cc9a0146b7d7"
+        },
+        {
+          "start": 15923,
+          "end": 15926,
+          "terminal": "repeat",
+          "next": 15923,
+          "sha256": "d891cf8c5b9a531ec52b1d3973779204e62f26d05bbd5df47d8f09d2d1d77b33"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s100",
+          "path": "/entities/25/behaviors/trigger/default/flow/machine/states/decision-003-yes/body/14"
+        }
+      ],
+      "beforeSha256": "ae36a3b498588e6d1f0125ec8c38e7565a8b3d26734b3142847a6a32cfffd9ef",
+      "afterSha256": "524a058cd116ea2e172943023b7df9daa0bef0ec318afd48e524911476a3f2a9",
+      "firstBodySha256": "e36c931bad8e85e21aa37fa989f22e16f2c9a733a7ad1da7d7790e3b9bf27ba4",
+      "entityLabel": "小莲儿",
+      "behaviorLabel": "寻找小莲儿：认错人与日常招呼",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "逍遥发现认错了人",
+          "next": "ordinary-greeting"
+        },
+        {
+          "id": "ordinary-greeting",
+          "label": "恢复日常招呼",
+          "next": "ordinary-greeting"
+        }
+      ]
+    },
+    {
+      "scene": "s174",
+      "entity": "e2875",
+      "behavior": "legacy-003",
+      "sourceInstaller": 26587,
+      "sourceEntry": 28551,
+      "sourceSegments": [
+        {
+          "start": 28551,
+          "end": 28605,
+          "terminal": "advance",
+          "next": 28606,
+          "sha256": "e5737940ee36e23cafa8ae18d1a8a874299989b308128458c815d3db97d3da16"
+        },
+        {
+          "start": 28606,
+          "end": 28613,
+          "terminal": "repeat",
+          "next": 28606,
+          "sha256": "31aaf850a725c52b5a7f8517e70703fb3a7ca0423f6d9df3a55c664602790945"
+        }
+      ],
+      "canonicalCallers": [
+        {
+          "scene": "s188",
+          "path": "/hooks/onEnter/variants/default/flow/stages/0/body/153"
+        }
+      ],
+      "beforeSha256": "6dbc5e48e87bf90d4f3e50280e9e8d69c85c0b3b211129ed2065629013097a32",
+      "afterSha256": "b5971b2268ed33d0834f7cbf2ba0fbde49767a0a5b8425dacf4579b262be9201",
+      "firstBodySha256": "4916dd2663ec07176f56ca5144cefc309e423df2908253fa29cf87e471eb578f",
+      "entityLabel": "老婆婆",
+      "behaviorLabel": "阿奴来访：师徒相见与告别",
+      "steps": [
+        {
+          "id": "initial",
+          "label": "婆婆介绍阿奴并催办正事",
+          "next": "anu-farewell"
+        },
+        {
+          "id": "anu-farewell",
+          "label": "阿奴向婆婆告别",
+          "next": "anu-farewell"
+        }
+      ]
+    }
+  ],
+  "adjacent": [
+    {
+      "scene": "s010",
+      "entity": "e191",
+      "behavior": "default",
+      "sourceEntry": 2003,
+      "injuredTarget": 2008,
+      "sourceHealthyEnd": 2007,
+      "sourceInjuredEnd": 2017,
+      "beforeSha256": "178fa217c49e15c1de6d81432f50fb13082b307927782c00c60333f10d1c655e",
+      "afterSha256": "996af5ff168fef5d178e3b6cf8bfca50352366aded0fe617f7e7f6c61db23a80",
+      "change": "Move the unchanged healthy fallback into branch.else; explicitly fade in for 600 ms after treatment clearDialog.",
+      "behaviorLabel": "邻里问诊",
+      "stepLabel": "受伤诊治，无恙劝返"
+    },
+    {
+      "scene": "s010",
+      "entity": "e191",
+      "behavior": "legacy-003",
+      "sourceEntry": 3308,
+      "injuredTarget": 3320,
+      "sourceHealthyEnd": 3319,
+      "sourceInjuredEnd": 3331,
+      "beforeSha256": "e022d7dd303e186d32d21d996ab31b2ff36a60957a867143e58d20b4ff68b716",
+      "afterSha256": "177fc1c9425710e6c228bb195403ffb4b1f90a41ed22bfe976d459d8bdeb38b8",
+      "change": "Move the unchanged healthy fallback into branch.else; explicitly fade in for 600 ms after treatment clearDialog.",
+      "behaviorLabel": "结伴归来：诊治与购药",
+      "stepLabel": "受伤免费诊治，康健叮嘱购药"
+    }
+  ],
+  "localeAdditions": [
+    {
+      "key": "dlg.719",
+      "sourceMessage": 719,
+      "textSha256": "d7e98ae42bcb86a67a15bf535749e81ccb2e469ceecce0f9fa48df6d3b890903"
+    },
+    {
+      "key": "dlg.1245",
+      "sourceMessage": 1245,
+      "textSha256": "1400f3132ff9e30314fcd160e776a80a915a5a060deb74661c4d2c7351c20280"
+    },
+    {
+      "key": "dlg.776",
+      "sourceMessage": 776,
+      "textSha256": "ac789241fd946dfae342c429ba2e3c04d50862a68cdbef4d79fddd33512cdaa5"
+    },
+    {
+      "key": "dlg.877",
+      "sourceMessage": 877,
+      "textSha256": "a349b6f7f8272a13f4ad239a3a8bb89bdc84211f9bc28514a90ef66e7a563558"
+    },
+    {
+      "key": "dlg.878",
+      "sourceMessage": 878,
+      "textSha256": "d336870fa357378301e357cfbc09b907d8b0d066d87365befe99b98f4324f539"
+    },
+    {
+      "key": "dlg.1165",
+      "sourceMessage": 1165,
+      "textSha256": "a30bfbd54c694b97d855fd69d38b23eb1f7c44e52651dfe13f9abd5beb10320a"
+    },
+    {
+      "key": "dlg.1784",
+      "sourceMessage": 1784,
+      "textSha256": "e77d004519986a7feefe2b082d0b746a376d6a50127cd05cbbc577a731c8a871"
+    },
+    {
+      "key": "dlg.3245",
+      "sourceMessage": 3245,
+      "textSha256": "bd9afff84117cdcef83986d3a8853775d4c0c52fe2de4735f000fcd4c8811a9a"
+    },
+    {
+      "key": "dlg.4018",
+      "sourceMessage": 4018,
+      "textSha256": "401c11cf3f587a078700f97a3eb505ea051bc51b088238e9588c74df9ec5f918"
+    },
+    {
+      "key": "dlg.4019",
+      "sourceMessage": 4019,
+      "textSha256": "d9588e14ea9008d150d109727b2d1209ca3079e43a5f4c3bf3de9d3f94c5382c"
+    },
+    {
+      "key": "dlg.4031",
+      "sourceMessage": 4031,
+      "textSha256": "3203c88d4bd2753e1b2ba840b0f433ba57cdf9972f4366650f667047f4724bff"
+    },
+    {
+      "key": "dlg.4036",
+      "sourceMessage": 4036,
+      "textSha256": "ca849134123d80db85c796afadb0591f3693b173ea16a0f591cf2766c4b11aea"
+    },
+    {
+      "key": "dlg.4037",
+      "sourceMessage": 4037,
+      "textSha256": "18dca01e6fa8a030de120fc8105ad6fac31fed4c17ad5bb3cd86cd97e8ab47bc"
+    },
+    {
+      "key": "dlg.4044",
+      "sourceMessage": 4044,
+      "textSha256": "97c7c496ee64cce16e970bb6ca24c0c79ad445f4bd3bdec0e66cd3247b4de21a"
+    },
+    {
+      "key": "dlg.4045",
+      "sourceMessage": 4045,
+      "textSha256": "6cd7539d65a35164e5dd696cfb3971d15f0df4cc13524f767a9241d78fe7f5ef"
+    },
+    {
+      "key": "dlg.4704",
+      "sourceMessage": 4704,
+      "textSha256": "d4e6372500f81c672a97d051ebe20007608fbaaaa882afcb3ebd74c573675f6f"
+    },
+    {
+      "key": "dlg.4705",
+      "sourceMessage": 4705,
+      "textSha256": "d3ca2ab4e8792f7d5a028b88c2767cd6f79824c01db37371fe396947b083dce7"
+    },
+    {
+      "key": "dlg.4825",
+      "sourceMessage": 4825,
+      "textSha256": "2c899b59bfa356d0a0c819355273282cd3a0c1a9259672bcd8791572439a1a4e"
+    },
+    {
+      "key": "dlg.4826",
+      "sourceMessage": 4826,
+      "textSha256": "5ca75828ac908b1372cacd0aecc13946ffaf81c0643913d749fd3f5ad8fdcb68"
+    },
+    {
+      "key": "dlg.4827",
+      "sourceMessage": 4827,
+      "textSha256": "4f81eac07c4f9012fff56e6720e12a0556d0b07604c34310d8457dd845877f86"
+    },
+    {
+      "key": "dlg.4828",
+      "sourceMessage": 4828,
+      "textSha256": "cc0af5db2314a04fd84a2758f629d628317a9dc4068904d10a5ad4133d232bce"
+    },
+    {
+      "key": "dlg.6961",
+      "sourceMessage": 6961,
+      "textSha256": "e268cfed01c559c20c6719125ce7291aec8f39bbb38f428be415536349609954"
+    },
+    {
+      "key": "dlg.6957",
+      "sourceMessage": 6957,
+      "textSha256": "5b0a903fd39c25d4c870c7a7fa966df49bfbc505fc8775051d77fa4a5dd17b27"
+    },
+    {
+      "key": "dlg.6958",
+      "sourceMessage": 6958,
+      "textSha256": "0f58c2b5182119020b154754e3e1eef7bc9bff81c27c693aae435583d6648128"
+    },
+    {
+      "key": "dlg.6959",
+      "sourceMessage": 6959,
+      "textSha256": "69defc3aeef746e3898288d897077013339acc4fa09ba6c8b819f1bace20510c"
+    },
+    {
+      "key": "dlg.11181",
+      "sourceMessage": 11181,
+      "textSha256": "979bf0a5d8cabeae0af502bcc597fbc16023e4a31005d81a1b1996f806b2ec33"
+    },
+    {
+      "key": "dlg.10154",
+      "sourceMessage": 10154,
+      "textSha256": "9b1f03f8ad2e39686f3e68b299225fceb3e9ba354e2f269cfd83c6bf02a50a03"
+    },
+    {
+      "key": "dlg.10156",
+      "sourceMessage": 10156,
+      "textSha256": "ebb702bae03694629dcd880d7e61e2f8c8d67c3847ca6413fe33751add71a452"
+    }
+  ],
+  "localeReused": [
+    "dlg.5438",
+    "dlg.5439",
+    "dlg.7199",
+    "dlg.7200"
+  ],
+  "dialogueIdentityDecision": {
+    "rule": "An activation boundary resets the first-stage display to top and clears the portrait. Restore those presentation defaults unless the new segment explicitly declares a style/portrait.",
+    "explicitAuthorSpeakerWithoutNewSourceNameRow": [
+      "s008/e180/legacy-001:praise-filial-piety",
+      "s008/e177/legacy-001:pout",
+      "s008/e176/legacy-004:remember-me",
+      "s097/e1782/legacy-001:lament-bankruptcy"
+    ],
+    "reason": "The same already identified NPC continues its adjacent utterance. Explicit author identity records that attribution; it is not claimed to be an extra original name row.",
+    "noInventedName": "s020/e342/legacy-001 keeps no speaker key and uses the explicit original portrait 011."
+  },
+  "fadeRepair": {
+    "scene": "s010",
+    "entity": "e191",
+    "behaviors": [
+      "default",
+      "legacy-001",
+      "legacy-003"
+    ],
+    "sequence": [
+      "fade out 600",
+      "clearDialog",
+      "fade in 600",
+      "final treatment dialogue"
+    ],
+    "source": "Original redraw opcode 0x05 consumes needToFadeIn for 600 ms; current clearDialog only closes the dialog. No runtime coupling added."
+  },
+  "knownGood": [
+    {
+      "scene": "s084",
+      "entities": [
+        "e1599",
+        "e1600",
+        "e1601"
+      ],
+      "entry": 14990,
+      "successor": 14999,
+      "reason": "Each initial body explicitly selects legacy-002 for all three constables. Actual project-runtime plus SAVE10 restoration verifies no repeated gate nudge."
+    }
+  ],
+  "unmodifiedFirstBodies": 18,
+  "unaffectedSceneSubtrees": [
+    {
+      "scene": "s010",
+      "sha256": "ea27902aeb6e066bc1041b35bbcc0b3a589f8268aeae4e9db2f3af74b73cdb7c"
+    },
+    {
+      "scene": "s008",
+      "sha256": "9ab58e85ee3822efbcf9aeb363809a1a88058bac8d354ff93395990fc849649d"
+    },
+    {
+      "scene": "s020",
+      "sha256": "added0f79e9ebb55698ec6902edb05257798801146612eb9de90cd6f000e7af0"
+    },
+    {
+      "scene": "s035",
+      "sha256": "608e0fc659e65db4fc8442aaf2ac3c2bc4f3c8da1f1a009f1f760ff4e8c9a04d"
+    },
+    {
+      "scene": "s050",
+      "sha256": "5ebe7dfe8327799f38cae6f108910d7caae59b4339c9ea25a65455a6ed190093"
+    },
+    {
+      "scene": "s049",
+      "sha256": "ca0d7e1f0445f99befd15f2ace815a6271390cda4e7c6dcf24787cc3ad8726a9"
+    },
+    {
+      "scene": "s051",
+      "sha256": "92b1273db4570e8eedf5d4d97f66b9dd7be5bbd131a4df3b8d7725d066925033"
+    },
+    {
+      "scene": "s097",
+      "sha256": "9e86bae73f9ccd68e097dfe84a0fd0b90cbbef8c516fd2494224be5a9bab56c5"
+    },
+    {
+      "scene": "s093",
+      "sha256": "7dd79ddae9ec4122f05da7a719751319a11c5dece264f12007523bc90e5866fe"
+    },
+    {
+      "scene": "s108",
+      "sha256": "7328a8cdef71b36a9b255ea6691c0c83aca110ced85532b6492e3b06da238c40"
+    },
+    {
+      "scene": "s100",
+      "sha256": "6d6a59c44ed6d2bf71c6c01f36ad9feb1c8777fc96bb28d6f4f329fc940ade23"
+    },
+    {
+      "scene": "s234",
+      "sha256": "391ec5fc338177aeb3f5fad3da62810d4a30921c3f87173e92a9c13120f15951"
+    },
+    {
+      "scene": "s132",
+      "sha256": "6214c2fd715ffdab126f198f0e72727a57d444126772d11fa1083cca4eb8ee27"
+    },
+    {
+      "scene": "s174",
+      "sha256": "8ee4af6078c45e5b0b0e9c267470c03fe405c262318c7a38417cb459bbb502be"
+    }
+  ],
+  "protectedScenes": [
+    {
+      "scene": "s000",
+      "sha256": "1103c1b912ee25c244ac8746ef1acf6b380619101e79ada023013c1deca1b4e2"
+    },
+    {
+      "scene": "s001",
+      "sha256": "1f1b79e5672a0fd24e1d8a383a72ca956fa0b317ed1387a49e23b15a72b515f0"
+    },
+    {
+      "scene": "s002",
+      "sha256": "7c441f174f2726ad6dc546e4cb9e7fd6b11da8c0b37fd8ab1d04a2d0231bd893"
+    },
+    {
+      "scene": "s003",
+      "sha256": "8609eac799f3b110be8d9663662d3f14f4999450946b9b26b477e01b85771a6b"
+    },
+    {
+      "scene": "s004",
+      "sha256": "c5b11d142795cfbe195d4333bedde8e207e0a108d238d9b000a4895f8dc9063f"
+    },
+    {
+      "scene": "s005",
+      "sha256": "25205096ee4d10e6c089cd5093d5bcbfb52f018f070a496125cd1a8fce2240eb"
+    }
+  ],
+  "verification": {
+    "test": "packages/reforge/src/pal-script-successor-governance.test.ts",
+    "tests": 31,
+    "visual": "not run; deferred representative E2E, no video or editor mutation"
+  },
+  "deferred": [
+    {
+      "scene": "s021",
+      "entity": "e403",
+      "entry": 5818,
+      "reason": "Follow-up dlg2074 has ambiguous speaker context; do not guess."
+    },
+    {
+      "entries": [
+        17546,
+        17573,
+        17632
+      ],
+      "reason": "Root reachability not proven."
+    },
+    {
+      "scene": "s049",
+      "entity": "e813",
+      "reason": "Existing first paragraph bridge-guard dialogue inherits Xiaoyao portrait; unchanged and recorded for a separate dialogue-context family."
+    }
+  ]
+}

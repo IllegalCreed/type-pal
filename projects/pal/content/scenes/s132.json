@@ -1084,6 +1084,7 @@
     },
     {
       "id": "e2313",
+      "label": "小莲儿",
       "pos": {
         "col": 146,
         "row": 75,
@@ -1138,7 +1139,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "寻找小莲儿：认错人与日常招呼",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1220,6 +1221,32 @@
                         ]
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "逍遥发现认错了人",
+                  "next": "ordinary-greeting"
+                },
+                {
+                  "id": "ordinary-greeting",
+                  "label": "恢复日常招呼",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.胖妓女"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.5438"
+                          },
+                          {
+                            "text": "dlg.5439"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

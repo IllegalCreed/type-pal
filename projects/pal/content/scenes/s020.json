@@ -64,6 +64,7 @@
     },
     {
       "id": "e342",
+      "label": "赵灵儿",
       "pos": {
         "col": 95,
         "row": 23,
@@ -539,7 +540,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "离岛告别：叮嘱与催行",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -565,6 +566,32 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "叮嘱一路小心",
+                  "next": "urge-departure"
+                },
+                {
+                  "id": "urge-departure",
+                  "label": "催逍遥避开姥姥离岛",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.011",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.1784"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

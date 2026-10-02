@@ -1197,6 +1197,7 @@
     },
     {
       "id": "e1812",
+      "label": "守卫",
       "pos": {
         "col": 31,
         "row": 7,
@@ -1250,7 +1251,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "尚书府守卫：道士离府与禁令",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1275,6 +1276,32 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "告知道士仓惶离府",
+                  "next": "guard-orders"
+                },
+                {
+                  "id": "guard-orders",
+                  "label": "说明没有命令不得入府",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守　卫"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.7199"
+                          },
+                          {
+                            "text": "dlg.7200"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }
