@@ -9,7 +9,6 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](PRE-005-DEBT-1-current-edge-closeout.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -186,6 +185,7 @@
 | [OPS-TST-PERF-FRESH - release fresh hook/test 超时根因](../archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-TST-PERF-RW - release worker 墙钟优化](../archive/tasks/done/OPS-TST-PERF-release-wallclock.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债](../archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](../archive/tasks/done/PRE-005-DEBT-1-current-edge-closeout.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](../archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧](../archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |

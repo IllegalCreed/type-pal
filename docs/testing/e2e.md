@@ -323,7 +323,7 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
   `004`默认`story`只走正常剧情；取消/错误站位/耗酒边界归`items`，存读档归`saves`，`both`汇总六个真实case。
   后续段不得重新把专项测试插入正常剧情演示。
 - **尚缺**：`005+`完整主支线、Q1/Q2全矩阵、完整编辑器工作流E2E与Content Studio窄录制适配。
-  001～004的本地原声录制工具已在[005前清账](../ops/tasks/PRE-005-DEBT-1-current-edge-closeout.md)建设；
+  001～004的本地原声录制工具已在[005前清账](../ops/archive/tasks/done/PRE-005-DEBT-1-current-edge-closeout.md)建设；
   单引擎命令追加`--capture`，004仅支持正常`story`，不得将capture输出用作verify前驱。
   001先验证真实编码准备，再执行正常新的故事输入；视频与音频沿同一时间轴裁取，失败不报成功。
   用户因磁盘空间删除了录像；后续不自动补录，必要时按段生成并及时清理。不据局部代码/短样验收宣布系列`capture-ready`。

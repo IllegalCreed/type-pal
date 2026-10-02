@@ -1,6 +1,6 @@
 # PRE-005-DEBT-1 — 005前当前边角与验收欠账收口
 
-Status: review
+Status: done
 Phase: ops
 Owner: Codex Root
 Coding Owner: 各独立包见白名单，Root统一接收
@@ -24,8 +24,8 @@ Branch: codex/pre-005-cleanup
 | 切场景朝向保持无法清除 | 三落点可去掉显式facing，其余继承/过渡/保存重开保持 | pre005_editor_edges |
 | 地图清选通知残留 | 真正Esc清选和Inspector清空均给既有清空通知，其它Esc取消语义不变 | pre005_editor_edges |
 | 深链预览伪造帧0 | 无真实采样不造帧；预算截断不伪装完整循环，当前真实资源UI可解释 | pre005_sprite_preview |
-| 001–004录制与音轨 | 原声小样已核，按[E2E-CAPTURE-1](../archive/tasks/done/E2E-CAPTURE-1-local-001-004-media.md)建设正常剧情录制 | pre005_media_probe |
-| 自动脚本引用定位 | 实际“编辑自动脚本”到auto方案，非错误交互页；[窄卡](../archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md) | pre005_editor_edges |
+| 001–004录制与音轨 | 原声小样已核，按[E2E-CAPTURE-1](E2E-CAPTURE-1-local-001-004-media.md)建设正常剧情录制 | pre005_media_probe |
+| 自动脚本引用定位 | 实际“编辑自动脚本”到auto方案，非错误交互页；[窄卡](EDITOR-AUTO-LOCATOR-1-current-script-target.md) | pre005_editor_edges |
 | 已验收任务与过期文档 | 按用户批准/独立证据闭合对应卡；历史失败不改写，当前文档不再宣称仅001/002或旧版本 | Root |
 | 旧证据/分支/worktree | 先保全真实checkpoint/trace/截图和来源，再仅清理确认退役的精确对象 | Root |
 
@@ -169,3 +169,20 @@ Root按磁盘约束删除自身14个旧合成/探针音视频（均在两个已�
 本轮不启动005、不改PAL剧情、不开服务器版本化素材库，也不借此关闭后期语义命名/全游戏Q1/Q2/外部补测。
 用户已删整片，交付是代码与小型回执；修订后没有再次完整录制RF001，不对已删视频做媒体验收承诺。
 下一步仅最终Git交付和本轮已退役工作树清理，无需用户代跑技术测试。
+
+## 最终交付与清理
+
+全部代码与前述验收文档已由main快进到0d459f36c并推送，先行编辑器d786ca900和另一任务的磁盘清理f913ac454均保留。
+最终E2E工具182/182、docs822文档/4340链接/261任务0问题、lint2762文件0/0/0通过；未再生成整段录像。
+Root build按同卷rename移至主树`build/evidence-archive/pre005-final-root/`，968文件/259238930字节，
+移动前后逐文件SHA一致，清单为其中`preservation-manifest.json`；没有再次复制这批文件，没有遗留mp4/webm。
+原始报告中的旧绝对路径保持原样作来源，查看当前文件请按该前缀映射。
+
+本轮最后4处工作树（Root e2e-003、pre005-capture、pre005-editor-edges、pre005-sprite-preview）已退休，
+前两处有Codex可恢复快照，后三个贡献者tip另有`refs/archive/pre005-20261002/codex/*`保护。
+累计本卡12处worktree、17条本地分支、2条远端分支清理；不包含另一任务清理的180个Cursor临时树。
+唯一移除的未跟踪依赖是本轮capture树指向main/node_modules的符号链接，目标目录未动。
+主树保留用户.zcodeignore，原游戏视频/素材/存档不变，6012仍为PID88523、同s003标签、已保存状态。
+
+本卡按已明确的当前边角与节省空间范围done；素材库仍在发布阶段，全量Q1/Q2和后期脚本命名仍归原任务。
+无下一位Agent提示词，本批已收口；005未启动，等待用户给出该段剧情范围。

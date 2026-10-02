@@ -7,7 +7,7 @@ Visual Verification Timing: dev-functional（修复时做最小弹窗闭环）
 
 ## 已核事实
 
-2026-10-02用户要求清当前边角；[PRE-005-DEBT-1](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)已核准本窄修。
+2026-10-02用户要求清当前边角；[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)已核准本窄修。
 当前真实位置为`command-form-world.tsx:585/693`，公开表单诊断再次复现只多出facing:left。
 仅保持回调显式makeLoadScene，保留其它rebuild继承、三落点及过渡；Root与独立核验均premise verified/design agree，build allowed。
 下面初始draft描述和旧路径仅作历史取证，不再是未授权状态。

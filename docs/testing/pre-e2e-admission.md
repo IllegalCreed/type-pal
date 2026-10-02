@@ -2,7 +2,7 @@
 
 **历史快照，不作当前待办表（2026-10-02）**：本页主体记录2026-09-21基线，保留当时问题、失败计数与排期。
 当前content21/SAVE10，001～004两阶段各自runner、断言与检查点已建；见[现行E2E合同](e2e.md)、
-[任务看板](../ops/board.md)及[005前清账](../ops/tasks/PRE-005-DEBT-1-current-edge-closeout.md)。
+[任务看板](../ops/board.md)及[005前清账](../ops/archive/tasks/done/PRE-005-DEBT-1-current-edge-closeout.md)。
 下文“当前/尚无/尚未”仅指其标明日期，不表示已完成工程需要重做，也不替代其余审计项的逐项验收。
 
 **2026-09-27排期更新**：用户要求Codex转E2E路线方案讨论，GLM/Cursor继续后台补测，

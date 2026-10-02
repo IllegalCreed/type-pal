@@ -8,7 +8,7 @@ Visual Verification Timing: dev-functional（实施时最小地图选区/Esc 回
 
 ## 已核观察
 
-2026-10-02用户清边角准入见[PRE-005-DEBT-1](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)。
+2026-10-02用户清边角准入见[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)。
 Root与独立核验确认底栏是操作通知；Esc真正清选和Inspector明确清空应如鼠标清选报告“选区已清空。”。
 此修复不依赖把底栏改成实时状态栏，故下方旧待选歧义已消解。两入口共享清选回调，保留其它Esc优先级。
 Root premise verified/design agree/build allowed，限MapMode及相邻回归，不改变全局通知机制。

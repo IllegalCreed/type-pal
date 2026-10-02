@@ -16,7 +16,7 @@ Visual Verification Timing: E2E集中批次
 
 ## 范围与前提
 
-[PRE-005-DEBT-1](../../../tasks/PRE-005-DEBT-1-current-edge-closeout.md)已将当前001–004录制欠账列入本轮，
+[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)已将当前001–004录制欠账列入本轮，
 用户选择先清当前边角，服务器素材库保持发布阶段。只建设本地碎片录像，不接Content Studio活动/发布，
 不宣布完整Q1/Q2或系列capture-ready。001–004仍共享已批准剧情边界、正常输入和结束断言。
 
