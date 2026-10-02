@@ -361,7 +361,8 @@ function extractCompleteExpect(text, startIdx) {
   while (i < text.length && /\s/.test(text[i])) i++
   if (text[i] !== '(') return null
   i = balanceFrom(text, i)
-  // Chain .toEqual([...]) / .toThrow() / .rejects... across lines
+  // Chain .not.toBeNull() / .toEqual([...]) / .rejects.toThrow() across lines.
+  // Keep consuming `.ident` / `.ident(` until the chain ends (do not stop at bare `.not`).
   for (;;) {
     let k = i
     while (k < text.length && /\s/.test(text[k])) k++
@@ -373,7 +374,11 @@ function extractCompleteExpect(text, startIdx) {
       i = balanceFrom(text, k)
       continue
     }
+    // Property access without call (rare) — still part of chain if followed by `.`
     i = k
+    let peek = i
+    while (peek < text.length && /\s/.test(text[peek])) peek++
+    if (text[peek] === '.') continue
     break
   }
   return compactOutsideStrings(text.slice(startIdx, i))
@@ -416,6 +421,9 @@ function isOracleIncomplete(oracle) {
     return true
   // Truncated mid-chain: ends with `([` or bare `expect(() =>`
   if (/\[\s*$/.test(oracle) || /expect\(\(\)\s*=>\s*$/.test(oracle)) return true
+  // Bare `.not` / `.rejects` / `.resolves` without matcher (C03-G04-02 style)
+  if (/(?:^|\|)\s*expect\([\s\S]*?\)\.(?:not|rejects|resolves)\s*(?:\||$)/.test(oracle)) return true
+  if (/\.(?:not|rejects|resolves)\s*$/.test(oracle.trim())) return true
   return false
 }
 
@@ -1321,13 +1329,16 @@ for (const t of directed.tests ?? []) {
     if (toolOldAssertionCandidate) {
       contract.toolOldAssertionCandidate = toolOldAssertionCandidate
     }
-    // Honesty: humanVerified only when explicitly human-ledger (not tool-string-match).
-    if (
-      overlayRest.verification === 'tool-string-match' ||
-      (overlayRest.humanVerified === true && overlayRest.verification !== 'human-ledger')
-    ) {
+    // Honesty: humanVerified only when overlay explicitly says human-ledger + true.
+    const isHumanLedger =
+      overlayRest.verification === 'human-ledger' && overlayRest.humanVerified === true
+    if (isHumanLedger) {
+      contract.humanVerified = true
+      contract.verification = 'human-ledger'
+    } else {
       contract.humanVerified = false
-      contract.verification = String(overlayRest.verification ?? 'tool-string-match')
+      contract.verification = String(overlayRest.verification ?? 'staging-draft')
+      if (contract.verification === 'human-ledger') contract.verification = 'staging-draft'
     }
     overlaysApplied++
   }

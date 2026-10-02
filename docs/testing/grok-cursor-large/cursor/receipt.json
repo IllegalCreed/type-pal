@@ -7,14 +7,11 @@
   "branch": "codex/cursor-asset-ui-large-r1",
   "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "reviewedCandidate": "e3bcc779d52a8e3ed2a1a9b2ceb3c3fe1e1c3db4",
-  "priorEvidenceHead": "e3bcc779d52a8e3ed2a1a9b2ceb3c3fe1e1c3db4",
-  "reworkEvidenceHead": "cac301580d1988e65c97eedf55b623e98289e596",
-  "candidateSha": "cac301580d1988e65c97eedf55b623e98289e596",
-  "reworkCloses": [
-    "CURSOR-R4-01",
-    "CURSOR-R4-02"
-  ],
+  "reviewedCandidate": "f7f64784e176eb233ae74a67fe811270f0f8dea5",
+  "priorEvidenceHead": "f7f64784e176eb233ae74a67fe811270f0f8dea5",
+  "reworkEvidenceHead": "pending-push",
+  "candidateSha": "pending-push",
+  "reworkCloses": ["CURSOR-R5-01", "CURSOR-R5-02"],
   "priorReworkCloses": [
     "CURSOR-R1-01",
     "CURSOR-R1-02",
@@ -25,7 +22,9 @@
     "CURSOR-R2-03",
     "CURSOR-R2-04",
     "CURSOR-R3-01",
-    "CURSOR-R3-02"
+    "CURSOR-R3-02",
+    "CURSOR-R4-01",
+    "CURSOR-R4-02"
   ],
   "counts": {
     "directedTotal": 717,
@@ -40,56 +39,49 @@
     "countersExistingProofCrossCheck": 4,
     "visualFlows": 12,
     "visualFlowsPassed": 12,
-    "editorFullSuite": 4503,
+    "editorFullSuite": "pending",
     "targetNewCases": 700,
-    "humanVerifiedOverlays": 717,
-    "humanLedgerVerification": "human-ledger",
-    "oldMatcherPromotedSameAxis": 32,
-    "toolStringMatchHumanVerified": 0
+    "humanVerifiedOverlays": 17,
+    "stagingDraftOverlays": 700,
+    "oldMatcherPromotedR5": 44,
+    "oldMatcherNone": 653
   },
   "gates": {
-    "editorFull": "4503/4503",
-    "typecheck": "0 diagnostics",
-    "lint": "0/0/0 (cursor scripts + receipt/defects; biome check)",
+    "editorFull": "pending",
+    "typecheck": "pending",
+    "lint": "pending",
     "judgeSelftest": "pass (R2 retained)",
     "flows": "12/12 (not re-run)",
-    "docs": "PASS",
-    "verifier": "frozenHashesValid; ownerOverlap 0"
+    "docs": "pending",
+    "verifier": "pending"
   },
   "proofGaps": {
-    "oldMatcher-none": 685,
-    "sourceCondition-export-only": 0,
+    "oldMatcher-none": 653,
+    "sourceCondition-export-only": 19,
     "oracle-incomplete": 0,
-    "production-caller-none": 45,
+    "production-caller-none": 104,
     "notes": [
-      "R4 honesty: enrich-batch-human no longer sets humanVerified; tool candidates live in toolOldAssertionCandidate only",
-      "caller field splits production | harness; harness ≠ production",
-      "props-type lines skipped in sourceCondition branch cites",
-      "oldMatcher-none rose vs R3 fake promotions — remaining 685 need same-axis old proof, not tool string match"
+      "R5-01: staging unused/literal/format + CTR-C05-10 JSON/receipt format cleared; literal ${} kept via string concat",
+      "R5-02: humanVerified only human-ledger (17); staging-draft 700; C03-G04-02/03 .not.toBeNull complete",
+      "oldMatcher-none 653 after 44 same-axis promotions; full dedup still open; no keyword/function-name cull"
     ]
   },
-  "r4Notes": {
-    "existingProofAdded": [
-      "C05-G01-02"
+  "r5Notes": {
+    "lintCleared": [
+      "build-human-ledger-r4-staging.mjs unused imports + literal placeholders + format",
+      "CTR-C05-10 positive/mutated/restored/receipt format",
+      "receipt.json format"
     ],
-    "counterCrossCheckAdded": [
-      "CTR-C05-09"
-    ],
-    "counterNetNewAdded": [
-      "CTR-C05-10"
-    ],
-    "counterNetNewAxis": "C05-G01-06 nextSpriteActionId min-hole vs max+1 (not localeCompare; CTR-C05-06 already owns that)",
-    "closedPrior": [
-      "four old existing-proof classifications retained",
-      "C05-08 cross-check retained",
-      "C08-34 kind sensitivity closed — not re-run"
-    ],
-    "humanLedgerStaging": "docs/testing/grok-cursor-large/cursor/human-ledger-staging/C01.json…C10.json"
+    "counterQuantityGate": "closed at 50 net-new (CTR-C05-10 accepted); no retarget",
+    "oldMatcherStaging": [
+      "human-ledger-staging/R5-oldmatcher-C01-C05.json",
+      "human-ledger-staging/R5-oldmatcher-C06-C10.json"
+    ]
   },
   "remainingDebt": [
-    "oldMatcher-none 685; full cross-queue semantic dedup incomplete",
-    "netNew structural 703≤703 ceiling after 14 existing-proof; still ≥700 but exhaustive dedup required before accept",
-    "production-caller-none 45 (honest none after harness split)",
+    "oldMatcher-none 653; continue same-axis reads; mixed by sub-axis",
+    "netNew structural 703≥700 but exhaustive dedup required before accept",
+    "production-caller-none 104 / sourceCondition-export-only 19 after lean overrides",
     "not done / not official ratchet / not merge main"
   ],
   "artifacts": {

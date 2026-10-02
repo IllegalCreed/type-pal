@@ -1,0 +1,248 @@
+{
+  "task": "CURSOR-R5-02",
+  "batches": ["C01", "C02", "C03", "C04", "C05"],
+  "overlays": {
+    "C01-G01-10": {
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "受控地址回灌后仍停留在引用，不跳回动作",
+        "oldMatcher": "button('引用').getAttribute('aria-selected')).toBe('true'); #world-sprite-inspector-panel-references hasAttribute('hidden') === false @ :834-837",
+        "note": "same references-tab visibility axis as new case (click 引用 → panel-references shown)"
+      },
+      "notes": "R5: old mock-harness tab switch proves panel-references not hidden; classification stays new-contract (per-id fixture). verification staging-draft; not bulk humanVerified.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C01-G02-04": {
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "setCatalogSearch(search, '不存在'); expect(rows()).toHaveLength(0) @ :630-631",
+        "note": "same text-filter empty-result axis; new asserts insp-empty copy"
+      },
+      "notes": "R5: promote existing contract oldMatcher; empty catalog search sub-axis aligned.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C01-G02-05": {
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+        "oldMatcher": "setCatalogSearch(search, ''); filter 全部; expect(rows()).toHaveLength(2) @ :632-634",
+        "note": "same clear-filter restore axis; new asserts three seeded asset metas"
+      },
+      "notes": "R5: promote existing contract oldMatcher; row-count restore after clear matches business axis.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C01-G07-06": {
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "受控地址回灌后仍停留在引用，不跳回动作",
+        "oldMatcher": "button('引用').getAttribute('aria-selected')).toBe('true'); #world-sprite-inspector-panel-references hasAttribute('hidden') === false @ :834-837",
+        "note": "rejects R3 candidate at :749 (源资源 tab); same 引用+panel-references axis as G01-10"
+      },
+      "notes": "R5: rejected tool candidate (源资源 aria-selected) as same-function-name/keyword; promoted 引用 tab proof instead.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G03-01": {
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+        "oldMatcher": "host.textContent).toContain('由 2 个用途共享'); onLoaded({ asset, revision, actualFrameCount: 3 }) @ :127-138",
+        "note": "partial: mock load uses 3 frames vs new real decode 4; shared consumer-count + onLoaded proof shape axis"
+      },
+      "notes": "R5: partial same-axis (metadata/onLoaded); frame count differs mock vs cursor-r1 pipeline. classification new-contract.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G03-07": {
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "多帧源容器的默认布局只解释 #0，其它帧可组成独立循环动作",
+        "oldMatcher": "semantic-frame-shelf text contains '默认使用 #0'; .semantic-frame-row length 2 after action pick @ :273-285",
+        "note": "same semantic shelf axis; new uses real decode not mockResolvedValue"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G04-02": {
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
+        "oldMatcher": "failed.content querySelector('[role=\"alert\"]')?.textContent).toContain('损坏的精灵资源') @ :229",
+        "note": "same load-failure alert axis; new uses corrupt bytes not mock reject"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G04-03": {
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
+        "oldMatcher": "alert contains '损坏的精灵资源' @ :229",
+        "note": "alert text axis on failed load; new adds recovery proof after swap asset"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G04-08": {
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
+        "oldMatcher": "alert contains '损坏的精灵资源' @ :229",
+        "note": "same alert surface axis for repeated failure"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G04-10": {
+      "oldAssertion": {
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+        "oldMatcher": "querySelectorAll('.sprite-resource-frame-grid [aria-label^=\"选择源帧 \"]').toHaveLength(3) @ :121-125",
+        "note": "same frame-grid aria count vs decoded frame count axis"
+      },
+      "notes": "R5: mock load 3 frames; new cursor-r1 also expects grid aria count === framesLog length.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G06-04": {
+      "oldAssertion": {
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "非 PNG 扩展名拒绝；坏签名拒绝（真实 8 字节签名域）；解码失败带文件名与原因",
+        "oldMatcher": "await expect(prepareAuthoredImage(notPngName, 'portrait')).rejects.toThrow('只允许导入 PNG 文件') @ :244-245",
+        "note": "same non-.png extension rejection axis as prepareAuthoredImage gate"
+      },
+      "notes": "R5: stages harness not image-import.test.ts (quantize-only there).",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G06-05": {
+      "oldAssertion": {
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "非 PNG 扩展名拒绝；坏签名拒绝（真实 8 字节签名域）；解码失败带文件名与原因",
+        "oldMatcher": "expect(await rejectionOf(prepareAuthoredImage(badFile, 'portrait'))).toBe('bad.png: 不是有效 PNG 文件') @ :255-256",
+        "note": "same bad-signature message includes filename axis"
+      },
+      "notes": "R5: new oracle uses toThrow(/broken\\.png/); old exact string documents same business gate.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G07-02": {
+      "oldAssertion": {
+        "oldTestSha": "6b9c11e7306cd73de63b3320a2fdfd8812cffef7",
+        "oldFile": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+        "oldFullName": "入库期间锁住重复提交和取消，完成后只写入一次",
+        "oldMatcher": "submit.disabled true; cancel.disabled true; aria-busy true during compress @ :172-174",
+        "note": "same in-flight submit lock axis; new uses real PNG pipeline not mock compress"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C03-G07-07": {
+      "oldAssertion": {
+        "oldTestSha": "6b9c11e7306cd73de63b3320a2fdfd8812cffef7",
+        "oldFile": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+        "oldFullName": "入库期间锁住重复提交和取消，完成后只写入一次",
+        "oldMatcher": "aria-busy true + submit/cancel disabled during submit @ :172-174",
+        "note": "same submit-lock axis as G07-02"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C04-G07-05": {
+      "oldAssertion": {
+        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
+        "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
+        "oldFullName": "一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称",
+        "oldMatcher": "moveDraftFrame(base,0,2) then redoDraftHistory(undoDraftHistory(history)).present.frames.map(id) @ :89-91 → [\"b\",\"c\",\"a\"]",
+        "note": "same frame reorder axis as new moveDraftFrame direct assert; old via undo/redo chain"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C05-G01-01": {
+      "oldAssertion": {
+        "oldTestSha": "bb95b95eb21d6413c4097b57e43a2efa1e890200",
+        "oldFile": "packages/editor/src/core/sprite-actions.test.ts",
+        "oldFullName": "按 order/label/id 稳定排序并派生零基显示编号",
+        "oldMatcher": "expect(sortedSpriteActions(sprites[1])).toMatchObject([{id:'first',index:0},{id:'late',index:1}]) @ :26-31",
+        "note": "same index-is-sorted-position-not-order-value axis"
+      },
+      "notes": "R5: promote existing contract oldMatcher (existing-proof).",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C05-G01-02": {
+      "oldAssertion": {
+        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "oldFullName": "action order falls through label then stable id, missing orders sort last without rewriting poses",
+        "oldMatcher": "expect(sortedSpriteActions(input)).toEqual(['action','a','b','c','action-2','z'].map(...)) @ :38-49 — action.order=0 before missing-order action-2/z",
+        "note": "same explicit order=0 before missing-order axis"
+      },
+      "notes": "R5: promote existing contract oldMatcher (existing-proof).",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C05-G01-03": {
+      "oldAssertion": {
+        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "oldFullName": "action order falls through label then stable id, missing orders sort last without rewriting poses",
+        "oldMatcher": "expect(input).toEqual(before) after sortedSpriteActions(input) @ :38-48",
+        "note": "same non-mutating sort / stable poses reference axis"
+      },
+      "notes": "R5: wave2 proves sort does not clone or rewrite poses object; matches new toBe reference oracle.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C05-G01-06": {
+      "oldAssertion": {
+        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "oldFullName": "next action identity fills the first free suffix and never uses display order as identity",
+        "oldMatcher": "expect(nextSpriteActionId(input)).toBe('action-3'); delete action-2 → 'action-2'; poses undefined → 'action' @ :51-57",
+        "note": "same nextSpriteActionId suffix-gap / base-id axis; new case adds extra id matrix asserts"
+      },
+      "notes": "R5: partial coverage of multi-oracle case; core suffix-fill sub-axis proven in wave2.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C05-G01-08": {
+      "oldAssertion": {
+        "oldTestSha": "bb95b95eb21d6413c4097b57e43a2efa1e890200",
+        "oldFile": "packages/editor/src/core/sprite-actions.test.ts",
+        "oldFullName": "prop 实体只从自身精灵选择动作，不借用全项目第一项",
+        "oldMatcher": "expect(defaultActionTargetForEntity(entity, {}, sprites)).toMatchObject({ sprite: { id: 'hero' }, action: { id: 'first' } }) @ :33-42",
+        "note": "same default target uses entity's sprite not first list entry axis; new adds decoy sprite ordering"
+      },
+      "notes": "R5: old prop-entity case; new uses decoy+target list — same anti-borrow sub-axis.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C05-G05-06": {
+      "oldAssertion": {
+        "oldTestSha": "6eab9d1dc55bd4200b3d48b7a6bb75d823dc6b84",
+        "oldFile": "packages/editor/src/ui/SpriteActionEditor.test.tsx",
+        "oldFullName": "[reorder-family:sprite-actions] step reorder keeps loopFrom on the logical step and preserves source-frame transfer",
+        "oldMatcher": "after invalidDrop payloads including '{bad'; expect(session.getHistoryVersion()).toBe(afterValidTransfer); error notice @ :361-380",
+        "note": "same invalid drag JSON → error notice + zero history/steps mutation axis (editor drop not inspect helper)"
+      },
+      "notes": "R5: old exercises drop boundary; new uses same '{not-json' payload class.",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C05-G07-02": {
+      "oldAssertion": {
+        "oldTestSha": "6eab9d1dc55bd4200b3d48b7a6bb75d823dc6b84",
+        "oldFile": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "oldFullName": "共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload",
+        "oldMatcher": "expect(inspectSpriteFrameDragPayload({ getData: () => '{bad' })).toEqual({ kind: 'invalid' }) @ :292-294",
+        "note": "same inspect invalid JSON axis"
+      },
+      "notes": "R5: promote existing contract oldMatcher.",
+      "ledgerStatus": "old-matcher-promoted"
+    }
+  }
+}

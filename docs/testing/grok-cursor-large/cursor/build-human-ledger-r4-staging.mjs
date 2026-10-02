@@ -4,8 +4,8 @@
  * Usage: node docs/testing/grok-cursor-large/cursor/build-human-ledger-r4-staging.mjs [C03] [C04]
  */
 import { execSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 const root = process.cwd()
 const cursorDir = resolve(root, 'docs/testing/grok-cursor-large/cursor')
@@ -45,7 +45,8 @@ function extractOracle(body) {
   }
   for (const m of body.matchAll(/expect\([\s\S]*?\)(?:\.[\w]+(?:\([\s\S]*?\))?)*\s*(?:;|$)/gm)) {
     const norm = m[0].replace(/\s+/g, ' ').trim()
-    if (!parts.some((p) => p.replace(/^await /, '') === norm.replace(/^await /, ''))) parts.push(norm)
+    if (!parts.some((p) => p.replace(/^await /, '') === norm.replace(/^await /, '')))
+      parts.push(norm)
   }
   return parts.join(' | ')
 }
@@ -84,7 +85,9 @@ function productionCaller(callerField) {
         .replace(/\(…\)/g, '')
         .replace(/…/g, ''),
     )
-    .filter((s) => s && !s.includes('harness') && !s.includes('__tests__') && !s.includes('none found'))
+    .filter(
+      (s) => s && !s.includes('harness') && !s.includes('__tests__') && !s.includes('none found'),
+    )
   if (raw.length === 0) return 'production: none identified'
   return `production: ${raw.slice(0, 3).join('; ')}`
 }
@@ -93,8 +96,9 @@ function testCaller(contract, body) {
   const rel = `packages/editor/${contract.file}`
   const line = contract.testSourceLine ?? '?'
   const firstCall =
-    body.match(/\b(mount\w+|load\w+|prepare\w+|insert\w+|delete\w+|wizard\w+|h\.\w+|baseDraft)\b/)?.[0] ??
-    'test case body'
+    body.match(
+      /\b(mount\w+|load\w+|prepare\w+|insert\w+|delete\w+|wizard\w+|h\.\w+|baseDraft)\b/,
+    )?.[0] ?? 'test case body'
   return `test: ${rel}:${line} ${firstCall}`
 }
 
@@ -132,17 +136,27 @@ const GROUP_BRANCH = {
 
 const ID_BRANCH = {
   'C03-G06-01':
-    'packages/editor/src/core/image-import.ts:94-95 prepareAuthoredImage — sourceBytes=file.arrayBuffer(); :136-147 record.path `assets/authored/${kind}/${hash}.png`',
+    'packages/editor/src/core/image-import.ts:94-95 prepareAuthoredImage — sourceBytes=file.arrayBuffer(); :136-147 record.path `assets/authored/' +
+    '$' +
+    '{kind}/' +
+    '$' +
+    '{hash}.png`',
   'C03-G06-03':
     'packages/editor/src/core/image-import.ts:150 label: label || file.name.replace(/\\.png$/i, "")',
   'C03-G06-04':
     'packages/editor/src/core/image-import.ts:56 if (!name.toLowerCase().endsWith(".png")) throw',
   'C03-G06-05':
-    'packages/editor/src/core/image-import.ts:58-60 PNG signature expected[137,80,78,71…] mismatch throw `${name}: 不是有效 PNG`',
+    'packages/editor/src/core/image-import.ts:58-60 PNG signature expected[137,80,78,71…] mismatch throw `' +
+    '$' +
+    '{name}: 不是有效 PNG`',
   'C03-G06-06':
     'packages/editor/src/core/image-import.ts:161-162 nextAuthoredImageId — if (!catalog.assets[base]) return base',
   'C03-G06-07':
-    'packages/editor/src/core/image-import.ts:163-166 suffix loop `${base}-${suffix}` until catalog slot free',
+    'packages/editor/src/core/image-import.ts:163-166 suffix loop `' +
+    '$' +
+    '{base}-' +
+    '$' +
+    '{suffix}` until catalog slot free',
   'C03-G06-02':
     'packages/editor/src/core/image-import.ts:110 if (kind === "battle-background") quantize branch; face/portrait skip → effectPreviewBytes undefined',
   'C03-G06-09':
@@ -236,7 +250,8 @@ function resolveOldAssertion(contract, oracle) {
       oldTestSha: blobSha('packages/editor/src/ui/SpriteResourceViewer.test.tsx'),
       oldFile: 'packages/editor/src/ui/SpriteResourceViewer.test.tsx',
       oldFullName: '加载失败仍保留同一 canonical workspace 与 content owner',
-      oldMatcher: "failed.content querySelector('[role=\"alert\"]') text contains '损坏的精灵资源' @ :229",
+      oldMatcher:
+        "failed.content querySelector('[role=\"alert\"]') text contains '损坏的精灵资源' @ :229",
       note: 'same load-failure alert axis (new uses real corrupt bytes not mock reject)',
     },
     'C03-G04-03': {
@@ -277,7 +292,9 @@ function resolveOldAssertion(contract, oracle) {
       return {
         oldTestSha: cand.oldTestSha ?? blobSha(cand.oldFile),
         oldFile: cand.oldFile,
-        oldFullName: cand.oldFullName?.startsWith('unknown') ? 'see old file nearby it()' : cand.oldFullName,
+        oldFullName: cand.oldFullName?.startsWith('unknown')
+          ? 'see old file nearby it()'
+          : cand.oldFullName,
         oldMatcher: cand.oldMatcher,
         note: 'promoted from toolOldAssertionCandidate after axis spot-check',
       }
@@ -289,7 +306,10 @@ function resolveOldAssertion(contract, oracle) {
   }
 
   if (contract.oldAssertion?.oldMatcher?.startsWith('none')) {
-    return { ...base, note: dedup ? `${base.note}; ${dedup}` : contract.oldAssertion.note ?? base.note }
+    return {
+      ...base,
+      note: dedup ? `${base.note}; ${dedup}` : (contract.oldAssertion.note ?? base.note),
+    }
   }
   return contract.oldAssertion ?? base
 }
@@ -302,7 +322,8 @@ function defaultProduction(batch, group) {
       return 'production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 SpriteUploadWizard'
     if (['G03', 'G04'].includes(group))
       return 'production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 SpriteResourceViewer'
-    if (group === 'G05') return 'production: packages/editor/src/ui/BattleSpriteLibrary.tsx BattleSpriteUploader'
+    if (group === 'G05')
+      return 'production: packages/editor/src/ui/BattleSpriteLibrary.tsx BattleSpriteUploader'
     if (group === 'G02')
       return 'production: packages/editor/src/core/edit-session.ts EditSession.dispatch (via WorldSpriteLibrary upload flow)'
   }

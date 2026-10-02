@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
           "status": "passed",
           "title": "C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
           "status": "passed",
           "title": "C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
           "status": "passed",
           "title": "C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
           "status": "passed",
           "title": "C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
           "status": "passed",
           "title": "C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
           "status": "passed",
           "title": "C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
           "status": "passed",
           "title": "C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
           "status": "passed",
           "title": "C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
@@ -126,9 +110,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
           "status": "passed",
           "title": "C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
@@ -138,9 +120,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "C05-G01 sprite-actions 排序与默认目标"
-          ],
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
           "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
           "status": "passed",
           "title": "C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
