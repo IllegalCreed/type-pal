@@ -138,7 +138,10 @@ async function boot(caseId: Case, wineCount = 1, query = '', restore?: CurrentSa
   host = await installShellHost(query)
   const h = host
   const present = h.frame
+  let realNow = 0
+  vi.spyOn(performance, 'now').mockImplementation(() => realNow)
   h.frame = (dt = 100) => {
+    realNow += dt
     present(dt)
     // These external IO records are not a pixel oracle. Bound unused per-frame draw logs.
     h.draws.length = 0
