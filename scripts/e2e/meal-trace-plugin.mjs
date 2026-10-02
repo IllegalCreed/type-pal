@@ -6,14 +6,16 @@ import { instrumentKitchenTrace, KITCHEN_TRACE_TARGETS } from './kitchen-trace-p
 export const MEAL_TRACE_TARGETS = [
   ...KITCHEN_TRACE_TARGETS,
   'packages/reforge/src/menu/menu-session.ts',
+  'packages/game/src/core/save/api.ts',
 ]
 
 /** Read-only insertions in an owned serve instance. Never replace a production effect or input. */
 export function instrumentMealTrace(source, file) {
   assert(MEAL_TRACE_TARGETS.includes(file), 'unexpected meal trace source')
-  const result = file.endsWith('/menu-session.ts')
-    ? { code: source, anchors: {} }
-    : instrumentKitchenTrace(source, file)
+  const result =
+    file.endsWith('/menu-session.ts') || file.endsWith('/game/src/core/save/api.ts')
+      ? { code: source, anchors: {} }
+      : instrumentKitchenTrace(source, file)
   result.code = result.code.replaceAll('__kitchen', '__meal')
   result.code = result.code
     .replaceAll("['e19','e20','e24','e25','e26']", "['e15','e16','e19','e20','e24','e25','e26']")
@@ -26,6 +28,71 @@ export function instrumentMealTrace(source, file) {
   const edits = [],
     anchors = []
   const walk = (node) => {
+    if (
+      file.endsWith('/game/src/core/save/api.ts') &&
+      ts.isMethodDeclaration(node) &&
+      node.name.getText(ast) === 'saveSlot'
+    ) {
+      assert(
+        ts.isObjectLiteralExpression(node.parent) &&
+          ts.isVariableDeclaration(node.parent.parent) &&
+          node.parent.parent.name.getText(ast) === 'Save',
+        'meal save input owner changed',
+      )
+      assert.deepEqual(
+        node.parameters.map((p) => p.name.getText(ast)),
+        ['slot', 'gs'],
+        'meal save input parameters changed',
+      )
+      const statements = node.body.statements
+      const meta = statements.filter(
+        (s) =>
+          ts.isVariableStatement(s) &&
+          s.declarationList.declarations.some(
+            (d) =>
+              d.name.getText(ast) === 'meta' && d.initializer?.getText(ast) === 'extractMeta(gs)',
+          ),
+      )
+      assert.equal(meta.length, 1, 'meal save input meta anchor changed')
+      const metaIndex = statements.indexOf(meta[0])
+      assert(
+        metaIndex > 0 && statements[0].getText(ast).includes('slot < 1 || slot > MAX_SAVE_SLOTS'),
+        'meal save slot validation moved',
+      )
+      const clones = []
+      const census = (child) => {
+        assert(!ts.isReturnStatement(child), 'meal save method gained an early return')
+        if (ts.isCallExpression(child) && child.expression.getText(ast) === 'deepClone') {
+          assert.deepEqual(
+            child.arguments.map((argument) => argument.getText(ast)),
+            ['gs'],
+            'meal save cloned another source',
+          )
+          clones.push(child)
+        }
+        ts.forEachChild(child, census)
+      }
+      census(node.body)
+      assert.equal(clones.length, 2, 'meal save deepClone census changed')
+      const noAwait = (child) => {
+        assert(!ts.isAwaitExpression(child), 'meal save pre-clone capture became asynchronous')
+        ts.forEachChild(child, noAwait)
+      }
+      for (const statement of statements.slice(0, metaIndex + 1)) noAwait(statement)
+      assert(
+        clones.every((clone) => clone.getStart(ast) > meta[0].end),
+        'meal save clone preceded observation anchor',
+      )
+      anchors.push('actualGameSaveInput')
+      edits.push({
+        at: meta[0].getStart(ast),
+        text: 'const __mealSaveCapture = globalThis.__mealGameSaving?.(slot,gs);\n',
+      })
+      edits.push({
+        at: node.body.end - 1,
+        text: '\nglobalThis.__mealGameSaved?.(__mealSaveCapture);\n',
+      })
+    }
     if (
       file.endsWith('/reforge/src/main.ts') &&
       ts.isCallExpression(node) &&
@@ -117,7 +184,9 @@ export function instrumentMealTrace(source, file) {
       ? ['actualReforgeItemDispatch']
       : file.endsWith('/game/src/core/event-system.ts')
         ? ['actualGameItemDispatch']
-        : []
+        : file.endsWith('/game/src/core/save/api.ts')
+          ? ['actualGameSaveInput']
+          : []
   assert.deepEqual(anchors, expected, 'meal actual menu/dispatch census changed')
   for (const edit of edits.sort((a, b) => b.at - a.at))
     result.code = result.code.slice(0, edit.at) + edit.text + result.code.slice(edit.at)

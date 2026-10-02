@@ -8,6 +8,7 @@ import {
   assertMealCollector,
   assertMealDialogue,
   assertMealEnd,
+  assertMealGameSaveInput,
   assertMealPhase,
   mealArguments,
   mealAuthorTextIds,
@@ -476,5 +477,140 @@ test('004 observes actual synchronous materialization before player placement an
         file,
       ),
     /asynchronous|parse|census|not a direct statement/,
+  )
+})
+test('004 save input projection is detached at the real clone boundary and separates staging from F5', () => {
+  const host = {}
+  let clock = 0
+  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+    now: () => ++clock,
+  })
+  const { payload } = donor(),
+    gs = payload.gs
+  host.__mealGameSaved(host.__mealGameSaving(1, gs))
+  const arm = host.__mealArmSaveCapture('004.carry', 1)
+  gs.allEventObjects[0].facing = 'up'
+  const captured = host.__mealGameSaving(1, gs),
+    stored = structuredClone(payload)
+  host.__mealGameSaved(captured)
+  gs.allEventObjects[0].facing = 'down'
+  const trace = host.__readMealEvidence()
+  assert.equal(trace.saveCaptures[0].arm, null)
+  assert.equal(assertMealGameSaveInput(trace, 1, 1, arm, stored).world.actors[0].facing, 'up')
+  assert.deepEqual(trace.saveCaptures[1].world, mealSaveView(stored, 'game'))
+  assert.throws(() => assertMealGameSaveInput(trace, 0, 0, arm, stored), /exactly one/)
+  assert.throws(
+    () => assertMealGameSaveInput(trace, 1, 1, { ...arm, phase: 'other' }, stored),
+    /another phase/,
+  )
+  assert.throws(() => assertMealGameSaveInput(trace, 1, 1, { ...arm, slot: 2 }, stored))
+  const wrong = structuredClone(stored)
+  wrong.gs.allEventObjects[0].facing = 'down'
+  assert.throws(() => assertMealGameSaveInput(trace, 1, 1, arm, wrong), /synchronous save input/)
+  const mutatedTrace = host.__readMealEvidence()
+  mutatedTrace.saveCaptures[1].world.actors[0].facing = 'wrong'
+  assert.equal(host.__readMealEvidence().saveCaptures[1].world.actors[0].facing, 'up')
+})
+test('004 actual Save.saveSlot preserves input/write semantics and emits no successful completion on clone or store throw', async () => {
+  const file = 'packages/game/src/core/save/api.ts',
+    source = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8')
+  const transformed = instrumentMealTrace(source, file)
+  assert.equal(transformed.anchors.actualGameSaveInput, 1)
+  const execute = async (code, gs, idb, failureAt) => {
+    const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true),
+      methods = []
+    const find = (node) => {
+      if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'saveSlot') methods.push(node)
+      ts.forEachChild(node, find)
+    }
+    find(ast)
+    assert.equal(methods.length, 1)
+    const body = ts.transpileModule(`const ActualSave={${methods[0].getText(ast)}}`, {
+      compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+    }).outputText
+    const host = {}
+    let ms = 0
+    new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+      now: () => ++ms,
+    })
+    const originalSaving = host.__mealGameSaving,
+      originalSaved = host.__mealGameSaved
+    const log = []
+    host.__mealGameSaving = (...args) => {
+      log.push('capture')
+      return originalSaving(...args)
+    }
+    host.__mealGameSaved = (...args) => {
+      log.push('ack')
+      return originalSaved(...args)
+    }
+    host.__mealArmSaveCapture('004.carry', 1)
+    const result = await new Function(
+      'globalThis',
+      'gs',
+      'idb',
+      'failureAt',
+      'log',
+      `
+      const failure=new Error('actual save failed'), MAX_SAVE_SLOTS=5, _slots=new Map();let stored;
+      const extractMeta=()=>{log.push('meta');return {}}, idbAvailable=()=>idb,
+        deepClone=input=>{log.push('clone');if(failureAt==='clone')throw failure;return structuredClone(input)},
+        IndexedDbSave={async saveSlot(slot,copy){log.push('write');if(failureAt==='write')throw failure;stored=copy}};
+      ${body}
+      return (async()=>{let caught;try{await ActualSave.saveSlot(1,gs)}catch(error){caught=error}
+        return {stored:stored??_slots.get(1)?.gs,sameThrow:caught===failure};})();
+    `,
+    )(host, gs, idb, failureAt, log)
+    return { ...result, log, trace: host.__readMealEvidence() }
+  }
+  for (const idb of [false, true])
+    for (const failureAt of [null, 'clone', ...(idb ? ['write'] : [])]) {
+      const { payload } = donor(),
+        originalInput = structuredClone(payload.gs)
+      const original = await execute(source, payload.gs, idb, failureAt),
+        observed = await execute(transformed.code, payload.gs, idb, failureAt)
+      assert.deepEqual(payload.gs, originalInput, 'observer changed actual Save input')
+      assert.equal(observed.sameThrow, original.sameThrow)
+      assert.deepEqual(observed.stored, original.stored)
+      assert.equal(observed.trace.saveCaptures.length, 1)
+      if (failureAt)
+        assert.equal(
+          observed.trace.saveCompletions.length,
+          0,
+          'throw cannot emit a successful save completion',
+        )
+      else {
+        assert.equal(observed.trace.saveCompletions.length, 1)
+        assert.deepEqual(
+          observed.trace.saveCaptures[0].world,
+          mealSaveView({ format: 'type-pal-save', gs: observed.stored }, 'game'),
+        )
+      }
+      assert.equal(observed.log[0], 'capture')
+      assert.equal(observed.log[1], 'meta')
+      assert.equal(observed.log[2], 'clone')
+    }
+  assert.throws(
+    () =>
+      instrumentMealTrace(
+        source.replace('const meta = extractMeta(gs)', 'const metadata = extractMeta(gs)'),
+        file,
+      ),
+    /meta anchor/,
+  )
+  assert.throws(
+    () =>
+      instrumentMealTrace(
+        source.replace(
+          'const meta = extractMeta(gs)',
+          'await Promise.resolve(); const meta = extractMeta(gs)',
+        ),
+        file,
+      ),
+    /asynchronous/,
+  )
+  assert.throws(
+    () => instrumentMealTrace(source.replace('deepClone(gs)', 'deepClone(other)'), file),
+    /cloned another source/,
   )
 })

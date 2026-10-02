@@ -11,6 +11,7 @@ import {
   assertMealCollector,
   assertMealDialogue,
   assertMealEnd,
+  assertMealGameSaveInput,
   assertMealPhase,
   MEAL_ROWS,
   mealArguments,
@@ -119,9 +120,15 @@ export async function runMealJourney(engine) {
         const t = await evidence()
         return Math.max(
           -1,
-          ...[...t.events, ...t.pages, ...t.frames, ...t.menus, ...t.dispatches].map(
-            (e) => e.order,
-          ),
+          ...[
+            ...t.events,
+            ...t.pages,
+            ...t.frames,
+            ...t.menus,
+            ...t.dispatches,
+            ...t.saveCaptures,
+            ...t.saveCompletions,
+          ].map((e) => e.order),
         )
       }
       const ready = (s) => kitchenReady(s, engine),
@@ -418,13 +425,14 @@ export async function runMealJourney(engine) {
       const capture = async (label) => {
         let payload, bytes
         if (engine === 'game') {
-          const before = await page.evaluate(readWorld),
-            old = await page.evaluate(async () => {
-              const { Save } = await import('/src/core/save/api.ts'),
-                { serializeSave } = await import('/src/tools/save-io.ts')
-              const value = await Save.loadSlot(1)
-              return value ? serializeSave(value) : null
-            })
+          const old = await page.evaluate(async () => {
+            const { Save } = await import('/src/core/save/api.ts'),
+              { serializeSave } = await import('/src/tools/save-io.ts')
+            const value = await Save.loadSlot(1)
+            return value ? serializeSave(value) : null
+          })
+          const traceBefore = await evidence()
+          const arm = await page.evaluate((phase) => window.__mealArmSaveCapture(phase, 1), label)
           await press('F5', `formal ${label} quick-save`)
           bytes = await until(
             () =>
@@ -438,7 +446,15 @@ export async function runMealJourney(engine) {
             `formal ${label} save committed`,
           )
           payload = JSON.parse(bytes)
-          assert.deepEqual(mealSaveView(payload, engine), before, 'formal game snapshot differs')
+          const captured = assertMealGameSaveInput(
+            await evidence(),
+            traceBefore.saveCaptures.length,
+            traceBefore.saveCompletions.length,
+            arm,
+            payload,
+          )
+          report.saveInputCaptures ??= []
+          report.saveInputCaptures.push({ label, context: contextLabel, captured })
         } else {
           payload = await page.evaluate(() => window.__tpE2e.dumpSave())
           bytes = JSON.stringify(payload)
