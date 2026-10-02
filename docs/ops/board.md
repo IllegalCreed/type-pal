@@ -9,7 +9,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | PRE-005-DEBT-1 | [005前边角与验收欠账](tasks/PRE-005-DEBT-1-current-edge-closeout.md) | build | Codex / 三独立包及统一收口 | 005暂停；三编辑器缺陷、录制/台账/退役清理；素材库按发布阶段 |
-| E2E-CAPTURE-1 | [001–004本地原声录像](tasks/E2E-CAPTURE-1-local-001-004-media.md) | build | pre005_media_probe / Root验收 | 原声小样已核；正常剧情窄capture，非系列发布准入 |
+| E2E-CAPTURE-1 | [001–004本地原声录像](tasks/E2E-CAPTURE-1-local-001-004-media.md) | rework | pre005_media_probe / 两counter闭合 | 晚期健康与局部音源失败待补；未准入正式8段 |
 | EDITOR-AUTO-LOCATOR-1 | [自动脚本引用定位](tasks/EDITOR-AUTO-LOCATOR-1-current-script-target.md) | build | pre005_editor_edges / Root验收 | 实看发现旧导航只到实体却选交互页，接现行auto方案定位 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |

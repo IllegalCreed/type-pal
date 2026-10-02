@@ -92,3 +92,25 @@ Root收齐后核当前真实入口和质量门，再统一合并推送。005在�
 原只读e2e004_phase1_premise已交独立前提，实施开始前因模型容量失败；无实现改动。
 Root将唯一实现Owner交pre005_sprite_preview，保留原独立证据。entity_names同样只读阶段容量失败，
 两表单/通知包由pre005_editor_edges重新直接核一手证据后承担。未更改固定席位政策或模型配置。
+
+## 历史清理收据（2026-10-02）
+
+12张已接收卡按既定范围done归档，004明确记录本次用户“非常好”；其它界面不补写逐项用户确认。
+旧朝向诊断oracle两文件已退役，正式三落点回归接管，历史Git523cf97d可恢复。
+现行E2E文档改为001–004/content21/SAVE10；9月准入审计保留历史日期/原计数，未宣称剩余全量矩阵已完成。
+ARCH-SUPPORT只关闭已accept材料接收；其17张/tmp截图已不存在，原哈希/历史验收保留，未补造原件。
+
+退役前独立审计8处均clean、无活服务；非祖先提交逐一stable patch-id与main接收提交相等。
+七处build共703文件及e2e-opening coverage1672文件、合成媒体小样17文件已保全；editor-movement无build如实记missing。
+稳定副本位于主树`build/evidence-archive/pre005-20261002/`，总2392文件/266664792字节。
+Root独立重新读取源/目标每个字节核SHA全部一致；总清单`manifest-with-coverage.json`
+SHA256=`f52d1bb9a7698b2e530c267f47016dcec4acce87f9c347e34c484cf53e03e638`。
+9条分支完整Git历史bundle验证通过，`retired-branches.bundle` SHA256=
+`51dc0cdd19154ebc2a220d618ad3ff246b8de285f98c6fb2e09ea2a1ae3974fc`。
+
+已退休：002-feedback、party-occlusion、e2e-opening、editor-movement、opening-handoff、e2e-003-runner、
+e2e-004-content目录（原presentation-clock分支）、e2e-004-runner目录（原case-split分支）。
+其中3处managed用archive_worktree保存可恢复快照，5处标准git worktree remove；9本地分支删除，远端对应ref均不存在。
+资源实拷贝逐文件与主树相同，链接仅指主树未动其目标；不删除唯一作者输入。
+原报告里的绝对来源不重写，复制后的前驱仍由report相邻save读取，映射/每文件哈希在上述清单。
+Root/current pre005和外部GLM/Cursor/Grok/未知counter工作树不在退休范围。原6012 PID88523继续监听；主树仅用户.zcodeignore未跟踪。

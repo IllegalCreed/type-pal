@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [E2E-CAPTURE-1 — 已验001–004本地原声录像](E2E-CAPTURE-1-local-001-004-media.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [E2E-CAPTURE-1 — 已验001–004本地原声录像](E2E-CAPTURE-1-local-001-004-media.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-AUTO-LOCATOR-1 — 精灵引用跳转到实际自动方案](EDITOR-AUTO-LOCATOR-1-current-script-target.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | review | 以任务卡当前准入与看板分工为准。 |

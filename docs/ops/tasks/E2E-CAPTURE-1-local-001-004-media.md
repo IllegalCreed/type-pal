@@ -1,6 +1,6 @@
 # E2E-CAPTURE-1 — 已验001–004本地原声录像
 
-Status: build
+Status: rework
 Phase: ops
 Owner: Codex Root
 Coding Owner: pre005_media_probe
@@ -58,3 +58,18 @@ Root premise verified / design agree / build allowed，冻结当前窄范围如�
 工具测试及统一硬静态门零诊断；代码作者自验不能替代Root接收。
 
 无用户转交提示词；Root内部接收，005在母卡清账前不启动。
+
+## 冻结候选独立反控（2026-10-02）
+
+`227cecace`工具163项/静态2764零诊断，自有实际Chrome无手势arm23.4ms、正常按键后音频解锁及
+32项频谱/帧检查通过；Root和独立只读席均直接读取冻结候选，不以作者小样替代完整审查。
+独立席counter两项、Root一手确认，正式8段尚未准入：
+
+- P1晚期健康：game-opening:348完成录制后到:427置passed未再checkHealth，capture-local:108–244
+  也不核健康；片尾转码/写回期pageerror、SIGINT、服务退出可能留下passed。需成功发布前后核健康，失败回执覆盖及实际控制器负控。
+- P1局部原声失败：game audio-midi:147–150失败仅warn、audio:219–234音效解码吞错；当前只测整体RMS，
+  另一音源尚有声可掩盖缺失。需capture-only观察已知音频失败/实际decode拒绝/网络音频失败，
+  不改变生产处理与Promise/回调合同，不把普通Canvas warning或缺metadata一概当音频失败。
+
+Owner按同范围窄返工；旧小样/失败保留。普通verify、用户系统音量与6012不变。
+用户问声音后先停止重复有声探针，随后明确允许继续必要测试；当前自有capture Chrome静音输出，录音文件仍含原声。
