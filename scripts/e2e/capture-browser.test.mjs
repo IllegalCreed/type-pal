@@ -2,14 +2,18 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import vm from 'node:vm'
 import { installLocalCapture } from './capture-browser.mjs'
+import { assertIntroCapture } from './capture-local.mjs'
 
 // This tests instrumentation ownership/overload contracts, not browser PCM or image fidelity.
 // The independent native Chrome sample supplies that evidence.
-function harness({ codec = true, obscured = false } = {}) {
+function harness({ codec = true, obscured = false, taintAtEnd = false } = {}) {
   const contexts = []
   const callbacks = []
   const logs = []
   const listeners = new Map()
+  const recorders = []
+  const videos = []
+  let reads = 0
   class Track {
     readyState = 'live'
     stop() {
@@ -29,6 +33,8 @@ function harness({ codec = true, obscured = false } = {}) {
     addTrack(track) {
       this.tracks.push(track)
     }
+    addEventListener() {}
+    removeEventListener() {}
   }
   class Node {
     constructor(context) {
@@ -92,6 +98,9 @@ function harness({ codec = true, obscured = false } = {}) {
     }
   }
   class Recorder {
+    constructor() {
+      recorders.push(this)
+    }
     static isTypeSupported() {
       return codec
     }
@@ -112,7 +121,13 @@ function harness({ codec = true, obscured = false } = {}) {
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 640, height: 400 }),
   }
   const output = {
-    getContext: () => ({ fillRect() {}, drawImage() {}, getImageData() {} }),
+    getContext: () => ({
+      fillRect() {},
+      drawImage() {},
+      getImageData() {
+        if (taintAtEnd && ++reads > 1) throw new Error('SecurityError: tainted output')
+      },
+    }),
     captureStream: () => new Stream(),
   }
   const env = {
@@ -126,17 +141,27 @@ function harness({ codec = true, obscured = false } = {}) {
       disconnect() {}
     },
     document: {
-      querySelectorAll: (selector) => (selector === 'canvas#screen' ? [canvas] : []),
+      querySelectorAll: (selector) =>
+        selector === 'canvas#screen' ? [canvas] : selector === 'video' ? videos : [],
       createElement: () => output,
-      elementsFromPoint: () => [obscured ? { tagName: 'DIV', ...canvas } : canvas],
+      elementsFromPoint: () => [obscured ? { tagName: 'DIV', ...canvas } : (videos[0] ?? canvas)],
     },
-    getComputedStyle: () => ({ display: 'block', visibility: 'visible', opacity: '1' }),
+    getComputedStyle: () => ({
+      display: 'block',
+      visibility: 'visible',
+      opacity: '1',
+      position: 'fixed',
+      objectFit: 'contain',
+    }),
     performance,
+    structuredClone,
     URL,
     Blob,
     Uint8Array,
     btoa,
-    location: { href: 'http://localhost/' },
+    location: { href: 'http://localhost/', origin: 'http://localhost' },
+    innerWidth: 640,
+    innerHeight: 400,
     setTimeout,
     clearTimeout,
     requestAnimationFrame: (callback) => {
@@ -150,7 +175,40 @@ function harness({ codec = true, obscured = false } = {}) {
   }
   env.window = env
   vm.runInNewContext(`(${installLocalCapture.toString()})()`, env)
-  return { api: env.__localCapture, Context, Node, contexts, original, listeners, logs }
+  const videoListeners = new Map()
+  const video = {
+    tagName: 'VIDEO',
+    src: 'http://localhost/intro.mp4',
+    readyState: 0,
+    currentTime: 0,
+    videoWidth: 288,
+    videoHeight: 180,
+    volume: 1,
+    muted: false,
+    getBoundingClientRect: canvas.getBoundingClientRect,
+    captureStream: () => new Stream(),
+    addEventListener: (type, listener) => videoListeners.set(type, listener),
+    removeEventListener: (type) => videoListeners.delete(type),
+    requestVideoFrameCallback: (callback) => {
+      video.frameCallback = callback
+      return 1
+    },
+    cancelVideoFrameCallback() {},
+  }
+  return {
+    api: env.__localCapture,
+    Context,
+    Node,
+    contexts,
+    original,
+    listeners,
+    logs,
+    recorders,
+    videos,
+    video,
+    videoListeners,
+    nextPaint: () => callbacks.shift()(performance.now()),
+  }
 }
 
 test('tap preserves native return, does not reroute speakers, deduplicates repeated connect', async () => {
@@ -280,6 +338,81 @@ test('stop returns actual ownership counters and restores originals without clos
   assert.equal(h.Node.prototype.connect, h.original.connect)
   assert.equal(h.Node.prototype.disconnect, h.original.disconnect)
   assert.equal(await h.api.chunk(0, 100), btoa('sample'))
+})
+
+test('intro records the real title first and cannot release story input before encoded readiness', async () => {
+  const h = harness()
+  h.api.arm({ startOnVideo: true, videoPath: '/intro.mp4' })
+  assert.equal(h.api.state().canvasFrames, 1)
+  assert.equal(h.api.state().phase, 'recording')
+  let ready = false
+  const warmup = h.api.warmup().then((bytes) => {
+    ready = true
+    return bytes
+  })
+  h.recorders[0].onstart()
+  await Promise.resolve()
+  assert.equal(ready, false, 'onstart alone is not actual encoded-frame proof')
+  h.recorders[0].ondataavailable({ data: new Blob(['native video chunk']) })
+  assert.equal(await warmup, btoa('native video chunk'))
+  h.api.ready({ cutSeconds: 0.9, frames: 54, sha256: 'proof' })
+  h.listeners.get('keydown')({ type: 'keydown', code: 'Enter' })
+  assert(h.api.state().intro.inputAt >= h.api.state().intro.readyAt)
+  assert(h.api.state().events.some((event) => event.kind === 'story-start-input'))
+  await h.api.finish(true)
+})
+
+test('early new-story input is rejected instead of accepting an unprimed intro', async () => {
+  const h = harness()
+  h.api.arm({ startOnVideo: true, videoPath: '/intro.mp4' })
+  h.listeners.get('keydown')({ type: 'keydown', code: 'Enter' })
+  assert.equal(h.api.state().phase, 'failed')
+  assert.match(h.api.state().failures.join(' '), /before verified encoder/)
+  const result = await h.api.finish(true)
+  assert(Object.values(result.cleanup).every(Boolean))
+})
+
+test('intro final origin-clean gate still rejects later taint after safe title warmup', async () => {
+  const h = harness({ taintAtEnd: true })
+  h.api.arm({ startOnVideo: true, videoPath: '/intro.mp4' })
+  h.recorders[0].onstart()
+  const result = await h.api.finish()
+  assert.equal(result.phase, 'failed')
+  assert.match(result.failures.join(' '), /origin-clean.*tainted/)
+  assert(Object.values(result.cleanup).every(Boolean))
+  await assert.rejects(() => h.api.chunk(0, 100), /no completed capture/)
+})
+
+test('native black video layer cannot masquerade as a captured first decoded video frame', async () => {
+  const h = harness()
+  h.api.arm({ startOnVideo: true, videoPath: '/intro.mp4' })
+  h.recorders[0].onstart()
+  h.recorders[0].ondataavailable({ data: new Blob(['decoded title prefix']) })
+  await h.api.warmup()
+  h.api.ready({ cutSeconds: 0.9, frames: 54 })
+  h.listeners.get('keydown')({ type: 'keydown', code: 'Enter' })
+  h.videos.push(h.video)
+  h.nextPaint()
+  assert.equal(
+    h.api.state().intro.firstDraw,
+    undefined,
+    'readyState=0 is a black layer, not drawImage(video)',
+  )
+  h.videoListeners.get('play')()
+  h.video.frameCallback(performance.now(), { mediaTime: 0, presentedFrames: 1 })
+  h.video.readyState = 2
+  h.video.currentTime = 0.6
+  h.nextPaint()
+  assert.equal(h.api.state().intro.firstDraw.mediaTime, 0.6)
+  assert.throws(() => assertIntroCapture(h.api.state().intro), /composition missed its beginning/)
+  h.video.currentTime = 0.7
+  h.nextPaint()
+  assert.equal(
+    h.api.state().intro.firstDraw.mediaTime,
+    0.6,
+    'later frames cannot replace the first actual draw',
+  )
+  await h.api.finish(true)
 })
 
 for (const [name, options, expected] of [

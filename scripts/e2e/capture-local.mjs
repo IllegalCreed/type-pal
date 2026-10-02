@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { open, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
@@ -28,6 +28,85 @@ export function isAudioResource(url) {
     /\.(wav|mid|midi|ogg|mp3|m4a|sf2|sf3)$/iu.test(path) ||
     /\/spessasynth_processor(?:\.min)?\.js$/u.test(path)
   )
+}
+
+export function introWarmupProof(info, bytes) {
+  assert(
+    Array.isArray(info.frames) && info.frames.length > 0,
+    'warmup has no actually decoded video frame',
+  )
+  const timestamps = info.frames.map((frame) => Number(frame.best_effort_timestamp_time))
+  assert(
+    timestamps.every(
+      (time, index) =>
+        Number.isFinite(time) && time >= 0 && (!index || time >= timestamps[index - 1]),
+    ),
+    'invalid warmup frame timestamps',
+  )
+  return { cutSeconds: timestamps.at(-1), frames: timestamps.length, sha256: hash(bytes) }
+}
+
+export function decodedWarmupProof(result, bytes) {
+  assert(!result.error, `warmup decoder failed: ${result.error}`)
+  assert.equal(result.status, 0, 'warmup decoder process failed')
+  const notes = result.stderr.trim().split('\n').filter(Boolean)
+  // The recorder is still running: a dataavailable prefix has no terminal WebM
+  // structure and may end between blocks. Only decoded full frames are eligible;
+  // preserve the expected EOF diagnostic, reject every other decoder error.
+  assert(
+    notes.every((note) =>
+      /^\[matroska,webm @ [^\]]+\] File ended prematurely at pos\. \d+ \(0x[0-9a-f]+\)$/iu.test(
+        note,
+      ),
+    ),
+    'unexpected warmup decoder diagnostic',
+  )
+  return {
+    ...introWarmupProof(JSON.parse(result.stdout), bytes),
+    containerPrefix: true,
+    decoderNotes: notes,
+  }
+}
+
+export function assertIntroCapture(intro) {
+  assert(
+    Number.isFinite(intro.encoderStartedAt) && intro.readyAt >= intro.encoderStartedAt,
+    'encoder was not started before readiness',
+  )
+  assert(
+    Number.isFinite(intro.inputAt) && intro.inputAt > intro.readyAt,
+    'normal story input preceded encoder readiness',
+  )
+  assert(
+    Number.isFinite(intro.playAt) && intro.playAt >= intro.inputAt,
+    'native video playback preceded story input',
+  )
+  assert.equal(intro.firstPresentedFrame?.mediaTime, 0, 'native intro first frame was missed')
+  assert(
+    intro.firstDraw?.mediaTime >= 0 && intro.firstDraw.mediaTime < 0.1,
+    'intro composition missed its beginning',
+  )
+  assert(
+    Number.isFinite(intro.proof?.cutSeconds) &&
+      intro.proof.cutSeconds >= 0 &&
+      intro.proof.frames > 0,
+    'missing encoded title-frame cut proof',
+  )
+  return intro.proof.cutSeconds
+}
+
+export function introTrimArguments(cutSeconds) {
+  assert(Number.isFinite(cutSeconds) && cutSeconds >= 0, 'invalid shared media cut')
+  // Subtract the same native media timestamp from BOTH streams. STARTPTS on each
+  // stream separately would erase their original A/V offset.
+  return [
+    '-filter_complex',
+    `[0:v:0]trim=start=${cutSeconds},setpts=PTS-${cutSeconds}/TB[v];[0:a:0]atrim=start=${cutSeconds},asetpts=PTS-${cutSeconds}/TB[a]`,
+    '-map',
+    '[v]',
+    '-map',
+    '[a]',
+  ]
 }
 
 /** Detached live observation; no save-slot writes or invented checkpoint envelope. */
@@ -130,6 +209,32 @@ export function createLocalCapture({ enabled, report, out, health }) {
       report.profile = 'capture'
       report.media = { status: 'running', kind: 'local-fragment-capture', semanticStart: semantic }
       await page.evaluate((value) => window.__localCapture.arm(value), { videoPath, startOnVideo })
+      if (startOnVideo) {
+        const bytes = Buffer.from(
+          await page.evaluate(() => window.__localCapture.warmup()),
+          'base64',
+        )
+        healthy()
+        const result = spawnSync(
+          'ffprobe',
+          [
+            '-v',
+            'error',
+            '-select_streams',
+            'v:0',
+            '-show_frames',
+            '-show_entries',
+            'frame=best_effort_timestamp_time',
+            '-of',
+            'json',
+            'pipe:0',
+          ],
+          { input: bytes, encoding: 'utf8', timeout: 10_000, maxBuffer: 1024 * 1024 },
+        )
+        const proof = decodedWarmupProof(result, bytes)
+        healthy()
+        await page.evaluate((proof) => window.__localCapture.ready(proof), proof)
+      }
       await check(page)
     },
     async readable(text, key, readKey) {
@@ -153,6 +258,7 @@ export function createLocalCapture({ enabled, report, out, health }) {
       report.media.browser = stats
       assert.equal(stats.phase, 'stopped', stats.failures.join('\n'))
       assert(captureCleanupComplete(stats.cleanup), 'browser capture cleanup incomplete')
+      const cutSeconds = stats.intro ? assertIntroCapture(stats.intro) : null
       const native = resolve(out, 'story.webm')
       const target = resolve(out, 'story.mp4')
       const handle = await open(native, 'wx')
@@ -173,8 +279,10 @@ export function createLocalCapture({ enabled, report, out, health }) {
           '-v',
           'error',
           '-nostdin',
+          ...(cutSeconds === null ? [] : ['-copyts']),
           '-i',
           native,
+          ...(cutSeconds === null ? [] : introTrimArguments(cutSeconds)),
           '-c:v',
           'libx264',
           '-crf',
@@ -217,7 +325,16 @@ export function createLocalCapture({ enabled, report, out, health }) {
         ],
         { maxBuffer: 32 * 1024 * 1024, timeout: 30_000 },
       )
-      const measured = assertCaptureMedia(info, pcm, stats)
+      const measured = assertCaptureMedia(
+        info,
+        pcm,
+        cutSeconds === null
+          ? stats
+          : {
+              ...stats,
+              durationMs: stats.durationMs - cutSeconds * 1000,
+            },
+      )
       const frames = []
       for (const [index, fraction] of [0.05, 0.5, 0.95].entries()) {
         const path = resolve(out, `story-frame-${index + 1}.png`)
@@ -277,6 +394,18 @@ export function createLocalCapture({ enabled, report, out, health }) {
         sources: report.hashes ?? report.runnerHashes,
         browser: stats,
         measured,
+        ...(cutSeconds === null
+          ? {}
+          : {
+              timeline: {
+                kind: 'continuous-raw-shared-timestamp-cut',
+                cutSeconds,
+                cutBasis: 'last-decoded-title-frame-before-normal-story-input',
+                rawDurationMs: stats.durationMs,
+                expectedClipDurationMs: stats.durationMs - cutSeconds * 1000,
+                inputAt: stats.intro.inputAt,
+              },
+            }),
         frames,
         native: { path: native, sha256: hash(await readFile(native)) },
         video: { path: target, sha256: hash(await readFile(target)) },

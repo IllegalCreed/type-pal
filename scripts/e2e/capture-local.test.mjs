@@ -9,7 +9,11 @@ import { join } from 'node:path'
 import test from 'node:test'
 import {
   assertCaptureMedia,
+  assertIntroCapture,
   createLocalCapture,
+  decodedWarmupProof,
+  introTrimArguments,
+  introWarmupProof,
   isAudioFailureMessage,
   isAudioResource,
   readableMs,
@@ -76,6 +80,70 @@ test('capture cannot succeed without its explicit semantic finish', () => {
 test('capture refuses to invent a readability hold without rendered text', async () => {
   const capture = createLocalCapture({ enabled: true })
   await assert.rejects(() => capture.readable(undefined, 'key', () => 'key'), /actual rendered/)
+})
+
+test('intro ready proof requires a decoded frame, not a nonempty container header', () => {
+  assert.throws(() => introWarmupProof({ frames: [] }, Buffer.from('header')), /actually decoded/)
+  assert.throws(
+    () => introWarmupProof({ frames: [{ best_effort_timestamp_time: 'NaN' }] }, Buffer.alloc(1)),
+    /timestamps/,
+  )
+  const proof = introWarmupProof(
+    { frames: [{ best_effort_timestamp_time: '0.0' }, { best_effort_timestamp_time: '0.983' }] },
+    Buffer.from('native frames'),
+  )
+  assert.equal(proof.cutSeconds, 0.983)
+  assert.equal(proof.frames, 2)
+  assert.match(proof.sha256, /^[a-f0-9]{64}$/)
+})
+
+test('a live WebM prefix retains expected premature-EOF diagnostics but rejects other decode errors', () => {
+  const result = {
+    status: 0,
+    stdout: JSON.stringify({ frames: [{ best_effort_timestamp_time: '0.5' }] }),
+    stderr: '[matroska,webm @ 0x123] File ended prematurely at pos. 100 (0x64)\n',
+  }
+  const proof = decodedWarmupProof(result, Buffer.from('prefix'))
+  assert.equal(proof.decoderNotes.length, 1)
+  assert.equal(proof.cutSeconds, 0.5)
+  assert.throws(
+    () => decodedWarmupProof({ ...result, stderr: 'corrupt video frame' }, Buffer.alloc(0)),
+    /diagnostic/,
+  )
+  assert.throws(
+    () => decodedWarmupProof({ ...result, status: 1 }, Buffer.alloc(0)),
+    /process failed/,
+  )
+})
+
+test('intro crop keeps a shared native A/V timebase instead of normalizing each stream', () => {
+  const args = introTrimArguments(0.983)
+  assert(
+    args.includes(
+      '[0:v:0]trim=start=0.983,setpts=PTS-0.983/TB[v];[0:a:0]atrim=start=0.983,asetpts=PTS-0.983/TB[a]',
+    ),
+  )
+  assert(!args.some((arg) => arg.includes('STARTPTS')))
+  assert.throws(() => introTrimArguments(-1), /invalid/)
+})
+
+test('intro end gate rejects input before readiness and missing native head frames', () => {
+  const intro = {
+    encoderStartedAt: 10,
+    readyAt: 100,
+    inputAt: 110,
+    playAt: 115,
+    firstPresentedFrame: { mediaTime: 0 },
+    firstDraw: { mediaTime: 0.004 },
+    proof: { cutSeconds: 0.9, frames: 54 },
+  }
+  assert.equal(assertIntroCapture(intro), 0.9)
+  assert.throws(() => assertIntroCapture({ ...intro, inputAt: 90 }), /readiness/)
+  assert.throws(
+    () => assertIntroCapture({ ...intro, firstPresentedFrame: { mediaTime: 0.6 } }),
+    /first frame/,
+  )
+  assert.throws(() => assertIntroCapture({ ...intro, firstDraw: { mediaTime: 0.6 } }), /beginning/)
 })
 
 test('audio failure classification is narrow and includes source resources/worklet', () => {
@@ -149,6 +217,10 @@ for (const scenario of [
       if (command === 'ffprobe') return JSON.stringify(info)
       assert.equal(command, 'ffmpeg')
       if (args.includes('libx264')) {
+        assert(
+          !args.includes('-copyts') && !args.includes('-filter_complex'),
+          'ordinary capture encoding must not enter intro trimming',
+        )
         writeFileSync(args.at(-1), 'encoded native media fixture')
         encoded = true
         if (scenario === 'BGM failure while SFX remains')

@@ -24,6 +24,10 @@ export function installLocalCapture() {
   let renderedFrames = 0
   let lastVisual
   let cleaned = false
+  let intro
+  let warmupBlob
+  let warmupResolve
+  let warmupReject
   const event = (kind, details = {}) => {
     if (events.length >= 2000) throw new Error('capture event budget exhausted')
     events.push({ kind, atMs: performance.now(), ...details })
@@ -33,6 +37,7 @@ export function installLocalCapture() {
     if (failures.length < 20) failures.push(String(error))
     if (recorder?.state === 'recording') recorder.stop()
     phase = 'failed'
+    warmupReject?.(new Error(String(error)))
   }
   BaseAudioContext.prototype.decodeAudioData = function (...args) {
     try {
@@ -92,7 +97,14 @@ export function installLocalCapture() {
     }
     return result
   }
-  const onGesture = () => {
+  const onGesture = (input) => {
+    if (intro && input?.type === 'keydown' && input.code === 'Enter' && !intro.inputAt) {
+      if (!intro.readyAt) fail('story input arrived before verified encoder readiness')
+      else {
+        intro.inputAt = performance.now()
+        event('story-start-input', { code: input.code })
+      }
+    }
     if (mixer.state === 'suspended') void mixer.resume().catch(fail)
   }
   window.addEventListener('keydown', onGesture, true)
@@ -133,13 +145,31 @@ export function installLocalCapture() {
     const error = () => fail('HTMLVideo load/decode failed')
     const playing = () => {
       if (!tap.source) fail('playing video has no captured audio track')
+      if (intro) event('intro-playing', { mediaTime: video.currentTime })
     }
-    Object.assign(tap, { attach, volume, error, playing })
+    const play = () => {
+      if (!intro) return
+      if (!intro.readyAt || !intro.inputAt) fail('intro playback preceded verified story input')
+      intro.playAt = performance.now()
+      event('intro-play', { mediaTime: video.currentTime })
+    }
+    Object.assign(tap, { attach, volume, error, playing, play })
     media.set(video, tap)
     stream.addEventListener('addtrack', attach)
     video.addEventListener('volumechange', volume)
     video.addEventListener('error', error)
     video.addEventListener('playing', playing)
+    if (intro) {
+      video.addEventListener('play', play)
+      tap.frameCallback = video.requestVideoFrameCallback((now, metadata) => {
+        intro.firstPresentedFrame = {
+          atMs: now,
+          mediaTime: metadata.mediaTime,
+          presentedFrames: metadata.presentedFrames,
+        }
+        event('intro-first-presented-frame', intro.firstPresentedFrame)
+      })
+    }
     attach()
   }
   const observeVideos = () => {
@@ -147,6 +177,8 @@ export function installLocalCapture() {
     for (const video of document.querySelectorAll('video')) {
       const url = new URL(video.currentSrc || video.src, location.href)
       if (!visible(video)) continue
+      if (intro && !intro.readyAt)
+        throw new Error('intro appeared before verified encoder readiness')
       if (url.origin !== location.origin || url.pathname !== specification.videoPath)
         throw new Error(`unexpected video: ${url.pathname}`)
       const style = getComputedStyle(video)
@@ -235,11 +267,21 @@ export function installLocalCapture() {
     })
     recorder.ondataavailable = (value) => {
       if (value.data.size) chunks.push(value.data)
+      if (intro && !warmupBlob && value.data.size) {
+        warmupBlob = value.data
+        if (intro.encoderStartedAt) warmupResolve?.()
+      }
       if (chunks.reduce((sum, chunk) => sum + chunk.size, 0) > 512 * 1024 * 1024)
         fail('capture byte budget exceeded')
     }
     recorder.onerror = (value) => fail(value.error ?? 'MediaRecorder error')
     recorder.onstop = () => stopResolve()
+    if (intro)
+      recorder.onstart = () => {
+        intro.encoderStartedAt = performance.now()
+        event('encoder-started')
+        if (warmupBlob) warmupResolve?.()
+      }
     recorder.start(1000)
     startedAt = performance.now()
     phase = 'recording'
@@ -255,11 +297,11 @@ export function installLocalCapture() {
       const videos = [...document.querySelectorAll('video')].filter(visible)
       if (videos.length > 1) throw new Error('multiple visible videos')
       const video = videos[0]
-      if (phase === 'armed' && specification.startOnVideo && (!video || video.readyState < 2)) {
-        animation = requestAnimationFrame(paint)
-        return
-      }
+      // Intro capture starts on the real title canvas. Normal story input is not
+      // released until a native encoded video frame has been verified by the runner.
       const visual = video ?? canvas
+      const drawBeganAt = performance.now()
+      const videoTimeBeforeDraw = video?.currentTime
       unobstructed(visual)
       drawing.fillStyle = '#000'
       drawing.fillRect(0, 0, output.width, output.height)
@@ -275,13 +317,22 @@ export function installLocalCapture() {
           width * scale,
           height * scale,
         )
+        if (intro && video && !intro.firstDraw) {
+          intro.firstDraw = {
+            atMs: performance.now(),
+            mediaTime: videoTimeBeforeDraw,
+            mediaTimeAfter: video.currentTime,
+            durationMs: performance.now() - drawBeganAt,
+          }
+          event('intro-first-draw', intro.firstDraw)
+        }
       } else if (performance.now() - media.get(video).observedAt > 5000) {
         throw new Error('video failed to decode a frame within capture budget')
       }
       // The known native video layer is black before decode, never the stale canvas below it.
       // A tainted source must fail now rather than create a silent/empty artifact later.
       if (visual !== lastVisual) {
-        drawing.getImageData(0, 0, 1, 1)
+        if (!intro || phase === 'armed') drawing.getImageData(0, 0, 1, 1)
         event('visual-source', { surface: video ? 'video' : 'canvas', frame: renderedFrames })
         lastVisual = visual
       }
@@ -320,6 +371,8 @@ export function installLocalCapture() {
       video.removeEventListener('volumechange', tap.volume)
       video.removeEventListener('error', tap.error)
       video.removeEventListener('playing', tap.playing)
+      video.removeEventListener('play', tap.play)
+      if (tap.frameCallback !== undefined) video.cancelVideoFrameCallback(tap.frameCallback)
       if (tap.source) disconnect.call(tap.source)
       if (tap.gain) disconnect.call(tap.gain)
       for (const track of tap.stream.getTracks()) track.stop()
@@ -338,6 +391,7 @@ export function installLocalCapture() {
     videoFrames,
     renderedFrames,
     audioContexts: buses.size,
+    ...(intro ? { intro: structuredClone(intro) } : {}),
     cleanup: {
       complete: cleaned,
       prototypesRestored:
@@ -354,6 +408,7 @@ export function installLocalCapture() {
     arm(value) {
       if (phase !== 'idle' || failures.length) throw new Error('capture cannot be armed')
       specification = value
+      if (value.startOnVideo) intro = {}
       phase = 'armed'
       onGesture()
       event('armed', value)
@@ -361,6 +416,60 @@ export function installLocalCapture() {
       return state()
     },
     state,
+    async warmup() {
+      if (!intro || phase !== 'recording' || failures.length)
+        throw new Error('intro warmup unavailable')
+      let timer
+      try {
+        if (!warmupBlob || !intro.encoderStartedAt)
+          await Promise.race([
+            new Promise((resolve, reject) => {
+              warmupResolve = resolve
+              warmupReject = reject
+            }),
+            new Promise((_, reject) => {
+              timer = setTimeout(
+                () => reject(new Error('encoder warmup timed out before story input')),
+                5000,
+              )
+            }),
+          ])
+        if (failures.length) throw new Error(failures.join('\n'))
+        if (!warmupBlob || warmupBlob.size > 5 * 1024 * 1024)
+          throw new Error('intro warmup byte budget')
+        const bytes = new Uint8Array(await warmupBlob.arrayBuffer())
+        let text = ''
+        for (let i = 0; i < bytes.length; i += 16384)
+          text += String.fromCharCode(...bytes.subarray(i, i + 16384))
+        return btoa(text)
+      } finally {
+        clearTimeout(timer)
+        warmupResolve = undefined
+        warmupReject = undefined
+      }
+    },
+    ready(proof) {
+      if (
+        !intro ||
+        intro.readyAt ||
+        intro.inputAt ||
+        !intro.encoderStartedAt ||
+        !warmupBlob ||
+        failures.length
+      )
+        throw new Error('intro readiness cannot be acknowledged')
+      if (
+        !Number.isFinite(proof.cutSeconds) ||
+        proof.cutSeconds < 0 ||
+        !Number.isInteger(proof.frames) ||
+        proof.frames < 1
+      )
+        throw new Error('missing decoded warmup frame proof')
+      intro.readyAt = performance.now()
+      intro.proof = proof
+      event('encoder-ready', { ...proof })
+      return state()
+    },
     async finish(abort = false) {
       if (abort) fail('capture aborted')
       if (!recorder && !abort) fail('capture never started')
@@ -381,6 +490,13 @@ export function installLocalCapture() {
         }
       }
       const durationMs = startedAt === undefined ? 0 : performance.now() - startedAt
+      if (intro && !abort) {
+        try {
+          drawing.getImageData(0, 0, 1, 1)
+        } catch (error) {
+          fail(`capture origin-clean check failed: ${error}`)
+        }
+      }
       await cleanup()
       phase = failures.length ? 'failed' : 'stopped'
       const result = { ...state(), durationMs }
