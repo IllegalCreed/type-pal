@@ -65,10 +65,18 @@ export async function navigateMealRoute({
       const state = await read()
       if (finished(state)) return
       const atTarget = inScene(state) && destination(...grid(state))
-      if (atTarget || (await boundaryCommitted())) {
+      if (atTarget) {
         await release('verified target touch/scene boundary')
         await until(read, finished, 'actual expected target transition settles')
         return
+      }
+      if (!inScene(state) || !ready(state)) {
+        // Proof may transfer a large trace. Never keep an old direction held while awaiting it.
+        await release('stop before exceptional boundary evidence')
+        if (await boundaryCommitted()) {
+          await until(read, finished, 'actual expected target transition settles')
+          return
+        }
       }
       assert(inScene(state), 'route entered unexpected scene without target landing')
       assert(ready(state), 'unexpected script/dialogue outside target boundary')
@@ -95,10 +103,17 @@ export async function navigateMealRoute({
       onProgress({ key, from: before, to: observed.position })
       if (finished(observed)) return
       const targetObserved = inScene(observed) && destination(...grid(observed))
-      if (targetObserved || (await boundaryCommitted())) {
+      if (targetObserved) {
         await release('verified target effect')
         await until(read, finished, 'actual expected target transition settles')
         return
+      }
+      if (!inScene(observed) || !ready(observed)) {
+        await release('stop before exceptional boundary evidence')
+        if (await boundaryCommitted()) {
+          await until(read, finished, 'actual expected target transition settles')
+          return
+        }
       }
       assert(inScene(observed), 'route entered unexpected scene without target landing')
       assert(ready(observed), 'unexpected script/dialogue outside target boundary')
