@@ -119,6 +119,25 @@ export function mealGameBoundaryCommitted(trace, startOrder, scene, destination)
   )
 }
 
+/** Exact current first-stage touch footprint: pixel-axis weighted distance, not grid MD. */
+export function mealGameTouchDestination(target, col, row) {
+  assert(
+    Number.isInteger(target.triggerMode) && Number.isInteger(target.state),
+    'missing actual game trigger mode/state',
+  )
+  assert(
+    target.anchor?.length === 2 && target.anchor.every(Number.isFinite),
+    'missing actual game touch anchor',
+  )
+  if (target.state <= 0 || target.triggerMode < 4) return false
+  const x = 16 * (col - row),
+    y = 8 * (col + row)
+  return (
+    Math.abs(x - target.anchor[0]) + 2 * Math.abs(y - target.anchor[1]) <
+    (target.triggerMode - 4) * 32 + 16
+  )
+}
+
 export async function runMealJourney(engine) {
   const options = mealArguments(process.argv.slice(2)),
     predecessor = await readMealPredecessor(options['--from'], engine),
@@ -359,6 +378,27 @@ export async function runMealJourney(engine) {
               ? ['commit:tickSceneInput', 'commit:pushPartyAwayFromBlockingNpcs']
               : ['commit:player.pos'],
         })
+      }
+      const touchDestination = async (id, reforgeDestination) => {
+        if (engine === 'reforge') return reforgeDestination
+        const target = await page.evaluate((id) => {
+          const gs = window.__tpgs,
+            npc = gs.allEventObjects.find((actor) => actor.id === id)
+          if (!npc || !gs.npcs.some((actor) => actor.id === id))
+            throw new Error('touch target absent from actual current scene')
+          return {
+            id,
+            scene: gs.wNumScene,
+            position: [npc.x, npc.y],
+            anchor: [npc.autoTriggerAnchorX ?? npc.x, npc.autoTriggerAnchorY ?? npc.y],
+            triggerMode: npc.triggerMode,
+            state: npc.sState,
+          }
+        }, id)
+        assert(target.state > 0 && target.triggerMode >= 4, 'actual game touch target is inactive')
+        report.route.touchFootprints ??= []
+        report.route.touchFootprints.push({ phase, context: contextLabel, target })
+        return (col, row) => mealGameTouchDestination(target, col, row)
       }
       const beginPhase = async (label) => {
         phase = label
@@ -633,7 +673,7 @@ export async function runMealJourney(engine) {
         await beginPhase('kitchen-exit')
         await navigate(
           's001',
-          (c, r) => Math.abs(c - 102) + Math.abs(r - 59) <= 1,
+          await touchDestination(18, (c, r) => Math.abs(c - 102) + Math.abs(r - 59) <= 1),
           (s) => inScene(s, 's003') && ready(s),
         )
         await beginPhase('stairs-up')
@@ -654,13 +694,13 @@ export async function runMealJourney(engine) {
         await beginPhase('guest-room')
         await navigate(
           's003',
-          (c, r) => Math.abs(c - 133) + Math.abs(r - 42) <= 1,
+          await touchDestination(51, (c, r) => Math.abs(c - 133) + Math.abs(r - 42) <= 1),
           (s) => inScene(s, 's001') && ready(s),
         )
         await beginPhase('serve')
         await navigate(
           's001',
-          mealServingDestination,
+          await touchDestination(15, mealServingDestination),
           (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue),
         )
         const serveShown = await finishDialogue('s001', MEAL_ROWS.slice(2, 15))
@@ -675,7 +715,7 @@ export async function runMealJourney(engine) {
         await beginPhase('guest-room-exit')
         await navigate(
           's001',
-          (c, r) => Math.abs(c - 108) + Math.abs(r - 33) <= 1,
+          await touchDestination(12, (c, r) => Math.abs(c - 108) + Math.abs(r - 33) <= 1),
           (s) => inScene(s, 's003') && ready(s),
         )
         await beginPhase('stairs-down')

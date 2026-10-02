@@ -20,7 +20,11 @@ import {
   readMealContract,
   validateMealPredecessor,
 } from './meal-contract.mjs'
-import { mealGameBoundaryCommitted, navigateMealRoute } from './meal-journey.mjs'
+import {
+  mealGameBoundaryCommitted,
+  mealGameTouchDestination,
+  navigateMealRoute,
+} from './meal-journey.mjs'
 import { installMealObserver } from './meal-observer.mjs'
 import { instrumentMealTrace, MEAL_TRACE_TARGETS } from './meal-trace-plugin.mjs'
 
@@ -785,4 +789,113 @@ test('004 game observed script after a real current-leg landing waits without an
     ['up', 'ArrowUp'],
   ])
   assert.equal(held.size, 0)
+})
+test('004 game touch goals use actual primary mode5 footprints including all four diagonal cells', () => {
+  const formula = readFileSync(
+    new URL('../../packages/game/src/core/scene-system.ts', import.meta.url),
+    'utf8',
+  )
+  assert(formula.includes('const threshold = (mode - TRIGGER_MODE_AUTO_MIN) * 32 + 16'))
+  assert(formula.includes('const dyAbs = Math.abs(partyWorldY - anchorY) * 2'))
+  assert(formula.includes('if (dxAbs + dyAbs >= threshold) continue'))
+  for (const [scene, ids] of [
+    ['1', [18, 12, 15]],
+    ['3', [51]],
+  ]) {
+    const data = JSON.parse(
+      readFileSync(
+        new URL(`../../data/extracted/data/scene/${scene}.json`, import.meta.url),
+        'utf8',
+      ),
+    )
+    for (const id of ids) {
+      const npc = data.eventObjects.find((npc) => npc.id === id)
+      assert.equal(npc.triggerMode, 5)
+      const [col, row] = [(npc.x / 16 + npc.y / 8) / 2, (npc.y / 8 - npc.x / 16) / 2],
+        target = { anchor: [npc.x, npc.y], triggerMode: npc.triggerMode, state: 1 }
+      for (let dc = -1; dc <= 1; dc++)
+        for (let dr = -1; dr <= 1; dr++)
+          assert.equal(
+            mealGameTouchDestination(target, col + dc, row + dr),
+            true,
+            `diagonal ${id}/${dc}/${dr} is a true footprint`,
+          )
+      for (const [dc, dr] of [
+        [2, 0],
+        [0, 2],
+        [-2, 0],
+        [0, -2],
+        [2, 2],
+      ])
+        assert.equal(mealGameTouchDestination(target, col + dc, row + dr), false)
+      assert.equal(mealGameTouchDestination({ ...target, state: 0 }, col, row), false)
+      assert.equal(mealGameTouchDestination({ ...target, triggerMode: 4 }, col + 1, row + 1), false)
+    }
+  }
+})
+test('004 game real e18 diagonal ordinary landing is accepted; range-outside and script placements are not', () => {
+  const target = { anchor: [688, 1288], triggerMode: 5, state: 1 },
+    goal = (c, r) => mealGameTouchDestination(target, c, r)
+  assert.equal(goal(101, 60), true)
+  const event = {
+    order: 11,
+    kind: 'actor',
+    id: 'party',
+    scene: 's001',
+    source: 'commit:tickSceneInput',
+    before: { position: [640, 1280] },
+    state: { position: [656, 1288] },
+  }
+  const trace = (event) => ({ events: [event], errors: [], overflow: false })
+  assert.equal(mealGameBoundaryCommitted(trace(event), 10, 's001', goal), true)
+  assert.equal(
+    mealGameBoundaryCommitted(
+      trace({ ...event, source: 'commit:applyRawOpcode' }),
+      10,
+      's001',
+      goal,
+    ),
+    false,
+  )
+  assert.equal(
+    mealGameBoundaryCommitted(
+      trace({ ...event, state: { position: [656, 1304] } }),
+      10,
+      's001',
+      goal,
+    ),
+    false,
+  )
+})
+test('004 game serving already in true radius waits naturally without directional input; RF exact goal is unchanged', async () => {
+  const target = { anchor: [1264, 1096], triggerMode: 5, state: 1 },
+    actions = []
+  assert.equal(mealGameTouchDestination(target, 108, 30), true)
+  assert.equal(mealServingDestination(108, 30), false)
+  let reads = 0
+  await navigateMealRoute({
+    keyboard: {
+      down: async (key) => actions.push(['down', key]),
+      up: async (key) => actions.push(['up', key]),
+    },
+    map: {},
+    read: async () =>
+      reads++ === 0
+        ? { scene: 's001', position: [108, 30], ready: true, dialog: null }
+        : { scene: 's001', position: [108, 30], ready: false, dialog: true },
+    until: async (read, accept) => {
+      const state = await read()
+      assert(accept(state))
+      return state
+    },
+    health: () => {},
+    grid: (s) => s.position,
+    inScene: (s) => s.scene === 's001',
+    ready: (s) => s.ready,
+    destination: (c, r) => mealGameTouchDestination(target, c, r),
+    finished: (s) => s.dialog === true,
+    onInput: () => {},
+    onProgress: () => {},
+  })
+  assert.deepEqual(actions, [], 'game may trigger naturally inside radius without a synthetic step')
 })
