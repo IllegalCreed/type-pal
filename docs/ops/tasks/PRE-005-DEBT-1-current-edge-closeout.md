@@ -23,7 +23,7 @@ Branch: codex/pre-005-cleanup
 | --- | --- | --- |
 | 切场景朝向保持无法清除 | 三落点可去掉显式facing，其余继承/过渡/保存重开保持 | pre005_editor_edges |
 | 地图清选通知残留 | 真正Esc清选和Inspector清空均给既有清空通知，其它Esc取消语义不变 | pre005_editor_edges |
-| 深链预览伪造帧0 | 无真实采样不造帧；预算截断不伪装完整循环，当前真实资源UI可解释 | e2e004_phase1_premise |
+| 深链预览伪造帧0 | 无真实采样不造帧；预算截断不伪装完整循环，当前真实资源UI可解释 | pre005_sprite_preview |
 | 001–004录制与音轨 | 对已验片段建设窄capture能力及原声/画面/语义回执；先交实际可行样本再冻结范围 | e2e004_runner，准入另补 |
 | 已验收任务与过期文档 | 按用户批准/独立证据闭合对应卡；历史失败不改写，当前文档不再宣称仅001/002或旧版本 | Root |
 | 旧证据/分支/worktree | 先保全真实checkpoint/trace/截图和来源，再仅清理确认退役的精确对象 | Root |
@@ -51,7 +51,7 @@ Root `premise verified / design agree / build allowed`，限以下文件域。�
 - pre005_editor_edges：`command-form-world.tsx`、`CommandForm.current-scene.test.tsx`、`MapMode.tsx`、`MapMode.test.tsx`
   及确实必要的相邻保存/重开测试。只朝向选择回调显式makeLoadScene，其余rebuild继承不变；真清选共享回调
   更新通知，保留stamp/拖动/transform/menu/组编辑更高优先级Esc。禁止修改全局DiagnosticsBar/schema/runtime。
-- e2e004_phase1_premise：`world-sprite-behavior.ts`和相邻真实公有API/当前caller测试；WorldSpriteLibrary实现
+- pre005_sprite_preview：`world-sprite-behavior.ts`和相邻真实公有API/当前caller测试；WorldSpriteLibrary实现
   仅在现有detail呈现不足时最小修改。不改runtime深度预算、作者内容、采样安全预算，不冒充完整概率/循环。
   原6条chance示例与截断提示保持，空预算采样不得默认#0；partial单variant不得丢失不完整语义。
 - Root：本卡/子卡/看板/索引/当前文档/历史工具退役、独立验收、证据保全及git收口。贡献者不同时写这些文件。
@@ -67,3 +67,7 @@ Root `premise verified / design agree / build allowed`，限以下文件域。�
 
 三个独立包先在523cf97d基线上建立隔离分支，实施包读取本卡及自身子卡后按白名单执行，交冻结SHA并停写。
 Root收齐后核当前真实入口和质量门，再统一合并推送。005在本批收口前不启动。
+
+原只读e2e004_phase1_premise已交独立前提，实施开始前因模型容量失败；无实现改动。
+Root将唯一实现Owner交pre005_sprite_preview，保留原独立证据。entity_names同样只读阶段容量失败，
+两表单/通知包由pre005_editor_edges重新直接核一手证据后承担。未更改固定席位政策或模型配置。

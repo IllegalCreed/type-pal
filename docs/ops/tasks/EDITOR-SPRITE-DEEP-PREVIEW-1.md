@@ -1,7 +1,7 @@
 # EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0
 
 Status: build
-Owner: e2e004_phase1_premise（实现）；Codex Root（独立验收）
+Owner: pre005_sprite_preview（实现）；Codex Root（独立验收）
 Phase: phase2
 Capability: editor-authoring / world-sprite-preview
 Visual Verification Timing: dev-functional（实施时最小核预览文案）
