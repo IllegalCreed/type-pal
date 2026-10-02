@@ -65,48 +65,48 @@
       "kind": "insufficient-money-fallthrough",
       "path": "s023/e437/trigger/default/flow/stages/0/body/1",
       "threshold": 20,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s023/e437/trigger/default",
       "kind": "charge-before-confirm",
       "path": "s023/e437/trigger/default/flow/stages/0/body",
       "order": ["dialog", "branch", "giveMoney", "confirm", "giveItem"],
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s050/e845/trigger/default",
       "kind": "insufficient-money-fallthrough",
       "path": "s050/e845/trigger/default/flow/stages/0/body/2",
       "threshold": 100,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s050/e846/trigger/default",
       "kind": "insufficient-money-fallthrough",
       "path": "s050/e846/trigger/default/flow/stages/0/body/2",
       "threshold": 100,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s084/e1583/trigger/legacy-001",
       "kind": "insufficient-money-fallthrough",
       "path": "s084/e1583/trigger/legacy-001/flow/stages/0/body/2",
       "threshold": 100,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s084/e1584/trigger/legacy-001",
       "kind": "insufficient-money-fallthrough",
       "path": "s084/e1584/trigger/legacy-001/flow/stages/0/body/2",
       "threshold": 100,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s100/e1837/trigger/default",
@@ -125,24 +125,24 @@
       "kind": "insufficient-money-fallthrough",
       "path": "s111/e2085/trigger/default/flow/stages/0/body/2",
       "threshold": 30,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s127/e2224/trigger/default",
       "kind": "insufficient-money-fallthrough",
       "path": "s127/e2224/trigger/default/flow/stages/0/body/3",
       "threshold": 100,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s100/e1825/trigger/default",
       "kind": "insufficient-money-fallthrough",
       "path": "s100/e1825/trigger/default/flow/stages/1/body/4",
       "threshold": 100,
-      "status": "pending-source-control-flow-review",
-      "note": "Existing command ordering retained by structure-only conversion; original control flow must be checked before a semantic fix."
+      "status": "repaired-and-runtime-tested",
+      "note": "Repaired under explicit payment semantics authorization; historical SHA retained, corrected reference graph and actual steps agree. See payment-repairs.json and pal-script-payment-governance.test.ts."
     },
     {
       "key": "s148/e2433/trigger/default",

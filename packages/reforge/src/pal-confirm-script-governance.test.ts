@@ -1,7 +1,9 @@
 import {
+  type AuthorCommand,
   type AuthorScriptFlow,
   type BaseStateTransition,
   type FlowCursor,
+  type RuntimeCommand,
   type RuntimeScriptFlow,
   resolveAuthorDialogueTree,
   validateActors,
@@ -22,7 +24,7 @@ import { sha256Bytes } from './hash.js'
 import { compileRuntimeScriptFlow, RuntimeSharedScriptResolver } from './runtime-script-compiler.js'
 import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
 
-// Historical graph cuts are isolated test evidence; current author content only uses ordinary steps.
+// Historical graph cuts are isolated evidence; these twelve current author flows use ordinary steps.
 const candidates = [
   ['s023/e437/default', 1, 'ffbc0d2e77c27189a8876d875ce536a2997d209454a5c1fc4965acc0d0239ccc'],
   ['s050/e845/default', 1, '8db2854702d11340882667bfddbc017c2e2bf2dc6435e4a64fd24ea8163b2a3b'],
@@ -835,9 +837,157 @@ function source(key: string) {
   return behavior.flow
 }
 
-function historicalSource(key: string): AuthorScriptFlow {
-  const current = source(key)
+interface PaymentDelta {
+  amount: number
+  stage: string
+  stageGuard: number
+  state: string
+  stateGuard: number
+  confirmFirst?: boolean
+}
+
+// Explicitly approved semantic corrections, not refreshed historical golden hashes.
+const paymentDeltas: Record<string, PaymentDelta> = {
+  's023/e437/default': {
+    amount: 20,
+    stage: 'initial',
+    stageGuard: 2,
+    state: 'initial',
+    stateGuard: 1,
+    confirmFirst: true,
+  },
+  's050/e845/default': {
+    amount: 100,
+    stage: 'initial',
+    stageGuard: 2,
+    state: 'decision-001-yes',
+    stateGuard: 0,
+  },
+  's050/e846/default': {
+    amount: 100,
+    stage: 'initial',
+    stageGuard: 2,
+    state: 'decision-001-yes',
+    stateGuard: 0,
+  },
+  's084/e1583/legacy-001': {
+    amount: 100,
+    stage: 'initial',
+    stageGuard: 2,
+    state: 'decision-001-yes',
+    stateGuard: 0,
+  },
+  's084/e1584/legacy-001': {
+    amount: 100,
+    stage: 'initial',
+    stageGuard: 2,
+    state: 'decision-001-yes',
+    stateGuard: 0,
+  },
+  's111/e2085/default': {
+    amount: 30,
+    stage: 'initial',
+    stageGuard: 2,
+    state: 'decision-001-yes',
+    stateGuard: 0,
+  },
+  's127/e2224/default': {
+    amount: 100,
+    stage: 'initial',
+    stageGuard: 3,
+    state: 'decision-001-yes',
+    stateGuard: 1,
+  },
+  's100/e1825/default': {
+    amount: 100,
+    stage: 'legacy-002',
+    stageGuard: 4,
+    state: 'decision-003-yes',
+    stateGuard: 2,
+  },
+}
+
+const approvedStageLabels: Record<string, Record<string, string>> = {
+  's023/e437/default': { initial: '确认购买并支付二十文' },
+  's050/e845/default': { initial: '确认购买并支付一百文' },
+  's050/e846/default': { initial: '确认购买并支付一百文' },
+  's084/e1583/legacy-001': { initial: '确认交费后两名衙役放行' },
+  's084/e1584/legacy-001': { initial: '确认交费后两名衙役放行' },
+  's111/e2085/default': { initial: '确认购买并支付三十文' },
+  's127/e2224/default': { initial: '确认买酒并支付一百文' },
+  's100/e1825/default': {
+    initial: '施舍半数钱财，打听刘府传闻',
+    'legacy-002': '支付一百文，打听小莲儿',
+    'legacy-003': '今日生意的复读',
+  },
+}
+
+function checkedMoneyGuard(body: AuthorCommand[], index: number, amount: number) {
+  const guard = body[index]
+  if (guard?.kind !== 'branch') throw new Error('missing exact payment branch')
+  expect(guard.cond).toEqual({ kind: 'not', cond: { kind: 'hasMoney', atLeast: amount } })
+  expect(body[index + 1]).toEqual({ kind: 'giveMoney', delta: -amount })
+  return guard
+}
+
+function undoAuthorizedPaymentDelta(key: string) {
+  const current = structuredClone(source(key))
   if (current.kind !== 'stages') throw new Error(`${key}: current content must use ordinary steps`)
+  const delta = paymentDeltas[key]
+  if (!delta) return current
+  const body = current.stages.find((stage) => stage.id === delta.stage)?.body
+  if (!body) throw new Error('missing exact payment step')
+  const guard = checkedMoneyGuard(body, delta.stageGuard, delta.amount)
+  expect(guard.then.at(-1)).toEqual({ kind: 'stopScript' })
+  expect(guard.then.filter((command) => command.kind === 'stopScript')).toHaveLength(1)
+  guard.then.pop()
+  if (delta.confirmFirst) {
+    expect(body.map((command) => command.kind)).toEqual([
+      'dialog',
+      'confirm',
+      'branch',
+      'giveMoney',
+      'giveItem',
+    ])
+    const confirm = body.splice(1, 1)[0]!
+    expect(confirm).toMatchObject({
+      kind: 'confirm',
+      id: 'decision-001',
+      onNo: [{ kind: 'stopScript' }],
+    })
+    body.splice(3, 0, confirm)
+  }
+  return current
+}
+
+function correctedHistoricalSource(key: string, original: AuthorScriptFlow): AuthorScriptFlow {
+  const corrected = structuredClone(original)
+  const delta = paymentDeltas[key]
+  if (!delta) return corrected
+  if (corrected.kind !== 'stateMachine') throw new Error('expected historical reference graph')
+  const state = corrected.machine.states[delta.state]
+  if (!state) throw new Error('missing exact historical payment state')
+  const guard = checkedMoneyGuard(state.body, delta.stateGuard, delta.amount)
+  expect(guard.then.some((command) => command.kind === 'stopScript')).toBe(false)
+  guard.then.push({ kind: 'stopScript' })
+  if (delta.confirmFirst) {
+    expect(state.body.map((command) => command.kind)).toEqual([
+      'dialog',
+      'branch',
+      'giveMoney',
+      'confirm',
+    ])
+    const [balanceCheck, charge] = state.body.splice(1, 2)
+    const accepted = corrected.machine.states['decision-001-yes']
+    if (!balanceCheck || !charge || !accepted) throw new Error('missing historical purchase arm')
+    expect(accepted.body).toEqual([{ kind: 'giveItem', itemId: '80' }])
+    accepted.body.unshift(balanceCheck, charge)
+  }
+  return corrected
+}
+
+function historicalSource(key: string): AuthorScriptFlow {
+  const current = undoAuthorizedPaymentDelta(key)
   const shape = historicalShapes[key]
   if (!shape) throw new Error(`missing historical graph ${key}`)
   return {
@@ -946,10 +1096,12 @@ async function activate(
   condition: boolean,
 ) {
   const trace: unknown[] = []
+  const commands: RuntimeCommand[] = []
   const commits: FlowCursor[] = []
   let answerIndex = 0
   const host: ScriptRuntimeHost = {
     execute(command) {
+      commands.push(command)
       trace.push(['command', command])
     },
     evalCondition(value) {
@@ -988,33 +1140,38 @@ async function activate(
       },
     },
   )
-  return { trace, cursor: commits.at(-1) ?? cursor, commits }
+  return { trace, commands, cursor: commits.at(-1) ?? cursor, commits }
 }
 
 test.each(
   candidates,
-)('%s preserves its historical command graph using %i ordinary steps', async (key, steps, hash) => {
+)('%s uses %i steps with verified history and explicitly corrected payment semantics', async (key, steps, hash) => {
   const author = historicalSource(key)
   expect(await sha256Bytes(new TextEncoder().encode(JSON.stringify(author)))).toBe(hash)
-  const current = resolveAuthorDialogueTree(author, actors)
-  const candidate = organizeConfirmCandidate(current)
+  const reference = resolveAuthorDialogueTree(correctedHistoricalSource(key, author), actors)
+  const candidate = organizeConfirmCandidate(reference)
   expect(candidate.stages).toHaveLength(steps)
-  expect(resolveAuthorDialogueTree(source(key), actors)).toEqual(candidate)
+  for (const stage of candidate.stages) {
+    const label = approvedStageLabels[key]?.[stage.id]
+    if (label !== undefined) stage.label = label
+  }
+  const actual = resolveAuthorDialogueTree(source(key), actors)
+  expect(actual).toEqual(candidate)
   for (const condition of [false, true]) {
     for (let mask = 0; mask < 8; mask++) {
       const answers = [Boolean(mask & 1), Boolean(mask & 2), Boolean(mask & 4)]
-      let oldCursor: FlowCursor | undefined
+      let referenceCursor: FlowCursor | undefined
       let newCursor: FlowCursor | undefined
       for (let count = 0; count < 4; count++) {
-        const original = await activate(current, oldCursor, answers, condition)
-        const organized = await activate(candidate, newCursor, answers, condition)
-        expect(organized.trace).toEqual(original.trace)
-        oldCursor = original.cursor
+        const expected = await activate(reference, referenceCursor, answers, condition)
+        const organized = await activate(actual, newCursor, answers, condition)
+        expect(organized.trace).toEqual(expected.trace)
+        referenceCursor = expected.cursor
         newCursor = organized.cursor
-        expect(oldCursor?.kind).toBe('state')
-        const oldStep = oldCursor?.kind === 'state' ? oldCursor.state : 'initial'
+        if (referenceCursor) expect(referenceCursor.kind).toBe('state')
+        const referenceStep = referenceCursor?.kind === 'state' ? referenceCursor.state : 'initial'
         const newStep = newCursor?.kind === 'stage' ? newCursor.stage : candidate.initial
-        expect(newStep).toBe(oldStep)
+        expect(newStep).toBe(referenceStep)
       }
     }
   }
@@ -1032,6 +1189,54 @@ test('declining inline ends this activation without committing next or executing
   expect(declined.commits).toEqual([])
   const accepted = await activate(candidate, declined.cursor, [true], false)
   expect(accepted.cursor).toEqual({ kind: 'stage', stage: 'legacy-002' })
+})
+
+test.each(
+  Object.entries(paymentDeltas),
+)('%s corrects a proven insufficient-balance fallthrough instead of declaring it equivalent', async (key, delta) => {
+  const original = historicalSource(key)
+  const wrong = resolveAuthorDialogueTree(original, actors)
+  const corrected = resolveAuthorDialogueTree(correctedHistoricalSource(key, original), actors)
+  const cursor: FlowCursor | undefined =
+    delta.stage === 'initial'
+      ? undefined
+      : { kind: 'state', machine: 'confirm-decisions', state: delta.stage }
+  const before = await activate(wrong, cursor, [true], true)
+  const after = await activate(corrected, cursor, [true], true)
+  expect(
+    before.commands.filter(
+      (command) => command.kind === 'giveMoney' && command.delta === -delta.amount,
+    ),
+  ).toHaveLength(1)
+  expect(
+    after.commands.some((command) => command.kind === 'giveMoney' || command.kind === 'giveItem'),
+  ).toBe(false)
+  expect(after.trace).not.toEqual(before.trace)
+  expect(after.commits).toEqual([])
+})
+
+test('the authorized s023 change removes the historical charge when the player declines', async () => {
+  const key = 's023/e437/default'
+  const original = historicalSource(key)
+  const before = await activate(
+    resolveAuthorDialogueTree(original, actors),
+    undefined,
+    [false],
+    false,
+  )
+  const after = await activate(
+    resolveAuthorDialogueTree(correctedHistoricalSource(key, original), actors),
+    undefined,
+    [false],
+    false,
+  )
+  expect(before.commands.filter((command) => command.kind === 'giveMoney')).toEqual([
+    { kind: 'giveMoney', delta: -20 },
+  ])
+  expect(
+    after.commands.some((command) => command.kind === 'giveMoney' || command.kind === 'giveItem'),
+  ).toBe(false)
+  expect(after.trace).not.toEqual(before.trace)
 })
 
 test('different yes/no future steps are rejected rather than flattened to a common cursor', () => {
