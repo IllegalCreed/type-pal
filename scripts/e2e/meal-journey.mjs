@@ -16,6 +16,7 @@ import {
   mealArguments,
   mealInventoryCount,
   mealSaveView,
+  mealServingDestination,
   mealTraceArtifact,
   readMealContract,
   readMealPredecessor,
@@ -544,11 +545,11 @@ export async function runMealJourney(engine) {
           (s) => inScene(s, 's001') && ready(s),
         )
         await beginPhase('serve')
-        const range = (c, r) =>
-          engine === 'game'
-            ? Math.abs(c - 108) + Math.abs(r - 29) <= 1
-            : Math.max(Math.abs(c - 108), Math.abs(r - 29)) <= 1
-        await navigate('s001', range, (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue))
+        await navigate(
+          's001',
+          mealServingDestination,
+          (s) => !!(engine === 'game' ? s.dialog : s.runtime?.dialogue),
+        )
         const serveShown = await finishDialogue('s001', MEAL_ROWS.slice(2, 15))
         assert.equal(await inventory(), 1, 'serving did not give exactly one wine')
         assert.equal((await snapshot()).actors.e15.visible, false)

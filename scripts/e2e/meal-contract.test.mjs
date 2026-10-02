@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import ts from 'typescript'
 import { sha256 } from './browser-journey.mjs'
+import { planInnRoute } from './inn-route.mjs'
 import {
   assertMealCollector,
   assertMealDialogue,
@@ -10,7 +11,9 @@ import {
   assertMealPhase,
   mealArguments,
   mealAuthorTextIds,
+  mealInventoryCount,
   mealSaveView,
+  mealServingDestination,
   mealTraceArtifact,
   readMealContract,
   validateMealPredecessor,
@@ -69,6 +72,51 @@ test('004 artifact receipt hashes the exact pretty-printed file bytes and is det
   assert.notEqual(result.sha256, sha256(JSON.stringify(trace)))
   trace.events[0].order = 1
   assert.equal(JSON.parse(result.bytes).events[0].order, 0)
+})
+test('004 room entry inside proximity still plans an ordinary step into the actual serving zone', () => {
+  const map = JSON.parse(
+    readFileSync(new URL('../../projects/pal/content/maps/map-012.json', import.meta.url), 'utf8'),
+  )
+  const start = [108, 30]
+  assert(Math.max(Math.abs(start[0] - 108), Math.abs(start[1] - 29)) <= 1)
+  assert.equal(
+    mealServingDestination(...start),
+    false,
+    'proximity must not finish the route without input',
+  )
+  assert.deepEqual(planInnRoute(map, start, mealServingDestination), ['ArrowUp'])
+  assert.equal(mealServingDestination(108, 29), true)
+})
+test('004 inventory follows actual WorldState array entries, including RF wine1, and rejects map DTOs', () => {
+  const file = 'packages/content/src/character.ts'
+  const source = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8')
+  const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true)
+  const world = ast.statements.find(
+    (node) => ts.isInterfaceDeclaration(node) && node.name.text === 'WorldState',
+  )
+  const inventory = world.members.find((node) => node.name?.getText(ast) === 'inventory')
+  assert(ts.isArrayTypeNode(inventory.type), 'current WorldState inventory is not an array')
+  const entry = inventory.type.elementType
+  assert(ts.isTypeLiteralNode(entry))
+  assert.equal(
+    entry.members.find((node) => node.name.getText(ast) === 'itemId').type.kind,
+    ts.SyntaxKind.StringKeyword,
+  )
+  assert.equal(
+    entry.members.find((node) => node.name.getText(ast) === 'count').type.kind,
+    ts.SyntaxKind.NumberKeyword,
+  )
+  const manifest = JSON.parse(
+    readFileSync(new URL('../../projects/pal/manifest.json', import.meta.url), 'utf8'),
+  )
+  const clean = manifest.entryPoints.find((entry) => entry.id === 'new-game').startWorld.inventory
+  assert(Array.isArray(clean))
+  assert.equal(mealInventoryCount(clean, 'reforge'), 0)
+  assert.equal(mealInventoryCount([{ itemId: '272', count: 1 }], 'reforge'), 1)
+  assert.equal(mealInventoryCount([{ itemId: 272, count: 1 }], 'game'), 1)
+  for (const engine of ['game', 'reforge'])
+    for (const invalid of [{}, { 272: 1 }, null, undefined])
+      assert.throws(() => mealInventoryCount(invalid, engine), /array/)
 })
 
 test('004 CLI rejects missing donor, arbitrary scene/position and conflicting mode', () => {
@@ -165,7 +213,7 @@ test('004 observer copies observations and rejects unobserved moves, overflow an
       scene: 's001',
       actors: { party: { position: [0, 0], visible: true } },
       money: 500,
-      inventory: {},
+      inventory: [],
       persistent: {},
       control: true,
     },
@@ -201,7 +249,7 @@ test('004 global party continuity survives a real pre-switch placement and still
       actors: { party: { position, visible: true } },
       persistent: {},
       money: 500,
-      inventory: {},
+      inventory: [],
     })
   point('render:world', 's001', [1, 1])
   point('commit:applyRawOpcode', 's001', [2, 2])
@@ -264,6 +312,55 @@ test('004 author source keeps the complete unique gift body on e62, never on the
   unrelatedDialog.privateBody.push({ kind: 'dialog', cue: { rows: [{ text: 'dlg.99999' }] } })
   assert.throws(() => mealAuthorTextIds(unrelatedDialog.scenes, unrelatedDialog.item), /private/)
 })
+test('004 freezes its actual compiler, validation guard, runtime runner and activity-lineage sources', async () => {
+  const contract = await readMealContract()
+  for (const file of [
+    'packages/reforge/src/script-compiler-core.ts',
+    'packages/reforge/src/runtime-script-compiler.ts',
+    'packages/reforge/src/runtime-script-runner.ts',
+    'packages/reforge/src/script-activity-lineage.ts',
+    'packages/reforge/src/script-host-adapter.ts',
+    'packages/content/src/command-validation-options.ts',
+    'packages/content/src/runtime-script.ts',
+    'packages/content/src/author-script.ts',
+  ])
+    assert.equal(
+      contract.hashes[file],
+      sha256(readFileSync(new URL(`../../${file}`, import.meta.url))),
+    )
+})
+test('004 serving and gift phase positive controls use real canonical RF inventory arrays', () => {
+  const serve = {
+    events: [
+      { kind: 'actor', id: 'e15', order: 1, before: { visible: true }, state: { visible: false } },
+      {
+        kind: 'actor',
+        id: 'e26',
+        order: 4,
+        source: 'commit:meta.entity.pos',
+        before: { position: [1, 1] },
+        state: { position: [2, 1] },
+      },
+      {
+        kind: 'progress',
+        order: 7,
+        before: { inventory: [] },
+        state: { inventory: [{ itemId: '272', count: 1 }] },
+      },
+    ],
+    frames: [],
+  }
+  const shown = new Map([
+    ['dlg.95', 2],
+    ['dlg.96', 3],
+    ['dlg.98', 5],
+    ['dlg.112', 6],
+  ])
+  assertMealPhase(serve, 'reforge', shown, 'serve', -1)
+  const bad = structuredClone(serve)
+  bad.events[2].state.inventory = { 272: 1 }
+  assert.throws(() => assertMealPhase(bad, 'reforge', shown, 'serve', -1), /array/)
+})
 test('004 end rejects live taoist, carried sprite, missing wine decrement and entered005', () => {
   const { payload } = donor()
   payload.gs.wNumScene = 4
@@ -299,7 +396,12 @@ test('004 gift dependencies reject early disappearance or double consumption eve
   const trace = {
     events: [
       { kind: 'actor', id: 'e62', order: 3, before: { visible: true }, state: { visible: false } },
-      { kind: 'progress', order: 6, before: { inventory: { 272: 1 } }, state: { inventory: {} } },
+      {
+        kind: 'progress',
+        order: 6,
+        before: { inventory: [{ itemId: '272', count: 1 }] },
+        state: { inventory: [] },
+      },
     ],
     frames: [],
   }

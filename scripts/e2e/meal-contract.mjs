@@ -11,10 +11,17 @@ export const MEAL_ROWS = Object.freeze([
   180, 182, 183, 185, 187, 188, 190, 192, 193, 195, 197, 198, 199, 201, 202, 203, 204, 205, 207,
   209,
 ])
-export const mealInventoryCount = (inventory, engine, id = '272') =>
-  engine === 'game'
-    ? (inventory.find((entry) => String(entry.itemId) === id)?.count ?? 0)
-    : (inventory[id] ?? 0)
+export function mealInventoryCount(inventory, engine, id = '272') {
+  assert(['game', 'reforge'].includes(engine), 'unknown inventory engine')
+  assert(Array.isArray(inventory), 'inventory must use current array entries')
+  const entry = inventory.find((entry) => String(entry.itemId) === id)
+  if (!entry) return 0
+  assert(Number.isInteger(entry.count) && entry.count >= 0, 'invalid current inventory count')
+  return entry.count
+}
+
+/** A scene entry can already be in proximity. Enter the actual zone with ordinary held input. */
+export const mealServingDestination = (col, row) => col === 108 && row === 29
 
 /** Hash the exact bytes written, not a second serialization with different indentation. */
 export function mealTraceArtifact(trace) {
@@ -276,6 +283,14 @@ export async function readMealContract(root = repoRoot) {
     'packages/reforge/src/use-menu-state.ts',
     'packages/reforge/src/menu-state.ts',
     'packages/reforge/src/menu/use-box.ts',
+    'packages/reforge/src/script-compiler-core.ts',
+    'packages/reforge/src/runtime-script-compiler.ts',
+    'packages/reforge/src/runtime-script-runner.ts',
+    'packages/reforge/src/script-activity-lineage.ts',
+    'packages/reforge/src/script-host-adapter.ts',
+    'packages/content/src/command-validation-options.ts',
+    'packages/content/src/runtime-script.ts',
+    'packages/content/src/author-script.ts',
     'packages/game/src/core/menu/menu-driver.ts',
     'packages/game/src/core/menu/inventory-menu.ts',
     'packages/game/src/core/menu/inventory-action-menu.ts',
