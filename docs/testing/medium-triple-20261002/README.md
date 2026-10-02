@@ -1,6 +1,6 @@
 # Grok / Kimi / Cursor 中等补测批次（2026-10-02）
 
-当前[Cursor四审与两窄项提示词](codex-cursor-r4-review-20261002.md)、[机器探针](codex-cursor-r4-probe-20261002.json)：R3已闭、六原数据保持，但错误类型子串误收和新创建失败rm旁路仍counter；只修工具、不重采业务/不加量。
+当前[Cursor返工独立接收](codex-cursor-r5-review-20261002.md)、[机器门禁](codex-cursor-r5-review-20261002.json)、[反例复核](codex-cursor-r5-probe-20261002.json)：R4 两项关闭，代码/证据 accept、转 review，34/33/6 保持，不再作者返工或加量。
 Kimi/Grok已有accept保持，不追加额度；未main/done/正式覆盖。
 
 用户重新授权三人各一批中量任务；不是旧大卡缩围，也不追开自动连续大包。

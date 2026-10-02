@@ -1,6 +1,6 @@
 # TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 选中步骤与静态移动预览中包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: test-coverage / cursor-medium
 Coding Owner: Cursor（仅白名单新增测试、fixture、专属证据）
@@ -10,7 +10,15 @@ Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Branch: `codex/cursor-script-preview-medium-r1`
 
-## Codex 独立审核 r4（2026-10-02，当前优先）
+## Codex 独立审核 r5（2026-10-02，当前优先）
+
+固定 ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685，内容 d31f12430fb1fcdb6941d813171bfe9bd6a3f2be 后仅 receipt pin，本地/远端一致且作者树干净。
+**Codex code/evidence accept：R4-01/02 已独立关闭，Status review，等 Codex 统一接入，不再作者返工或加量。**
+真实 ReferenceError stack 派生反例拒收、真实 afterEach 复合仍拒收；Git 创建失败同路径替换哨兵保留、无 rm 兜底。唯一 judge 自测/六针原字节重判 6/6/10 清理自测通过；2856 静态完整 0/0/0、12 冻结/141 白名单/diff 过，候选 docs 仅父导航归 Codex。packages/scripts/依赖配置同对象复用 53/3801/typecheck，34/33/6 保持，未 main/done/官方覆盖。
+[完整验收](../../testing/medium-triple-20261002/codex-cursor-r5-review-20261002.md)、[机器门与对象证明](../../testing/medium-triple-20261002/codex-cursor-r5-review-20261002.json)、[独立反例](../../testing/medium-triple-20261002/codex-cursor-r5-probe-20261002.json)。
+无下一位 Cursor 提示词，等待 Codex 集成收口。下面提示词仅历史，不再执行。
+
+## Codex 独立审核 r4（2026-10-02，历史；已闭）
 
 固定ceeed04610247e60c463f2786cd533552050e563，R3完整错误/pending-todo/已登记目录对象校验闭合；judge与8清理自测新过、六原针重判6/6，53/3801/typecheck同对象复用，静态2855完整0/0/0、diff/12冻结/140白名单过，docs只父导航归Codex。
 counter仅R4-01真实ReferenceError消息含AssertionError被子串误收、R4-02新Git创建失败回滚无身份rm旁路误删替换哨兵；全为Codex派生坏输入/自造IO哨兵，不推翻六实际业务数据，不重采或扩预算。仍rework，未main/done/覆盖结算。
