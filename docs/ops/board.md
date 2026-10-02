@@ -107,7 +107,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；先治理机械拆分/后继/时基，浏览器启动失败自动清理待补 |
 | E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 六份同版case及真实终档已核；包门与最终工具零诊断，不录视频，6012保持 |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
-| SCRIPT-GOV-1 | [剧本共性问题族治理](tasks/SCRIPT-GOV-1-script-family-governance.md) | build | Census/内容/机械分类贡献者，Root验收 | 全量安装边、两个后继反例和六套结构准入；保护001–005，不冒称全量已修 |
+| SCRIPT-GOV-1 | [剧本共性问题族治理](tasks/SCRIPT-GOV-1-script-family-governance.md) | build | Codex独立整批验收与检查点刷新 | 18后继、18结构、8收费绑定；639安装边/147剩余机器，保护001–005 |
 
 2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：
 正常出房至e56、20正文/500文/三人实际进房、真实002新上下文全量World与Canvas恢复均通过。
