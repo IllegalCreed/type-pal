@@ -52,6 +52,9 @@ main.ts:1195旧inline helper的return Promise/finally会提早释放owner标记�
 - 不切绑定/重置游标，不检查自然touch/interact距离；作者条件决定能否调用。无绑定/disabled/completed明确no-op；
   missing、异当前场景、异session、永久removed明确失败。允许存在实体的隐藏/临时生命周期下纯显式调用，
   不把它当玩家自然交互；目标自身隐藏后仍完成对白尾段。004面对条件已检查可见性。
+- 当前调用域限定同scene-session：子链直接/经shared/嵌套的loadScene、loadLastSave、quitToTitle等替换scene/world操作
+  在副作用前明确拒绝，目录说明“切场在调用返回后编排”；外部session替换则AbortError终止子与父尾。
+  不改普通根trigger/shared既有切场语义，不为004开发区分主动/外部切场的新世界控制协议。
 - busy、同目标重入、A→B→A必须错误并中止调用者尾段，不能把false全当成功或等待自己；无绑定/完成与busy不得混淆。
 - 使用同一AbortSignal、host/coordinator与activity lineage；子self为目标、返回父self不变；子stop只结束子，abort向父传播，
   finally释放owner/lease。父save gate关闭未ready时允许同lineage子链，完整结束前不可假ready；不新增存档执行栈/兼容分支。
@@ -79,6 +82,17 @@ Root premise verified / design agree / build allowed：独立审计的条件性c
 
 零诊断门保持；测试红→绿、禁重入/异session/auto/shared/save/abort、真实scratch预览、实际main菜单use与持久208回归必须有证据。
 尚未实现/未跑的RF项不得报pass；第一阶段回执不外推新引擎。
+
+### 本轮独立接收进度
+
+- 新004工具02b270e77/4e1a5ab79已在Root候选树接收；独立读12源及实际菜单/dispatch只读插桩，无产品/旧001–003越界。
+  发现private正文来源fallback后返工ff2b3ac16，Root复读差异并执行107工具测试绿、相关Biome零诊断，旧报告不改。
+- game候选4e1a5ab79回执391来源/三trace/两档原字节逐项复算，持久域/Canvas实际相等；两张关键图已看。
+  [004证据登记](../../testing/e2e-004.md)明确game已核、RF仍未完成，不把两个独立engine报告误称both通过。
+- Root严格003交接45570b01f：待取菜正文只接受持久setActorAppearance208，无瞬态兼容分支；结束party与前驱一致、
+  无已端菜外观。19回归红→绿、两文件Biome零诊断。新候选作者冻结前不能拿此合同跑旧作者正文并报003绿。
+- 用户本轮确认6012没有未保存改动、可更新；Root实际只读页面显示“已保存”、保存按钮禁用，服务PID88523保持。
+  更新仍等能力/作者独立验收，不提前覆盖当前工程。
 
 ## 用户范围（2026-10-02）
 
