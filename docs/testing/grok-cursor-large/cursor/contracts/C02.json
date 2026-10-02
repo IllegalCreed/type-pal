@@ -68,11 +68,11 @@
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
         "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
-        "oldFile": "BattleSpriteLibrary.test.tsx",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+        "oldFullName": "原始帧缩短后会同步收紧右侧已选帧，不保留越界索引",
+        "oldMatcher": "select #10 then previewFrameCount=10 → stage controls text switches '用已选 #10' → '用已选 #9' @ :654-661",
         "dedupHeader": "排重：BattleSpriteLibrary.test.tsx 已证引用 fail-closed / 缩短帧收紧（mock 预览）；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same shrink tightens selected raw-frame index; new steal-slot #11 draft vs mock preview count"
       },
       "axis": "偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
       "oracle": "expect(m.host.querySelector('[aria-label=\"动作列表\"]')?.textContent).toContain('#11 → #0') | expect(applyButton(m.host).disabled).toBe(false) | expect(m.host.querySelector('[aria-label=\"动作列表\"]')?.textContent).not.toContain('#11') | expect(applyButton(m.host).disabled).toBe(true) | expect(profile.frames.steal).toBeUndefined()",
@@ -83,8 +83,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: out-of-range selection clamp when effective frame count drops; not external ABI race."
     },
     {
       "id": "C02-G01-04",

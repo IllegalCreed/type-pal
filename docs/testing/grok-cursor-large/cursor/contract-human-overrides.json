@@ -214,36 +214,30 @@
   },
   "C03-G04-03": {
     "humanVerified": true,
-    "classification": "new-contract",
-    "notes": "oracle: expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull()) | expect(mounted.host.querySelector('[role=\"alert\"]')).toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 失败后切到合法资源：清 alert 并给出 proof; R5: promote existing contract oldMatcher.; R5 honesty: staging-draft≠humanVerified",
     "verification": "human-ledger",
-    "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
-    "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 div.insp-empty.error role=alert renders decode/load failure message",
-    "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-03', [ mounted = await mountViewer(project, { await mounted.setAsset('sprite.late.b', '好 B') await waitMeta(mounted.host, 1, 1)",
-    "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:108 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
+    "ledgerStatus": "partial-old-axis",
+    "oracle": "expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull() | expect(mounted.host.querySelector('[role=\"alert\"]')).toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1)",
     "oldAssertion": {
       "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
       "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
       "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
-      "oldMatcher": "alert contains '损坏的精灵资源' @ :229",
-      "note": "alert text axis on failed load; new adds recovery proof after swap asset"
+      "oldMatcher": "failed.content querySelector('[role=\"alert\"]') text contains '损坏的精灵资源' @ :229",
+      "note": "R6: old proves load-failure alert axis only; bad→good recover+clear alert+proof is separate sub-axis (pending), not covered by this oldFullName"
     },
-    "ledgerStatus": "human-accepted",
-    "oracle": "expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull() | expect(mounted.host.querySelector('[role=\"alert\"]')).toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1)"
+    "notes": "R6: failure-alert old axis retained; recover sub-axis pending — not auto-cull whole case"
   },
   "C03-G04-06": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(mounted!.host.textContent).toContain('正在解析')) | expect(mounted.host.querySelector('.sprite-resource-frame-grid')).not.toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1) | classification: new-contract; axis: ",
-    "toolOldAssertionCandidate": {
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
       "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
       "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
-      "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
-      "oldMatcher": "expect( host.querySelectorAll<HTMLButtonElement>( '.sprite-resource-frame-grid [aria-label^=\"选择源帧 \"]', @ :121 (key=\".sprite-resource-frame-grid\")",
-      "dedupHeader": "排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；",
-      "note": "CURSOR-R3-01 batch C03 high-confidence shared expect fragment; not auto-reclassified"
-    }
+      "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+      "oldMatcher": "after oldLoad.resolve while next pending: text still contains '正在解析帧资源 sprite.next' @ :198-200",
+      "note": "same intermediate loading guard; new adds corrupt/late path variants"
+    },
+    "notes": "R6: sub-step of stale-load test; not failure-alert recovery."
   },
   "C03-G04-08": {
     "humanVerified": false,
@@ -311,23 +305,15 @@
   "C04-G07-05": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "old-matcher-promoted",
-    "notes": "oracle: expect(moved.frames.map((f) => f.id)).toEqual(['b', 'c', 'a']) | expect(moved.frames[0]?.durationMs).toBe(70) | expect(moved.frames[2]?.durationMs).toBeUndefined() | expect(draftDurationMs(moved)).toBe(150) | classification: new-con",
+    "ledgerStatus": "partial-old-axis",
     "oldAssertion": {
       "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
       "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
       "oldFullName": "一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称",
-      "oldMatcher": "moveDraftFrame(base,0,2) then redoDraftHistory(undoDraftHistory(history)).present.frames.map(id) @ :89-91 → [\"b\",\"c\",\"a\"]",
-      "note": "same frame reorder axis as new moveDraftFrame direct assert; old via undo/redo chain"
+      "oldMatcher": "redoDraftHistory(undoDraftHistory(history)).present.frames.map(id) → ['b','c','a'] @ :89-91",
+      "note": "R6: old proves reorder id sequence only; new durationMs 70/undefined/150 not proven by this matcher — duration sub-axis pending; do not cull whole old"
     },
-    "toolOldAssertionCandidate": {
-      "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-      "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
-      "oldFullName": "unknown-old-fullName",
-      "oldMatcher": "expect( redoDraftHistory(undoDraftHistory(history)).present.frames.map((frame) => frame.id), ).toEqual(['b', 'c', 'a']) @ :89 (key=\"['b', 'c', 'a']\")",
-      "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-      "note": "CURSOR-R3-01 batch C04 high-confidence shared expect fragment; not auto-reclassified"
-    }
+    "notes": "R6: order sub-axis old-proven; per-frame duration metadata pending"
   },
   "C05-G06-01": {
     "humanVerified": false,
@@ -479,30 +465,28 @@
   "C08-G07-10": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-10; R5 honesty: staging-draft≠humanVerified",
-    "toolOldAssertionCandidate": {
-      "oldTestSha": "53b5beb9dfb6d34a9a2430f98823bce614b366f0",
-      "oldFile": "packages/editor/src/ui/StampLibraryTab.test.tsx",
-      "oldFullName": "搜索、标签和来源覆盖各值、组合、空结果和清空恢复，且不偷换选择",
-      "oldMatcher": "expect(rows()).toHaveLength(1) expect(rows()[0]?.textContent).toContain('岩石') expect(host.querySelector('.stamp-library-row.selected')).toBeNull() @ :400 (key=\".stamp-library-row.selected\")",
-      "dedupHeader": "排重：StampLibraryTab.test 16 项工作流；StampContentEditor.glm-leaf；StampTemplateDialog.glm-l；",
-      "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
-    }
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "5a88c768db540615084aabf937ce5407dba2ee61",
+      "oldFile": "packages/editor/src/ui/StampLibraryTab.glm-large-wave.test.tsx",
+      "oldFullName": "A05 StampLibraryTab 深链 — focusObjectId 决定初始选中并随 prop 跟随",
+      "oldMatcher": "focusObjectId shrub-stamp → selected row ∋ '灌木'; prop tree-stamp → ∋ '树' @ :80-106",
+      "note": "same focusObjectId drives initial selection + follow axis"
+    },
+    "notes": "R6: deep-link selection old-proven; new uses c08-b id fixture"
   },
   "C08-G03-01": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-01; R5 honesty: staging-draft≠humanVerified",
-    "toolOldAssertionCandidate": {
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
       "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
       "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
       "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
-      "oldMatcher": "expect(rows()).toHaveLength(2) expect(host.querySelector('.tileset-library-row.selected')?.textContent).toContain('待删瓦片') }) @ :236 (key=\")?.textContent).toContain(\")",
-      "dedupHeader": "排重：TilesetTab.test 引用删除/检查器 Tab；K04 真实上传链/替换竞态；U2c 重命名与深链——",
-      "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
-    }
+      "oldMatcher": "clear search+filter restore → .tileset-library-row.selected text contains '待删瓦片' @ :234-237",
+      "note": "partial: same selected-row after filter-restore axis; fixture ids differ (starter/C08_TILESET vs 待删瓦片/tiles-a)"
+    },
+    "notes": "R6: selection-restore sub-axis only; h1/readonly starter copy net-new"
   },
   "C08-G03-02": {
     "humanVerified": false,
@@ -871,8 +855,15 @@
   "C02-G01-03": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "0c4fd942f21393eeef6c76c849fb88eba54f8d94",
+      "oldFile": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+      "oldFullName": "原始帧缩短后会同步收紧右侧已选帧，不保留越界索引",
+      "oldMatcher": "select #10 then previewFrameCount=10 → stage controls text switches '用已选 #10' → '用已选 #9' @ :654-661",
+      "note": "same shrink tightens selected raw-frame index; new steal-slot #11 draft vs mock preview count"
+    },
+    "notes": "R6: out-of-range selection clamp when effective frame count drops; not external ABI race."
   },
   "C02-G01-04": {
     "humanVerified": false,
@@ -1307,8 +1298,15 @@
   "C03-G06-03": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(prepared.record.label).toBe('Sword.Icon') | expect(prepared.record.mediaType).toBe('image/png') | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId item-icon label 缺省剥扩展名; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+      "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+      "oldFullName": "label 缺省用文件名去扩展；显式 label 优先",
+      "oldMatcher": "prepareAuthoredImage(pngFile('y-name.png',4,4),'portrait'); expect(record.label).toBe('y-name') @ :378-379",
+      "note": "same default label = basename without .png; new item-icon Sword.Icon.png → Sword.Icon"
+    },
+    "notes": "R6: record.label stem rule; kind portrait vs item-icon."
   },
   "C03-G06-04": {
     "humanVerified": false,
@@ -1434,14 +1432,28 @@
   "C04-G07-07": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(draftFrameDurationMs(wider, 0)).toBe(55) | expect(draftFrameDurationMs(wider, 1)).toBe(70) | expect(draftDurationMs(wider)).toBe(180) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 setDraftDefaultFrameMs 只影响无 ove"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "c4de01c39b1a40fe4e4e358b1849755abc24e76c",
+      "oldFile": "packages/editor/src/core/frame-animation-draft.wave2.test.ts",
+      "oldFullName": "fractional frame durations are valid; removing an override inherits the new default",
+      "oldMatcher": "setDraftDefaultFrameMs(input,40.5) no-op on input; changed=setDraftDefaultFrameMs(setDraftFrameDuration(input,1),60.5); draftFrameDurationMs(changed,1)===60.5 @ :89-94",
+      "note": "same setDraftDefaultFrameMs affects effective duration after override cleared; new uses integer 55 default on 3-frame draft"
+    },
+    "notes": "R6: defaultFrameMs propagation axis; numeric fixture differs from c04 baseDraft()."
   },
   "C04-G07-08": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(draftFrameMetadata(cleared)[1]).toEqual({}) | expect(draftDurationMs(cleared)).toBe(120) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 清除 override 后 draftFrameMetadata 该槽回到 {}; R5 honesty: staging-draft≠humanVer"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "c4de01c39b1a40fe4e4e358b1849755abc24e76c",
+      "oldFile": "packages/editor/src/core/frame-animation-draft.wave2.test.ts",
+      "oldFullName": "fractional frame durations are valid; removing an override inherits the new default",
+      "oldMatcher": "changed=setDraftDefaultFrameMs(setDraftFrameDuration(input,1),60.5); expect(draftFrameMetadata(changed)).toEqual([{}, {}]) @ :93-95",
+      "note": "same clearing per-frame override empties metadata slot; new setDraftFrameDuration(base,1,undefined) on 3-frame draft"
+    },
+    "notes": "R6: draftFrameMetadata {} after override removal; not insert/delete structure edits."
   },
   "C04-G07-09": {
     "humanVerified": false,
@@ -1837,21 +1849,28 @@
   "C05-G01-03": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "old-matcher-promoted",
-    "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5: wave2 proves sort does not clone or rewrite poses object; matches new toBe reference oracle.; R5 honesty: staging-draft≠humanVerified",
-    "oldAssertion": {
+    "ledgerStatus": "pending-human",
+    "toolOldAssertionCandidate": {
       "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
       "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
-      "oldFullName": "action order falls through label then stable id, missing orders sort last without rewriting poses",
+      "oldFullName": "按 order/label/id 稳定排序并派生零基显示编号",
       "oldMatcher": "expect(input).toEqual(before) after sortedSpriteActions(input) @ :38-48",
-      "note": "same non-mutating sort / stable poses reference axis"
-    }
+      "note": "value/deep-equal + input immutability only — does NOT prove sorted[i].action === poses[id] reference (toBe)"
+    },
+    "notes": "R6 retract: wave2 toEqual ≠ new toBe same-reference oracle; reference identity pending"
   },
   "C05-G01-04": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+      "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+      "oldFullName": "action order falls through label then stable id, missing orders sort last without rewriting poses",
+      "oldMatcher": "equal order+label → sort ids ['action','a','b','c','action-2','z'] via stable id tie-break @ :41-46",
+      "note": "same tertiary id sort when order+label tied; new a1/a10/a2 documents localeCompare non-natural numeric order"
+    },
+    "notes": "R6: id tie-break axis proven; new oracle is stricter localeCompare exemplar not duplicated in wave2."
   },
   "C05-G01-05": {
     "humanVerified": false,
@@ -2119,15 +2138,16 @@
   "C05-G05-06": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "old-matcher-promoted",
-    "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5: old exercises drop boundary; new uses same '{not-json' payload class.; R5 honesty: staging-draft≠humanVerified",
+    "ledgerStatus": "partial-old-axis",
     "oldAssertion": {
-      "oldTestSha": "6eab9d1dc55bd4200b3d48b7a6bb75d823dc6b84",
+      "oldTestSha": "16cb19c3a212375371d688afe32faa0262c33026",
       "oldFile": "packages/editor/src/ui/SpriteActionEditor.test.tsx",
-      "oldFullName": "[reorder-family:sprite-actions] step reorder keeps loopFrom on the logical step and preserves source-frame transfer",
-      "oldMatcher": "after invalidDrop payloads including '{bad'; expect(session.getHistoryVersion()).toBe(afterValidTransfer); error notice @ :361-380",
-      "note": "same invalid drag JSON → error notice + zero history/steps mutation axis (editor drop not inspect helper)"
-    }
+      "oldFullName": "idle 时间线支持键盘重排、undo/redo 与同资源帧拖入",
+      "oldMatcher": "invalid payloads '{bad'|other-asset|frame:9 → history unchanged + onStatusNotice kind:error message containing '有效帧' @ :361-381",
+      "dedupHeader": "",
+      "note": "R6: corrected blob SpriteActionEditor.test.tsx@16cb19c3… (was FrameWorkbench 6eab9d1d mis-tagged). Old proves invalid-JSON/reject/history-freeze axis; new exact notice 「源帧拖拽数据无效。」 is separate sub-axis (pending as net-new notice text)."
+    },
+    "notes": "R6 sub-axis: old invalid-drop reject retained; exact notice message not claimed as old-proven"
   },
   "C05-G05-07": {
     "humanVerified": false,
@@ -2336,62 +2356,132 @@
   "C07-G02-01": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-01; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 decodeFrameImage 解码收尾与拷贝 — 成功路径 finally close 恰一次；rgba 是独立副本；宽高与名字来自 bitmap/file",
+      "oldMatcher": "decodeFrameImage(f1.png) → toMatchObject({ name: 'f1.png', width: 2, height: 1 }) @ :59-62",
+      "note": "partial: mock createImageBitmap harness vs new real PNG bytes; same decodeFrameImage name/width/height axis"
+    },
+    "notes": "R6: mock vs real decode fixture; dimension/name sub-axis aligned"
   },
   "C07-G02-02": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-02; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 decodeFrameImage 解码收尾与拷贝 — 成功路径 finally close 恰一次；rgba 是独立副本；宽高与名字来自 bitmap/file",
+      "oldMatcher": "frame.rgba[0] ^= 0xff; expect(pixels[0]).toBe(1) @ :63-65",
+      "note": "same rgba independent-copy sub-axis; new uses real PNG pipeline"
+    },
+    "notes": "R6: rgba copy isolation old-proven"
   },
   "C07-G02-03": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-03; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 decodeFrameImages 序列合同 — 空列表拒绝；默认自然排序；preserveOrder 保持用户顺序",
+      "oldMatcher": "decodeFrameImages(files) → map names ['frame-1.png','frame-2.png','frame-10.png'] @ :125-130",
+      "note": "same natural-sort order axis; new batch uses numbered PNG fixtures"
+    },
+    "notes": "R6: sort order sub-axis promoted"
   },
   "C07-G02-04": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-04; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 decodeFrameImages 序列合同 — 空列表拒绝；默认自然排序；preserveOrder 保持用户顺序",
+      "oldMatcher": "decodeFrameImages(files, { preserveOrder: true }) → names keep input order @ :131-136",
+      "note": "same preserveOrder sub-axis"
+    },
+    "notes": "R6: preserveOrder old-proven"
   },
   "C07-G02-05": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-05; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 decodeFrameImages 序列合同 — 空列表拒绝；默认自然排序；preserveOrder 保持用户顺序",
+      "oldMatcher": "expect(decodeFrameImages([])).rejects.toThrow('至少选择一张图片') @ :110",
+      "note": "empty-list reject axis"
+    },
+    "notes": "R6: empty input guard old-proven"
   },
   "C07-G02-06": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-06; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 decodeFrameImages 序列合同 — 非首帧尺寸不一致点名拒绝",
+      "oldMatcher": "rejects.toThrow('c.png: 尺寸 5x4，应与首帧 4x4 一致') @ :153-155",
+      "note": "same cross-frame dimension gate"
+    },
+    "notes": "R6: size mismatch sub-axis promoted"
   },
   "C07-G02-07": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-07; R4 complete oracle from test body; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 assertFrameImageFile MIME/扩展名门 — 三类 MIME 直过；无 MIME 时按扩展名（含大写）；两者都不符拒绝",
+      "oldMatcher": "assertFrameImageFile(imageFile('B.PNG', '')) not.toThrow @ :27",
+      "note": "same extension-case MIME gate axis"
+    },
+    "notes": "R6: assertFrameImageFile uppercase extension old-proven"
   },
   "C07-G02-08": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-08; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 assertFrameImageFile MIME/扩展名门 — 三类 MIME 直过；无 MIME 时按扩展名（含大写）；两者都不符拒绝",
+      "oldMatcher": "assertFrameImageFile(imageFile('d.gif', 'image/gif')).toThrow('只支持 PNG、JPEG 或 WebP') @ :30-32",
+      "note": "gif reject before decode"
+    },
+    "notes": "R6: unsupported MIME reject old-proven"
   },
   "C07-G02-09": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-09; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "27606674d7f878613ee7d10b16f46c5a9caf5ce7",
+      "oldFile": "packages/editor/src/core/frame-animation-images.test.ts",
+      "oldFullName": "frame animation image sequence — 按自然文件名排序初始帧序列",
+      "oldMatcher": "sortFrameImageFiles([frame-10, frame-2, frame-1]) → ['frame-1.png','frame-2.png','frame-10.png'] @ :8-13",
+      "note": "partial: old proves natural sort output; new adds non-mutating input array sub-axis"
+    },
+    "notes": "R6: sort output axis old-proven; input-array immutability pending on new case"
   },
   "C07-G02-10": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-10; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+      "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+      "oldFullName": "C4 decodeFrameImages 序列合同 — 序列中途解码失败：整体拒绝且已解码帧的 bitmap 已归还",
+      "oldMatcher": "decodeFrameImages rejects 'corrupt bitmap'; events close count @ :180-183",
+      "note": "partial: old mock mid-sequence failure + close; new corrupt PNG + live bitmap zero sub-axis differs"
+    },
+    "notes": "R6: mid-batch failure + cleanup partial; real corrupt-bytes oracle net-new"
   },
   "C07-G04-01": {
     "humanVerified": false,
@@ -3164,26 +3254,54 @@
   "C10-G07-06": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:66; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "fd8f249348da83c677bac89d35d852074522d52e",
+      "oldFile": "packages/editor/src/ui/design-system/controls.test.tsx",
+      "oldFullName": "keeps status-value SSR markup for default tone and element contracts",
+      "oldMatcher": "renderToStaticMarkup(<DsTag tone=\"danger\"…>) contains ds-tag--danger @ :897-903",
+      "note": "same tone→modifier class axis; new case uses danger label「错误」"
+    },
+    "notes": "R6: DsTag tone modifier old-proven (SSR + live markup share class contract)"
   },
   "C10-G07-07": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:71; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "fd8f249348da83c677bac89d35d852074522d52e",
+      "oldFile": "packages/editor/src/ui/design-system/controls.test.tsx",
+      "oldFullName": "keeps status-value SSR markup for default tone and element contracts",
+      "oldMatcher": "renderToStaticMarkup(<DsReadonlyValue as=\"div\" monospace …>) → ds-readonly-value--monospace @ :909-914",
+      "note": "same monospace modifier class axis"
+    },
+    "notes": "R6: DsReadonlyValue monospace old-proven"
   },
   "C10-G07-08": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:77; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "eec036766c31371b5fc7288cbc8e211516925afd",
+      "oldFile": "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
+      "oldFullName": "keeps tabs, card, and status identity with tablist and alert roles",
+      "oldMatcher": "renderToStaticMarkup(<DsStatus tone=\"error\">) contains role=\"alert\"; <DsEmptyState …> contains ds-empty-state @ :31-34",
+      "note": "partial: old static markup roles/shell; new adds live text「等待」「暂无数据」sub-axis"
+    },
+    "notes": "R6: DsStatus alert + DsEmptyState shell partial; copy text pending"
   },
   "C10-G07-09": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:90; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "71fe958e22bda182d19fcbefdfd2348d28580ce1",
+      "oldFile": "packages/editor/src/ui/design-system/buttons.test.tsx",
+      "oldFullName": "keeps pressable, button and action-link identity with busy and default chrome",
+      "oldMatcher": "renderToStaticMarkup(<DsButton busy>保存</DsButton>) → disabled + aria-busy + span「处理中」 @ :26-27",
+      "note": "same busy disable + processing label axis"
+    },
+    "notes": "R6: DsButton busy chrome old-proven"
   },
   "C10-G07-10": {
     "humanVerified": false,
@@ -3194,14 +3312,28 @@
   "C10-G07-11": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:106; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "df0ff82de668ff3d0ac373948c1b357df96af19f",
+      "oldFile": "packages/editor/src/ui/design-system/recipes.test.tsx",
+      "oldFullName": "sequence index gives ordered rows a centered numeric marker and accessible label",
+      "oldMatcher": "DsSequenceIndex value={12} accessibleLabel=\"第 12 回合\" → visible 12 + visually-hidden label @ :940-944",
+      "note": "partial: same value + accessibleLabel rendering axis; numeric fixture differs (12 vs 2)"
+    },
+    "notes": "R6: DsSequenceIndex marker/label partial (fixture values differ)"
   },
   "C10-G07-12": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:114; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "df0ff82de668ff3d0ac373948c1b357df96af19f",
+      "oldFile": "packages/editor/src/ui/design-system/recipes.test.tsx",
+      "oldFullName": "inline composer owns default and compact density plus bounded number measure",
+      "oldMatcher": "DsInlineComposer renders .ds-inline-composer__control + __action slots @ :175-187",
+      "note": "same control/action slot presence axis; new uses DsTextInput + DsIconButton compact pair"
+    },
+    "notes": "R6: inline composer slot layout old-proven; density/control widgets differ"
   },
   "C10-G07-13": {
     "humanVerified": false,
@@ -3369,8 +3501,15 @@
   "C09-G06-03": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:97; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+      "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+      "oldFullName": "rechecks live references after the asynchronous delete byte read",
+      "oldMatcher": "after bytes resolve + ref added → text '仍被 1 处引用，不能删除'; asset sound.hit retained @ :290-295",
+      "note": "same live re-verify blocks delete when reference appears during read"
+    },
+    "notes": "R6: reference re-check block old-proven"
   },
   "C09-G06-04": {
     "humanVerified": false,
@@ -3381,8 +3520,15 @@
   "C09-G06-09": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:222; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+      "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+      "oldFullName": "rechecks live references after the asynchronous delete byte read",
+      "oldMatcher": "expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('命中音效') @ :296",
+      "note": "partial: hero title retained after failed delete; new case adds explicit delete-failure path variants"
+    },
+    "notes": "R6: hero title retention sub-axis old-proven on blocked delete"
   },
   "C09-G06-10": {
     "humanVerified": false,
@@ -3399,20 +3545,41 @@
   "C01-G01-01": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+      "oldFullName": "定义深链聚焦其源文件，多用途在右侧切换而不是重复左侧行",
+      "oldMatcher": "focusObjectId: 'hero-static' → data-world-active-definition='hero-static'; usageButtons include 主角行走/主角静止; 主角静止 aria-pressed='true' @ :683-701",
+      "note": "partial: old uses data-world-active-definition + usage picker pressed state; new asserts .who label + 大世界精灵用途 copy on c01 harness"
+    },
+    "notes": "R6: definition-focus + sibling usage list axis; not .who-specific matcher."
   },
   "C01-G01-02": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+      "oldFullName": "未配置源文件直接显示全部原始帧，并能基于解码证明新增用途",
+      "oldMatcher": "view:'asset', focusObjectId:'sprite.raw' → expect data-world-resource='sprite.raw' @ :707-716",
+      "note": "same asset-row/view focuses raw asset id; new adds .what 大世界精灵资源 + focusHistory objectId"
+    },
+    "notes": "R6: asset-centric selection/view sub-axis from raw-asset workflow test."
   },
   "C01-G01-03": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+      "oldFullName": "从源资源进入用途时默认选中首个用途，不要求再次点击用途卡片",
+      "oldMatcher": "button('用途').click(); data-world-active-definition='hero-walk'; 主角行走 usage row aria-pressed='true' @ :794-807",
+      "note": "same switch-into-definition-picker axis; new clicks catalog row then usage row → BetaStatic .who"
+    },
+    "notes": "R6: usage picker selection after asset context; fixture ids differ."
   },
   "C01-G01-05": {
     "humanVerified": false,
@@ -3452,17 +3619,18 @@
     "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
   },
   "C01-G01-10": {
-    "humanVerified": false,
-    "verification": "staging-draft",
-    "ledgerStatus": "old-matcher-promoted",
-    "notes": "human R4: vitest case + product branch verified; R5: old mock-harness tab switch proves panel-references not hidden; classification stays new-contract (per-id fixture). verification staging-draft; not bulk humanVerified.; R5 honesty: stagin",
+    "humanVerified": true,
+    "verification": "human-ledger",
+    "ledgerStatus": "human-accepted",
+    "classification": "existing-proof",
     "oldAssertion": {
       "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
       "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
       "oldFullName": "受控地址回灌后仍停留在引用，不跳回动作",
-      "oldMatcher": "button('引用').getAttribute('aria-selected')).toBe('true'); #world-sprite-inspector-panel-references hasAttribute('hidden') === false @ :834-837",
-      "note": "same references-tab visibility axis as new case (click 引用 → panel-references shown)"
-    }
+      "oldMatcher": "button('引用').click(); aria-selected true; #world-sprite-inspector-panel-references hidden===false; layout hidden===true @ :826-840",
+      "note": "R6 existing-proof: same public 引用 tab/panel visibility; old stronger (address harness + usage pick); new weaker fixture-only"
+    },
+    "notes": "R6 existing-proof C01-G01-10; deduct from net-new"
   },
   "C01-G02-01": {
     "humanVerified": false,
@@ -3619,8 +3787,15 @@
   "C01-G03-07": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+      "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+      "oldMatcher": "setCatalogSearch(search,'共享'); chooseSelectOption(...,'含四向'); expect(rows()).toHaveLength(0); then search+filter intersection restores 1 row @ :626-629",
+      "note": "same text∩kind combined filter axis; new 无用途+alpha → insp-empty vs old 0-row intersection before widen"
+    },
+    "notes": "R6: combined filter semantics; empty vs singleton outcome fixture-dependent."
   },
   "C01-G03-08": {
     "humanVerified": false,
@@ -3638,26 +3813,54 @@
   "C01-G03-09": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+      "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+      "oldMatcher": "chooseSelectOption(...,'含预制动作'); expect(rows()).toHaveLength(0) @ :616-617",
+      "note": "same 含预制动作 gate; old defs lack poses (0 rows); new excludes beta only"
+    },
+    "notes": "R6: filter predicate shared; row cardinality differs by fixture richness."
   },
   "C01-G03-10": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+      "oldFullName": "领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择",
+      "oldMatcher": "chooseSelectOption(...,'含循环动作'); expect(rows()).toHaveLength(0) @ :618-619",
+      "note": "same 含循环动作 filter; old 0 rows; new asserts beta absent while alpha loopFrom matches"
+    },
+    "notes": "R6: loopFrom filter axis; not per-id beta exclusion proof in old suite."
   },
   "C01-G04-01": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "187481da798ff1aedba6d797a2b353c8e5690753",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+      "oldFullName": "proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)",
+      "oldMatcher": "after proof waitMeta(6,1): buttonByLabel(usageMenu(),'四向行走').disabled === false @ :217-218",
+      "note": "same post-proof 四向 menu enabled when frame budget allows; new 8-frame c01alpha vs 6-frame k02six"
+    },
+    "notes": "R6: proof-unlock then directional add enabled sub-axis."
   },
   "C01-G04-02": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "187481da798ff1aedba6d797a2b353c8e5690753",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+      "oldFullName": "实际帧数不足 4 时四向入口禁用；默认定格用途经真实 proof 入库且不动 catalog/blob",
+      "oldMatcher": "waitMeta(2,1); buttonByLabel(usageMenu(),'四向行走').disabled === true @ :262-263",
+      "note": "same insufficient frames → 四向 disabled; new 3-frame gamma vs old 2-frame k02two"
+    },
+    "notes": "R6: directional gate tied to decoded frame count threshold."
   },
   "C01-G04-03": {
     "humanVerified": false,
@@ -3674,8 +3877,15 @@
   "C01-G04-05": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "human R4: vitest case + product branch verified; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+      "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+      "oldFullName": "未配置源文件直接显示全部原始帧，并能基于解码证明新增用途",
+      "oldMatcher": "新增用途定义 → static kind → 应用; expect(session.getState().sprites) objectContaining { asset:'sprite.raw', layout:{kind:'static'} } @ :729-734",
+      "note": "same apply-new-static-usage commits sprite def; new uses gamma + explicit id/label fields"
+    },
+    "notes": "R6: apply path writes static layout to session; catalog/asset ids differ."
   },
   "C01-G04-06": {
     "humanVerified": false,
@@ -3929,8 +4139,15 @@
   "C03-G05-04": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(bsuThumbs(m().host)).toBe(2)) | expect(mounted.cancels).toHaveLength(1) | expect(m().applies).toEqual([]) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 取消零提交；有预览时也不触发 onApply; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "0dd01a7a0d13c2665dc52007f6bf6d760891def2",
+      "oldFile": "packages/editor/src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+      "oldFullName": "帧宽破坏整除 → 精确失败文案与应用禁用；取消零提交",
+      "oldMatcher": "click 取消 → expect(onCancel).toHaveBeenCalledTimes(1); expect(onApply).not.toHaveBeenCalled() @ :126-132",
+      "note": "same cancel closes uploader with zero apply; new uses bsu harness after invalid grid state"
+    },
+    "notes": "R6: cancel-zero-submit sub-axis from glm fail-closed test tail."
   },
   "C03-G05-05": {
     "humanVerified": false,
@@ -4010,26 +4227,54 @@
   "C03-G03-04": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(m().selectedLog.at(-1)).toBe(2) | expect(mounted!.host.querySelector('canvas[aria-label=\"Alpha 显示 第 2 帧\"]')).not.toBeNull() | classification: new-contract; axis: C03-G03 真实解码与切帧 受控 selectedFrame：外部 setFrame 驱动 viewer 与回调; R5 "
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+      "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+      "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+      "oldMatcher": "click('[aria-label^=\"选择源帧 2，\"]'); expect(canvas[aria-label=\"测试精灵 第 2 帧\"]) @ :147-149",
+      "note": "same grid-pick drives hero canvas frame index; new logs selectedLog===2 on real decode"
+    },
+    "notes": "R6: source-frame grid selection axis (R5-b promoted adjacent G03-03 line; G03-04 adds selectedLog oracle)."
   },
   "C03-G03-05": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(m().host.textContent).toContain('Beta 显示') | expect(m().host.textContent).toContain('2 帧 · 1 个用途定义') | expect(m().proofs.at(-1)?.asset).toBe('sprite.view.beta') | classification: new-contract; axis: C03-G03 真实解码与切帧 切到第二资源：标题/"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+      "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+      "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+      "oldMatcher": "re-render asset sprite.next → hero title textContent '新资源' while old load pending @ :181-197",
+      "note": "same swap asset updates visible label during in-flight decode; new Beta 显示 string"
+    },
+    "notes": "R6: controlled asset prop change surface copy during load race setup."
   },
   "C03-G03-06": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(m().host.querySelector('canvas[aria-label=\"Beta 显示 第 0 帧\"]')).not.toBeNull() | expect(m().selectedLog.at(-1)).toBe(0) | classification: new-contract; axis: C03-G03 真实解码与切帧 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）; R5 honesty: staging-dr"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+      "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+      "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+      "oldMatcher": "nextLoad.resolve(sprite([frame(30,40)])); expect text '1 帧' and label '新资源' @ :202-207",
+      "note": "same post-resolve single-frame decode updates meta; new asserts canvas aria-label 第 0 帧"
+    },
+    "notes": "R6: completion updates frame count/hero canvas; mock dimensions differ."
   },
   "C03-G03-08": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(m().proofs.at(-1)).toEqual({ asset: 'sprite.view.alpha', revision, actualFrameCount: 4, }) | classification: new-contract; axis: C03-G03 真实解码与切帧 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变; R5 honesty: staging-draft≠humanVerif"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+      "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+      "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+      "oldMatcher": "expect(onLoaded).toHaveBeenCalledWith({ asset:'sprite.test', revision:'sha-a', actualFrameCount:3 }) @ :134-138",
+      "note": "same onLoaded proof shape {asset, revision, actualFrameCount}; new real reader + swap asset"
+    },
+    "notes": "R6: onLoaded callback proof axis; mock vs cursor-r1 pipeline."
   },
   "C03-G03-09": {
     "humanVerified": false,
@@ -4046,8 +4291,15 @@
   "C03-G04-01": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(mounted.host.textContent).toContain('正在解析帧资源 sprite.late.a') | expect(mounted.host.textContent).toContain('快 B') | expect(mounted.host.textContent).toContain('1 帧') | expect(mounted.host.textContent).not.toContain('3 帧') | ex"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+      "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+      "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+      "oldMatcher": "expect(content.textContent).toContain('正在解析帧资源 sprite.old') @ :178-179",
+      "note": "same in-flight loading copy names asset id; new sprite.late.a harness"
+    },
+    "notes": "R6: loading-state message axis only (not late-bytes recovery)."
   },
   "C03-G04-04": {
     "humanVerified": false,
@@ -4058,14 +4310,28 @@
   "C03-G04-05": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(gated.completed).toContain(project.seeded.get('sprite.late.a')!.path), ) | expect(mounted.proofs.at(-1)).toBeUndefined() | classification: new-contract; axis: C03-G04 迟到、失败与恢复 解码在途卸载：不抛错且末次 proof 为 undefined; R5 honesty: stag"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+      "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+      "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+      "oldMatcher": "old load resolves after swap → still '正在解析帧资源 sprite.next'; next resolve → '1 帧' without '旧资源' @ :198-208",
+      "note": "same stale-response discard + winner decode axis; new gated reader + sha/revision proofs"
+    },
+    "notes": "R6: race/stale-load business axis from full mock test body."
   },
   "C03-G04-07": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(mounted.proofs.at(-1)).toMatchObject({ asset: 'sprite.late.a', actualFrameCount: 3, }) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 连续快速切换 A→B→A：最终 proof 仍指向 A 且帧数 3; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+      "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+      "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+      "oldMatcher": "nextLoad.resolve → expect host.textContent '1 帧' @ :202-207",
+      "note": "same successful decode publishes frame count tag; new onLoaded actualFrameCount=3"
+    },
+    "notes": "R6: post-decode frame-count surfacing; count differs mock 1 vs real 3."
   },
   "C03-G04-09": {
     "humanVerified": false,
@@ -4209,8 +4475,15 @@
   "C03-G07-01": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "oracle: expect(wizardReadout(m().host)).toContain('4×1 帧') | expect(wizardThumbCount(m().host)).toBe(4) | expect(m().scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 默认定格 4×1 源：读数 4 帧且缩略图 4（"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "6b9c11e7306cd73de63b3320a2fdfd8812cffef7",
+      "oldFile": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+      "oldFullName": "默认定格用途也能一次导入多帧源容器",
+      "oldMatcher": "expect(host.textContent).toContain('4×1 帧'); sliceAtlasGrid lastCalledWith(...,4,1,1,1) @ :118-120",
+      "note": "same multi-frame readout + grid slice; new real PNG ports vs mock bitmap 4×1"
+    },
+    "notes": "R6: atlas dimension readout axis from mock wizard test."
   },
   "C03-G07-03": {
     "humanVerified": false,
@@ -4461,8 +4734,15 @@
   "C06-G02-14": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "partial-old-axis",
+    "oldAssertion": {
+      "oldTestSha": "41d9b775006750df87253b0fa78e70f915bdf719",
+      "oldFile": "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
+      "oldFullName": "dispatch noop resyncs, while a later valid edit commits once and supports undo/redo",
+      "oldMatcher": "session.undo() → speed.value '1'; session.redo() → speed.value '4' @ :181-188",
+      "note": "partial: old proves undo/redo restores numeric field after commit; new Y-offset + canvas stability + attack mode retention are separate sub-axes"
+    },
+    "notes": "R6: partial-old-axis on field undo; do not cull pixel/mode-preservation net-new sub-axes"
   },
   "C06-G06-01": {
     "humanVerified": false,
@@ -5001,14 +5281,28 @@
   "C08-G07-03": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-03; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "6e4126fb769207b3e09ab6041263ba1baaa45c30",
+      "oldFile": "packages/editor/src/ui/StampContentEditor.glm-leaf-wave.test.tsx",
+      "oldFullName": "StampContentEditor 剩余合同 — name and tag edits commit the full template on blur with unchanged identity",
+      "oldMatcher": "commitText(name,'改名图章') → onChange once; first.name '改名图章'; first.id unchanged @ :117-122",
+      "note": "same name blur→onChange commit axis; new uses c08StampTemplate harness"
+    },
+    "notes": "R6: name blur commit old-proven"
   },
   "C08-G07-04": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-04; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "6e4126fb769207b3e09ab6041263ba1baaa45c30",
+      "oldFile": "packages/editor/src/ui/StampContentEditor.glm-leaf-wave.test.tsx",
+      "oldFullName": "StampContentEditor 剩余合同 — migrated templates stay read-only until ownership is taken, then flip to authored",
+      "oldMatcher": "migrated: name input disabled true; text contains '先接管迁移组合' @ :138-140",
+      "note": "same migrated read-only gate before takeover"
+    },
+    "notes": "R6: migrated read-only sub-axis promoted"
   },
   "C08-G07-05": {
     "humanVerified": false,
@@ -5318,8 +5612,15 @@
   "C09-G06-01": {
     "humanVerified": false,
     "verification": "staging-draft",
-    "ledgerStatus": "pending-human",
-    "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:58; R5 honesty: staging-draft≠humanVerified"
+    "ledgerStatus": "old-matcher-promoted",
+    "oldAssertion": {
+      "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+      "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+      "oldFullName": "rechecks live references after the asynchronous delete byte read",
+      "oldMatcher": "expect(reader.readBytes).toHaveBeenCalledWith('sound.hit', 'sound') @ :283",
+      "note": "delete confirm triggers readBytes with sound kind + focused asset id"
+    },
+    "notes": "R6: async delete readBytes axis old-proven"
   },
   "C09-G06-02": {
     "humanVerified": false,

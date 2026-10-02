@@ -1475,12 +1475,12 @@
       "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:64 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:64 c08StampTemplate(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:66 mountStampContentEditor(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:70 typeDraft(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:587 <StampContentEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:107 <StampContentEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness)",
       "legalInput": "fixture: c08StampTemplate('c08-edit', C08_TILESET); mountStampContentEditor(template, onChange); vi.fn() spies",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "6e4126fb769207b3e09ab6041263ba1baaa45c30",
+        "oldFile": "packages/editor/src/ui/StampContentEditor.glm-leaf-wave.test.tsx",
+        "oldFullName": "StampContentEditor 剩余合同 — name and tag edits commit the full template on blur with unchanged identity",
+        "oldMatcher": "commitText(name,'改名图章') → onChange once; first.name '改名图章'; first.id unchanged @ :117-122",
         "dedupHeader": "排重：StampLibraryTab.test 16 项工作流；StampContentEditor.glm-leaf；StampTemplateDialog.glm-l；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same name blur→onChange commit axis; new uses c08StampTemplate harness"
       },
       "axis": "C08-G07 Stamp 叶组件合同 StampContentEditor 改组合名称 blur 触发 onChange",
       "oracle": "expect(onChange).toHaveBeenCalled() | expect(onChange.mock.calls.at(-1)?.[0]?.name).toBe('新组合名')",
@@ -1491,8 +1491,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-03; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: name blur commit old-proven"
     },
     {
       "id": "C08-G07-04",
@@ -1503,12 +1503,12 @@
       "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:78 C08_TILESET; packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:78 c08StampTemplate(…); packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:79 mountStampContentEditor(…) | production: packages/editor/src/ui/StampLibraryTab.tsx:587 <StampContentEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:107 <StampContentEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness)",
       "legalInput": "fixture: c08StampTemplate('c08-mig', C08_TILESET, 0, { origin: 'migrated' }); mountStampContentEditor(template, () => undefined)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "6e4126fb769207b3e09ab6041263ba1baaa45c30",
+        "oldFile": "packages/editor/src/ui/StampContentEditor.glm-leaf-wave.test.tsx",
+        "oldFullName": "StampContentEditor 剩余合同 — migrated templates stay read-only until ownership is taken, then flip to authored",
+        "oldMatcher": "migrated: name input disabled true; text contains '先接管迁移组合' @ :138-140",
         "dedupHeader": "排重：StampLibraryTab.test 16 项工作流；StampContentEditor.glm-leaf；StampTemplateDialog.glm-l；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same migrated read-only gate before takeover"
       },
       "axis": "C08-G07 Stamp 叶组件合同 StampContentEditor migrated 名称输入初始 disabled",
       "oracle": "expect(name.disabled).toBe(true)",
@@ -1519,8 +1519,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-04; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: migrated read-only sub-axis promoted"
     },
     {
       "id": "C08-G07-05",
@@ -1671,12 +1671,12 @@
       "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:174 mountStampLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:479 <StampLibraryTab (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:39 <StampLibraryTab (harness)",
       "legalInput": "fixture: mountStampLibrary('c08-g07-10', ['c08-a', 'c08-b'], 'c08-b')",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "5a88c768db540615084aabf937ce5407dba2ee61",
+        "oldFile": "packages/editor/src/ui/StampLibraryTab.glm-large-wave.test.tsx",
+        "oldFullName": "A05 StampLibraryTab 深链 — focusObjectId 决定初始选中并随 prop 跟随",
+        "oldMatcher": "focusObjectId shrub-stamp → selected row ∋ '灌木'; prop tree-stamp → ∋ '树' @ :80-106",
         "dedupHeader": "排重：StampLibraryTab.test 16 项工作流；StampContentEditor.glm-leaf；StampTemplateDialog.glm-l；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same focusObjectId drives initial selection + follow axis"
       },
       "axis": "C08-G07 Stamp 叶组件合同 StampLibraryTab focusObjectId 初始选中指定模板",
       "oracle": "expect(mounted.host.querySelector('.stamp-library-row.selected')?.textContent).toContain( 'c08-b', )",
@@ -1687,16 +1687,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-10; R5 honesty: staging-draft≠humanVerified",
-      "toolOldAssertionCandidate": {
-        "oldTestSha": "53b5beb9dfb6d34a9a2430f98823bce614b366f0",
-        "oldFile": "packages/editor/src/ui/StampLibraryTab.test.tsx",
-        "oldFullName": "搜索、标签和来源覆盖各值、组合、空结果和清空恢复，且不偷换选择",
-        "oldMatcher": "expect(rows()).toHaveLength(1) expect(rows()[0]?.textContent).toContain('岩石') expect(host.querySelector('.stamp-library-row.selected')).toBeNull() @ :400 (key=\".stamp-library-row.selected\")",
-        "dedupHeader": "排重：StampLibraryTab.test 16 项工作流；StampContentEditor.glm-leaf；StampTemplateDialog.glm-l；",
-        "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
-      }
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: deep-link selection old-proven; new uses c08-b id fixture"
     },
     {
       "id": "C08-G03-01",
@@ -1707,12 +1699,12 @@
       "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:41 mountTilesetTab(…); packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:44 C08_TILESET | production: packages/editor/src/ui/DataMode.tsx:463 <TilesetTab (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx:36 <TilesetTab (harness)",
       "legalInput": "fixture: mountTilesetTab('c08-g03-01')",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
+        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
+        "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "clear search+filter restore → .tileset-library-row.selected text contains '待删瓦片' @ :234-237",
         "dedupHeader": "排重：TilesetTab.test 引用删除/检查器 Tab；K04 真实上传链/替换竞态；U2c 重命名与深链——",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: same selected-row after filter-restore axis; fixture ids differ (starter/C08_TILESET vs 待删瓦片/tiles-a)"
       },
       "axis": "C08-G03 TilesetTab 库视图与预览 初始选中 starter 且 h1 含「起始地形」",
       "oracle": "expect(mounted.host.querySelector('h1')?.textContent).toContain('起始地形') | expect(mounted.host.querySelector('.tileset-readonly')?.textContent).toBe(C08_TILESET)",
@@ -1723,16 +1715,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-01; R5 honesty: staging-draft≠humanVerified",
-      "toolOldAssertionCandidate": {
-        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
-        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
-        "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
-        "oldMatcher": "expect(rows()).toHaveLength(2) expect(host.querySelector('.tileset-library-row.selected')?.textContent).toContain('待删瓦片') }) @ :236 (key=\")?.textContent).toContain(\")",
-        "dedupHeader": "排重：TilesetTab.test 引用删除/检查器 Tab；K04 真实上传链/替换竞态；U2c 重命名与深链——",
-        "note": "CURSOR-R3-01 batch C08 high-confidence shared expect fragment; not auto-reclassified"
-      }
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: selection-restore sub-axis only; h1/readonly starter copy net-new"
     },
     {
       "id": "C08-G03-02",

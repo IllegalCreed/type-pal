@@ -67,12 +67,12 @@
       "caller": "test: packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:64 pngFileOf(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:64 pngRgba(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:64 solidRgba(…); packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:65 prepareAuthoredImage(…) | production: packages/editor/src/ui/ImageTab.tsx:525 prepareAuthoredImage(…) (production); packages/editor/src/ui/ItemTab.tsx:1218 prepareAuthoredImage(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "2d08e4db4f179d0ddbe4ae1d8d977649a093aa85",
+        "oldFile": "packages/editor/src/core/image-import.stages.test.ts",
+        "oldFullName": "label 缺省用文件名去扩展；显式 label 优先",
+        "oldMatcher": "prepareAuthoredImage(pngFile('y-name.png',4,4),'portrait'); expect(record.label).toBe('y-name') @ :378-379",
         "dedupHeader": "排重：image-import.test 已证 quantize 数值；image-import.stages.test 用 mock canvas",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same default label = basename without .png; new item-icon Sword.Icon.png → Sword.Icon"
       },
       "axis": "C03-G06 真实 PNG 导入与 AssetId item-icon label 缺省剥扩展名",
       "oracle": "expect(prepared.record.label).toBe('Sword.Icon') | expect(prepared.record.mediaType).toBe('image/png')",
@@ -83,8 +83,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(prepared.record.label).toBe('Sword.Icon') | expect(prepared.record.mediaType).toBe('image/png') | classification: new-contract; axis: C03-G06 真实 PNG 导入与 AssetId item-icon label 缺省剥扩展名; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: record.label stem rule; kind portrait vs item-icon."
     },
     {
       "id": "C03-G06-04",
@@ -375,12 +375,12 @@
       "caller": "test: packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:99 mountUploader(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:100 atlasColors(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:100 solidAtlasPng(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:101 pngFileOf(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:101 bsuPick(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:102 bsuThumbs(…); packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx:103 bsuButton(…) | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1265 <BattleSpriteUploader (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1360 <BattleSpriteUploader (production); packages/editor/src/ui/EnemyAnimPreview.tsx:304 <BattleSpriteUploader (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:320 <BattleSpriteUploader (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:59 atlasColors(…) (harness)",
       "legalInput": "fixture: mountUploader(project.assetBase)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "0dd01a7a0d13c2665dc52007f6bf6d760891def2",
+        "oldFile": "packages/editor/src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+        "oldFullName": "帧宽破坏整除 → 精确失败文案与应用禁用；取消零提交",
+        "oldMatcher": "click 取消 → expect(onCancel).toHaveBeenCalledTimes(1); expect(onApply).not.toHaveBeenCalled() @ :126-132",
         "dedupHeader": "排重：BattleSpriteUploader.glm-next-wave 已证缺省猜测、整除失败与取消零提交（mock 宿主）；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same cancel closes uploader with zero apply; new uses bsu harness after invalid grid state"
       },
       "axis": "C03-G05 战斗精灵上传叶 取消零提交；有预览时也不触发 onApply",
       "oracle": "expect(bsuThumbs(m().host)).toBe(2) | expect(mounted.cancels).toHaveLength(1) | expect(m().applies).toEqual([])",
@@ -391,8 +391,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(bsuThumbs(m().host)).toBe(2)) | expect(mounted.cancels).toHaveLength(1) | expect(m().applies).toEqual([]) | classification: new-contract; axis: C03-G05 战斗精灵上传叶 取消零提交；有预览时也不触发 onApply; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: cancel-zero-submit sub-axis from glm fail-closed test tail."
     },
     {
       "id": "C03-G05-05",
@@ -655,12 +655,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:112 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:113 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:119 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g03-04', VIEW_SPECS); mountViewer(project, { asset: 'sprite.view.alpha', label: 'Alpha 显示', controlledFrame: true, initialFrame: 0, }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+        "oldMatcher": "click('[aria-label^=\"选择源帧 2，\"]'); expect(canvas[aria-label=\"测试精灵 第 2 帧\"]) @ :147-149",
         "dedupHeader": "排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same grid-pick drives hero canvas frame index; new logs selectedLog===2 on real decode"
       },
       "axis": "C03-G03 真实解码与切帧 受控 selectedFrame：外部 setFrame 驱动 viewer 与回调",
       "oracle": "expect(m().selectedLog.at(-1)).toBe(2) | expect(mounted!.host.querySelector('canvas[aria-label=\"Alpha 显示 第 2 帧\"]')).not.toBeNull()",
@@ -671,8 +671,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(m().selectedLog.at(-1)).toBe(2) | expect(mounted!.host.querySelector('canvas[aria-label=\"Alpha 显示 第 2 帧\"]')).not.toBeNull() | classification: new-contract; axis: C03-G03 真实解码与切帧 受控 selectedFrame：外部 setFrame 驱动 viewer 与回调; R5 "
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: source-frame grid selection axis (R5-b promoted adjacent G03-03 line; G03-04 adds selectedLog oracle)."
     },
     {
       "id": "C03-G03-05",
@@ -683,12 +683,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:128 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:129 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:133 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:135 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g03-05', VIEW_SPECS); mountViewer(project, { asset: 'sprite.view.alpha', label: 'Alpha 显示', }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+        "oldMatcher": "re-render asset sprite.next → hero title textContent '新资源' while old load pending @ :181-197",
         "dedupHeader": "排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same swap asset updates visible label during in-flight decode; new Beta 显示 string"
       },
       "axis": "C03-G03 真实解码与切帧 切到第二资源：标题/帧数/用途计数整体换为 beta",
       "oracle": "expect(m().host.textContent).toContain('Beta 显示') | expect(m().host.textContent).toContain('2 帧 · 1 个用途定义') | expect(m().proofs.at(-1)?.asset).toBe('sprite.view.beta')",
@@ -699,8 +699,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(m().host.textContent).toContain('Beta 显示') | expect(m().host.textContent).toContain('2 帧 · 1 个用途定义') | expect(m().proofs.at(-1)?.asset).toBe('sprite.view.beta') | classification: new-contract; axis: C03-G03 真实解码与切帧 切到第二资源：标题/"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: controlled asset prop change surface copy during load race setup."
     },
     {
       "id": "C03-G03-06",
@@ -711,12 +711,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:142 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:143 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:147 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:148 selectFrame(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:150 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production); packages/editor/src/ui/SpriteResourceViewer.tsx:221 selectFrame(…) (production); packages/editor/src/ui/SpriteResourceViewer.tsx:249 selectFrame(…) (production); packages/editor/src/ui/SpriteResourceViewer.tsx:395 selectFrame(…) (production); packages/editor/src/ui/SpriteResourceViewer.tsx:424 selectFrame(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g03-06', VIEW_SPECS); mountViewer(project, { asset: 'sprite.view.alpha', label: 'Alpha 显示', }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+        "oldMatcher": "nextLoad.resolve(sprite([frame(30,40)])); expect text '1 帧' and label '新资源' @ :202-207",
         "dedupHeader": "排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same post-resolve single-frame decode updates meta; new asserts canvas aria-label 第 0 帧"
       },
       "axis": "C03-G03 真实解码与切帧 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）",
       "oracle": "expect(m().host.querySelector('canvas[aria-label=\"Beta 显示 第 0 帧\"]')).not.toBeNull() | expect(m().selectedLog.at(-1)).toBe(0)",
@@ -727,8 +727,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(m().host.querySelector('canvas[aria-label=\"Beta 显示 第 0 帧\"]')).not.toBeNull() | expect(m().selectedLog.at(-1)).toBe(0) | classification: new-contract; axis: C03-G03 真实解码与切帧 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）; R5 honesty: staging-dr"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: completion updates frame count/hero canvas; mock dimensions differ."
     },
     {
       "id": "C03-G03-07",
@@ -775,12 +775,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:181 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:182 seeded.get(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:183 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:187 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:189 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:191 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g03-08', VIEW_SPECS); mountViewer(project, { asset: 'sprite.view.alpha', label: 'Alpha 显示', }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
+        "oldMatcher": "expect(onLoaded).toHaveBeenCalledWith({ asset:'sprite.test', revision:'sha-a', actualFrameCount:3 }) @ :134-138",
         "dedupHeader": "排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same onLoaded proof shape {asset, revision, actualFrameCount}; new real reader + swap asset"
       },
       "axis": "C03-G03 真实解码与切帧 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变",
       "oracle": "expect(m().proofs.at(-1)).toEqual({ asset: 'sprite.view.alpha', revision, actualFrameCount: 4, })",
@@ -791,8 +791,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(m().proofs.at(-1)).toEqual({ asset: 'sprite.view.alpha', revision, actualFrameCount: 4, }) | classification: new-contract; axis: C03-G03 真实解码与切帧 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变; R5 honesty: staging-draft≠humanVerif"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: onLoaded callback proof axis; mock vs cursor-r1 pipeline."
     },
     {
       "id": "C03-G03-09",
@@ -859,12 +859,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:68 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:69 gatedFileSource(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:70 seeded.get(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:72 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:80 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g04-01', PAIR); mountViewer(project, { asset: 'sprite.late.a', label: '慢 A', source: gated.source, }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+        "oldMatcher": "expect(content.textContent).toContain('正在解析帧资源 sprite.old') @ :178-179",
         "dedupHeader": "排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same in-flight loading copy names asset id; new sprite.late.a harness"
       },
       "axis": "C03-G04 迟到、失败与恢复 磁盘 readBytes 迟到：先切走资源，旧读完成不覆盖新资源帧数",
       "oracle": "expect(mounted.host.textContent).toContain('正在解析帧资源 sprite.late.a') | expect(mounted.host.textContent).toContain('快 B') | expect(mounted.host.textContent).toContain('1 帧') | expect(mounted.host.textContent).not.toContain('3 帧') | expect(mounted.proofs.at(-1)?.asset).toBe('sprite.late.b')",
@@ -875,8 +875,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(mounted.host.textContent).toContain('正在解析帧资源 sprite.late.a') | expect(mounted.host.textContent).toContain('快 B') | expect(mounted.host.textContent).toContain('1 帧') | expect(mounted.host.textContent).not.toContain('3 帧') | ex"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: loading-state message axis only (not late-bytes recovery)."
     },
     {
       "id": "C03-G04-02",
@@ -911,16 +911,16 @@
       "batch": "C03",
       "group": "G04",
       "primarySource": "packages/editor/src/ui/SpriteResourceViewer.tsx",
-      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:511 div.insp-empty.error role=alert renders decode/load failure message",
-      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:108 loadCursorSpriteProject | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer",
-      "legalInput": "fixture: const project = await loadCursorSpriteProject('c03-g04-03', [ mounted = await mountViewer(project, { await mounted.setAsset('sprite.late.b', '好 B') await waitMeta(mounted.host, 1, 1)",
+      "sourceCondition": "packages/editor/src/ui/SpriteResourceViewer.tsx:168 export SpriteResourceViewer — const [snapshot, setSnapshot] = useState<LoadedSnapshot | null>(null); const [internalSelectedFrame, setInternalSelectedFrame] = useState(0); const [error, setError] = useState(''); const [busy, setBusy] = useState(false)",
+      "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:109 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:119 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:125 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
+      "legalInput": "fixture: loadCursorSpriteProject('c03-g04-03', [ ...PAIR, { asset: 'sprite.late.bad' as AssetId, label: 'Bad', frameCount: 1, corruptBytes: true, definitions: [{ id: 'bad-use', label: '坏', layout: { kind: 'static' } }], }, ]); mountViewer(project, { asset: 'sprite.late.bad', label: '损坏', }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
         "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
         "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
         "oldFullName": "加载失败仍保留同一 canonical workspace 与 content owner",
-        "oldMatcher": "alert contains '损坏的精灵资源' @ :229",
+        "oldMatcher": "failed.content querySelector('[role=\"alert\"]') text contains '损坏的精灵资源' @ :229",
         "dedupHeader": "排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；",
-        "note": "alert text axis on failed load; new adds recovery proof after swap asset"
+        "note": "R6: old proves load-failure alert axis only; bad→good recover+clear alert+proof is separate sub-axis (pending), not covered by this oldFullName"
       },
       "axis": "C03-G04 迟到、失败与恢复 失败后切到合法资源：清 alert 并给出 proof",
       "oracle": "expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull() | expect(mounted.host.querySelector('[role=\"alert\"]')).toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1)",
@@ -930,9 +930,9 @@
       "testSourceLine": 108,
       "status": "passed",
       "humanVerified": true,
-      "notes": "oracle: expect(mounted!.host.querySelector('[role=\"alert\"]')).not.toBeNull()) | expect(mounted.host.querySelector('[role=\"alert\"]')).toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 失败后切到合法资源：清 alert 并给出 proof; R5: promote existing contract oldMatcher.; R5 honesty: staging-draft≠humanVerified",
       "verification": "human-ledger",
-      "ledgerStatus": "human-accepted"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: failure-alert old axis retained; recover sub-axis pending — not auto-cull whole case"
     },
     {
       "id": "C03-G04-04",
@@ -971,12 +971,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:183 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:184 gatedFileSource(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:185 seeded.get(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:186 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:191 unmountHost(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:194 seeded.get(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g04-05', PAIR); mountViewer(project, { asset: 'sprite.late.a', label: 'A', source: gated.source, }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+        "oldMatcher": "old load resolves after swap → still '正在解析帧资源 sprite.next'; next resolve → '1 帧' without '旧资源' @ :198-208",
         "dedupHeader": "排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same stale-response discard + winner decode axis; new gated reader + sha/revision proofs"
       },
       "axis": "C03-G04 迟到、失败与恢复 解码在途卸载：不抛错且末次 proof 为 undefined",
       "oracle": "expect(gated.completed).toContain(project.seeded.get('sprite.late.a')!.path) | expect(mounted.proofs.at(-1)).toBeUndefined()",
@@ -987,8 +987,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(gated.completed).toContain(project.seeded.get('sprite.late.a')!.path), ) | expect(mounted.proofs.at(-1)).toBeUndefined() | classification: new-contract; axis: C03-G04 迟到、失败与恢复 解码在途卸载：不抛错且末次 proof 为 undefined; R5 honesty: stag"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: race/stale-load business axis from full mock test body."
     },
     {
       "id": "C03-G04-06",
@@ -999,12 +999,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:201 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:202 gatePalette(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:203 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:210 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g04-06', PAIR); mountViewer(project, { asset: 'sprite.late.b', label: 'B', assetBase, }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+        "oldMatcher": "after oldLoad.resolve while next pending: text still contains '正在解析帧资源 sprite.next' @ :198-200",
         "dedupHeader": "排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same intermediate loading guard; new adds corrupt/late path variants"
       },
       "axis": "C03-G04 迟到、失败与恢复 色盘 I/O 迟到：放行后才出现帧网格与 proof",
       "oracle": "expect(mounted!.host.textContent).toContain('正在解析') | expect(mounted.host.querySelector('.sprite-resource-frame-grid')).not.toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1)",
@@ -1015,16 +1015,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(mounted!.host.textContent).toContain('正在解析')) | expect(mounted.host.querySelector('.sprite-resource-frame-grid')).not.toBeNull() | expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1) | classification: new-contract; axis: ",
-      "toolOldAssertionCandidate": {
-        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
-        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
-        "oldFullName": "一次解码后显示真实帧数、全部帧及可切换的大图",
-        "oldMatcher": "expect( host.querySelectorAll<HTMLButtonElement>( '.sprite-resource-frame-grid [aria-label^=\"选择源帧 \"]', @ :121 (key=\".sprite-resource-frame-grid\")",
-        "dedupHeader": "排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；",
-        "note": "CURSOR-R3-01 batch C03 high-confidence shared expect fragment; not auto-reclassified"
-      }
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: sub-step of stale-load test; not failure-alert recovery."
     },
     {
       "id": "C03-G04-07",
@@ -1035,12 +1027,12 @@
       "caller": "test: packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:216 loadCursorSpriteProject(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:217 mountViewer(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:221 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:223 waitMeta(…); packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx:225 waitMeta(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:790 <SpriteResourceViewer (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:176 <SpriteResourceViewer (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts:148 loadCursorSpriteProject(…) (harness)",
       "legalInput": "fixture: loadCursorSpriteProject('c03-g04-07', PAIR); mountViewer(project, { asset: 'sprite.late.a', label: 'A', }); calls: loadCursorSpriteProject(",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c64eea3bb22e9d48545d4fd398f08167df1c448a",
+        "oldFile": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+        "oldFullName": "快速切换资源时不会显示较晚返回的旧资源",
+        "oldMatcher": "nextLoad.resolve → expect host.textContent '1 帧' @ :202-207",
         "dedupHeader": "排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same successful decode publishes frame count tag; new onLoaded actualFrameCount=3"
       },
       "axis": "C03-G04 迟到、失败与恢复 连续快速切换 A→B→A：最终 proof 仍指向 A 且帧数 3",
       "oracle": "expect(mounted.proofs.at(-1)).toMatchObject({ asset: 'sprite.late.a', actualFrameCount: 3, })",
@@ -1051,8 +1043,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(mounted.proofs.at(-1)).toMatchObject({ asset: 'sprite.late.a', actualFrameCount: 3, }) | classification: new-contract; axis: C03-G04 迟到、失败与恢复 连续快速切换 A→B→A：最终 proof 仍指向 A 且帧数 3; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: post-decode frame-count surfacing; count differs mock 1 vs real 3."
     },
     {
       "id": "C03-G04-08",
@@ -1715,12 +1707,12 @@
       "caller": "test: packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:70 atlasColors(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:71 gridAtlasPng(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:72 mountWizard(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:73 wizardChooseKind(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:74 atlasFile(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:74 wizardPick(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:75 wizardSetNumber(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:76 wizardSetNumber(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:77 wizardWaitReady(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:78 wizardReadout(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:79 wizardThumbCount(…); packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:80 wizardClickSubmit(…) | production: packages/editor/src/ui/WorldSpriteLibrary.tsx:773 <SpriteUploadWizard (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx:70 <SpriteUploadWizard (harness); packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts:59 atlasColors(…) (harness)",
       "legalInput": "fixture: mountWizard(project)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "6b9c11e7306cd73de63b3320a2fdfd8812cffef7",
+        "oldFile": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+        "oldFullName": "默认定格用途也能一次导入多帧源容器",
+        "oldMatcher": "expect(host.textContent).toContain('4×1 帧'); sliceAtlasGrid lastCalledWith(...,4,1,1,1) @ :118-120",
         "dedupHeader": "排重：SpriteUploadWizard.test mock 已证 4×1 static 读数与 compress 在途锁；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same multi-frame readout + grid slice; new real PNG ports vs mock bitmap 4×1"
       },
       "axis": "C03-G07 入库锁与上传后重选 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
       "oracle": "expect(wizardReadout(m().host)).toContain('4×1 帧') | expect(wizardThumbCount(m().host)).toBe(4) | expect(m().scope.session.getHistoryVersion()).toBe(1)",
@@ -1731,8 +1723,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(wizardReadout(m().host)).toContain('4×1 帧') | expect(wizardThumbCount(m().host)).toBe(4) | expect(m().scope.session.getHistoryVersion()).toBe(1) | classification: new-contract; axis: C03-G07 入库锁与上传后重选 默认定格 4×1 源：读数 4 帧且缩略图 4（"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: atlas dimension readout axis from mock wizard test."
     },
     {
       "id": "C03-G07-02",

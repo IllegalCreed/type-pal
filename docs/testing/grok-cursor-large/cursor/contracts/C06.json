@@ -683,12 +683,12 @@
       "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:355 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:357 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:358 controlByLabel; packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:359 fillAndBlur(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:368 controlByLabel | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
       "legalInput": "fixture: mountFor('c06-main')",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "41d9b775006750df87253b0fa78e70f915bdf719",
+        "oldFile": "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
+        "oldFullName": "dispatch noop resyncs, while a later valid edit commits once and supports undo/redo",
+        "oldMatcher": "session.undo() → speed.value '1'; session.redo() → speed.value '4' @ :181-188",
         "dedupHeader": "排重：EnemyAnimPreview.test 只证 noop 重同步 + 一次提交 undo/redo（mock 画布）；",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: old proves undo/redo restores numeric field after commit; new Y-offset + canvas stability + attack mode retention are separate sub-axes"
       },
       "axis": "Y 偏移提交不重载精灵：画布像素与已选攻击模式原样保留，undo 后字段回到 0",
       "oracle": "expect(before).toEqual(expectedBattleRgb(project, MAIN, 3)) | expect(m.session.getState().enemies?.find((enemy) => enemy.id === 'c06-enemy')?.yPosOffset).toBe( -12, ) | expect(canvasRgb(m), '提交期间不得出现空白闪烁').toEqual(before) | expect(modeButton(m, '攻击').getAttribute('aria-pressed')).toBe('true') | expect(controlByLabel<HTMLInputElement>(m.host, 'Y 偏移').value).toBe('0') | expect(canvasRgb(m)).toEqual(before)",
@@ -699,8 +699,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: partial-old-axis on field undo; do not cull pixel/mode-preservation net-new sub-axes"
     },
     {
       "id": "C06-G06-01",

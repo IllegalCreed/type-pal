@@ -363,15 +363,28 @@ function buildBatch(batchId) {
         ? productionCaller(c.caller)
         : defaultProduction(c.batch, c.group)
 
+    // R6: auto staging must NOT claim human-ledger. Candidates stay separate.
+    const hasOld = oldAssertion.oldMatcher && !String(oldAssertion.oldMatcher).startsWith('none')
     overlays[c.id] = {
-      humanVerified: true,
-      verification: 'human-ledger',
+      humanVerified: false,
+      verification: 'staging-draft',
+      ledgerStatus: hasOld ? 'old-matcher-candidate' : 'pending-human',
       primarySource: c.primarySource,
       sourceCondition: sourceCondition(c),
       legalInput,
       caller: `${testCaller(c, body)} | ${prod}`,
-      oldAssertion,
-      notes: `oracle: ${oracle} | classification: ${c.classification}; axis: ${c.axis}`,
+      ...(hasOld
+        ? {
+            toolOldAssertionCandidate: {
+              ...oldAssertion,
+              note: `${oldAssertion.note ?? ''}; staging auto-candidate ≠ human-accepted`.replace(
+                /^; /,
+                '',
+              ),
+            },
+          }
+        : { oldAssertion }),
+      notes: `staging-draft auto; oracle: ${oracle} | classification: ${c.classification}; axis: ${c.axis}`,
     }
   }
 

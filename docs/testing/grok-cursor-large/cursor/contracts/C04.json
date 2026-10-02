@@ -126,9 +126,9 @@
         "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
         "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
         "oldFullName": "一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称",
-        "oldMatcher": "moveDraftFrame(base,0,2) then redoDraftHistory(undoDraftHistory(history)).present.frames.map(id) @ :89-91 → [\"b\",\"c\",\"a\"]",
+        "oldMatcher": "redoDraftHistory(undoDraftHistory(history)).present.frames.map(id) → ['b','c','a'] @ :89-91",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "same frame reorder axis as new moveDraftFrame direct assert; old via undo/redo chain"
+        "note": "R6: old proves reorder id sequence only; new durationMs 70/undefined/150 not proven by this matcher — duration sub-axis pending; do not cull whole old"
       },
       "axis": "C04-G07 draft 时长与结构编辑 moveDraftFrame 只换序不改各帧 duration 字段",
       "oracle": "expect(moved.frames.map((f) => f.id)).toEqual(['b', 'c', 'a']) | expect(moved.frames[0]?.durationMs).toBe(70) | expect(moved.frames[2]?.durationMs).toBeUndefined() | expect(draftDurationMs(moved)).toBe(150)",
@@ -139,16 +139,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "old-matcher-promoted",
-      "notes": "oracle: expect(moved.frames.map((f) => f.id)).toEqual(['b', 'c', 'a']) | expect(moved.frames[0]?.durationMs).toBe(70) | expect(moved.frames[2]?.durationMs).toBeUndefined() | expect(draftDurationMs(moved)).toBe(150) | classification: new-con",
-      "toolOldAssertionCandidate": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "packages/editor/src/core/frame-animation-draft.test.ts",
-        "oldFullName": "unknown-old-fullName",
-        "oldMatcher": "expect( redoDraftHistory(undoDraftHistory(history)).present.frames.map((frame) => frame.id), ).toEqual(['b', 'c', 'a']) @ :89 (key=\"['b', 'c', 'a']\")",
-        "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "CURSOR-R3-01 batch C04 high-confidence shared expect fragment; not auto-reclassified"
-      }
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: order sub-axis old-proven; per-frame duration metadata pending"
     },
     {
       "id": "C04-G07-06",
@@ -187,12 +179,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:84 setDraftDefaultFrameMs; packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:85 setDraftDefaultFrameMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:86 draftFrameDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:87 draftFrameDurationMs(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:88 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/core/frame-animation-draft.ts:107 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:373 draftFrameDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:895 setDraftDefaultFrameMs(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c4de01c39b1a40fe4e4e358b1849755abc24e76c",
+        "oldFile": "packages/editor/src/core/frame-animation-draft.wave2.test.ts",
+        "oldFullName": "fractional frame durations are valid; removing an override inherits the new default",
+        "oldMatcher": "setDraftDefaultFrameMs(input,40.5) no-op on input; changed=setDraftDefaultFrameMs(setDraftFrameDuration(input,1),60.5); draftFrameDurationMs(changed,1)===60.5 @ :89-94",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same setDraftDefaultFrameMs affects effective duration after override cleared; new uses integer 55 default on 3-frame draft"
       },
       "axis": "C04-G07 draft 时长与结构编辑 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
       "oracle": "expect(draftFrameDurationMs(wider, 0)).toBe(55) | expect(draftFrameDurationMs(wider, 1)).toBe(70) | expect(draftDurationMs(wider)).toBe(180)",
@@ -203,8 +195,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(draftFrameDurationMs(wider, 0)).toBe(55) | expect(draftFrameDurationMs(wider, 1)).toBe(70) | expect(draftDurationMs(wider)).toBe(180) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 setDraftDefaultFrameMs 只影响无 ove"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: defaultFrameMs propagation axis; numeric fixture differs from c04 baseDraft()."
     },
     {
       "id": "C04-G07-08",
@@ -215,12 +207,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:91 draftFrameMetadata; packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:92 setDraftFrameDuration(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:93 draftFrameMetadata(…); packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:94 draftDurationMs(…) | production: packages/editor/src/ui/FrameAnimationEditor.tsx:299 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:965 draftDurationMs(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:911 setDraftFrameDuration(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:913 setDraftFrameDuration(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "7dcb22d84acf7996f80a0f790a8c582e44849671",
-        "oldFile": "frame-animation-draft.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "c4de01c39b1a40fe4e4e358b1849755abc24e76c",
+        "oldFile": "packages/editor/src/core/frame-animation-draft.wave2.test.ts",
+        "oldFullName": "fractional frame durations are valid; removing an override inherits the new default",
+        "oldMatcher": "changed=setDraftDefaultFrameMs(setDraftFrameDuration(input,1),60.5); expect(draftFrameMetadata(changed)).toEqual([{}, {}]) @ :93-95",
         "dedupHeader": "排重：frame-animation-draft.test.ts / wave2 已证历史 fork、非法越界、重排选择对称、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same clearing per-frame override empties metadata slot; new setDraftFrameDuration(base,1,undefined) on 3-frame draft"
       },
       "axis": "C04-G07 draft 时长与结构编辑 清除 override 后 draftFrameMetadata 该槽回到 {}",
       "oracle": "expect(draftFrameMetadata(cleared)[1]).toEqual({}) | expect(draftDurationMs(cleared)).toBe(120)",
@@ -231,8 +223,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "oracle: expect(draftFrameMetadata(cleared)[1]).toEqual({}) | expect(draftDurationMs(cleared)).toBe(120) | classification: new-contract; axis: C04-G07 draft 时长与结构编辑 清除 override 后 draftFrameMetadata 该槽回到 {}; R5 honesty: staging-draft≠humanVer"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: draftFrameMetadata {} after override removal; not insert/delete structure edits."
     },
     {
       "id": "C04-G07-09",

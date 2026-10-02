@@ -1,11 +1,11 @@
 {
   "total": 717,
-  "existingProof": 14,
-  "netNewEstimate": 703,
+  "existingProof": 15,
+  "netNewEstimate": 702,
   "overlaysApplied": 717,
   "overlaysAvailable": 717,
   "ledgerDebt": {
-    "oldMatcher-none": 612,
+    "oldMatcher-none": 565,
     "sourceCondition-export-only": 19,
     "oracle-incomplete": 0,
     "production-caller-none": 104,
@@ -16,61 +16,61 @@
       "batch": "C01",
       "path": "contracts/C01.json",
       "count": 70,
-      "bytes": 168695
+      "bytes": 169890
     },
     {
       "batch": "C02",
       "path": "contracts/C02.json",
       "count": 71,
-      "bytes": 225467
+      "bytes": 225602
     },
     {
       "batch": "C03",
       "path": "contracts/C03.json",
       "count": 70,
-      "bytes": 223280
+      "bytes": 222607
     },
     {
       "batch": "C04",
       "path": "contracts/C04.json",
       "count": 70,
-      "bytes": 160285
+      "bytes": 159558
     },
     {
       "batch": "C05",
       "path": "contracts/C05.json",
       "count": 71,
-      "bytes": 198926
+      "bytes": 199302
     },
     {
       "batch": "C06",
       "path": "contracts/C06.json",
       "count": 80,
-      "bytes": 194192
+      "bytes": 194399
     },
     {
       "batch": "C07",
       "path": "contracts/C07.json",
       "count": 70,
-      "bytes": 155439
+      "bytes": 156732
     },
     {
       "batch": "C08",
       "path": "contracts/C08.json",
       "count": 70,
-      "bytes": 175934
+      "bytes": 175023
     },
     {
       "batch": "C09",
       "path": "contracts/C09.json",
       "count": 70,
-      "bytes": 180920
+      "bytes": 181143
     },
     {
       "batch": "C10",
       "path": "contracts/C10.json",
       "count": 75,
-      "bytes": 182294
+      "bytes": 182831
     }
   ],
   "outIndex": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/contracts-index.json",

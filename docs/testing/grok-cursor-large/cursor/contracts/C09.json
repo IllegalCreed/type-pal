@@ -923,12 +923,12 @@
       "caller": "test: packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:60 catalogControlsReader; packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:61 mockSoundStrategy(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:61 mountAudioWorkbench(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: none (not a production caller)",
       "legalInput": "fixture: mountAudioWorkbench(mockSoundStrategy(mockTransport), { reader }); vi.fn() spies",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "rechecks live references after the asynchronous delete byte read",
+        "oldMatcher": "expect(reader.readBytes).toHaveBeenCalledWith('sound.hit', 'sound') @ :283",
         "dedupHeader": "C09-G06：strategy/reader IO 与删除引用 re-verify（排重 staleIndex 异步删旧测，改 music+成功路径）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "delete confirm triggers readBytes with sound kind + focused asset id"
       },
       "axis": "C09-G06 AudioAssetWorkbench IO 与引用核验 删除确认 readBytes 带 sound kind 与 asset id",
       "oracle": "expect(mounted!.host.querySelector('.audio-player__state')?.textContent).toBe('就绪') | expect(readBytes).toHaveBeenCalledWith('sound.hit', 'sound')",
@@ -939,8 +939,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:58; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: async delete readBytes axis old-proven"
     },
     {
       "id": "C09-G06-02",
@@ -979,12 +979,12 @@
       "caller": "test: packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:98 deferred; packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:100 catalogControlsReader; packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:103 mockSoundStrategy(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:103 mountAudioWorkbench(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:116 UpdateManifestAssetRolesCommand(…) | production: packages/editor/src/ui/ProjectWorkbenchTab.tsx:567 UpdateManifestAssetRolesCommand(…) (production) | harness: none (not a production caller)",
       "legalInput": "fixture: mountAudioWorkbench(mockSoundStrategy(mockTransport), { reader }); vi.fn() spies",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "rechecks live references after the asynchronous delete byte read",
+        "oldMatcher": "after bytes resolve + ref added → text '仍被 1 处引用，不能删除'; asset sound.hit retained @ :290-295",
         "dedupHeader": "C09-G06：strategy/reader IO 与删除引用 re-verify（排重 staleIndex 异步删旧测，改 music+成功路径）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same live re-verify blocks delete when reference appears during read"
       },
       "axis": "C09-G06 AudioAssetWorkbench IO 与引用核验 read 完成时 getCurrentReferenceIndex 有引用则阻断",
       "oracle": "expect(mounted!.host.querySelector('.audio-player__state')?.textContent).toBe('就绪') | expect(mounted!.host.textContent).toContain('仍被 1 处引用，不能删除') | expect(mounted!.session.getState().assetCatalog.assets['sound.hit']).toBeDefined()",
@@ -995,8 +995,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:97; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: reference re-check block old-proven"
     },
     {
       "id": "C09-G06-04",
@@ -1155,12 +1155,12 @@
       "caller": "test: packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:223 deferred; packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:224 catalogControlsReader; packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:225 mockSoundStrategy(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:225 mountAudioWorkbench(…); packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:235 UpdateManifestAssetRolesCommand(…) | production: packages/editor/src/ui/ProjectWorkbenchTab.tsx:567 UpdateManifestAssetRolesCommand(…) (production) | harness: none (not a production caller)",
       "legalInput": "fixture: mountAudioWorkbench(mockSoundStrategy(mockTransport), { reader }); vi.fn() spies",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "rechecks live references after the asynchronous delete byte read",
+        "oldMatcher": "expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('命中音效') @ :296",
         "dedupHeader": "C09-G06：strategy/reader IO 与删除引用 re-verify（排重 staleIndex 异步删旧测，改 music+成功路径）。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: hero title retained after failed delete; new case adds explicit delete-failure path variants"
       },
       "axis": "C09-G06 AudioAssetWorkbench IO 与引用核验 删除失败保留 hero 标题",
       "oracle": "expect(mounted!.host.querySelector('.audio-player__state')?.textContent).toBe('就绪') | expect(mounted!.host.querySelector('.ds-object-hero__title')?.textContent).toBe('命中音效')",
@@ -1171,8 +1171,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx:222; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: hero title retention sub-axis old-proven on blocked delete"
     },
     {
       "id": "C09-G06-10",

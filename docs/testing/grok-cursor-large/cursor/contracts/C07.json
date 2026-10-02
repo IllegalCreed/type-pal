@@ -579,12 +579,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:43 decodeFrameImage; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:44 solidRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:45 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:45 pngRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:46 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…) (production); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 decodeFrameImage 解码收尾与拷贝 — 成功路径 finally close 恰一次；rgba 是独立副本；宽高与名字来自 bitmap/file",
+        "oldMatcher": "decodeFrameImage(f1.png) → toMatchObject({ name: 'f1.png', width: 2, height: 1 }) @ :59-62",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: mock createImageBitmap harness vs new real PNG bytes; same decodeFrameImage name/width/height axis"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 decodeFrameImage 真实像素与尺寸来自合成 PNG",
       "oracle": "expect(frame).toMatchObject({ name: 'a.png', width: 3, height: 2 }) | expect(frame.rgba.slice(0, 8)).toEqual(new Uint8Array(rgba.slice(0, 8))) | expect(decodePort.closes).toBeGreaterThanOrEqual(1) | expect(decodePort.liveBitmaps()).toBe(0)",
@@ -595,8 +595,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-01; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: mock vs real decode fixture; dimension/name sub-axis aligned"
     },
     {
       "id": "C07-G02-02",
@@ -607,12 +607,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:54 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:54 pngRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:54 solidRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:55 decodeFrameImage(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:58 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…) (production); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 decodeFrameImage 解码收尾与拷贝 — 成功路径 finally close 恰一次；rgba 是独立副本；宽高与名字来自 bitmap/file",
+        "oldMatcher": "frame.rgba[0] ^= 0xff; expect(pixels[0]).toBe(1) @ :63-65",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same rgba independent-copy sub-axis; new uses real PNG pipeline"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 rgba 为独立副本：改返回值不改画布源",
       "oracle": "expect(again.rgba[0]).toBe(before)",
@@ -623,8 +623,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-02; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: rgba copy isolation old-proven"
     },
     {
       "id": "C07-G02-03",
@@ -635,12 +635,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:62 decodeFrameImages; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:64 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:64 pngRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:64 solidRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:65 decodeFrameImages(…) | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 decodeFrameImages 序列合同 — 空列表拒绝；默认自然排序；preserveOrder 保持用户顺序",
+        "oldMatcher": "decodeFrameImages(files) → map names ['frame-1.png','frame-2.png','frame-10.png'] @ :125-130",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same natural-sort order axis; new batch uses numbered PNG fixtures"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 decodeFrameImages 自然排序后批量解码",
       "oracle": "expect(frames.map((frame) => frame.name)).toEqual(['f1.png', 'f2.png', 'f10.png']) | expect(frames[0]!.rgba[0]).toBe(3) | expect(frames[2]!.rgba[0]).toBe(1) | expect(decodePort.closes).toBeGreaterThanOrEqual(3)",
@@ -651,8 +651,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-03; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: sort order sub-axis promoted"
     },
     {
       "id": "C07-G02-04",
@@ -663,12 +663,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:73 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:73 pngRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:73 solidRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:74 decodeFrameImages(…) | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 decodeFrameImages 序列合同 — 空列表拒绝；默认自然排序；preserveOrder 保持用户顺序",
+        "oldMatcher": "decodeFrameImages(files, { preserveOrder: true }) → names keep input order @ :131-136",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same preserveOrder sub-axis"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 preserveOrder 保持输入顺序不排序",
       "oracle": "expect(frames.map((frame) => frame.name)).toEqual(['z.png', 'a.png'])",
@@ -679,8 +679,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-04; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: preserveOrder old-proven"
     },
     {
       "id": "C07-G02-05",
@@ -691,12 +691,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:79 decodeFrameImages(…) | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 decodeFrameImages 序列合同 — 空列表拒绝；默认自然排序；preserveOrder 保持用户顺序",
+        "oldMatcher": "expect(decodeFrameImages([])).rejects.toThrow('至少选择一张图片') @ :110",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "empty-list reject axis"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 空列表拒绝",
       "oracle": "expect(decodeFrameImages([])).rejects.toThrow('至少选择一张图片')",
@@ -707,8 +707,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-05; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: empty input guard old-proven"
     },
     {
       "id": "C07-G02-06",
@@ -719,12 +719,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:83 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:83 pngRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:83 solidRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:84 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:84 pngRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:84 solidRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:85 decodeFrameImages(…) | production: packages/editor/src/ui/CutsceneTab.tsx:472 decodeFrameImages(…) (production); packages/editor/src/ui/FrameAnimationEditor.tsx:559 decodeFrameImages(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 decodeFrameImages 序列合同 — 非首帧尺寸不一致点名拒绝",
+        "oldMatcher": "rejects.toThrow('c.png: 尺寸 5x4，应与首帧 4x4 一致') @ :153-155",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same cross-frame dimension gate"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 尺寸不一致：第二帧拒绝且首帧已 close",
       "oracle": "expect(decodeFrameImages([a, b])).rejects.toThrow(/尺寸/) | expect(decodePort.closes).toBeGreaterThanOrEqual(1)",
@@ -735,8 +735,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-06; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: size mismatch sub-axis promoted"
     },
     {
       "id": "C07-G02-07",
@@ -747,12 +747,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:89 assertFrameImageFile; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:90 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:90 pngRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:90 solidRgba(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:91 assertFrameImageFile(…) | production: packages/editor/src/core/frame-animation-images.ts:25 assertFrameImageFile(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 assertFrameImageFile MIME/扩展名门 — 三类 MIME 直过；无 MIME 时按扩展名（含大写）；两者都不符拒绝",
+        "oldMatcher": "assertFrameImageFile(imageFile('B.PNG', '')) not.toThrow @ :27",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same extension-case MIME gate axis"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 assertFrameImageFile：扩展名 .PNG 无 MIME 仍过门",
       "oracle": "expect(() => assertFrameImageFile(file)).not.toThrow()",
@@ -763,8 +763,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-07; R4 complete oracle from test body; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: assertFrameImageFile uppercase extension old-proven"
     },
     {
       "id": "C07-G02-08",
@@ -775,12 +775,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:94 assertFrameImageFile; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:100 assertFrameImageFile(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:101 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:25 assertFrameImageFile(…) (production); packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…) (production); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 assertFrameImageFile MIME/扩展名门 — 三类 MIME 直过；无 MIME 时按扩展名（含大写）；两者都不符拒绝",
+        "oldMatcher": "assertFrameImageFile(imageFile('d.gif', 'image/gif')).toThrow('只支持 PNG、JPEG 或 WebP') @ :30-32",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "gif reject before decode"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 assertFrameImageFile：gif 拒绝且不解码",
       "oracle": "expect(() => assertFrameImageFile(bad)).toThrow('x.gif') | expect(decodeFrameImage(bad)).rejects.toThrow('只支持') | expect(decodePort.entries).toHaveLength(0)",
@@ -791,8 +791,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-08; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: unsupported MIME reject old-proven"
     },
     {
       "id": "C07-G02-09",
@@ -803,12 +803,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:105 sortFrameImageFiles; packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:108 sortFrameImageFiles(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:110 sortFrameImageFiles(…) | production: packages/editor/src/core/frame-animation-images.ts:51 sortFrameImageFiles(…) (production); packages/editor/src/ui/CutsceneTab.tsx:504 sortFrameImageFiles(…) (production); packages/editor/src/ui/CutsceneTab.tsx:538 sortFrameImageFiles(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "27606674d7f878613ee7d10b16f46c5a9caf5ce7",
+        "oldFile": "packages/editor/src/core/frame-animation-images.test.ts",
+        "oldFullName": "frame animation image sequence — 按自然文件名排序初始帧序列",
+        "oldMatcher": "sortFrameImageFiles([frame-10, frame-2, frame-1]) → ['frame-1.png','frame-2.png','frame-10.png'] @ :8-13",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: old proves natural sort output; new adds non-mutating input array sub-axis"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 sortFrameImageFiles 不 mutate 原数组",
       "oracle": "expect(input).toEqual(copy) | expect(sortFrameImageFiles(input).map((file) => file.name)).toEqual(['2.png', '10.png'])",
@@ -819,8 +819,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-09; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: sort output axis old-proven; input-array immutability pending on new case"
     },
     {
       "id": "C07-G02-10",
@@ -831,12 +831,12 @@
       "caller": "test: packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:114 pngFileOf(…); packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts:115 decodeFrameImage(…) | production: packages/editor/src/core/frame-animation-images.ts:24 decodeFrameImage(…) (production); packages/editor/src/core/frame-animation-images.ts:54 decodeFrameImage(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:338 pngFileOf(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts:67 pngFileOf(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "f044fc00d304946e4a825c8e8d514456006ca1dc",
+        "oldFile": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "oldFullName": "C4 decodeFrameImages 序列合同 — 序列中途解码失败：整体拒绝且已解码帧的 bitmap 已归还",
+        "oldMatcher": "decodeFrameImages rejects 'corrupt bitmap'; events close count @ :180-183",
         "dedupHeader": "排重：frame-animation-images.boundaries.test 用 mock bitmap；本组经 installBrowserHardwarePorts 真实 PNG 解码。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: old mock mid-sequence failure + close; new corrupt PNG + live bitmap zero sub-axis differs"
       },
       "axis": "C07-G02 合成 PNG 解码与资源关闭 损坏 PNG：解码失败且 live bitmap 归零",
       "oracle": "expect(decodeFrameImage(broken)).rejects.toThrow() | expect(decodePort.liveBitmaps()).toBe(0)",
@@ -847,8 +847,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C07-G02-10; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: mid-batch failure + cleanup partial; real corrupt-bytes oracle net-new"
     },
     {
       "id": "C07-G04-01",

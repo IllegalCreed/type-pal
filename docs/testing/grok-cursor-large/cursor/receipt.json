@@ -7,14 +7,11 @@
   "branch": "codex/cursor-asset-ui-large-r1",
   "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "reviewedCandidate": "f7f64784e176eb233ae74a67fe811270f0f8dea5",
-  "priorEvidenceHead": "f7f64784e176eb233ae74a67fe811270f0f8dea5",
-  "reworkEvidenceHead": "57221d6de0c1a7e74e6cd10f51b219b4b7dec006",
-  "candidateSha": "57221d6de0c1a7e74e6cd10f51b219b4b7dec006",
-  "reworkCloses": [
-    "CURSOR-R5-01",
-    "CURSOR-R5-02"
-  ],
+  "reviewedCandidate": "6459e906097594277bd0761d48367a0c148d5d9b",
+  "priorEvidenceHead": "57221d6de0c1a7e74e6cd10f51b219b4b7dec006",
+  "reworkEvidenceHead": "pending-push",
+  "candidateSha": "pending-push",
+  "reworkCloses": ["CURSOR-R6-01", "CURSOR-R6-02"],
   "priorReworkCloses": [
     "CURSOR-R1-01",
     "CURSOR-R1-02",
@@ -27,14 +24,16 @@
     "CURSOR-R3-01",
     "CURSOR-R3-02",
     "CURSOR-R4-01",
-    "CURSOR-R4-02"
+    "CURSOR-R4-02",
+    "CURSOR-R5-01",
+    "CURSOR-R5-02"
   ],
   "counts": {
     "directedTotal": 717,
     "directedPassed": 717,
     "contracts": 717,
-    "existingProof": 14,
-    "netNewEstimate": 703,
+    "existingProof": 15,
+    "netNewEstimate": 702,
     "workGroups": 70,
     "countersValid": 54,
     "countersDistinctTargets": 54,
@@ -44,47 +43,41 @@
     "visualFlowsPassed": 12,
     "editorFullSuite": 4503,
     "targetNewCases": 700,
-    "humanVerifiedOverlays": 17,
-    "stagingDraftOverlays": 700,
-    "oldMatcherPromotedR5": 85,
-    "oldMatcherNone": 612
+    "humanVerifiedOverlays": 18,
+    "stagingDraftOverlays": 699,
+    "oldMatcherNone": 565
   },
   "gates": {
     "editorFull": "4503/4503",
     "typecheck": "0 diagnostics",
-    "lint": "0/0/0 (biome check docs/testing/grok-cursor-large/cursor)",
+    "lint": "pending-after-pin",
     "judgeSelftest": "pass (R2 retained)",
     "flows": "12/12 (not re-run)",
     "docs": "PASS",
     "verifier": "frozenHashesValid; ownerOverlap 0"
   },
   "proofGaps": {
-    "oldMatcher-none": 612,
+    "oldMatcher-none": 565,
     "sourceCondition-export-only": 19,
     "oracle-incomplete": 0,
     "production-caller-none": 104,
     "notes": [
-      "R5-01: staging unused/literal/format + CTR-C05-10 JSON/receipt format cleared; literal ${} kept via string concat",
-      "R5-02: humanVerified only human-ledger (17); staging-draft 700; C03-G04-02/03 .not.toBeNull complete",
-      "oldMatcher-none 653 after 44 same-axis promotions; full dedup still open; no keyword/function-name cull"
+      "R6-01: receipt.reworkCloses formatted; root lint after final pin",
+      "R6-02: C05-G05-06 blob→16cb19c3 SpriteActionEditor; C05-G01-03 retract toBe≠toEqual; C03-G04-03 failure≠recover; C04-G07-05 order≠duration; C01-G01-10 existing-proof",
+      "staging builder auto-output staging-draft/false; candidates not merged as human-ledger"
     ]
   },
-  "r5Notes": {
-    "lintCleared": [
-      "build-human-ledger-r4-staging.mjs unused imports + literal placeholders + format",
-      "CTR-C05-10 positive/mutated/restored/receipt format",
-      "receipt.json format"
-    ],
-    "counterQuantityGate": "closed at 50 net-new (CTR-C05-10 accepted); no retarget",
-    "oldMatcherStaging": [
-      "human-ledger-staging/R5-oldmatcher-C01-C05.json",
-      "human-ledger-staging/R5-oldmatcher-C06-C10.json"
-    ]
+  "r6Notes": {
+    "existingProofAdded": ["C01-G01-10"],
+    "semanticRetractions": ["C05-G01-03"],
+    "partialOldAxes": ["C03-G04-03", "C04-G07-05", "C05-G05-06"],
+    "builderFixed": "build-human-ledger-r4-staging.mjs → staging-draft + toolOldAssertionCandidate",
+    "counterQuantityGate": "closed at 50 net-new; CTR-C05-10 middle-hole retained"
   },
   "remainingDebt": [
-    "oldMatcher-none 612; continue same-axis reads; mixed by sub-axis",
-    "netNew structural 703≥700 but exhaustive dedup required before accept",
-    "production-caller-none 104 / sourceCondition-export-only 19 after lean overrides",
+    "oldMatcher-none 565; continue same-axis reads",
+    "netNew structural 702≥700 but exhaustive dedup required before accept",
+    "production-caller-none 104 / sourceCondition-export-only 19",
     "not done / not official ratchet / not merge main"
   ],
   "artifacts": {

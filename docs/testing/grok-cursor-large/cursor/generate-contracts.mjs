@@ -43,6 +43,7 @@ const EXISTING_PROOF_IDS = new Set([
   'C07-G01-10',
   'C05-G01-01',
   'C05-G01-02',
+  'C01-G01-10',
   'C06-G07-02',
   'C06-G07-03',
   'C06-G07-04',
@@ -196,6 +197,15 @@ const EXISTING_PROOF_OLD = {
       "expect(sortedSpriteActions(input)).toEqual(['action','a','b','c','action-2','z'].map(...)) @ :38-49 — action.order=0 before missing-order action-2/z",
     proofNote:
       'wave2 完整数组直证 order=0 排在缺省 order 之前；同 patch 亦令 CTR-C05-09 与 wave2 共红，故转 existing-proof/cross-check',
+  },
+  'C01-G01-10': {
+    oldTestSha: blobSha('packages/editor/src/ui/WorldSpriteLibrary.test.tsx'),
+    oldFile: 'packages/editor/src/ui/WorldSpriteLibrary.test.tsx',
+    oldFullName: '受控地址回灌后仍停留在引用，不跳回动作',
+    oldMatcher:
+      "button('引用').click(); expect(aria-selected true); #world-sprite-inspector-panel-references hidden===false; layout panel hidden===true @ :826-840",
+    proofNote:
+      '旧例同公开引用 tab/panel 可见断言更强（含受控地址回灌与用途选择）；新例仅换 fixture id，oracle 更弱 → existing-proof',
   },
   'C06-G07-02': {
     oldTestSha: blobSha('packages/editor/src/ui/StampPreviewCanvas.test.tsx'),

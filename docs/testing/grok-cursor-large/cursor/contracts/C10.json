@@ -1015,12 +1015,12 @@
       "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:66 DsTag; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:67 <DsTag | production: packages/editor/src/design-lab/DesignLab.tsx:1308 <DsTag (production); packages/editor/src/ui/ActorMode.tsx:503 <DsTag (production); packages/editor/src/ui/ActorMode.tsx:556 <DsTag (production); packages/editor/src/ui/ActorMode.tsx:559 <DsTag (production); packages/editor/src/ui/AmbienceTab.tsx:229 <DsTag (production); packages/editor/src/ui/AmbienceTab.tsx:492 <DsTag (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "fd8f249348da83c677bac89d35d852074522d52e",
+        "oldFile": "packages/editor/src/ui/design-system/controls.test.tsx",
+        "oldFullName": "keeps status-value SSR markup for default tone and element contracts",
+        "oldMatcher": "renderToStaticMarkup(<DsTag tone=\"danger\"…>) contains ds-tag--danger @ :897-903",
         "dedupHeader": "C10-G07 collection-search/recipes/feedback/status/buttons/icons/index 剩余合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same tone→modifier class axis; new case uses danger label「错误」"
       },
       "axis": "C10-G07 展示与原生输入 DsTag tone 渲染 modifier class",
       "oracle": "expect(html).toContain('ds-tag--danger')",
@@ -1031,8 +1031,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:66; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: DsTag tone modifier old-proven (SSR + live markup share class contract)"
     },
     {
       "id": "C10-G07-07",
@@ -1043,12 +1043,12 @@
       "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:71 DsReadonlyValue; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:72 <DsReadonlyValue | production: packages/editor/src/ui/App.tsx:3787 <DsReadonlyValue (production); packages/editor/src/ui/App.tsx:3832 <DsReadonlyValue (production); packages/editor/src/ui/App.tsx:4390 <DsReadonlyValue (production); packages/editor/src/ui/App.tsx:4393 <DsReadonlyValue (production); packages/editor/src/ui/ItemUseEffectEditor.tsx:648 <DsReadonlyValue (production); packages/editor/src/ui/ItemUseEffectEditor.tsx:1102 <DsReadonlyValue (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "fd8f249348da83c677bac89d35d852074522d52e",
+        "oldFile": "packages/editor/src/ui/design-system/controls.test.tsx",
+        "oldFullName": "keeps status-value SSR markup for default tone and element contracts",
+        "oldMatcher": "renderToStaticMarkup(<DsReadonlyValue as=\"div\" monospace …>) → ds-readonly-value--monospace @ :909-914",
         "dedupHeader": "C10-G07 collection-search/recipes/feedback/status/buttons/icons/index 剩余合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same monospace modifier class axis"
       },
       "axis": "C10-G07 展示与原生输入 DsReadonlyValue monospace class",
       "oracle": "expect(html).toContain('ds-readonly-value--monospace') | expect(html).toContain('/a/b')",
@@ -1059,8 +1059,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:71; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: DsReadonlyValue monospace old-proven"
     },
     {
       "id": "C10-G07-08",
@@ -1071,12 +1071,12 @@
       "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:77 DsEmptyState; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:77 DsStatus; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:81 <DsStatus; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:82 <DsEmptyState | production: packages/editor/src/design-lab/DesignLab.tsx:1277 <DsEmptyState (production); packages/editor/src/design-lab/DesignLab.tsx:1378 <DsEmptyState (production); packages/editor/src/design-lab/DesignLab.tsx:1402 <DsEmptyState (production); packages/editor/src/ui/ActorMode.tsx:1682 <DsEmptyState (production); packages/editor/src/ui/BattleSimulatorForms.tsx:141 <DsEmptyState (production); packages/editor/src/ui/BattleSimulatorForms.tsx:485 <DsEmptyState (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "eec036766c31371b5fc7288cbc8e211516925afd",
+        "oldFile": "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
+        "oldFullName": "keeps tabs, card, and status identity with tablist and alert roles",
+        "oldMatcher": "renderToStaticMarkup(<DsStatus tone=\"error\">) contains role=\"alert\"; <DsEmptyState …> contains ds-empty-state @ :31-34",
         "dedupHeader": "C10-G07 collection-search/recipes/feedback/status/buttons/icons/index 剩余合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: old static markup roles/shell; new adds live text「等待」「暂无数据」sub-axis"
       },
       "axis": "C10-G07 展示与原生输入 DsStatus 与 DsEmptyState 渲染角色文案",
       "oracle": "expect(mounted.host.textContent).toContain('等待') | expect(mounted.host.textContent).toContain('暂无数据')",
@@ -1087,8 +1087,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:77; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: DsStatus alert + DsEmptyState shell partial; copy text pending"
     },
     {
       "id": "C10-G07-09",
@@ -1099,12 +1099,12 @@
       "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:90 DsButton; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:91 <DsButton | production: packages/editor/src/design-lab/DesignLab.tsx:361 <DsButton (production); packages/editor/src/design-lab/DesignLab.tsx:530 <DsButton (production); packages/editor/src/design-lab/DesignLab.tsx:531 <DsButton (production); packages/editor/src/design-lab/DesignLab.tsx:532 <DsButton (production); packages/editor/src/design-lab/DesignLab.tsx:533 <DsButton (production); packages/editor/src/design-lab/DesignLab.tsx:536 <DsButton (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "71fe958e22bda182d19fcbefdfd2348d28580ce1",
+        "oldFile": "packages/editor/src/ui/design-system/buttons.test.tsx",
+        "oldFullName": "keeps pressable, button and action-link identity with busy and default chrome",
+        "oldMatcher": "renderToStaticMarkup(<DsButton busy>保存</DsButton>) → disabled + aria-busy + span「处理中」 @ :26-27",
         "dedupHeader": "C10-G07 collection-search/recipes/feedback/status/buttons/icons/index 剩余合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same busy disable + processing label axis"
       },
       "axis": "C10-G07 展示与原生输入 DsButton busy 禁用并显示处理中",
       "oracle": "expect(btn.disabled).toBe(true) | expect(btn.textContent).toContain('处理中')",
@@ -1115,8 +1115,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:90; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "old-matcher-promoted",
+      "notes": "R6: DsButton busy chrome old-proven"
     },
     {
       "id": "C10-G07-10",
@@ -1155,12 +1155,12 @@
       "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:106 DsSequenceIndex; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:108 <DsSequenceIndex | production: packages/editor/src/ui/BattleSpriteLibrary.tsx:1564 <DsSequenceIndex (production); packages/editor/src/ui/CasualtyEditor.tsx:277 <DsSequenceIndex (production); packages/editor/src/ui/CasualtyEditor.tsx:349 <DsSequenceIndex (production); packages/editor/src/ui/EnemyTab.tsx:220 <DsSequenceIndex (production); packages/editor/src/ui/ItemAlchemyEditors.tsx:146 <DsSequenceIndex (production); packages/editor/src/ui/PoisonTab.tsx:111 <DsSequenceIndex (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "df0ff82de668ff3d0ac373948c1b357df96af19f",
+        "oldFile": "packages/editor/src/ui/design-system/recipes.test.tsx",
+        "oldFullName": "sequence index gives ordered rows a centered numeric marker and accessible label",
+        "oldMatcher": "DsSequenceIndex value={12} accessibleLabel=\"第 12 回合\" → visible 12 + visually-hidden label @ :940-944",
         "dedupHeader": "C10-G07 collection-search/recipes/feedback/status/buttons/icons/index 剩余合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "partial: same value + accessibleLabel rendering axis; numeric fixture differs (12 vs 2)"
       },
       "axis": "C10-G07 recipes 与 icons DsSequenceIndex 渲染 value 与可读标签",
       "oracle": "expect(mounted.host.textContent).toContain('2') | expect(mounted.host.textContent).toContain('第 2 帧')",
@@ -1171,8 +1171,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:106; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: DsSequenceIndex marker/label partial (fixture values differ)"
     },
     {
       "id": "C10-G07-12",
@@ -1183,12 +1183,12 @@
       "caller": "test: packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:114 DsInlineComposer; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:117 <DsInlineComposer; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:119 <DsTextInput; packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:120 <DsIconButton | production: packages/editor/src/design-lab/DesignLab.tsx:245 <DsTextInput (production); packages/editor/src/design-lab/DesignLab.tsx:381 <DsTextInput (production); packages/editor/src/design-lab/DesignLab.tsx:425 <DsTextInput (production); packages/editor/src/design-lab/DesignLab.tsx:442 <DsTextInput (production); packages/editor/src/design-lab/DesignLab.tsx:1271 <DsTextInput (production); packages/editor/src/ui/ActorMode.tsx:434 <DsTextInput (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "none",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "df0ff82de668ff3d0ac373948c1b357df96af19f",
+        "oldFile": "packages/editor/src/ui/design-system/recipes.test.tsx",
+        "oldFullName": "inline composer owns default and compact density plus bounded number measure",
+        "oldMatcher": "DsInlineComposer renders .ds-inline-composer__control + __action slots @ :175-187",
         "dedupHeader": "C10-G07 collection-search/recipes/feedback/status/buttons/icons/index 剩余合同。",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same control/action slot presence axis; new uses DsTextInput + DsIconButton compact pair"
       },
       "axis": "C10-G07 recipes 与 icons DsInlineComposer 渲染 control 与 action 槽",
       "oracle": "expect(mounted.host.querySelector('[aria-label=\"名称\"]')).not.toBeNull() | expect(mounted.host.querySelector('[aria-label=\"添加\"]')).not.toBeNull()",
@@ -1199,8 +1199,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human ledger; read src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:114; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: inline composer slot layout old-proven; density/control widgets differ"
     },
     {
       "id": "C10-G07-13",

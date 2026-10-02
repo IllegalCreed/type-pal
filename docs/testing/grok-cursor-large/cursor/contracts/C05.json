@@ -67,12 +67,12 @@
       "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:69 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…) (production); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
-        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
-        "oldFullName": "action order falls through label then stable id, missing orders sort last without rewriting poses",
-        "oldMatcher": "expect(input).toEqual(before) after sortedSpriteActions(input) @ :38-48",
+        "oldTestSha": "none",
+        "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level overlap proven in this generator pass",
         "dedupHeader": "排重：sprite-actions.test.ts / sprite-actions.wave2.test.ts 已证 order→label→id 三级回退、",
-        "note": "same non-mutating sort / stable poses reference axis"
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
       },
       "axis": "C05-G01 sprite-actions 排序与默认目标 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
       "oracle": "expect(sorted[0]!.action).toBe(input.poses!.a) | expect(sorted[1]!.action).toBe(input.poses!.b) | expect(Object.keys(input.poses!)).toEqual(['a', 'b'])",
@@ -83,8 +83,15 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "old-matcher-promoted",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5: wave2 proves sort does not clone or rewrite poses object; matches new toBe reference oracle.; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "pending-human",
+      "notes": "R6 retract: wave2 toEqual ≠ new toBe same-reference oracle; reference identity pending",
+      "toolOldAssertionCandidate": {
+        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "oldFullName": "按 order/label/id 稳定排序并派生零基显示编号",
+        "oldMatcher": "expect(input).toEqual(before) after sortedSpriteActions(input) @ :38-48",
+        "note": "value/deep-equal + input immutability only — does NOT prove sorted[i].action === poses[id] reference (toBe)"
+      }
     },
     {
       "id": "C05-G01-04",
@@ -95,12 +102,12 @@
       "caller": "test: packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:82 sortedSpriteActions(…); packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:89 sortedSpriteActions(…) | production: packages/editor/src/core/sprite-actions.ts:52 sortedSpriteActions(…) (production); packages/editor/src/ui/EntityPageAnimationEditor.tsx:19 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditor.tsx:52 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:26 sortedSpriteActions(…) (production); packages/editor/src/ui/SpriteActionEditorDialog.tsx:96 sortedSpriteActions(…) (production); packages/editor/src/ui/WorldSpriteLibrary.tsx:496 sortedSpriteActions(…) (production) | harness: none (not a production caller)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "none",
-        "oldFile": "sprite-actions.test.ts, sprite-actions.wave2.test.ts",
-        "oldFullName": "none — header names prior suite only",
-        "oldMatcher": "none — no line-level overlap proven in this generator pass",
+        "oldTestSha": "dbf1c9e958123a73701c9e928201212ac55b1145",
+        "oldFile": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "oldFullName": "action order falls through label then stable id, missing orders sort last without rewriting poses",
+        "oldMatcher": "equal order+label → sort ids ['action','a','b','c','action-2','z'] via stable id tie-break @ :41-46",
         "dedupHeader": "排重：sprite-actions.test.ts / sprite-actions.wave2.test.ts 已证 order→label→id 三级回退、",
-        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+        "note": "same tertiary id sort when order+label tied; new a1/a10/a2 documents localeCompare non-natural numeric order"
       },
       "axis": "C05-G01 sprite-actions 排序与默认目标 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
       "oracle": "expect(sortedSpriteActions(input).map(({ id }) => id)).toEqual(['a1', 'a10', 'a2']) | expect(sortedSpriteActions(labels).map(({ id }) => id)).toEqual(['z', 'y', 'x'])",
@@ -111,8 +118,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "pending-human",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6: id tie-break axis proven; new oracle is stricter localeCompare exemplar not duplicated in wave2."
     },
     {
       "id": "C05-G01-05",
@@ -1383,12 +1390,12 @@
       "caller": "test: packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:82 actionOf(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:82 openC05Editor(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:83 editorHost(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:85 MemoryDataTransfer(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:86 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:87 dispatchDragEvent(…); packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx:89 heroPoses(…) | production: packages/editor/src/ui/SpriteFrameWorkbench.tsx:29 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteFrameWorkbench.tsx:302 SPRITE_FRAME_DRAG_MIME; packages/editor/src/ui/SpriteResourceViewer.tsx:46 SPRITE_FRAME_DRAG_MIME | harness: packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:319 dispatchDragEvent(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx:320 dispatchDragEvent(…) (harness)",
       "legalInput": "inline typed fixtures in test body (see test source)",
       "oldAssertion": {
-        "oldTestSha": "6eab9d1dc55bd4200b3d48b7a6bb75d823dc6b84",
+        "oldTestSha": "16cb19c3a212375371d688afe32faa0262c33026",
         "oldFile": "packages/editor/src/ui/SpriteActionEditor.test.tsx",
-        "oldFullName": "[reorder-family:sprite-actions] step reorder keeps loopFrom on the logical step and preserves source-frame transfer",
-        "oldMatcher": "after invalidDrop payloads including '{bad'; expect(session.getHistoryVersion()).toBe(afterValidTransfer); error notice @ :361-380",
-        "dedupHeader": "排重：K03 步骤插入与追加；L Dialog scope/Cmd+S；本组只测 absent proof、引用检查文案、",
-        "note": "same invalid drag JSON → error notice + zero history/steps mutation axis (editor drop not inspect helper)"
+        "oldFullName": "idle 时间线支持键盘重排、undo/redo 与同资源帧拖入",
+        "oldMatcher": "invalid payloads '{bad'|other-asset|frame:9 → history unchanged + onStatusNotice kind:error message containing '有效帧' @ :361-381",
+        "dedupHeader": "",
+        "note": "R6: corrected blob SpriteActionEditor.test.tsx@16cb19c3… (was FrameWorkbench 6eab9d1d mis-tagged). Old proves invalid-JSON/reject/history-freeze axis; new exact notice 「源帧拖拽数据无效。」 is separate sub-axis (pending as net-new notice text)."
       },
       "axis": "C05-G05 proof、引用态与拖拽边界 拖拽非法 JSON：error notice 且 steps 不变",
       "oracle": "expect(mounted.notices.at(-1)).toEqual({ kind: 'error', message: '源帧拖拽数据无效。' }) | expect(heroPoses(mounted)!.idle?.steps).toHaveLength(1)",
@@ -1399,8 +1406,8 @@
       "status": "passed",
       "humanVerified": false,
       "verification": "staging-draft",
-      "ledgerStatus": "old-matcher-promoted",
-      "notes": "CURSOR-R4 human-ledger staging; classification new-contract; R5: old exercises drop boundary; new uses same '{not-json' payload class.; R5 honesty: staging-draft≠humanVerified"
+      "ledgerStatus": "partial-old-axis",
+      "notes": "R6 sub-axis: old invalid-drop reject retained; exact notice message not claimed as old-proven"
     },
     {
       "id": "C05-G05-07",
