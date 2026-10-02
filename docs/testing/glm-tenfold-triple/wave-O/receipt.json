@@ -127,7 +127,7 @@
     "r9-ledger-rebuild": "contracts 账全量重建：旧生成器按行扫描致 182 空参/332 不配平（含 r8 基线）；共享 tokenizer（test-titles.mjs）全量提取完整断言链，build-contracts.mjs 强制不变量（≥1 断言/括号配平/值类 matcher 禁空参），478→487 行 0 违例；O01-CC1 spec title 陈旧字面量同步"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED-R10",
+  "remoteFinalCandidate": "b79d0338c330e18af59a83460f57569ab29c95db",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
