@@ -17,6 +17,9 @@ const repoRoot = resolve(here, '../../../..')
 const directed = JSON.parse(readFileSync(resolve(here, 'directed-vitest.json'), 'utf8'))
 const prev = JSON.parse(readFileSync(resolve(here, 'contracts.json'), 'utf8'))
 const prevByKey = new Map(prev.contracts.map((c) => [`${c.testFile} :: ${c.id}`, c]))
+// O-R10-02：逐域人工真账（源码条件/生产 caller/旧完整锚）外置 JSON，按 file::fullName 覆盖
+const overrides = JSON.parse(readFileSync(resolve(here, 'contracts-overrides.json'), 'utf8'))
+const overrideCount = Object.keys(overrides).length
 
 // r9 续审保留的 9 行人工账（O-R9-03 + a89e49d73 去重后仍为真实新轴）
 const manualOverlay = {
@@ -189,7 +192,7 @@ const errors = []
 for (const t of directed.tests) {
   const key = `${t.file} :: ${t.fullName}`
   const prevRow = prevByKey.get(key)
-  const overlay = manualOverlay[key]
+  const overlay = manualOverlay[key] ?? overrides[key]
   if (!prevRow && !overlay) {
     errors.push(`旧账无此行且无人工账（join 失败）: ${key}`)
     continue
@@ -242,7 +245,7 @@ writeFileSync(
   `${JSON.stringify(
     {
       total: rows.length,
-      note: '逐合同账（r9 修正）：oracle=测试源完整断言链（共享 tokenizer 全量提取，无截断）+首断言行锚；migration-merge 30 行保留人工 oracle/condition；r9 保留 9 行人工 condition/caller/旧锚（19 行重复已于 a89e49d73 删除并登记 existing-proof 于测试文件头）；known-existing-proof 与 cross-check-not-new 不计净新',
+      note: `逐合同账（r10 修正）：oracle=测试源完整断言链（共享 tokenizer 全量提取，无截断）+首断言行锚；逐域人工真账（源码条件/生产 caller/旧完整 fullName+行锚或显式 gap 说明）外置 contracts-overrides.json（本批 ${overrideCount} 行已覆盖，未覆盖域仍为空 condition 待续——不以旧 join 当 closed）；known-existing-proof 与 cross-check-not-new 不计净新`,
       contracts: rows,
     },
     null,
@@ -250,5 +253,5 @@ writeFileSync(
   )}\n`,
 )
 console.log(
-  `contracts: ${rows.length} rows, manualOverlay applied: ${rows.filter((r) => manualOverlay[`${r.testFile} :: ${r.id}`]).length}, manualMerge oracle kept: ${rows.filter((r) => r.testFile.endsWith('migration-merge.glm-o.test.ts')).length}`,
+  `contracts: ${rows.length} rows, overrides applied: ${rows.filter((r) => overrides[`${r.testFile} :: ${r.id}`]).length}/${overrideCount}, manualOverlay: ${rows.filter((r) => manualOverlay[`${r.testFile} :: ${r.id}`]).length}, emptyCondition remaining: ${rows.filter((r) => !(r.condition || '').trim()).length}`,
 )

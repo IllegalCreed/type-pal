@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 30,
-    "passed": 30,
+    "executed": 28,
+    "passed": 28,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 30,
-    "passed": 29,
+    "executed": 28,
+    "passed": 27,
     "failed": 1,
     "failedFullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入",
     "failureMessageHead": "AssertionError: expected [ { file: 'assets/index.json', …(5) } ] to deeply equal []"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 30,
-    "passed": 30,
+    "executed": 28,
+    "passed": 28,
     "failed": 0
   },
   "hashes": {

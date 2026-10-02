@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 487,
-  "passed": 487,
+  "numTotalTests": 485,
+  "passed": 485,
   "failed": 0,
   "tests": [
     {
@@ -25,17 +25,7 @@
     },
     {
       "file": "packages/migrate/src/migration-merge.glm-o.test.ts",
-      "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json 严格顺序：双方不同重排 → array-order 冲突",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-merge.glm-o.test.ts",
       "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json：一方新增、一方重排可共存（公共序一致）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/migrate/src/migration-merge.glm-o.test.ts",
-      "fullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） maps/index.json /maps 身份模式：双方各新增一张地图时并集合并",
       "status": "passed"
     },
     {
@@ -1860,7 +1850,7 @@
     },
     {
       "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
-      "fullName": "O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机",
+      "fullName": "O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机（计数 rng 区分每级取样）",
       "status": "passed"
     },
     {

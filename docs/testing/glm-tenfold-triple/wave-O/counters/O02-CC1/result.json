@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 30,
-    "passed": 30,
+    "executed": 28,
+    "passed": 28,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 30,
-    "passed": 29,
+    "executed": 28,
+    "passed": 27,
     "failed": 1,
     "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
     "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 30,
-    "passed": 30,
+    "executed": 28,
+    "passed": 28,
     "failed": 0
   },
   "hashes": {
