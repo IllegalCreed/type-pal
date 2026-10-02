@@ -8,7 +8,17 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex r19交付复核与进度检查（2026-10-02，当前优先）
+## Codex r20选择性接收（2026-10-02，当前优先；作者r19）
+
+固定6a0a3ef64518365cae043976c941a7e3e1639b7c。三针原字段错误关闭：actual/rebuilt SHA、精确file/fullName、三态2→单红→2/exit0→1→0对应，旧68及退休历史原字节保持，bad.meta保留原坏对象。新自测7过/三旧拒三新过；3094文件静态完整0/0/0/docs/diff/verifier通过。包/依赖/配置字节无变明确复用独立10，不新业务重跑。
+
+**选择性接收数据，不准入两新工具作正式采样入口**：wrong-file与恢复身份漂移反例被粗校验误收；固定共享/tmp脚本无mkdtemp/trap恢复回收且复制判定，不执行/推广。后续统一入口由Codex随真实有限子批核定，不再让GLM分散返工或重采旧68。原147/净新上限146/≥554、700/50组/50目标/10流程仍未完，Status保持rework，未main/done/正式结算。
+
+[接收与明确排除边界](../../testing/glm-tenfold-triple/codex-q-r20-reception-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-q-r20-reception-20261002.json)。
+无下一位GLM返工提示词，等待Codex真实剩余清单与下批准入；作者候选保留，不清树，不UI/代切模型/自动投递。
+
+## Codex r19交付复核与进度检查（2026-10-02，历史）
 
 固定2030ce06f5f784d72af377a2fefa71906b6662cf，新增2 CLI接线方向accept，新10绿/147身份/3090静态零，旧BA1退休原字节保持。Q-R19-01三新产品针共同metadata错误counter：mutated hash为summary对象，注册fullName多前导空格；一次修生产器/校验/三针，不重采旧68。147净新上限146/700≤20.9%，至少554例。
 

@@ -1,0 +1,4299 @@
+{
+  "date": "2026-10-02",
+  "head": "6a0a3ef64518365cae043976c941a7e3e1639b7c",
+  "previous": "2030ce06f5f784d72af377a2fefa71906b6662cf",
+  "auditParent": "6e1367c1ae4c3f4d507d94bd95ca16ec5df32844",
+  "rawRoot": "/private/tmp/codex-q-r20-review.Q2VrTF",
+  "scope": [
+    "docs/testing/glm-tenfold-triple/wave-Q/README.md",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.bad.meta.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.meta.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.mutant.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.positive.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.restored.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.bad.meta.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.meta.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.mutant.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.positive.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.restored.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.bad.meta.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.meta.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.mutant.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.positive.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.restored.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/receipt.json",
+    "docs/testing/glm-tenfold-triple/wave-Q/tools/counter-run-prod.sh",
+    "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs"
+  ],
+  "noAuthorOrMainWrites": true,
+  "noSourceMutations": true,
+  "noUIOrModelActions": true,
+  "noFormalGatesIntegrationOrCoverage": true,
+  "byteProof": [
+    {
+      "path": "packages",
+      "blob": "74206a2918b42e3ff1575c466be4fab820602b05",
+      "unchanged": true
+    },
+    {
+      "path": "scripts",
+      "blob": "7338619fdc86a0788c96f3518d3027ffa9cabd68",
+      "unchanged": true
+    },
+    {
+      "path": "patches",
+      "blob": "f5f09a95f6dc56295df9667058a0e3fe60822f81",
+      "unchanged": true
+    },
+    {
+      "path": "package.json",
+      "blob": "d875577ea8308d5e501b4c1f656935e6aad5ea2d",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "381986b81661d8a69d77deeb308ea098e6b768ae",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "blob": "18ec407efca710b5d0d1e19dd3e34a27ac6716a1",
+      "unchanged": true
+    },
+    {
+      "path": "biome.json",
+      "blob": "347f429933764c8ae9b581bd9abcd774fdb60ca4",
+      "unchanged": true
+    }
+  ],
+  "gates": [
+    {
+      "label": "install",
+      "cmd": "pnpm",
+      "args": ["install", "--offline", "--frozen-lockfile", "--ignore-scripts"],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "0f15ed8d3acdac3eac7d051e5028ae4bdb3f749c25ace57e97b7d92ef63fbc8b",
+      "raw": "Scope: all 8 workspace projects\nLockfile is up to date, resolution step is skipped\nProgress: resolved 1, reused 0, downloaded 0, added 0\nPackages: +202\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 202, reused 202, downloaded 0, added 202, done\n\ndevDependencies:\n+ @biomejs/biome 2.4.15\n+ @vitest/coverage-v8 4.1.7\n+ playwright 1.63.0\n+ tsx 4.22.3\n+ typescript 6.0.3\n+ vitest 4.1.7\n\nDone in 665ms using pnpm v10.29.2\n"
+    },
+    {
+      "label": "selftest",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "--selftest"
+      ],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "06ff71c1949eee3209006227ccf7950feb9ed93164b02ce3727d12dbb08512f6",
+      "raw": "SELFTEST OK: 拒收 — v3 复现：mutated 为 summary 对象\nSELFTEST OK: 拒收 — 非 hex hash\nSELFTEST OK: 拒收 — fullName 前导空格错配\nSELFTEST OK: 拒收 — mutant 红身份非目标\nSELFTEST OK: 拒收 — 零红（mutant 全绿）\nSELFTEST OK: 拒收 — 执行数漂移\nSELFTEST OK: 接受 — 好样本全过\nSELFTEST PASS: 6 拒收 + 1 接受全部符合预期\n"
+    },
+    {
+      "label": "validate-Q-BA1P",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.meta.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.positive.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.mutant.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.restored.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "50fe90d2827448154ce60d51daa8eb87b2c3ad9a4f6d40d1b294697829594bc3",
+      "raw": "PASS Q-BA1P（hash×4 hex、fullName 无附加空白、mutant 恰一红且身份相等、正/恢复绿、执行数一致）\n"
+    },
+    {
+      "label": "reject-old-Q-BA1P",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.bad.meta.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.positive.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.mutant.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1P.restored.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "rawSha256": "6444c740146158f829640a4a68ff171f51b9a582a07d0cce02c2ffafcb8b4b64",
+      "raw": "REJECT Q-BA1P: sha256.mutated 非字符串/非 64-hex（got object 对象）；targetFullName 含附加空白；mutant 红身份不等目标（\"Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest\" vs \" Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest\"）\n"
+    },
+    {
+      "label": "validate-Q-FL1",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.meta.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.positive.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.mutant.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.restored.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "4ddc370570d630332288a7f1f6efdb92f73b4ef2b752ec9b83270f037a37096c",
+      "raw": "PASS Q-FL1（hash×4 hex、fullName 无附加空白、mutant 恰一红且身份相等、正/恢复绿、执行数一致）\n"
+    },
+    {
+      "label": "reject-old-Q-FL1",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.bad.meta.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.positive.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.mutant.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL1.restored.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "rawSha256": "7e2373f9f5ef69b83c594ca3ab3f72ff1e88380b6f50f5d2eaa922c326690e8c",
+      "raw": "REJECT Q-FL1: sha256.mutated 非字符串/非 64-hex（got object 对象）；targetFullName 含附加空白；mutant 红身份不等目标（\"Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容\" vs \" Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容\"）\n"
+    },
+    {
+      "label": "validate-Q-FL2",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.meta.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.positive.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.mutant.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.restored.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "ccf736e894a32b7448e86af6298b59f1b53ad2bc0d443462b36c4d1dd51fe2fa",
+      "raw": "PASS Q-FL2（hash×4 hex、fullName 无附加空白、mutant 恰一红且身份相等、正/恢复绿、执行数一致）\n"
+    },
+    {
+      "label": "reject-old-Q-FL2",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.bad.meta.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.positive.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.mutant.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/copy/docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FL2.restored.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "rawSha256": "221d06ab1de1a578de06afbcc7f52a070e69eb4dd479643f02168889e8bb90c9",
+      "raw": "REJECT Q-FL2: sha256.mutated 非字符串/非 64-hex（got object 对象）；targetFullName 含附加空白；mutant 红身份不等目标（\"Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表\" vs \" Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表\"）\n"
+    },
+    {
+      "label": "probe-wrong-mutant-file",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/wrong-mutant-file-0.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/wrong-mutant-file-1.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/wrong-mutant-file-2.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/wrong-mutant-file-3.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "ccf736e894a32b7448e86af6298b59f1b53ad2bc0d443462b36c4d1dd51fe2fa",
+      "raw": "PASS Q-FL2（hash×4 hex、fullName 无附加空白、mutant 恰一红且身份相等、正/恢复绿、执行数一致）\n"
+    },
+    {
+      "label": "probe-restored-identity-drift",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/wave-Q/tools/validate-counter-meta.mjs",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/restored-identity-drift-0.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/restored-identity-drift-1.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/restored-identity-drift-2.json",
+        "/private/tmp/codex-q-r20-review.Q2VrTF/restored-identity-drift-3.json"
+      ],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "ccf736e894a32b7448e86af6298b59f1b53ad2bc0d443462b36c4d1dd51fe2fa",
+      "raw": "PASS Q-FL2（hash×4 hex、fullName 无附加空白、mutant 恰一红且身份相等、正/恢复绿、执行数一致）\n"
+    },
+    {
+      "label": "lint",
+      "cmd": "pnpm",
+      "args": ["lint"],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "aca9471b6e72c774b417028b4a8ec2cb4796b4502ec5dc21150ef3035abd90cf",
+      "raw": "\n> type-pal@ lint /private/tmp/codex-q-r20-review.Q2VrTF/copy\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 3094 files; 0 errors / 0 warnings / 0 infos; complete report\n"
+    },
+    {
+      "label": "docs",
+      "cmd": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "dad51d7a31921fcbed87de358418017f735a8497349bc653b38fb3fc53e425a0",
+      "raw": "docs: 815 Markdown / 4277 local links / 245 tasks / content20 SAVE8\ndocs: PASS (0 issues)\n"
+    },
+    {
+      "label": "diff",
+      "cmd": "git",
+      "args": ["diff", "--check", "8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw": ""
+    },
+    {
+      "label": "verifier",
+      "cmd": "node",
+      "args": [
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "Q",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ],
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "3531ad10e33c66cf74cfbdc8d8a9be5dc9692f9d688c273d62f270693699e0fa",
+      "raw": "{\n  \"productionFreeze\": \"3ac9a2e2f6aba8a5cc97640c18fef8549d199380\",\n  \"waves\": [\n    {\n      \"id\": \"O\",\n      \"sources\": 105,\n      \"missingBranches\": 825\n    },\n    {\n      \"id\": \"P\",\n      \"sources\": 288,\n      \"missingBranches\": 5426\n    },\n    {\n      \"id\": \"Q\",\n      \"sources\": 323,\n      \"missingBranches\": 6136\n    }\n  ],\n  \"totalSources\": 716,\n  \"scope\": {\n    \"owner\": \"Q\",\n    \"dispatchBase\": \"8b3ca062953b17a12178f8d1a9e36657971234b1\",\n    \"changedPaths\": 833\n  },\n  \"frozenHashesValid\": true,\n  \"ownerOverlap\": 0\n}\n"
+    }
+  ],
+  "needleAudit": [
+    {
+      "id": "Q-BA1P",
+      "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "productFile": "packages/pal-extract/src/cli.ts",
+      "hashes": {
+        "testFile": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604",
+        "original": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+        "mutated": "91b93a033c69f9ad9021d8fdc27f868c07a80e3acfa0f1a2d480e7e07e384969",
+        "restored": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
+      },
+      "target": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+      "phases": [
+        {
+          "phase": "positive",
+          "exit": 0,
+          "executed": 2,
+          "identitySha256": "3083e431824d1b0c70cd496a5f215e728344e9a343e5bfb0a24841582f5944fe",
+          "failed": [],
+          "jsonSha256": "987276df75fd6dd99c02a1e679dfea0466c2c474d45a9823fc38886a019b53cc",
+          "rawSha256": "0a4878862caa55bf56e5d38c57b18eb99eca44de4b5fe440899aec347f4253a9"
+        },
+        {
+          "phase": "mutant",
+          "exit": 1,
+          "executed": 2,
+          "identitySha256": "3083e431824d1b0c70cd496a5f215e728344e9a343e5bfb0a24841582f5944fe",
+          "failed": [
+            {
+              "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+              "fullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+              "status": "failed",
+              "failureHeads": [
+                "AssertionError: expected Uint8Array[ 0, 0, 0 ] to deeply equal Uint8Array[ 0, 0 ]"
+              ]
+            }
+          ],
+          "jsonSha256": "38c3f3b54e15de0fb46cc800cad29a50b7e6e8147747939c983f2280fbcac6f0",
+          "rawSha256": "6441f7f5831ed5c21833ff41adde2226d69826aa7c5be34aa94ac80199c440c5"
+        },
+        {
+          "phase": "restored",
+          "exit": 0,
+          "executed": 2,
+          "identitySha256": "3083e431824d1b0c70cd496a5f215e728344e9a343e5bfb0a24841582f5944fe",
+          "failed": [],
+          "jsonSha256": "ba717748d365464642a103ca9faaae1a619bb595dbf2369f61526aed89ee3673",
+          "rawSha256": "18e6a61a1ec22700de2ecb2f11420cf7aa48d9848c4038ae4359eb3fcf719c44"
+        }
+      ],
+      "finalHashIdentityAndExitAligned": true,
+      "badMetaOriginalBytePreserved": true
+    },
+    {
+      "id": "Q-FL1",
+      "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "productFile": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "hashes": {
+        "testFile": "2b08b93bc126cb2a6a57a5c004e9c1f496b8ad9eb27c063b8a63b3c92dd6d966",
+        "original": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20",
+        "mutated": "da44372d1a739a22f8d74a76815d8ba854422e77f3b6a49019677e4b2224afe0",
+        "restored": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20"
+      },
+      "target": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+      "phases": [
+        {
+          "phase": "positive",
+          "exit": 0,
+          "executed": 2,
+          "identitySha256": "c640c772fd3c5299fda5113da260073f348f4a13a9dc28675e22eb5df93167b2",
+          "failed": [],
+          "jsonSha256": "469b01667af43bd6be96c7cf03a617d79d022974cd951dfc3c7af671ab9106ef",
+          "rawSha256": "3055c39f9d37445862ff35a2d65121b2dccecbca3a5c49c3026f10f3adf09db9"
+        },
+        {
+          "phase": "mutant",
+          "exit": 1,
+          "executed": 2,
+          "identitySha256": "c640c772fd3c5299fda5113da260073f348f4a13a9dc28675e22eb5df93167b2",
+          "failed": [
+            {
+              "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+              "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+              "status": "failed",
+              "failureHeads": [
+                "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'font glyphs written: 2'"
+              ]
+            }
+          ],
+          "jsonSha256": "63ead56525f960c967ba4eb8dd6813c95cc30c328474c0a3bfdc77cd9a98070d",
+          "rawSha256": "623bc306be9641b4d6a004f0987671ebf7a1ee6b748677aade57ddd914daadef"
+        },
+        {
+          "phase": "restored",
+          "exit": 0,
+          "executed": 2,
+          "identitySha256": "c640c772fd3c5299fda5113da260073f348f4a13a9dc28675e22eb5df93167b2",
+          "failed": [],
+          "jsonSha256": "b922536f3748db2e8bfab5c97acd735dda050bf68be5af7d040357ed5ec1a60a",
+          "rawSha256": "fe8d29c79da22a983707b630680a26cef1caf8f82a55c0627de3d9184996b099"
+        }
+      ],
+      "finalHashIdentityAndExitAligned": true,
+      "badMetaOriginalBytePreserved": true
+    },
+    {
+      "id": "Q-FL2",
+      "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "productFile": "packages/pal-extract/src/cli.ts",
+      "hashes": {
+        "testFile": "2b08b93bc126cb2a6a57a5c004e9c1f496b8ad9eb27c063b8a63b3c92dd6d966",
+        "original": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7",
+        "mutated": "f46e86fa6ad349156ea272162db26cd39bd60ad16d0b826622abbf9f672f9d5a",
+        "restored": "424b5513234bdcecc533a240166bd1fbd8159f0825683a1e953aa3dd78624af7"
+      },
+      "target": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+      "phases": [
+        {
+          "phase": "positive",
+          "exit": 0,
+          "executed": 2,
+          "identitySha256": "c640c772fd3c5299fda5113da260073f348f4a13a9dc28675e22eb5df93167b2",
+          "failed": [],
+          "jsonSha256": "d403db6cb7efff29e61d51393cac142210aa3a1546e1ae297f7083e3b0088b8f",
+          "rawSha256": "9dd05ca8384e265b5d20b865ec5cb51d7bc676bdc44f2f0b0682da1d5f3bdaa8"
+        },
+        {
+          "phase": "mutant",
+          "exit": 1,
+          "executed": 2,
+          "identitySha256": "c640c772fd3c5299fda5113da260073f348f4a13a9dc28675e22eb5df93167b2",
+          "failed": [
+            {
+              "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+              "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+              "status": "failed",
+              "failureHeads": [
+                "AssertionError: expected [Function flat] to have a length of 565 but got +0"
+              ]
+            }
+          ],
+          "jsonSha256": "f6de36ffd353c9184d4283a34de5a03ebb6e302225a1e115fee51ab443bc40d6",
+          "rawSha256": "70bb80e1d26837ea2cc5da49aa065fac2d4c18cf59be301c70edaee064a55ee5"
+        },
+        {
+          "phase": "restored",
+          "exit": 0,
+          "executed": 2,
+          "identitySha256": "c640c772fd3c5299fda5113da260073f348f4a13a9dc28675e22eb5df93167b2",
+          "failed": [],
+          "jsonSha256": "2a3136105014a48269ae91e2af5b648c31429f6540211f93f808be1e67438c36",
+          "rawSha256": "64bb685180c4d57d9c15eec21a5a905f28a7e6835c93e7da9df4458ac7d6e227"
+        }
+      ],
+      "finalHashIdentityAndExitAligned": true,
+      "badMetaOriginalBytePreserved": true
+    }
+  ],
+  "unchanged68Evidence": [
+    {
+      "id": "Q01-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.axis",
+          "blob": "4306f7e19b39a26c83fb84dc5a6a8024a6038fc7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.meta.json",
+          "blob": "d497481cf939e594e9b9b88ea431c26e536fde94",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.mutant.json",
+          "blob": "73d5fc667e62b01b9b06e1aaa941ba1a808559fa",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.mutant.txt",
+          "blob": "36dd3850fa5d0d75145f1ba1df6d79c85f88548e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.new",
+          "blob": "021573b637d73035a9a8b114bccb1bf009a4484d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.old",
+          "blob": "5ab4d700ba55ae450de1775b55413d8ed57f3d09",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.positive.json",
+          "blob": "9af8f1541f000e1bbdafc7e1e55a86e8eb2e4ea2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.positive.txt",
+          "blob": "25f533e847737a4aaaf2dc7ae298c93b484a3f56",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.restored.json",
+          "blob": "2821facc3b71f9a6f908e2777ddc850c8fcb2539",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC1.restored.txt",
+          "blob": "ae7417d6e40abba81ba0db1731d3d5ea02648db7",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q01-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.axis",
+          "blob": "b61e5bfb92cd7812d94a4943336783becc92cc6e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.meta.json",
+          "blob": "729ac6b00827ba0d280471730854ebdac943dec5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.mutant.json",
+          "blob": "b50e8acaec7d3743a7966c57aadde16867123e2e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.mutant.txt",
+          "blob": "7e9c796a651a2d02fcf3c6ef69652d7216244fce",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.new",
+          "blob": "f3aa87948f7783bcb2aaf9351698e837a37882b0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.old",
+          "blob": "b02e86d839d4556a6337edef3fea96fd96d1d2ec",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.positive.json",
+          "blob": "12e4b1da47c81667a22d6813d0f3e5daa390389c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.positive.txt",
+          "blob": "e4f97edf4f911a71538ce8cb6a99b57d9c237cf9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.restored.json",
+          "blob": "9f82e07e7eb5ff76739bd44d9dc294b52dd49652",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC2.restored.txt",
+          "blob": "12914c620ce056ef735fc5f470d7aab95c2d30c1",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q01-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.axis",
+          "blob": "e29ce3a7d6d376b4f587c425806d09b88be5222d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.meta.json",
+          "blob": "49b7f2e29875da7ac3710f8865aefcd68b85cc6d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.mutant.json",
+          "blob": "dc1f5575e3760ab72a37f25f699ac35ed41d2537",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.mutant.txt",
+          "blob": "90fedaa943fb034e989db623f9bc809aec14f870",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.new",
+          "blob": "35ba8f924e1db49b2e9cbaba4de3f082d694a4f7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.old",
+          "blob": "e05c0a3c47776534bc9ede76f0dbbf6d874ad7e1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.positive.json",
+          "blob": "e50e3fdb9dfa1e969846b619ac6cdb0bd6a0590d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.positive.txt",
+          "blob": "8f085426c7477376e0e04db3e0ca1d414a45f0f2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.restored.json",
+          "blob": "c2ba9f7b33f446fe50c164f90b73f128b2cc4983",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC3.restored.txt",
+          "blob": "f5a6ada7ccd59181f87be5923e0e1193c411fc20",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q01-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.axis",
+          "blob": "fa45531a505a449ae6d650bf2e0bf99472fedd4c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.meta.json",
+          "blob": "16d07066e3a1c1ea84ee2954e019df42a1d2d4ea",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.mutant.json",
+          "blob": "8d79d632894cd6ea727fb96472670a5b37243ef6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.mutant.txt",
+          "blob": "877f3ce3f28aa5129260b56047e5a17da0fcda57",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.new",
+          "blob": "04ae63bf44a6da4006f22a6f363790c1ef275f78",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.old",
+          "blob": "b85d8735c99a203f94a32930ee17f89c0a5134bd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.positive.json",
+          "blob": "0606d38381f1f91d07c2a812ee9f152bb6c6b216",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.positive.txt",
+          "blob": "18302ba0facff23acda21c41c6d38f0db34070e0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.restored.json",
+          "blob": "99346d652ae4c43adb1be5ca51d80ef90f195e0d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC4.restored.txt",
+          "blob": "5a0ed43e89df57e8f3edb195635436b4eed6d1f0",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q01-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.axis",
+          "blob": "e8dc1f8a1473609e141a1773977f14aba6e942c5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.meta.json",
+          "blob": "adf28012ad3eebb8f52ece0fe1b8956ff1389296",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.mutant.json",
+          "blob": "fb352c0db1c166337aa2c10b2d868a42581af84a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.mutant.txt",
+          "blob": "0dd31b8a1c909463979ef4b5c7798e6722bf5657",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.new",
+          "blob": "4e4da6deff4d4a5287a32fab4e675854b11b03c2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.old",
+          "blob": "da577521d540426d1fd9190599ea911136deabb0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.positive.json",
+          "blob": "1c627847e5b0de6876e25f891f506cc1ab675582",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.positive.txt",
+          "blob": "9b8d8dd4759bfc28f47e9b4aa911f72abb203122",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.restored.json",
+          "blob": "5b907d6cd96ab6de289e042a09217bea41d52734",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q01-RC5.restored.txt",
+          "blob": "dbf7e3243488dd71f49a9668464a36d719797e33",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q02-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.axis",
+          "blob": "aa5d4c94eced86c40a8362750e168f7c134121cd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.meta.json",
+          "blob": "fd737e1c041110d735544c77eea19c5e1bdf0fb3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.mutant.json",
+          "blob": "86ae9da082f6359a5b291933568f924406b926ea",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.mutant.txt",
+          "blob": "ace815eef81fa090d531bda8166e8def713ff069",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.new",
+          "blob": "3da3c8cb8954559ecc7f83a979828a6d6090bddd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.old",
+          "blob": "3a604989f779564d72c55a0474f2518f97a950fb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.positive.json",
+          "blob": "54643430a298f566eb874a76d69c8c33189306de",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.positive.txt",
+          "blob": "07660a624dbd32b975405fd3d9c94a70daa5f892",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.restored.json",
+          "blob": "9aa158006da5b7a7341ae0fe71599f271ee4505d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC1.restored.txt",
+          "blob": "c89ebfb22b560220af117d960b9763e219dbefa1",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q02-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.axis",
+          "blob": "17959b01035b3363348e35779e86781bbf32740f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.meta.json",
+          "blob": "323a5990a7b7632e2d2cd21d57061b27e6ca5fdb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.mutant.json",
+          "blob": "d966d2d90cc88c6a63ae9afd0af7dbbda3aa44a2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.mutant.txt",
+          "blob": "224495d1ae17521a2d29894b509cd22ec248bc73",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.new",
+          "blob": "94ef7dba2b0212cec207e2a2c59eb73000ddf8ce",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.old",
+          "blob": "1159395183b8dc9d6adbeb03553f2e0f1cf1bb40",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.positive.json",
+          "blob": "7d3ac0919538226a2bb7455fe5050f0790d75992",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.positive.txt",
+          "blob": "84f67cc9a36e2966b00c8dfed9e822185f5516b4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.restored.json",
+          "blob": "11d3eccbb7862710428a0eab9357c3c353005f51",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC2.restored.txt",
+          "blob": "43662ca92ada8c2dd00246e4fa28d861a4ff5c25",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q02-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.axis",
+          "blob": "e08c0596660c0091530c713720b3665d0aaf98d9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.meta.json",
+          "blob": "4f9698ff8f3a36b11e8c14e019e9be6b804d1841",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.mutant.json",
+          "blob": "2516cd79ba6176564b4287bb0174ee42bbe3d1b1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.mutant.txt",
+          "blob": "e69f9af9cefa6c422f003722c4fee745dc3f43d6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.new",
+          "blob": "6df37f9a98018b867e22a75bee33585afa1b9a27",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.old",
+          "blob": "fcfd2ec3f03d500a1067871656655977a9ca84c9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.positive.json",
+          "blob": "ca272178b4a3d291a1b260974f30a70416c8c21a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.positive.txt",
+          "blob": "e90695a98a699f30d312d9c868f81b69d5aec7c9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.restored.json",
+          "blob": "6373bbcb2cf28b9547b79a2d7ab39e049d7e134f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC3.restored.txt",
+          "blob": "5a3be8dc2f73f0556cf6c96f81fc5677bb1c845d",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q02-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.axis",
+          "blob": "a2b60b4bab042b97ecd60047e5f9c774190cf997",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.meta.json",
+          "blob": "f675a390898ae5425d7a010d62a948716d1521e3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.mutant.json",
+          "blob": "53e412f61e61d202ae16779b128173cf7a063939",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.mutant.txt",
+          "blob": "a0b49cbe9f92085fcf9a839b82195f4359fedc20",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.new",
+          "blob": "a23b289b6213bea9106764d99bb9ddaa74f8368b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.old",
+          "blob": "98ab106ab5adef243b6a76f1f2f352d7f27faa49",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.positive.json",
+          "blob": "6bd7b043e3f0192586c23e168895cd58c65862f4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.positive.txt",
+          "blob": "f638ea37430eacc81cf70544fbbc0fec80f899ac",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.restored.json",
+          "blob": "187090c617a1ac07a523443912324bd410ccf8e7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC4.restored.txt",
+          "blob": "910403ee9bae807312153e0d4857274e3735b67d",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q02-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.axis",
+          "blob": "6cf58d995947b4f45abdb1fd88e2fd10c98a45a1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.meta.json",
+          "blob": "f37ba4adfd00a5ede2da119c8fbdc26725476717",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.mutant.json",
+          "blob": "20fdcce5e63b55b548f47e2e503624508dcc36f2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.mutant.txt",
+          "blob": "33ad6fbaec01b534c8de4514b498a64f64132275",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.new",
+          "blob": "2e82a047f4191073a4ec254f1494b0c5c8c24c53",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.old",
+          "blob": "9459b0ce12c912f98b910433014153088bac3bcd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.positive.json",
+          "blob": "6a46ca4b73d310d29b532f68438cdb2ab3798f0e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.positive.txt",
+          "blob": "3fb74c6a29fc5734dd92334e3fc299244c2c35d2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.restored.json",
+          "blob": "adaa039c46ed31832e1e0b498c66c8765c7eee30",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q02-RC5.restored.txt",
+          "blob": "94043bf15faee4d619155658569a6f1b39ef66a0",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q03-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.axis",
+          "blob": "f218aa7ff7a2889e3d8454281ac696a8849c39d3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.meta.json",
+          "blob": "7ca521fa444b2a2d9d3ec4aad57461bc550179f2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.mutant.json",
+          "blob": "495e79a0b722847e0a0e8b72584a1df5b0cc8c8f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.mutant.txt",
+          "blob": "3f2ff155ecaa037c72a78d708d878199b8356270",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.new",
+          "blob": "29cb2135294ce3988b5d699ad0f7f66cf3223920",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.old",
+          "blob": "383ecaac8a94f6f4fe05ef0e0b8de29055eb9a97",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.positive.json",
+          "blob": "be35e4055978f032de60fe651ac7e0984fc2abce",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.positive.txt",
+          "blob": "6587731cfd78e2e557353151afcdb071ec84e809",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.restored.json",
+          "blob": "2c1ba95e3e0c3f6bdbc75579fd53f693846131b6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC1.restored.txt",
+          "blob": "861d6fb58ab72093d9e1f3d0427d77e42156faae",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q03-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.axis",
+          "blob": "892d63f1662a5880fca60ba642a21b41bf3d680f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.meta.json",
+          "blob": "5059ed7fb4835c7e0b2afb98cd1f8cc4cfeb18bb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.mutant.json",
+          "blob": "14e4dc332fe08ddd4ba9d7aacd77c43548391aa7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.mutant.txt",
+          "blob": "fb7ef1ea0d4b83e9dcaf2899023dfdea566563c4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.new",
+          "blob": "4a409b49ceec4ac3ae9302b228c4612ea7b338a1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.old",
+          "blob": "fc492034ec0bc806e690023aadb239763245d260",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.positive.json",
+          "blob": "f0cac23bc910f4e5bbecc53e6a0e490838021de9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.positive.txt",
+          "blob": "68df886b45bb2276e288d28c2432eb5e887f80f2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.restored.json",
+          "blob": "e80b7865a060fc1ca717f312fe7b17d695b1f86d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC2.restored.txt",
+          "blob": "2965201f2e477105673b83102732421b493a91ac",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q03-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.axis",
+          "blob": "d6f820275a6f781df8526a67b9d2521e6af6baad",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.meta.json",
+          "blob": "2f7a56a12c5f2930a5b70fad5114f2628abd885e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.mutant.json",
+          "blob": "3a3b50175e482533091fc2c96a63fd66cf137bcf",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.mutant.txt",
+          "blob": "6cfe28b32de778e84d326ee02ff6657d006ad05a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.new",
+          "blob": "95109f31f85f555221bf59704db47f6d6a914d1d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.old",
+          "blob": "e7e9417bec45fd434d700a4a569808711de44a16",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.positive.json",
+          "blob": "dff4d5692e7f3af6be0af638e7c017712c636e2a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.positive.txt",
+          "blob": "8efc397383cff0f84025706296e17cece3ba4fb6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.restored.json",
+          "blob": "300ab0b682d8753b88a1d16ec0aada6c8fdf126f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC3.restored.txt",
+          "blob": "fb8df491c033284844851ad83a9414bd4bdf31b0",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q03-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.axis",
+          "blob": "5bcb5e91c1445ec3bb3e6a60fd654f1eb1dba01d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.meta.json",
+          "blob": "edd816722f101a7fd302c361114d00a8369080bb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.mutant.json",
+          "blob": "71e396d455eae0daa6c4ea4f4be63acfa18cd57c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.mutant.txt",
+          "blob": "da72262529f6896e6ebed10b5ff7dc3d0081a626",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.new",
+          "blob": "e20bf5a1cde0c5dbacfe7e3696addf5d65df73cb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.old",
+          "blob": "9fa90e30e46812dc96db2199bb028936c80d241c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.positive.json",
+          "blob": "c9de30c2dcd3d7ac60220d7a40385c41bc5514e1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.positive.txt",
+          "blob": "8666e743dafce04f1826714e30df1f23d42f9d7a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.restored.json",
+          "blob": "630e6790d83a5ac2967e3d772044756dfbca7280",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC4.restored.txt",
+          "blob": "c9045a6b5994653f79c4d566cb5fee5d3f7be545",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q03-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.axis",
+          "blob": "2d8252465a754f99eabf09cf91811d7ce0ea69c9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.meta.json",
+          "blob": "1b04eb69c81a49dff8b2770dfbcbf7ec77cef68f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.mutant.json",
+          "blob": "4f9d1d57af1778d9a1ce35c3e4fc67dcfffbbcfd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.mutant.txt",
+          "blob": "1662568def8c677b6533776cabbe8b60370d15bf",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.new",
+          "blob": "5bf46a2cd177f43a00595fc9e507cf8ffa8fe547",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.old",
+          "blob": "93492f6cae651ebd3c3caf4a1a45dc73dada075a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.positive.json",
+          "blob": "f3d4ac21d3fc75b2aaa8d18794fb6b590e3b2556",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.positive.txt",
+          "blob": "f84947bc90a0bde36afb327b91c0ffbd3447e5e5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.restored.json",
+          "blob": "4719785dd670975286c77dffc7cfcea20f05333d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q03-RC5.restored.txt",
+          "blob": "f1bb8f29f97639bafcdbd2485824199c583dde14",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q04-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.axis",
+          "blob": "78e27ac467760fdc1a77e31d003a3136bf4499ab",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.meta.json",
+          "blob": "d28549960a5c3340ee5124a26a84cf274685374e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.mutant.json",
+          "blob": "fa8f577610524d0cd64090366ecea7417fc6d369",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.mutant.txt",
+          "blob": "3182aca4eec26e21d22f413c196a0a163100f548",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.new",
+          "blob": "c7544da689fe77f4e416cd8a40841ae855037435",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.old",
+          "blob": "e0eab2f4830f24477a6d7bcffd042e3eb0a7aa97",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.positive.json",
+          "blob": "b3001eff8e160fc31565d93b905835d976b1e28f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.positive.txt",
+          "blob": "ca44fcb6771eb4531598db4d47d1220a620879d5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.restored.json",
+          "blob": "23bd8fbe93f4b52a9659d395606cb636258d6a43",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC1.restored.txt",
+          "blob": "a8f0c883647e7e413e65e4c6cf2baeb068d413fc",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q04-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.axis",
+          "blob": "d2eae4daaea8c29e8838cc668c4ed4cf58bb25f1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.meta.json",
+          "blob": "bc4511300607c2b3cb2444d098c14bb7298d58a5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.mutant.json",
+          "blob": "0eb460a065945a6b2182555b609c91957c5c5c28",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.mutant.txt",
+          "blob": "ea51578df24b7219249f75a119d82343e6a78a22",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.new",
+          "blob": "1dd68ea37efbc0c06f8d0e886e5c8ed018066b70",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.old",
+          "blob": "73ef1a0fa9f4eb69bdd68c84a5ca52d9b289dc1e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.positive.json",
+          "blob": "6004ccf20938b5efb516a568913153bc9fd0499d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.positive.txt",
+          "blob": "be7e10ea1d08a9ccb8e170fa14ce3919076fdd5d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.restored.json",
+          "blob": "e37a369b2e39278f612b68aeef5670ccd0c99da1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC2.restored.txt",
+          "blob": "647af053980054031047f4bf2f6843dc9292effa",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q04-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.axis",
+          "blob": "cab68b1967b0035485119624b8b3accfefa4faf9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.meta.json",
+          "blob": "0db1951bb2d82ba9ac4ed0cbae0343f5d4d1b446",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.mutant.json",
+          "blob": "17089cec07926e0ceeb57da995bd0c292d08b442",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.mutant.txt",
+          "blob": "7c27ba61aa468304e151575868f132f187a2107b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.new",
+          "blob": "4c871dcb7d8f76d61d6b7ef2719d14d6cd33019c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.old",
+          "blob": "1545cbb08bd08c74fd64ada0495351f633ca44c3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.positive.json",
+          "blob": "7af6b44862a723f48bc19e0ca47d27b9c298f8ef",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.positive.txt",
+          "blob": "6196ca9be32435de576ffd22e9ce44a642d1c183",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.restored.json",
+          "blob": "1aeafb5aaaae4f5efa6ad436bc71da9e0d849a5d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC3.restored.txt",
+          "blob": "786732b20d40f6527f0e733e3acdadba8fbeb44b",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q04-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.axis",
+          "blob": "5db654d791932e19643bebe4f8a6faea0fd303b7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.meta.json",
+          "blob": "0cc74bae5c38c7d78205e92f5e8bda2bfefd8316",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.mutant.json",
+          "blob": "2d6c7dfbfca4fae99b5a4daf5f02e4fb03bcc0cd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.mutant.txt",
+          "blob": "7eefc47e72c3c14cfa23c35eb4bdb792aec2db0b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.new",
+          "blob": "9f2850629c4b6f634c04eaa03909de45746a4de1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.old",
+          "blob": "1e11bdb9a2a393cb7c460f500db4ee9e547cd85a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.positive.json",
+          "blob": "df811e999d56a889be9a329ce50915c68d4b02d8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.positive.txt",
+          "blob": "5bad741defd79d5c5cab68c8932e1036ab4b6a8f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.restored.json",
+          "blob": "467b3c59579bfef43ede69563b96bbb6ce183d44",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC4.restored.txt",
+          "blob": "380025cf6e537f1acb6d2b244f715998f5ea4cc6",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q04-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.axis",
+          "blob": "496e06fd3dad6613370999fc3bd40be51a3d7e91",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.meta.json",
+          "blob": "44738ce2e34cc7d4e1279c7000283f2ff93b839d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.mutant.json",
+          "blob": "8b5ae19d0e1af54f49052b49ba4b778d1ba31b29",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.mutant.txt",
+          "blob": "2aa3955180be754f519eddeafc4d8364b4e0ce62",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.new",
+          "blob": "bfdcfcb1228ef7dc5f9e9f27aa4d7912a5bc70ac",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.old",
+          "blob": "0009a48c57d9646b25d6b8d24acc18a55efe9b2e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.positive.json",
+          "blob": "35d99a3d90bc3b6faaeb5675711f6b28f10d6cf5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.positive.txt",
+          "blob": "b7ced9fe0802ff62eec43eca1f56aaaa748173f3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.restored.json",
+          "blob": "bac6fa740b6fb547757e34b3e5e31f1f4d8fa840",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q04-RC5.restored.txt",
+          "blob": "da4c74f35a7c3dad9f588183b5ce3e3c834306b6",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q05-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.axis",
+          "blob": "058346a91e284bc6ed73d9af4069ac22977a4c90",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.meta.json",
+          "blob": "c5f10a9f6de876d4f3e3781b8fca1a1bbc8c471c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.mutant.json",
+          "blob": "669bc1524e799e997f946beba462d93462e4d9f7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.mutant.txt",
+          "blob": "b0d514bc642a970c8be212a0b4f3b80b0099224d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.new",
+          "blob": "6817f4c3fc43d3f42645162bc11fa12304d49f1d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.old",
+          "blob": "75b8a76753d90a019dfb51a0f52f30d90949c7bb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.positive.json",
+          "blob": "b58b36c9d04898974865091ae2aeaf15e51cbc96",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.positive.txt",
+          "blob": "72dcb9786e159ac0cff513374e4e515c1a6f700d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.restored.json",
+          "blob": "3468adf1061c96e5670ba5261605c232b93a12c8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC1.restored.txt",
+          "blob": "7a5c4ca3ab7204967f2a743f16678cd87db71f5d",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q05-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.axis",
+          "blob": "c7d754fd20dc262b7fccebef9561569609ef0315",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.meta.json",
+          "blob": "453d67fe9f97ad857826747df0b4aa8c92844e9d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.mutant.json",
+          "blob": "e5aa292446afa94175dd20d01ac10014c76e3b82",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.mutant.txt",
+          "blob": "5ef828531bbbf5dfc982d56d2ec17aefb05e8531",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.new",
+          "blob": "17b038fb6ea4a0e7fe1d341513957c480b901dfb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.old",
+          "blob": "2bbeed25937aa5dec52ac58c7f1c6211b4e32b4a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.positive.json",
+          "blob": "e01382692e813ded9bd585666708d0309c256e12",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.positive.txt",
+          "blob": "3bcb043f2da49bac2ec839794850403a5fdb7b8e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.restored.json",
+          "blob": "fdfdb70d23bc10327a44883183245c9248bd255c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC2.restored.txt",
+          "blob": "d888748ba47299f1cf8587e156586431c57cad70",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q05-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.axis",
+          "blob": "bd3a81b0f2180d6f785ec4d6c7999d4383d38fdf",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.meta.json",
+          "blob": "29b99d9077b8591f3ed2623efe01ec2aa94546a0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.mutant.json",
+          "blob": "40f9b7fd124f8d7c7ab1adf89b9e242704524a3b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.mutant.txt",
+          "blob": "0266e8e7243f547620d070c49787b16c1d436f36",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.new",
+          "blob": "da5caeb670c82107cabd93078f4a82bef0b06078",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.old",
+          "blob": "02bbccd503e31fa3a3f587a60d15494100f09055",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.positive.json",
+          "blob": "64e3f9cabddf57da8647c1a0106d48830ebc4a81",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.positive.txt",
+          "blob": "13602552980d697d15ed71e98b41f72d6b2ab35e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.restored.json",
+          "blob": "5b950ebdd742dbf21d32ecfdd9518516f01f6144",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC3.restored.txt",
+          "blob": "7788ddc20c11be02d04a56c836fd8c0b018cc107",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q05-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.axis",
+          "blob": "488d61e9eb93226fe868e8aff9cdfb05f6613869",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.meta.json",
+          "blob": "ce9aefe091c85441ea679f728d343f36ad521abe",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.mutant.json",
+          "blob": "51a1c91aa087a2b6d3a47614536156d6147ace05",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.mutant.txt",
+          "blob": "6f50bc0134a83a2456b62329ceda102d407cfe9c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.new",
+          "blob": "cb216c6d0dc7384efda107f24ae802391a562cd4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.old",
+          "blob": "e502b96db474ec026b5861f2a3c36d77834ef405",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.positive.json",
+          "blob": "50a792e3b066bd4af0deff7e1f55729d9d9c8030",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.positive.txt",
+          "blob": "b8e00a1f5aa677a793733bc1e6c3f1e2511ca650",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.restored.json",
+          "blob": "57575a5955e2c7e1169a2f1547dc6ebe1be8f76f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC4.restored.txt",
+          "blob": "a5d64de8cb0c2ff9d21d08a96b82159225dda4a7",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q05-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.axis",
+          "blob": "58a057f7d0a720e295b4ec4397d3ba31b50957f7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.meta.json",
+          "blob": "8311d93f94f92ca928bbb1566531f0ec6ffcf45a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.mutant.json",
+          "blob": "8fd14dba2e25319ca0d42ffa9f094db4ab4e8cd3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.mutant.txt",
+          "blob": "6bec7391e18ede9efaf2a88ec7868fb597f6bb08",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.new",
+          "blob": "f9a51f42ea024dbac55b05e623e49cf3c8b6fa28",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.old",
+          "blob": "30999472bcf1cf1dadd5b9af38e0cdc29a4a11a7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.positive.json",
+          "blob": "9642458bb3cc84e6f4af3f43c5770abbd72c848d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.positive.txt",
+          "blob": "fc7856c73e7020838c0a907266abfa76172f70c0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.restored.json",
+          "blob": "622b6d8e14a8a818a29862b3768b9af6060b5152",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q05-RC5.restored.txt",
+          "blob": "750f8dd1476e1c57f329eb5bc96a0ad5345732e3",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q06-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.axis",
+          "blob": "8f33e1caff9e65aad9150b892b3416f24bb46c57",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.meta.json",
+          "blob": "91a47aed5ffc039aee9265f7a84173e0b7b4f5fa",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.mutant.json",
+          "blob": "662a6740e91efc39e1a2319ac60647e15129e652",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.mutant.txt",
+          "blob": "0f1aabd5f6dda112dfa107e0ec0e992f97a371a8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.new",
+          "blob": "cbe321ca0fb6c2e564e952906c0549dcb54be992",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.old",
+          "blob": "4e4df6b2933066b58bf25f773fd4751853574693",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.positive.json",
+          "blob": "85dbb59f7218784090830a49653a5b0db0915e0d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.positive.txt",
+          "blob": "313816a9e455112a2c127ea7bbba1b313c4adabd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.restored.json",
+          "blob": "0a323199ef3fa85d8deef11b419d9990f237a48e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC1.restored.txt",
+          "blob": "3e7d64ddaece0ee6619fafce72f355e19f5137ec",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q06-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.axis",
+          "blob": "ba64ad6b53ff94c3e1465245396eabb8ddfb8326",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.meta.json",
+          "blob": "2ff6c64848b67bd87a75ce021e627cc9dd554b23",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.mutant.json",
+          "blob": "44a13e98e7b15c2f0d5d521a29bc3822f194313f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.mutant.txt",
+          "blob": "d5e2891b3f677868b8e18c534e7eac742f137e00",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.new",
+          "blob": "37818a4f2bc91a6f4e47c980da1eddf676716637",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.old",
+          "blob": "e502e263270e4f69524b8c61917b1217c028b50b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.positive.json",
+          "blob": "eba132196269b7fb183da85d55b6cf1e3cc74960",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.positive.txt",
+          "blob": "0083abe4c780551606242743e9d3d2aeb1e1268b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.restored.json",
+          "blob": "5ad9faed4411c476a87231ca99641211a3f96439",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC2.restored.txt",
+          "blob": "f708433d1d1ceb9356f7965b2000438d5716cf96",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q06-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.axis",
+          "blob": "f9bc4ab905a0da7fb91bd9150e94f133c47d86fc",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.meta.json",
+          "blob": "98cc709bb606d77b6a70eed2831013efdbf0b7e0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.mutant.json",
+          "blob": "2d0f934a4760bf04c20aebca0163ff5ef9229b19",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.mutant.txt",
+          "blob": "252f5346286e20da0750c70464244572e8061725",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.new",
+          "blob": "5933a7754f37c43a17a504ed8ce393979de65b92",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.old",
+          "blob": "341cea80829e82e5b91fc9a5071d0532c2f5f0e6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.positive.json",
+          "blob": "29792a7f2cb7604037f01f18ce02106c6748a077",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.positive.txt",
+          "blob": "2e8cafb35e17e884007f51f4dfc6437139d5b0a9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.restored.json",
+          "blob": "ff8b47efc9dedb5f75830247cc8c25be868c4fb9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC3.restored.txt",
+          "blob": "7ebeafb2b25250d01512c6c411a07a886679a3e8",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q06-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.axis",
+          "blob": "35a5a145f008453365452220b2ecde25af98b639",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.meta.json",
+          "blob": "abf19ac441986e4d46f11a69344a19db681c96d4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.mutant.json",
+          "blob": "b58c212e98780e2f1fc0e37db2cb27f1f22165f9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.mutant.txt",
+          "blob": "f7cd49cd8afa62703d37c6f46422a3307bbf0e81",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.new",
+          "blob": "ee7d5cdcd3d44eab8fa1e3cde907f80f53304d5e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.old",
+          "blob": "4de89a52a55ad1b16360d68075dd592cf901b39e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.positive.json",
+          "blob": "84b96fd90916943a7c0c28ac119a967404cda1f4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.positive.txt",
+          "blob": "a4518ae295bd6fe216efd1f4e0c6c268d73d75b5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.restored.json",
+          "blob": "08b77a908d6b9180c7c4a8f20b768c838a80d602",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC4.restored.txt",
+          "blob": "5393e0a98a247c713453ad4ea4661aef46b67f38",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q06-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.axis",
+          "blob": "69c40f830d6b24d936169ff654ef49fd47a00cac",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.meta.json",
+          "blob": "2a3c9e8659f2d49515ab3a6be9e093db9ce2d26d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.mutant.json",
+          "blob": "14fe1c21d453450d775cb009334c89f052fcb509",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.mutant.txt",
+          "blob": "6787d260de7aa91f161458f26355d2af5484e266",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.new",
+          "blob": "3a1de9d15e7189cb444f2678c9f9c0ae261bca1e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.old",
+          "blob": "c1314c16bcbcdc1b218fb59f355a56c85dba0b95",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.positive.json",
+          "blob": "f09b7bcb0a90f45537f98e35b2ea7face73dbcba",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.positive.txt",
+          "blob": "5947ef4d8471429afa7ddd13a9180a17173469fd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.restored.json",
+          "blob": "cf6158521daa4085487b3375c36e6bcaf27a29f6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q06-RC5.restored.txt",
+          "blob": "69e890c217375201e67b8b190f46e25aafacabaf",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q09-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.axis",
+          "blob": "284e407b7bf3c766922a2c4fbca55b3ee0d76f67",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.meta.json",
+          "blob": "e239745dc85b9508d5a0e615d13fc98bd076bf75",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.mutant.json",
+          "blob": "99f6386691e47db41a3304a96aca05647f53418e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.mutant.txt",
+          "blob": "79a9eb36055c1bb7fe8969756c4817798eb9fde3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.new",
+          "blob": "85c9c1bdc4c5b9cc4151994d94faec4e8ab9118e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.old",
+          "blob": "b30c42c2fbf3e58a081dfb58c995b0b85b7cd077",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.positive.json",
+          "blob": "3291d47a144470427e966b01aba435294273e0e2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.positive.txt",
+          "blob": "3a78649fc84e97782ef2245b45897eac931a6483",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.restored.json",
+          "blob": "5d40297f109199712d1306edf154b21c816fa4ac",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC1.restored.txt",
+          "blob": "87c4c093f30fa2f33b2325f810debb840aa651c8",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q09-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.axis",
+          "blob": "5e970a4958b17617def79f781a3a9bb53096779a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.meta.json",
+          "blob": "4c8b09809abb015010b5beccab9e5e4e1a58669b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.mutant.json",
+          "blob": "d5232233d8252673faed2b2a0a3e00f2c291b31b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.mutant.txt",
+          "blob": "9103bc233a6abf707135d9fab10c87ca03717b1b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.new",
+          "blob": "4d0bb601c021494846db1ab38d53b516d40f6b9e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.old",
+          "blob": "5c6299314e67c2250a3626b226cd51f7e50b58cc",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.positive.json",
+          "blob": "8251eb2974b20dc1fd2f6549996a8823a443c9f8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.positive.txt",
+          "blob": "9263f75bb063b406c2c48f5c7e63530b6e3ceb2b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.restored.json",
+          "blob": "3226c644f299a981c33f7fec61da4d8e848f9767",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC2.restored.txt",
+          "blob": "3480194cc8002120c92fc892e960228deadd2870",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q09-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.axis",
+          "blob": "942422a19d9c577402116eda56108d6faef72453",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.meta.json",
+          "blob": "9945b8248c2a951d6853102abf96bbf77afa41e0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.mutant.json",
+          "blob": "bbb903822faf48931a9625dd5e936480838f3d91",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.mutant.txt",
+          "blob": "f60a65ad57dff06121a39e94a0d208dde05b5f13",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.new",
+          "blob": "46057852effacfd7cb206e60cdf2a4da2360e9ae",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.old",
+          "blob": "72cf742cee67a4856836792c083420208edc3d1a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.positive.json",
+          "blob": "d792c91a3c68daf93c15c81d8debda9fd0b35578",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.positive.txt",
+          "blob": "81b3f9b9f1367032ff7d0d8b54aa5e3694431116",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.restored.json",
+          "blob": "8322b8b042652a7c3fdab308102c3b5b9307dc53",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC3.restored.txt",
+          "blob": "39718b8db5f8eacc07b9ef4afcc75d215294885e",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q09-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.axis",
+          "blob": "4b50080910f6d2e0445c84a398eeeb5e15789490",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.meta.json",
+          "blob": "6e572d5b4dc60569c0b11034fe42923e3361c3bd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.mutant.json",
+          "blob": "922dce645ddc4aa01bc846032c92916cb0818478",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.mutant.txt",
+          "blob": "a6ff939dc04e65de9e33797dddb8ca3d24d92898",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.new",
+          "blob": "e4b8d36866eb37535a5516914863e829fda0b968",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.old",
+          "blob": "3ae410223b8702ccb2080e747fdcf749b78fb114",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.positive.json",
+          "blob": "1f739ca3b784ee4673527598999f6256f57dd0c9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.positive.txt",
+          "blob": "c555bfc5fed47a6342e479cdde774301cf3b1254",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.restored.json",
+          "blob": "655a29a05d77565367ba23feec5327eb4baefcef",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q09-RC4.restored.txt",
+          "blob": "64385b778c8c1c0d1ac237dc01e0d72e5af3fbb0",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q10-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.axis",
+          "blob": "76c9984557bc297784daeff922bc414f61c47245",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.meta.json",
+          "blob": "a891655bdb2599177a55a03883cba412bc22422c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.mutant.json",
+          "blob": "2c2510de6e1d71ac841f3e583051fa37b778b9e1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.mutant.txt",
+          "blob": "f64bc184c90c10d12d2a6b5eb98d75d3fa0ada59",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.new",
+          "blob": "2f9b6c186244b8eef01f87e3055084b4765c7e5d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.old",
+          "blob": "cc3dc045855ae2dec502500484d9dea35cf95646",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.positive.json",
+          "blob": "2af7c42df2a5f330d3799b3ac8cb85d0624a9822",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.positive.txt",
+          "blob": "bf7bb8171b065e6f4898622461fceb818e24bc5c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.restored.json",
+          "blob": "bbf104f6df93980bf82b0b80fd7d64bf90712107",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.restored.txt",
+          "blob": "dbf1018a824e0c8fd9162ffdffeadb819c8e2abe",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q10-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.axis",
+          "blob": "287b03751ff4ac11c414a16263222b1a31577982",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.meta.json",
+          "blob": "994a590260bed5be804901e2cd8f5078bc4f7037",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.mutant.json",
+          "blob": "9fb22a02ed52c049535adaa913af8aabe3f22cfd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.mutant.txt",
+          "blob": "d0e3c8a706966f957b59c628281473b59060ad67",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.new",
+          "blob": "9c44a71c5facbeac0af5d310af8f3ba85a39ae8e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.old",
+          "blob": "9160704ea804af6234889dd04f2dd5efdf69406b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.positive.json",
+          "blob": "c50ca63f9eefe5158ff7e5f754d07af63744fa72",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.positive.txt",
+          "blob": "e982ecadb0306dc2c7a39ad38d6bd73e266911ea",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.restored.json",
+          "blob": "fb0849338c3eea39a6260467cfc04f5f6d805834",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.restored.txt",
+          "blob": "69ebfbf6830a46ca3d4861b4f200dd39101074b7",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q10-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.axis",
+          "blob": "9f6b124b373d563d4c3dc29c76bea77427af238f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.meta.json",
+          "blob": "28c6fe7c714710f00447f9fa3846aa54f9eb9e7b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.mutant.json",
+          "blob": "0aceecb4230bfa7b745e31cdeed82df5bf51de10",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.mutant.txt",
+          "blob": "f9812af71bd0334a29e62934a23e481d6582a33d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.new",
+          "blob": "0d43ac0bc14a6c83ccf50cc7e3a9a2b808710ad5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.old",
+          "blob": "210029f79a0d26a721779fcbc1466ac2788ae86d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.positive.json",
+          "blob": "b2c0f2c8bde4cbeb9cf7f58e9b89f170efa3ac93",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.positive.txt",
+          "blob": "52db5b69443ab1968bf7e1585b3a85d69373ef37",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.restored.json",
+          "blob": "a969144a60999f47befcfb3d3fec91495ee158f4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.restored.txt",
+          "blob": "4e2ef03151d0a9d200c9cf6add7a92ac85a52628",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q10-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.axis",
+          "blob": "d8f5ed281a00efce70df26a9f64194127a3f9a57",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.meta.json",
+          "blob": "9215b5fbed78eb56f5afa6c8fb1152dcfef4b7a1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.mutant.json",
+          "blob": "aadb4bbed85dff515248c36be6a8a75210ee5a0c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.mutant.txt",
+          "blob": "f781da9f43d85455e0993ca389f4913acc27ea7c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.new",
+          "blob": "234e0052bc538050a1513002a85c06df759871f3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.old",
+          "blob": "696523ab5c90a7d04db72ebb4aecb9c58624a05c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.positive.json",
+          "blob": "74819065ec8426daa7e0adc4f9d93371cdc96904",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.positive.txt",
+          "blob": "52b52acee173d6ee8a7d3d55691fe97d8761acea",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.restored.json",
+          "blob": "d46bbc82b146cddcf4902eca96db18884e2ce914",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.restored.txt",
+          "blob": "e7c74005a629c09529b4ac89c3546ab1d94c9130",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q10-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.axis",
+          "blob": "bb995d0632c2c45eb86f4c549d9409095da4baad",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.meta.json",
+          "blob": "7293b5d08a70edca33cc365b08b4b8ca4fd5e0cd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.mutant.json",
+          "blob": "d81d9c61cc4991f4d5560ce8c704a87e6cf812ee",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.mutant.txt",
+          "blob": "c346e7d3eba6376b5a17ab9130659febf53e9c12",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.new",
+          "blob": "2d3bef4228e92cabb8049b1d1c8b3abfdf2d3892",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.old",
+          "blob": "1bcb6da769d8930819171b73ac2afd243e280a12",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.positive.json",
+          "blob": "127e12783c151c4046d5a4d8fd4e0229948c3d08",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.positive.txt",
+          "blob": "c66232f5940bc957cd8e4f403dea908ad06ceae4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.restored.json",
+          "blob": "9ca3af17fd1c0e67d30c3c899d26e148563d53d1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.restored.txt",
+          "blob": "6a3ac89736e4ba9ad1affe65f8a1e71d134bdbf4",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-8b-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.axis",
+          "blob": "1bd636ec265362186be38f219b9ed0f154d98ccd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.meta.json",
+          "blob": "d9321809ce6560ffea08a4127560d7b18f156b13",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.mutant.json",
+          "blob": "8004be328bc63bdf6f870c228e046acd6dc2356d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.mutant.txt",
+          "blob": "9671f71c7bbcb79f4d7398bd27677d959061beb4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.new",
+          "blob": "fa2a11948ec5043fe279b39077033509ea7c66be",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.old",
+          "blob": "a0e573a3e612ba1ed5d59423a9fea65c055c559c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.positive.json",
+          "blob": "6b07455fd5f548990e7d89a2b500e9f831b708d0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.positive.txt",
+          "blob": "62a30d8276cf9270c8a78441868205e37a02bb73",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.restored.json",
+          "blob": "2a9b2b4b940d13b40de9dbd43e22d66fe96c63d6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC1.restored.txt",
+          "blob": "32416f2e4c4d683ebf165d0fb505b2be90466e32",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-8b-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.axis",
+          "blob": "9a20ea61a400711de742ed1d84e184a184b051ca",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.meta.json",
+          "blob": "422c1f5859f5c96b0cd7daa43d00410ce139976f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.mutant.json",
+          "blob": "b799bc20d9b560cd95f0b29f419bbdb8dd5f6ec0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.mutant.txt",
+          "blob": "3ec648d4f31769c813e59c13c9b6534a4eb6214d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.new",
+          "blob": "33cc7903ab2a3bcb7eb727243d1f9819a5dd5f2f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.old",
+          "blob": "5d669c0fffe5924affa6f5da1ff4282ee698aa07",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.positive.json",
+          "blob": "74a291d104ac9aa2dbeb9c2ec6fb48bbb0f6bcf4",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.positive.txt",
+          "blob": "b2dcd1f6bc7ef1474de5e641130c9a95c1c08498",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.restored.json",
+          "blob": "f07dc9589ec28f16a3e9871b5a666c167e1cbc9e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC2.restored.txt",
+          "blob": "10fef5e3a4de7bff5a2767de3a2359c0776bb6d0",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-8b-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.axis",
+          "blob": "43f01eb827297bb51cb4ba684ee438e5484754fc",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.meta.json",
+          "blob": "582159482d0b3d5acd98403cfbc58fec00c6a0fe",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.mutant.json",
+          "blob": "ec2fcd416f49de2954e4ccaf970aaa42d55394e5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.mutant.txt",
+          "blob": "cc0a0ae7244ae3058d402d7e553779d9b160f9cc",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.new",
+          "blob": "600af31801a08b4b3a0d3f88b4b2057f857fa106",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.old",
+          "blob": "f600a6cfd1f9f6c41ce26b964d9faa3f75a8c9d7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.positive.json",
+          "blob": "242a889ff4eb5be46195d8af98d8844bba8019ef",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.positive.txt",
+          "blob": "ac4ee7a535a765d7efa2acfc76f154d707c4c7dd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.restored.json",
+          "blob": "73494b4b7d24a243ba9be2d070e1838256964c06",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC4.restored.txt",
+          "blob": "2ca5e0bc4ea166d10a5682c0a0d97623f0b666ab",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-8b-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.axis",
+          "blob": "9145ecdc2d4add1a4c4f7421ef71925d2a55a814",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.meta.json",
+          "blob": "8c73993f3f6b78ba9709006134813af60ab2c05d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.mutant.json",
+          "blob": "b66a7dbb2245920d41ddf7f0d3f6c5724b317379",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.mutant.txt",
+          "blob": "241eb7c0ce58e2c12349f47548b16f302d7898fd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.new",
+          "blob": "968d44fe58d443d023dfdd6a631778f5f0172ca6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.old",
+          "blob": "098f069530a27a392d1f9dc74d6feb8fd7bf95be",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.positive.json",
+          "blob": "939b05e113168f82652a584d354e91511347118b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.positive.txt",
+          "blob": "d1c5779c86ccc7382d9ba2c5b66e170472b522dd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.restored.json",
+          "blob": "a20c97618f48ad9cc16042053516eed84b10e526",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC5.restored.txt",
+          "blob": "92acf135d4d8e4a8277d848a4ccde5f9509af855",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-8b-RC6",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.axis",
+          "blob": "f6c241a1bcf929bfaea67cc7305091dbaa11e8e1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.meta.json",
+          "blob": "a6390aa2a9f2913f94418fd60832fc90ff992e27",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.mutant.json",
+          "blob": "4af09282b7bf8b95d1317374b9349d2e6df0bbee",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.mutant.txt",
+          "blob": "8b0df757b644fcb5bfc2ab1825a4cdc69c840fec",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.new",
+          "blob": "3e73e2a8b409355e2e9bb8b033fc23803fe90d3a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.old",
+          "blob": "19b996f64e46333fa1e328bc82f4d647eba30ad8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.positive.json",
+          "blob": "f1c5e51f8bf95b97889eb8b96778f7661cd13aaa",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.positive.txt",
+          "blob": "816e8377a99e7642b9a23eb282fcdb4e49bd57a1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.restored.json",
+          "blob": "cdd3f5a2c920d8251d24ee730b52e5e7922d6de6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC6.restored.txt",
+          "blob": "5df41d733c480d2a80746ffb5d8e93522465b736",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-8b-RC7",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.axis",
+          "blob": "54b48965043e73237d701b57004bf2b3ef518108",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.meta.json",
+          "blob": "bd1a72bdac5eaf6c975b32f1f6bdac6658d665e6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.mutant.json",
+          "blob": "81923156fece88df63841181eb679c602247c5cc",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.mutant.txt",
+          "blob": "36323e0f9ffb04d7876688a3189bdd40426f18d0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.new",
+          "blob": "0186702059a9a7cb36ad7838d4efdb2ae29b12a7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.old",
+          "blob": "07379579bf970cb40c07fbd5a04457af61cf55b1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.positive.json",
+          "blob": "c244835311133cf029101a60dcdead8eae288c39",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.positive.txt",
+          "blob": "88ec8108ee98c6c65d457f5379ad50c42864285e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.restored.json",
+          "blob": "028138f9f1f2024ae986bc584172b18296a0e774",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-8b-RC7.restored.txt",
+          "blob": "8c9fc6d81c66d41fc4a70a1053742bdb8b20a930",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-S1-RC1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.axis",
+          "blob": "bf7924f597e6319d368b02820893727e04da0e97",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.meta.json",
+          "blob": "f4c9c7623781e0f2c7af17969214ac05883111b1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.mutant.json",
+          "blob": "a09cef2bdab89584443d3d6976bd3fcb08116b60",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.mutant.txt",
+          "blob": "1730b17583e02aa6e94ef2d7ac5200ee4068f5fd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.new",
+          "blob": "1139e9e9822894dae04fee152e801750c7e2c3e3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.old",
+          "blob": "70aaad30e8c76d9ac35544080f4e4b3c8b093920",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.positive.json",
+          "blob": "2a492cf9d550628fb93c36b95025affbf61eb081",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.positive.txt",
+          "blob": "ad91e027e510a1fbc372bf2e7a1350b7d6a0a4af",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.restored.json",
+          "blob": "f9a94b2d6a0f5babd9d1da692d48a4cacc385d35",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC1.restored.txt",
+          "blob": "c660735f1fc68628140b610d2c8ca2bfbb87d2df",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-S1-RC2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.axis",
+          "blob": "9af5b26cdafabe65cd6a0f7fe91b5e80403f28ac",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.meta.json",
+          "blob": "3d0057e0c4911e2b385d46bf378075db08675289",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.mutant.json",
+          "blob": "6900668b5008f146913e8523226729c11d972d81",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.mutant.txt",
+          "blob": "5981efd25603659e11fcec8e558c4217b6e197d9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.new",
+          "blob": "a4d0bbc5feed5d553090692be88481bfef3516fa",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.old",
+          "blob": "6953f7d89739d5afc50b11c4a1a181796107cc5f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.positive.json",
+          "blob": "e74c6815ddb5b0d6449f6092761ad46cc5ccccfe",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.positive.txt",
+          "blob": "7232d3aab6748c8fc40c0907d1f8722606ba67ce",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.restored.json",
+          "blob": "3508f88c65b90533d3269cf21065787c4c001dd2",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC2.restored.txt",
+          "blob": "88779d13f50a268a88b85bdaac61dc3f33a6ad94",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-S1-RC3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.axis",
+          "blob": "a4f74530a2d41121ec159ef9b87b597912ecbab9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.meta.json",
+          "blob": "a7f978c6b9858efb7ae191951bae6671b94a3d1e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.mutant.json",
+          "blob": "881bc8985635a28e95ac43ab2cfa18d05a1f86a5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.mutant.txt",
+          "blob": "72891a5db284223fc2ae747af12b5b1afb627ed0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.new",
+          "blob": "6754dc0667958ede4c684a5f31f3d6f740ff6852",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.old",
+          "blob": "53331f6756c436b80a624ab3892231506fbdd239",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.positive.json",
+          "blob": "4e8b993fd42951ccebe95e020b5df348f588fadf",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.positive.txt",
+          "blob": "65bcc7808ab0e75520adeb76d02be461d5f3ddb5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.restored.json",
+          "blob": "a993b26011da182d61a975fdb412279a74a5cecb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC3.restored.txt",
+          "blob": "94a62a209832deda692f3d41eefce78f994327e5",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-S1-RC4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.axis",
+          "blob": "b068e5dbbdaa166e6ba86e83e573bdaafb2085c7",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.meta.json",
+          "blob": "b4166bd7ae1431733daa64ffb0ca57262f855c2e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.mutant.json",
+          "blob": "6a6240a42ea6f6adc555f2ad05c199f5802b6d87",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.mutant.txt",
+          "blob": "11910158a8d0a96bed8071006c63cfb85c39cf82",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.new",
+          "blob": "4b2d9b57cacba203bfe2bbb4f722f5bd9260a478",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.old",
+          "blob": "fd7709c773e8cf34cde210fd58f05747fd98acb1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.positive.json",
+          "blob": "023f6e7efa5d6f7344ec446be218d46d8f58ad90",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.positive.txt",
+          "blob": "a44b44ade0f0de55c876795a223b3b7fcdfd5bc0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.restored.json",
+          "blob": "4e9c4b503d622a756d59e8bf6b34b09d6a3dc1c8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC4.restored.txt",
+          "blob": "590ab1459e7556771b95b311ae5ccacd1240efab",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q08-S1-RC5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.axis",
+          "blob": "3ba2ac94e84fdaa72f62ee186c712c27e00f363f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.meta.json",
+          "blob": "f159d3cc353609e9f8550a723d1d15dfdf72328a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.mutant.json",
+          "blob": "51bb574df89f13774a2da1961c8b8b173482ca4f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.mutant.txt",
+          "blob": "44f40d55a9b85404b11fcd5ea93d9d3641453f05",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.new",
+          "blob": "4c198fe83d9c09f01391f81249748b79d04a15d9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.old",
+          "blob": "90bfb0a87781c05ef3929394eedeadc8e7640629",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.positive.json",
+          "blob": "acc4c6df5a02c1f1cba0ba6ca0b2725de3481837",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.positive.txt",
+          "blob": "a1ba6b7d5b967b140775710063d72626b0ce6273",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.restored.json",
+          "blob": "aec81414a5ae8e099e608a72244f7b20a5e57377",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q08-S1-RC5.restored.txt",
+          "blob": "1d0bc8f64ed69d1d951c44bf271010865892c6e3",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-NT1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.axis",
+          "blob": "e94dd7cf2a5d6c611aa47ad284b3fea9d5e3c0c3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.meta.json",
+          "blob": "940dc28626d0fd537e0cbe2e6b4752af6d6aa052",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.mutant.json",
+          "blob": "d906a4985623657207e0b6ed5bff4fa1a2b71d79",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.mutant.txt",
+          "blob": "5f432d91d4242be71366d3bd66dc22d8e8590c3e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.new",
+          "blob": "5d67097c253fc73e3a88d17365804274e0e16989",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.old",
+          "blob": "797c849441147d29bf2f415609d158a79f8c0776",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.positive.json",
+          "blob": "9c112b57dba818b58eded381d48a59916ec85389",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.positive.txt",
+          "blob": "62b6ffdbc6de18a7fa05f754c2ea58f7f3211e17",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.restored.json",
+          "blob": "03819cf09a481d7d0349c0c30603b7660f4c50df",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT1.restored.txt",
+          "blob": "d39d8b5e8e5b69a85fafd581e77a9516789363ea",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-NT2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.axis",
+          "blob": "147ef9f8502222b2791d44129935a726397a4a4f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.meta.json",
+          "blob": "6de234cd47fc4ad5c97c2ea2db00e0c1facd3abf",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.mutant.json",
+          "blob": "733892c7a7e0e4f5c9e9aa311315d50f30a3120c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.mutant.txt",
+          "blob": "740530df95d657302bf05eccacb489b28ef7d8f1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.new",
+          "blob": "a0d13fa0b5ec81b11eff08cfccc9abc7249fd5df",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.old",
+          "blob": "44423504bc72f597e0d6e5e6a23d3adb4100c115",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.positive.json",
+          "blob": "6631242e5b57f3bcc677d67c5be9425a4abee8eb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.positive.txt",
+          "blob": "686ffd865aab3d2ccc0a927c9a1a24e96889639e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.restored.json",
+          "blob": "00dcddf54c41aa2468e1325dda4dfd49f823b9ad",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT2.restored.txt",
+          "blob": "ff715703a99a820811ae49e6040c4a5043404c45",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-NT3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.axis",
+          "blob": "29114a1159bdf68d94b91cec86c27e4892fbac71",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.meta.json",
+          "blob": "dc05a1e6687e58fbe4827386f9063926272f9846",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.mutant.json",
+          "blob": "4a7d964dec989f0be550813cf3553ee8a14bc929",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.mutant.txt",
+          "blob": "6ea286add4bbd60184a17be5a320f5af5cb20b51",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.new",
+          "blob": "c6e8a6370c343ddcea77e88994c4f0461567d122",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.old",
+          "blob": "dc1e081167cf5b2a8fbd8c425f545cfa129275c9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.positive.json",
+          "blob": "e4ea26862022b26caf62dd8f033474e2e11acf01",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.positive.txt",
+          "blob": "6e116445b0ead982148d3d8e8fad976548224bfd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.restored.json",
+          "blob": "1f08f113027b5dd28021e3517e1943ebaea4a907",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT3.restored.txt",
+          "blob": "512885a76d1df85ff80bf6437f958fee85e8fd4d",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-NT4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.axis",
+          "blob": "90cc576bb3bd1d53e2b6216d58208257d08ed8fb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.meta.json",
+          "blob": "dbfc6412b618bf4fc13cdd3bb4bbb199750e8d03",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.mutant.json",
+          "blob": "23b2f6941eaeb396a350d5e492387deefeac59dc",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.mutant.txt",
+          "blob": "f1c7b5b8aca42d0ca402a21c7cd168f2a0542b2a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.new",
+          "blob": "eaa101d1253ba867a2469053c4b864bf6cefcf92",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.old",
+          "blob": "502bfb7f84fa2ca8154621fba83a71ffee19c257",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.positive.json",
+          "blob": "304828667215c6f3f66b959c0cd892415e75fd43",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.positive.txt",
+          "blob": "173c2a1a1049a9822b417edd90e7c75a8328bcb8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.restored.json",
+          "blob": "280989bf97aa0239cdb622a2fc680096c6f123b1",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT4.restored.txt",
+          "blob": "75486d56b76511f9d344d9cd00aa981d7b07fe13",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-NT5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.axis",
+          "blob": "624c34e6afbe5f35f5f92896798072c2e6c6b320",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.meta.json",
+          "blob": "242c2fb6715e399b5f5d2243032f077cb12497f5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.mutant.json",
+          "blob": "c06e19f281594a468a388147ef4562b514e509f5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.mutant.txt",
+          "blob": "03af1231e26bafaab9a908ee178cf9f1758a6501",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.new",
+          "blob": "cb9f338b48aba63a761e236cec27efaf70551c4a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.old",
+          "blob": "9edffa6b91f2209300474dc16c29cb1cb965abb9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.positive.json",
+          "blob": "4e20027b25c0b440a7b857bfad2568de3da0ffac",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.positive.txt",
+          "blob": "14d83e9e5844f9d947dffc81aaefd0cb940040f8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.restored.json",
+          "blob": "d676d91b6fc36067a4caa3291819fd8263959b5c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT5.restored.txt",
+          "blob": "c96adb467f58d6cc33896a67d0b77e6df1607e2c",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-NT6",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.axis",
+          "blob": "cc3fa7b1a8df819506dd994c215a1a5103d8598e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.meta.json",
+          "blob": "5ea0a419216192f449fa4deced51d742b8780e6a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.mutant.json",
+          "blob": "fc799d644c62cb37ce280ccae4b9cf0734e5fd32",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.mutant.txt",
+          "blob": "5619e215c770b55b7d1e2000421940545a8f7fe9",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.new",
+          "blob": "e691bd2816a688aef92aebeb2a7116ec0734780a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.old",
+          "blob": "eaae8faf54646968d1dfb91d847eba4bf82aa5b0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.positive.json",
+          "blob": "fea308ad474ea77cecb0c9fe10e7a2d39876d407",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.positive.txt",
+          "blob": "c2e6b96f265b28b7d5334528d2ba8fbea2b4d71b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.restored.json",
+          "blob": "0a7ea23fb1f096639d26dc78f98862f0e4808f6e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT6.restored.txt",
+          "blob": "3d3bfcee66b9ab3e37a6ac61e44168689b3ab601",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-FP1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.axis",
+          "blob": "d9c0f100717e3c2e41b3a2327e40b7fbc6a81a19",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.meta.json",
+          "blob": "3a41b3026e49f83430e631ef9351378befa8b804",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.mutant.json",
+          "blob": "979316c21a893a5ae82cde1353402b8fdb2e6484",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.mutant.txt",
+          "blob": "2789ac3d81e22cdcb00ff74f7f1cd723e53ac23d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.new",
+          "blob": "c367657ce15170b3c300628e11d8817f4ea35909",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.old",
+          "blob": "0c09662663c5ac7f0ef5a67de667f3c812df1053",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.positive.json",
+          "blob": "9e661cbbe8d1c7e94d7a8d688044aa583398302a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.positive.txt",
+          "blob": "3025bed2b7e7e1905e45781171142cd7cb193f75",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.restored.json",
+          "blob": "e7d4aa86dba5afb8c72b0ba69b824b1725a16ffd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP1.restored.txt",
+          "blob": "270b9764da2d062c0ad1f09d6ccac28ee8587e0b",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-FP2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.axis",
+          "blob": "621549aee5dabb86295d942254b4be10356fbb7e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.meta.json",
+          "blob": "0c74a4cf9bbaa80fa68c40e463874726d31f3d6d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.mutant.json",
+          "blob": "660a15eea37e74881b4c526755eb1644af310c2c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.mutant.txt",
+          "blob": "79389ebbecdb31a92b93b6e0041332f700c91c10",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.new",
+          "blob": "124efa276f8017f2ab0ce797df21afcd8f5c5cd0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.old",
+          "blob": "c06bed664b0c1700108f6b3b1566eca4632d215d",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.positive.json",
+          "blob": "3415d5e124eb24964eb3e21f11102e6fe09ee293",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.positive.txt",
+          "blob": "f8038e35efcc00c4951825fd2eee9d9afdfa8ee8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.restored.json",
+          "blob": "609aa2ea08acbdde942309842aaba2326e85fd81",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP2.restored.txt",
+          "blob": "e545413abb05cc68c3c88fe27f4fdc1cbc3fc6bb",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-FP3",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.axis",
+          "blob": "e15586e3d0fad6eb6d896b08f3c570e893f62cd5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.meta.json",
+          "blob": "77c4b0bde32b230819099c3ae0b661fe621e15ba",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.mutant.json",
+          "blob": "fd650490618f5313133bf514663a4e284bd8f1f5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.mutant.txt",
+          "blob": "0e10c517e9e191db3da72b6d082854f7571e7eb3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.new",
+          "blob": "ee31c876f3238544c8e7a985755aa97381609cca",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.old",
+          "blob": "4b2289b32925f8e3f3456eff24b5b787b4a992cd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.positive.json",
+          "blob": "9d599650058e5336fb4c522a16f9402a8a5b2f20",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.positive.txt",
+          "blob": "acd2ad5420332298398e6993b7e80f1aa912b872",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.restored.json",
+          "blob": "f51b0a297ebad1a6c08e812d25ea9850f51e8dc5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP3.restored.txt",
+          "blob": "fd1528512a50effa1dc50ec98b21c9aa52028ab7",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-FP4",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.axis",
+          "blob": "e7bfe1c778fba0019c3cace0a47a7dc80afffb59",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.meta.json",
+          "blob": "06469422f7370de6182add782a73926e68ff778c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.mutant.json",
+          "blob": "7e347cb0ab1e7ee95e295e6a7578b5d0dcc05fc0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.mutant.txt",
+          "blob": "1c4f47cc909d68a617de1db83cdcc99767ba1382",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.new",
+          "blob": "a6c7281ea235175474fb37d478bc66bbf00ce87b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.old",
+          "blob": "2cb19922f1dcb44d18e994886ac80df381011116",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.positive.json",
+          "blob": "ddcfd6fe807107306d3b6f2ac107de16f8bfabb3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.positive.txt",
+          "blob": "f7f87994c2421e0728d23625a05f1dbc362e54b6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.restored.json",
+          "blob": "9421e23908da4e009028f9577512f3869d878dfd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP4.restored.txt",
+          "blob": "288676aab4825144526a44cc18935e7722f33735",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-FP5",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.axis",
+          "blob": "42b7725afc7b1cc5eee3e728a660dbf56566d595",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.meta.json",
+          "blob": "1ca3b95f150c8a1d2732a76db2d53fd98417a723",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.mutant.json",
+          "blob": "5329ada760df637c0891432dc74d249766eb4c65",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.mutant.txt",
+          "blob": "86fd1a9fa9c1844b8c4a584792705224b463c85f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.new",
+          "blob": "39c852ae4278480f125ac522392aa678a8778662",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.old",
+          "blob": "5682a31955912b7d1e7cf0e7690fbe7cc96be630",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.positive.json",
+          "blob": "0ed222d963de6772c50bdcf6375491d000ab31f3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.positive.txt",
+          "blob": "caf9de44d4d7d466a001dbd48c7936d78aeec049",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.restored.json",
+          "blob": "8fe3a79be36b9df7f8392ffd5be6cc5d2ffa176e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FP5.restored.txt",
+          "blob": "3cb0fd52f52d770291c5ccab5da0c3d0242efb71",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-FZ1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.axis",
+          "blob": "4178f7bae718c68ddfae29874797e389c808bedc",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.meta.json",
+          "blob": "a9e53b1d8fafbb5f3cdf9fc8d8d55a88ad69ff5f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.mutant.json",
+          "blob": "ebcdba09b371c934711ede8ccb097e8b981544cb",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.mutant.txt",
+          "blob": "c0f4b61b4d66e530911cc2420a743f73ed2b66c6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.new",
+          "blob": "cb338166c2268d3b7c24548a9847b0353599fd69",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.old",
+          "blob": "d9bb8fd4d2bd2a3054400e336562be7e43bc3307",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.positive.json",
+          "blob": "f66f624a78135a03d661583fd2e0bccde4527e07",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.positive.txt",
+          "blob": "af2d11bbd5d303fb57491daeed682310950d9165",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.restored.json",
+          "blob": "c6aa4247fc1e031e35b0a4610d5496e6a91623e5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ1.restored.txt",
+          "blob": "077a57c441c608fd4f5b21e4d7501006d6ba6ecc",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-FZ2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.axis",
+          "blob": "2b8225b4590cce6b72cef0465cda92115e5b872a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.meta.json",
+          "blob": "59796f28b21b6b73fd8f61d1f2ad3a4e28619059",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.mutant.json",
+          "blob": "39562d0b7d4a6bd5494d53a3aaf80cc127e28475",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.mutant.txt",
+          "blob": "3554a9399d3c8af17ed04db9c38de8c311c68ab5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.new",
+          "blob": "5257cb15b32595db47a54e95f134c4beb7860754",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.old",
+          "blob": "140e34a25f5c192b12914cea3bf759e60d2f2e43",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.positive.json",
+          "blob": "0de9107a7b279386bc7fa1dafc5c1767ee386a6b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.positive.txt",
+          "blob": "22589f2812f27bb975554fbf69a2f2288c205c66",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.restored.json",
+          "blob": "1d539acff8b25d3aec022e62ea9261cd303e8c5c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ2.restored.txt",
+          "blob": "1256295b0e06c05ab8700c723b77f1696c98c9ad",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-ET1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.axis",
+          "blob": "5892546b0bf68581fcaf5e2bdb1c88c77176a7cd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.meta.json",
+          "blob": "ffec80fc300b000c2f8ce0b27d4018ff300465af",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.mutant.json",
+          "blob": "7e65f23644199bbe18a80273ee2743af2773c3c0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.mutant.txt",
+          "blob": "b61901c035220d14c3539c7722947c0ed19da039",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.new",
+          "blob": "572a18da14f2ec5aac5ab59e64ce58ea0571ae03",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.old",
+          "blob": "bd197ed9bb03090859c336cf78d2fee922e5b771",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.positive.json",
+          "blob": "ab61859824a14adb8914270e37e841b2c4eefb81",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.positive.txt",
+          "blob": "79d105579a2953d210e6d7f9b771df1a5449edf0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.restored.json",
+          "blob": "f2fa91ce9b1bcc6bc4473ec01927452e75588be3",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET1.restored.txt",
+          "blob": "9d1e14d4f0b50f86e5fb20d24b06f05e80c3fbf6",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-ET2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.axis",
+          "blob": "357a450cfd6f33284d940d53a4b6ef64a1de1562",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.meta.json",
+          "blob": "7bce1e162c71a0fc5c984f9df208e11c72ea5ddd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.mutant.json",
+          "blob": "493d67907cffca6c1a707b3a836662a0db8000da",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.mutant.txt",
+          "blob": "03e655fa3a96108b01dfe34533f994000192395e",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.new",
+          "blob": "a34a2d95c46f2c34e42e146f4f232176f6ef03c8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.old",
+          "blob": "8c5f237ac258b9e39e59935c5a5a6f759dc3713a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.positive.json",
+          "blob": "890ce3b2fcf213ae5d553d2b024cfa4c4d8e68ee",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.positive.txt",
+          "blob": "83d04ed6d3e2a8ebe7ed186def391f3ba3e1aa1a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.restored.json",
+          "blob": "1e21c35ccc2a62156b3ad7755cdd7e6a65fbbbf6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-ET2.restored.txt",
+          "blob": "3b59772a547d36403380a627d605094bc0f8913c",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-AP1",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.axis",
+          "blob": "c6444e0dd93f4c7f2bf56bd27871f07162b88ef6",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.meta.json",
+          "blob": "8a5ed4eac4cebb61ceaf632ee77cbe556df3a3da",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.mutant.json",
+          "blob": "46e1e31353a1add08374405a100318900791aad5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.mutant.txt",
+          "blob": "e5925846a9a0a0b795d9eb9c5c65e6bb40acfdd8",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.new",
+          "blob": "4d3aa263801ba63a11e4b54662d4ba0950dbe697",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.old",
+          "blob": "47128e2b1ea651416ad13d410f47ba0ecc4ac808",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.positive.json",
+          "blob": "3eba906a69e71c4e4f4730c1377e92bac0ba420b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.positive.txt",
+          "blob": "382e74213c9cd7103b6b3217afe8ca322afaa24c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.restored.json",
+          "blob": "fda71d58c40b5146389a6afb48e850e0482e33e0",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP1.restored.txt",
+          "blob": "7e3ed4f7d6e51124c5050813d2a15a77711e7775",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-AP2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.axis",
+          "blob": "3a958a7fbbf4d37e1f8e47065c023e794f4f9b19",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.meta.json",
+          "blob": "183189b24a50678b63b060cbcc5eb3a2c6414c6b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.mutant.json",
+          "blob": "20a017722a42308ae35e0761cb92882b1435d265",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.mutant.txt",
+          "blob": "99648ec43604b68daa4eb34a9b6c1009f7b3bec5",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.new",
+          "blob": "5712d2c30ccde2ab6b6908967083746ef755a2ff",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.old",
+          "blob": "3487f58043c0cebb4f0edb9ddf24466d461439cd",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.positive.json",
+          "blob": "88e69cfd5e2eec5d2718859b804321975ef79052",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.positive.txt",
+          "blob": "9500b0dd6572196403fc5a521a5fc391e6afc57c",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.restored.json",
+          "blob": "5617cd8bcc1ebed3f6fb563abf8b16949486c80f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-AP2.restored.txt",
+          "blob": "1fe41e9e0f784fc56d11fd11cba8ff5b28c8c4a7",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "id": "Q-BA2",
+      "files": [
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.axis",
+          "blob": "ed92a9d747478a90e66176f7c7c3af9556836d66",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.meta.json",
+          "blob": "8b2b695d12039faf0857e2ea2f9dcf2883f838bf",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.mutant.json",
+          "blob": "83c22a76897e1ecefc543012fbc8c64bec319c57",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.mutant.txt",
+          "blob": "08e8d8503e3971c53af559aefccd636f805fcc7b",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.new",
+          "blob": "7333ae263537ecf4a3a0fd3e0d18d86c416b2498",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.old",
+          "blob": "2a7aa232839b62cace72aa75d3241da49247b31f",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.positive.json",
+          "blob": "8b3f3371dcf56b8859be7becac8921b23eb64288",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.positive.txt",
+          "blob": "996654fc3092c060ff31e1953af37c2c75be9a0a",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.restored.json",
+          "blob": "28e4ae580b7f256143dc26a0dee47d9195c6c832",
+          "unchanged": true
+        },
+        {
+          "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA2.restored.txt",
+          "blob": "0853d08d76350b0958deea143db308cb22c898c4",
+          "unchanged": true
+        }
+      ]
+    }
+  ],
+  "retiredHistory": [
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-BA1.retired.meta.json",
+      "blob": "964e9fe752db1f21b114afa1ec8c90b8dc41078f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-EI1.retired.meta.json",
+      "blob": "31317972a1989d3ae89c394fef6c9077d4a827d9",
+      "unchanged": true
+    },
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-EI2.retired.meta.json",
+      "blob": "27317dc474840835d869fce2e66ab5f12b6cfd06",
+      "unchanged": true
+    },
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ3.retired.meta.json",
+      "blob": "9cd5706b7240a20355c7eca3178380cdb4eef48b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ4.retired.meta.json",
+      "blob": "1f95feea2e63f4dfcf5f562f867fd4844b7c9e33",
+      "unchanged": true
+    },
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-FZ5.retired.meta.json",
+      "blob": "f4c63a24189f6596bd4c04785ac93856ccaf34e0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/testing/glm-tenfold-triple/wave-Q/counters/Q-NT8.retired.meta.json",
+      "blob": "591d183baac3a7fc1e14da7d7a11201321a2703f",
+      "unchanged": true
+    }
+  ],
+  "reusedIndependentDirected": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "sha256": "c8f6be8a0ec89cfeb2c21c68fcd1443169e717351080aaae90fd0ad965fe3929",
+    "rows": [
+      {
+        "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+        "fullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+        "fullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+        "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+        "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
+        "status": "passed",
+        "failureHeads": []
+      },
+      {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+        "status": "passed",
+        "failureHeads": []
+      }
+    ]
+  },
+  "directed": {
+    "path": "docs/testing/glm-tenfold-triple/wave-Q/directed-vitest.json",
+    "blob": "b13535dfb91969aad8186768e133bbb5c24bd380",
+    "unchanged": true
+  },
+  "toolLimits": [
+    {
+      "label": "wrong-mutant-file",
+      "accepted": true,
+      "exit": 0,
+      "notOriginalBusinessEvidence": true
+    },
+    {
+      "label": "restored-identity-drift",
+      "accepted": true,
+      "exit": 0,
+      "notOriginalBusinessEvidence": true
+    }
+  ],
+  "recorderSafetyInspection": {
+    "executed": false,
+    "reason": "counter-run-prod.sh uses fixed shared /tmp/glmq/counter-copy/type-pal and /tmp/glmq/counters, has no mkdtemp/trap cleanup or caller-owned route; running it from reviewer copy would touch another workspace",
+    "duplicatedPythonVerdictNotCallingSoleValidator": true
+  },
+  "selectiveReception": {
+    "threeRepairedBusinessEvidenceAccepted": true,
+    "previousTwoFieldErrorsClosed": true,
+    "newHelpersNotAcceptedAsFormalSamplerOrSoleJudge": true,
+    "noMoreGLMNarrowReworkRequested": true,
+    "nextFormalSamplerToBeDefinedByCodexWithFiniteBatch": true
+  },
+  "counts": {
+    "executed": 147,
+    "structuralNetUpperBound": 146,
+    "minimumRemaining": 554,
+    "storedCounters": 71,
+    "distinctTargets": 62,
+    "newCasesThisRound": 0
+  }
+}
