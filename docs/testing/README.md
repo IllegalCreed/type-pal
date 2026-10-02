@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Kimi / Grok限额短审](limited-budget/README.md)（2026-10-02；各一轮≤两页，不派大包，不全包/覆盖/浏览器，不自动续派）。
+
 - [Grok / Cursor 两条独立大包](grok-cursor-large/README.md)（2026-10-01；46/74源独占，400/700合法新例目标，40/50反控，十批连续；GLM P/Q新合同避让，未交付/未正式结算）。
 
 - [GLM 十倍三条独立大包 O–Q](glm-tenfold-triple/README.md)（2026-09-30；每卡700合法新例/50反控，716源按包独占；O优先补migrate门，正式收益待并集实测）。

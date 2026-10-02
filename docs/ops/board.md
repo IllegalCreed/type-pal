@@ -26,6 +26,8 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| AUDIT-KIMI-OPENING-LOAD-SMALL-1 | [读档错误边界短审](tasks/AUDIT-KIMI-OPENING-LOAD-SMALL-1.md) | build | Kimi / 一次≤两页报告 | 仅文档准入，母卡仍draft；不全包/覆盖/浏览器、不自动续派 |
+| AUDIT-GROK-WRITE-PLAN-SIX-1 | [写入计划六合同短审](tasks/AUDIT-GROK-WRITE-PLAN-SIX-1.md) | build | Grok / 固定六行排重账 | 仅独占报告，不写O；旧400accept不重开，交付即停 |
 | TEST-GROK-RENDER-HOST-LARGE-1 | [一阶段渲染/资源/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | review | Codex / 统一门与选择性集成 | r3代码证据accept：400/40组/40目标、两selftest后静态零；字节未变复用3173，未main/done/结算 |
 | TEST-CURSOR-ASSET-UI-LARGE-1 | [Editor资源叶与设计控件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | rework | Cursor / 663旧锚真账与至少1真新目标 | r4 728绿/53结构针/静态零，精确kind针关闭；替代排序仍旧证，上限49目标/703新例未全量排重 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
