@@ -115,6 +115,7 @@
     },
     {
       "id": "e46",
+      "label": "上楼楼梯",
       "pos": {
         "col": 130,
         "row": 52,
@@ -261,7 +262,8 @@
                       "kind": "wait",
                       "ms": 100
                     }
-                  ]
+                  ],
+                  "label": "沿楼梯走到二楼"
                 }
               ]
             }
@@ -271,6 +273,7 @@
     },
     {
       "id": "e47",
+      "label": "下楼楼梯",
       "pos": {
         "col": 122,
         "row": 49,
@@ -417,7 +420,8 @@
                       "kind": "wait",
                       "ms": 100
                     }
-                  ]
+                  ],
+                  "label": "沿楼梯走到一楼"
                 }
               ]
             }
@@ -659,6 +663,7 @@
     },
     {
       "id": "e51",
+      "label": "苗人随从客房入口",
       "pos": {
         "col": 133,
         "row": 42,
@@ -680,7 +685,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "进入苗人随从客房",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -701,7 +706,8 @@
                         "evidenceId": "pal-load-scene-216"
                       }
                     }
-                  ]
+                  ],
+                  "label": "进入客房"
                 }
               ]
             }
@@ -8909,7 +8915,8 @@
                         ]
                       }
                     }
-                  ]
+                  ],
+                  "label": "拒绝把客人的酒给道士"
                 }
               ]
             }
@@ -9155,7 +9162,8 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "复读：讨要被客人退回的酒"
                 }
               ]
             }
@@ -9221,6 +9229,17 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
                       "kind": "setEntityFacing",
                       "facing": "down",
                       "target": {
@@ -9239,17 +9258,6 @@
                     {
                       "kind": "ditherScreen",
                       "ms": 720
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e62"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "disabled"
-                      }
                     },
                     {
                       "kind": "dialog",
@@ -9625,7 +9633,8 @@
                   ],
                   "next": {
                     "kind": "complete"
-                  }
+                  },
+                  "label": "赠酒，听道士邀约，回应李大娘喊话"
                 }
               ]
             }
