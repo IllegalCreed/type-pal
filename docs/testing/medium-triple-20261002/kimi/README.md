@@ -14,8 +14,14 @@
 ## r1 窄返工（KIMI-R1-01/02，2026-10-02）
 
 - **K6 末例合法化**：原"第二 stage entry"子轴经公开 `checkBaseScriptFlow` 真实拒收（`只允许 onEnter initial state`）；已去 entry，保留合法的第二 stage nested branch 臂 + body 隔离方向，四个作者 fixture 与 organized 产物全部补公开合法性断言；旧完整 oracle 已重排重（旧证仅 stage[0] body/entry/onNo，不覆盖第二态 branch 臂，非换名计新）。
-- **严格单一 judge**：每针声明同一非零 file×fullName 多重执行范围（67/67/67/50 叶），control/variant/restored 三相共用；范围多重集合恒等（一红叠 pending 重复叶、缺叶、多叶、错身份、多红、非 AssertionError、内嵌运行时错、pending/todo、collection/suite 消息、未处理异常、signal、错误 exit 全部拒收），judge 由 runner 与 16 条拒收自测共用（2 accepted / 16 rejected）。
+- **严格单一 judge**：每针声明同一非零 file×fullName 多重执行范围（67/67/67/50 叶），control/variant/restored 三相共用；范围多重集合恒等（一红叠 pending 重复叶、缺叶、多叶、错身份、多红、非 AssertionError、内嵌运行时错、pending/todo、collection/suite 消息、未处理异常、signal、错误 exit 全部拒收），judge 由 runner 与拒收自测共用。
 - **原 raw 入库**：12 份原字节 `.raw.txt`（绕开 `*.log` ignore，不改 ignore）+ 12 份原 JSON 全部进固定提交；逐针产品与测试文件三态 SHA 实采落 summary.json（恢复态与正控逐文件相等）。
+
+## r2 窄返工（KIMI-R2-01，2026-10-02）
+
+- **转换层完整化**：`reportToRun` 现保留完整原报告——`numRuntimeErrorTestSuites`（缺省按 0 计，非零拒收）、逐 suite status/叶数/failed 叶数（零叶 suite、无 failed 叶的 failed suite 拒收）、顶层 suite/test 计数与真实叶逐项闭合（total/passed/failed/pending/todo）、success 旗标一致性、signal/spawn。
+- **业务红叠 collection 异常拒收**：审核反例"目标 AssertionError 叠空 message failed 零叶 collection suite + runtime=1"及 5 个同类探针全部进拒收自测（accepted 2 / rejected 21），judge 仍由 collector/recompute/selftest 三方共用。
+- **原四针复算不重采**：`mutants.mjs --recompute` 对固定提交内 12 份原 JSON/raw 字节按修后判据复算——4 针三态全部通过（67/67/67/50 叶），原字节零改写，复算回执 [evidence/recompute-r2.json](counters/evidence/recompute-r2.json)。K6 合法性、32 例、三态 hash/raw/旧绿等已闭项未重做。
 
 ## 执行账
 

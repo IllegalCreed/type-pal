@@ -7,13 +7,14 @@
   "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
   "canonicalVersions": { "content": 21, "save": 10 },
   "rework": {
-    "round": "r1 (KIMI-R1-01/02)",
+    "round": "r1 (KIMI-R1-01/02) + r2 (KIMI-R2-01)",
     "r1-01": "K6末例非法b.entry子轴(公开checkBaseScriptFlow真实拒收'只允许 onEnter initial state')已去entry, 保留合法第二stage nested branch臂隔离; 4作者fixture+organized产物补公开合法性断言; 旧完整oracle重排重(非换名计新)",
-    "r1-02": "严格单一judge(每针同一非零file×fullName多重范围67/67/67/50叶×control/variant/restored三相; 多重集合恒等; pending/todo/skip/重复叶/缺叶/多叶/错身份/多红/非AssertionError/内嵌运行时错/collection/suite/未处理异常/signal/错误exit全拒收)与16条拒收自测共用; 12原字节.raw.txt+12原JSON入固定提交; 逐针产品与测试三态SHA实采(恢复=正控)",
+    "r1-02": "严格单一judge(每针同一非零file×fullName多重范围67/67/67/50叶×control/variant/restored三相; 多重集合恒等; pending/todo/skip/重复叶/缺叶/多叶/错身份/多红/非AssertionError/内嵌运行时错/collection/suite/未处理异常/signal/错误exit全拒收)与拒收自测共用; 12原字节.raw.txt+12原JSON入固定提交; 逐针产品与测试三态SHA实采(恢复=正控)",
+    "r2-01": "reportToRun完整化: numRuntimeErrorTestSuites非零/零叶suite/无failed叶failed suite/顶层suite-test计数不闭合/success矛盾/signal/spawn全拒收; 拒收自测accepted2/rejected21(含审核叠放反例); mutants.mjs --recompute对原12份JSON/raw字节复算4针三态全过(67/67/67/50), 原字节零改写, 回执counters/evidence/recompute-r2.json; 不重采不追加",
     "preserved": "4针不同新oracle目标与3针真实旧绿新红方向保留; 9条deferredBudget不加量; 32例不变"
   },
   "testsCommit": "5e839a919219644aac8ddbb71030de5284a13682",
-  "candidateHead": "57f2a08cf784858e8513b1a344f59f5954fd083f",
+  "candidateHead": "本轮唯一r2提交tip, 完整40位SHA见交付回执",
   "delivered": {
     "newCases": 32,
     "netNew": 32,
@@ -79,7 +80,7 @@
     }
   },
   "counters": {
-    "runner": "counters/mutants.mjs (r2严格单一judge; 自测 accepted 2 / rejected 16)",
+    "runner": "counters/mutants.mjs (r3完整judge: reportToRun不丢runtime计数/failed零叶suite/顶层闭合; 自测 accepted 2 / rejected 21)",
     "scopeDiscipline": "每针声明同一非零file×fullName多重范围(67/67/67/50叶), control/variant/restored三相共用同一严格判据; 未选中/pending叶子不可写passed",
     "needles": [
       {
@@ -115,7 +116,7 @@
         "restored": "同范围重跑全绿 exit0"
       }
     ],
-    "evidenceDir": "counters/evidence/ — 12原JSON+12原字节.raw.txt+summary.json(逐针产品与测试三态SHA, 恢复=正控; repoHashes仓库零漂移)"
+    "evidenceDir": "counters/evidence/ — 12原JSON+12原字节.raw.txt+summary.json(逐针产品与测试三态SHA, 恢复=正控; repoHashes仓库零漂移)+recompute-r2.json(r2复算回执: 原字节按完整judge复算4针三态全过, 含各工件sha256)"
   },
   "coverage": "未测(按卡不重复全仓测量; 85%并集归Codex)",
   "unfinished": [
