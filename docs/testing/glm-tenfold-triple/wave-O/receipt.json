@@ -157,7 +157,7 @@
     "O-NEXT2": "O-NEXT2-01～12 一次完整处置（packet codex-opq-next2-packet-20261002.json）：新文件 frame-sequence-provider-next2.glm-o.test.ts + 专属 next2 fixture（provider-ports.ts 真 zlib/记录/延迟/故障声明式 port）；12/12 绿、定向 JSON 落 next2/、相邻 frame-sequence 8 文件 84/84、content 全包 1441/1441、content typecheck 零；源 hash c4d91861… 与 packet 一致；caller=editor/core/frame-animation-codec.ts:85 + reforge/frame-animation-player.ts:82（packet 核定）；旧证不重领（35 帧/UTF-8/首块 Error/同步族/roundtrip/inflate 泛型）；node:zlib 导入沿用 contracts.test.ts 同款 @ts-expect-error Node-host 既有模式；无 typed 跳板/GB 数组/稀疏表"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "TO-BE-PINNED",
+  "remoteFinalCandidate": "a5287e977112704a69d3cfafa367498d4c02ce40",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
