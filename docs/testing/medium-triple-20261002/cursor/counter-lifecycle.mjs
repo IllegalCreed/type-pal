@@ -1,6 +1,7 @@
 /**
  * Cursor mid-1 反控临时树生命周期：精确登记、上限、回收。
- * 只操作本会话 register 过的路径；禁止全局 prune / 通配强删。
+ * 登记真实目录身份（dev/ino + 非 symlink 目录 + 必要 Git worktree）；
+ * 只操作本会话 register 且身份仍匹配的路径；禁止全局 prune / 通配强删。
  */
 import { execFileSync } from 'node:child_process'
 import {
@@ -36,16 +37,27 @@ export function isLegalOwnedTempPath(absolutePath) {
   return OWNED_PREFIXES.some((prefix) => base.startsWith(prefix))
 }
 
-/** @deprecated use isLegalOwnedTempPath — kept name for register gate */
-function isOwnedPrefixPath(absolutePath) {
-  return isLegalOwnedTempPath(absolutePath)
-}
+/**
+ * @typedef {{
+ *   path: string,
+ *   dev: number,
+ *   ino: number,
+ *   mode: number,
+ *   isDirectory: boolean,
+ *   isSymbolicLink: boolean,
+ *   gitWorktree: boolean,
+ * }} OwnedIdentity
+ */
 
-/** @type {Set<string>} */
-const ownedExactPaths = new Set()
+/** @type {Map<string, OwnedIdentity>} */
+const ownedExactPaths = new Map()
 
 export function ownedPaths() {
-  return [...ownedExactPaths]
+  return [...ownedExactPaths.keys()]
+}
+
+export function ownedIdentities() {
+  return [...ownedExactPaths.entries()].map(([path, identity]) => ({ path, ...identity }))
 }
 
 export function registryPath(candidateRoot) {
@@ -68,7 +80,8 @@ function writeRegistry(candidateRoot) {
         maxLiveTrees: MAX_LIVE_TREES,
         maxConcurrency: MAX_CONCURRENCY,
         maxOwnerTempGiB: MAX_OWNER_TEMP_GIB,
-        ownedExactPaths: [...ownedExactPaths],
+        ownedExactPaths: [...ownedExactPaths.keys()],
+        ownedIdentities: ownedIdentities(),
       },
       null,
       2,
@@ -76,11 +89,93 @@ function writeRegistry(candidateRoot) {
   )
 }
 
+function isGitWorktreeBasename(absolutePath) {
+  return basename(absolutePath).startsWith(TEMP_PREFIX)
+}
+
+function gitWorktreeListIncludes(candidateRoot, absolutePath) {
+  const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
+    cwd: candidateRoot,
+    encoding: 'utf8',
+  })
+  return list.includes(absolutePath)
+}
+
+/** Capture durable identity for a real directory object (never a symlink). */
+export function captureOwnedIdentity(absolutePath, candidateRoot) {
+  const resolved = resolve(absolutePath)
+  if (!existsSync(resolved)) throw new Error(`refuse register missing path: ${resolved}`)
+  const st = lstatSync(resolved)
+  if (st.isSymbolicLink()) throw new Error(`refuse register symlink path: ${resolved}`)
+  if (!st.isDirectory()) throw new Error(`refuse register non-directory: ${resolved}`)
+  let gitWorktree = false
+  if (isGitWorktreeBasename(resolved) && candidateRoot) {
+    try {
+      gitWorktree = gitWorktreeListIncludes(candidateRoot, resolved)
+    } catch {
+      gitWorktree = false
+    }
+  }
+  return {
+    path: resolved,
+    dev: st.dev,
+    ino: st.ino,
+    mode: st.mode,
+    isDirectory: true,
+    isSymbolicLink: false,
+    gitWorktree,
+  }
+}
+
+/**
+ * Verify path still points at the registered directory object.
+ * Path string reuse / inode replacement / symlink swap / lost git listing → refuse.
+ */
+export function verifyOwnedIdentity(candidateRoot, absolutePath, registered) {
+  const resolved = resolve(absolutePath)
+  if (!registered) return { ok: false, error: 'refuse-cleanup-unregistered' }
+  if (!existsSync(resolved)) return { ok: false, error: 'refuse-cleanup-missing-path' }
+  let st
+  try {
+    st = lstatSync(resolved)
+  } catch (error) {
+    return {
+      ok: false,
+      error: `refuse-cleanup-lstat:${error instanceof Error ? error.message : String(error)}`,
+    }
+  }
+  if (st.isSymbolicLink()) return { ok: false, error: 'refuse-cleanup-symlink-replacement' }
+  if (!st.isDirectory()) return { ok: false, error: 'refuse-cleanup-not-directory' }
+  if (st.dev !== registered.dev || st.ino !== registered.ino) {
+    return {
+      ok: false,
+      error: 'refuse-cleanup-identity-mismatch',
+      registered: { dev: registered.dev, ino: registered.ino },
+      current: { dev: st.dev, ino: st.ino },
+    }
+  }
+  if (registered.gitWorktree) {
+    try {
+      if (!gitWorktreeListIncludes(candidateRoot, resolved))
+        return { ok: false, error: 'refuse-cleanup-git-identity-lost' }
+    } catch (error) {
+      return {
+        ok: false,
+        error: `refuse-cleanup-git-identity-check:${error instanceof Error ? error.message : String(error)}`,
+      }
+    }
+  }
+  return { ok: true, current: { dev: st.dev, ino: st.ino } }
+}
+
 export function registerOwned(candidateRoot, absolutePath) {
   const resolved = resolve(absolutePath)
-  if (!isOwnedPrefixPath(resolved)) throw new Error(`refuse register non-prefix path: ${resolved}`)
-  ownedExactPaths.add(resolved)
+  if (!isLegalOwnedTempPath(resolved))
+    throw new Error(`refuse register non-prefix path: ${resolved}`)
+  const identity = captureOwnedIdentity(resolved, candidateRoot)
+  ownedExactPaths.set(resolved, identity)
   writeRegistry(candidateRoot)
+  return identity
 }
 
 export function unregisterOwned(candidateRoot, absolutePath) {
@@ -101,13 +196,13 @@ export function estimateDirGiB(path) {
 
 export function ownerTempGiB() {
   let total = 0
-  for (const path of ownedExactPaths) total += estimateDirGiB(path)
+  for (const path of ownedExactPaths.keys()) total += estimateDirGiB(path)
   return total
 }
 
 export function assertCanCreate(candidateRoot) {
-  const liveWorktrees = [...ownedExactPaths].filter((path) =>
-    (path.split(/[/\\]/).pop() || '').startsWith(TEMP_PREFIX),
+  const liveWorktrees = [...ownedExactPaths.keys()].filter((path) =>
+    basename(path).startsWith(TEMP_PREFIX),
   )
   if (liveWorktrees.length >= MAX_LIVE_TREES)
     throw new Error(`live temp trees at cap ${MAX_LIVE_TREES}; refuse create`)
@@ -128,8 +223,8 @@ export function linkNodeModules(from, to) {
 }
 
 /**
- * Remove one exact session-registered path that also has legal temp shape.
- * Requires register AND legal path — prefix alone never authorizes delete.
+ * Remove one exact session-registered path that also has legal temp shape
+ * AND still matches the registered directory/Git identity.
  * Git worktree remove / lock / identity failure keeps error; never rm-fallback.
  */
 export function cleanupExact(candidateRoot, counterTree) {
@@ -137,10 +232,13 @@ export function cleanupExact(candidateRoot, counterTree) {
     path: counterTree,
     owned: false,
     legalPath: false,
+    identityOk: false,
     gitRemoveOk: false,
     dirRemoved: false,
     pathExistsAfter: null,
     listedInGitWorktreeAfter: null,
+    registeredIdentity: null,
+    currentIdentity: null,
     error: null,
   }
   if (!counterTree) {
@@ -149,21 +247,18 @@ export function cleanupExact(candidateRoot, counterTree) {
     return report
   }
   const resolved = resolve(counterTree)
-  report.owned = ownedExactPaths.has(resolved)
+  const registered = ownedExactPaths.get(resolved) ?? null
+  report.owned = registered !== null
   report.legalPath = isLegalOwnedTempPath(resolved)
+  report.registeredIdentity = registered
+    ? { dev: registered.dev, ino: registered.ino, gitWorktree: registered.gitWorktree }
+    : null
   report.pathExistsAfter = existsSync(resolved)
   if (!report.owned || !report.legalPath) {
     report.error = !report.owned ? 'refuse-cleanup-unregistered' : 'refuse-cleanup-illegal-path'
-    if (report.owned && report.legalPath === false) {
-      /* keep registered; caller must fix path identity */
-    }
     try {
       if (basename(resolved).startsWith(TEMP_PREFIX)) {
-        const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
-          cwd: candidateRoot,
-          encoding: 'utf8',
-        })
-        report.listedInGitWorktreeAfter = list.includes(resolved)
+        report.listedInGitWorktreeAfter = gitWorktreeListIncludes(candidateRoot, resolved)
       } else {
         report.listedInGitWorktreeAfter = false
       }
@@ -172,8 +267,24 @@ export function cleanupExact(candidateRoot, counterTree) {
     }
     return report
   }
+  const identity = verifyOwnedIdentity(candidateRoot, resolved, registered)
+  report.identityOk = identity.ok
+  if (identity.current) report.currentIdentity = identity.current
+  if (!identity.ok) {
+    report.error = identity.error
+    report.dirRemoved = false
+    report.pathExistsAfter = existsSync(resolved)
+    try {
+      if (registered.gitWorktree)
+        report.listedInGitWorktreeAfter = gitWorktreeListIncludes(candidateRoot, resolved)
+      else report.listedInGitWorktreeAfter = false
+    } catch {
+      report.listedInGitWorktreeAfter = null
+    }
+    return report
+  }
   try {
-    const isGitWorktree = basename(resolved).startsWith(TEMP_PREFIX)
+    const isGitWorktree = registered.gitWorktree
     if (isGitWorktree) {
       try {
         execFileSync('git', ['worktree', 'remove', '--force', resolved], {
@@ -186,11 +297,7 @@ export function cleanupExact(candidateRoot, counterTree) {
         report.error = error instanceof Error ? error.message : String(error)
         report.pathExistsAfter = existsSync(resolved)
         try {
-          const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
-            cwd: candidateRoot,
-            encoding: 'utf8',
-          })
-          report.listedInGitWorktreeAfter = list.includes(resolved)
+          report.listedInGitWorktreeAfter = gitWorktreeListIncludes(candidateRoot, resolved)
         } catch {
           report.listedInGitWorktreeAfter = null
         }
@@ -202,11 +309,7 @@ export function cleanupExact(candidateRoot, counterTree) {
         report.pathExistsAfter = true
         report.dirRemoved = false
         try {
-          const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
-            cwd: candidateRoot,
-            encoding: 'utf8',
-          })
-          report.listedInGitWorktreeAfter = list.includes(resolved)
+          report.listedInGitWorktreeAfter = gitWorktreeListIncludes(candidateRoot, resolved)
         } catch {
           report.listedInGitWorktreeAfter = null
         }
@@ -214,15 +317,11 @@ export function cleanupExact(candidateRoot, counterTree) {
       }
       report.dirRemoved = true
       report.pathExistsAfter = false
-      const list = execFileSync('git', ['worktree', 'list', '--porcelain'], {
-        cwd: candidateRoot,
-        encoding: 'utf8',
-      })
-      report.listedInGitWorktreeAfter = list.includes(resolved)
+      report.listedInGitWorktreeAfter = gitWorktreeListIncludes(candidateRoot, resolved)
       unregisterOwned(candidateRoot, resolved)
       return report
     }
-    // Non-git patch temps: primary removal is rm after exact register+legal checks.
+    // Non-git patch temps: primary removal is rm after exact register+legal+identity checks.
     if (existsSync(resolved)) rmSync(resolved, { recursive: true, force: true })
     report.gitRemoveOk = true
     report.dirRemoved = !existsSync(resolved)
@@ -240,23 +339,33 @@ export function cleanupExact(candidateRoot, counterTree) {
 
 export function cleanupAllOwned(candidateRoot) {
   const reports = []
-  for (const path of [...ownedExactPaths]) reports.push(cleanupExact(candidateRoot, path))
+  for (const path of [...ownedExactPaths.keys()]) reports.push(cleanupExact(candidateRoot, path))
   return reports
 }
 
 export function createCounterWorktree(candidateRoot, id) {
   assertCanCreate(candidateRoot)
   const counterTree = mkdtempSync(join(tmpdir(), `${TEMP_PREFIX}${id}-`))
-  registerOwned(candidateRoot, counterTree)
   try {
     execFileSync('git', ['worktree', 'add', '--detach', counterTree, 'HEAD'], {
       cwd: candidateRoot,
       encoding: 'utf8',
     })
   } catch (error) {
-    cleanupExact(candidateRoot, counterTree)
+    // Unregistered create rollback only — never identity-gated cleanupExact.
+    try {
+      execFileSync('git', ['worktree', 'remove', '--force', counterTree], {
+        cwd: candidateRoot,
+        encoding: 'utf8',
+      })
+    } catch {
+      /* ignore */
+    }
+    if (existsSync(counterTree)) rmSync(counterTree, { recursive: true, force: true })
     throw error
   }
+  // Register AFTER git materializes the worktree so inode/Git identity match cleanup.
+  registerOwned(candidateRoot, counterTree)
   return counterTree
 }
 
@@ -289,7 +398,7 @@ export function readLiveRegistry(candidateRoot) {
   return JSON.parse(readFileSync(path, 'utf8'))
 }
 
-/** Clear in-memory set (tests only). */
+/** Clear in-memory registry (tests only). */
 export function resetOwnedForTests() {
   ownedExactPaths.clear()
 }

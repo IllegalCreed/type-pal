@@ -1,22 +1,26 @@
 #!/usr/bin/env node
 /**
- * 拒收自测：唯一 judge 必须拒收五类假绿，并忠实接受单红正样本。
- * 同时保留旧 legacyFocusJson 复合 collection 误收对照。
+ * 拒收自测：唯一 judge 必须拒收假绿（含真实 afterEach 复合 / pending↔todo 错配），
+ * 并忠实接受单红正样本与合法范围外 skip。
  */
+import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import {
   judgeClean,
   judgeMutant,
   legacyFocusJsonDroppingCollectionErrors,
 } from './counter-judge.mjs'
 
+const here = dirname(fileURLToPath(import.meta.url))
 const targetFullName = 'C1 cursor-mid-1 demo C1-01 previewCursorKey null'
 const targetFile = 'src/core/script-flow-preview.cursor-mid-1.test.ts'
 const outsideFullName = 'outside sibling assertion'
 
-const leaf = (fullName, status, message = '') => ({
+const leaf = (fullName, status, message = '', extraMessages = []) => ({
   fullName,
   status,
-  failureMessages: message ? [message] : [],
+  failureMessages: message ? [message, ...extraMessages] : [...extraMessages],
 })
 
 const fileResult = (file, assertionResults, status = 'passed', message) => ({
@@ -290,6 +294,50 @@ const legacy = judgeMutant({
 report.rejects.compositeCollection = !current.valid
 report.accepts.legacyWouldAcceptComposite = legacy.valid
 
+// --- R3-01: real Vitest AssertionError + afterEach Error (Codex fixture) ---
+{
+  const real = JSON.parse(
+    readFileSync(join(here, 'fixtures/real-composite-aftereach.json'), 'utf8'),
+  )
+  const realRaw = readFileSync(join(here, 'fixtures/real-composite-aftereach.raw.txt'), 'utf8')
+  const realFile = 'src/core/codex-composite-review.test.ts'
+  const realName = 'CODEX business assertion plus hook error'
+  const r = judgeMutant({
+    exitCode: 1,
+    json: real,
+    targetFile: realFile,
+    targetFullName: realName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${realFile}×${realName}`],
+    declaredFullNames: [realName],
+    rawOutput: realRaw,
+  })
+  report.rejects.realAfterEachComposite = !r.valid
+  report.rejects.realAfterEachReasons = r.reasons
+}
+
+// --- R3-01: pending3→todo3 mismatch on CTR-C1-01-shaped positive (leaves stay skipped) ---
+{
+  const positive = JSON.parse(readFileSync(join(here, 'counters/CTR-C1-01/positive.json'), 'utf8'))
+  const forged = {
+    ...positive,
+    numPendingTests: 0,
+    numTodoTests: 3,
+  }
+  const c1Name =
+    'C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价'
+  const c1File = 'src/core/script-flow-preview.cursor-mid-1.test.ts'
+  const r = judgeClean({
+    exitCode: 0,
+    json: forged,
+    expectedExecuted: 1,
+    expectedIdentitySet: [`${c1File}×${c1Name}`],
+    declaredFullNames: [c1Name],
+  })
+  report.rejects.pendingTodoMismatch = !r.valid
+  report.rejects.pendingTodoReasons = r.reasons
+}
+
 const fail = (msg) => {
   console.error(msg)
   console.error(JSON.stringify(report, null, 2))
@@ -306,5 +354,8 @@ if (!report.accepts.outsideSkipOk) fail('FAIL: outside skip must still be accept
 if (!report.rejects.compositeCollection) fail('FAIL: composite collection must be rejected')
 if (!report.accepts.legacyWouldAcceptComposite)
   fail('FAIL: legacy focus repro no longer demonstrates the bug')
+if (!report.rejects.realAfterEachComposite)
+  fail('FAIL: real AssertionError+afterEach composite must be rejected')
+if (!report.rejects.pendingTodoMismatch) fail('FAIL: pending↔todo count mismatch must be rejected')
 
 console.log(JSON.stringify({ ok: true, ...report }, null, 2))

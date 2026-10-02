@@ -1,14 +1,24 @@
 {
   "reason": "signal",
-  "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
+  "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-e4pFJV",
   "report": {
-    "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
+    "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-e4pFJV",
     "owned": true,
     "legalPath": true,
+    "identityOk": true,
     "gitRemoveOk": true,
     "dirRemoved": true,
     "pathExistsAfter": false,
     "listedInGitWorktreeAfter": false,
+    "registeredIdentity": {
+      "dev": 16777233,
+      "ino": 166638786,
+      "gitWorktree": true
+    },
+    "currentIdentity": {
+      "dev": 16777233,
+      "ino": 166638786
+    },
     "error": null
   },
   "existsAfter": false

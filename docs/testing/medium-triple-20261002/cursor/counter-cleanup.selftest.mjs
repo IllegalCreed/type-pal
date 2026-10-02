@@ -1,10 +1,19 @@
 #!/usr/bin/env node
-import { spawn, spawnSync } from 'node:child_process'
 /**
  * 清理回归：成功 / 故意失败 / 可捕获中断 后零残留；
- * 另自建哨兵证明：未登记同前缀 / 祖先含前缀 / 失效登记 一律拒删且不 rm。
+ * 另自建哨兵证明：未登记同前缀 / 祖先含前缀 / 同路径 inode 替换 一律拒删且不 rm。
  */
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { spawn, spawnSync } from 'node:child_process'
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 import {
@@ -21,7 +30,6 @@ import {
   resetOwnedForTests,
   scanOrphanPrefixDirs,
   TEMP_PREFIX,
-  unregisterOwned,
 } from './counter-lifecycle.mjs'
 
 const root = process.cwd()
@@ -155,46 +163,49 @@ try {
     destroySentinel(nestRoot)
   }
 
-  // --- R2-02: stale registry entry (registered then path identity broken) ---
+  // --- R3-02: same legal path, new inode replacement must NOT be deleted ---
+  // Keep registration; move original aside; recreate at identical path; do not re-register.
   resetOwnedForTests()
   {
-    const sentinel = makeSentinelDir('stale')
-    registerOwned(root, sentinel)
-    // Simulate stale: unregister from disk view by removing from set while keeping a fake path
-    // that includes prefix in an ancestor — registerOwned refuses illegal paths, so instead
-    // unregister then point cleanup at a path whose basename matches but parent ≠ tmpdir.
-    unregisterOwned(root, sentinel)
-    const nestRoot = mkdtempSync(join(tmpdir(), 'cursor-r2-stale-'))
-    sentinels.push(nestRoot)
-    const fake = join(nestRoot, basename(sentinel))
-    mkdirSync(fake, { recursive: true })
-    writeFileSync(join(fake, 'y.txt'), 'stale\n')
-    // Force-register bypass is impossible; prove illegal path cannot be registered:
-    let registerRefused = false
-    try {
-      registerOwned(root, fake)
-    } catch {
-      registerRefused = true
-    }
-    const report = cleanupExact(root, fake)
-    const after = existsSync(fake)
+    const original = mkdtempSync(join(tmpdir(), 'cursor-mid-patch-r3-replace-'))
+    writeFileSync(join(original, 'sentinel-original.txt'), 'original-owned\n')
+    const registered = registerOwned(root, original)
+    const holdRoot = mkdtempSync(join(tmpdir(), 'cursor-r3-hold-'))
+    sentinels.push(holdRoot)
+    const moved = join(holdRoot, basename(original))
+    renameSync(original, moved)
+    mkdirSync(original)
+    writeFileSync(join(original, 'sentinel-replacement.txt'), 'replacement\n')
+    sentinels.push(original)
+    sentinels.push(moved)
+    const replacementStat = lstatSync(original)
+    const report = cleanupExact(root, original)
+    const replacementExists =
+      existsSync(original) && existsSync(join(original, 'sentinel-replacement.txt'))
+    const originalPreserved = existsSync(moved) && existsSync(join(moved, 'sentinel-original.txt'))
     const ok =
-      registerRefused &&
-      after &&
-      report.owned === false &&
+      registered.ino !== replacementStat.ino &&
+      report.owned === true &&
+      report.legalPath === true &&
+      report.identityOk === false &&
       report.dirRemoved === false &&
-      report.error === 'refuse-cleanup-unregistered'
+      report.error === 'refuse-cleanup-identity-mismatch' &&
+      replacementExists &&
+      originalPreserved
     results.push({
-      label: 'refuse-stale-or-illegal-register',
+      label: 'refuse-same-path-inode-replacement',
       ok,
-      fake,
-      registerRefused,
-      after,
+      registeredIno: registered.ino,
+      replacementIno: replacementStat.ino,
+      replacementExists,
+      originalPreserved,
       report,
     })
-    if (!ok) throw new Error(`stale/illegal register mishandled: ${JSON.stringify(report)}`)
-    destroySentinel(sentinel)
-    destroySentinel(nestRoot)
+    if (!ok) throw new Error(`same-path inode replacement mishandled: ${JSON.stringify(report)}`)
+    resetOwnedForTests()
+    destroySentinel(original)
+    destroySentinel(moved)
+    destroySentinel(holdRoot)
   }
 
   {

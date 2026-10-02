@@ -1,67 +1,98 @@
 {
-  "at": "2026-10-02T10:15:16.694Z",
+  "at": "2026-10-02T11:22:19.144Z",
   "maxConcurrency": 1,
   "maxLiveTrees": 1,
   "ownedAfter": [],
   "prefixTemps": [],
   "orphansReportOnly": [],
   "registry": {
-    "updatedAt": "2026-10-02T10:15:09.173Z",
+    "updatedAt": "2026-10-02T11:22:11.648Z",
     "prefix": "cursor-mid-counter-",
     "maxLiveTrees": 1,
     "maxConcurrency": 1,
     "maxOwnerTempGiB": 2,
-    "ownedExactPaths": []
+    "ownedExactPaths": [],
+    "ownedIdentities": []
   },
   "results": [
     {
       "label": "success-cleanup",
       "ok": true,
-      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-RaYdlW",
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-pzhmKJ",
       "exists": false,
       "stillListed": false,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-RaYdlW",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-pzhmKJ",
         "owned": true,
         "legalPath": true,
+        "identityOk": true,
         "gitRemoveOk": true,
         "dirRemoved": true,
         "pathExistsAfter": false,
         "listedInGitWorktreeAfter": false,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166620776,
+          "gitWorktree": true
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166620776
+        },
         "error": null
       }
     },
     {
       "label": "failure-cleanup",
       "ok": true,
-      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-gRQd4D",
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-BKMp1S",
       "exists": false,
       "stillListed": false,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-gRQd4D",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-BKMp1S",
         "owned": true,
         "legalPath": true,
+        "identityOk": true,
         "gitRemoveOk": true,
         "dirRemoved": true,
         "pathExistsAfter": false,
         "listedInGitWorktreeAfter": false,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166626776,
+          "gitWorktree": true
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166626776
+        },
         "error": null
       }
     },
     {
       "label": "cap-refuse-then-cleanup",
       "ok": true,
-      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-lp0mHH",
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-p58JBN",
       "exists": false,
       "stillListed": false,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-lp0mHH",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-p58JBN",
         "owned": true,
         "legalPath": true,
+        "identityOk": true,
         "gitRemoveOk": true,
         "dirRemoved": true,
         "pathExistsAfter": false,
         "listedInGitWorktreeAfter": false,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166632779,
+          "gitWorktree": true
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166632779
+        },
         "error": null
       }
     },
@@ -74,69 +105,96 @@
     {
       "label": "refuse-unregistered-same-prefix",
       "ok": true,
-      "sentinel": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-CGmDRA",
+      "sentinel": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-02J6LZ",
       "before": true,
       "after": true,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-CGmDRA",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-02J6LZ",
         "owned": false,
         "legalPath": true,
+        "identityOk": false,
         "gitRemoveOk": false,
         "dirRemoved": false,
         "pathExistsAfter": true,
         "listedInGitWorktreeAfter": false,
+        "registeredIdentity": null,
+        "currentIdentity": null,
         "error": "refuse-cleanup-unregistered"
       }
     },
     {
       "label": "refuse-ancestor-prefix-path",
       "ok": true,
-      "nested": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-kxfkVA/cursor-mid-counter-nested-leaf",
+      "nested": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-s1a0CK/cursor-mid-counter-nested-leaf",
       "legal": false,
       "after": true,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-kxfkVA/cursor-mid-counter-nested-leaf",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-s1a0CK/cursor-mid-counter-nested-leaf",
         "owned": false,
         "legalPath": false,
+        "identityOk": false,
         "gitRemoveOk": false,
         "dirRemoved": false,
         "pathExistsAfter": true,
         "listedInGitWorktreeAfter": false,
+        "registeredIdentity": null,
+        "currentIdentity": null,
         "error": "refuse-cleanup-unregistered"
       }
     },
     {
-      "label": "refuse-stale-or-illegal-register",
+      "label": "refuse-same-path-inode-replacement",
       "ok": true,
-      "fake": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-stale-PUMJ4m/cursor-mid-counter-stale-pzUnX8",
-      "registerRefused": true,
-      "after": true,
+      "registeredIno": 166638780,
+      "replacementIno": 166638783,
+      "replacementExists": true,
+      "originalPreserved": true,
       "report": {
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-stale-PUMJ4m/cursor-mid-counter-stale-pzUnX8",
-        "owned": false,
-        "legalPath": false,
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-patch-r3-replace-RUb0D6",
+        "owned": true,
+        "legalPath": true,
+        "identityOk": false,
         "gitRemoveOk": false,
         "dirRemoved": false,
         "pathExistsAfter": true,
         "listedInGitWorktreeAfter": false,
-        "error": "refuse-cleanup-unregistered"
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166638780,
+          "gitWorktree": false
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166638783
+        },
+        "error": "refuse-cleanup-identity-mismatch"
       }
     },
     {
       "label": "interrupt-sigterm",
       "ok": true,
-      "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
+      "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-e4pFJV",
       "after": {
         "reason": "signal",
-        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-e4pFJV",
         "report": {
-          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-2AQXR1",
+          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-e4pFJV",
           "owned": true,
           "legalPath": true,
+          "identityOk": true,
           "gitRemoveOk": true,
           "dirRemoved": true,
           "pathExistsAfter": false,
           "listedInGitWorktreeAfter": false,
+          "registeredIdentity": {
+            "dev": 16777233,
+            "ino": 166638786,
+            "gitWorktree": true
+          },
+          "currentIdentity": {
+            "dev": 16777233,
+            "ino": 166638786
+          },
           "error": null
         },
         "existsAfter": false

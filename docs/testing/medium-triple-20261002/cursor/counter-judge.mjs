@@ -3,7 +3,8 @@
  *
  * - collection/runtime 与顶层计数始终对照**完整原始 JSON**。
  * - 声明范围用全叶筛选（多重 file×fullName），禁止 find 只取第一条。
- * - 范围外 skip 可忽略；范围外已执行 failed / 声明叶 pending 等一律拒收。
+ * - 完整 failureMessages 数组/全文参与判定；业务红叠 hook/额外 failure 拒收。
+ * - Pending/Todo 分别与真实叶状态闭合；范围外 skip 可忽略。
  * - mutant：exit 恰 1、恰一 AssertionError、身份多重集合与 positive 一致。
  */
 
@@ -13,15 +14,29 @@ const HARNESS_RED =
 const RAW_UNHANDLED =
   /Unhandled Errors|Uncaught Exception|Unhandled Rejection|Unhandled Error|Vitest caught/i
 
+const isAssertionMessage = (text) =>
+  /^(AssertionError|expect\(|Error: promise resolved)/i.test(text) ||
+  text.includes('AssertionError')
+
 export const leavesOf = (json) => {
   const files = json?.testResults ?? []
   return files.flatMap((f) =>
-    (f.assertionResults ?? []).map((a) => ({
-      fullName: a.fullName,
-      status: a.status,
-      message: a.failureMessages?.[0]?.split('\n')[0] ?? '',
-      file: f.name.replace(/^.*packages\/editor\//, ''),
-    })),
+    (f.assertionResults ?? []).map((a) => {
+      const failureMessages = Array.isArray(a.failureMessages)
+        ? a.failureMessages.map((m) => String(m))
+        : []
+      const messageHeads = failureMessages.map((m) => m.split('\n')[0] ?? '')
+      return {
+        fullName: a.fullName,
+        status: a.status,
+        failureMessages,
+        messageHeads,
+        /** First head kept for target display; never the sole verdict input. */
+        message: messageHeads[0] ?? '',
+        failureText: failureMessages.join('\n---\n'),
+        file: f.name.replace(/^.*packages\/editor\//, ''),
+      }
+    }),
   )
 }
 
@@ -50,6 +65,15 @@ function rawReasons(rawOutput, label) {
   return []
 }
 
+/** Vitest buckets filtered/unselected skips into numPendingTests; status remains "skipped". */
+function pendingLikeCount(allLeaves) {
+  return allLeaves.filter((t) => t.status === 'pending' || t.status === 'skipped').length
+}
+
+function todoCount(allLeaves) {
+  return allLeaves.filter((t) => t.status === 'todo').length
+}
+
 function topLevelCountReasons(json, allLeaves, label) {
   const reasons = []
   if (!json) return reasons
@@ -65,10 +89,42 @@ function topLevelCountReasons(json, allLeaves, label) {
     reasons.push(`${label}:top-count-parts-${parts}!==numTotalTests-${json.numTotalTests}`)
   const passedLeaves = allLeaves.filter((t) => t.status === 'passed').length
   const failedLeaves = allLeaves.filter((t) => t.status === 'failed').length
+  const pendingLeaves = pendingLikeCount(allLeaves)
+  const todos = todoCount(allLeaves)
   if (typeof json.numPassedTests === 'number' && json.numPassedTests !== passedLeaves)
     reasons.push(`${label}:numPassedTests-${json.numPassedTests}!==${passedLeaves}`)
   if (typeof json.numFailedTests === 'number' && json.numFailedTests !== failedLeaves)
     reasons.push(`${label}:numFailedTests-${json.numFailedTests}!==${failedLeaves}`)
+  if (typeof json.numPendingTests === 'number' && json.numPendingTests !== pendingLeaves)
+    reasons.push(`${label}:numPendingTests-${json.numPendingTests}!==${pendingLeaves}`)
+  if (typeof json.numTodoTests === 'number' && json.numTodoTests !== todos)
+    reasons.push(`${label}:numTodoTests-${json.numTodoTests}!==${todos}`)
+  const runtimeSuites = json.numRuntimeErrorTestSuites ?? 0
+  const expectedSuccess = failedLeaves === 0 && runtimeSuites === 0
+  if (typeof json.success === 'boolean' && json.success !== expectedSuccess)
+    reasons.push(`${label}:success-${json.success}!==expected-${expectedSuccess}`)
+  return reasons
+}
+
+/** Reject stacked hook/runtime/extra failures on a failed leaf (full array, not [0] only). */
+function failedLeafMessageReasons(leaf, label) {
+  const reasons = []
+  if (leaf.status !== 'failed') return reasons
+  const msgs = leaf.failureMessages ?? []
+  if (msgs.length === 0) {
+    reasons.push(`${label}:failed-without-messages:${leaf.fullName}`)
+    return reasons
+  }
+  if (msgs.length > 1)
+    reasons.push(`${label}:multi-failure-messages:${msgs.length}:${leaf.fullName}`)
+  for (let i = 0; i < msgs.length; i++) {
+    const head = leaf.messageHeads?.[i] ?? msgs[i].split('\n')[0] ?? ''
+    if (HARNESS_RED.test(head) || HARNESS_RED.test(msgs[i]))
+      reasons.push(`${label}:harness-in-failure:${head.slice(0, 60)}`)
+    // Secondary entries that are plain Error / hook failures are never a clean single red.
+    if (i > 0 && !isAssertionMessage(head))
+      reasons.push(`${label}:stacked-non-assertion-failure:${head.slice(0, 60)}`)
+  }
   return reasons
 }
 
@@ -86,6 +142,7 @@ export function commonChecks({ json, spawnError, signal, label, rawOutput, decla
   const collection = json ? collectionErrors(json) : []
   reasons.push(...collection.map((x) => `${label}:${x}`))
   reasons.push(...rawReasons(rawOutput, label))
+  for (const leaf of allLeaves) reasons.push(...failedLeafMessageReasons(leaf, label))
 
   let tests
   if (Array.isArray(declaredFullNames) && declaredFullNames.length > 0) {
@@ -181,7 +238,14 @@ export function judgeMutant({
   const failed = tests.filter((t) => t.status === 'failed')
   const first = failed[0] ?? null
   const target =
-    first === null ? null : { fullName: first.fullName, message: first.message, file: first.file }
+    first === null
+      ? null
+      : {
+          fullName: first.fullName,
+          message: first.message,
+          failureMessages: first.failureMessages,
+          file: first.file,
+        }
   if (exitCode !== 1) reasons.push(`mutated:exit-${exitCode}`)
   if (failed.length === 0) reasons.push('no-failed')
   if (failed.length > 1) reasons.push(`multi-failed:${failed.length}`)
@@ -196,11 +260,14 @@ export function judgeMutant({
   if (first !== null) {
     if (target.file !== targetFile) reasons.push(`wrong-file:${target.file}`)
     if (target.fullName !== targetFullName) reasons.push('wrong-fullName')
-    const assertionLike =
-      /^(AssertionError|expect\(|Error: promise resolved)/i.test(target.message) ||
-      target.message.includes('AssertionError')
-    if (!assertionLike) reasons.push('not-assertion-red')
-    else if (HARNESS_RED.test(target.message)) reasons.push('harness-red')
+    const msgs = first.failureMessages ?? []
+    if (msgs.length !== 1) reasons.push(`mutated:failure-message-count-${msgs.length}`)
+    else {
+      const head = first.messageHeads?.[0] ?? first.message
+      if (!isAssertionMessage(head) && !isAssertionMessage(msgs[0]))
+        reasons.push('not-assertion-red')
+      else if (HARNESS_RED.test(head) || HARNESS_RED.test(msgs[0])) reasons.push('harness-red')
+    }
   }
   return {
     valid: reasons.length === 0,

@@ -1,11 +1,11 @@
 {
   "taskId": "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
   "owner": "Cursor",
-  "rework": "CURSOR-R2-01～03",
+  "rework": "CURSOR-R3-01～02",
   "branch": "codex/cursor-script-preview-medium-r1",
   "dispatchBase": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
   "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
-  "priorCandidate": "36e409420018f9c9cea4d70d70186e3c466f3a0b",
+  "priorCandidate": "6808d3ab1d920102603e801ab4dd0c68aa0a82bf",
   "status": "rework-delivered-awaiting-codex",
   "executed": 34,
   "netNew": 33,
@@ -20,23 +20,22 @@
     "CTR-C4-01": 12,
     "CTR-C6-01": 12
   },
-  "r2": {
-    "judgeSelftest": "5 false-accept rejects + faithful positive + outside-skip + composite",
-    "rejudge": "cleanup-evidence/rejudge-r2.json allValid=true; original JSON/raw bytes unchanged",
-    "cleanupSelftest": "success/failure/cap/interrupt + refuse unregistered/ancestor/illegal",
-    "c4-03": "cross-check vs C4-02; netNew 34→33"
+  "r3": {
+    "judgeSelftest": "prior rejects + real afterEach composite + pending↔todo mismatch; single AssertionError + outside skip accepted",
+    "rejudge": "cleanup-evidence/rejudge-r3.json allValid=true; original JSON/raw bytes unchanged",
+    "cleanupSelftest": "success/failure/cap/interrupt + refuse unregistered/ancestor/same-path-inode-replacement"
   },
   "gates": {
     "judgeSelftest": "passed",
     "cleanupSelftest": "passed",
     "rejudgeSixNeedles": "6/6 valid",
-    "rootLint": "PASS 2853 files; 0/0/0",
+    "rootLint": "PASS 2854 files; 0/0/0",
     "docs": "FAIL 1 issue: shared medium-triple README missing cursor/ nav (DOC-PARENT-NAV, Codex-owned)",
-    "diffCheck": "PASS (BASE...HEAD and working tree)",
+    "diffCheck": "PASS",
     "verify": {
       "frozenHashesValid": true,
       "scopeValid": true,
-      "changedPaths": 137
+      "changedPaths": 139
     }
   },
   "unfinished": [
@@ -48,5 +47,5 @@
   "productMutations": false,
   "mainMerge": false,
   "officialGate": false,
-  "candidateSha": "7256e100da03f64ea70d2fa9715aff5cafc435c5"
+  "candidateSha": "PENDING_AFTER_PIN"
 }
