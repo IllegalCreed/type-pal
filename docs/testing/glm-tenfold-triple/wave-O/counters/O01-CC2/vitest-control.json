@@ -24,37 +24,37 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790921861504,
+  "startTime": 1790924567416,
   "success": true,
   "testResults": [
     {
       "assertionResults": [
         {
           "ancestorTitles": ["O01 buildPalCurrentPublication：分区替换与作者保留（合成工程）"],
-          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） catalog 分区整体来自供应核且 managedFiles 覆盖全部写入路径",
+          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） catalog 分区来自供应核且 assets/actors 键被托管（不主张全部写入路径）",
           "status": "passed",
-          "title": "catalog 分区整体来自供应核且 managedFiles 覆盖全部写入路径",
-          "duration": 12.860917000000029,
+          "title": "catalog 分区来自供应核且 assets/actors 键被托管（不主张全部写入路径）",
+          "duration": 23.56291699999997,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["O01 buildPalCurrentPublication：分区替换与作者保留（合成工程）"],
-          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 角色分区 = 生成六角色在前、baseline 非生成作者角色按原序保留在后",
+          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 角色分区尾部保留（cross-check：旧 pal.test:180-191 九 ID 全序+作者对象 deepEqual 已更强直证，不计净新）",
           "status": "passed",
-          "title": "角色分区 = 生成六角色在前、baseline 非生成作者角色按原序保留在后",
-          "duration": 5.779459000000031,
+          "title": "角色分区尾部保留（cross-check：旧 pal.test:180-191 九 ID 全序+作者对象 deepEqual 已更强直证，不计净新）",
+          "duration": 12.058209000000033,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["O01 buildPalCurrentPublication：分区替换与作者保留（合成工程）"],
-          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 物品 268/270 仅同步窄消息源，其余作者字段（价格/名字）保留",
+          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 物品 268 名/270 maxRoll 生成基值（消息同步臂由旧 pal.test:221/:225 证）",
           "status": "passed",
-          "title": "物品 268/270 仅同步窄消息源，其余作者字段（价格/名字）保留",
-          "duration": 3.0837079999999446,
+          "title": "物品 268 名/270 maxRoll 生成基值（消息同步臂由旧 pal.test:221/:225 证）",
+          "duration": 6.2327090000001135,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,17 +64,17 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 物品 141 应用隐蛊 overlay（hideParty 3 回合 + battleOnly）",
           "status": "passed",
           "title": "物品 141 应用隐蛊 overlay（hideParty 3 回合 + battleOnly）",
-          "duration": 2.5784160000000043,
+          "duration": 3.90037499999994,
           "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["O01 buildPalCurrentPublication：分区替换与作者保留（合成工程）"],
-          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 商店分区 = 源 1..20 顺序货单，且不发布 ShopDef0",
+          "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 商店货单全部为 141（ID 1..20/no-0 臂由旧 pal.test:226-228 证）",
           "status": "passed",
-          "title": "商店分区 = 源 1..20 顺序货单，且不发布 ShopDef0",
-          "duration": 2.4707919999999604,
+          "title": "商店货单全部为 141（ID 1..20/no-0 臂由旧 pal.test:226-228 证）",
+          "duration": 5.74154099999987,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy sprite-N 等价定义被退休，场景实体引用改写为语义 id",
           "status": "passed",
           "title": "别名闭包：legacy sprite-N 等价定义被退休，场景实体引用改写为语义 id",
-          "duration": 2.4147500000000264,
+          "duration": 7.999708000000055,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy 定义布局漂移（variant）时拒绝发布",
           "status": "passed",
           "title": "别名闭包：legacy 定义布局漂移（variant）时拒绝发布",
-          "duration": 2.2352920000000154,
+          "duration": 7.811000000000149,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,7 +104,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 地图/瓦片集分区来自供应核，地图文件路径与 mapIndex 对齐",
           "status": "passed",
           "title": "地图/瓦片集分区来自供应核，地图文件路径与 mapIndex 对齐",
-          "duration": 2.9560000000000173,
+          "duration": 8.699166999999989,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） baseline 中不属于生成分区的旧地图文件被移出 managedFiles 与 files",
           "status": "passed",
           "title": "baseline 中不属于生成分区的旧地图文件被移出 managedFiles 与 files",
-          "duration": 3.2406250000000227,
+          "duration": 9.58829199999991,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -124,7 +124,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） mapReport 透传供应核地图审计结果",
           "status": "passed",
           "title": "mapReport 透传供应核地图审计结果",
-          "duration": 2.2392090000000167,
+          "duration": 4.801583999999821,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -134,7 +134,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud",
           "status": "passed",
           "title": "current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud",
-          "duration": 2.4656249999999886,
+          "duration": 8.334333999999899,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -144,7 +144,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 生成角色分区数量与 roles 数量漂移时 fail-loud",
           "status": "passed",
           "title": "生成角色分区数量与 roles 数量漂移时 fail-loud",
-          "duration": 1.2781249999999886,
+          "duration": 1.8710409999998774,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -154,7 +154,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 供应核重复源地图编号被地图审计拒绝",
           "status": "passed",
           "title": "供应核重复源地图编号被地图审计拒绝",
-          "duration": 0.9227500000000077,
+          "duration": 1.7800419999998667,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -164,7 +164,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current SceneIndex 缺 raw-owned 场景时 fail-loud",
           "status": "passed",
           "title": "current SceneIndex 缺 raw-owned 场景时 fail-loud",
-          "duration": 1.8954580000000192,
+          "duration": 4.405749999999898,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -174,7 +174,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） SceneIndex 登记的正文缺失时报 label 场景错误（PAL current baseline 前缀）",
           "status": "passed",
           "title": "SceneIndex 登记的正文缺失时报 label 场景错误（PAL current baseline 前缀）",
-          "duration": 1.6213750000000005,
+          "duration": 3.4555840000000444,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -184,7 +184,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） baseline items.json 非数组时 fail-loud",
           "status": "passed",
           "title": "baseline items.json 非数组时 fail-loud",
-          "duration": 2.4155830000000265,
+          "duration": 7.76391700000022,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -194,7 +194,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） baseline 缺必需文件时报精确路径",
           "status": "passed",
           "title": "baseline 缺必需文件时报精确路径",
-          "duration": 1.3701659999999833,
+          "duration": 4.960916000000225,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -204,7 +204,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） Store0 边界在生成侧（作者合并前）对源商店执行 29/6 census",
           "status": "passed",
           "title": "Store0 边界在生成侧（作者合并前）对源商店执行 29/6 census",
-          "duration": 1.942124999999976,
+          "duration": 5.344749999999976,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -214,7 +214,7 @@
           "fullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） buildPalCurrentPublication 不修改传入 baseline 与 sources（输入不可变）",
           "status": "passed",
           "title": "buildPalCurrentPublication 不修改传入 baseline 与 sources（输入不可变）",
-          "duration": 2.2398750000000405,
+          "duration": 8.076249999999845,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -226,7 +226,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 合法发布通过并返回精确计数（场景/地图/资源/托管文件）",
           "status": "passed",
           "title": "合法发布通过并返回精确计数（场景/地图/资源/托管文件）",
-          "duration": 12.770750000000021,
+          "duration": 36.677459,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -238,7 +238,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） manifest contentVersion / minimumSaveVersion 漂移被拒绝",
           "status": "passed",
           "title": "manifest contentVersion / minimumSaveVersion 漂移被拒绝",
-          "duration": 2.2490000000000236,
+          "duration": 3.632458999999926,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -250,7 +250,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） manifest 携带 migrations 或 content.scripts 时被 startup 门拒绝（未知字段）",
           "status": "passed",
           "title": "manifest 携带 migrations 或 content.scripts 时被 startup 门拒绝（未知字段）",
-          "duration": 2.0141669999999863,
+          "duration": 2.769999999999982,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -262,7 +262,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 发布文件含历史路径前缀时拒绝",
           "status": "passed",
           "title": "发布文件含历史路径前缀时拒绝",
-          "duration": 1.9898750000000405,
+          "duration": 6.201416999999765,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -274,7 +274,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） manifest 内容路径缺失时 requiredPath 报精确标签",
           "status": "passed",
           "title": "manifest 内容路径缺失时 requiredPath 报精确标签",
-          "duration": 2.057875000000024,
+          "duration": 4.893667000000278,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -286,7 +286,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 组合模板引用未知瓦片集时拒绝",
           "status": "passed",
           "title": "组合模板引用未知瓦片集时拒绝",
-          "duration": 2.4671670000000177,
+          "duration": 8.038958999999977,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -298,7 +298,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 地图数量与源数量不符时拒绝",
           "status": "passed",
           "title": "地图数量与源数量不符时拒绝",
-          "duration": 2.9750419999999735,
+          "duration": 7.126749999999902,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -310,7 +310,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 地图引用未知瓦片集时拒绝",
           "status": "passed",
           "title": "地图引用未知瓦片集时拒绝",
-          "duration": 2.214041000000009,
+          "duration": 5.829208999999992,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -322,7 +322,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 场景正文 id 与 SceneIndex 不符时拒绝",
           "status": "passed",
           "title": "场景正文 id 与 SceneIndex 不符时拒绝",
-          "duration": 2.6370000000000005,
+          "duration": 6.900708000000122,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -334,7 +334,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 场景引用未知地图时拒绝",
           "status": "passed",
           "title": "场景引用未知地图时拒绝",
-          "duration": 3.639542000000006,
+          "duration": 7.72808299999997,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -346,7 +346,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）",
           "status": "passed",
           "title": "方案 label 漂移被永久门禁拒绝（名称漂移）",
-          "duration": 3.1243329999999787,
+          "duration": 10.283750000000055,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -358,7 +358,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） machine-inner label 与父方案名不同步时拒绝",
           "status": "passed",
           "title": "machine-inner label 与父方案名不同步时拒绝",
-          "duration": 4.0268330000000105,
+          "duration": 8.762333000000126,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -370,7 +370,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案节点与 item select 边成对缺失导致 census 数量漂移时拒绝",
           "status": "passed",
           "title": "方案节点与 item select 边成对缺失导致 census 数量漂移时拒绝",
-          "duration": 3.250417000000027,
+          "duration": 9.327957999999853,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -382,7 +382,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 buy openShop 至 28 时生成侧 census 拒绝发布",
           "status": "passed",
           "title": "作者改动 buy openShop 至 28 时生成侧 census 拒绝发布",
-          "duration": 2.4424999999999955,
+          "duration": 6.142667000000074,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -394,7 +394,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 sell openShop 指向非 0 商店时生成侧拒绝",
           "status": "passed",
           "title": "作者改动 sell openShop 指向非 0 商店时生成侧拒绝",
-          "duration": 2.491540999999984,
+          "duration": 8.246499999999742,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -406,7 +406,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） item268 配方漂移（材料表被改）触发 Store0 recipes 拒绝",
           "status": "passed",
           "title": "item268 配方漂移（材料表被改）触发 Store0 recipes 拒绝",
-          "duration": 4.220458000000008,
+          "duration": 12.71545900000001,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -418,7 +418,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） item270 资源池档位漂移触发 Store0 奖励拒绝",
           "status": "passed",
           "title": "item270 资源池档位漂移触发 Store0 奖励拒绝",
-          "duration": 3.420041000000083,
+          "duration": 8.272791000000325,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -430,7 +430,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 悬空 inParty actor 引用被拒绝",
           "status": "passed",
           "title": "悬空 inParty actor 引用被拒绝",
-          "duration": 2.939791000000014,
+          "duration": 8.438333000000057,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -442,7 +442,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 资源闭包失败（catalog 缺入口视频资产）被拒绝",
           "status": "passed",
           "title": "资源闭包失败（catalog 缺入口视频资产）被拒绝",
-          "duration": 6.455375000000004,
+          "duration": 16.898833000000195,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -454,7 +454,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 入口场景缺失时 manifest startup 拒绝",
           "status": "passed",
           "title": "入口场景缺失时 manifest startup 拒绝",
-          "duration": 2.4177499999999554,
+          "duration": 7.495249999999942,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -466,7 +466,7 @@
           "fullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） validatePalCurrentPublication 不修改发布文件（输入不可变）",
           "status": "passed",
           "title": "validatePalCurrentPublication 不修改发布文件（输入不可变）",
-          "duration": 4.736958000000072,
+          "duration": 12.800458999999591,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -476,17 +476,17 @@
           "fullName": "O01 合成 catalog 自检（fixture 卫生，不计产品净新合同） syntheticCatalog 的所有 path 位于 assets/generated 前缀",
           "status": "passed",
           "title": "syntheticCatalog 的所有 path 位于 assets/generated 前缀",
-          "duration": 0.2938330000000633,
+          "duration": 1.081749999999829,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790921861931,
-      "endTime": 1790921862062.737,
+      "startTime": 1790924569332,
+      "endTime": 1790924569671.0818,
       "status": "passed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-tG1XpZ/packages/migrate/src/pal-current-publication.glm-o.test.ts"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-tE0vWb/packages/migrate/src/pal-current-publication.glm-o.test.ts"
     }
   ]
 }

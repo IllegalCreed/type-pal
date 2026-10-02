@@ -584,283 +584,255 @@
     "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65 快照发现/:69 工程快照/上游 baseline）",
     "classification": "residual-arm"
   },
-  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） catalog 分区整体来自供应核且 managedFiles 覆盖全部写入路径": {
-    "condition": "合成供应核→publication：assets/index.json 等于 catalog、managedFiles 含写入路径",
-    "source": "pal-current-publication.ts:83-90 required 文件门 + 分区替换",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 分区替换整链 → 条件差新轴",
-    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
-    "classification": "normal-input"
-  },
-  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 角色分区 = 生成六角色在前、baseline 非生成作者角色按原序保留在后": {
-    "condition": "baseline actors 追加作者角色 author-npc；生成六角色 + 作者尾保留",
-    "source": "pal-current-publication.ts:124-160 角色分区",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 角色合并 → 条件差新轴",
-    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
-    "classification": "normal-input"
-  },
-  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 物品 268/270 仅同步窄消息源，其余作者字段（价格/名字）保留": {
-    "condition": "268/270 窄消息同步后 buyPrice/name/craftRecipe/drawFromResourcePool 保留",
-    "source": "pal-current-publication.ts:163-170 items 同步",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 物品合并 → 条件差新轴",
-    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
-    "classification": "normal-input"
-  },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 物品 141 应用隐蛊 overlay（hideParty 3 回合 + battleOnly）": {
     "condition": "141 隐蛊 overlay：hideParty 3 回合 + battleOnly + consuming",
     "source": "pal-current-publication.ts:163-170（overlay 应用）",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test overlay → 条件差新轴",
-    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
-    "classification": "normal-input"
-  },
-  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 商店分区 = 源 1..20 顺序货单，且不发布 ShopDef0": {
-    "condition": "shops=1..20 全 141 货单，ShopDef0 不发布",
-    "source": "pal-current-publication.ts 商店分区",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 商店 → 条件差新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test overlay → 条件差新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "normal-input"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy sprite-N 等价定义被退休，场景实体引用改写为语义 id": {
     "condition": "sprite-2/525 退休、实体 sprite 改写语义 id",
     "source": "pal-current-publication.ts:175-186 别名闭包",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 别名 → 条件差新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 别名 → 条件差新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "normal-input"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy 定义布局漂移（variant）时拒绝发布": {
     "condition": "sprite-2 layout 改 static → 不严格等价拒绝",
     "source": "pal-current-publication.ts:184 别名等价守卫",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 地图/瓦片集分区来自供应核，地图文件路径与 mapIndex 对齐": {
     "condition": "map-001 与 mapIndex 路径对齐；tilesets 逐字节",
     "source": "pal-current-publication.ts:269-296 地图/瓦片集",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 地图 → 条件差新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test 地图 → 条件差新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "normal-input"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） baseline 中不属于生成分区的旧地图文件被移出 managedFiles 与 files": {
     "condition": "baseline 混入 map-999 → 移出 files/managedFiles",
     "source": "pal-current-publication.ts:269-280",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "normal-input"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） mapReport 透传供应核地图审计结果": {
     "condition": "mapReport={mapCount:1,semanticRoundTripMismatchCount:0}",
     "source": "pal-current-publication.ts mapReport 透传",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "aggregation-shape"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud": {
     "condition": "baseline 混入 _transitions/content/migrations/content/scripts 三轴",
     "source": "pal-current-publication.ts:100-104 历史路径门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 生成角色分区数量与 roles 数量漂移时 fail-loud": {
     "condition": "roles 重复 roleId → 稳定 id 去重后 actors<roles",
     "source": "pal-current-publication.ts:118-126 分区数量门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 供应核重复源地图编号被地图审计拒绝": {
     "condition": "tilemaps 复制 → 重复编号 1 拒绝",
     "source": "pal-current-publication.ts:184-190 地图审计",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current SceneIndex 缺 raw-owned 场景时 fail-loud": {
     "condition": "index 删 s020 → 缺 raw-owned 拒绝",
     "source": "pal-current-publication.ts:170-176",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） SceneIndex 登记的正文缺失时报 label 场景错误（PAL current baseline 前缀）": {
     "condition": "删 s003.json → SceneIndex s003 缺正文（cause 链）",
     "source": "pal-current-publication.ts:136-141",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） baseline items.json 非数组时 fail-loud": {
     "condition": "items.json={broken:true} → 期望数组",
     "source": "pal-current-publication.ts:161-164",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） baseline 缺必需文件时报精确路径": {
     "condition": "删 actors.json → 缺文件精确路径",
     "source": "pal-current-publication.ts:81-84 required 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） Store0 边界在生成侧（作者合并前）对源商店执行 29/6 census": {
     "condition": "生成侧 census 29/6 满足（shops.json 在场）",
     "source": "pal-current-publication.ts Store0 生成侧 census",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test Store0 → 条件差新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test Store0 → 条件差新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "normal-input"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） buildPalCurrentPublication 不修改传入 baseline 与 sources（输入不可变）": {
     "condition": "rebuild 前后 baseline files/managedFiles 逐字节",
     "source": "pal-current-publication.ts（无原位写）",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "immutability"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 合法发布通过并返回精确计数（场景/地图/资源/托管文件）": {
     "condition": "合成合法发布：scenes 40/maps 1/assets 全量/warnings 1/0",
     "source": "pal-current-publication.ts:200-232 validate 主链",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test acceptance + next-wave:59 前置 → 条件差新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 pal.test acceptance + next-wave:59 前置 → 条件差新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "normal-input"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） manifest contentVersion / minimumSaveVersion 漂移被拒绝": {
     "condition": "contentVersion+1 / minimumSaveVersion+1 两轴",
     "source": "pal-current-publication.ts:216-222 版本门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） manifest 携带 migrations 或 content.scripts 时被 startup 门拒绝（未知字段）": {
     "condition": "migrations={}/content.scripts 两轴",
     "source": "pal-current-publication.ts:223-226 startup 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 发布文件含历史路径前缀时拒绝": {
     "condition": "managedFiles 混入 content/migrations/x.json",
     "source": "pal-current-publication.ts:227-229 历史路径门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） manifest 内容路径缺失时 requiredPath 报精确标签": {
     "condition": "删 manifest.content.actors → 缺 actors 路径",
     "source": "pal-current-publication.ts:86-89 requiredPath",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 组合模板引用未知瓦片集时拒绝": {
     "condition": "stamp tilesetRefs=[不存在]",
     "source": "pal-current-publication.ts:266-270 组合门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 地图数量与源数量不符时拒绝": {
     "condition": "sources.tilemaps=[] → 地图数量 1!=源 0",
     "source": "pal-current-publication.ts:270-274",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 地图引用未知瓦片集时拒绝": {
     "condition": "tilesets id 改 tileset-other",
     "source": "pal-current-publication.ts:276-280",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 场景正文 id 与 SceneIndex 不符时拒绝": {
     "condition": "s000 正文 id 改 s999",
     "source": "pal-current-publication.ts:292-295",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 场景引用未知地图时拒绝": {
     "condition": "s000 mapId 改不存在",
     "source": "pal-current-publication.ts:296-297",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）": {
     "condition": "s000 trigger 首方案 label 改",
     "source": "pal-current-publication.ts:360-370 方案名门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） machine-inner label 与父方案名不同步时拒绝": {
     "condition": "machine.label 改不同步",
     "source": "pal-current-publication.ts:370-375 machine-inner 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案节点与 item select 边成对缺失导致 census 数量漂移时拒绝": {
     "condition": "删 trigger scheme-00 + item268 script 对应 selection → 48!=49",
     "source": "pal-current-publication.ts:375-390 census 数量门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 buy openShop 至 28 时生成侧 census 拒绝发布": {
     "condition": "baseline s000 shop-census stages 首段删一条 → 28!=29",
     "source": "pal-current-publication.ts Store0 buy census 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 sell openShop 指向非 0 商店时生成侧拒绝": {
     "condition": "sell shop 改 7 → 应为 0",
     "source": "pal-current-publication.ts Store0 sell 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） item268 配方漂移（材料表被改）触发 Store0 recipes 拒绝": {
     "condition": "craftRecipe ingredients[0].itemId=999",
     "source": "pal-current-publication.ts Store0 recipes 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） item270 资源池档位漂移触发 Store0 奖励拒绝": {
     "condition": "drawFromResourcePool rewards[0].count=2",
     "source": "pal-current-publication.ts Store0 奖励门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 悬空 inParty actor 引用被拒绝": {
     "condition": "census 追加 inParty ghost-actor branch",
     "source": "pal-current-publication.ts:320-326 inParty 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 资源闭包失败（catalog 缺入口视频资产）被拒绝": {
     "condition": "删 video.pal.003 → 闭包失败含资产名",
     "source": "pal-current-publication.ts:388-395 闭包门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 next-wave:76 为前置表缺 assets/index 文件；本行为 validate 侧闭包缺资产 → 条件差新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件；最近邻 next-wave:76 为前置表缺 assets/index 文件；本行为 validate 侧闭包缺资产 → 条件差新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 入口场景缺失时 manifest startup 拒绝": {
     "condition": "删 s000 正文+index 项 → startup 报 s000",
     "source": "pal-current-publication.ts manifest startup 门",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "guard-rejection"
   },
   "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） validatePalCurrentPublication 不修改发布文件（输入不可变）": {
     "condition": "validate 前后 publication.files 逐字节",
     "source": "pal-current-publication.ts（无原位写）",
-    "oldAssertion": "旧 pal-current-publication.pal.test.ts:33+ 为真实 PAL 语料整链 acceptance（一个 it）；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
+    "oldAssertion": "旧 pal-current-publication.pal.test.ts 三 it（it1 :33-87 商店生命周期/it2 :88-229 作者保留分区/it3 :231-251 毒拒绝）真实 PAL 语料；本域 38 行为合成语料逐门臂——pal.test 不可达的精确漂移/守卫条件 → gap 新轴",
     "caller": "生产链：migrate-content.mts:90 validatePalCurrentPublication（发布门在 plan/commit 之前）",
     "classification": "immutability"
   },
@@ -877,5 +849,33 @@
     "oldAssertion": "boundaries:30-64 标题含「新增」但实际只改已有 a 与删 old；incoming-only 新文件进入 writes 未证——Codex 变异（writes.set 加 ours 已有或 map 条件）独证旧/保留 34 绿仅此断言红 → 窄新轴（O-R17-01 恢复）",
     "caller": "生产链：migrate-content.mts:70 createMigrationPlan（输入 :65/:69）",
     "classification": "residual-arm"
+  },
+  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 角色分区尾部保留（cross-check：旧 pal.test:180-191 九 ID 全序+作者对象 deepEqual 已更强直证，不计净新）": {
+    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
+    "condition": "baseline actors 追加作者角色 author-npc；生成序在前、作者尾保留",
+    "source": "pal-current-publication.ts:124-160 角色分区",
+    "oldAssertion": "existing-proof：旧 pal.test:179-191 九 ID 全序+作者对象 deepEqual 更强直证；本行为快速 cross-check 不计净新",
+    "classification": "existing-proof-cross-check"
+  },
+  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 商店货单全部为 141（ID 1..20/no-0 臂由旧 pal.test:226-228 证）": {
+    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
+    "condition": "合成合法发布：20 家商店 items 全为 [\"141\"]",
+    "source": "pal-current-publication.ts 商店分区",
+    "oldAssertion": "ID 1..20 序与 no-ShopDef0 由旧 pal.test:226-228 直证（existing-proof）；货单内容全 141 未证 → 货单臂新轴",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 物品 268 名/270 maxRoll 生成基值（消息同步臂由旧 pal.test:221/:225 证）": {
+    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
+    "condition": "纯生成基线（无作者改）：268 name=炼蛊皿、270 pool maxRoll=9",
+    "source": "pal-current-publication.ts:163-170 items 窄同步",
+    "oldAssertion": "craft/pool unavailableMessage 同步由旧 pal.test:217-225 直证（existing-proof）；buyPrice 作者保留旧证（1_234 侧）；生成基值 name/maxRoll 未证 → 基值臂新轴",
+    "classification": "residual-arm"
+  },
+  "packages/migrate/src/pal-current-publication.glm-o.test.ts :: O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） catalog 分区来自供应核且 assets/actors 键被托管（不主张全部写入路径）": {
+    "caller": "生产链：migrate-content.mts:62 buildPalCurrentPublication（输入 :54 baseline/:60 sources）",
+    "condition": "合成发布：assets/index.json===catalog 且 managedFiles 含 assets/index.json 与 content/actors.json 两键",
+    "source": "pal-current-publication.ts:81-90 required 门+分区替换",
+    "oldAssertion": "旧 pal.test it2 分区直证为最近邻；本行仅断言两托管键（不主张全部写入路径）→ 两键观测臂新轴",
+    "classification": "normal-input"
   }
 }
