@@ -611,7 +611,7 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
       {
         body: [
           { kind: 'dialog', cue: { rows: [{ text: 'dlg.141' }, { text: 'dlg.142' }] } },
-          { kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'sprite-208' },
+          { kind: 'setActorAppearance', actor: 'li-xiaoyao', spriteId: 'sprite-208' },
           { kind: 'setEntityState', target: { scene: 's001', entity: 'e20' }, state: 0 },
         ],
       },
@@ -655,6 +655,7 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
     world: {
       money: 500,
       inventory: [],
+      party: [{ id: 'li-xiaoyao', template: 'li-xiaoyao' }],
       script: {
         flags: {},
         vars: {},
@@ -673,9 +674,35 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
       },
     },
   }
-  const predecessor = { world: { inventory: [], script: { flags: {}, vars: {} } } }
+  const predecessor = {
+    world: {
+      party: structuredClone(payload.world.party),
+      inventory: [],
+      script: { flags: {}, vars: {} },
+    },
+  }
   assertKitchenEndPayload(payload, 'reforge', predecessor, contract)
+  const materialized = structuredClone(payload)
+  materialized.world.party[0].extraPoisonRes = undefined
+  materialized.world.party[0].extraStatuses = undefined
+  assertKitchenEndPayload(materialized, 'reforge', predecessor, contract)
+  const transientPickup = structuredClone(contract)
+  transientPickup.scenes.s001.entities[1].behaviors.trigger.ready.flow.stages[0].body[1] = {
+    kind: 'setActorSprite',
+    actor: 'li-xiaoyao',
+    sprite: 'sprite-208',
+  }
+  assert.throws(
+    () => assertKitchenEndPayload(payload, 'reforge', predecessor, transientPickup),
+    /persistent pickup/,
+  )
   for (const corrupt of [
+    (p) => {
+      p.world.party[0].portrait = 'different persistent portrait'
+    },
+    (p) => {
+      p.world.party[0].appearance = { spriteId: 'sprite-208' }
+    },
     (p) => {
       p.world.money = 499
     },

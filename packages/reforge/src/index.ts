@@ -210,6 +210,7 @@ export {
   projectItemsView,
   runtimeItemPrivateScriptRef,
   runtimeProjectView,
+  runtimeSceneView,
   runtimeScriptRef,
 } from './runtime-project-view.js'
 export type { SceneMapAssets }

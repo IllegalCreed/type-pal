@@ -185,14 +185,16 @@ test('003 serving instruction arms an executable 004 handoff, but never activate
     selection: { kind: 'use', value: 'take-dishes' },
   })
   expect(
-    result.commands.some((c) => ['giveItem', 'setActorSprite', 'setEntityState'].includes(c.kind)),
+    result.commands.some((c) =>
+      ['giveItem', 'setActorAppearance', 'setEntityState'].includes(c.kind),
+    ),
   ).toBe(false)
   const take = await run(flow('s001', 'e20', 'trigger', 'take-dishes'))
   expect(take.rows).toEqual(['dlg.141', 'dlg.142'])
   expect(take.commands).toContainEqual({
-    kind: 'setActorSprite',
+    kind: 'setActorAppearance',
     actor: 'li-xiaoyao',
-    sprite: 'sprite-208',
+    spriteId: 'sprite-208',
   })
   for (const command of take.commands) {
     if (command.kind === 'selectEntityBehavior' && command.selection.kind === 'use')

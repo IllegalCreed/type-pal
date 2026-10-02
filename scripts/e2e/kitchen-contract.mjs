@@ -410,6 +410,12 @@ export function assertKitchenEndPayload(payload, engine, predecessor, contract) 
       predecessor.world.inventory,
       'food was taken or inventory changed',
     )
+    assert.deepEqual(
+      JSON.parse(JSON.stringify(world.party)),
+      predecessor.world.party,
+      '003 changed persistent party before pickup',
+    )
+    assert.notEqual(world.party[0].appearance?.spriteId, 'sprite-208', 'food already carried')
     assert.equal(world.script.entityState.s003.e56, 0)
     assert.equal(world.script.entityState.s001.e19, 2)
     assert.equal(world.script.entityState.s001.e20, 1)
@@ -425,9 +431,12 @@ export function assertKitchenEndPayload(payload, engine, predecessor, contract) 
     )
     assert(
       commands.some(
-        (c) => c.kind === 'setActorSprite' && c.actor === 'li-xiaoyao' && c.sprite === 'sprite-208',
+        (c) =>
+          c.kind === 'setActorAppearance' &&
+          c.actor === 'li-xiaoyao' &&
+          c.spriteId === 'sprite-208',
       ),
-      'carry-ready body missing real pickup',
+      'carry-ready body missing persistent pickup',
     )
     assert(
       commands.some(

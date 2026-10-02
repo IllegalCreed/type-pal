@@ -2,6 +2,31 @@ import { describe, expect, test } from 'vitest'
 import { flowOf, preview, settle, target } from './__tests__/playback-canonical-fixtures.js'
 
 describe('Canonical preview effect boundaries', () => {
+  test('persistent actor sprite appearance shows the carried meal and restored body in scratch only', async () => {
+    const r = preview()
+    await r.start(
+      flowOf([
+        { kind: 'setActorAppearance', actor: 'li-xiaoyao', spriteId: 'sprite-208' },
+        { kind: 'setActorAppearance', actor: 'li-xiaoyao', portrait: 'portrait.pal.001' },
+        { kind: 'setActorAppearance', actor: 'li-xiaoyao', spriteId: 'li-xiaoyao' },
+      ]),
+      { paused: true },
+    )
+    r.p.step()
+    await settle()
+    expect(r.p.view.player.spriteId).toBe('sprite-208')
+    r.p.step()
+    await settle()
+    expect(r.p.view.player.spriteId).toBe('sprite-208')
+    r.p.step()
+    await settle()
+    expect(r.p.view.player.spriteId).toBe('li-xiaoyao')
+    expect(r.p.view.logs).toEqual([
+      '🎭 li-xiaoyao 换精灵 sprite-208',
+      '🎭 li-xiaoyao 换精灵 li-xiaoyao',
+    ])
+    r.unchanged()
+  })
   test('item labels, default counts and signed money are logs without modifying authored data', async () => {
     const r = preview()
     await r.run([

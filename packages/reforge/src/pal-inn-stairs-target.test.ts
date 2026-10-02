@@ -33,13 +33,21 @@ test.each([
   ['s003', 'e62', 'auto', 'default', '门口醉卧：交替姿势'],
   ['s001', 'e19', 'trigger', 'default', '赶道士期间：追问是否打发走'],
   ['s001', 'e19', 'trigger', 'c8-74bc98f07f8e', '赠酒后：给钱托逍遥买鲜虾'],
-  ['s001', 'e19', 'auto', 'default', '厨房待机：保持向上姿势'],
 ] as const)('names the actual %s/%s/%s/%s behavior by its verified purpose', (sceneId, id, channel, behavior, label) => {
   const source = sceneId === 's003' ? inn : rooms
   const entity = validateAuthorScenes([structuredClone(source)])[0]!.entities.find(
     (e) => e.id === id,
   )!
   expect(entity.behaviors?.[channel]?.[behavior]?.label).toBe(label)
+})
+
+test('kitchen aunt uses a static initial up pose instead of an automatic pose writer', () => {
+  const entity = validateAuthorScenes([structuredClone(rooms)])[0]!.entities.find(
+    (e) => e.id === 'e19',
+  )!
+  expect(entity.facing).toBe('up')
+  expect(entity.behaviors?.auto).toBeUndefined()
+  expect(entity.pages?.every((page) => page.auto === undefined)).toBe(true)
 })
 
 test('one activation runs the actual aunt route as one step with six target commands and explicit completion', async () => {

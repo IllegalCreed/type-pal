@@ -585,6 +585,7 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   revivePartyAll: ['✨', '复活全队'],
   ride: ['⛵', '载具移动'],
   selectEntityBehavior: ['🔗', '切换实体脚本'],
+  runEntityTrigger: ['▶', '执行实体交互方案'],
   selectEntityPage: ['📄', '切换实体页面'],
   selectSceneHooks: ['📜', '切换场景脚本'],
   setActorAppearance: ['🎭', '更换角色形象'],
@@ -820,6 +821,7 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
       }
     case 'loop':
     case 'selectEntityBehavior':
+    case 'runEntityTrigger':
     case 'selectEntityPage':
     case 'selectSceneHooks':
       return undefined
@@ -834,6 +836,13 @@ export function describeCanonicalCommand(
 ): DescribedCommand {
   const children = commandChildren(command)
   switch (command.kind) {
+    case 'runEntityTrigger':
+      return {
+        icon: '▶',
+        label: `${addressLabel(command.target, context)} 执行交互方案`,
+        detail: '等执行完成后继续 · 当前场景演出；切场、战斗在调用返回后编排',
+        children,
+      }
     case 'branch':
       return { icon: '🔀', label: `如果 ${conditionLabel(command.cond, context)}`, children }
     case 'loop':
@@ -2252,6 +2261,7 @@ function CanonicalCommandForm(props: {
     command.kind === 'restoreEntity' ||
     command.kind === 'removeEntity' ||
     command.kind === 'selectEntityBehavior' ||
+    command.kind === 'runEntityTrigger' ||
     command.kind === 'selectEntityPage' ||
     command.kind === 'setEntityTriggerActivation'
   ) {
@@ -2284,6 +2294,11 @@ function CanonicalCommandForm(props: {
         ) : (
           <div className="hint">未指定目标：使用当前 self。</div>
         )}
+        {command.kind === 'runEntityTrigger' ? (
+          <p className="hint">
+            执行当前已选中的交互方案与步骤，等执行完成后继续。仅当前场景演出；切场、战斗在调用返回后编排。
+          </p>
+        ) : null}
         {command.kind === 'setEntityState' ? (
           <CanonicalField label="状态">
             <EntityStateSelect
@@ -2831,6 +2846,8 @@ function fallbackInsertionChoice(
         ? enabled({ kind, script })
         : unavailable('请先在“剧情 → 脚本库”创建一个可复用脚本')
     }
+    case 'runEntityTrigger':
+      return target ? enabled({ kind, target }) : unavailable('请先选择当前场景实体')
     case 'clearActorCondition': {
       const actor = Object.values(context?.actors ?? {}).find((candidate) => candidate.battler)?.id
       const poisonId = Number(context?.references.choices('poison')[0]?.id)

@@ -896,6 +896,14 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     origin: '0x24/0x25 的当前表达',
   },
   {
+    kind: 'runEntityTrigger',
+    icon: '▶',
+    name: '执行实体交互方案',
+    group: '控制流',
+    params: [['target', '当前场景中的稳定实体地址']],
+    desc: '立即执行目标当前选中的交互方案与步骤，等执行完成后继续。仅当前场景演出；切场、战斗在调用返回后编排。自动行为和入场准备不能调用。',
+  },
+  {
     kind: 'selectEntityPage',
     icon: '📄',
     name: '切换实体页面',

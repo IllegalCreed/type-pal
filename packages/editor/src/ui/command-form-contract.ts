@@ -58,6 +58,7 @@ export const AUTHOR_CUSTOM_COMMAND_KINDS = [
   'setEntityTriggerActivation',
   'selectSceneHooks',
   'callScript',
+  'runEntityTrigger',
 ] as const satisfies readonly AuthorCommand['kind'][]
 
 export type AuthorCustomCommandKind = (typeof AUTHOR_CUSTOM_COMMAND_KINDS)[number]

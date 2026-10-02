@@ -588,6 +588,11 @@ export class FlowRuntimeCoordinator {
     return this.epochForKey(ownerKey(owner))
   }
 
+  /** 只读活跃身份查询；epoch失效的在途lease仍然是busy，不允许同owner重新租用。 */
+  isOwnerActive(owner: PersistentFlowOwner): boolean {
+    return this.active.has(ownerKey(owner))
+  }
+
   bump(owner: PersistentFlowOwner): number {
     const key = ownerKey(owner)
     const epoch = this.epochForKey(key) + 1
@@ -704,12 +709,14 @@ export class FlowRuntimeCoordinator {
     target: EntityAddress,
     channel: 'trigger' | 'auto',
     parent?: FlowLease,
+    beforeCommit?: () => void,
   ): ActiveEntityBehavior | undefined {
     const resolved = resolveEntityBehavior(entity, world, target, channel)
     if (!resolved || resolved.cursor.kind === 'completed') return
     const lease = this.begin(
       entityOwner(target, channel),
       (cursor, resume) => {
+        beforeCommit?.()
         assertFlowCursor(resolved.behavior.flow, cursor)
         const state = clone(entityWorldState(world, target) ?? {})
         const slot: ActiveBehaviorSlot = clone(state[channel] ?? {})
@@ -732,12 +739,14 @@ export class FlowRuntimeCoordinator {
     scene: BaseSceneDef,
     slot: 'onEnter' | 'onTeleport',
     parent?: FlowLease,
+    beforeCommit?: () => void,
   ): ActiveSceneHook | undefined {
     const resolved = resolveSceneHook(scene, world, slot)
     if (!resolved || resolved.cursor.kind === 'completed') return
     const lease = this.begin(
       hookOwner(scene.id, slot),
       (cursor) => {
+        beforeCommit?.()
         assertFlowCursor(resolved.hook.flow, cursor)
         const state = clone(sceneWorldState(world, scene.id) ?? {})
         const slotState = clone(state[slot] ?? {})

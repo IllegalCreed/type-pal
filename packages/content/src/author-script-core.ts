@@ -261,6 +261,7 @@ export type BaseAuthorCommand =
       selection: Partial<Record<'onEnter' | 'onTeleport', Selection<HookId>>>
     }
   | { kind: 'callScript'; script: ScriptId; self?: EntityAddress }
+  | { kind: 'runEntityTrigger'; target: EntityAddress }
 
 /**
  * Canonical author command vocabulary. The runtime command table supplies the retained leaf kinds while
@@ -272,6 +273,7 @@ const RETAINED_RUNTIME_COMMAND_KINDS = Object.fromEntries(
 
 const AUTHOR_ONLY_COMMAND_KINDS = {
   loop: true,
+  runEntityTrigger: true,
   selectEntityBehavior: true,
   selectEntityPage: true,
   setEntityTriggerActivation: true,
@@ -659,6 +661,14 @@ export function checkBaseAuthorCommands(
       checkActorConditionCommandShape(command, commandPath)
     if (kind === 'loadScene' && options.forbidLoadScene)
       throw new Error(`${commandPath}: auto 行为禁止 loadScene`)
+    if (kind === 'runEntityTrigger') {
+      exactKeys(command, ['kind', 'target'], commandPath)
+      checkEntityAddress(command.target, `${commandPath}.target`)
+      if (options.forbidRunEntityTrigger)
+        throw new Error(
+          `${commandPath}: ${options.forbidRunEntityTrigger} 禁止 runEntityTrigger，仅允许 interactive`,
+        )
+    }
     if (kind === 'loadScene') {
       exactKeys(command, ['kind', 'scene', 'entryId', 'pos', 'facing', 'transition'], commandPath)
       nonEmptyString(command.scene, `${commandPath}.scene`)
@@ -833,7 +843,10 @@ function checkCursorHandoff(value: unknown, path: string): void {
 function checkSceneEntry(value: unknown, path: string, options: CommandValidationOptions): void {
   const entry = record(value, path)
   exactKeys(entry, ['prepare', 'reveal'], path)
-  checkBaseAuthorCommands(entry.prepare, `${path}.prepare`, options)
+  checkBaseAuthorCommands(entry.prepare, `${path}.prepare`, {
+    ...options,
+    forbidRunEntityTrigger: 'prepare',
+  })
   const reveal = record(entry.reveal, `${path}.reveal`)
   if (reveal.kind !== 'dither' && reveal.kind !== 'fade' && reveal.kind !== 'cut')
     throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
@@ -1091,6 +1104,7 @@ export function checkBaseEntityBehaviors(
       checkBaseScriptFlow(behavior.flow, `${path}.behaviors.${channel}.${id}.flow`, {
         ...options,
         forbidLoadScene: channel === 'auto',
+        ...(channel === 'auto' ? { forbidRunEntityTrigger: 'auto' as const } : {}),
       })
       behaviorIds[channel].add(id)
     }

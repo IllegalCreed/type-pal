@@ -2208,6 +2208,7 @@
     },
     {
       "id": "e12",
+      "label": "随从客房出口",
       "pos": {
         "col": 108,
         "row": 33,
@@ -2229,7 +2230,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "离开苗人随从客房",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2250,7 +2251,8 @@
                         "evidenceId": "pal-load-scene-220"
                       }
                     }
-                  ]
+                  ],
+                  "label": "回到客栈二楼"
                 }
               ]
             }
@@ -2426,6 +2428,7 @@
     },
     {
       "id": "e15",
+      "label": "送酒菜触发区",
       "pos": {
         "col": 108,
         "row": 29,
@@ -2448,7 +2451,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "送酒菜给苗人随从，接回退酒",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2853,9 +2856,9 @@
                       "kind": "giveItem"
                     },
                     {
+                      "kind": "setActorAppearance",
                       "actor": "li-xiaoyao",
-                      "kind": "setActorSprite",
-                      "sprite": "li-xiaoyao"
+                      "spriteId": "li-xiaoyao"
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -2941,7 +2944,8 @@
                         "value": "legacy-001"
                       }
                     }
-                  ]
+                  ],
+                  "label": "端上酒菜，客人退回桂花酒"
                 }
               ]
             }
@@ -2951,6 +2955,7 @@
     },
     {
       "id": "e16",
+      "label": "苗人客房酒菜",
       "pos": {
         "col": 109,
         "row": 26,
@@ -3014,6 +3019,7 @@
     },
     {
       "id": "e18",
+      "label": "厨房出口",
       "pos": {
         "col": 102,
         "row": 59,
@@ -3035,7 +3041,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "离开厨房",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3056,7 +3062,8 @@
                         "evidenceId": "pal-load-scene-236"
                       }
                     }
-                  ]
+                  ],
+                  "label": "回到客栈大厅"
                 }
               ]
             }
@@ -3080,7 +3087,6 @@
           "id": "default",
           "label": "默认模式",
           "trigger": "default",
-          "auto": "default",
           "triggerActivation": {
             "on": "interact",
             "range": 3
@@ -3358,45 +3364,12 @@
               ]
             }
           }
-        },
-        "auto": {
-          "default": {
-            "label": "厨房待机：保持向上姿势",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e19"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e19"
-                      }
-                    }
-                  ],
-                  "label": "备菜时保持向上姿势"
-                }
-              ]
-            }
-          }
         }
       }
     },
     {
       "id": "e20",
+      "label": "厨房待端酒菜",
       "pos": {
         "col": 92,
         "row": 51,
@@ -3420,7 +3393,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "未受托时：桌上酒菜已备好",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3446,7 +3419,8 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "查看桌上酒菜"
                 }
               ]
             }
@@ -3499,9 +3473,25 @@
                       }
                     },
                     {
-                      "kind": "setActorSprite",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "setActorAppearance",
                       "actor": "li-xiaoyao",
-                      "sprite": "sprite-208"
+                      "spriteId": "sprite-208"
                     },
                     {
                       "kind": "setEntityState",
@@ -3579,7 +3569,8 @@
                         "value": "carrying-dishes-blocked"
                       }
                     }
-                  ]
+                  ],
+                  "label": "听李大娘叮嘱，端起酒菜"
                 }
               ]
             }

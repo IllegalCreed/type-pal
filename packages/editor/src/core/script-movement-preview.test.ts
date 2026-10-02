@@ -34,6 +34,23 @@ const preview = (body: AuthorCommand[], sharedScripts?: AuthorScriptLibrary) =>
   collectScriptMovementPreview({ scene, flow: flowOf(body), self: target, sharedScripts })
 
 describe('selected author movement preview', () => {
+  test('an explicit entity call is an unknown-position boundary, never a fabricated connected route', () => {
+    const result = preview([
+      move(2),
+      { kind: 'runEntityTrigger', target: other },
+      { kind: 'stepEntity', target, dir: 'right' },
+      move(8),
+      move(10),
+    ])
+    expect(result.notes.join(' ')).toContain('内部轨迹未展开')
+    expect(
+      result.tracks[0]?.segments.map((segment) => [segment.from.pos.col, segment.to.pos.col]),
+    ).toEqual([
+      [1, 2],
+      [8, 10],
+    ])
+    expect(result.tracks[0]?.nodes.map((node) => node.pos.col)).toEqual([1, 2, 8, 10])
+  })
   test('stopScript ends the current flow, including a branch or loop arm', () => {
     const stop: AuthorCommand = { kind: 'stopScript' }
     expect(

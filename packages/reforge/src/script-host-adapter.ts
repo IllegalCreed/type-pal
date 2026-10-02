@@ -28,6 +28,8 @@ export async function executeScriptHostEffect(
   options: ScriptHostAdapterOptions,
 ): Promise<void> {
   switch (command.kind) {
+    case 'runEntityTrigger':
+      throw new Error('runEntityTrigger 必须由当前 project runtime 调用桥执行')
     case 'dialog':
       await host.dialog(command.cue, signal)
       return

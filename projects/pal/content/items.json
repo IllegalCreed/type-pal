@@ -9620,7 +9620,7 @@
           "kind": "itemPrivateScript",
           "script": {
             "id": "use",
-            "label": "桂花酒使用",
+            "label": "面对门口醉酒道士：赠桂花酒并执行其交互方案",
             "body": [
               {
                 "kind": "clearDialog"
@@ -9659,20 +9659,6 @@
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s003",
-                  "entity": "e62"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
-              },
-              {
                 "kind": "selectEntityBehavior",
                 "target": {
                   "scene": "s003",
@@ -9682,6 +9668,13 @@
                 "selection": {
                   "kind": "use",
                   "value": "c8-321c0a7d7de1"
+                }
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s003",
+                  "entity": "e62"
                 }
               }
             ]
