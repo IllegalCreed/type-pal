@@ -98,7 +98,7 @@ export function parseTestTitles(source) {
     const before = i === 0 ? '' : masked[i - 1]
     if (before && !/[\s{;,(=]/.test(before)) continue
     const isDescribe = masked.startsWith('describe(', i)
-    const isTest = masked.startsWith('test(', i)
+    const isTest = masked.startsWith('test(', i) || masked.startsWith('it(', i)
     if (!isDescribe && !isTest) continue
     let p = i + (isDescribe ? 9 : 5)
     // 空白跳过必须在原文上进行（masked 中标题串本身已被抹成空白）；

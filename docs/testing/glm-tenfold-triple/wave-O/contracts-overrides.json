@@ -877,5 +877,670 @@
     "source": "pal-current-publication.ts:81-90 required 门+分区替换",
     "oldAssertion": "旧 pal.test it2 分区直证为最近邻；本行仅断言两托管键（不主张全部写入路径）→ 两键观测臂新轴",
     "classification": "normal-input"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 全量写入报告 written/files/bytes 并落盘到 projects/pal": {
+    "condition": "合成 catalog 两资源全量物化，断言报告计数与落盘字节",
+    "source": "pal-assets.ts:979-1160 materialize 主体",
+    "oldAssertion": "existing-proof：paths:1「normal write, unchanged replay, authored retain exact bytes」+ ownership:9 空表零报告已证正常写入/重放/报告形状（Codex 预裁：materialize 正常写入/重放/漂移同旧 paths/ownership）——本行扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写": {
+    "condition": "二次物化同内容 → unchanged=1 不重写",
+    "source": "pal-assets.ts:979-1160 unchanged 分支",
+    "oldAssertion": "existing-proof：paths:1 unchanged replay 精确同臂 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 内容漂移的目标被重写（written=1）": {
+    "condition": "磁盘字节漂移后重物化 → written=1 恢复 catalog 字节",
+    "source": "pal-assets.ts:979-1160 重写分支",
+    "oldAssertion": "existing-proof：ownership:8 same-size stale target replaced + paths:1 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录只校验磁盘字节，绝不复制来源（authored 计数来自 binaries）": {
+    "condition": "authored 记录磁盘在且字节一致 → authored 计数、绝不复制迁移源",
+    "source": "pal-assets.ts:979-1160 authored 分支",
+    "oldAssertion": "existing-proof：旧 pal-assets.test:2/:3 authored 接管逐字节保留不物化迁移源 + ownership:6/:7 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 catalog 缺迁移资源条目 → fail-loud": {
+    "condition": "binaries 有 a.x 而 catalog.assets 空 → 缺迁移资源 fail-loud",
+    "source": "pal-assets.ts 预检缺条目门",
+    "oldAssertion": "混合子轴：ownership:1 为 source-absent-from-target 反向；catalog 缺条目臂文案不同 → 保留（anchor ownership:1）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 binaries 重复 AssetId → fail-loud": {
+    "condition": "binaries=[a,a] 同 AssetId → 重复 fail-loud",
+    "source": "pal-assets.ts 源唯一性门",
+    "oldAssertion": "existing-proof：ownership:0 source IDs must be unique 精确同臂 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 catalog 两条记录同 path → 路径冲突 fail-loud": {
+    "condition": "两 AssetId 同 path → 路径冲突",
+    "source": "pal-assets.ts 路径冲突门",
+    "oldAssertion": "existing-proof：旧 pal-assets.test:7 两 AssetId 共用目标路径 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录被改写（bytes 漂移）→ fail-loud": {
+    "condition": "非 authored 记录 bytes 字段漂移 → fail-loud",
+    "source": "pal-assets.ts 记录漂移门",
+    "oldAssertion": "混合子轴：旧 :4 覆盖路径/hash、:5 覆盖 origin；bytes 字段臂未证 → 保留（anchor :4/:5）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录 mediaType 被改写 → fail-loud（origin 轴被所有权前缀守卫前置拦截）": {
+    "condition": "mediaType 字段漂移 → fail-loud（origin 同门）",
+    "source": "pal-assets.ts 记录漂移门",
+    "oldAssertion": "混合子轴：旧 :4/:5 未涉 mediaType 字段 → 保留（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 迁移源 bytes/hash 与自身 catalog 记录不符 → fail-loud": {
+    "condition": "lying source bytes/hash 与记录不符 → fail-loud",
+    "source": "pal-assets.ts 源-记录一致门",
+    "oldAssertion": "混合子轴：ownership:3/:5 覆盖 hash 冲突与 file-backed 缺失；源-自身记录不符臂保留（anchor ownership:3/:5）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 非 sourced 的未知所有权记录（legacy-migrated 无来源）→ fail-loud": {
+    "condition": "legacy-migrated 记录无来源 → 未知所有权 fail-loud",
+    "source": "pal-assets.ts 所有权闭包门",
+    "oldAssertion": "混合子轴：ownership:1 为反向；未知所有权臂保留（anchor ownership:1）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录磁盘字节漂移 → assertBytes fail-loud（缺失/bytes/sha 三轴）": {
+    "condition": "authored 磁盘漂移/缺失 → assertBytes fail-loud",
+    "source": "pal-assets.ts assertBytes 门",
+    "oldAssertion": "existing-proof：ownership:7 authored takeover still validates 精确同族 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 目标为目录时 rename 失败 → 临时文件清理且错误传播": {
+    "condition": "目标路径为目录 → rename 失败、临时文件清理、错误传播",
+    "source": "pal-assets.ts 临时写+rename",
+    "oldAssertion": "混合子轴：paths:3/:4/:5/:6 目录交换与清理族；目标恒为目录臂保留（anchor paths:3-6）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：合成 catalog 的确定性物化 资源路径越界（catalog path 含 ..）被路径门拒绝": {
+    "condition": "catalog path 含 .. → validateAssetCatalog 路径门",
+    "source": "pal-assets.ts（经 content validateAssetCatalog）",
+    "oldAssertion": "混合子轴：paths:0 bad later catalog path 为时序臂；路径内容越界经 catalog 校验器，anchor paths:0 + asset.test catalog 门 → 保留（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序": {
+    "condition": "两条 legacy 目标缺失磁盘一致 → 退役清单按 path 排序带 expectedSha256",
+    "source": "pal-assets.ts:1161+ planPalAssetRetirements",
+    "oldAssertion": "existing-proof：旧 pal-assets.test:0 仅规划旧 catalog 所有未被复用 + write-plan.test:197 退役进事务 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:85 planPalAssetRetirements（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 planPalAssetRetirements：退役推导合同 磁盘文件缺失 → 跳过；authored 与仍在 target 的记录不退役": {
+    "condition": "缺失跳过；authored/在 target 不入清单 → 空清单",
+    "source": "pal-assets.ts:1161+ 过滤分支",
+    "oldAssertion": "混合子轴：旧 :0 证包含准则（authored 不退役蕴含）；缺失跳过臂保留（anchor :0）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:85 planPalAssetRetirements（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 planPalAssetRetirements：退役推导合同 磁盘字节漂移 → fail-loud（不退役被改文件）": {
+    "condition": "退役目标磁盘漂移 → 拒绝生成计划",
+    "source": "pal-assets.ts:1161+ 漂移门",
+    "oldAssertion": "existing-proof：旧 pal-assets.test:1 旧迁移文件被修改后拒绝 精确同臂 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:85 planPalAssetRetirements（重放 :142）",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 bakeIndexedRgba：indexed RGBA → 真彩合同 不透明像素按 R 查表填充且 alpha=255": {
+    "condition": "不透明索引像素查 palette 真彩 A=255",
+    "source": "bake-indexed-rgba.ts 查表主体",
+    "oldAssertion": "existing-proof：bake-indexed-rgba.test:11 不透明像素 R=index→真彩 A=255 精确同臂 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：pal-assets.ts:342 静态图烘焙调 bakeIndexedRgba；scripts/bake-assets.mts:27/:34 CLI 直调",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 bakeIndexedRgba：indexed RGBA → 真彩合同 A=0 保持全透明（不查表）": {
+    "condition": "A=0 像素输出全 0 不查表",
+    "source": "bake-indexed-rgba.ts alpha 短路",
+    "oldAssertion": "existing-proof：bake-indexed-rgba.test:16 精确同臂 → 扣净新（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：pal-assets.ts:342 静态图烘焙调 bakeIndexedRgba；scripts/bake-assets.mts:27/:34 CLI 直调",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 bakeIndexedRgba：indexed RGBA → 真彩合同 palette 越界下标落到黑色不透明；缺失 alpha 通道按透明处理": {
+    "condition": "越界下标→黑不透明；无 alpha 通道→按透明",
+    "source": "bake-indexed-rgba.ts 越界兜底/缺通道",
+    "oldAssertion": "混合子轴：bake-indexed-rgba.test:21 越界黑兜底已证；缺失 alpha 通道臂保留（anchor :21）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：pal-assets.ts:342 静态图烘焙调 bakeIndexedRgba；scripts/bake-assets.mts:27/:34 CLI 直调",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：合成 505 段三向闭包 合法语料：3 个非空段 + 502 空段全部通过并登记 RIFF 证据": {
+    "condition": "合成 505 段语料（3 非空+502 空）→ sounds:3/emptySounds:502 + RIFF 证据",
+    "source": "pal-assets.ts:601-755 loadPalSoundAssets",
+    "oldAssertion": "新轴：旧 pal-assets.test:15 为真实语料 363 段整链闭合；合成 505 段形状与空段登记旧证不可达（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 非 505 → 精确诊断": {
+    "condition": "metadata.chunkCount=504 → 期望 505 收到 504",
+    "source": "pal-assets.ts:601-620 chunkCount 门",
+    "oldAssertion": "新轴：旧 :15 真实语料恒 505 合法；计数漂移臂不可达 → gap 新轴（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 与 chunks 长度不一致 → 精确诊断": {
+    "condition": "chunkCount=506 而 chunks=505 → 不一致诊断",
+    "source": "pal-assets.ts:601-620 长度闭合门",
+    "oldAssertion": "新轴（同上，旧 :15 不可达）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝": {
+    "condition": "段号跳 99/size 非法/isEmpty 与 size 矛盾三轴",
+    "source": "pal-assets.ts:601-700 段校验",
+    "oldAssertion": "新轴（同上）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：合成 505 段三向闭包 asset-manifest 重复 sound / 目录非规范文件 / 集合不闭包 逐轴拒绝": {
+    "condition": "manifest 重复/目录非规范/集合不闭包三轴",
+    "source": "pal-assets.ts:700-755 manifest/目录闭合",
+    "oldAssertion": "新轴（同上）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝": {
+    "condition": "三向 size 不一致 + 非 RIFF 字节两轴",
+    "source": "pal-assets.ts 三向一致/RIFF 门",
+    "oldAssertion": "新轴（同上；旧 :15 证真实语料 RIFF 闭合为 happy 邻居）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 合法合成语料通过全部 census 并产出 378 个登记项": {
+    "condition": "合成 88 立绘/5 头像/233 图标/52 背景 → 378 登记项",
+    "source": "pal-assets.ts:361-600 loadPalStaticImages",
+    "oldAssertion": "新轴：旧 pal-assets.test:8 仅证真实 5 face 真值；全套 census 计数旧证不可达（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝": {
+    "condition": "调色板 255 色/立绘 87/图标缺失三轴",
+    "source": "pal-assets.ts:361-600 census 门",
+    "oldAssertion": "新轴（anchor 旧 :8 face 真值邻居）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝": {
+    "condition": "背景 319×200/灰阶 R=G=B 两轴",
+    "source": "pal-assets.ts:361-600 背景/灰阶门",
+    "oldAssertion": "新轴（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：metadata/manifest 形状边界 metadata 非对象与 chunkCount 非整数 → 精确诊断": {
+    "condition": "sounds metadata 形状两轴",
+    "source": "pal-assets.ts:601-610 形状门",
+    "oldAssertion": "新轴（旧 :15 语料恒合法）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：metadata/manifest 形状边界 asset-manifest.files 非数组 → 精确诊断": {
+    "condition": "manifest files 非数组 → 期望数组",
+    "source": "pal-assets.ts manifest 形状门",
+    "oldAssertion": "新轴（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：metadata/manifest 形状边界 目录多余非空 wav → 目录轴不闭包报 extra": {
+    "condition": "目录含多余非空 wav → extra 报告",
+    "source": "pal-assets.ts 目录闭包门",
+    "oldAssertion": "新轴（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalSoundAssets：metadata/manifest 形状边界 全部 505 段为空 → 零非空音效仍通过（空目录闭包）": {
+    "condition": "全空 505 段 → sounds:0/emptySounds:505/soundBytes:0",
+    "source": "pal-assets.ts 空语料正控",
+    "oldAssertion": "新轴（旧 :15 真实语料 363 非空）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 portraits manifest count 非正整数 → 精确诊断": {
+    "condition": "manifest count 边界两轴",
+    "source": "pal-assets.ts manifest 边界门",
+    "oldAssertion": "新轴（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 items 数量/零哨兵漂移 → 物品图标哨兵诊断": {
+    "condition": "items 计数与零哨兵漂移两轴",
+    "source": "pal-assets.ts 哨兵门",
+    "oldAssertion": "新轴（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）": {
+    "condition": "合成语料零哨兵=[277] 防回归锚",
+    "source": "pal-assets.ts 哨兵语义",
+    "oldAssertion": "新轴（真实语料同值锚定）（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：loadPalAssets（pal-assets.ts:979，:1036 sounds/:1038 staticImages）← pal-content-supply-io ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-assets.glm-o.test.ts :: O04 materializePalAssets：混合所有权与嵌套目录 authored + 双 generated 混合计数与嵌套目录创建": {
+    "condition": "authored1+written1 混合计数 + assets/authored/deep 嵌套创建",
+    "source": "pal-assets.ts:979-1160 混合分支",
+    "oldAssertion": "混合子轴：ownership:6-9 authored/generated 分族；混合计数+嵌套目录臂保留（对照基础：旧 pal-assets.test.ts / pal-assets-paths.test.ts / pal-assets.ownership.test.ts / bake-indexed-rgba.test.ts）",
+    "caller": "生产链：migrate-content.mts:110 materializePalAssets（重放 :142）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalItemOverlays：隐蛊与 puppet 轴 item141 被覆写为全队隐形 3 回合且 battleOnly": {
+    "condition": "141 隐蛊 overlay：hideParty3+battleOnly+consuming",
+    "source": "pal-authored-overlays.ts applyPalItemOverlays",
+    "oldAssertion": "existing-proof：overlays:0 隐蛊回补幂等精确同臂 → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 141 物品结构化克隆返回（输入不被共享引用）": {
+    "condition": "非 141 物品 → structuredClone 返回不共享引用",
+    "source": "pal-authored-overlays.ts 克隆分支",
+    "oldAssertion": "新轴：overlays 未断言输出防别名 → gap",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）": {
+    "condition": "puppet 效果强制 battleOnly 无论原值",
+    "source": "pal-authored-overlays.ts puppet 门",
+    "oldAssertion": "existing-proof：overlays:1 傀儡限制战斗内精确同臂 → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalItemOverlays：隐蛊与 puppet 轴 非 puppet 效果不注入 battleOnly": {
+    "condition": "非 puppet 效果不动 battleOnly",
+    "source": "pal-authored-overlays.ts puppet 门",
+    "oldAssertion": "混合子轴：overlays:1 证注入侧；不注入侧蕴含于语义但未直接断言 → 保留（anchor overlays:1）",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 无消息的 generated 物品整批跳过（不触碰 current）": {
+    "condition": "无消息 producer 整批跳过不触碰 current",
+    "source": "pal-authored-overlays.ts 消息同步",
+    "oldAssertion": "existing-proof：overlays:2/:5 同轮同步族含跳过语义 → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 current 缺同 id 物品 → fail-loud": {
+    "condition": "current 缺同 id → fail-loud",
+    "source": "pal-authored-overlays.ts 同轮门",
+    "oldAssertion": "existing-proof：overlays:5 缺 current 全 fail-loud → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 craft 数量漂移与 recipes 漂移分别 fail-loud": {
+    "condition": "craft 数量/recipes 结构漂移两轴",
+    "source": "pal-authored-overlays.ts craft 门",
+    "oldAssertion": "existing-proof：overlays:4 配方结构不一致 fail-loud + :5 数量歧义 → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 非法消息（空白/未修剪）→ fail-loud": {
+    "condition": "消息空白/未修剪两轴",
+    "source": "pal-authored-overlays.ts 消息门",
+    "oldAssertion": "existing-proof：overlays:4 空白值 fail-loud → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 resource pool 漂移轴：数量/结构/消息逐轴拒绝": {
+    "condition": "pool 数量/结构/消息三轴",
+    "source": "pal-authored-overlays.ts pool 门",
+    "oldAssertion": "existing-proof：overlays:6 pool 空白/结构漂移 fail-loud → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步 generated/current 内部重复 id → fail-loud": {
+    "condition": "任一侧内部重复 id",
+    "source": "pal-authored-overlays.ts 重复门",
+    "oldAssertion": "existing-proof：overlays:5 重复 id fail-loud → 扣净新",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 入口缺 0x06 门 → fail-loud": {
+    "condition": "casualty 入口缺 0x06 → fail-loud",
+    "source": "pal-casualty-scripts.ts translateCasualtyScript 入口门",
+    "oldAssertion": "existing-proof：casualty:2 入口缺失 fail-closed → 扣净新",
+    "caller": "生产链：pal-casualty-scripts.ts:176（applyPalCasualtyOverlays 内部调 translateCasualtyScript）← loadPalContentSupplySources ← mts:60",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x06 门参数非法（非整数/第三操作数非零）→ fail-loud": {
+    "condition": "0x06 参数非法两轴",
+    "source": "pal-casualty-scripts.ts 参数门",
+    "oldAssertion": "新轴：casualty:2 仅证缺失；参数轴未证 → gap",
+    "caller": "生产链：pal-casualty-scripts.ts:176（applyPalCasualtyOverlays 内部调 translateCasualtyScript）← loadPalContentSupplySources ← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 分支引用越界 / 未以 end 结束 / 未知指令逐轴拒绝": {
+    "condition": "分支越界/未 end/未知指令三轴",
+    "source": "pal-casualty-scripts.ts 指令门",
+    "oldAssertion": "混合子轴：casualty:1 未知 opcode 已证；分支越界/未 end 臂保留",
+    "caller": "生产链：pal-casualty-scripts.ts:176（applyPalCasualtyOverlays 内部调 translateCasualtyScript）← loadPalContentSupplySources ← mts:60",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝": {
+    "condition": "0x30/0x05 参数轴",
+    "source": "pal-casualty-scripts.ts 参数门",
+    "oldAssertion": "混合子轴：未知 opcode 归 casualty:1；0x30/0x05 参数臂保留",
+    "caller": "生产链：pal-casualty-scripts.ts:176（applyPalCasualtyOverlays 内部调 translateCasualtyScript）← loadPalContentSupplySources ← mts:60",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 合法 0x30/0x1b/0x1c 效果与 top/narration 风格进入结构化脚本": {
+    "condition": "合法 0x30/0x1b/0x1c 翻译形状",
+    "source": "pal-casualty-scripts.ts 翻译主体",
+    "oldAssertion": "existing-proof：casualty:0 + wave2:2 概率门/台词/回满/buff 结构化翻译 → 扣净新",
+    "caller": "生产链：pal-casualty-scripts.ts:176（applyPalCasualtyOverlays 内部调 translateCasualtyScript）← loadPalContentSupplySources ← mts:60",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 applyPalCasualtyOverlays：入口缺失 / 角色缺 battler / locale 键漂移 逐轴拒绝": {
+    "condition": "overlay 入口缺失 fail-loud",
+    "source": "pal-casualty-scripts.ts apply 门",
+    "oldAssertion": "新轴：casualty:2 为 translate 侧；apply 侧入口臂未证 → gap",
+    "caller": "生产链：pal-casualty-scripts.ts:176（applyPalCasualtyOverlays 内部调 translateCasualtyScript）← loadPalContentSupplySources ← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 buildPalItemMessageSources / translate*：窄消息形状漂移 Store0 数量 ≠1 / item 定义缺失或不可用 → fail-loud": {
+    "condition": "消息源 Store0 数量与 item 定义轴",
+    "source": "pal-item-message-source.ts buildPalItemMessageSources",
+    "oldAssertion": "新轴：旧消息同步族（overlays:2-6）在同步侧；消息源形状臂未证 → gap",
+    "caller": "生产链：pal-content-supply.ts:115 buildPalItemMessageSources ← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 buildPalItemMessageSources / translate*：窄消息形状漂移 显式 label 与数组地址不一致 → label 索引拒绝": {
+    "condition": "label 与地址不一致 → 索引拒绝",
+    "source": "pal-item-message-source.ts label 门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts:115 buildPalItemMessageSources ← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 buildPalItemMessageSources / translate*：窄消息形状漂移 craft 形状漂移：itemId 非法 / 失败块缺失 / 产物缺失 逐轴返回 undefined": {
+    "condition": "craft 形状三轴 → unavailable 消息",
+    "source": "pal-item-message-source.ts craft 门",
+    "oldAssertion": "新轴（同上；overlays:4 为消费侧 fail-loud 邻居）",
+    "caller": "生产链：pal-content-supply.ts:115 buildPalItemMessageSources ← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 buildPalItemMessageSources / translate*：窄消息形状漂移 pool 形状漂移：0x34 缺 end / 失败地址非法 / 失败块非旁白 逐轴返回 undefined": {
+    "condition": "pool 形状三轴",
+    "source": "pal-item-message-source.ts pool 门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts:115 buildPalItemMessageSources ← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 buildPalItemMessageSources / translate*：窄消息形状漂移 applyPalItemMessageSources：current 缺用途 → fail-loud": {
+    "condition": "apply 侧 current 缺用途",
+    "source": "pal-item-message-source.ts apply 门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts:115 buildPalItemMessageSources ← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同": {
+    "condition": "合成 alchemy：112 产物/72 材料/buyPrice=0",
+    "source": "pal-supply-guards 域 assertPalAlchemyBoundaryInvariant",
+    "oldAssertion": "混合子轴：store-boundary:58 真实语料 alchemy happy 已证；合成 112/72 精确计数臂保留",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 源 Store0 数量/零奖励 轴拒绝": {
+    "condition": "数量/零奖励漂移拒绝",
+    "source": "assertPalStoreBoundaryInvariant 数量门",
+    "oldAssertion": "新轴：store-boundary:58 仅 happy；拒绝轴真实语料不可达 → gap",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 item268/270 结构漂移轴（recipes 桶、消息、资源池数量）逐轴拒绝": {
+    "condition": "268/270 结构漂移三轴",
+    "source": "assertPalStoreBoundaryInvariant 结构门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝": {
+    "condition": "ShopDef0/id 序/货单三轴",
+    "source": "assertPalStoreBoundaryInvariant 商店门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝": {
+    "condition": "census 形状三轴",
+    "source": "assertPalStoreBoundaryInvariant census 门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-supply-guards.glm-o.test.ts :: O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）": {
+    "condition": "buy/sell 数量不符精确诊断",
+    "source": "assertPalStoreBoundaryInvariant 数量诊断",
+    "oldAssertion": "新轴（同上；29/6 happy 值由 :58 真实语料证）",
+    "caller": "生产链：pal-current-publication.ts:167/:191（build/validate 内部）← migrate-content.mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 createPalWorldSpriteRegistry：布局证据与变体 spriteRef 未注册（无场景证据直接取）→ fail-loud": {
+    "condition": "直接取未注册 spriteRef（无场景证据）→ fail-loud",
+    "source": "pal-world-sprite-registry.ts 注册门",
+    "oldAssertion": "existing-proof：registry.test:1 rejects undeclared scene layouts（LR）精确同臂 → 扣净新",
+    "caller": "生产链：pal-content-supply.ts:53 createPalWorldSpriteRegistry ← buildPalContentSupply ← migrate-content.mts:60",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts": {
+    "condition": "同资源两种帧证据 → base+-f<n> 双定义",
+    "source": "pal-world-sprite-registry.ts 变体分支",
+    "oldAssertion": "existing-proof：registry.test:3 编号直映射+布局变体显式追加 + LR:193 overlay/-f0 → 扣净新",
+    "caller": "生产链：pal-content-supply.ts:53 createPalWorldSpriteRegistry ← buildPalContentSupply ← migrate-content.mts:60",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）": {
+    "condition": "asset 匹配+语义集内 → externalDefinition 不重复生成",
+    "source": "pal-world-sprite-registry.ts 别名分支",
+    "oldAssertion": "existing-proof：registry.test:2 shares only explicitly configured semantic aliases（LR）→ 扣净新",
+    "caller": "生产链：pal-content-supply.ts:53 createPalWorldSpriteRegistry ← buildPalContentSupply ← migrate-content.mts:60",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册": {
+    "condition": "asset 不匹配 → 独立注册不作别名",
+    "source": "pal-world-sprite-registry.ts 别名分支",
+    "oldAssertion": "existing-proof：LR:strict role identity/different asset stays independent → 扣净新",
+    "caller": "生产链：pal-content-supply.ts:53 createPalWorldSpriteRegistry ← buildPalContentSupply ← migrate-content.mts:60",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名清单重复 semanticId → fail-loud": {
+    "condition": "清单内重复 semanticId",
+    "source": "pal-world-sprite-semantic-alias.ts 清单门",
+    "oldAssertion": "新轴：旧 alias 测试（pal 真实语料）无重复清单臂 → gap",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝": {
+    "condition": "域外别名/缺证据两轴",
+    "source": "pal-world-sprite-semantic-alias.ts 域/证据门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 current/generated 缺语义 SpriteDef → fail-loud": {
+    "condition": "任一侧缺语义定义",
+    "source": "pal-world-sprite-semantic-alias.ts 定义闭包门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 纯迁移核仍生成 legacy 重复定义 → fail-loud": {
+    "condition": "迁移核遗留 legacy 重复 → fail-loud",
+    "source": "pal-world-sprite-semantic-alias.ts 退休闭包门",
+    "oldAssertion": "新轴（同上；旧真实语料 happy 为邻居）",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 生成场景引用集合与别名清单漂移 → fail-loud": {
+    "condition": "引用集与清单漂移",
+    "source": "pal-world-sprite-semantic-alias.ts 集合闭包门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 清单外场景引用 legacy id → fail-loud": {
+    "condition": "清单外 legacy 引用",
+    "source": "pal-world-sprite-semantic-alias.ts 引用闭包门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝": {
+    "condition": "改写失败三轴",
+    "source": "pal-world-sprite-semantic-alias.ts 改写门",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录": {
+    "condition": "合法清单 → 退休+改写计数+roleClosure",
+    "source": "pal-world-sprite-semantic-alias.ts 改写主体",
+    "oldAssertion": "混合子轴：旧 alias pal 真实语料证合法闭包 happy；退休计数/roleClosure 观测臂保留",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 非 object 实体（原始值）在引用扫描时 fail-loud": {
+    "condition": "实体为原始值 → 扫描 fail-loud",
+    "source": "pal-world-sprite-semantic-alias.ts 扫描门",
+    "oldAssertion": "新轴（unknown 输入经公开扫描入口）",
+    "caller": "生产链：pal-content-supply.ts（applyPalWorldSpriteSemanticAliases 于供应构建内）← mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 item 私有脚本可达 + canonical label → 报告确定性 label 与 path": {
+    "condition": "canonical 可达+label 报告",
+    "source": "pal-item-scheme-labels.ts invariant",
+    "oldAssertion": "混合子轴：labels:0 闭包消歧已证主链；报告形状臂保留（anchor labels:0）",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 canonical 但不可达（无 item 选择边）→ 零 item root 拒绝": {
+    "condition": "canonical 不可达 → 零报告",
+    "source": "pal-item-scheme-labels.ts 可达性",
+    "oldAssertion": "新轴：labels:0 未证不可达退化臂 → gap",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）": {
+    "condition": "后缀 0 label → 不满足规则",
+    "source": "pal-item-scheme-labels.ts label 规则",
+    "oldAssertion": "新轴（labels:5 opaque 相邻但后缀臂未证）",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告": {
+    "condition": "machine flow label 同步检查",
+    "source": "pal-item-scheme-labels.ts machine 门",
+    "oldAssertion": "新轴（labels 六测未涉 machine 同步）",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 opaque 摘要名节点可达但仍存活 → 永久门禁拒绝": {
+    "condition": "opaque 可达存活 → 拒绝",
+    "source": "pal-item-scheme-labels.ts opaque 门",
+    "oldAssertion": "existing-proof：labels:5 opaque label fail-loud 精确同臂 → 扣净新",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 同一地址重复注册（同场景重复出现）→ 节点重复拒绝": {
+    "condition": "同地址重复注册",
+    "source": "pal-item-scheme-labels.ts 唯一性门",
+    "oldAssertion": "新轴：labels:1/:2 为 root 数量臂；节点重复臂未证 → gap",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）": {
+    "condition": "selectSceneHooks use 边可达",
+    "source": "pal-item-scheme-labels.ts 可达性源",
+    "oldAssertion": "新轴（labels 未涉 hooks use 边）",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-world-sprites.glm-o.test.ts :: O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud": {
+    "condition": "选择图环",
+    "source": "pal-item-scheme-labels.ts 图门",
+    "oldAssertion": "existing-proof：labels:3 选择图成环 fail-loud 精确同臂 → 扣净新",
+    "caller": "生产链：assertPalItemSchemeLabelInvariant（pal-current-publication.ts 引）← mts:62/:90",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）": {
+    "condition": "同一 EventObject 多场景 → 全局唯一门",
+    "source": "pal-content-supply.ts 实体唯一门",
+    "oldAssertion": "新轴：pal-supply 四 it 未证多场景实体臂 → gap（anchor :33 资源合同 happy）",
+    "caller": "生产链：buildPalContentSupply（pal-content-supply.ts）← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 buildPalContentSupply：供应输入守卫残余 源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）": {
+    "condition": "tileset 路径 ≠ tileset/<n>.rle → 拒绝",
+    "source": "pal-content-supply.ts tileset 门",
+    "oldAssertion": "existing-proof：pal-supply:102 stops on map…drift（map 漂移停线族含 tileset）→ 扣净新",
+    "caller": "生产链：buildPalContentSupply（pal-content-supply.ts）← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "existing-proof"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 buildPalContentSupply：供应输入守卫残余 生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）": {
+    "condition": "overlay/场景变体不入生成分区",
+    "source": "pal-content-supply.ts 精灵分区",
+    "oldAssertion": "混合子轴：pal-supply:33 role-domain definitions 已证分区主链；排除臂保留",
+    "caller": "生产链：buildPalContentSupply（pal-content-supply.ts）← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "mixed-subaxis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 buildPalContentSupply：供应输入守卫残余 scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）": {
+    "condition": "乱序源数组 → 生成侧升序",
+    "source": "pal-content-supply.ts 排序",
+    "oldAssertion": "新轴：LR:scene source order 证注册侧序；supply 分区排序臂保留（anchor 该测）",
+    "caller": "生产链：buildPalContentSupply（pal-content-supply.ts）← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 buildPalContentSupply：供应输入守卫残余 实体 spriteNum<=0 不产生场景实体": {
+    "condition": "spriteNum<=0 → 无实体",
+    "source": "pal-content-supply.ts 实体门",
+    "oldAssertion": "新轴 → gap",
+    "caller": "生产链：buildPalContentSupply（pal-content-supply.ts）← loadPalContentSupplySources ← migrate-content.mts:60",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 validatePalCurrentPublication：装备战斗精灵引用门 合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门": {
+    "condition": "合法 equip 覆写通过",
+    "source": "pal-current-publication.ts:323 equip 门",
+    "oldAssertion": "新轴：旧 equip 无覆写正控 → gap",
+    "caller": "生产链：pal-current-publication.ts:323 validateEquipBattleSpriteReferences ← mts:90 validate",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝": {
+    "condition": "未知角色 → where:message",
+    "source": "pal-current-publication.ts:323-324",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-current-publication.ts:323 validateEquipBattleSpriteReferences ← mts:90 validate",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写角色不在 equipableBy → 发布门拒绝": {
+    "condition": "不在 equipableBy",
+    "source": "pal-current-publication.ts:323",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-current-publication.ts:323 validateEquipBattleSpriteReferences ← mts:90 validate",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未注册战斗精灵 → 发布门拒绝": {
+    "condition": "未注册精灵",
+    "source": "pal-current-publication.ts:323",
+    "oldAssertion": "新轴（同上）",
+    "caller": "生产链：pal-current-publication.ts:323 validateEquipBattleSpriteReferences ← mts:90 validate",
+    "classification": "new-axis"
+  },
+  "packages/migrate/src/pal-content-supply.glm-o.test.ts :: O03 合成 catalog 自检补充 sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）": {
+    "condition": "fixture 卫生自检：catalog sprite kind",
+    "source": "__tests__/glm-o/supply-fixture.ts",
+    "oldAssertion": "fixture 卫生自检，非产品合同（不计净新）",
+    "caller": "fixture 自身",
+    "classification": "fixture-self-check"
   }
 }
