@@ -19,11 +19,11 @@ battle-anim（视觉 72 帧）——十四轴均无更强旧证，全部按新�
 | id | 源条件 | 合法输入 | 精确 oracle | 旧证明限制（已核旧 fullName） |
 |---|---|---|---|---|
 | Q-NEXT2-01 重复 exact RGB 取首索引 | build:75-84 `if (!exact.has(key)) exact.set(key, index)` | 完整 256 表 + override 18:=基表[1]；像素 (1,73,151) | targetIndices[0]===1（非 18）、sourceLevels[0]===1 | 基表全 unique，重复轴无旧例 |
-| Q-NEXT2-02 最近色用 G/B 距离 | build:86-105 全距 dr²+dg²+db² | 完整 256 表 + {5:[10,0,0], 6:[10,200,200]}；非精确 (10,199,199) | targetIndices[0]===6（红对 5/6 同距；只看红会取更早的 5） | 旧帧全 exact 色无最近距离 oracle |
+| Q-NEXT2-02 最近色用 G/B 距离 | build:86-105 全距 dr²+dg²+db² | 两组独立（Q-NEXT2-R1-01）：其余 254 色 [255,255,255]+5=[10,0,0]；G 轴 6=[10,10,0]/像素 [10,9,0]，B 轴 6=[10,0,10]/像素 [10,0,9] | 各 targetIndices[0]===6（全距 1<81；漏 dg² 或漏 db² 任一分量即同距 0→取先 5，两轴分别独立翻转） | 旧帧全 exact 色无最近距离 oracle；r22 单组输入不能独立判别单分量缺失，r23 重写 |
 | Q-NEXT2-03 同距取先 | build:98-101 严格 `<` | uniform(200,200,200) + {5:[0,0,0],6:[2,0,0]}；像素 (1,0,0) | targetIndices[0]===5 | 旧 unique exact 表不进同距 |
 | Q-NEXT2-04 非精确零索引缓存 | build:88-89 resolved 缓存 + :103 set | uniform(200,200,200)+{0:[0,0,0)}；三像素同非精确 (1,1,1)（source/target 重复） | targetIndices/sourceLevels === [0,0,0] | exact 缓存旧证存在，非精确 0 身份读回无 |
 | Q-NEXT2-05 palette 快照隔离 | build:74-83 独立 Uint8Array 快照 | 真实 build 后改 caller palette[0xc0] | plan.colors 逐字节不变 + apply 出原快照色 (192,192,64,255) | 旧 source/target 不变性 ≠ 输入 palette 快照隔离 |
-| Q-NEXT2-06 输出容量上界 | apply:150-159 availablePixels 含输出 | 端点 3px、真实 plan 2px、输出 1px 非零偏移视图（owner 哨兵） | owner 全 12B 精确：前 4 哨兵 + [192,192,64,255] + 后 4 哨兵 | 旧钳制例输出与 source 等长，输出容量臂不控 |
+| Q-NEXT2-06 输出容量视图 cross-check | apply:150-159 availablePixels 含输出 | 端点 3px、真实 plan 2px、输出 1px 非零偏移视图（owner 哨兵） | owner 全 12B 精确：前 4 哨兵 + [192,192,64,255] + 后 4 哨兵 | 旧钳制例输出与 source 等长；**Q-NEXT2-R1-02：typed-array 越界写静默忽略——移除产品输出 min 项 48/48 仍绿，本例列平台/view cross-check，不独立证循环容量臂，不计净新** |
 | Q-NEXT2-07 真实 plan 容量上界 | apply:154-155 plan.sourceLevels.length | 真实 build 1px + 3px 端点/输出、请求 3 | 输出 = [结果 4B] + 8B 哨兵原样 | 旧 plan 与端点 min 对齐，无容量错配 |
 | Q-NEXT2-08 非零偏移视图各用各 offset | apply:146-195 视图相对索引 | 三 owner 缓冲 subarray（source@4/target@8/output@4） | step0 全 source 拷贝；step1 像素 0 (192,192,64,255)+像素 1 source；视图外哨兵全保持；输入视图不变 | 旧帧 helper 全 offset-0 |
 | Q-NEXT2-09 同背板异视图拒收 | apply:146-148 buffer 比较（OR 双臂） | output=new Uint8ClampedArray(同 buffer,16,4)（不相交、异对象），分别对 source/target | 两臂均精确 throw /独立/ | 旧只证 output===source 对象同一（left OR 臂），无同背板异视图/target 臂 |
@@ -31,7 +31,17 @@ battle-anim（视觉 72 帧）——十四轴均无更强旧证，全部按新�
 | Q-NEXT2-11 ragged 二维格 | apply:160-173 logicalWidth/logicalX/logicalY | width5·height5·scale2·step3，25px 全 exact 色 | 手算行掩码 11110/11110/11000/11000/11110 → 100B 全 RGBA（visited=(192,192,64,255)/unvisited=(0,0,0,255)） | 旧 4× 格 width8·scale4 全 logicalY 差异不可见、无 ragged 边 |
 | Q-NEXT2-12 匹配 owner 取消 | cancelOwned:275-279 | 公开 beginEntry(owner) 后 cancelOwned(owner, reason) | 返回 true；rejects.toBe(精确对象)；active null | 旧 :180 只证非匹配 false |
 | Q-NEXT2-13 快照失败保护旧 effect | beginSnapshot:258-259 先求值 snapshot() 再入 begin | beginEntry 后 beginSnapshot(throwing) | throw 同一 boom 对象；旧 active.backup 保持、Promise pending；finish 后 resolves | 旧快照成功/supersede 测试不能证失败捕获先于所有权转移 |
-| Q-NEXT2-14 显式 reason 对象身份 | cancel:268-272 直传 reject | 公开 begin 后 cancel(custom Error) | rejects.toBe(同一对象) 非 AbortError 替换；active null | 旧只证默认 AbortError/name |
+| Q-NEXT2-14 显式 reason cross-check | cancel:268-272 直传 reject | 公开 begin 后 cancel(custom Error) | rejects.toBe(同一对象) 非 AbortError 替换；active null | 旧只证默认 AbortError/name；**Q-NEXT2-R1-02：身份/active-null matcher 已被本批 12（cancelOwned→真实 cancel 同链）覆盖——列 direct API cross-check，不重复净新** |
+
+## r23 修复（Q-NEXT2-R1-01/02）
+
+- **R1-01**：02 重写为两组独立判别（同一 ID/fullName 不拆例）——G 轴漏 dg² 或 B 轴
+  漏 db² 任一变异都使对应对称距归零、按取先翻转到 5；输入为 Codex preflight 已核
+  真实入口返回 6 的原样（输入原件在审核树 codex-lmn-acceptance 的 codex-q-next2-r1-input-preflight-20261002.json，按不 cherry-pick 纪律不链接）。手算常量 oracle，不复制 nearest 算法。
+- **R1-02**：06 列平台/view cross-check、14 列 direct API cross-check（12 已证同链
+  matcher），两例保留不计净新；净新上限 174→**172**、缺口 ≥526→**≥528**。
+- 受影响代表控制由 Codex 按最终源/执行 hash 重采；旧 161 合同/测试、旧 fixture、
+  旧 71 针零改动。
 
 ## 门禁与账
 
@@ -39,6 +49,7 @@ battle-anim（视觉 72 帧）——十四轴均无更强旧证，全部按新�
   scene-switch-transaction 34/34；reforge 全包 **2164/2164**（2150 + 14）、typecheck 0。
 - game 2812 / pal-extract 381 未触，明确复用；根 lint 完整 0/0/0、docs/diff/verifier
   见 wave-Q receipt（pin 后复跑）。
-- 累计：**175 执行（161 + 14）/ 净新结构上限 174（扣 room0 旧合同，历史 C114 编号）/
-  缺口至少 526**；反控 71 存档 / 62 目标 / 上限 61 不变（本批零新针，四代表控制留
-  Codex 最终候选实采）。原 700/50 组/50 目标/10 流程不缩；本批完成 ≠ 整卡 done。
+- 累计（Q-NEXT2-R1-02 口径）：**175 执行（161 + 14）/ 净新结构上限 172
+  （174 − 06/14 两 cross-check 扣列；room0 旧合同历史 C114 编号不二扣）/
+  缺口至少 528**；反控 71 存档 / 62 目标 / 上限 61 不变（四代表产品控制已由 Codex
+  在固定候选实采闭合）。原 700/50 组/50 目标/10 流程不缩；本批完成 ≠ 整卡 done。

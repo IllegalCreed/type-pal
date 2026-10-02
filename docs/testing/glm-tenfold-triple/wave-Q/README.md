@@ -1,14 +1,33 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r22 Q-NEXT2 有限批）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r23 Q-NEXT2-R1 修复）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r22 候选**（Q-NEXT2 有限批：Codex next2 packet 核定的 14 条
-dither-transition 程序化合同；**当前 175 执行 / 结构净新上限 174 / 缺口至少 526**；
-r21 候选 004fe83a3/pin 3f5791a2e 保留供独立复核）。不合 main、不标 done。
-Q-NEXT2 逐合同排重账见 [next2/README.md](next2/README.md)。
+本文件描述 **r23 候选**（Q-NEXT2-R1-01/02 修复；**当前 175 执行 / 净新结构上限
+172 / 缺口至少 528**——06/14 两例列 cross-check 扣净新；r22 候选 3abe77196/pin
+566cbfe0f 保留供独立复核）。不合 main、不标 done。Q-NEXT2 逐合同排重账见
+[next2/README.md](next2/README.md)。
+
+## r23：Q-NEXT2-R1-01/02 修复（02 两组独立判别 + 06/14 扣列）
+
+1. **R1-01（02 重写，同一 ID/fullName 不拆例）**：两组独立合法输入（Codex preflight
+   已核真实入口返回 6）——其余 254 色 [255,255,255]、5=[10,0,0]；G 轴 6=[10,10,0]/
+   像素 [10,9,0]（全距 1 vs 81；漏 dg² 即对称归零取先 → 5）；B 轴 6=[10,0,10]/
+   像素 [10,0,9]（同构）。任一单分量缺失变异都被独立翻转；手算常量 oracle，
+   不复制 nearest 算法。
+2. **R1-02（扣列不补量）**：06 列平台/view cross-check（typed-array 越界写静默忽略，
+   移除产品输出 min 项 48/48 仍绿——不独立证循环容量臂）；14 列 direct API
+   cross-check（身份/active-null matcher 已被本批 12 cancelOwned→真实 cancel 同链
+   覆盖）。两例保留不计净新：净新上限 174→**172**、缺口 ≥526→**≥528**（room0 旧
+   合同不二扣）。
+3. **误记撤回**：receipt 中「上一批 Q-NEXT-01/02 五针仍待重采」已过时——五针已由
+   Codex 独立关闭，本 receipt 更新为保留已闭，不重开。
+4. 门禁：48/48（新 14 + dither-transition + scene-switch 相邻）、reforge glm-q 定向
+   112/112、全包 2164/2164、typecheck 0；game 2812 / pal-extract 381 未触明确复用；
+   pin 后完整 lint 0/0/0、docs/diff/verifier。旧 161 合同/测试、旧 fixture、旧 71
+   针零改动；受影响代表控制由 Codex 按最终 hash 重采。
 
 ## r22：Q-NEXT2-01～14 有限批（dither palette 身份 / 容量·视图·网格 / controller 所有权）
 

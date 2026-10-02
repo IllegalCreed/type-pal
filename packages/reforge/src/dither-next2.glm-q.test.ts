@@ -37,14 +37,34 @@ describe('Q-NEXT2 dither palette plan / apply / controller', () => {
   })
 
   test('Q-NEXT2-02 nearest RGB uses green and blue distance', () => {
-    // 红分量对 5/6 同距（10=10）；全距最近由 G/B 决定 → 6；若只看红会取更早的 5
-    const palette = paletteWith(uniquePalette(), {
+    // 两组独立判别（Q-NEXT2-R1-01：任一分量缺失都须翻转结果）。其余 254 色均为
+    // [255,255,255]（距离 ~3×245² 量级，不干扰）；索引 5=[10,0,0]。
+    // G 轴：6=[10,10,0]，像素 [10,9,0]——全距 6:0²+1²+0²=1 < 5:0²+9²+0²=81 → 6；
+    //   漏 dg² 则 5/6 同距 0 → 取先 → 5（Codex preflight 已核真实入口返回 6）。
+    const gPalette = paletteWith(uniformPalette([255, 255, 255]), {
       5: [10, 0, 0],
-      6: [10, 200, 200],
+      6: [10, 10, 0],
     })
-    const nonexact: RgbTuple = [10, 199, 199] // 距 6 = 0²+1²+1²；距 5 = 0+199²+199²
-    const plan = buildDitherPalettePlan(rgbaFrame([nonexact]), rgbaFrame([nonexact]), palette, 1)
-    expect(plan.targetIndices[0]).toBe(6)
+    const gPlan = buildDitherPalettePlan(
+      rgbaFrame([[10, 9, 0]]),
+      rgbaFrame([[10, 9, 0]]),
+      gPalette,
+      1,
+    )
+    expect(gPlan.targetIndices[0]).toBe(6)
+    // B 轴：6=[10,0,10]，像素 [10,0,9]——全距 6:0²+0²+1²=1 < 5:0²+0²+9²=81 → 6；
+    //   漏 db² 则同距 0 → 5。
+    const bPalette = paletteWith(uniformPalette([255, 255, 255]), {
+      5: [10, 0, 0],
+      6: [10, 0, 10],
+    })
+    const bPlan = buildDitherPalettePlan(
+      rgbaFrame([[10, 0, 9]]),
+      rgbaFrame([[10, 0, 9]]),
+      bPalette,
+      1,
+    )
+    expect(bPlan.targetIndices[0]).toBe(6)
   })
 
   test('Q-NEXT2-03 nearest distance tie keeps earlier index', () => {

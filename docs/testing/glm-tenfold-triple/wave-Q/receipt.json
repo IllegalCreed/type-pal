@@ -25,11 +25,11 @@
   "shortfall": {
     "targetCases": 700,
     "deliveredCases": 175,
-    "netNewCap": 174,
-    "remainingAtLeast": 526,
+    "netNewCap": 172,
+    "remainingAtLeast": 528,
     "targetCounters": 50,
     "deliveredCounters": 71,
-    "account": "175 执行（161 + Q-NEXT2 十四条 dither 程序化合同）/ 净新结构上限 174（扣 room0 旧合同，历史 C114 编号）/ 缺口至少 526；反控 71 存档 / 62 目标 / 上限 61（r22 零新针，四代表控制留 Codex 最终候选实采）；Q-NEXT-01/02 修复的四敌引用轴合法性仍待 Codex 五针重采裁决；见 README r22 段与 next2/README.md 逐合同排重账"
+    "account": "175 执行（161 + Q-NEXT2 十四条）不变；净新结构上限 172（174 − 06/14 两 cross-check 扣列；room0 旧合同历史 C114 编号不二扣）/ 缺口至少 528；反控 71 存档 / 62 目标 / 上限 61；上一批 Q-NEXT-01/02 修复的四敌引用轴与五代表针均已由 Codex 独立关闭（撤回旧「仍待重采」误记）；见 README r23 段与 next2/README.md"
   },
   "commands": {
     "serialFullTests": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/<pkg> test （reforge → game → pal-extract 串行）",
@@ -39,16 +39,16 @@
     "diffCheck": "git diff --check 8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"
   },
   "results": {
-    "reforgeTest": "2164 passed（r22 最终串行全包复跑：2150 + Q-NEXT2 新 14）",
-    "gameTest": "2812 passed（r16 最终串行复跑；r22 未触，Git 对象不变，明确复用）",
-    "palExtractTest": "381 passed（r21 最终串行全包复跑；r22 未触，同上复用）",
-    "typechecks": "reforge 0 error（r22 复跑）；game/pal-extract 未触 TS 源（沿用已核零）",
-    "adjacentSuites": "dither-transition + scene-switch-transaction 2 文件 34/34（r22 实跑）",
-    "rootLint": "pnpm lint PASS — 完整 0/0/0（r22 候选与 pin 编辑后各复跑一次）",
-    "docsCheck": "PASS（r22 复跑）",
+    "reforgeTest": "2164 passed（r23 最终串行全包复跑）",
+    "gameTest": "2812 passed（r16 最终串行复跑；r23 未触，Git 对象不变，明确复用）",
+    "palExtractTest": "381 passed（r21 最终串行全包复跑；r23 未触，同上复用）",
+    "typechecks": "reforge 0 error（r23 复跑）；game/pal-extract 未触 TS 源（沿用已核零）",
+    "adjacentSuites": "dither-next2 + dither-transition + scene-switch-transaction 3 文件 48/48（r23 实跑）",
+    "rootLint": "pnpm lint PASS — 完整 0/0/0（r23 候选与 pin 编辑后各复跑一次）",
+    "docsCheck": "PASS（r23 复跑）",
     "diffCheck": "git diff --check 8b3ca062...HEAD 干净（pin 编辑后复跑）"
   },
-  "counterEvidence": "counters.json（71 全 VALID，62 执行目标；r20 五代表产品针为 Codex 采集证据待最终 hash 重采；历史退役与 *.bad.meta.json 保留）+ counters/ + tools/",
+  "counterEvidence": "counters.json（71 全 VALID，62 执行目标；历史退役与 *.bad.meta.json 保留；四代表产品控制已由 Codex 在固定候选实采闭合）+ counters/ + tools/",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
   "coverageDelta": "coverage-delta.json（reforge/game 全测口径 +82/+5 臂；pal-extract 为 glm-q 定向口径且 CLI 子进程不在插桩范围，收益主张合同级）",
   "notes": [
@@ -57,6 +57,6 @@
     "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
-  "reworkRound": 22,
-  "candidateHeadNote": "r22 口径：candidateHead 指向 r22 候选树 tip；其后仅本 receipt 的 docs-only pin 提交回填，不改任何测试/产品文件。"
+  "reworkRound": 23,
+  "candidateHeadNote": "r23 口径：candidateHead 指向 r23 候选树 tip；其后仅本 receipt 的 docs-only pin 提交回填，不改任何测试/产品文件。"
 }
