@@ -1,0 +1,1 @@
+          new Uint8Array(2), // BA1：raw 回退（YJ2 source-too-small throw → 原文 blob，0 帧）

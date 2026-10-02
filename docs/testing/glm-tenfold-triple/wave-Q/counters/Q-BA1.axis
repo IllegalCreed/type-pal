@@ -1,0 +1,1 @@
+输入轴分区对照（非产品源变异）：raw 回退 chunk 2B→3B（合法非空 chunk；两长度都在 YJ2 source-too-small 失败区）——blob 内容保真断言 gunzip==[0,0] 恰一红（sprite/帧计数与 manifest 不受影响：3B 仍 0 帧）。红证明 blob 逐字节保真 oracle 的判别力。

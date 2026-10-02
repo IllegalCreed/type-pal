@@ -1,0 +1,57 @@
+{
+  "id": "Q-BA2",
+  "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+  "targetFullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
+  "targetNameSubstring": "战斗背景正向",
+  "axis": null,
+  "sha256": {
+    "original": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604",
+    "mutated": "a532f11a11d388039a8c7e05fa7b69138f00c7fbcc0bab3d7b0f95d11525dfaf",
+    "restored": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'battle backgrounds written: 1 / 5 chu…'",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-BA2.positive.json",
+      "raw": "Q-BA2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-BA2.mutant.json",
+      "raw": "Q-BA2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-BA2.restored.json",
+      "raw": "Q-BA2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

@@ -1,13 +1,39 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r16 续批3）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r17 续批4）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r16 候选**（r15 复核：撤回保护 + E2 三例全 accept；
-**当前 143 执行 / 结构净新上限 142 / 缺口至少 558**；r15 候选 839601a13/pin 250207ed7
+本文件描述 **r17 候选**（r16 复核：自卫集成两例 accept、AP 分区口径确立；
+**当前 145 执行 / 结构净新上限 144 / 缺口至少 556**；r16 候选 2bdb69cfd/pin ee3eea871
 保留供独立复核）。不合 main、不标 done。
+
+## r17 相对 r16 的改动（Q10 战斗资产段新批）
+
+1. **新批 `cli-battle-assets.glm-q.test.ts`（2 例，自包含合成夹具）**——旧全管线例对
+   CLI 尾段只断言跳过计数（battle sprite blobs 0 sprites / battle backgrounds 0/5，
+   F/ABC 空 MKF、FBP 全空），正向路径从未走过：
+   ① **F/ABC 战斗精灵 dump-all**——F.MKF 3 chunk（合法 YJ2 player sprite / 空 / 2B
+   raw 回退）+ ABC.MKF 1 chunk（enemy sprite）：stdout 3 sprites 2 frames、
+   gunzip(player/0.rle)==编码前 sprite group 逐字节、raw 回退臂 YJ2 失败（source
+   too small）原文 2B 逐字节保留、battle-sprites.json == [{player,0},{player,2},
+   {enemy,0}]（F 循环先于 ABC、空 chunk 不入列）。
+   ② **FBP 战斗背景正向 + 尺寸门**——FBP.MKF 5 chunk（合法 YJ2 64000B 背景 / 100B
+   尺寸门 / 3 空含 splash 3/4）：stdout 1/5、stderr 「FBP chunk 1: 解压后 100 bytes
+   ≠64000,skip」、000.png PNG 签名 + IHDR 320×200、001/002 不存在、battle-bgs.json
+   =={count:5,ids:[0]}。
+   新文件不动 cli-isolated 执行集（零针重采）；分支化 ternary 使反控变异天然限定
+   单例分支。
+2. **反控 Q-BA1/2（输入轴分区对照，均新执行目标）**：BA1 raw chunk 2B→3B（同在
+   YJ2 失败区）→ blob 保真断言恰一红（计数/manifest 不变）；BA2 FBP chunk1 100B→
+   64000B（尺寸门外→门内）→ 计数/ids/warn/非存在恰一红。三相 2/2→1/2→2/2、
+   exit 0/1/0、恢复 hash 一致（先 biome 格式化再采针）。
+3. **账目**：145 执行（143 + 2 新）/ 扣 room0 旧合同（历史 C114 编号）后**结构净新
+   上限 144 / 缺口至少 556**；反控 **69 存档（67 + 2 新）/ 60 不同执行目标 / 净新
+   合同目标结构上限 59**。700/50 组不缩，仅部分交付。
+4. 门禁：pal-extract 定向 8/8 + 全包 365/365 / typecheck ×3 / 根 lint 完整 0/0/0
+   （pin 后复跑）/ docs / diff / verifier；game 2812 / reforge 2150 源未变明确复用。
 
 ## r16 相对 r15 的改动（E2 自卫集成新批 + ET2 措辞随批修正）
 

@@ -1,0 +1,1 @@
+          yj2Compress(new Uint8Array(100)), // BA2：尺寸门（解压后 ≠64000 → warn skip）

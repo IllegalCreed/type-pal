@@ -1,7 +1,7 @@
 {
-  "count": 67,
+  "count": 69,
   "allValid": true,
-  "distinctTargets": 58,
+  "distinctTargets": 60,
   "duplicatedTargets": [
     "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts :: Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
     "packages/game/src/framebuffer-ports.glm-q.test.ts :: Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
@@ -42,7 +42,7 @@
       "alsoSameTargetAs": "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts :: performMagic E1: inline 攻击法术伤害(player→enemy) 敌人施法 → 不走 inline path(player-only)，enemy 不被自己打"
     }
   ],
-  "quotaNotes": "r16：67 活跃存档满足业务单断言红 / 58 个不同执行目标 / 净新合同目标结构上限 57（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。r16 新增 Q-AP1/2 两针（L16 防御姿注入/睡眠资格门，均新执行目标）；Q-ET2 axis 措辞按 r15 复核改为非超杀分区对照（原三态证据文件不改）。数量门已足，不凑针。",
+  "quotaNotes": "r17：69 活跃存档满足业务单断言红 / 60 个不同执行目标 / 净新合同目标结构上限 59（room0 旧合同（历史 C114 编号）与 S1-RC4 同一旧合同只扣一次）。r17 新增 Q-BA1/2 两针（F/ABC blob 保真与 raw 回退 / FBP 尺寸门，均新执行目标，输入轴分区对照口径）。数量门已足，不凑针。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
@@ -3861,6 +3861,120 @@
           },
           "json": "Q-AP2.restored.json",
           "raw": "Q-AP2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-BA1",
+      "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest",
+      "targetNameSubstring": "战斗精灵 dump-all",
+      "axis": "输入轴分区对照（非产品源变异）：raw 回退 chunk 2B→3B（合法非空 chunk；两长度都在 YJ2 source-too-small 失败区）——blob 内容保真断言 gunzip==[0,0] 恰一红（sprite/帧计数与 manifest 不受影响：3B 仍 0 帧）。红证明 blob 逐字节保真 oracle 的判别力。",
+      "sha256": {
+        "original": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604",
+        "mutated": "e9861b11530e29b4a96c897e383d0e0cb8383a1d0f2abf676e288acf91564e16",
+        "restored": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected Uint8Array[ 0, 0, 0 ] to deeply equal Uint8Array[ 0, 0 ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-BA1.positive.json",
+          "raw": "Q-BA1.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-BA1.mutant.json",
+          "raw": "Q-BA1.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-BA1.restored.json",
+          "raw": "Q-BA1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-BA2",
+      "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip",
+      "targetNameSubstring": "战斗背景正向",
+      "axis": "输入轴分区对照（非产品源变异）：FBP chunk1 解压长度 100B→64000B（合法 YJ2；尺寸门外→门内分区）——正确产品在门内分区本就落 PNG 并入 ids；计数/warn/非存在断言恰一红。红证明尺寸门 oracle 的判别力。",
+      "sha256": {
+        "original": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604",
+        "mutated": "a532f11a11d388039a8c7e05fa7b69138f00c7fbcc0bab3d7b0f95d11525dfaf",
+        "restored": "14c7e2e75d4de140eb6f16839f84e588dbcb33d3d8d668f61374a2b53a3f3604"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'battle backgrounds written: 1 / 5 chu…'",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-BA2.positive.json",
+          "raw": "Q-BA2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-BA2.mutant.json",
+          "raw": "Q-BA2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-BA2.restored.json",
+          "raw": "Q-BA2.restored.txt"
         }
       },
       "verdict": "VALID"
