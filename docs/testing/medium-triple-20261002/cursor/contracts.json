@@ -1,0 +1,131 @@
+{
+  "taskId": "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
+  "owner": "Cursor",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "dispatchBase": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "branch": "codex/cursor-script-preview-medium-r1",
+  "primarySources": [
+    "packages/editor/src/core/script-flow-preview.ts",
+    "packages/editor/src/core/script-movement-preview.ts"
+  ],
+  "newTestFiles": [
+    "packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts",
+    "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+    "packages/editor/src/core/script-preview-integration.cursor-mid-1.test.ts"
+  ],
+  "fixturePrefix": "packages/editor/src/core/__tests__/cursor-preview-mid-1/",
+  "counts": {
+    "executed": 37,
+    "netNew": 37,
+    "existingProofOnly": 0,
+    "unreachableTyped": 1,
+    "blocked": 0,
+    "budget": "32–45 / max 48",
+    "byGroup": { "C1": 7, "C2": 3, "C3": 5, "C4": 5, "C5": 4, "C6": 5, "C7": 4, "C8": 4 }
+  },
+  "dedupNotes": {
+    "doNotRetest": [
+      "deleted/wrong-id previewFlowCursor fallback (script-flow-preview.test.ts)",
+      "divergent-arm unknown start / no fake line (movement 227–254)",
+      "loadScene stop + foreign baseline with loadScene (300–316)",
+      "shared self none/required/recursive/chase owner axes (318–347)",
+      "shared stopScript vs loadScene caller boundary (93–116)"
+    ],
+    "unreachable": [
+      {
+        "id": "C1-state-missing-label-field",
+        "reason": "typed stateMachine state.label 为必填 string；合法输入只能空串。C1-07 改断言空串保留（?? 不回退 id），不计伪缺字段。"
+      }
+    ]
+  },
+  "contracts": [
+    {
+      "id": "C1",
+      "domain": "选中游标与标题域",
+      "sourceAnchors": ["script-flow-preview.ts:4-39"],
+      "caller": "ScriptEditor / PreviewCanvas legend 组合读 previewFlowCursor+previewStepLabel+previewCursorKey",
+      "cases": ["C1-01", "C1-02", "C1-03", "C1-04", "C1-05", "C1-06", "C1-07"],
+      "classification": "net-new",
+      "oracleShape": "cursor JSON key / label 字符串全等，非 length-only",
+      "oldBlobMatchers": "script-flow-preview.test.ts 已证 valid stage/state、同名 label、deleted fallback——本批不重复 fallback"
+    },
+    {
+      "id": "C2",
+      "domain": "分支合流知识",
+      "sourceAnchors": ["script-movement-preview.ts:81-101", "script-movement-preview.ts:356-357"],
+      "caller": "collectScriptMovementPreview → alternatives/mergeStates",
+      "cases": ["C2-01", "C2-02", "C2-03"],
+      "classification": "net-new",
+      "oracleShape": "完整 segments/nodes/conditional；同落点不同 node / 同 node 保留 / 同列不同引用",
+      "oldBlobMatchers": "movement.test 227–254 分歧未知不连线已证，本批专攻同落点合流"
+    },
+    {
+      "id": "C3",
+      "domain": "挂载与追逐动态边界",
+      "sourceAnchors": ["script-movement-preview.ts:301-354"],
+      "caller": "collectScriptMovementPreview ride/mount/chase/setEntityPosRelParty",
+      "cases": ["C3-01", "C3-02", "C3-03", "C3-04", "C3-05"],
+      "classification": "net-new",
+      "oracleShape": "tracks/nodes/segments/notes；party 清空后孤立绝对点、无假连线",
+      "oldBlobMatchers": "chase via shared required 已证；本批补无 owner chase、ride、mount、relParty 未知"
+    },
+    {
+      "id": "C4",
+      "domain": "条件结果族",
+      "sourceAnchors": ["script-movement-preview.ts:363-372"],
+      "caller": "collectScriptMovementPreview confirm/startBattle/teleportOut",
+      "cases": ["C4-01", "C4-02", "C4-03", "C4-04", "C4-05"],
+      "classification": "net-new",
+      "oracleShape": "完整 tracks/nodes/segments/notes；空臂与 boundary，不读世界条件",
+      "oldBlobMatchers": "旧 movement/PreviewCanvas 无 confirm/startBattle/teleportOut 判别 oracle"
+    },
+    {
+      "id": "C5",
+      "domain": "共享调用域",
+      "sourceAnchors": ["script-movement-preview.ts:374-403"],
+      "caller": "collectScriptMovementPreview callScript",
+      "cases": ["C5-01", "C5-02", "C5-03", "C5-04"],
+      "classification": "net-new",
+      "oracleShape": "missing/32 层/非法 self/sibling 独立展开的 segments+notes",
+      "oldBlobMatchers": "旧 self/recursive/chase/stop-vs-loadScene 轴已拆旧证明，本批不重复"
+    },
+    {
+      "id": "C6",
+      "domain": "地图与可见目标",
+      "sourceAnchors": ["script-movement-preview.ts:131-141", "script-movement-preview.ts:411-415"],
+      "caller": "visibleTarget + setSceneMapOverride",
+      "cases": ["C6-01", "C6-02", "C6-03", "C6-04", "C6-05"],
+      "classification": "net-new",
+      "oracleShape": "当前/其它 scene map override、缺实体、跨 scene 无 loadScene",
+      "oldBlobMatchers": "loadScene+foreign 基础证归旧；本批 map override 与无 loadScene 跨 scene"
+    },
+    {
+      "id": "C7",
+      "domain": "显示容量与步号",
+      "sourceAnchors": ["script-movement-preview.ts:177-202", "script-movement-preview.ts:227-230"],
+      "caller": "addPoint numbering + visitedCommands cap + notes Set",
+      "cases": ["C7-01", "C7-02", "C7-03", "C7-04"],
+      "classification": "net-new",
+      "oracleShape": "10001 停止点、notes 去重、segment 对象引用、条件臂编号独立",
+      "oldBlobMatchers": "六航点编号已证；本批专攻 10000 上限与引用/去重"
+    },
+    {
+      "id": "C8",
+      "domain": "纯函数组合",
+      "sourceAnchors": ["script-movement-preview.ts:107-114", "script-flow-preview.ts:4-39"],
+      "caller": "previewFlowCursor → selectedBody → collect；非 PreviewCanvas 截图",
+      "cases": ["C8-01", "C8-02", "C8-03", "C8-04"],
+      "classification": "net-new",
+      "oracleShape": "cursor/self/prepare/stateMachine 组合轨迹；AST/scene 不变",
+      "oldBlobMatchers": "旧 collect cursor/prepare/state 基础已证；本批 self+B、prepare-only 空 body、双 collect 不变异"
+    }
+  ],
+  "counters": {
+    "target": 6,
+    "valid": 6,
+    "oldGreenNewRed": 3,
+    "ids": ["CTR-C1-01", "CTR-C3-01", "CTR-C4-01", "CTR-C4-04", "CTR-C6-01", "CTR-C7-01"],
+    "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"]
+  },
+  "unfinished": []
+}

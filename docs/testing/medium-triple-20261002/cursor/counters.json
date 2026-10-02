@@ -1,0 +1,49 @@
+{
+  "generatedAt": "2026-10-02T06:58:05.107Z",
+  "valid": 6,
+  "skippedExisting": 0,
+  "blocked": 0,
+  "oldGreenNewRed": 3,
+  "counters": [
+    {
+      "id": "CTR-C1-01",
+      "productFile": "packages/editor/src/core/script-flow-preview.ts",
+      "expectFullname": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+      "dir": "docs/testing/medium-triple-20261002/cursor/counters/CTR-C1-01",
+      "oldGreenNewRed": true
+    },
+    {
+      "id": "CTR-C3-01",
+      "productFile": "packages/editor/src/core/script-movement-preview.ts",
+      "expectFullname": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+      "dir": "docs/testing/medium-triple-20261002/cursor/counters/CTR-C3-01"
+    },
+    {
+      "id": "CTR-C4-01",
+      "productFile": "packages/editor/src/core/script-movement-preview.ts",
+      "expectFullname": "C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段",
+      "dir": "docs/testing/medium-triple-20261002/cursor/counters/CTR-C4-01",
+      "oldGreenNewRed": true
+    },
+    {
+      "id": "CTR-C4-04",
+      "productFile": "packages/editor/src/core/script-movement-preview.ts",
+      "expectFullname": "C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+      "dir": "docs/testing/medium-triple-20261002/cursor/counters/CTR-C4-04"
+    },
+    {
+      "id": "CTR-C6-01",
+      "productFile": "packages/editor/src/core/script-movement-preview.ts",
+      "expectFullname": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+      "dir": "docs/testing/medium-triple-20261002/cursor/counters/CTR-C6-01",
+      "oldGreenNewRed": true
+    },
+    {
+      "id": "CTR-C7-01",
+      "productFile": "packages/editor/src/core/script-movement-preview.ts",
+      "expectFullname": "C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move",
+      "dir": "docs/testing/medium-triple-20261002/cursor/counters/CTR-C7-01"
+    }
+  ],
+  "blockedEntries": []
+}

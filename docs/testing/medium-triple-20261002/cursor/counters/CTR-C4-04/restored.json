@@ -1,0 +1,50 @@
+{
+  "numTotalTestSuites": 7,
+  "numPassedTestSuites": 7,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 1,
+  "numPassedTests": 1,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790924270057,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C4 cursor-mid-1 条件结果族"],
+          "fullName": "C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+          "status": "passed",
+          "title": "C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+          "duration": 1.6207919999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790924270424,
+      "endTime": 1790924270425.6208,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-CTR-C4-04-1q9SO4/packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts"
+    }
+  ]
+}

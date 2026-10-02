@@ -1,0 +1,44 @@
+{
+  "taskId": "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
+  "owner": "Cursor",
+  "branch": "codex/cursor-script-preview-medium-r1",
+  "dispatchBase": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "status": "delivered-awaiting-codex",
+  "executed": 37,
+  "netNew": 37,
+  "countersValid": 6,
+  "oldGreenNewRed": 3,
+  "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"],
+  "gates": {
+    "mid1Vitest": "37/37 passed",
+    "adjacentOldPreview": "15/15 passed (flow 3 + movement 12)",
+    "editorTypecheck": "passed",
+    "editorFullVitest": {
+      "passed": 3802,
+      "failed": 2,
+      "classification": "environment-asset-missing",
+      "failures": [
+        "tests/world-sprite-behavior.pal.test.ts — ENOENT projects/pal/assets/migrated/sprites/044.rle",
+        "tests/world-sprite-behavior.pal.test.ts — ENOENT projects/pal/assets/migrated/sprites/035.rle"
+      ],
+      "note": "与本卡白名单无关；本 worktree 缺 PAL migrated 精灵资产。mid-1 与相邻预览测全绿。"
+    },
+    "rootLint": "PASS 2799 files; 0/0/0",
+    "docs": "FAIL 1 remaining — 共享 README 缺 cursor/ 子目录导航（贡献者只读）；receipt 链接已自洽",
+    "diffCheck": "PASS git diff --check BASE...working",
+    "verify": {
+      "frozenHashesValid": true,
+      "scopeValid": true
+    }
+  },
+  "unfinished": [
+    {
+      "id": "DOC-PARENT-NAV",
+      "severity": "docs/testing/medium-triple-20261002/README.md 未链到 cursor/ 子目录；共享 README/targets 贡献者只读，需 Codex 补一行导航后 docs 门才零问题。"
+    }
+  ],
+  "productMutations": false,
+  "mainMerge": false,
+  "officialGate": false
+}

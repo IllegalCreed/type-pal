@@ -1,0 +1,76 @@
+{
+  "id": "CTR-C1-01",
+  "productFile": "packages/editor/src/core/script-flow-preview.ts",
+  "findText": "return JSON.stringify(cursor ?? null)",
+  "replaceText": "return JSON.stringify(cursor)",
+  "testSpec": "src/core/script-flow-preview.cursor-mid-1.test.ts",
+  "expectFullname": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+  "grep": "C1-01 previewCursorKey",
+  "oldSpec": "src/core/script-flow-preview.test.ts",
+  "candidateHead": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "productSha256Candidate": "89672d57bff0f923af3b3952b45c4215973534f117a399e78443892440eb2a72",
+  "patch": "--- a/packages/editor/src/core/script-flow-preview.ts\n+++ b/packages/editor/src/core/script-flow-preview.ts\n@@ -23,7 +23,7 @@\n }\n \n export function previewCursorKey(cursor: FlowCursor | undefined): string {\n-  return JSON.stringify(cursor ?? null)\n+  return JSON.stringify(cursor)\n }\n \n export function previewStepLabel(flow: AuthorScriptFlow, cursor: FlowCursor): string {\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "cacd23f673b185db82bc320545c907b3635bab594f874dcbf50b064d0fb5b2d5",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 1,
+    "executedFullNames": [
+      "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+    ],
+    "failed": [
+      {
+        "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+        "message": "AssertionError: expected undefined to be 'null' // Object.is equality",
+        "file": "src/core/script-flow-preview.cursor-mid-1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+      ]
+    },
+    "target": {
+      "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+      "message": "AssertionError: expected undefined to be 'null' // Object.is equality",
+      "file": "src/core/script-flow-preview.cursor-mid-1.test.ts"
+    }
+  },
+  "oldOnMutated": {
+    "exitCode": 0,
+    "executed": 0,
+    "failed": [],
+    "oldGreenNewRed": true
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+      ]
+    }
+  }
+}
