@@ -1,6 +1,6 @@
 {
-  "total": 78,
-  "note": "r9：oracle=每合同测试源真实断言行（P02-G03 三条为人工指定结果行保留）；oldAssertion=真实旧 fullName 锚；P03 三组新增（67→79）；r10.5：同上锚全部替换为真实旧 fullName/行号锚，G12-03 oracle 补完整合法 cursor 映射断言",
+  "total": 86,
+  "note": "r9：oracle=每合同测试源真实断言行（P02-G03 三条为人工指定结果行保留）；oldAssertion=真实旧 fullName 锚；P03 三组新增；r11 续批 P03b 8 例（79 执行→含 P03b 重定向后 79 执行口径见 directed-vitest.json）",
   "contracts": [
     {
       "batch": "P01",
@@ -1093,6 +1093,118 @@
       "axis": "本合同新轴: tileId 负数校验消息与零 patch 为新轴",
       "oracle": "完整断言: expect(onPatch).not.toHaveBeenCalled()\n// src/ui/MapSelectionInspector.glm-p.test.tsx:187",
       "classification": "ui-warning-and-commit"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G15-01",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 实体 behavior flow 命令携带 entity-behavior owner 与完整 flow 路径",
+      "status": "passed",
+      "condition": "同构 typed fixture：npcEntity/hostileEntity/zoneEntity（RuntimeEntityDef 合法形态）与共享库",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "collectCanonicalScriptCommandVisits(state)",
+      "oldAssertion": "script-editor.test.ts › canonical script editor commands 主链已证实体 behavior 走访；本合同核 owner/container 字段与完整 flow 路径",
+      "axis": "本合同新轴: P03-G15 实体 behavior flow 命令携带 entity-behavior owner 与完整 flow 路径",
+      "oracle": "真实断言行: expect(hit).toContain(\n// src/core/script-editor.p03b.glm-p.test.ts:115",
+      "classification": "visitor-arms"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G15-02",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 hostile.onLose 命令以独立来源走访且路径精确",
+      "status": "passed",
+      "condition": "同构 typed fixture：npcEntity/hostileEntity/zoneEntity（RuntimeEntityDef 合法形态）与共享库",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "collectCanonicalScriptCommandVisits(state)",
+      "oldAssertion": "script-references.test.ts › 同一 walker 覆盖…与战败命令（已证覆盖面）；本合同核 hostile.onLose 精确单路径",
+      "axis": "本合同新轴: P03-G15 hostile.onLose 命令以独立来源走访且路径精确",
+      "oracle": "真实断言行: expect(hit).toEqual(['scenes.s001.entities.e2.hostile.onLose[0]'])\n// src/core/script-editor.p03b.glm-p.test.ts:134",
+      "classification": "visitor-arms"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G15-03",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 zone 实体（无外观触发区）合法且不产出 behavior/hook 走访",
+      "status": "passed",
+      "condition": "同构 typed fixture：npcEntity/hostileEntity/zoneEntity（RuntimeEntityDef 合法形态）与共享库",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "collectCanonicalScriptCommandVisits(state)",
+      "oldAssertion": "无旧直测 fullName：zone 实体（EntityRef 第三选一）走访语义",
+      "axis": "本合同新轴: P03-G15 zone 实体（无外观触发区）合法且不产出 behavior/hook 走访",
+      "oracle": "真实断言行: expect(paths(visits).filter((p) => p.includes('zone-1'))).toEqual([])\n// src/core/script-editor.p03b.glm-p.test.ts:139",
+      "classification": "visitor-arms"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G15-04",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G15 visitCanonicalScriptCommands 走访臂 共享脚本命令走访携带 shared-script owner 与 body 容器",
+      "status": "passed",
+      "condition": "同构 typed fixture：npcEntity/hostileEntity/zoneEntity（RuntimeEntityDef 合法形态）与共享库",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "collectCanonicalScriptCommandVisits(state)",
+      "oldAssertion": "script-references.glm-leaf-wave.test.ts › callScript callers…（已证共享边）；本合同核共享 body 容器 locator",
+      "axis": "本合同新轴: P03-G15 共享脚本命令走访携带 shared-script owner 与 body 容器",
+      "oracle": "真实断言行: expect(shared).toHaveLength(1)\n// src/core/script-editor.p03b.glm-p.test.ts:145",
+      "classification": "visitor-arms"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G16-01",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G16 scheme 引用索引聚合 page-binding entry：按 canonicalBehaviorReferenceKey 聚合 page 引用",
+      "status": "passed",
+      "condition": "同 fixture + buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "oldAssertion": "无旧直测 fullName：page-binding entry 聚合与 key 形态",
+      "axis": "本合同新轴: P03-G16 page-binding entry：按 canonicalBehaviorReferenceKey 聚合 page 引用",
+      "oracle": "真实断言行: expect(entry).toBeDefined()\n// src/core/script-editor.p03b.glm-p.test.ts:159",
+      "classification": "index-aggregation"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G16-02",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G16 scheme 引用索引聚合 命令 selection 命中以 use:command 入索引；同键多引用按序追加",
+      "status": "passed",
+      "condition": "同 fixture + buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "oldAssertion": "无旧直测 fullName：同键多引用追加序",
+      "axis": "本合同新轴: P03-G16 命令 selection 命中以 use:command 入索引；同键多引用按序追加",
+      "oracle": "真实断言行: expect(entry.length).toBeGreaterThanOrEqual(2)\n// src/core/script-editor.p03b.glm-p.test.ts:182",
+      "classification": "index-aggregation"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G16-03",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G16 scheme 引用索引聚合 scene-hook entry 以 canonicalSceneHookReferenceKey 聚合",
+      "status": "passed",
+      "condition": "同 fixture + buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "oldAssertion": "无旧直测 fullName：scene-hook initial entry 聚合",
+      "axis": "本合同新轴: P03-G16 scene-hook entry 以 canonicalSceneHookReferenceKey 聚合",
+      "oracle": "真实断言行: expect(entry).toBeDefined()\n// src/core/script-editor.p03b.glm-p.test.ts:200",
+      "classification": "index-aggregation"
+    },
+    {
+      "batch": "P03",
+      "id": "P03-G16-04",
+      "file": "src/core/script-editor.p03b.glm-p.test.ts",
+      "fullName": "P03-G16 scheme 引用索引聚合 无任何引用来源 → 三索引与 entries 全空",
+      "status": "passed",
+      "condition": "同 fixture + buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "source": "packages/editor/src/core/script-editor.ts",
+      "caller": "buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
+      "oldAssertion": "无旧直测 fullName：空来源全空",
+      "axis": "本合同新轴: P03-G16 无任何引用来源 → 三索引与 entries 全空",
+      "oracle": "真实断言行: expect(indexes.behavior.size).toBe(0)\n// src/core/script-editor.p03b.glm-p.test.ts:215",
+      "classification": "index-aggregation"
     }
   ]
 }

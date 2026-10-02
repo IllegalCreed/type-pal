@@ -13,12 +13,12 @@
  *   entry 聚合（key 精确形态）无旧直测 fullName。
  * 合法输入：与 script-editor.test.ts 同构 typed fixture（zone 实体合法：无外观触发区）。
  */
-import type { AuthorCommand, AuthorSceneDef, AuthorScriptFlow } from '@type-pal/content'
+import type { AuthorCommand, AuthorSceneDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
-  collectCanonicalScriptCommandVisits,
   type CanonicalScriptCommandVisit,
+  collectCanonicalScriptCommandVisits,
   type ScriptEditorState,
 } from './script-editor.js'
 
@@ -38,7 +38,7 @@ function selectionCommand(behaviorId: string): AuthorCommand {
 }
 
 /** 可见实体（带外观与行为） */
-function npcEntity() {
+function npcEntity(): AuthorSceneDef['entities'][number] {
   return {
     id: 'e1',
     sprite: 'npc',
@@ -60,7 +60,7 @@ function npcEntity() {
 }
 
 /** 无外观触发区（zone）：合法 EntityRef 第三选一 */
-function zoneEntity() {
+function zoneEntity(): AuthorSceneDef['entities'][number] {
   return {
     id: 'zone-1',
     zone: true as const,
@@ -69,14 +69,16 @@ function zoneEntity() {
 }
 
 /** 敌对实体（hostile.onLose 命令来源） */
-function hostileEntity() {
+function hostileEntity(): AuthorSceneDef['entities'][number] {
   return {
     id: 'e2',
     sprite: 'npc',
     pos: { col: 2, row: 2, height: 0 },
     hostile: {
       enemyTeamId: 'team-1',
-      onLose: [selectionCommand('talk')] as never,
+      onLose: [selectionCommand('talk')],
+      onVictory: { kind: 'remove' },
+      onPlayerFlee: { kind: 'remain' },
     },
   }
 }
@@ -110,8 +112,12 @@ describe('P03-G15 visitCanonicalScriptCommands 走访臂', () => {
   test('实体 behavior flow 命令携带 entity-behavior owner 与完整 flow 路径', () => {
     const visits = collectCanonicalScriptCommandVisits(stateWith([npcEntity()]))
     const hit = paths(visits).filter((p) => p.includes('behaviors.trigger.talk.flow'))
-    expect(hit).toContain('scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]')
-    const visit = visits.find((v) => v.path === 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]')!
+    expect(hit).toContain(
+      'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]',
+    )
+    const visit = visits.find(
+      (v) => v.path === 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]',
+    )!
     expect(visit.locator.owner).toEqual({
       kind: 'entity-behavior',
       sceneId: 's001',
@@ -151,7 +157,12 @@ describe('P03-G16 scheme 引用索引聚合', () => {
     const key = JSON.stringify(['s001', 'e1', 'trigger', 'talk'])
     const entry = indexes.behavior.get(key)
     expect(entry).toBeDefined()
-    expect(entry!.some((ref) => ref.kind === 'page' && ref.path === 'scenes.s001.entities.e1.pages.default.trigger')).toBe(true)
+    expect(
+      entry!.some(
+        (ref) =>
+          ref.kind === 'page' && ref.path === 'scenes.s001.entities.e1.pages.default.trigger',
+      ),
+    ).toBe(true)
     expect(indexes.behaviorEntries.length).toBeGreaterThanOrEqual(1)
     expect(indexes.behaviorEntries[0]).toMatchObject({
       target: { scene: 's001', entity: 'e1' },
