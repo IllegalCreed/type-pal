@@ -682,6 +682,10 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
     },
   }
   assertKitchenEndPayload(payload, 'reforge', predecessor, contract)
+  const materialized = structuredClone(payload)
+  materialized.world.party[0].extraPoisonRes = undefined
+  materialized.world.party[0].extraStatuses = undefined
+  assertKitchenEndPayload(materialized, 'reforge', predecessor, contract)
   const transientPickup = structuredClone(contract)
   transientPickup.scenes.s001.entities[1].behaviors.trigger.ready.flow.stages[0].body[1] = {
     kind: 'setActorSprite',
@@ -693,6 +697,9 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
     /persistent pickup/,
   )
   for (const corrupt of [
+    (p) => {
+      p.world.party[0].portrait = 'different persistent portrait'
+    },
     (p) => {
       p.world.party[0].appearance = { spriteId: 'sprite-208' }
     },

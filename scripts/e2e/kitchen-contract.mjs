@@ -410,7 +410,11 @@ export function assertKitchenEndPayload(payload, engine, predecessor, contract) 
       predecessor.world.inventory,
       'food was taken or inventory changed',
     )
-    assert.deepEqual(world.party, predecessor.world.party, '003 changed party before pickup')
+    assert.deepEqual(
+      JSON.parse(JSON.stringify(world.party)),
+      predecessor.world.party,
+      '003 changed persistent party before pickup',
+    )
     assert.notEqual(world.party[0].appearance?.spriteId, 'sprite-208', 'food already carried')
     assert.equal(world.script.entityState.s003.e56, 0)
     assert.equal(world.script.entityState.s001.e19, 2)
