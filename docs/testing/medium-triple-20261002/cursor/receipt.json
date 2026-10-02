@@ -1,46 +1,37 @@
 {
   "taskId": "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
   "owner": "Cursor",
+  "rework": "CURSOR-R1-01～04",
   "branch": "codex/cursor-script-preview-medium-r1",
   "dispatchBase": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
   "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
-  "testsCommit": "f01765a265006672457800cf4cd4a7d6f4c89626",
-  "status": "delivered-awaiting-codex",
-  "executed": 37,
-  "netNew": 37,
+  "priorCandidate": "40c88183a2edde38aacd6244288361dae0dba9cb",
+  "status": "rework-delivered-awaiting-codex",
+  "executed": 34,
+  "netNew": 34,
+  "existingProofWithdrawn": ["C1-04", "C1-05"],
+  "unreachable": ["C1-07"],
   "countersValid": 6,
   "oldGreenNewRed": 3,
   "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"],
+  "oldExecuted": { "CTR-C1-01": 3, "CTR-C4-01": 12, "CTR-C6-01": 12 },
   "gates": {
-    "mid1Vitest": "37/37 passed",
-    "adjacentOldPreview": "15/15 passed (flow 3 + movement 12)",
+    "mid1Vitest": "34/34 passed",
+    "adjacentOldPreview": "15/15 passed",
     "editorTypecheck": "passed",
-    "editorFullVitest": {
-      "passed": 3802,
-      "failed": 2,
-      "classification": "environment-asset-missing",
-      "failures": [
-        "tests/world-sprite-behavior.pal.test.ts — ENOENT projects/pal/assets/migrated/sprites/044.rle",
-        "tests/world-sprite-behavior.pal.test.ts — ENOENT projects/pal/assets/migrated/sprites/035.rle"
-      ],
-      "note": "与本卡白名单无关；本 worktree 缺 PAL migrated 精灵资产。mid-1 与相邻预览测全绿。"
-    },
-    "rootLint": "PASS 2799 files; 0/0/0",
-    "docs": "FAIL 1 remaining — 共享 README 缺 cursor/ 子目录导航（贡献者只读）；receipt 链接已自洽",
-    "diffCheck": "PASS git diff --check BASE...working",
-    "verify": {
-      "frozenHashesValid": true,
-      "scopeValid": true
-    }
+    "judgeSelftest": "passed (composite collection+assertion rejected; legacy would accept)",
+    "rootLint": "PASS 2845 files; 0/0/0",
+    "docs": "FAIL shared parent nav only (Codex-owned)",
+    "diffCheck": "PASS",
+    "verify": { "frozenHashesValid": true, "scopeValid": true }
   },
   "unfinished": [
     {
       "id": "DOC-PARENT-NAV",
-      "severity": "docs/testing/medium-triple-20261002/README.md 未链到 cursor/ 子目录；共享 README/targets 贡献者只读，需 Codex 补一行导航后 docs 门才零问题。"
+      "severity": "共享 README 未链 cursor/；贡献者只读。"
     }
   ],
   "productMutations": false,
   "mainMerge": false,
-  "officialGate": false,
-  "candidateSha": "0845dc7010efc7f10c35184922c58e05068b0d21"
+  "officialGate": false
 }

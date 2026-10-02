@@ -7,8 +7,12 @@
   "expectFullname": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
   "grep": "C1-01 previewCursorKey",
   "oldSpec": "src/core/script-flow-preview.test.ts",
-  "candidateHead": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "declaredFullNames": [
+    "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+  ],
+  "candidateHead": "40c88183a2edde38aacd6244288361dae0dba9cb",
   "productSha256Candidate": "89672d57bff0f923af3b3952b45c4215973534f117a399e78443892440eb2a72",
+  "testSha256Candidate": "bd87969f6dc973901723850c3f6ad2333063448f606190bbefad04c50c271250",
   "patch": "--- a/packages/editor/src/core/script-flow-preview.ts\n+++ b/packages/editor/src/core/script-flow-preview.ts\n@@ -23,7 +23,7 @@\n }\n \n export function previewCursorKey(cursor: FlowCursor | undefined): string {\n-  return JSON.stringify(cursor ?? null)\n+  return JSON.stringify(cursor)\n }\n \n export function previewStepLabel(flow: AuthorScriptFlow, cursor: FlowCursor): string {\n",
   "positive": {
     "exitCode": 0,
@@ -16,6 +20,8 @@
     "executedFullNames": [
       "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
     ],
+    "productSha256": "89672d57bff0f923af3b3952b45c4215973534f117a399e78443892440eb2a72",
+    "testSha256": "bd87969f6dc973901723850c3f6ad2333063448f606190bbefad04c50c271250",
     "judge": {
       "valid": true,
       "reasons": [],
@@ -26,6 +32,7 @@
     }
   },
   "productSha256MutatedTree": "cacd23f673b185db82bc320545c907b3635bab594f874dcbf50b064d0fb5b2d5",
+  "testSha256MutatedTree": "bd87969f6dc973901723850c3f6ad2333063448f606190bbefad04c50c271250",
   "mutated": {
     "exitCode": 1,
     "executed": 1,
@@ -39,6 +46,8 @@
         "file": "src/core/script-flow-preview.cursor-mid-1.test.ts"
       }
     ],
+    "productSha256": "cacd23f673b185db82bc320545c907b3635bab594f874dcbf50b064d0fb5b2d5",
+    "testSha256": "bd87969f6dc973901723850c3f6ad2333063448f606190bbefad04c50c271250",
     "judge": {
       "valid": true,
       "reasons": [],
@@ -54,16 +63,35 @@
   },
   "oldOnMutated": {
     "exitCode": 0,
-    "executed": 0,
+    "executed": 3,
+    "executedFullNames": [
+      "selection validates without changing the authored initial step",
+      "machine identity and deleted states fall back synchronously",
+      "step titles include purpose while equal names still select different stable IDs"
+    ],
     "failed": [],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 3,
+      "identitySet": [
+        "src/core/script-flow-preview.test.ts×machine identity and deleted states fall back synchronously",
+        "src/core/script-flow-preview.test.ts×selection validates without changing the authored initial step",
+        "src/core/script-flow-preview.test.ts×step titles include purpose while equal names still select different stable IDs"
+      ]
+    },
     "oldGreenNewRed": true
   },
+  "productSha256Restored": "89672d57bff0f923af3b3952b45c4215973534f117a399e78443892440eb2a72",
+  "testSha256Restored": "bd87969f6dc973901723850c3f6ad2333063448f606190bbefad04c50c271250",
   "restored": {
     "exitCode": 0,
     "executed": 1,
     "executedFullNames": [
       "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
     ],
+    "productSha256": "89672d57bff0f923af3b3952b45c4215973534f117a399e78443892440eb2a72",
+    "testSha256": "bd87969f6dc973901723850c3f6ad2333063448f606190bbefad04c50c271250",
     "judge": {
       "valid": true,
       "reasons": [],

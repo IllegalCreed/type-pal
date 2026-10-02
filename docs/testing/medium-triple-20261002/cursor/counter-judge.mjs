@@ -1,18 +1,9 @@
 /**
- * Cursor asset UI large 反控唯一判据（runner 与拒收自测共用）。
+ * Cursor script-preview medium 反控唯一判据（runner 与拒收自测共用）。
  *
- * 严格唯一判定：
- * - 每条叶子测试逐条核对状态：clean 相必须全部 'passed'；mutant 相只允许
- *   'passed'|'failed'（pending/todo/skipped 一律拒收）。
- * - 完整 file×fullName 多重执行身份集合比较（同数量不同身份 → 拒收）。
- * - 顶层与 suite 级收集/运行错误：numRuntimeErrorTestSuites 计数、status=failed
- *   且 assertionResults 为空的 suite、suite.message 收集错误、未处理异常/raw
- *   harness 错误文本。numFailedTestSuites 是 vitest 的聚合口径（含套件聚合层，
- *   与叶子失败数不等属正常），不作为独立判据。
- * - signal/spawn 失败与正常退出分开：spawnError/signal 任一存在即拒收。
- * - mutant 退出码必须恰为 1（exit 2 / 其它非 1 拒收）。
- * - Vitest rejects 断言红的首行可能是 `Error: promise resolved ...`（真实构造
- *   来自 AssertionError），保留原文并按 assertionLike 放行，不因前缀一刀拒收。
+ * - collection/runtime 错误始终对照**完整原始 JSON**，不得先删空断言 suite 再判。
+ * - declaredFullNames 限定身份/红叶范围；范围外 skip 忽略，范围内必须 passed|failed。
+ * - mutant：exit 恰 1、恰一 AssertionError、身份集合与 positive 一致。
  */
 
 const HARNESS_RED =
@@ -21,7 +12,7 @@ const HARNESS_RED =
 const RAW_UNHANDLED =
   /Unhandled Errors|Uncaught Exception|Unhandled Rejection|Unhandled Error|Vitest caught/i
 
-const leavesOf = (json) => {
+export const leavesOf = (json) => {
   const files = json?.testResults ?? []
   return files.flatMap((f) =>
     (f.assertionResults ?? []).map((a) => ({
@@ -53,49 +44,67 @@ const identitySetOf = (tests) => tests.map((t) => `${t.file}×${t.fullName}`).so
 
 function rawReasons(rawOutput, label) {
   if (typeof rawOutput !== 'string' || !rawOutput) return []
-  // 只核真实未处理异常横幅；勿对整段 JSON/reporter 套用含 todo 的 HARNESS_RED（会误伤 numTodoTests）。
   if (RAW_UNHANDLED.test(rawOutput)) return [`${label}:raw-unhandled`]
   return []
 }
 
-function commonChecks({ json, spawnError, signal, label, rawOutput }) {
+/**
+ * @param {object} options
+ * @param {string[] | null | undefined} options.declaredFullNames
+ *   非空时只把这些 fullName 纳入身份/红叶；仍对完整 json 跑 collectionErrors。
+ */
+export function commonChecks({ json, spawnError, signal, label, rawOutput, declaredFullNames }) {
   const reasons = []
   if (spawnError) reasons.push(`${label}:spawn-error`)
   if (signal) reasons.push(`${label}:signal-${signal}`)
   if (!json) reasons.push(`${label}:no-json`)
-  const tests = json ? leavesOf(json) : []
-  if (tests.length === 0) reasons.push(`${label}:zero-executed`)
+  const allLeaves = json ? leavesOf(json) : []
   const collection = json ? collectionErrors(json) : []
   reasons.push(...collection.map((x) => `${label}:${x}`))
   reasons.push(...rawReasons(rawOutput, label))
-  for (const t of tests)
-    if (t.status !== 'passed' && t.status !== 'failed')
-      reasons.push(`${label}:non-passfail-status:${t.status}`)
+
+  let tests
+  if (Array.isArray(declaredFullNames) && declaredFullNames.length > 0) {
+    tests = []
+    for (const name of declaredFullNames) {
+      const found = allLeaves.find((t) => t.fullName === name)
+      if (!found) {
+        reasons.push(`${label}:missing-declared:${name}`)
+        continue
+      }
+      if (found.status !== 'passed' && found.status !== 'failed')
+        reasons.push(`${label}:declared-non-passfail:${found.status}`)
+      tests.push(found)
+    }
+    if (tests.length === 0) reasons.push(`${label}:zero-executed`)
+  } else {
+    tests = allLeaves
+    if (tests.length === 0) reasons.push(`${label}:zero-executed`)
+    for (const t of tests)
+      if (t.status !== 'passed' && t.status !== 'failed')
+        reasons.push(`${label}:non-passfail-status:${t.status}`)
+  }
   return { reasons, tests }
 }
 
-/**
- * 清洁相（positive/restored）：exit=0 且无 signal/spawn、每条叶子 passed、
- * 无收集/运行错误、零执行拒收、执行数一致、file×fullName 身份集合与
- * expectedIdentitySet（一般取 positive 的集合）完全一致；raw 叠未处理异常拒收。
- */
 export function judgeClean({
   exitCode,
   json,
   expectedExecuted,
   expectedIdentitySet,
+  declaredFullNames,
   label = 'clean',
   spawnError,
   signal,
   rawOutput,
 }) {
   const { reasons, tests } = commonChecks({
-    exitCode,
     json,
     spawnError,
     signal,
     label,
     rawOutput,
+    declaredFullNames,
   })
   if (exitCode !== 0) reasons.push(`${label}:exit-${exitCode}`)
   const failed = tests.filter((t) => t.status === 'failed')
@@ -116,12 +125,6 @@ export function judgeClean({
   }
 }
 
-/**
- * 变异相：exit 恰为 1、无 signal/spawn、只允许 passed/failed、
- * 无收集/运行错误、恰一红、红所在 file×fullName 逐字等于登记目标、断言原文
- * （AssertionError 或其 rejects 序列化形态）、执行数与 positive 一致、
- * 完整身份集合与 positive 一致；raw 叠未处理异常拒收。
- */
 export function judgeMutant({
   exitCode,
   json,
@@ -129,17 +132,18 @@ export function judgeMutant({
   targetFullName,
   positiveExecuted,
   expectedIdentitySet,
+  declaredFullNames,
   spawnError,
   signal,
   rawOutput,
 }) {
   const { reasons, tests } = commonChecks({
-    exitCode,
     json,
     spawnError,
     signal,
     label: 'mutated',
     rawOutput,
+    declaredFullNames,
   })
   const failed = tests.filter((t) => t.status === 'failed')
   const first = failed[0] ?? null
@@ -172,5 +176,42 @@ export function judgeMutant({
     failed,
     executed: tests.length,
     identitySet: identitySetOf(tests),
+  }
+}
+
+/**
+ * 旧 focusJson 缺陷复现：删掉空断言 failed suite 后再判，会误收
+ * 「恰一 AssertionError + 另一文件 SyntaxError collection」复合红。
+ */
+export function legacyFocusJsonDroppingCollectionErrors(json) {
+  if (!json) return json
+  const testResults = (json.testResults ?? [])
+    .map((fileResult) => {
+      const assertionResults = (fileResult.assertionResults ?? []).filter(
+        (leaf) => leaf.status === 'passed' || leaf.status === 'failed',
+      )
+      return { ...fileResult, assertionResults }
+    })
+    .filter((fileResult) => fileResult.assertionResults.length > 0)
+  const numPassed = testResults.reduce(
+    (sum, fileResult) =>
+      sum + fileResult.assertionResults.filter((leaf) => leaf.status === 'passed').length,
+    0,
+  )
+  const numFailed = testResults.reduce(
+    (sum, fileResult) =>
+      sum + fileResult.assertionResults.filter((leaf) => leaf.status === 'failed').length,
+    0,
+  )
+  return {
+    ...json,
+    testResults,
+    numPassedTests: numPassed,
+    numFailedTests: numFailed,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numTotalTests: numPassed + numFailed,
+    numRuntimeErrorTestSuites: 0,
+    success: numFailed === 0,
   }
 }

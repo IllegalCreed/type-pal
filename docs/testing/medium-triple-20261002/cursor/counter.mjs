@@ -3,7 +3,8 @@
  * Cursor script-preview medium 反控取证（白名单 docs/testing/medium-triple-20261002/cursor/**）。
  *
  * 三态：positive → mutated（mkdtemp 隔离树单针）→ restored。
- * 可选 --grep 限定单例 fullName 前缀，保证恰一业务红；可选 --old 跑旧测证明 old-green/new-red。
+ * --grep 仅用于新测声明范围；--old 跑完整旧文件且绝不复用新 grep。
+ * 原 JSON/raw 原样落盘；judge 对完整 JSON 拒收 collection/runtime，再按声明 fullName 核身份。
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -19,7 +20,7 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
-import { judgeClean, judgeMutant } from './counter-judge.mjs'
+import { judgeClean, judgeMutant, leavesOf } from './counter-judge.mjs'
 
 const args = process.argv.slice(2)
 function need(name) {
@@ -43,6 +44,7 @@ const outDir = resolve(need('out'))
 const grep = opt('grep')
 const oldSpec = opt('old')
 const candidateRoot = process.cwd()
+const declaredFullNames = [expectFullname]
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
@@ -113,10 +115,11 @@ function cleanup(counterTree) {
   }
 }
 
-function runVitest(tree, spec) {
+/** @param {string | null} namePattern null = 跑完整文件（旧测专用，禁止沿用新 case grep） */
+function runVitest(tree, spec, namePattern) {
   const bin = join(candidateRoot, 'node_modules', '.bin', 'vitest')
   const vitestArgs = ['run', spec, '--maxWorkers=1', '--reporter=json', '--reporter=default']
-  if (grep) vitestArgs.push('-t', grep)
+  if (namePattern) vitestArgs.push('-t', namePattern)
   const result = spawnSync(bin, vitestArgs, {
     cwd: join(tree, 'packages', 'editor'),
     encoding: 'utf8',
@@ -174,57 +177,28 @@ function runVitest(tree, spec) {
   }
 }
 
-/** When --grep is set, drop skipped siblings so judge sees only the target leaf set. */
-function focusJson(json) {
-  if (!json || !grep) return json
-  const testResults = (json.testResults ?? [])
-    .map((fileResult) => {
-      const assertionResults = (fileResult.assertionResults ?? []).filter(
-        (leaf) => leaf.status === 'passed' || leaf.status === 'failed',
-      )
-      return { ...fileResult, assertionResults }
-    })
-    .filter((fileResult) => fileResult.assertionResults.length > 0)
-  const numPassed = testResults.reduce(
-    (sum, fileResult) =>
-      sum + fileResult.assertionResults.filter((leaf) => leaf.status === 'passed').length,
-    0,
-  )
-  const numFailed = testResults.reduce(
-    (sum, fileResult) =>
-      sum + fileResult.assertionResults.filter((leaf) => leaf.status === 'failed').length,
-    0,
-  )
-  const numTotalTests = numPassed + numFailed
+const collect = (run, scopeNames) => {
+  if (!run.json) return { executed: null, failed: [], names: [], scoped: [] }
+  const all = leavesOf(run.json)
+  const scoped = scopeNames
+    ? all.filter((leaf) => scopeNames.includes(leaf.fullName))
+    : all.filter((leaf) => leaf.status === 'passed' || leaf.status === 'failed')
+  const failed = scoped
+    .filter((leaf) => leaf.status === 'failed')
+    .map((leaf) => ({
+      fullName: leaf.fullName,
+      message: leaf.message,
+      file: leaf.file,
+    }))
   return {
-    ...json,
-    testResults,
-    numPassedTests: numPassed,
-    numFailedTests: numFailed,
-    numPendingTests: 0,
-    numTodoTests: 0,
-    numTotalTests,
-    success: numFailed === 0,
+    executed: scoped.length,
+    failed,
+    names: scoped.map((leaf) => leaf.fullName),
+    scoped,
   }
 }
 
-const collect = (run) => {
-  const json = focusJson(run.json)
-  if (!json) return { executed: null, failed: [], names: [] }
-  const failed = []
-  const names = []
-  for (const fileResult of json.testResults ?? [])
-    for (const leaf of fileResult.assertionResults ?? []) {
-      names.push(leaf.fullName)
-      if (leaf.status === 'failed')
-        failed.push({
-          fullName: leaf.fullName,
-          message: leaf.failureMessages?.[0]?.split('\n')[0] ?? '',
-          file: fileResult.name.replace(/^.*packages\/editor\//, ''),
-        })
-    }
-  return { executed: names.length, failed, names, json }
-}
+const testFileAbs = (tree) => join(tree, 'packages', 'editor', testSpec)
 
 let exitCode = 0
 let counterTree = null
@@ -260,52 +234,64 @@ try {
     expectFullname,
     grep,
     oldSpec,
+    declaredFullNames,
     candidateHead: execFileSync('git', ['rev-parse', 'HEAD'], {
       cwd: candidateRoot,
       encoding: 'utf8',
     }).trim(),
     productSha256Candidate: sha256(readFileSync(join(candidateRoot, productFile))),
+    testSha256Candidate: sha256(readFileSync(testFileAbs(candidateRoot))),
     patch,
   }
 
-  const positive = runVitest(candidateRoot, testSpec)
-  const positiveStats = collect(positive)
-  const positiveJson = positiveStats.json
+  const positive = runVitest(candidateRoot, testSpec, grep)
+  const positiveStats = collect(positive, declaredFullNames)
+  writeFileSync(join(outDir, 'positive.json'), JSON.stringify(positive.json, null, 2))
+  writeFileSync(join(outDir, 'positive.raw.txt'), `${positive.output.replace(/\n+$/, '')}\n`)
+  writeFileSync(
+    join(outDir, 'positive.scope.json'),
+    `${JSON.stringify({ declaredFullNames, executedFullNames: positiveStats.names }, null, 2)}\n`,
+  )
   const positiveJudge = judgeClean({
     exitCode: positive.exit,
-    json: positiveJson,
+    json: positive.json,
     expectedExecuted: null,
     expectedIdentitySet: null,
+    declaredFullNames,
     label: 'positive',
     spawnError: positive.spawnError,
     signal: positive.signal,
     rawOutput: positive.output,
   })
   if (!positiveJudge.valid) throw new Error(`positive invalid: ${positiveJudge.reasons.join(',')}`)
-  writeFileSync(join(outDir, 'positive.json'), JSON.stringify(positiveJson, null, 2))
-  writeFileSync(join(outDir, 'positive.raw.txt'), `${positive.output.replace(/\n+$/, '')}\n`)
   record.positive = {
     exitCode: positive.exit,
     executed: positiveStats.executed,
     executedFullNames: positiveStats.names,
+    productSha256: record.productSha256Candidate,
+    testSha256: record.testSha256Candidate,
     judge: positiveJudge,
   }
 
   writeFileSync(rel(productFile), mutated)
   record.productSha256MutatedTree = sha256(readFileSync(rel(productFile)))
-  const mutatedRun = runVitest(counterTree, testSpec)
-  const mutatedStats = collect(mutatedRun)
-  const mutatedJson = mutatedStats.json
-  writeFileSync(join(outDir, 'mutated.json'), JSON.stringify(mutatedJson, null, 2))
+  record.testSha256MutatedTree = sha256(readFileSync(testFileAbs(counterTree)))
+  const mutatedRun = runVitest(counterTree, testSpec, grep)
+  const mutatedStats = collect(mutatedRun, declaredFullNames)
+  writeFileSync(join(outDir, 'mutated.json'), JSON.stringify(mutatedRun.json, null, 2))
   writeFileSync(join(outDir, 'mutated.raw.txt'), `${mutatedRun.output.replace(/\n+$/, '')}\n`)
-  // Focused single-leaf runs still surface vitest exit 1 when the target fails.
+  writeFileSync(
+    join(outDir, 'mutated.scope.json'),
+    `${JSON.stringify({ declaredFullNames, executedFullNames: mutatedStats.names }, null, 2)}\n`,
+  )
   const mutantJudge = judgeMutant({
     exitCode: mutatedRun.exit,
-    json: mutatedJson,
+    json: mutatedRun.json,
     targetFile: testSpec,
     targetFullName: expectFullname,
     positiveExecuted: positiveStats.executed,
     expectedIdentitySet: positiveJudge.identitySet,
+    declaredFullNames,
     spawnError: mutatedRun.spawnError,
     signal: mutatedRun.signal,
     rawOutput: mutatedRun.output,
@@ -315,6 +301,8 @@ try {
     executed: mutatedStats.executed,
     executedFullNames: mutatedStats.names,
     failed: mutatedStats.failed,
+    productSha256: record.productSha256MutatedTree,
+    testSha256: record.testSha256MutatedTree,
     judge: {
       valid: mutantJudge.valid,
       reasons: mutantJudge.reasons,
@@ -325,37 +313,67 @@ try {
   if (!mutantJudge.valid) throw new Error(`mutated invalid: ${mutantJudge.reasons.join(',')}`)
 
   if (oldSpec) {
-    const oldOnMutant = runVitest(counterTree, oldSpec)
-    const oldStats = collect(oldOnMutant)
+    // 旧测：完整文件、零 grep，非零执行才可宣称 old-green/new-red
+    const oldOnMutant = runVitest(counterTree, oldSpec, null)
+    const oldStats = collect(oldOnMutant, null)
     writeFileSync(join(outDir, 'old-on-mutated.json'), JSON.stringify(oldOnMutant.json, null, 2))
     writeFileSync(
       join(outDir, 'old-on-mutated.raw.txt'),
       `${oldOnMutant.output.replace(/\n+$/, '')}\n`,
     )
+    const oldJudge = judgeClean({
+      exitCode: oldOnMutant.exit,
+      json: oldOnMutant.json,
+      expectedExecuted: null,
+      expectedIdentitySet: null,
+      declaredFullNames: null,
+      label: 'old-on-mutated',
+      spawnError: oldOnMutant.spawnError,
+      signal: oldOnMutant.signal,
+      rawOutput: oldOnMutant.output,
+    })
     record.oldOnMutated = {
       exitCode: oldOnMutant.exit,
       executed: oldStats.executed,
+      executedFullNames: oldStats.names,
       failed: oldStats.failed,
-      oldGreenNewRed: oldOnMutant.exit === 0 && mutatedStats.failed.length === 1,
+      judge: oldJudge,
+      oldGreenNewRed:
+        oldJudge.valid &&
+        oldStats.executed > 0 &&
+        mutatedStats.failed.length === 1 &&
+        mutantJudge.valid,
     }
-    if (oldOnMutant.exit !== 0)
-      throw new Error(`old suite not green on mutant: exit ${oldOnMutant.exit}`)
+    if (!oldJudge.valid || oldStats.executed === 0)
+      throw new Error(
+        `old suite not green with non-zero execute: ${oldJudge.reasons.join(',') || `executed=${oldStats.executed}`}`,
+      )
   }
 
   writeFileSync(rel(productFile), original)
   const restoredSha = sha256(readFileSync(rel(productFile)))
   if (restoredSha !== record.productSha256Candidate)
-    throw new Error('restored file does not match candidate bytes')
-  const restored = runVitest(counterTree, testSpec)
-  const restoredStats = collect(restored)
-  const restoredJson = restoredStats.json
-  writeFileSync(join(outDir, 'restored.json'), JSON.stringify(restoredJson, null, 2))
+    throw new Error('restored product does not match candidate bytes')
+  const restoredTestSha = sha256(readFileSync(testFileAbs(counterTree)))
+  if (restoredTestSha !== record.testSha256Candidate)
+    throw new Error('restored test file does not match candidate bytes')
+  record.productSha256Restored = restoredSha
+  record.testSha256Restored = restoredTestSha
+
+  const restored = runVitest(counterTree, testSpec, grep)
+  const restoredStats = collect(restored, declaredFullNames)
+  writeFileSync(join(outDir, 'restored.json'), JSON.stringify(restored.json, null, 2))
   writeFileSync(join(outDir, 'restored.raw.txt'), `${restored.output.replace(/\n+$/, '')}\n`)
+  writeFileSync(
+    join(outDir, 'restored.scope.json'),
+    `${JSON.stringify({ declaredFullNames, executedFullNames: restoredStats.names }, null, 2)}\n`,
+  )
   const restoredJudge = judgeClean({
     exitCode: restored.exit,
-    json: restoredJson,
+    json: restored.json,
     expectedExecuted: mutatedStats.executed,
     expectedIdentitySet: positiveJudge.identitySet,
+    declaredFullNames,
     label: 'restored',
     spawnError: restored.spawnError,
     signal: restored.signal,
@@ -365,6 +383,8 @@ try {
     exitCode: restored.exit,
     executed: restoredStats.executed,
     executedFullNames: restoredStats.names,
+    productSha256: record.productSha256Restored,
+    testSha256: record.testSha256Restored,
     judge: restoredJudge,
   }
   if (!restoredJudge.valid) throw new Error(`restored invalid: ${restoredJudge.reasons.join(',')}`)
@@ -374,15 +394,32 @@ try {
     JSON.stringify({
       id,
       ok: true,
-      positive: { exitCode: record.positive.exitCode, executed: record.positive.executed },
+      positive: {
+        exitCode: record.positive.exitCode,
+        executed: record.positive.executed,
+        productSha256: record.positive.productSha256,
+        testSha256: record.positive.testSha256,
+      },
       mutated: {
         exitCode: record.mutated.exitCode,
         target: record.mutated.target?.fullName,
         message: record.mutated.target?.message,
+        productSha256: record.mutated.productSha256,
+        testSha256: record.mutated.testSha256,
         judge: record.mutated.judge,
       },
-      restored: { exitCode: record.restored.exitCode, executed: record.restored.executed },
-      oldOnMutated: record.oldOnMutated ?? null,
+      restored: {
+        exitCode: record.restored.exitCode,
+        executed: record.restored.executed,
+        productSha256: record.restored.productSha256,
+        testSha256: record.restored.testSha256,
+      },
+      oldOnMutated: record.oldOnMutated
+        ? {
+            executed: record.oldOnMutated.executed,
+            oldGreenNewRed: record.oldOnMutated.oldGreenNewRed,
+          }
+        : null,
       outDir,
     }),
   )

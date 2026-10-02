@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 37,
-  "numPassedTests": 37,
+  "numTotalTests": 34,
+  "numPassedTests": 34,
   "numFailedTests": 0,
   "rows": [
     {
@@ -20,22 +20,7 @@
     },
     {
       "file": "src/core/script-flow-preview.cursor-mid-1.test.ts",
-      "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-04 无 label 的 stage 标题仅步骤序号，不含间隔点",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/script-flow-preview.cursor-mid-1.test.ts",
-      "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-05 带 label 的 stage 标题拼接用途，稳定 id 不变",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/script-flow-preview.cursor-mid-1.test.ts",
       "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-06 种类不匹配时标题为已完成，不回退伪造 stage 文案",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/script-flow-preview.cursor-mid-1.test.ts",
-      "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-07 state 空 label 保留空串（typed 必有 label；?? 不回退 id）",
       "status": "passed"
     },
     {
