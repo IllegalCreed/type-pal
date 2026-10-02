@@ -9,9 +9,12 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "reviewedCandidate": "f7f64784e176eb233ae74a67fe811270f0f8dea5",
   "priorEvidenceHead": "f7f64784e176eb233ae74a67fe811270f0f8dea5",
-  "reworkEvidenceHead": "pending-push",
-  "candidateSha": "pending-push",
-  "reworkCloses": ["CURSOR-R5-01", "CURSOR-R5-02"],
+  "reworkEvidenceHead": "57221d6de0c1a7e74e6cd10f51b219b4b7dec006",
+  "candidateSha": "57221d6de0c1a7e74e6cd10f51b219b4b7dec006",
+  "reworkCloses": [
+    "CURSOR-R5-01",
+    "CURSOR-R5-02"
+  ],
   "priorReworkCloses": [
     "CURSOR-R1-01",
     "CURSOR-R1-02",
