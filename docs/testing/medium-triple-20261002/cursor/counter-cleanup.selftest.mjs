@@ -3,7 +3,7 @@
  * 清理回归：成功 / 故意失败 / 可捕获中断 后零残留；
  * 另自建哨兵证明：未登记同前缀 / 祖先含前缀 / 同路径 inode 替换 一律拒删且不 rm。
  */
-import { spawn, spawnSync } from 'node:child_process'
+import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import {
   existsSync,
   lstatSync,
@@ -206,6 +206,111 @@ try {
     destroySentinel(original)
     destroySentinel(moved)
     destroySentinel(holdRoot)
+  }
+
+  // --- R4-02: git add fails + same-path replacement + git remove fails → must NOT rm replacement ---
+  resetOwnedForTests()
+  {
+    const holdRoot = mkdtempSync(join(tmpdir(), 'cursor-r4-hold-'))
+    sentinels.push(holdRoot)
+    let movedOriginal = null
+    let targetPath = null
+    const gitExec = (args, options) => {
+      if (args[0] === 'worktree' && args[1] === 'add') {
+        targetPath = args[3]
+        movedOriginal = join(holdRoot, basename(targetPath))
+        renameSync(targetPath, movedOriginal)
+        mkdirSync(targetPath)
+        writeFileSync(join(targetPath, 'replacement.txt'), 'codex-r4-replacement\n')
+        sentinels.push(targetPath)
+        sentinels.push(movedOriginal)
+        throw new Error('injected-git-add-failure')
+      }
+      if (args[0] === 'worktree' && args[1] === 'remove') {
+        throw new Error('injected-git-remove-failure')
+      }
+      if (args[0] === 'worktree' && args[1] === 'list') {
+        return execFileSync('git', args, options)
+      }
+      return execFileSync('git', args, options)
+    }
+    let thrown = null
+    try {
+      createCounterWorktree(root, 'r4-create', { gitExec })
+    } catch (error) {
+      thrown = error
+    }
+    const rollback = thrown?.rollback
+    const replacementExists =
+      targetPath && existsSync(targetPath) && existsSync(join(targetPath, 'replacement.txt'))
+    const originalPreserved = movedOriginal && existsSync(movedOriginal)
+    const ok =
+      thrown !== null &&
+      replacementExists &&
+      originalPreserved &&
+      rollback?.action === 'refuse-rollback' &&
+      rollback?.error === 'refuse-rollback-identity-mismatch' &&
+      rollback?.dirRemoved === false
+    results.push({
+      label: 'refuse-create-rollback-inode-replacement',
+      ok,
+      targetPath,
+      replacementExists,
+      originalPreserved,
+      rollback,
+      message: thrown instanceof Error ? thrown.message : String(thrown),
+    })
+    if (!ok)
+      throw new Error(
+        `create rollback deleted replacement or mis-authorized: ${JSON.stringify({
+          rollback,
+          replacementExists,
+          originalPreserved,
+        })}`,
+      )
+    resetOwnedForTests()
+    destroySentinel(targetPath)
+    destroySentinel(movedOriginal)
+    destroySentinel(holdRoot)
+  }
+
+  // --- R4-02: git add fails on untouched empty create → identity-checked rm of unentered object ---
+  resetOwnedForTests()
+  {
+    let targetPath = null
+    const gitExec = (args, options) => {
+      if (args[0] === 'worktree' && args[1] === 'add') {
+        targetPath = args[3]
+        throw new Error('injected-git-add-failure-clean')
+      }
+      if (args[0] === 'worktree' && args[1] === 'list') {
+        return execFileSync('git', args, options)
+      }
+      return execFileSync('git', args, options)
+    }
+    let thrown = null
+    try {
+      createCounterWorktree(root, 'r4-clean', { gitExec })
+    } catch (error) {
+      thrown = error
+    }
+    const rollback = thrown?.rollback
+    const ok =
+      thrown !== null &&
+      rollback?.action === 'rm-unentered-create' &&
+      rollback?.dirRemoved === true &&
+      rollback?.identityOk === true &&
+      rollback?.inGit === false &&
+      targetPath &&
+      !existsSync(targetPath)
+    results.push({
+      label: 'create-rollback-unentered-empty-ok',
+      ok,
+      targetPath,
+      rollback,
+    })
+    if (!ok) throw new Error(`clean create rollback failed: ${JSON.stringify(rollback)}`)
+    resetOwnedForTests()
   }
 
   {

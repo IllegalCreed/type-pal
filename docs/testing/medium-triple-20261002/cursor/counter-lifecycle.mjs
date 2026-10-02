@@ -343,26 +343,143 @@ export function cleanupAllOwned(candidateRoot) {
   return reports
 }
 
-export function createCounterWorktree(candidateRoot, id) {
+function defaultGitExec(args, options) {
+  return execFileSync('git', args, options)
+}
+
+/**
+ * Create-failure rollback: same object/Git identity policy as cleanupExact.
+ * - Git unknown / remove failed / path replaced → keep path, report exact error (no rm fallback).
+ * - Only the original empty create object that never entered Git may be rm'd after identity check.
+ *
+ * @param {(args: string[], options: object) => string} [gitExec]
+ */
+export function rollbackFailedCreate(
+  candidateRoot,
+  counterTree,
+  createIdentity,
+  gitExec = defaultGitExec,
+) {
+  const resolved = resolve(counterTree)
+  const report = {
+    path: resolved,
+    action: null,
+    dirRemoved: false,
+    identityOk: false,
+    inGit: null,
+    error: null,
+    registeredIdentity: createIdentity
+      ? { dev: createIdentity.dev, ino: createIdentity.ino }
+      : null,
+    currentIdentity: null,
+  }
+  if (!createIdentity) {
+    report.error = 'refuse-rollback-no-create-identity'
+    report.action = 'refuse-rollback'
+    return report
+  }
+  if (!existsSync(resolved)) {
+    report.error = 'create-path-already-gone'
+    report.action = 'noop'
+    report.dirRemoved = true
+    report.identityOk = true
+    return report
+  }
+  let st
+  try {
+    st = lstatSync(resolved)
+  } catch (error) {
+    report.error = `refuse-rollback-lstat:${error instanceof Error ? error.message : String(error)}`
+    report.action = 'refuse-rollback'
+    return report
+  }
+  report.currentIdentity = { dev: st.dev, ino: st.ino }
+  if (st.isSymbolicLink()) {
+    report.error = 'refuse-rollback-symlink-replacement'
+    report.action = 'refuse-rollback'
+    return report
+  }
+  if (!st.isDirectory()) {
+    report.error = 'refuse-rollback-not-directory'
+    report.action = 'refuse-rollback'
+    return report
+  }
+  if (st.dev !== createIdentity.dev || st.ino !== createIdentity.ino) {
+    report.error = 'refuse-rollback-identity-mismatch'
+    report.action = 'refuse-rollback'
+    return report
+  }
+  report.identityOk = true
+  let inGit = false
+  try {
+    const list = gitExec(['worktree', 'list', '--porcelain'], {
+      cwd: candidateRoot,
+      encoding: 'utf8',
+    })
+    inGit = String(list).includes(resolved)
+  } catch (error) {
+    report.error = `refuse-rollback-git-unknown:${error instanceof Error ? error.message : String(error)}`
+    report.action = 'refuse-rollback'
+    report.inGit = null
+    return report
+  }
+  report.inGit = inGit
+  if (inGit) {
+    try {
+      gitExec(['worktree', 'remove', '--force', resolved], {
+        cwd: candidateRoot,
+        encoding: 'utf8',
+      })
+      report.action = 'git-remove'
+      report.dirRemoved = !existsSync(resolved)
+      if (existsSync(resolved)) report.error = 'git-remove-left-residue'
+    } catch (error) {
+      report.action = 'git-remove-failed'
+      report.error = error instanceof Error ? error.message : String(error)
+      report.dirRemoved = false
+    }
+    return report
+  }
+  // Never entered Git: reclaim only this verified empty create object.
+  try {
+    rmSync(resolved, { recursive: true, force: true })
+    report.action = 'rm-unentered-create'
+    report.dirRemoved = !existsSync(resolved)
+    if (!report.dirRemoved) report.error = 'rm-left-residue'
+  } catch (error) {
+    report.action = 'rm-unentered-create-failed'
+    report.error = error instanceof Error ? error.message : String(error)
+    report.dirRemoved = false
+  }
+  return report
+}
+
+/**
+ * @param {string} candidateRoot
+ * @param {string} id
+ * @param {{ gitExec?: (args: string[], options: object) => string }} [options]
+ */
+export function createCounterWorktree(candidateRoot, id, options = {}) {
+  const gitExec = options.gitExec ?? defaultGitExec
   assertCanCreate(candidateRoot)
   const counterTree = mkdtempSync(join(tmpdir(), `${TEMP_PREFIX}${id}-`))
+  const createIdentity = captureOwnedIdentity(counterTree, candidateRoot)
   try {
-    execFileSync('git', ['worktree', 'add', '--detach', counterTree, 'HEAD'], {
+    gitExec(['worktree', 'add', '--detach', counterTree, 'HEAD'], {
       cwd: candidateRoot,
       encoding: 'utf8',
     })
   } catch (error) {
-    // Unregistered create rollback only — never identity-gated cleanupExact.
-    try {
-      execFileSync('git', ['worktree', 'remove', '--force', counterTree], {
-        cwd: candidateRoot,
-        encoding: 'utf8',
-      })
-    } catch {
-      /* ignore */
-    }
-    if (existsSync(counterTree)) rmSync(counterTree, { recursive: true, force: true })
-    throw error
+    const rollback = rollbackFailedCreate(candidateRoot, counterTree, createIdentity, gitExec)
+    const wrapped = new Error(
+      `createCounterWorktree failed for ${counterTree}: ${
+        error instanceof Error ? error.message : String(error)
+      }; rollback=${rollback.action}:${rollback.error ?? 'ok'}`,
+    )
+    wrapped.cause = error
+    wrapped.rollback = rollback
+    wrapped.counterTree = counterTree
+    throw wrapped
   }
   // Register AFTER git materializes the worktree so inode/Git identity match cleanup.
   registerOwned(candidateRoot, counterTree)

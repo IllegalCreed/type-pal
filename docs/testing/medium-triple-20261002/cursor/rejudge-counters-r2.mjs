@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * R2-01：用修后唯一 judge 重判六针原 JSON/raw（不重采、不改业务字节）。
- * 回写各 receipt 的 judge 字段，并落 cleanup-evidence/rejudge-r3.json。
+ * 回写各 receipt 的 judge 字段，并落 cleanup-evidence/rejudge-r4.json。
  */
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
@@ -127,7 +127,7 @@ for (const id of ids) {
 }
 
 writeFileSync(
-  join(base, 'cleanup-evidence', 'rejudge-r3.json'),
+  join(base, 'cleanup-evidence', 'rejudge-r4.json'),
   `${JSON.stringify(out, null, 2)}\n`,
 )
 console.log(JSON.stringify({ ok: out.allValid, count: out.needles.length }, null, 2))

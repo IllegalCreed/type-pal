@@ -14,9 +14,20 @@ const HARNESS_RED =
 const RAW_UNHANDLED =
   /Unhandled Errors|Uncaught Exception|Unhandled Rejection|Unhandled Error|Vitest caught/i
 
-const isAssertionMessage = (text) =>
-  /^(AssertionError|expect\(|Error: promise resolved)/i.test(text) ||
-  text.includes('AssertionError')
+/** Strip common ANSI color sequences before reading the error head. */
+export function stripAnsi(text) {
+  const csi = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g')
+  return String(text).replace(csi, '')
+}
+
+/**
+ * Strict business-red classifier: only a real AssertionError head counts.
+ * Never accept ReferenceError/TypeError/Error that merely mention "AssertionError".
+ */
+export function isAssertionMessage(text) {
+  const head = stripAnsi(text).split('\n')[0]?.trim() ?? ''
+  return /^AssertionError\b/.test(head)
+}
 
 export const leavesOf = (json) => {
   const files = json?.testResults ?? []

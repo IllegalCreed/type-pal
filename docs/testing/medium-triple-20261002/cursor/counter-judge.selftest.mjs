@@ -358,4 +358,92 @@ if (!report.rejects.realAfterEachComposite)
   fail('FAIL: real AssertionError+afterEach composite must be rejected')
 if (!report.rejects.pendingTodoMismatch) fail('FAIL: pending↔todo count mismatch must be rejected')
 
+// --- R4-01: ReferenceError/TypeError/Error that only mention AssertionError must reject ---
+{
+  const cases = [
+    [
+      'ReferenceError: AssertionError is not defined',
+      'ReferenceError: AssertionError is not defined\n    at eval (eval at <anonymous> (probe.mjs:11:5), <anonymous>:3:1)',
+    ],
+    [
+      'TypeError: AssertionError is not a constructor',
+      'TypeError: AssertionError is not a constructor\n    at Object.<anonymous> (probe.mjs:1:1)',
+    ],
+    [
+      'Error: wrapped AssertionError text',
+      'Error: wrapped AssertionError text\n    at Object.<anonymous> (probe.mjs:1:1)',
+    ],
+  ]
+  const rejectFlags = []
+  const reasons = []
+  for (const [head, full] of cases) {
+    const json = {
+      numTotalTests: 1,
+      numPassedTests: 0,
+      numFailedTests: 1,
+      numPendingTests: 0,
+      numTodoTests: 0,
+      numRuntimeErrorTestSuites: 0,
+      success: false,
+      testResults: [fileResult(targetFile, [leaf(targetFullName, 'failed', full)], 'failed')],
+    }
+    const r = judgeMutant({
+      exitCode: 1,
+      json,
+      targetFile,
+      targetFullName,
+      positiveExecuted: 1,
+      expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+      declaredFullNames: [targetFullName],
+      rawOutput: `${head}\n`,
+    })
+    rejectFlags.push(!r.valid)
+    reasons.push({ head, reasons: r.reasons })
+  }
+  report.rejects.substringAssertionErrorNames = rejectFlags.every(Boolean)
+  report.rejects.substringAssertionErrorReasons = reasons
+}
+
+{
+  const json = {
+    numTotalTests: 1,
+    numPassedTests: 0,
+    numFailedTests: 1,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: false,
+    testResults: [
+      fileResult(
+        targetFile,
+        [
+          leaf(
+            targetFullName,
+            'failed',
+            "AssertionError: expected undefined to be 'null' // Object.is equality",
+          ),
+        ],
+        'failed',
+      ),
+    ],
+  }
+  const r = judgeMutant({
+    exitCode: 1,
+    json,
+    targetFile,
+    targetFullName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+    rawOutput: "AssertionError: expected undefined to be 'null'\n",
+  })
+  report.accepts.strictAssertionHead = r.valid
+  report.accepts.strictAssertionHeadReasons = r.reasons
+}
+
+if (!report.rejects.substringAssertionErrorNames)
+  fail('FAIL: ReferenceError/TypeError/Error mentioning AssertionError must be rejected')
+if (!report.accepts.strictAssertionHead)
+  fail('FAIL: real AssertionError head must still be accepted')
+
 console.log(JSON.stringify({ ok: true, ...report }, null, 2))
