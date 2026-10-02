@@ -234,6 +234,38 @@ for (const t of directed.tests) {
   })
 }
 
+// O-next 有限证据整包防回归：23 个固定文件的行必须有 condition（不得再输出空 condition）
+const FINITE_FILES = [
+  'pal-assets.glm-o',
+  'pal-supply-guards.glm-o',
+  'validate-refs.glm-o',
+  'pal-world-sprites.glm-o',
+  'validate.glm-o',
+  'author-script-core.glm-o',
+  'rle.glm-o',
+  'enemy-ai.glm-o',
+  'small-guards.glm-o',
+  'actor-condition.glm-o',
+  'data-guards.glm-o',
+  'poison.glm-o',
+  'frame-sequence.glm-o',
+  'pal-content-supply.glm-o',
+  'enemy-script.glm-o',
+  'script-library.glm-o',
+  'item-effects.glm-o',
+  'item-use.glm-o',
+  'runtime-hostile.glm-o',
+  'script.glm-o',
+  'yj2-encode.glm-o',
+  'item-equip.glm-o',
+  'mkf.glm-o',
+]
+for (const row of rows) {
+  if (FINITE_FILES.some((f) => row.testFile.includes(f)) && !(row.condition || '').trim())
+    errors.push(
+      `有限名单行空 condition（人工核准证据被覆盖或丢失）: ${row.testFile} :: ${row.id.slice(0, 60)}`,
+    )
+}
 if (errors.length) {
   console.error(`FAIL ${errors.length}:`)
   for (const e of errors.slice(0, 20)) console.error(' -', e)

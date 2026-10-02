@@ -1542,5 +1542,1510 @@
     "oldAssertion": "fixture 卫生自检，非产品合同（不计净新）",
     "caller": "fixture 自身",
     "classification": "fixture-self-check"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 party 引用不存在角色 → 精确 where+message": {
+    "condition": "startWorld.party 含不存在角色",
+    "source": "validate-refs.ts startWorld 门",
+    "oldAssertion": "existing-proof：旧:25 party 不存在角色 error 精确同臂 → 扣净新（旧 validate-refs.test.ts（46 test））",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 party 引用无 battler 角色 → 不可入队拒绝": {
+    "condition": "party 引无 battler actor",
+    "source": "validate-refs.ts 入队门",
+    "oldAssertion": "existing-proof：旧:26 无 battler error(C0) → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 inventory 引用不存在物品 → 拒绝": {
+    "condition": "startWorld.inventory 条目未知物品",
+    "source": "validate-refs.ts inventory 门",
+    "oldAssertion": "新轴：旧 46 测未涉 startWorld.inventory 物品引用 → gap（anchor 旧:35 C8 闭包为邻）",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 seedStats 未知角色 → 拒绝": {
+    "condition": "seedStats 含未知角色",
+    "source": "validate-refs.ts seedStats 门",
+    "oldAssertion": "新轴：旧:27-29 为 seedConditions；seedStats 引用臂未证 → gap",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 seedConditions 四轴：未知角色/无 battler/不在 party/未知毒": {
+    "condition": "seedConditions 四拒绝轴",
+    "source": "validate-refs.ts seedConditions 门",
+    "oldAssertion": "existing-proof：旧:27 只能引用队员+已登记毒/:28 HP0 拒绝/:29 死亡角色不崩 → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 合法 seedConditions（在 party + 已注册毒）无 issue": {
+    "condition": "合法 seedConditions 正控",
+    "source": "validate-refs.ts 正控",
+    "oldAssertion": "混合子轴：旧:27-29 证拒绝侧；合法正控蕴含于旧夹具但未独立断言 → 保留（anchor 旧:27）",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 敌 AI 与敌队：走访与引用闭包 AI 条件 all/any/not 递归走访命中未知角色": {
+    "condition": "AI 条件树递归含未知角色",
+    "source": "validate-refs.ts AI 走访",
+    "oldAssertion": "混合子轴：旧:5 敌脚本逻辑递归拒绝非战斗角色；all/any/not 组合臂保留",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 敌 AI 与敌队：走访与引用闭包 敌 cast 未知技能 / 带 prepare / 效果不受 runtime 支持 三轴": {
+    "condition": "敌方 cast 三拒绝轴",
+    "source": "validate-refs.ts cast 门",
+    "oldAssertion": "existing-proof：旧:2 cast 有效 execution fail-closed + validate.test:29 敌 execution 只允许 runtime 已实现拒 prepare → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 敌 AI 与敌队：走访与引用闭包 transform/summon 未知目标经敌 hook effect 通道 → 拒绝": {
+    "condition": "hook effect 通道 transform/summon 未知目标",
+    "source": "validate-refs.ts effect 通道",
+    "oldAssertion": "混合子轴：旧:3 summon/trance 进静态引用闭包；敌 hook effect 通道臂保留",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 敌 AI 与敌队：走访与引用闭包 敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法": {
+    "condition": "敌队三拒绝轴+null 槽正控",
+    "source": "validate-refs.ts 敌队门",
+    "oldAssertion": "新轴：旧 46 测无敌队结构臂 → gap（anchor 旧:41-42 battleField 三层为邻）",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 敌 AI 与敌队：走访与引用闭包 敌 steal（warn）/attackEquivItem（error）物品引用逐轴": {
+    "condition": "steal warn/attackEquivItem error 分级",
+    "source": "validate-refs.ts 敌物品引用",
+    "oldAssertion": "混合子轴：旧:43 battle data closure skill/poison 族；steal/attackEquivItem 分级臂保留",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 场景命令与页动画：精灵动作/实体地址/收集轴 页 animation 绑定未知精灵/未知动作 逐轴拒绝（poses 收集）": {
+    "condition": "页 animation 未知精灵/动作",
+    "source": "validate-refs.ts 页动画门",
+    "oldAssertion": "existing-proof：旧:12 页绑定与嵌套按 (sprite,action) 复合校验 → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 场景命令与页动画：精灵动作/实体地址/收集轴 teleportOut.onFail 内 giveItem 未知物品 → onFail 子树被收集并拒绝": {
+    "condition": "teleportOut.onFail 子树 giveItem 未知物品",
+    "source": "validate-refs.ts onFail 收集",
+    "oldAssertion": "混合子轴：旧:35 C8 配方奖励闭包；onFail 子树收集臂保留",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 场景命令与页动画：精灵动作/实体地址/收集轴 setEntityTriggerActivation/selectEntityBehavior 指向未知场景与实体 → 实体地址轴": {
+    "condition": "实体地址命令未知场景",
+    "source": "validate-refs.ts 实体地址门",
+    "oldAssertion": "existing-proof：旧:44 command target closure rejects missing scene → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 场景命令与页动画：精灵动作/实体地址/收集轴 selectEntityBehavior 指向存在场景的未知实体 → 实体轴拒绝": {
+    "condition": "存在场景的未知实体",
+    "source": "validate-refs.ts 实体轴",
+    "oldAssertion": "混合子轴：旧:44 证缺 scene；存在场景未知实体臂保留",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 场景命令与页动画：精灵动作/实体地址/收集轴 hostile 敌队未知 → 场景实体轴拒绝；敌队存在则无 issue": {
+    "condition": "场景 hostile 未知敌队",
+    "source": "validate-refs.ts hostile 门",
+    "oldAssertion": "existing-proof：旧:41 battleField hostile dangling 拒绝/:42 全命中无 issue → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 初始仙术与 issue 去重 initialMagic 未知技能 → 拒绝；同技能重复引用只产一条 issue（去重）": {
+    "condition": "initialMagic 未知+重复去重",
+    "source": "validate-refs.ts initialMagic 门",
+    "oldAssertion": "混合子轴：旧:30 initialMagic 未知 error 已证；重复引用去重臂保留",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 初始仙术与 issue 去重 每个入口独立完整校验（同一引用坏例逐入口报告，不跨入口合并）": {
+    "condition": "同一坏例多入口逐入口报告",
+    "source": "validate-refs.ts 入口独立",
+    "oldAssertion": "新轴：旧未见多入口独立报告臂 → gap",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 初始仙术与 issue 去重 coveredBy 自援护拒绝（运行时天然不触发）": {
+    "condition": "coveredBy 指向自己拒绝",
+    "source": "validate-refs.ts coveredBy 门",
+    "oldAssertion": "混合子轴：旧:21 指向自己 warn 互护合法——本行为 error 级自援语义差异臂，保留并注旧 warn 口径待 Codex 对齐",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 初始仙术与 issue 去重 合体技未知技能 → 拒绝": {
+    "condition": "cooperativeMagicSkillId 未知",
+    "source": "validate-refs.ts 合体技门",
+    "oldAssertion": "existing-proof：旧:22 合体技不在 skills error → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 毒/对话台词/商店/诊断闭包 castable 死亡台词文本 id 缺 locale → 拒绝": {
+    "condition": "casualty 台词 id 不在 locale",
+    "source": "validate-refs.ts 台词门",
+    "oldAssertion": "existing-proof：旧:23 casualty 台词 id 不在 locale warn → 扣净新（严重级差异已注：旧 warn 本行拒绝语义待 Codex 对齐）",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 毒/对话台词/商店/诊断闭包 商店未知物品 → 拒绝；runScript 未知共享脚本 → 拒绝": {
+    "condition": "buy 未知物品/runScript 未知共享",
+    "source": "validate-refs.ts 商店/脚本门",
+    "oldAssertion": "existing-proof：旧:44 buy-shop 拒绝 + :14 未登记共享脚本引用进闭包 → 扣净新",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate-refs.glm-o.test.ts :: O06 毒/对话台词/商店/诊断闭包 敌队空缺省与空 bundle 组合不产敌簇 issue": {
+    "condition": "空缺省+空 bundle 正控",
+    "source": "validate-refs.ts 正控",
+    "oldAssertion": "新轴：旧正控为完整 bundle；空组合退化臂 → gap",
+    "caller": "生产链：validateReferences（content 导出）← pal-current-publication.ts validate 内部 ← mts:90；editor/reforge 项目校验同消费",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateStartWorldResources：资源池边界 resources 缺席直接通过（不做键检查）": {
+    "condition": "startWorld.resources 缺席",
+    "source": "validate.ts resources 门",
+    "oldAssertion": "混合子轴：旧:44 允许零值自定义；缺席臂保留（anchor validate.test:44）",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateStartWorldResources：资源池边界 空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝": {
+    "condition": "resources 键四拒绝轴",
+    "source": "validate.ts resources 键门",
+    "oldAssertion": "混合子轴：旧:44 证非负安全整数族；空键/空格/保留键臂保留",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateStartWorldResources：资源池边界 合法资源键（非负整数）通过": {
+    "condition": "合法键正控",
+    "source": "validate.ts resources",
+    "oldAssertion": "existing-proof：旧:44 允许零值与自定义非负 → 扣净新",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateStartWorld：当前入口世界形状 缺键/未知键/party 非法/money 非法/背包条目非法 逐轴拒绝": {
+    "condition": "startWorld 形状五轴",
+    "source": "validate.ts startWorld 门",
+    "oldAssertion": "混合子轴：旧:45 接受稀疏空值与三类 carrier；拒绝轴臂保留",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateStartWorld：当前入口世界形状 seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝": {
+    "condition": "seedStats 三轴",
+    "source": "validate.ts seedStats 门",
+    "oldAssertion": "新轴：旧未见 seedStats 结构臂 → gap",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateCurrentManifestStartup：manifest 字段轴 缺键/内容版本漂移/保存版本漂移 逐轴拒绝": {
+    "condition": "manifest 版本三轴",
+    "source": "validate.ts manifest 门",
+    "oldAssertion": "混合子轴：旧:47-49 startup model 三测证接受侧与入口定位；版本漂移臂保留",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateCurrentManifestStartup：manifest 字段轴 空内容键 / 非字符串路径 / 空入口表 / 入口缺键 逐轴拒绝": {
+    "condition": "manifest 内容四轴",
+    "source": "validate.ts manifest 内容门",
+    "oldAssertion": "混合子轴：旧:48 数组重排/非默认定位；内容形状臂保留",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝": {
+    "condition": "入口三轴",
+    "source": "validate.ts 入口门",
+    "oldAssertion": "existing-proof：旧:49 所有入口场景必须存在于索引 → 扣净新（重复/空格臂注差异保留于混合：本行整体按混合分列）",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateScenes：运行态场景形状残臂 命名落点：空 id/label 非字符串/缺 pos/facing 非法 逐轴拒绝": {
+    "condition": "场景命名四轴",
+    "source": "validate.ts validateScenes",
+    "oldAssertion": "混合子轴：旧:0-5 实体形态族；命名落点臂保留",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝": {
+    "condition": "实体恰一/zone 朝向",
+    "source": "validate.ts 实体门",
+    "oldAssertion": "existing-proof：旧:1/:2 两者都有/都无 throw + :4/:5 zone 拒朝向 → 扣净新",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateScenes：运行态场景形状残臂 entry.pos 缺 height / facing 非法 逐轴拒绝": {
+    "condition": "pos height/facing 轴",
+    "source": "validate.ts pos 门",
+    "oldAssertion": "新轴：旧未见 entry.pos height 臂 → gap（facing 邻旧 :4）",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateSprites：layout/poses 残臂 directional 缺 framesPerDir / 非正整数 拒绝；static 通过": {
+    "condition": "layout frames 两轴+static 正控",
+    "source": "validate.ts validateSprites",
+    "oldAssertion": "existing-proof：旧:16 directional 缺 framesPerDir + :18 布局计数正整数 → 扣净新",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateSprites：layout/poses 残臂 kind 非法 / asset 不在 catalog / kind 不符 / 退役 spriteNum 逐轴拒绝": {
+    "condition": "sprites 四轴",
+    "source": "validate.ts validateSprites",
+    "oldAssertion": "existing-proof：旧:15 kind 非法/:19 catalog 交叉校验/:13 旧 spriteNum → 扣净新",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateSprites：layout/poses 残臂 poses：空 steps / 非 sound cue / loopFrom 越界 / 非法 label 逐轴拒绝": {
+    "condition": "poses 四轴",
+    "source": "validate.ts poses 门",
+    "oldAssertion": "existing-proof：旧:18 动作时间线完整校验 → 扣净新",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 locale：非字符串值与换行（默认禁软换行）拒绝；allowSoftWrap 放开": {
+    "condition": "locale 非串/换行",
+    "source": "validate.ts validateLocale",
+    "oldAssertion": "existing-proof：旧:46 新内容禁止 locale 内换行 → 扣净新",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 stamp：id 含斜杠 / 缺 anchor / anchor 越界 / 空视觉瓦片 逐轴拒绝": {
+    "condition": "stamp 结构臂",
+    "source": "validate.ts validateStamps",
+    "oldAssertion": "新轴：validate.test 未见 stamp 臂（data-guards 域另核）→ gap",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 mapIndex：version 漂移与重复 id 拒绝；合法最小索引通过": {
+    "condition": "mapIndex 结构臂",
+    "source": "validate.ts mapIndex 门",
+    "oldAssertion": "新轴 → gap",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 migrationDiagnostics：version 漂移拒绝；空诊断表通过": {
+    "condition": "迁移诊断结构臂",
+    "source": "validate.ts diagnostics 门",
+    "oldAssertion": "新轴：旧 refs:36 诊断 target.item 为引用侧；结构臂 → gap",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "new-axis"
+  },
+  "packages/content/src/validate.glm-o.test.ts :: O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 worldVariables：flag/number 初始值类型与 kind 白名单 逐轴校验": {
+    "condition": "worldVariables 残臂",
+    "source": "validate.ts worldVariables 门",
+    "oldAssertion": "新轴：world-variable 域旧证在 data-guards 邻（待逐臂）→ gap",
+    "caller": "生产链：validate* 守卫族（content 导出）← validateReferences/pal-current-publication 与 editor 校验链",
+    "classification": "new-axis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 非数组 / 元素非对象 / kind 非字符串 逐轴拒绝": {
+    "condition": "commands 非数组/元素非对象/kind 非字符串三轴",
+    "source": "checkBaseAuthorCommands 结构门",
+    "oldAssertion": "混合子轴：ASC:3 rejects unknown…flat legacy；容器形状臂保留（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 退役 kind（jumpScript/setEntityAuto/clearSceneScripts）被拒且报退役": {
+    "condition": "退役 kind 拒绝",
+    "source": "checkBaseAuthorCommands kind 域",
+    "oldAssertion": "新轴：ASC 17 测未列退役 kind 臂 → gap（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 分支：缺 cond / then 非数组 / else 非数组 逐轴拒绝": {
+    "condition": "branch 三轴",
+    "source": "checkBaseAuthorCommands branch 门",
+    "oldAssertion": "混合子轴：ASC:6 unknown/malformed conditions；branch 形状臂保留（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 loop：mode/cond/body/yield/maxIterations 全键与越界值": {
+    "condition": "loop 全键+越界轴",
+    "source": "checkBaseAuthorCommands loop 门",
+    "oldAssertion": "新轴：ASC 未列 loop 域 → gap（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 startBattle：onLose/onFlee 子树递归校验（未知 kind 在子树内报错）": {
+    "condition": "startBattle 子树递归",
+    "source": "checkBaseAuthorCommands startBattle",
+    "oldAssertion": "existing-proof：ASC:7 startBattle 只接受穷尽 battle context 动作 → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 confirm：onNo 必填且递归；teleportOut onFail 递归": {
+    "condition": "confirm onNo/teleportOut onFail 递归",
+    "source": "checkBaseAuthorCommands 递归门",
+    "oldAssertion": "混合子轴：ASC:11 command-outlet 同步族；onNo/onFail 递归臂保留（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 selectEntityBehavior：channel/selection 三态与未知 kind": {
+    "condition": "selection 三态轴",
+    "source": "checkBaseAuthorCommands selection 门",
+    "oldAssertion": "existing-proof：ASC:4 accepts stable entity selections + :1 persisted selections → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 selectSceneHooks：onEnter/onTeleport 选择值逐轴校验": {
+    "condition": "scene hooks 选择轴",
+    "source": "checkBaseAuthorCommands hooks 门",
+    "oldAssertion": "existing-proof：ASC:16 scene hook entry belongs only to onEnter → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 openShop：shop 非整数与 mode 非法 逐轴拒绝": {
+    "condition": "openShop 两轴",
+    "source": "checkBaseAuthorCommands openShop",
+    "oldAssertion": "existing-proof：ASC:8 openShop accepts exact non-negative ids → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseAuthorCommands：kind 域与结构轴 setMultiEntityState / setEntityPosRelParty 形状轴": {
+    "condition": "两命令形状轴",
+    "source": "checkBaseAuthorCommands 形状门",
+    "oldAssertion": "混合子轴：ASC:0 composite entity maps；两命令显式臂保留（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseScriptFlow：stages 与 stateMachine stages：空 stages / 重复 stage id / 未知 next 逐轴拒绝": {
+    "condition": "stages 三轴",
+    "source": "checkBaseScriptFlow stages 门",
+    "oldAssertion": "existing-proof：ASC:10 stable stage ids + :13 dangling outlets → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseScriptFlow：stages 与 stateMachine stateMachine：initial/states/next 结构与 branch transition 递归": {
+    "condition": "stateMachine 结构轴",
+    "source": "checkBaseScriptFlow 状态机门",
+    "oldAssertion": "existing-proof：ASC:12 explicit transition-driven state-machine + :5 cursor handoff → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseSceneHooks：channel/initial/variants 合法单钩子通过；未知 initial 拒绝": {
+    "condition": "hooks 合法正控+未知 initial",
+    "source": "checkBaseSceneHooks",
+    "oldAssertion": "混合子轴：ASC:16 证 onEnter 归属；initial 轴保留（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseSceneHooks：channel/initial/variants 空 variants / 非法 order / 未知字段 逐轴拒绝": {
+    "condition": "variants 三轴",
+    "source": "checkBaseSceneHooks variants",
+    "oldAssertion": "新轴：ASC 未列 variants 形状臂 → gap（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseSceneHooks：channel/initial/variants onTeleport 钩子走同域校验且禁 scene-entry 命令": {
+    "condition": "onTeleport 同域+禁 scene-entry",
+    "source": "checkBaseSceneHooks onTeleport",
+    "oldAssertion": "existing-proof：ASC:16 scene hook entry 只属 onEnter → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseScriptLibrary：self 域与 body self 三态合法 / 非法值拒绝": {
+    "condition": "library self 三态",
+    "source": "checkBaseScriptLibrary self 门",
+    "oldAssertion": "existing-proof：旧 content script-library.test:作者目录只接受 shared/user 稳定 id 与合法 self 契约 → 扣净新（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseScriptLibrary：self 域与 body 坏 body / description 非字符串 / 未知字段 逐轴拒绝": {
+    "condition": "library 形状三轴",
+    "source": "checkBaseScriptLibrary 形状门",
+    "oldAssertion": "混合子轴：script-library.test:index 只接受元数据；body/description 臂保留（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/author-script-core.glm-o.test.ts :: O07 checkBaseScriptLibrary：self 域与 body callScript 引用形状（script 稳定 id 字符串）": {
+    "condition": "callScript 引用形状",
+    "source": "checkBaseScriptLibrary callScript",
+    "oldAssertion": "混合子轴：script-library.test:ScriptRef 需要完整 chunk 与稳定 id；callScript 命令臂保留（旧 author-script-core.test.ts:0-16（canonical schema 17 测））",
+    "caller": "author-script-core.ts checkBaseAuthorCommands/checkBaseScriptFlow/checkBaseSceneHooks/checkBaseScriptLibrary（content 守卫公开 API，validateAuthor 链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中": {
+    "condition": "once 已触发跳过",
+    "source": "decideByRules once 门",
+    "oldAssertion": "existing-proof：旧:5 once 已触发则跳过 → 扣净新（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 decideByRules：act 首命中与跳过序 沉默时 cast 规则跳过继续匹配（普攻兜底）": {
+    "condition": "沉默跳 cast 兜底",
+    "source": "decideByRules 沉默门",
+    "oldAssertion": "existing-proof：旧:6 沉默 cast 跳过 → 扣净新（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 decideByRules：act 首命中与跳过序 when 不命中继续下一条；全部不命中 → null": {
+    "condition": "顺序匹配/无命中 null",
+    "source": "decideByRules 匹配门",
+    "oldAssertion": "existing-proof：旧:4 顺序匹配/:7 无命中 null → 扣净新（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 decideByRules：act 首命中与跳过序 turnStart 通道规则不参与 act 决策（act 只取 at=act 首命中）": {
+    "condition": "通道隔离",
+    "source": "decideByRules at 域",
+    "oldAssertion": "新轴：旧 9 测未证通道隔离臂 → gap（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 evalAiCond：all/any/not 与数值条件 嵌套 all/any/not 组合求值": {
+    "condition": "嵌套组合求值",
+    "source": "evalAiCond 组合子",
+    "oldAssertion": "existing-proof：旧:3 组合子 all/any/not → 扣净新（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 evalAiCond：all/any/not 与数值条件 allyCount 比较符 <=/>= 与 playerInParty": {
+    "condition": "allyCount 比较符+playerInParty",
+    "source": "evalAiCond 条件域",
+    "oldAssertion": "existing-proof：旧:0 hpBelow 等/:2 playerInParty(0x79 门) → 扣净新（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 pickAiTarget：策略与稳定并列序 lowestHp/highestHp/lowestMp/strongest 各自取极值": {
+    "condition": "四策略极值",
+    "source": "pickAiTarget",
+    "oldAssertion": "existing-proof：旧:8 lowestHp 集火/strongest → 扣净新（highestHp/lowestMp 臂注同族扩展保留于混合）（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 pickAiTarget：策略与稳定并列序 strongest 全并列时取槽序靠前（稳定，key 严格小于才换 best）": {
+    "condition": "并列稳定序",
+    "source": "pickAiTarget 稳定序",
+    "oldAssertion": "新轴：旧:8 未证并列稳定序 → gap（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 pickAiTarget：策略与稳定并列序 空 players → fail-loud": {
+    "condition": "空 players 拒绝",
+    "source": "pickAiTarget 防御门",
+    "oldAssertion": "新轴 → gap（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 buildActionQueue：dualMove 相对位与稳定排序 无 dualMove：dex 降序、同 dex 敌人先于队员": {
+    "condition": "基础行动序",
+    "source": "buildActionQueue 排序",
+    "oldAssertion": "新轴：旧 enemy-ai 9 测未涉队列 → gap（battle-formulas 域另核）（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2：dex2<=dex 时第二次在后（fIsSecond 次序标记）": {
+    "condition": "dualMove 次序臂一",
+    "source": "buildActionQueue dualMove",
+    "oldAssertion": "新轴（同上）（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2 且 dex2>dex：第一次标记 fIsSecond（先动高 dex）": {
+    "condition": "dualMove 次序臂二",
+    "source": "buildActionQueue dualMove",
+    "oldAssertion": "新轴（同上）（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 无 dex2：补 dex-1 的第二次动作": {
+    "condition": "dualMove 补位臂",
+    "source": "buildActionQueue dualMove",
+    "oldAssertion": "新轴（同上）（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 战斗状态：tick/apply/canAct/canCastMagic tickBattleStatus：正计数递减、原地修改（>999 视为永久同样递减）": {
+    "condition": "tick 递减/原地修改",
+    "source": "tickBattleStatus",
+    "oldAssertion": "新轴：旧 battle-formulas.test:219-224 canAct/canCastMagic 已另核（r2 删重）；tick 原地修改臂 gap（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-ai.glm-o.test.ts :: O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者": {
+    "condition": "applyPlayerStatus 叠加",
+    "source": "applyPlayerStatus",
+    "oldAssertion": "existing-proof：actor-condition.test:3/:4 applyCarriedStatus 同语义直证 → 扣净新（旧 enemy-ai.test.ts:0-8（9 测））",
+    "caller": "enemy-ai.ts decideByRules/evalAiCond/pickAiTarget/buildActionQueue/tickBattleStatus（content 战斗域公开函数，battle-session 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝": {
+    "condition": "shops 结构四轴",
+    "source": "validateShops",
+    "oldAssertion": "existing-proof：旧 shop.test 六测覆盖 id/重复/条目域（r7 gap 已核）→ 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 validateShops / shopBuy / shopSell / sellableItems shopBuy：钱不够 null；成功扣钱入包": {
+    "condition": "buy 两态",
+    "source": "shopBuy",
+    "oldAssertion": "existing-proof：旧 shop.test 买卖域 → 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 validateShops / shopBuy / shopSell / sellableItems shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目": {
+    "condition": "sell 两态",
+    "source": "shopSell",
+    "oldAssertion": "existing-proof：同上 → 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 validateShops / shopBuy / shopSell / sellableItems sellableItems 过滤 count=0 与不可卖": {
+    "condition": "过滤轴",
+    "source": "sellableItems",
+    "oldAssertion": "existing-proof：同上 → 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 spriteDefinitionFrameDemand / FrameIndices directional 帧需求 = framesPerDir*4 + poses 绝对帧": {
+    "condition": "directional 帧需求公式",
+    "source": "spriteDefinitionFrameDemand",
+    "oldAssertion": "新轴：旧未见帧需求公式臂 → gap（anchor validate.test:18 布局计数）",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 spriteDefinitionFrameDemand / FrameIndices static 帧需求 = 1": {
+    "condition": "static 帧需求",
+    "source": "spriteDefinitionFrameDemand",
+    "oldAssertion": "新轴（同上）",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 validateEnemyTeamStructure：槽位形状 非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法": {
+    "condition": "敌队槽位四轴+null 正控",
+    "source": "validateEnemyTeamStructure",
+    "oldAssertion": "新轴：旧无 enemy-team 专测（validate-refs 域另核敌队引用）→ gap",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 checkRuntimeScenes：运行态场景入口 非法场景（entry 缺 facing）拒绝；合法最小场景通过": {
+    "condition": "运行态场景正反控",
+    "source": "checkRuntimeScenes",
+    "oldAssertion": "existing-proof：旧 runtime-scene.test:0-3 域 → 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 checkThrowSpec：投掷规格边界 effects 空 / target 非法 逐轴拒绝": {
+    "condition": "throw 结构两轴",
+    "source": "checkThrowSpec",
+    "oldAssertion": "existing-proof：validate.test:39 投掷至少一效果 → 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 checkThrowSpec：投掷规格边界 presentation 非 magic 拒绝": {
+    "condition": "presentation 域",
+    "source": "checkThrowSpec",
+    "oldAssertion": "新轴：presentation 臂 gap",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 resolveDialogueIdentity / collectCommandTargetReferences 身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空": {
+    "condition": "身份解析",
+    "source": "resolveDialogueIdentity",
+    "oldAssertion": "existing-proof：author-dialogue.test:17-52 直证 → 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 resolveDialogueIdentity / collectCommandTargetReferences loadScene 命令收集目标场景引用": {
+    "condition": "loadScene 引用收集",
+    "source": "collectCommandTargetReferences",
+    "oldAssertion": "existing-proof：command-target-reference.test:0-4 直证 → 扣净新",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 buildWorld / instantiate：实例域边界 instantiate：无 battler fail-loud；battler 角色取 baseStats": {
+    "condition": "实例化两轴",
+    "source": "instantiate",
+    "oldAssertion": "混合子轴：character.test:0-24 实例域族；baseStats 取值臂保留",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/small-guards.glm-o.test.ts :: O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断": {
+    "condition": "buildWorld 缺 actor",
+    "source": "buildWorld",
+    "oldAssertion": "新轴：精确诊断臂 gap（anchor character.test 实例族）",
+    "caller": "content 守卫/运行域公开函数（validateReferences 与 runtime 消费链）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyCarriedStatus：叠加规则 坏状态（confused）已有不刷新；为 0 时可设": {
+    "condition": "坏状态叠加/清零轴",
+    "source": "applyCarriedStatus",
+    "oldAssertion": "existing-proof：旧:3 坏状态已有时不刷新 → 扣净新（为 0 可设臂注保留混合）（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyCarriedStatus：叠加规则 好状态（bravery）仅活人：hp 0 拒绝；活人取更长回合": {
+    "condition": "好状态活人/取长",
+    "source": "applyCarriedStatus",
+    "oldAssertion": "existing-proof：旧:4 好状态只给活人取更长/:8 死亡拒绝 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyCarriedStatus：叠加规则 非法回合 fail-loud（不可携带 puppet 轴对 typed 调用方不可构造，登记 unreachable）": {
+    "condition": "非法回合/不可携带",
+    "source": "applyCarriedStatus 防御门",
+    "oldAssertion": "existing-proof：旧:5 傀儡与非正整数 fail-loud/:0 registry 傀儡不可携带 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyTemporaryPoisonResistance：取大语义 首次设置返回 true；更小值不覆盖返回 false；更大值覆盖": {
+    "condition": "毒抗取大三态",
+    "source": "applyTemporaryPoisonResistance",
+    "oldAssertion": "existing-proof：旧:10 临时毒抗取高 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyTemporaryPoisonResistance：取大语义 非正整数 fail-loud": {
+    "condition": "毒抗参数",
+    "source": "applyTemporaryPoisonResistance",
+    "oldAssertion": "新轴：参数形状臂 gap（anchor 旧:10）（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyActorConditionSeed：新建世界物化 毒从 tickIndex=0 物化 + 状态 + 毒抗全落地": {
+    "condition": "seed 物化",
+    "source": "applyActorConditionSeed",
+    "oldAssertion": "existing-proof：旧:6 三种 carrier 播种毒统一 tickIndex=0 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyActorConditionSeed：新建世界物化 未知毒 id fail-loud（缺表）": {
+    "condition": "seed 未知毒",
+    "source": "applyActorConditionSeed",
+    "oldAssertion": "existing-proof：旧:7 未知/重复毒写入前 fail-loud → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）": {
+    "condition": "seed 毒形状",
+    "source": "applyActorConditionSeed",
+    "oldAssertion": "existing-proof：旧:7 同前缀 fail-loud → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison：未知毒 → 精确 applyActorCondition.poisonId 诊断": {
+    "condition": "apply 未知毒",
+    "source": "applyActorCondition",
+    "oldAssertion": "existing-proof：旧:2 剧情命令完整覆盖 apply/clear 三类 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison 三段链经统一入口（cured 路径）": {
+    "condition": "自毒相克链",
+    "source": "applyActorCondition",
+    "oldAssertion": "existing-proof：旧:9 剧情施毒复用自毒相克/致死链 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyActorCondition / clearActorCondition：宿主命令轴 apply status：好状态仅活人；坏状态直接生效": {
+    "condition": "apply status 两态",
+    "source": "applyActorCondition",
+    "oldAssertion": "existing-proof：旧:2/:4 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/actor-condition.glm-o.test.ts :: O08 applyActorCondition / clearActorCondition：宿主命令轴 clear poison：移除匹配毒；clear status：移除匹配状态；未命中 false": {
+    "condition": "clear 两类",
+    "source": "clearActorCondition",
+    "oldAssertion": "existing-proof：旧:10 三种 condition 可分别清除 → 扣净新（旧 actor-condition.test.ts:0-10）",
+    "caller": "actor-condition.ts applyCarriedStatus/applyTemporaryPoisonResistance/applyActorConditionSeed/applyActorCondition/clearActorCondition（runtime 剧情命令链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateStampTemplates：id/origin/anchor 残臂 合法模板通过并产出锚点": {
+    "condition": "stamp 正控",
+    "source": "validateStampTemplates",
+    "oldAssertion": "existing-proof：旧 stamp.test:0-2 域正控 → 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝": {
+    "condition": "stamp 三拒绝轴",
+    "source": "validateStampTemplates",
+    "oldAssertion": "existing-proof：旧 stamp.test 拒绝域 → 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateStampTemplates：id/origin/anchor 残臂 anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝": {
+    "condition": "anchor surface 轴",
+    "source": "validateStampTemplates",
+    "oldAssertion": "新轴：surface 界臂 gap（anchor 旧证基础值域）",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateStampTemplates：id/origin/anchor 残臂 migrated origin 合法": {
+    "condition": "migrated origin 正控",
+    "source": "validateStampTemplates",
+    "oldAssertion": "混合子轴：旧 stamp origin 域；migrated 正控臂保留",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateTilesets：退役字段与唯一 id 合法通过；resolveTilesetAsset 命中与未知拒绝": {
+    "condition": "tileset 正控+asset 解析",
+    "source": "validateTilesets",
+    "oldAssertion": "existing-proof：旧 tileset.test:0-2 → 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝": {
+    "condition": "tileset 四轴",
+    "source": "validateTilesets",
+    "oldAssertion": "existing-proof：旧 tileset.test 拒绝域 → 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateTilesets：退役字段与唯一 id catalog 注入时 asset 必须存在": {
+    "condition": "catalog 交叉轴",
+    "source": "validateTilesets",
+    "oldAssertion": "新轴：catalog 注入臂 gap（anchor tileset.test）",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateWorldVariableRegistryV1：id/name 边界 空键 / 非法 id 字符 / 超长 name 逐轴拒绝": {
+    "condition": "worldVariable 三轴",
+    "source": "validateWorldVariableRegistryV1",
+    "oldAssertion": "existing-proof：world-variable.boundaries.test:34-45 + glm-leaf-wave:18-23 已证（r7 核）→ 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝": {
+    "condition": "worldVariable 两轴",
+    "source": "validateWorldVariableRegistryV1",
+    "oldAssertion": "existing-proof：boundaries:98-116 空 name/sys: 域 → 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateMapIndex / mapAssetById path 重复拒绝；mapAssetById 命中与未命中": {
+    "condition": "mapIndex 重复+解析",
+    "source": "validateMapIndex/mapAssetById",
+    "oldAssertion": "existing-proof：旧 map-index.test:0-4 → 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateMapIndex / mapAssetById 非法 map 条目（缺 id）拒绝": {
+    "condition": "map 条目轴",
+    "source": "validateMapIndex",
+    "oldAssertion": "existing-proof：map-index.test 拒绝域 → 扣净新",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/data-guards.glm-o.test.ts :: O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过": {
+    "condition": "diagnostics 三态",
+    "source": "validateMigrationDiagnostics",
+    "oldAssertion": "新轴：旧未见诊断表结构臂 → gap",
+    "caller": "content 数据守卫公开函数（validateReferences/editor 校验链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O08 collectPoisonDefinitionReferences：关系边收集 lethalWith 与 counters 各产一条带精确 where 的引用": {
+    "condition": "关系边收集",
+    "source": "collectPoisonDefinitionReferences",
+    "oldAssertion": "新轴：旧无 poison 关系边收集专测 → gap（anchor item.effects.background 毒链为邻）",
+    "caller": "poison.ts collectPoisonDefinitionReferences/poisonCurableBy/applyPoisonSelf（item 执行器与 runtime 毒链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O08 collectPoisonDefinitionReferences：关系边收集 无关系毒不产引用": {
+    "condition": "无关系正控",
+    "source": "collectPoisonDefinitionReferences",
+    "oldAssertion": "新轴（同上）",
+    "caller": "poison.ts collectPoisonDefinitionReferences/poisonCurableBy/applyPoisonSelf（item 执行器与 runtime 毒链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O08 poisonCurableBy：可解度秩 common 可被任一档解；incurable 不可被 common/severe 解": {
+    "condition": "可解度秩",
+    "source": "poisonCurableBy",
+    "oldAssertion": "新轴：可解度域 gap",
+    "caller": "poison.ts collectPoisonDefinitionReferences/poisonCurableBy/applyPoisonSelf（item 执行器与 runtime 毒链消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O08 applyPoisonSelf：三段链 身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）": {
+    "condition": "counters 链",
+    "source": "applyPoisonSelf",
+    "oldAssertion": "existing-proof：旧 actor-condition.test:9 剧情施毒复用自毒相克链直证 → 扣净新",
+    "caller": "poison.ts collectPoisonDefinitionReferences/poisonCurableBy/applyPoisonSelf（item 执行器与 runtime 毒链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）": {
+    "condition": "lethal 链",
+    "source": "applyPoisonSelf",
+    "oldAssertion": "existing-proof：旧:9 致死链直证 → 扣净新",
+    "caller": "poison.ts collectPoisonDefinitionReferences/poisonCurableBy/applyPoisonSelf（item 执行器与 runtime 毒链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O08 applyPoisonSelf：三段链 无关系 → 纯加毒（applied）；缺表同路径": {
+    "condition": "applied 链",
+    "source": "applyPoisonSelf",
+    "oldAssertion": "existing-proof：旧:9 纯施毒域 → 扣净新（缺表臂注保留混合）",
+    "caller": "poison.ts collectPoisonDefinitionReferences/poisonCurableBy/applyPoisonSelf（item 执行器与 runtime 毒链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O08 applyPoisonSelf：三段链 缺 defs 时 counters/lethalWith 关系不可判定 → 纯加毒": {
+    "condition": "缺表降级",
+    "source": "applyPoisonSelf",
+    "oldAssertion": "混合子轴：缺 defs 降级语义臂保留",
+    "caller": "poison.ts collectPoisonDefinitionReferences/poisonCurableBy/applyPoisonSelf（item 执行器与 runtime 毒链消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O09 parseRichText：颜色标记解析 无标记 / 空串 → 单 span 非空数组": {
+    "condition": "parseRichText 基础",
+    "source": "rich-text.ts parseRichText",
+    "oldAssertion": "existing-proof：rich-text.test:5-11 已证（r9 核）→ 扣净新",
+    "caller": "reforge dialog 链（r11 已登记）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留": {
+    "condition": "成对标记切分",
+    "source": "parseRichText",
+    "oldAssertion": "existing-proof：rich-text.test:13-19 → 扣净新",
+    "caller": "reforge dialog 链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O09 parseRichText：颜色标记解析 未闭合标记按纯文本；未知颜色不识别": {
+    "condition": "未闭合/未知色",
+    "source": "parseRichText",
+    "oldAssertion": "existing-proof：rich-text.test:37 + r11 rich-text-residual:未知色名 → 扣净新",
+    "caller": "reforge dialog 链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O09 parseRichText：颜色标记解析 多段颜色标记顺序解析": {
+    "condition": "多段顺序",
+    "source": "parseRichText",
+    "oldAssertion": "existing-proof：rich-text.test:28-34 → 扣净新",
+    "caller": "reforge dialog 链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/poison.glm-o.test.ts :: O09 lookupText：locale 缺键合同 命中返回文本；缺键原样返回 textId（调用方可见诊断）": {
+    "condition": "lookupText 两态",
+    "source": "locale.ts lookupText",
+    "oldAssertion": "existing-proof：locale.test:7-11 两测直证 → 扣净新",
+    "caller": "reforge resolveText 链",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝": {
+    "condition": "头部四轴",
+    "source": "parseFrameSequence 头部门",
+    "oldAssertion": "existing-proof：旧 frame-sequence.test:4 坏容器 fail-loud 族 → 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 parseFrameSequence：头部轴 索引越界 / 非法 JSON 逐轴拒绝；合法最小文件解析": {
+    "condition": "索引/JSON 轴+正控",
+    "source": "parseFrameSequence",
+    "oldAssertion": "existing-proof：旧:4 payload 越界/尾随数据 → 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 parseFrameSequence：头部轴 colorTreatment 进索引并经 JSON（含 UTF-8 解码域）往返": {
+    "condition": "UTF-8 往返",
+    "source": "parseFrameSequence colorTreatment",
+    "oldAssertion": "existing-proof：Codex 预裁——TPFS UTF-8 失败已在旧 residual/resource-boundaries/contracts 证（rle-encode.glm-runtime-resource + 旧:0）→ 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 validateFrameSequenceIndex：字段轴 非对象/codec 非法/宽度非法/空帧表 逐轴拒绝": {
+    "condition": "validate 四轴",
+    "source": "validateFrameSequenceIndex",
+    "oldAssertion": "新轴：index 字段形状臂 gap（anchor 旧:4）",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 validateFrameSequenceIndex：字段轴 block bytes 越界 payload / 覆盖不连续 / 尾随数据 逐轴拒绝": {
+    "condition": "block 三轴",
+    "source": "validateFrameSequenceIndex block 门",
+    "oldAssertion": "existing-proof：旧:4 payload 越界、尾随数据、解压长度不符 → 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 encodeFrameSequenceSync：输入轴 尺寸非法 / defaultFrameMs 非法 / colorTreatment 非法 / 空 frames 逐轴拒绝": {
+    "condition": "encode 输入四轴",
+    "source": "encodeFrameSequenceSync 输入门",
+    "oldAssertion": "新轴：encode 输入形状臂 gap（anchor rle-encode.boundaries:0-3）",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 encodeFrameSequenceSync：输入轴 rgba 字节长不符 / durationMs 非法 逐轴拒绝": {
+    "condition": "encode 两轴",
+    "source": "encodeFrameSequenceSync",
+    "oldAssertion": "新轴（同上）",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 encodeFrameSequenceSync：输入轴 多帧每帧 durationMs 进索引；往返后帧序稳定": {
+    "condition": "多帧索引/往返",
+    "source": "encodeFrameSequenceSync",
+    "oldAssertion": "existing-proof：旧:0 跨 32 帧块逐像素恢复 + :1 编码确定性 → 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 encodeFrameSequenceSync：输入轴 provider 字节变换被调用且其输出登记进 block bytes": {
+    "condition": "provider 变换",
+    "source": "encodeFrameSequenceSync provider",
+    "oldAssertion": "existing-proof：Codex 预裁——provider 失败已在旧 residual/resource-boundaries/contracts 证（旧:2 完整帧提供器逐块编码同字节）→ 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 resolveFrameSequencePlayback：回放解析 全序列回放与显式 range 回放的帧数/duration": {
+    "condition": "回放解析",
+    "source": "resolveFrameSequencePlayback",
+    "oldAssertion": "existing-proof：旧:3 播放区间 fail-loud/frameRate 优先 → 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/frame-sequence.glm-o.test.ts :: O09 resolveFrameSequencePlayback：回放解析 越界 startFrame/endFrame → 拒绝（无 range 形参，直接 options）": {
+    "condition": "回放越界",
+    "source": "resolveFrameSequencePlayback",
+    "oldAssertion": "existing-proof：旧:3 播放区间 fail-loud → 扣净新",
+    "caller": "frame-sequence.ts parse/validate/encode/resolve（content 资源管线与 editor 帧动画消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O08 checkEnemyFallback：兜底行动域 合法 cast/pass 通过；chancePercent 越界拒绝": {
+    "condition": "fallback 正控+越界",
+    "source": "checkEnemyFallback",
+    "oldAssertion": "混合子轴：旧:0 具名 hook 域；chancePercent 越界臂 anchor 旧:3 非正权重 → 扣净新（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O08 checkEnemyFallback：兜底行动域 action 非法 kind（attack 不属 fallback 域）拒绝": {
+    "condition": "fallback kind 域",
+    "source": "checkEnemyFallback",
+    "oldAssertion": "existing-proof：旧:0 battle action 域 + :4 宽泛世界命令拒绝 → 扣净新（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O08 checkEnemyHookFlow：游标程序状态结构 合法状态机通过；initial 未命中状态拒绝": {
+    "condition": "hookflow 正控+initial",
+    "source": "checkEnemyHookFlow",
+    "oldAssertion": "existing-proof：旧:0 具名 hook state/:2 悬空 state 拒绝 → 扣净新（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O08 checkEnemyHookFlow：游标程序状态结构 空 states / 状态缺 body 拒绝": {
+    "condition": "hookflow 结构轴",
+    "source": "checkEnemyHookFlow",
+    "oldAssertion": "existing-proof：旧:2 悬空/未知字段族 → 扣净新（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O08 checkEnemyHookFlow：游标程序状态结构 transition 分支递归（branch 深层 transition 校验）": {
+    "condition": "transition 递归",
+    "source": "checkEnemyHookFlow",
+    "oldAssertion": "existing-proof：旧:3 continue SCC/同步 closure → 扣净新（深层递归臂注同族）（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O08 checkEnemyAi：顶层聚合 resistanceToSorcery 越界（>10）拒绝；合法通过": {
+    "condition": "抗性越界",
+    "source": "checkEnemyAi",
+    "oldAssertion": "existing-proof：旧:1 抗性完全免疫 10/拒绝越界非整数 → 扣净新（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O08 checkEnemyAi：顶层聚合 rules 元素 at 域拒绝（合法 turnStart/act）": {
+    "condition": "rules at 域",
+    "source": "checkEnemyAi",
+    "oldAssertion": "新轴：at 域臂 gap（anchor 旧:0 battle action）（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O09 initialWorldVariablesV1：fresh-record 初始化 flag/number 分桶到 flags/vars 且值来自 initial": {
+    "condition": "worldVars 分桶",
+    "source": "initialWorldVariablesV1",
+    "oldAssertion": "existing-proof：world-variable.test:58 fresh 运行值 + boundaries:121-131 两次初始化不污染 → 扣净新（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O09 initialWorldVariablesV1：fresh-record 初始化 空 registry → 双空桶；输入 registry 不被引用泄漏（fresh records）": {
+    "condition": "空 registry/防泄漏",
+    "source": "initialWorldVariablesV1",
+    "oldAssertion": "existing-proof：boundaries:121-131 不污染 → 扣净新（防泄漏臂直证于该测）（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/enemy-script.glm-o.test.ts :: O09 initialWorldVariablesV1：fresh-record 初始化 sys: 命名空间保留给引擎（registry 校验拒绝）": {
+    "condition": "sys: 保留域",
+    "source": "initialWorldVariablesV1",
+    "oldAssertion": "existing-proof：boundaries:115 sys: 命名空间保留 → 扣净新（旧 enemy-script.test:0-5/world-variable 族）",
+    "caller": "enemy-script.ts checkEnemyFallback/checkEnemyHookFlow/checkEnemyAi（content 守卫，validateReferences 消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 deriveScriptChunk / stableScriptHash：分桶与哈希 同 id 稳定、不同 id 可落不同分片；shared 桶数边界": {
+    "condition": "分桶稳定性",
+    "source": "deriveScriptChunk",
+    "oldAssertion": "existing-proof：旧「按稳定 id 重算 scene/shared/global chunk」→ 扣净新（旧 content script-library.test.ts 六测（auto stages 递归/稳定 id 重算/ScriptRef/index 元数据/shared/user 契约/归一化 imports））",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 deriveScriptChunk / stableScriptHash：分桶与哈希 global 域脚本按 global/<domain> 分片；未登记 domain → undefined": {
+    "condition": "global 分片",
+    "source": "deriveScriptChunk",
+    "oldAssertion": "existing-proof：同上（global chunk 重算）→ 扣净新",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 deriveScriptChunk / stableScriptHash：分桶与哈希 scene 前缀 → scene/<id> 分片": {
+    "condition": "scene 分片",
+    "source": "deriveScriptChunk",
+    "oldAssertion": "existing-proof：同上（scene chunk）→ 扣净新",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入": {
+    "condition": "哈希稳定/区分",
+    "source": "stableScriptHash",
+    "oldAssertion": "existing-proof：旧「归一化统一重算 imports/bytes/hash」→ 扣净新",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 findScriptOwnerChunk / getScriptBody：归属与读取 单 owner 命中；跨 chunk 重复 id fail-loud；未登记 undefined": {
+    "condition": "owner 归属",
+    "source": "findScriptOwnerChunk",
+    "oldAssertion": "existing-proof：旧「ScriptRef 需要完整 chunk 和稳定 id」→ 扣净新（重复 id 臂注同族）",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 findScriptOwnerChunk / getScriptBody：归属与读取 getScriptBody：先按派生分片直取，未命中再全局寻 owner": {
+    "condition": "body 读取次序",
+    "source": "getScriptBody",
+    "oldAssertion": "混合子轴：旧证 owner 归属；直取→全局回退次序臂保留",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 normalize 按 id 排序合并 chunks 并保留合法体": {
+    "condition": "normalize 幂等",
+    "source": "normalizeScriptLibrary",
+    "oldAssertion": "existing-proof：旧「归一化保留作者目录并统一重算」→ 扣净新",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等": {
+    "condition": "upsert 命名空间",
+    "source": "upsertScript",
+    "oldAssertion": "existing-proof：旧「作者目录只接受 shared/user 稳定 id」→ 扣净新",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体": {
+    "condition": "remove 两态",
+    "source": "removeScript",
+    "oldAssertion": "混合子轴：旧证库操作域；remove 显式臂保留",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/script-library.glm-o.test.ts :: O07 checkScriptIndex：结构轴 version 漂移 / shards 缺失 逐轴拒绝；合法索引通过": {
+    "condition": "index 结构轴",
+    "source": "checkScriptIndex",
+    "oldAssertion": "existing-proof：旧「index 只接受元数据与有效分桶配置」→ 扣净新",
+    "caller": "script-library.ts deriveScriptChunk/stableScriptHash/findScriptOwnerChunk/getScriptBody/normalizeScriptLibrary/upsert/remove/checkScriptIndex（editor 脚本库与迁移分片消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script.glm-o.test.ts :: O07 sceneEntryPrepareSafety：进场 prepare 命令域 纯摆位/外观类命令安全（safe）": {
+    "condition": "prepare safe 域",
+    "source": "sceneEntryPrepareSafety",
+    "oldAssertion": "新轴：旧未证 prepare 安全白名单 → gap（旧 runtime-scene.test:0-3 + author-script-core.test:10-15（stage/outlet 族） 邻）",
+    "caller": "script.ts sceneEntryPrepareSafety/stageIndexFor/applyStageNext/emptyProjectedWorldScriptState（runtime 场景进场与游标域）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/script.glm-o.test.ts :: O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）": {
+    "condition": "prepare 拒绝域",
+    "source": "sceneEntryPrepareSafety",
+    "oldAssertion": "existing-proof：author-script-core.test:16 scene hook entry belongs only to onEnter（进场域命令限制）→ 扣净新",
+    "caller": "script.ts sceneEntryPrepareSafety/stageIndexFor/applyStageNext/emptyProjectedWorldScriptState（runtime 场景进场与游标域）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script.glm-o.test.ts :: O07 sceneEntryPrepareSafety：进场 prepare 命令域 wait 因不读取目标世界而安全（PAL 入场等待数帧合同）": {
+    "condition": "wait 安全轴",
+    "source": "sceneEntryPrepareSafety",
+    "oldAssertion": "新轴：PAL 入场等待合同臂 gap",
+    "caller": "script.ts sceneEntryPrepareSafety/stageIndexFor/applyStageNext/emptyProjectedWorldScriptState（runtime 场景进场与游标域）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/script.glm-o.test.ts :: O07 sceneEntryPrepareSafety：进场 prepare 命令域 giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe": {
+    "condition": "资源类拒绝",
+    "source": "sceneEntryPrepareSafety",
+    "oldAssertion": "混合子轴：ASC:16 命令域；资源类显式臂保留",
+    "caller": "script.ts sceneEntryPrepareSafety/stageIndexFor/applyStageNext/emptyProjectedWorldScriptState（runtime 场景进场与游标域）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/script.glm-o.test.ts :: O07 stage 游标：stageIndexFor / applyStageNext stageIndexFor：默认 0、钳制到 stages 上限": {
+    "condition": "stage 游标钳制",
+    "source": "stageIndexFor",
+    "oldAssertion": "混合子轴：ASC:10 stable stage ids；钳制臂保留",
+    "caller": "script.ts sceneEntryPrepareSafety/stageIndexFor/applyStageNext/emptyProjectedWorldScriptState（runtime 场景进场与游标域）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/content/src/script.glm-o.test.ts :: O07 stage 游标：stageIndexFor / applyStageNext applyStageNext：advance 递增 / 数字重置 / undefined 不变": {
+    "condition": "stage next 三态",
+    "source": "applyStageNext",
+    "oldAssertion": "existing-proof：ASC:12 transition-driven state-machine → 扣净新（三态臂注同族）",
+    "caller": "script.ts sceneEntryPrepareSafety/stageIndexFor/applyStageNext/emptyProjectedWorldScriptState（runtime 场景进场与游标域）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/script.glm-o.test.ts :: O07 emptyProjectedWorldScriptState：初始形状 flags/vars/entityState/stages 初始为空域": {
+    "condition": "投影空形状",
+    "source": "emptyProjectedWorldScriptState",
+    "oldAssertion": "existing-proof：ASC:0/3 composite world state 族（空域蕴含）→ 扣净新",
+    "caller": "script.ts sceneEntryPrepareSafety/stageIndexFor/applyStageNext/emptyProjectedWorldScriptState（runtime 场景进场与游标域）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 healHp/healMp：钳位与死亡跳过 healHp：不足上限加满差额；恰好上限 HP 零变化但消耗照扣": {
+    "condition": "healHp 两态+消耗",
+    "source": "item.ts healHp",
+    "oldAssertion": "existing-proof：旧 item.test heal 域 + inventory.background 消耗 → 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）": {
+    "condition": "healMp 钳位",
+    "source": "item.ts healMp",
+    "oldAssertion": "existing-proof：同上 → 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 healHp/healMp：钳位与死亡跳过 allAllies 消耗语义：consuming 扣一件；非 consuming 不扣": {
+    "condition": "消耗语义",
+    "source": "item 执行器",
+    "oldAssertion": "existing-proof：旧 item.inventory.background 消耗直证 → 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 scaleCurrentHp：分数缩放 scaleCurrentHp trunc 截断（99→49）与满血减半（100→50）": {
+    "condition": "缩放截断",
+    "source": "scaleCurrentHp",
+    "oldAssertion": "existing-proof：旧 item.test effects 域（r6 增 batch 已核 trunc）→ 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 scaleCurrentHp：分数缩放 满血 ×2/1 仍钳 maxHP 不越界": {
+    "condition": "缩放钳位",
+    "source": "scaleCurrentHp",
+    "oldAssertion": "existing-proof：同上 → 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 menu 透传与 applyStatus 防御轴 menuAfterUse 透传到成功 outcome（close）": {
+    "condition": "menu 透传",
+    "source": "menuAfterUse",
+    "oldAssertion": "existing-proof：旧 item.test menu 域（r6 批已核）→ 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 menu 透传与 applyStatus 防御轴 applyStatus 不可携带状态（puppet 经 AuthorItemUseEffect 域不可构造；已知合法 sleep 正常）": {
+    "condition": "puppet 不可构造",
+    "source": "applyStatus",
+    "oldAssertion": "existing-proof：validate.test:38 傀儡不能成为大世界携带状态（守卫侧直证）→ 扣净新（unreachable 注记保留）（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 复合链顺序与 gate 显式阈值 gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp": {
+    "condition": "gate 显式阈值",
+    "source": "item 执行器 gate",
+    "oldAssertion": "existing-proof：旧 item.test:898-928 同条目阈值（r9 核）→ 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-effects.glm-o.test.ts :: O08 复合链顺序与 gate 显式阈值 applyPoison 自毒经统一入口（毒 defs 缺失=纯加毒）": {
+    "condition": "applyPoison 统一入口",
+    "source": "applyPoison",
+    "oldAssertion": "existing-proof：actor-condition.test:9 自毒相克链 + item.effects.background → 扣净新（旧 item.test.ts:0-43（44 测）+ item.effects.background.test.ts:0-7）",
+    "caller": "item.ts healHp/healMp/scaleCurrentHp/applyPoison（item 执行器，useItem 链消费）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-use.glm-o.test.ts :: O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 unknown-item：物品不存在": {
+    "condition": "preflight reason 轴",
+    "source": "preflightWorldItemUse",
+    "oldAssertion": "existing-proof：旧 item.test 用途域（r6 全 typed 批已核）→ 扣净新",
+    "caller": "item.ts preflightWorldItemUse/resolveWorldItemUse（世界物品使用入口）+ asset.ts validateAssetCatalog",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-use.glm-o.test.ts :: O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器": {
+    "condition": "wrong-context 轴",
+    "source": "preflightWorldItemUse",
+    "oldAssertion": "existing-proof：同上 → 扣净新",
+    "caller": "item.ts preflightWorldItemUse/resolveWorldItemUse（世界物品使用入口）+ asset.ts validateAssetCatalog",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-use.glm-o.test.ts :: O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 not-owned：背包与装备均无该物品": {
+    "condition": "not-owned 轴",
+    "source": "preflightWorldItemUse",
+    "oldAssertion": "existing-proof：旧 ownership.background → 扣净新",
+    "caller": "item.ts preflightWorldItemUse/resolveWorldItemUse（世界物品使用入口）+ asset.ts validateAssetCatalog",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-use.glm-o.test.ts :: O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 missing-target：needsTarget 且指定目标不在 party（typed 缺键直证）": {
+    "condition": "missing-target 轴",
+    "source": "preflightWorldItemUse",
+    "oldAssertion": "existing-proof：旧 item.test 目标域 → 扣净新",
+    "caller": "item.ts preflightWorldItemUse/resolveWorldItemUse（世界物品使用入口）+ asset.ts validateAssetCatalog",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-use.glm-o.test.ts :: O09 validateAssetCatalog：kind/origin/路径轴 非法 kind / 非法 sha 逐轴拒绝": {
+    "condition": "catalog kind/sha 轴",
+    "source": "asset.ts validateAssetCatalog",
+    "oldAssertion": "existing-proof：旧 asset.test:0-14 catalog 域 → 扣净新",
+    "caller": "item.ts preflightWorldItemUse/resolveWorldItemUse（世界物品使用入口）+ asset.ts validateAssetCatalog",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-use.glm-o.test.ts :: O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法": {
+    "condition": "catalog origin 轴",
+    "source": "validateAssetCatalog",
+    "oldAssertion": "existing-proof：asset.test origin 域 → 扣净新",
+    "caller": "item.ts preflightWorldItemUse/resolveWorldItemUse（世界物品使用入口）+ asset.ts validateAssetCatalog",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-use.glm-o.test.ts :: O09 validateAssetCatalog：kind/origin/路径轴 版本漂移拒绝": {
+    "condition": "catalog 版本轴",
+    "source": "validateAssetCatalog",
+    "oldAssertion": "existing-proof：asset.test 版本域 → 扣净新",
+    "caller": "item.ts preflightWorldItemUse/resolveWorldItemUse（世界物品使用入口）+ asset.ts validateAssetCatalog",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-equip.glm-o.test.ts :: O08 equipItem：四拒绝前置与成功流 成功装上：入槽、扣包 1、旧件回包 1": {
+    "condition": "equipItem 成功流",
+    "source": "item.ts equipItem",
+    "oldAssertion": "existing-proof：r7 批已核（oldRing 回包合同）→ 扣净新",
+    "caller": "item 域",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/item-equip.glm-o.test.ts :: O08 worldResourceValue：键域合同（仅保留未证轴） resources 键在对象存在但值为 0 的显式零与缺键 0 分开（独立读取语义）": {
+    "condition": "显式零/缺键区分",
+    "source": "worldResourceValue",
+    "oldAssertion": "新轴：显式零语义臂 gap（herb=0 cross-check 同族已扣列）",
+    "caller": "item 域",
+    "classification": "new-axis"
+  },
+  "packages/content/src/item-equip.glm-o.test.ts :: O08 curePoison 显式 id 轴（世界执行器） 显式 poisonId 只解指定毒、其它保留": {
+    "condition": "curePoison 显式 id",
+    "source": "curePoison",
+    "oldAssertion": "existing-proof：r7 批已核显式 id 轴 → 扣净新",
+    "caller": "item 域",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/runtime-hostile.glm-o.test.ts :: O09 checkRuntimeHostileBehavior：策略域 合法最小 hostile 通过；victory hide 带 ticks 合法": {
+    "condition": "hostile 正控",
+    "source": "checkRuntimeHostileBehavior",
+    "oldAssertion": "existing-proof：旧 runtime-scene.test:0-3 域 → 扣净新",
+    "caller": "runtime-scene.ts/validate-runtime.ts checkRuntimeHostileBehavior/validateRuntimeScenes（runtime 场景校验链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/runtime-hostile.glm-o.test.ts :: O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝": {
+    "condition": "hostile 三轴",
+    "source": "checkRuntimeHostileBehavior",
+    "oldAssertion": "existing-proof：同上 → 扣净新",
+    "caller": "runtime-scene.ts/validate-runtime.ts checkRuntimeHostileBehavior/validateRuntimeScenes（runtime 场景校验链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/runtime-hostile.glm-o.test.ts :: O09 checkRuntimeHostileBehavior：策略域 onLose 自定义命令递归校验（未知 kind 在子树报错）": {
+    "condition": "onLose 递归",
+    "source": "checkRuntimeHostileBehavior",
+    "oldAssertion": "existing-proof：author-script-core:7 startBattle 子树族 → 扣净新",
+    "caller": "runtime-scene.ts/validate-runtime.ts checkRuntimeHostileBehavior/validateRuntimeScenes（runtime 场景校验链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/runtime-hostile.glm-o.test.ts :: O09 checkRuntimeHostileBehavior：策略域 chase：非正 speed 拒绝；负 range 拒绝": {
+    "condition": "chase 两轴",
+    "source": "checkRuntimeHostileBehavior",
+    "oldAssertion": "新轴：chase 参数臂 gap",
+    "caller": "runtime-scene.ts/validate-runtime.ts checkRuntimeHostileBehavior/validateRuntimeScenes（runtime 场景校验链）",
+    "classification": "new-axis"
+  },
+  "packages/content/src/runtime-hostile.glm-o.test.ts :: O09 validateRuntimeScenes：脚本归置轴 onEnter 平铺字段拒绝（必须位于 hooks）": {
+    "condition": "脚本归置轴",
+    "source": "validateRuntimeScenes",
+    "oldAssertion": "existing-proof：ASC:16 hook 归属 + runtime-scene.test → 扣净新",
+    "caller": "runtime-scene.ts/validate-runtime.ts checkRuntimeHostileBehavior/validateRuntimeScenes（runtime 场景校验链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/runtime-hostile.glm-o.test.ts :: O09 validateRuntimeScenes：脚本归置轴 onTeleport 平铺字段拒绝（必须位于 hooks）": {
+    "condition": "归置轴二",
+    "source": "validateRuntimeScenes",
+    "oldAssertion": "existing-proof：同上 → 扣净新",
+    "caller": "runtime-scene.ts/validate-runtime.ts checkRuntimeHostileBehavior/validateRuntimeScenes（runtime 场景校验链）",
+    "classification": "existing-proof"
+  },
+  "packages/content/src/runtime-hostile.glm-o.test.ts :: O09 validateRuntimeScenes：脚本归置轴 entities 非数组拒绝": {
+    "condition": "entities 形状",
+    "source": "validateRuntimeScenes",
+    "oldAssertion": "existing-proof：旧 validate.test:1-2 实体形态族 → 扣净新",
+    "caller": "runtime-scene.ts/validate-runtime.ts checkRuntimeHostileBehavior/validateRuntimeScenes（runtime 场景校验链）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/yj2-encode.glm-o.test.ts :: O10 YJ2 长流自适应树：权重互换与归约 重复字面长流（树满前）确定性解压：N 字节恒等往返": {
+    "condition": "长流确定性",
+    "source": "yj2 自适应树",
+    "oldAssertion": "existing-proof：旧 yj2.boundaries.test:0-4 判定向量族 + rle-encode.glm-runtime-resource 确定性 → 扣净新",
+    "caller": "yj2.ts decompressYj2 + rle-encode.ts encodeRleFrame/encodeSpriteChunk（shared 编解码，pal 资源管线消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/yj2-encode.glm-o.test.ts :: O10 YJ2 长流自适应树：权重互换与归约 头部 uncompLen 大于位流字面数：读到 0 尾字节按路径 0 走树（确定性输出）": {
+    "condition": "尾部确定性",
+    "source": "yj2 自适应树",
+    "oldAssertion": "existing-proof：yj2.boundaries「提前结束（pos==0xFFF）余量保持零初始化」同族 → 扣净新",
+    "caller": "yj2.ts decompressYj2 + rle-encode.ts encodeRleFrame/encodeSpriteChunk（shared 编解码，pal 资源管线消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/yj2-encode.glm-o.test.ts :: O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令": {
+    "condition": "0x7F 分段",
+    "source": "encodeRleFrame",
+    "oldAssertion": "existing-proof：rle-encode.test「超 0x7f 长游程分段」+ boundaries:127 封顶 → 扣净新",
+    "caller": "yj2.ts decompressYj2 + rle-encode.ts encodeRleFrame/encodeSpriteChunk（shared 编解码，pal 资源管线消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/yj2-encode.glm-o.test.ts :: O10 encodeRleFrame：游程分段与尾透明 尾透明补跳段写满 width*height；跳段同样 0x7F 分段": {
+    "condition": "尾透明跳段",
+    "source": "encodeRleFrame",
+    "oldAssertion": "existing-proof：rle-encode.test「尾部透明写满」+ boundaries 尾透明 → 扣净新",
+    "caller": "yj2.ts decompressYj2 + rle-encode.ts encodeRleFrame/encodeSpriteChunk（shared 编解码，pal 资源管线消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/yj2-encode.glm-o.test.ts :: O10 encodeRleFrame：游程分段与尾透明 透明/opaque 交替边界：1px opaque 后跟 1px 透明": {
+    "condition": "交替边界",
+    "source": "encodeRleFrame",
+    "oldAssertion": "existing-proof：rle-encode.test「混合游程(透明/不透明交错)」→ 扣净新",
+    "caller": "yj2.ts decompressYj2 + rle-encode.ts encodeRleFrame/encodeSpriteChunk（shared 编解码，pal 资源管线消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/shared/src/yj2-encode.glm-o.test.ts :: O10 encodeSpriteChunk：偶对齐 pad 与多帧偏移表 奇长帧后 pad 0x00；下一帧从偶偏移开始": {
+    "condition": "偶对齐 pad",
+    "source": "encodeSpriteChunk",
+    "oldAssertion": "existing-proof：boundaries「WORD offset 表 + 奇长帧 pad0」+ rle-encode.test 多帧 → 扣净新",
+    "caller": "yj2.ts decompressYj2 + rle-encode.ts encodeRleFrame/encodeSpriteChunk（shared 编解码，pal 资源管线消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/mkf.glm-o.test.ts :: O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝": {
+    "condition": "容器两轴",
+    "source": "readMkfContainer",
+    "oldAssertion": "existing-proof：mkf.boundaries「头 <4 字节拒绝/首偏移非 4 倍数拒绝」精确同臂 → 扣净新",
+    "caller": "mkf.ts 容器解析（shared，pal MKF 档案读取链）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/mkf.glm-o.test.ts :: O10 MKF：容器合同 合法容器：chunkCount 与逐 chunk 边界读取": {
+    "condition": "合法容器",
+    "source": "readMkfContainer",
+    "oldAssertion": "existing-proof：boundaries「N+1 偏移/单 chunk 容器」→ 扣净新",
+    "caller": "mkf.ts 容器解析（shared，pal MKF 档案读取链）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/mkf.glm-o.test.ts :: O10 MKF：容器合同 chunk 越界读 fail-loud（负数）": {
+    "condition": "越界读",
+    "source": "readMkfContainer",
+    "oldAssertion": "新轴：负索引臂 gap（anchor boundaries 子 array 输入）",
+    "caller": "mkf.ts 容器解析（shared，pal MKF 档案读取链）",
+    "classification": "new-axis"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝": {
+    "condition": "strict 容器三轴",
+    "source": "parseSpriteChunkStrict",
+    "oldAssertion": "existing-proof：rle.boundaries 坏尾/越界族 → 扣净新（旧 rle.test（帧解码族）+ rle.boundaries:0-4 + rle-encode.glm-runtime-resource）",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界": {
+    "condition": "sentinel 计数域",
+    "source": "parseSpriteChunkStrict",
+    "oldAssertion": "existing-proof：rle.test「跳过 word-offset=0 空帧（键连续性铁律）」同族 → 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝": {
+    "condition": "表三轴",
+    "source": "parseSpriteChunkStrict",
+    "oldAssertion": "existing-proof：rle.boundaries 偏移族 → 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过": {
+    "condition": "尺寸轴+正控",
+    "source": "parseSpriteChunkStrict",
+    "oldAssertion": "existing-proof：rle.test「broken-sprite 尾帧 guard:width/height>400 跳过」→ 扣净新（strict 拒绝 vs legacy 跳过差异注记保留混合）",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析": {
+    "condition": "sentinel 尾 0",
+    "source": "parseSpriteChunkStrict",
+    "oldAssertion": "existing-proof：rle.test 空帧键连续性 → 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）": {
+    "condition": "往返恒等",
+    "source": "parseSpriteChunkStrict",
+    "oldAssertion": "existing-proof：rle-encode.glm-runtime-resource roundtrip + rle.test 恒等 → 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots": {
+    "condition": "legacy 坏尾",
+    "source": "parseIndexedRleChunk",
+    "oldAssertion": "existing-proof：rle.test「broken-sprite 尾帧 guard 跳过」直证 → 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）": {
+    "condition": "中间空洞",
+    "source": "parseIndexedRleChunk",
+    "oldAssertion": "新轴：空洞拒绝臂 gap（anchor rle.test 坏尾跳过）",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "new-axis"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseIndexedRleChunk：legacy 坏尾三轴 纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容": {
+    "condition": "纯 sentinel 判定",
+    "source": "parseIndexedRleChunk",
+    "oldAssertion": "新轴：兼容进入条件臂 gap",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "new-axis"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy 前缀全无效 → 坏尾前不含有效帧拒绝": {
+    "condition": "全无效前缀",
+    "source": "parseIndexedRleChunk",
+    "oldAssertion": "新轴（同上）",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "new-axis"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）": {
+    "condition": "空容器",
+    "source": "encodeSpriteChunk",
+    "oldAssertion": "existing-proof：rle.test「切 1 帧 imagecount=1 frame[0] word-offset」计数域 → 扣净新（空拒绝臂注保留混合）",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "mixed-subaxis"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误": {
+    "condition": "u16 上限",
+    "source": "encodeSpriteChunk",
+    "oldAssertion": "新轴：上限拆分臂 gap（anchor boundaries WORD offset 表）",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "new-axis"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 encodeSpriteChunk：上限与空容器 encodeRleFrame：透明段写满 width*height（尾透明补跳段）": {
+    "condition": "透明段写满",
+    "source": "encodeRleFrame",
+    "oldAssertion": "existing-proof：rle-encode.test「全透明帧必须发满跳段」→ 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝": {
+    "condition": "yj2 头部门",
+    "source": "decompressYj2",
+    "oldAssertion": "existing-proof：yj2.boundaries「源 <4 字节拒绝」→ 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 decompressYj2：头部与位流轴（真实解码入口） uncompLen=0 → 空输出（不读位流）": {
+    "condition": "零长输出",
+    "source": "decompressYj2",
+    "oldAssertion": "existing-proof：yj2.boundaries「uncompLen=0 零长输出」→ 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 decompressYj2：头部与位流轴（真实解码入口） 非空字面向量：三字面位流按序输出（复用冻结判定向量，不复述旧断言）": {
+    "condition": "字面输出",
+    "source": "decompressYj2",
+    "oldAssertion": "existing-proof：yj2.boundaries「三字面流输出=字面值按序」→ 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
+  },
+  "packages/shared/src/rle.glm-o.test.ts :: O10 decompressYj2：头部与位流轴（真实解码入口） 回引向量：重叠回引复制不越界且长度由头部封顶（冻结判定向量）": {
+    "condition": "重叠回引",
+    "source": "decompressYj2",
+    "oldAssertion": "existing-proof：yj2.boundaries「字面 ABC+回引(pos=2,len=4)重叠复制 ABCABCA」→ 扣净新",
+    "caller": "rle.ts parseSpriteChunkStrict/parseIndexedRleChunk（shared 严格/legacy 解码，pal 精灵供应消费）",
+    "classification": "existing-proof"
   }
 }
