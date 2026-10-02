@@ -3,21 +3,20 @@
 Owner GLM O；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)。分支 `codex/glm-wave-o-supply-validation-r1`
 （自派发提交 `8b3ca062953b17a12178f8d1a9e36657971234b1` 建独立 worktree）。
-生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；verify-targets --wave O 通过（白名单内 194 路径、冻结 hash 有效）。
+生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；verify-targets --wave O 通过（冻结 hash 有效；白名单路径随批次增长，以 [targets.json](../targets.json) 与 verifier 输出为准，194 为派发时历史数）。
 
-## 交付状态（r9 续审后）：487 执行/净新上限 486、66 反控/64 不同目标
+## 交付状态（r10 续审后）：485 执行/净新上限 484、65 反控/63 不同目标
 
 Codex 2026-10-01 counter 的 O-01/02/03 已闭合；O-R9-01～03 亦闭合（判据/typed/去重）。
-**r9 续审对新增 28 行逐条件复核后发现 19 行系旧证同条件重复**
-（grid.test.ts:30-81 / entity-lifecycle.test.ts:13-87 / author-dialogue.test.ts:17-81 /
-rewards.test.ts:43-160 已同答案覆盖几何反解、生命周期引用、对话身份解析、钳位与隐藏经验分配），
-已删除并在测试文件头登记 existing-proof，WORD 截断轴加强为可证伪断言（100000→34464）。
-原「497 执行」为含重复的旧数；本表为去重后唯一主映射真实账：
+**r9 续审删除 19 行旧证重复**（grid/entity-lifecycle/author-dialogue/rewards 同条件同答案，
+已登记 existing-proof）；**r10 续审再删 2 行 merge 重复**
+（migration-merge.test.ts:318 双边重排冲突、:244 双方各增地图并集——与旧证同条件同答案，
+O02-CC2 连带退役）。「497/487」为含重复旧数；本表为去重后唯一主映射真实账：
 
 | 批 | 用例（唯一主映射） | 反控 |
 |---|---:|---:|
 | O01 | 72 | 5 |
-| O02 | 66 | 5 |
+| O02 | 64 | 2 |
 | O03 | 31 | 5 |
 | O04 | 37 | 5 |
 | O05 | 48 | 5 |
@@ -26,29 +25,32 @@ rewards.test.ts:43-160 已同答案覆盖几何反解、生命周期引用、对
 | O08 | 72 | 3 |
 | O09 | 58 | 8 |
 | O10 | 26 | 6 |
-| **合计** | **487 执行（净新上限 486†）** | **66（64 目标）** |
+| **合计** | **485 执行（净新上限 484†）** | **65（63 目标）** |
 
-† resources.herb=0 为同条件 cross-check 不计净新；8 枚退役针（O08-CC8/9、O09-CC13/14/15/17/18、
-O08-CC11）目标测试因去重删除，历史证据目录保留。
+† resources.herb=0 为同条件 cross-check 不计净新；9 枚退役针（O08-CC8/9、O09-CC13/14/15/17/18、
+O08-CC11、O02-CC2）目标测试因去重删除，历史证据目录保留。
 
 multi-batch 合同记入首个批次（O01/O03→O01、O03/O05→O03、O06/O08→O06、O08/O09→O08）。
 
-- [directed-vitest.json](directed-vitest.json)：487/487 全绿（最终实跑重生，含全部 file/fullName/status；
+- [directed-vitest.json](directed-vitest.json)：485/485 全绿（最终实跑重生，含全部 file/fullName/status；
   [run-directed.mjs](run-directed.mjs) 可复跑，顶层执行数与叶集合闭合校验）。
 - [contracts.json](contracts.json)：**逐合同账（r9 修正）**：oracle=测试源**完整断言链**
   （共享 tokenizer [test-titles.mjs](test-titles.mjs) 全量提取，跨行/字符串/注释感知，
   0 空参/0 括号不配平——r8 及更早账本 182 空参/332 不配平已清零）；
-  migration-merge 30 行人工 oracle 保留；r9 保留 9 行 + rich-text 新 9 行人工条件账；
-  oldAssertion 为真实旧 fullName/行锚或显式 gap 说明（token 近似匹配已不再作为排重依据）。
+  **O-R10-02 逐域真账**：contracts-overrides.json 已覆盖 75 行
+  （merge 28/transaction 29/rewards 3/ambience 5/grid 1/rich-text 9，另内嵌 17 行）——
+  含 r10 审核点名的 4 枚错锚修正与 2 行重复删除；其余 410 行 condition 仍空、
+  oldAssertion 中 247 行仍为 token 近似锚（write-plan/project-io/plan/pal-*/content 守卫全域待补），
+  **不以旧 join 当 closed，整卡验收前逐域闭合**。
   [build-contracts.mjs](build-contracts.mjs) 全量重建并强制不变量（违例即失败）。
 - [counters.json](counters.json) + [counters/](counters/)：**66 枚有效三态反控/64 不同目标（≥50；8 枚退役保留历史）；
-  判据源 [counter-judge.mjs](counter-judge.mjs)（runner 与 [run-counter.selftest.mjs](run-counter.selftest.mjs) 27 用例共用）**
+  判据源 [counter-judge.mjs](counter-judge.mjs)（runner 与 [run-counter.selftest.mjs](run-counter.selftest.mjs) 27 用例 + [re-adjudicate.selftest.mjs](re-adjudicate.selftest.mjs) 4 用例共用）**
   （control 全绿 → injected 恰一目标业务 AssertionError 红 → restored 恢复后真实重跑全绿；
   patch 以 --unidiff-zero 重建并校验字节 = mutatedSha；候选树零改动）。
-  r9：判据修正（路径归一化保留完整 packages/包/子路径、顶层执行数闭合、逐相状态政策）后
-  [re-adjudicate.mjs](re-adjudicate.mjs) 对全部存档三态证据以当前 judge 再判定 **66/66 通过**
-  （变异锚点唯一性/目标仍在当前文件/执行集一致性机械化校验）；
-  执行集变化的 CC10/CC16 重采、CC19/CC20（rich-text 白名单/非贪婪）新采。
+  r9：判据修正（路径归一化保留完整 packages/包/子路径、顶层执行数闭合、逐相状态政策）；
+  **r10（O-R10-01）：re-adjudicate 身份比较改 flattenTests 叶集合**（原 suite 直传折成 undefined 键恒通过），
+  [re-adjudicate.selftest.mjs](re-adjudicate.selftest.mjs) 4 用例含「换 passed 邻居身份」真实拒收反例与
+  suite-直传 bug 语义钉子；修后 65/65 存档再判定通过（不全量重采）；CC1/CC3/CC10 因文件变化重采。
 
 ## 剩余范围（未到 700 的如实账）
 
@@ -61,7 +63,7 @@ r9 续审：上述 r6 增量中的隐藏经验分配/几何反解等 19 行经�
 新增 rich-text 标记识别残余 9 轴（未知色名/错配闭合/空内容/零间隔/同名嵌套/redAlt 交替/
 大小写/孤儿闭合/内容含 <）+ CC19/CC20 两枚反控。
 
-以下子域尚未建模（缺口至少 214 例；231/234/204 为历史口径），非“不可合法构造”证明；后续按同法（typed 合法 fixture +
+以下子域尚未建模（缺口至少 216 例；231/234/204/214 为历史口径），非“不可合法构造”证明；后续按同法（typed 合法 fixture +
 真实公开入口）继续：locale 大表、script.ts 执行器深域、
 bake-assets CLI mkdtemp 临时工程、migrate pal-assets 真实语料 census 轴
 （loadPal* 需 extracted corpus，属 fast 排除域）、world-sprite layout 语义深域、
@@ -76,7 +78,7 @@ unit 层（fast 覆盖口径）充分验证，不读真实工程、不写盘。
 
 ## 未完成范围与原因（真实残余账）
 
-O01–O10 全部批次已有交付（见上表唯一主映射）；**余量 214 例**为各批深域：
+O01–O10 全部批次已有交付（见上表唯一主映射）；**余量 216 例**为各批深域：
 locale 大表、script.ts 执行器深域、bake-assets CLI mkdtemp 临时工程、
 migrate pal-assets 真实语料 census 轴（fast 排除域）、world-sprite layout 语义深域、
 equip/throw 效果域、ambience/skill 深域。已交付部分不含凑数用例（r6 审查指出的

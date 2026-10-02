@@ -13,8 +13,7 @@ import { flattenTests, sameExecutionIdentity } from './counter-judge.mjs'
 
 const here = import.meta.dirname
 const dir = resolve(here, 'counters', 'O01-CC1')
-const load = (phase) =>
-  JSON.parse(readFileSync(resolve(dir, `vitest-${phase}.json`), 'utf8'))
+const load = (phase) => JSON.parse(readFileSync(resolve(dir, `vitest-${phase}.json`), 'utf8'))
 
 let passed = 0
 let failedCount = 0
@@ -52,7 +51,11 @@ const swapNeighbor = (json) => {
 check('反例：同数量换一个 passed 邻居 fullName → 必须拒收', () => {
   let wronglyAccepted = false
   try {
-    sameExecutionIdentity(flattenTests(swapNeighbor(control)), flattenTests(injected), 'control↔injected')
+    sameExecutionIdentity(
+      flattenTests(swapNeighbor(control)),
+      flattenTests(injected),
+      'control↔injected',
+    )
     wronglyAccepted = true
   } catch {
     // 预期拒收

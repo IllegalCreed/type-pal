@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 487 执行/净新上限 486（herb=0 cross-check 不计）, 66 反控/64 不同目标; O-R9-01/02/03 及续审去重闭合; 缺口至少 214",
+  "deliveryStatus": "PARTIAL — 485 执行/净新上限 484（herb=0 cross-check 不计）, 65 反控/63 不同目标; O-R10-01 闭合、O-R10-02 真账 75/485 行覆盖（410 空条件/247 token 锚待逐域闭合）; 缺口至少 216",
   "batches": {
     "O01": {
       "tests": 72
@@ -37,12 +37,12 @@
     }
   },
   "totals": {
-    "newCases": 487,
-    "netNewCeiling": 486,
-    "netNewNote": "resources.herb=0 为同条件 cross-check 不计净新；r9 续审删除 19 行旧证重复（grid/entity-lifecycle/author-dialogue/rewards 同条件同答案），已登记 existing-proof 于测试文件头",
+    "newCases": 485,
+    "netNewCeiling": 484,
+    "netNewNote": "resources.herb=0 同条件 cross-check 不计；r9 删 19 行 + r10 删 2 行（merge :318/:244）旧证重复均登记 existing-proof",
     "uniqueBatchMapping": {
       "O01": 72,
-      "O02": 66,
+      "O02": 64,
       "O03": 31,
       "O04": 37,
       "O05": 48,
@@ -53,13 +53,31 @@
       "O10": 26
     },
     "byPackage": {
-      "migrate": 254,
+      "migrate": 252,
       "content": 207,
       "shared": 26
     },
-    "validCounters": 66,
-    "distinctCounterTargets": 64,
-    "retiredCounters": 8
+    "validCounters": 65,
+    "distinctCounterTargets": 63,
+    "retiredCounters": 9,
+    "ledgerTrueAccount": {
+      "overridesRows": 75,
+      "emptyConditionRemaining": 410,
+      "tokenAnchorRemaining": 247,
+      "openDomains": [
+        "migration-write-plan",
+        "migration-project-io",
+        "migration-plan/project-map-converter",
+        "pal-current-publication",
+        "pal-assets",
+        "pal-content-supply",
+        "pal-supply-guards",
+        "pal-world-sprites",
+        "pal-authored-overlays/store/casualty",
+        "content 全守卫域",
+        "shared rle/yj2/mkf"
+      ]
+    }
   },
   "gates": {
     "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0",
@@ -93,7 +111,7 @@
     "counter-judge.mjs（唯一 judge）",
     "run-counter.selftest.mjs（22 用例经同一 judge）"
   ],
-  "candidateHead": "a7c15cdf8142e435dfea51930184f4f7ea1c7753",
+  "candidateHead": "TO-BE-PINNED-R11",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -124,10 +142,12 @@
     "O-R9-02": "ambience-skill/rewards-lifecycle 六处强转改真实 typed 直构（SkillAnimation/SkillEffect/SkillData/EntityLifecycleSceneReference，599400d9a）",
     "O-R9-03": "四条 ambience 重复登记 existing-proof 扣除（e47258a8d）；r9 续审再删 19 行重复（a89e49d73）：grid.test.ts:30-81 四何轴、entity-lifecycle.test.ts:13-87 三引用轴、author-dialogue.test.ts:17-81 三身份轴、rewards.test.ts:43-160 钳位与隐藏经验分配五轴；WORD 截断改可证伪强断言",
     "r9-evidence-sweep": "证据一致性清扫：e47258a8d 留下的空 describe 致整文件 suite 失败已修（a855cadc3）；directed 旧 497 含 4 条已删测试，实跑重生 487；CC14/15/17/18/O08-CC11 五枚目标被删退役；CC10/CC16 执行集变化重采；re-adjudicate.mjs 以当前 judge 对存档三态再判定 66/66 通过（含变异锚点唯一/目标存在/执行集一致机械校验）",
-    "r9-ledger-rebuild": "contracts 账全量重建：旧生成器按行扫描致 182 空参/332 不配平（含 r8 基线）；共享 tokenizer（test-titles.mjs）全量提取完整断言链，build-contracts.mjs 强制不变量（≥1 断言/括号配平/值类 matcher 禁空参），478→487 行 0 违例；O01-CC1 spec title 陈旧字面量同步"
+    "r9-ledger-rebuild": "contracts 账全量重建：旧生成器按行扫描致 182 空参/332 不配平（含 r8 基线）；共享 tokenizer（test-titles.mjs）全量提取完整断言链，build-contracts.mjs 强制不变量（≥1 断言/括号配平/值类 matcher 禁空参），478→487 行 0 违例；O01-CC1 spec title 陈旧字面量同步",
+    "O-R10-01": "re-adjudicate.mjs 两处身份比较由 suite 数组改为 flattenTests 叶集合（suite 无 file/fullName 折成 undefined 键恒通过）；re-adjudicate.selftest.mjs 4 用例：真实存档正控 + 换 passed 邻居 fullName 拒收 + 数量变化拒收 + suite-直传 bug 语义钉子（同例 buggy 接受/flatten 拒收）；65/65 存档修后再判定通过，未全量重采（5c29e10d4）",
+    "O-R10-02": "partial：真账外置 contracts-overrides.json（75/485 行：merge 28 + transaction 29 + rewards/ambience/grid/rich-text；修正审核点名错锚 4 枚——单侧重复id 原指 :102 add-add、共存正控原指 :244、快照保真原指 :59、键级 delete-modify 原指 :59；equal-invalid 原指 :244 一并修正）；merge 域复核再删 2 行旧证同条件重复（:318/:244，O02-CC2 退役）；「多级独立掷骰」改计数 rng 可证伪 oracle（calls=12、maxHP=10+17 非两倍同端）；其余 410 空条件/247 token 锚按域待补，不以旧 join 当 closed"
   },
   "headNote": "candidateHead=本轮最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分",
-  "remoteFinalCandidate": "b79d0338c330e18af59a83460f57569ab29c95db",
+  "remoteFinalCandidate": "TO-BE-PINNED-R11",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"

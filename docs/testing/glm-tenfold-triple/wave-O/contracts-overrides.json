@@ -146,5 +146,179 @@
     "source": "rewards.ts",
     "axis": "每级独立掷随机（计数 rng：maxHP=10+17 而非 2×同端）",
     "classification": "normal-input"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 绝对路径目标被 safeRel 拒绝": {
+    "condition": "target=resolve(repo,...) 绝对路径，其余字段合法",
+    "caller": "commitMigrationTransaction(repo, [{target: 绝对路径}])",
+    "oldAssertion": "migration-transaction.test.ts 全部目标为仓库相对路径，无绝对路径臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 '..' 越界段目标被 safeRel 拒绝": {
+    "condition": "target='projects/pal/../evil.txt' 含 .. 段",
+    "caller": "同上",
+    "oldAssertion": "migration-transaction.test.ts:282-298 的 ../victim 为 journal 侧；提交侧 .. 越界未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 './' 前缀目标被规范化后接受（同一事务目标等价）": {
+    "condition": "target='./projects/pal/content/a.json' 带 ./ 前缀",
+    "caller": "commitMigrationTransaction(repo, [writeOp(\"./projects/...\")])",
+    "oldAssertion": "migration-transaction.test.ts 无 ./ 前缀规范化臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝": {
+    "condition": "同事务两个操作指向同一 target（内容不同）",
+    "caller": "commitMigrationTransaction(repo, [writeOp(a,1), writeOp(a,2)])",
+    "oldAssertion": "migration-transaction.test.ts 无重复目标臂（:78-79 的重复目标门在 migration-write-plan 域）→ gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 project expectedPreviousHash 非十六进制被拒绝": {
+    "condition": "project 操作 expectedPreviousHash='nothex'（非 64 位十六进制）",
+    "caller": "commitMigrationTransaction(repo, [{expectedPreviousHash}])",
+    "oldAssertion": "migration-transaction.test.ts:24-37 已证 hash 与磁盘不符（偏离规划快照）；格式非法臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 precondition hash 非法被拒绝": {
+    "condition": "manifest 前置条件 hash='xyz'（非十六进制）",
+    "caller": "commitMigrationTransaction(repo, [manifest 变体])",
+    "oldAssertion": "migration-transaction.test.ts:156 前置条件 hash 均合法；格式非法臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 非 manifest 操作携带 preconditions 被拒绝": {
+    "condition": "project 操作携带 preconditions（非 manifest）",
+    "caller": "同上",
+    "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 manifest 写入缺前置条件被拒绝": {
+    "condition": "manifest 写操作缺 preconditions 字段",
+    "caller": "同上",
+    "oldAssertion": "migration-transaction.test.ts:214-217 为 delete-manifest（只能写入）；缺前置臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 存在未恢复 journal 时提交被互斥拒绝": {
+    "condition": "首次提交经 afterOperation 注入 interrupt 留 pending journal 后再次提交",
+    "caller": "commitMigrationTransaction 二次调用",
+    "oldAssertion": "migration-transaction.test.ts 无互斥提交臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝": {
+    "condition": "project scope 指向 manifest 固定目标 + baseline scope 指向 projects/pal 目标",
+    "caller": "commitMigrationTransaction 两个单例",
+    "oldAssertion": "migration-transaction.test.ts:219-228 第三例已证 project→manifest 固定目标拒绝；baseline scope 越界前缀臂未证 → 半臂新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O01 commitMigrationTransaction：提交侧单轴拒绝合同 hasPendingMigrationTransaction 在无 journal 时为 false": {
+    "condition": "空仓库无 .type-pal-migrate 目录",
+    "caller": "hasPendingMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts 仅用 recoverMigrationTransaction()==false 判无 journal；hasPending 观察器未直接断言 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 操作项非对象被拒绝": {
+    "condition": "journal operations[0]='not-an-object' 字符串",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:279-315 篡改四轴均为对象内字段；操作项整体非对象未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 空串/反斜杠逐轴拒绝（路径无效）": {
+    "condition": "journal target='' 空串 与 'projects\\\\pal\\\\x.json' 反斜杠两轴",
+    "caller": "recoverMigrationTransaction(repo) 逐轴",
+    "oldAssertion": "migration-transaction.test.ts:289 仅 '../victim.txt' 越界；空串/反斜杠轴未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 带 './' 前缀被拒绝（须为规范仓库相对路径）": {
+    "condition": "journal target='./projects/pal/content/a.json'",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts 无 ./ 前缀臂（提交侧已规范化；journal 侧须拒）→ gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal target 含 .. 段被拒绝": {
+    "condition": "journal target='projects/pal/../x.json'（仓库内段级越界）",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:289-291 已证 target '../victim.txt' 越界拒绝且 victim 不动；本行为段级越界 + 精确文案变体 → 变体臂新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal 重复目标被拒绝": {
+    "condition": "journal 两个操作同 target（staged 不同）",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts 无 journal 重复目标臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal previousHash 非法被拒绝": {
+    "condition": "journal previousHash='zzzz' 非十六进制",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:310 篡改的是 precondition hash 目标路径；previousHash 格式臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal delete 操作携带 staged/hash 被拒绝": {
+    "condition": "journal 操作 kind 翻转为 delete 但保留 staged/hash",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） journal preconditions 非数组被拒绝": {
+    "condition": "manifest journal 操作 preconditions='nope' 非数组",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts 无该臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 非 manifest journal 操作携带 preconditions 被拒绝": {
+    "condition": "project journal 操作携带合法形状 preconditions",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:308-314 为 precondition 目标越界；非 manifest 携带臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition 目标越出 projects/pal 被拒绝": {
+    "condition": "manifest precondition target='baselines/evil.json'（非 ../ 逃逸、域外）",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:310-313 为 '../victim.txt' 逃逸；域内前缀越界臂未证 → 变体臂新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest precondition hash 非法被拒绝": {
+    "condition": "manifest precondition hash='short'",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts 无 precondition hash 格式臂（journal 侧）→ gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest scope 指向非固定目标被 journal 验证拒绝": {
+    "condition": "manifest scope 指向 content/a.json 非固定目标",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:227 为 project scope 指向 manifest；manifest scope 指向非固定目标反向臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） manifest journal 操作缺前置条件被拒绝": {
+    "condition": "manifest journal 操作缺 preconditions",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:216 为 delete-manifest；journal 侧缺前置臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 恢复期窗口篡改：目标与 journal previousHash 不符时拒绝且不落盘": {
+    "condition": "journal previousHash=sha256(original) 而磁盘目标为 tampered-by-user",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:231-261 已证提交窗口并发修改拒绝；本行为恢复窗口同守卫 + 不落盘断言 → 相位臂新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 目标与 journal hash 一致时恢复跳过重复落盘并清理 staging": {
+    "condition": "journal hash 与已落盘目标一致（操作已应用过）",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts:72-105 幂等补完为完成剩余操作；已应用操作跳过重落 + staging 清理臂未直接断言 → 变体臂新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交后目标被再次改动触发提交后哈希复核失败": {
+    "condition": "提交第一个操作后 afterOperation 改写刚写入的目标为 mutated",
+    "caller": "commitMigrationTransaction(repo, changes, {afterOperation})",
+    "oldAssertion": "migration-transaction.test.ts 无提交后哈希复核臂 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 合法坏数据只进 IO 校验：journal 根非 JSON 时恢复失败且工程无写入": {
+    "condition": "journal 文件字节为 'not-json{' 非 JSON",
+    "caller": "recoverMigrationTransaction(repo)",
+    "oldAssertion": "migration-transaction.test.ts journal 均为合法 JSON；坏字节经 IO 解析失败臂未证 → gap 新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
+  },
+  "packages/migrate/src/migration-transaction.glm-o.test.ts :: O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离） 提交期前置闭包失败留下 pending journal；修复闭包后恢复完成同一事务": {
+    "condition": "提交时资源闭包不符（ready.bin=broken）→ pending journal；修复后恢复完成",
+    "caller": "commitMigrationTransaction → recoverMigrationTransaction",
+    "oldAssertion": "migration-transaction.test.ts:176-190 为中断钩子 + 恢复窗口破坏资源；本行为提交期前置失败留 pending → 相位臂新轴",
+    "source": "migration-transaction.ts, migration-baseline.ts"
   }
 }
