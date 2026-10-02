@@ -11,25 +11,19 @@
       "label": "done",
       "text": "后台缓存中…",
       "width": "",
-      "flags": [
-        "opacity:0"
-      ]
+      "flags": ["opacity:0"]
     },
     {
       "label": "599ms",
       "text": "后台缓存中…",
       "width": "",
-      "flags": [
-        "opacity:0"
-      ]
+      "flags": ["opacity:0"]
     },
     {
       "label": "600ms",
       "text": "",
       "width": "",
-      "flags": [
-        "absent"
-      ]
+      "flags": ["absent"]
     }
   ],
   "readback": [
@@ -37,27 +31,21 @@
       "label": "done",
       "text": "后台缓存中…",
       "width": "",
-      "flags": [
-        "opacity:0"
-      ],
+      "flags": ["opacity:0"],
       "widthPercent": 0
     },
     {
       "label": "599ms",
       "text": "后台缓存中…",
       "width": "",
-      "flags": [
-        "opacity:0"
-      ],
+      "flags": ["opacity:0"],
       "widthPercent": 0
     },
     {
       "label": "600ms",
       "text": "",
       "width": "",
-      "flags": [
-        "absent"
-      ],
+      "flags": ["absent"],
       "widthPercent": 0
     }
   ]

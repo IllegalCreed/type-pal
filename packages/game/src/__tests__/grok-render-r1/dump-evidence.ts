@@ -220,7 +220,60 @@ function put(
 }
 
 function writeLog(id: string, body: unknown): void {
-  writeFileSync(join(pixelDir, `${id}.readback.json`), `${JSON.stringify(body, null, 2)}\n`)
+  writeFileSync(join(pixelDir, `${id}.readback.json`), `${formatReadback(body)}\n`)
+}
+
+/** Biome 把放得进行宽的短数组收成一行。先收成同样形状，重跑测试不会把日志打回多行。 */
+function formatReadback(body: unknown): string {
+  const lines = JSON.stringify(body, null, 2).split('\n')
+  const out: string[] = []
+  let index = 0
+  while (index < lines.length) {
+    const collapsed = collapseShortArray(lines, index)
+    if (collapsed) {
+      out.push(collapsed.line)
+      index = collapsed.next
+      continue
+    }
+    out.push(lines[index] ?? '')
+    index += 1
+  }
+  return out.join('\n')
+}
+
+function collapseShortArray(
+  lines: readonly string[],
+  index: number,
+): { line: string; next: number } | undefined {
+  const line = lines[index] ?? ''
+  if (!line.endsWith('[')) return undefined
+  const items: string[] = []
+  let cursor = index + 1
+  while (cursor < lines.length) {
+    const trimmed = (lines[cursor] ?? '').trim()
+    if (trimmed === ']' || trimmed === '],') {
+      const joined = `${line.slice(0, -1)}[${items.join(', ')}]${trimmed.endsWith(',') ? ',' : ''}`
+      if (items.length > 0 && joined.length <= 100 && items.every(isJsonPrimitive)) {
+        return { line: joined, next: cursor + 1 }
+      }
+      return undefined
+    }
+    const item = trimmed.endsWith(',') ? trimmed.slice(0, -1) : trimmed
+    if (!isJsonPrimitive(item)) return undefined
+    items.push(item)
+    cursor += 1
+  }
+  return undefined
+}
+
+function isJsonPrimitive(item: string): boolean {
+  return (
+    item === 'true' ||
+    item === 'false' ||
+    item === 'null' ||
+    /^-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$/.test(item) ||
+    /^"(?:[^"\\]|\\.)*"$/.test(item)
+  )
 }
 
 function rel(id: string): string {

@@ -11,9 +11,7 @@
       "label": "boot-failed",
       "text": "启动失败:磁盘满",
       "width": "",
-      "flags": [
-        "boot-loading-error"
-      ]
+      "flags": ["boot-loading-error"]
     }
   ],
   "readback": [
@@ -21,9 +19,7 @@
       "label": "boot-failed",
       "text": "启动失败:磁盘满",
       "width": "",
-      "flags": [
-        "boot-loading-error"
-      ],
+      "flags": ["boot-loading-error"],
       "widthPercent": 0
     }
   ]
