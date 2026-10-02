@@ -31,9 +31,9 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / NEXT2 一次合并修复 | f61c7cf6：84/1441及四代表针过；类型 ignore、零IO与真往返未闭，12旧证扣列；472执行/净新上限297 |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | Codex / 下一合法范围与接入 | 4568e2db NEXT2返工accept；84/1441/四最终针过、零IO/真往返闭合；472/净新上限297，原卡仍部分 |
 | TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | Codex / 核下一合法范围与接入 | b2cbb41f NEXT2十二合同accept，41相邻/四代表针过；3898+两旧PAL环境红局部恢复，114/700、18/20保持，作者无需返工 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / NEXT2 独立G/B oracle | 566cbfe0：48/2164及四代表针过；只修02，06/14交叉核验扣列不补数；175执行/净新上限172 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | Codex / 下一合法范围与接入 | 5dbf72d7 NEXT2返工accept；48/2164/四最终针与两G-B敏感度针有效；175/净新上限172，原卡仍部分 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待失败通知与恢复产品选择、窄准入 | Kimi短审已接收不续派；旧SAVE8合法红/当前SAVE10静读分列，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |

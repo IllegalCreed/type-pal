@@ -8,7 +8,14 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex NEXT2 独立验收（2026-10-02，当前优先）
+## Codex NEXT2 返工独立接收（2026-10-02，当前优先）
+
+固定5dbf72d78f8df9939a76407c0f17ad10455bbbb5，e5bc9a0da后仅receipt pin。**NEXT2代码/证据accept，R1-01～02全闭合，无作者返工；原700卡partial/rework保持。**
+02同ID的G/B独立合法轴在最终完整48范围实采分别恰一02 AssertionError、0-1-0与恢复重建hash有效；四代表01/03/09/11最终重采有效，旧71不改。06/14扣列、旧五针已闭误记撤回；48/全包2164与Reforge112交付身份、typecheck/3098静态完整0/0/0/docs/diff/716冻结/838白名单过。
+175执行/净新结构上限172/至少528未完，旧161字段/175身份保持，不缩原700。无下一位GLM Q提示词，停止本有限包续做，下一合法范围/集成归Codex；不main/done/官方覆盖。
+[完整接收](../../testing/glm-tenfold-triple/codex-oq-next2-r1-acceptance-20261002.md)、[机器复核](../../testing/glm-tenfold-triple/codex-oq-next2-r1-acceptance-20261002.json)、[原始三态](../../testing/glm-tenfold-triple/codex-oq-next2-r1-evidence/README.md)。下方返工提示词仅历史，已闭不再执行。
+
+## Codex NEXT2 独立验收（2026-10-02，历史；返工已闭）
 
 固定 566cbfe0f679485bcf57b4975abfb2bb4d7fdf22，内容 3abe77196d83f4fdc71bb80063bdd1e2d1fd7814 后仅 receipt pin，本地/远端一致且作者树干净。48 定向相邻/Reforge 2164 全包、typecheck、3098 静态完整 0/0/0/docs/diff/716 冻结/838 白名单过；新旧 Reforge 112 逐身份/状态一致、原161 directed与账语义字段不变、旧71档案保持，四代表针完整48身份/指定单AssertionError/exit0-1-0/最终恢复和重建hash有效。
 **counter 仅 Q-NEXT2-R1-01～02**：02分别移除G²或B²仍48全绿，须同合同内两独立判别像素；06输出容量只是typed-array平台/view cross-check，14已被本批12同业务matcher覆盖，两条扣净新、不补新例；receipt旧五针待重采误记撤回。175执行、净新上限172/至少528未完；02尚未闭，不缩原700、不main/done/正式结算。

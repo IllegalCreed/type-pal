@@ -10,7 +10,14 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
 Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
 
-## Codex NEXT2 独立验收（2026-10-02，当前优先）
+## Codex NEXT2 返工独立接收（2026-10-02，当前优先）
+
+固定4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d，234a041c5后仅回执锚/pin。**NEXT2代码/证据accept，R1-01～04全闭合，无作者返工；原700卡partial/rework保持。**
+局部真实类型桥无新ignore；01/02提前frame0诊断如今两AssertionError、原/恢复两绿；03两帧停止证明、09真压缩解全部33帧、12旧证扣列均成立。84定向/1441全包、typecheck、3239静态完整0/0/0/docs/diff/716冻结/792白名单通过；最终四代表针84身份/指定单红/0-1-0/恢复重建hash有效，旧64不改。
+472执行/净新结构上限297/至少403未完，不缩原700。无下一位GLM O提示词，停止当前有限包续做；下一合法范围和集成由Codex核定，不main/done/官方覆盖。
+[完整接收](../../testing/glm-tenfold-triple/codex-oq-next2-r1-acceptance-20261002.md)、[机器复核](../../testing/glm-tenfold-triple/codex-oq-next2-r1-acceptance-20261002.json)、[原始证据](../../testing/glm-tenfold-triple/codex-oq-next2-r1-evidence/README.md)。下方返工提示词仅历史，已闭不再执行。
+
+## Codex NEXT2 独立验收（2026-10-02，历史；返工已闭）
 
 固定 f61c7cf6ec578458e8dba84f3b4e115443eda87c，内容 b284163d060c454936d288f898edd6d8255bf182，本地/远端一致且作者树干净。84 定向相邻/Content 1441 全包、typecheck、3237 静态完整 0/0/0/docs/diff/716 冻结/790 白名单过；四代表控制完整 84 身份、恰一指定 AssertionError、exit 0/1/0 与恢复/重建 hash 有效，旧 64 不重采。
 **counter 仅 O-NEXT2-R1-01～04**：新增 ignore；01/02 零 frame IO 未接记录且提前读帧仍两绿、03 只有一帧；09 假压缩无真往返；12 已有强旧证须扣列。472 执行、旧信用≤286、本批≤11、累计净新上限297/≥403未完，四 oracle 未修不报全部 accept，不缩 700、不 main/done/正式结算。
