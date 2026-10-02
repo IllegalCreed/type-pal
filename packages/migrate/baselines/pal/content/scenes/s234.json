@@ -159,84 +159,50 @@
                       "ms": 40
                     },
                     {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -295,40 +261,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -336,40 +290,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -416,40 +358,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": 16,
@@ -506,40 +436,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": -16,
@@ -591,84 +509,50 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": 16,
@@ -724,40 +608,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -765,40 +637,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": -16,
@@ -850,124 +710,50 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": 16,
@@ -1019,124 +805,50 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": 16,
@@ -1188,124 +900,50 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": 16,
@@ -1357,84 +995,50 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -1442,40 +1046,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": -16,
@@ -1527,84 +1119,50 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -1612,40 +1170,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": -16,
@@ -1697,84 +1243,50 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -1782,40 +1294,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": -16,
@@ -1836,6 +1336,7 @@
     },
     {
       "id": "e4212",
+      "label": "白苗族长",
       "pos": {
         "col": 89,
         "row": 31,
@@ -1940,7 +1441,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "止战商议：惊叹灵儿与追问办法",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1994,6 +1495,29 @@
                         ]
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "惊叹灵儿如巫后再世",
+                  "next": "ask-for-plan"
+                },
+                {
+                  "id": "ask-for-plan",
+                  "label": "追问化解战争的办法",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗族长"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.11181"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }
@@ -2067,22 +1591,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4213"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4213"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4213"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4213"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2156,22 +1695,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4214"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4214"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4214"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4214"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2275,22 +1829,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4215"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4215"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4215"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4215"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2368,22 +1937,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4216"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4216"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4216"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4216"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2461,22 +2045,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4217"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4217"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4217"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4217"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2676,22 +2275,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4220"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s234",
-                        "entity": "e4220"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4220"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s234",
+                            "entity": "e4220"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

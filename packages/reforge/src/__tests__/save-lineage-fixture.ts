@@ -23,27 +23,23 @@ export const flag = (name: string): Extract<RuntimeCommand, { kind: 'setFlag' }>
   flag: name,
   value: true,
 })
-export const confirm = { kind: 'confirm', onNo: [] } satisfies RuntimeCommand
+export const confirm = { kind: 'confirm', onYes: [], onNo: [] } satisfies RuntimeCommand
 export const stage = (body: RuntimeCommand[]): RuntimeScriptFlow => ({
   kind: 'stages',
   initial: 'first',
   stages: [{ id: 'first', body }],
 })
-export const machine = (body: RuntimeCommand[] = []): RuntimeScriptFlow => ({
-  kind: 'stateMachine',
-  machine: {
-    id: 'exit',
-    label: '出口',
-    initial: 'first',
-    states: {
-      first: {
-        label: 'first',
-        body: [...body, flag('first')],
-        next: { kind: 'to', state: 'last', yield: 'macroTask' },
-      },
-      last: { label: 'last', body: [flag('childEnd')], next: { kind: 'stay' } },
+export const firstAndRepeat = (body: RuntimeCommand[] = []): RuntimeScriptFlow => ({
+  kind: 'stages',
+  initial: 'first',
+  stages: [
+    {
+      id: 'first',
+      body: [...body, flag('first'), { kind: 'wait', ms: 1 }, flag('childEnd')],
+      next: 'last',
     },
-  },
+    { id: 'last', body: [flag('childEnd')] },
+  ],
 })
 
 export function fixture(overrides: Partial<ProjectScriptHostOptions> = {}) {
@@ -73,7 +69,7 @@ export function fixture(overrides: Partial<ProjectScriptHostOptions> = {}) {
     hooks: {
       onTeleport: {
         initial: 'exit',
-        variants: { exit: { label: 'exit', order: 0, flow: machine() } },
+        variants: { exit: { label: 'exit', order: 0, flow: firstAndRepeat() } },
       },
     },
   }

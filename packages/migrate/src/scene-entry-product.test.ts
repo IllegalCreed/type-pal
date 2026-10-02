@@ -29,6 +29,7 @@ function visitCommands(
         visitCommands(command.else ?? [], visit)
         break
       case 'loop':
+      case 'repeat':
         visitCommands(command.body, visit)
         break
       case 'startBattle':
@@ -39,6 +40,7 @@ function visitCommands(
         visitCommands(command.onFail ?? [], visit)
         break
       case 'confirm':
+        visitCommands(command.onYes, visit)
         visitCommands(command.onNo, visit)
         break
     }
@@ -46,16 +48,9 @@ function visitCommands(
 }
 
 function visitFlow(flow: BaseScriptFlow, visit: (command: BaseAuthorCommand) => void): void {
-  if (flow.kind === 'stages') {
-    for (const stage of flow.stages) {
-      visitCommands(stage.entry?.prepare ?? [], visit)
-      visitCommands(stage.body, visit)
-    }
-    return
-  }
-  for (const state of Object.values(flow.machine.states)) {
-    visitCommands(state.entry?.prepare ?? [], visit)
-    visitCommands(state.body, visit)
+  for (const stage of flow.stages) {
+    visitCommands(stage.entry?.prepare ?? [], visit)
+    visitCommands(stage.body, visit)
   }
 }
 
@@ -78,24 +73,13 @@ function collectEntrySites(): EntrySite[] {
   const sites: EntrySite[] = []
   for (const scene of scenes)
     for (const [hookId, hook] of Object.entries(scene.hooks?.onEnter?.variants ?? {})) {
-      if (hook.flow.kind === 'stages') {
-        for (const stage of hook.flow.stages)
-          if (stage.entry)
-            sites.push({
-              targetScene: scene.id,
-              ownerPath: `${scene.id}/onEnter/${hookId}/${stage.id}`,
-              entry: stage.entry,
-              body: stage.body,
-            })
-        continue
-      }
-      for (const [stateId, state] of Object.entries(hook.flow.machine.states))
-        if (state.entry)
+      for (const stage of hook.flow.stages)
+        if (stage.entry)
           sites.push({
             targetScene: scene.id,
-            ownerPath: `${scene.id}/onEnter/${hookId}/${stateId}`,
-            entry: state.entry,
-            body: state.body,
+            ownerPath: `${scene.id}/onEnter/${hookId}/${stage.id}`,
+            entry: stage.entry,
+            body: stage.body,
           })
     }
   return sites

@@ -116,22 +116,19 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -16,
-                      "dy": 8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -16,
-                      "dy": 8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -16,
+                          "dy": 8,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -142,73 +139,63 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "触发行为 1",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.8275"
-                            },
-                            {
-                              "text": "dlg.8276"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.青衣弟子"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.8275"
+                          },
+                          {
+                            "text": "dlg.8276"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.青衣弟子"
                         }
+                      }
+                    },
+                    {
+                      "kind": "loadScene",
+                      "scene": "s161",
+                      "pos": {
+                        "col": 123,
+                        "row": 94,
+                        "height": 0
                       },
-                      {
-                        "kind": "loadScene",
-                        "scene": "s161",
-                        "pos": {
-                          "col": 123,
-                          "row": 94,
-                          "height": 0
-                        },
-                        "transition": {
-                          "kind": "source",
-                          "outMs": 600,
-                          "inMs": 600,
-                          "color": "black",
-                          "evidenceId": "pal-load-scene-22651"
-                        }
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-22651"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
                     }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "loadScene",
-                        "scene": "s161",
-                        "pos": {
-                          "col": 123,
-                          "row": 94,
-                          "height": 0
-                        }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s161",
+                      "pos": {
+                        "col": 123,
+                        "row": 94,
+                        "height": 0
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
                     }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         }
@@ -343,22 +330,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s158",
-                        "entity": "e2646"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s158",
-                        "entity": "e2646"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s158",
+                            "entity": "e2646"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s158",
+                            "entity": "e2646"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -528,22 +530,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s158",
-                        "entity": "e2647"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s158",
-                        "entity": "e2647"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "left",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s158",
+                            "entity": "e2647"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s158",
+                            "entity": "e2647"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -617,6 +634,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -630,13 +648,21 @@
                         "scene": "s158",
                         "entity": "e2648"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -650,6 +676,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -663,13 +690,21 @@
                         "scene": "s158",
                         "entity": "e2648"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -698,6 +733,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -711,13 +747,21 @@
                         "scene": "s158",
                         "entity": "e2649"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1308,11 +1352,9 @@
                     ]
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

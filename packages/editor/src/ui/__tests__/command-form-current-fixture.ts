@@ -20,7 +20,11 @@ import {
 } from '../../core/__tests__/battle-trial-project.js'
 import { createEditorAssetReader } from '../../core/editor-asset-reader.js'
 import { createScriptReferenceCatalog } from '../../core/script-reference-catalog.js'
-import { CanonicalScriptBodyEditor, type CanonicalScriptEditorContext } from '../ScriptEditor.js'
+import {
+  CanonicalScriptBodyEditor,
+  type CanonicalScriptEditorContext,
+  type EditorCommandScope,
+} from '../ScriptEditor.js'
 
 const cleanups: Array<() => void> = []
 afterEach(() => {
@@ -35,9 +39,15 @@ export async function commandForm(
     requireLeafFormRow?: boolean
     includeEntity?: boolean
     includeSharedScript?: boolean
+    commandScope?: EditorCommandScope
   } = {},
 ) {
-  checkAuthorCommands([command], 'form.input')
+  const scope = options.commandScope
+  const validation = {
+    rootScope: scope?.kind ?? 'script',
+    ...(scope?.kind === 'flow' ? { stageIds: new Set(scope.steps.map((step) => step.id)) } : {}),
+  }
+  checkAuthorCommands([command], 'form.input', validation)
   const nodeBuffer = 'node:buffer'
   const native: { Blob: typeof Blob } = await import(nodeBuffer)
   vi.stubGlobal('Blob', native.Blob)
@@ -130,6 +140,7 @@ export async function commandForm(
   const onOpenWorldVariable = vi.fn()
   const onOpenBattleSprite = vi.fn()
   const context: CanonicalScriptEditorContext = {
+    commandScope: scope,
     state: {
       scenes: [authorScene, other],
       items: project.authorContent.items,
@@ -193,11 +204,11 @@ export async function commandForm(
   }
   async function finish(expected: AuthorCommand) {
     pending()
-    checkAuthorCommands([expected], 'form.expected')
+    checkAuthorCommands([expected], 'form.expected', validation)
     await click('完成')
     expect(onChange).toHaveBeenCalledExactlyOnceWith([expected])
     const output = onChange.mock.calls[0]?.[0]
-    checkAuthorCommands(output, 'form.output')
+    checkAuthorCommands(output, 'form.output', validation)
     unchanged()
     expect(document.querySelector('[role="dialog"]')).toBeNull()
   }

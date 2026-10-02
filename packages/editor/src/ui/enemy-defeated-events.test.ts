@@ -103,7 +103,7 @@ function honeyReward(): AuthorEnemyDefeatedCommands {
     {
       kind: 'branch',
       cond: { kind: 'chance', percent: 89 },
-      then: [{ kind: 'stopScript' }],
+      then: [{ kind: 'returnScript' }],
     },
     { kind: 'giveItem', itemId: '115', count: 1 },
     {
@@ -227,7 +227,7 @@ describe('enemy defeated event presenter', () => {
         {
           kind: 'branch' as const,
           cond: { kind: 'chance' as const, percent: 89 },
-          then: [{ kind: 'stopScript' as const }],
+          then: [{ kind: 'returnScript' as const }],
           else: [{ kind: 'wait' as const, ms: 1 }],
         },
         { kind: 'giveItem' as const, itemId: '115', count: 1 },
@@ -243,7 +243,7 @@ describe('enemy defeated event presenter', () => {
         {
           kind: 'branch' as const,
           cond: { kind: 'chance' as const, percent: 89 },
-          then: [{ kind: 'stopScript' as const }],
+          then: [{ kind: 'returnScript' as const }],
           else: [],
         },
         { kind: 'giveItem' as const, itemId: '115', count: 1 },
@@ -262,7 +262,7 @@ describe('enemy defeated event presenter', () => {
             kind: 'all' as const,
             of: [{ kind: 'chance' as const, percent: 89 }, { kind: 'allFullHp' as const }],
           },
-          then: [{ kind: 'stopScript' as const }],
+          then: [{ kind: 'returnScript' as const }],
         },
         { kind: 'giveItem' as const, itemId: '115', count: 1 },
         {
@@ -310,7 +310,7 @@ describe('enemy defeated event presenter', () => {
       { kind: 'setFlag', flag: 'quest.done', value: true },
       { kind: 'setVar', var: 'score', value: 7 },
       { kind: 'addVar', var: 'missing.var', delta: -2 },
-      { kind: 'stopScript' },
+      { kind: 'returnScript' },
       {
         kind: 'branch',
         cond: { kind: 'var', var: 'score', op: '>=', value: 7 },
@@ -399,9 +399,9 @@ describe('enemy defeated event presenter', () => {
     expect(presentation.compactSummary).toBe('击败后：获得蜂巢 ×2；另有等待、音效、提示')
   })
 
-  test('摘要不展示 stopScript 后不可达的奖励', () => {
+  test('摘要不展示 returnScript 后不可达的奖励', () => {
     const stopped = presentEnemyDefeatedEvents(
-      [{ kind: 'stopScript' }, { kind: 'giveItem', itemId: '115' }],
+      [{ kind: 'returnScript' }, { kind: 'giveItem', itemId: '115' }],
       context,
     )
     expect(stopped.compactSummary).toBe('击败后：结束本敌槽后续事件')
@@ -412,8 +412,8 @@ describe('enemy defeated event presenter', () => {
         {
           kind: 'branch',
           cond: { kind: 'chance', percent: 50 },
-          then: [{ kind: 'stopScript' }],
-          else: [{ kind: 'stopScript' }],
+          then: [{ kind: 'returnScript' }],
+          else: [{ kind: 'returnScript' }],
         },
         { kind: 'giveItem', itemId: '115' },
       ],
@@ -485,7 +485,7 @@ describe('enemy defeated reward edit boundary', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 60 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       },
       { kind: 'giveItem', itemId: '115', count: 3 },
       {
@@ -510,7 +510,7 @@ describe('enemy defeated reward edit boundary', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 60 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
         else: [],
       },
       { kind: 'giveItem', itemId: '115' },
@@ -519,7 +519,7 @@ describe('enemy defeated reward edit boundary', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 60 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
         else: [{ kind: 'wait', ms: 1 }],
       },
       { kind: 'giveItem', itemId: '115' },
@@ -534,7 +534,7 @@ describe('enemy defeated reward edit boundary', () => {
         {
           kind: 'branch',
           cond: { kind: 'chance', percent: 60 },
-          then: [{ kind: 'stopScript' }],
+          then: [{ kind: 'returnScript' }],
         },
         { kind: 'giveItem', itemId: '115' },
       ],
@@ -556,7 +556,7 @@ describe('enemy defeated reward edit boundary', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 100 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       },
       { kind: 'giveItem', itemId: '115', count: 1 },
     ])
@@ -567,7 +567,7 @@ describe('enemy defeated reward edit boundary', () => {
         {
           kind: 'branch',
           cond: { kind: 'chance', percent: 0 },
-          then: [{ kind: 'stopScript' }],
+          then: [{ kind: 'returnScript' }],
         },
         { kind: 'giveItem', itemId: '115' },
       ],

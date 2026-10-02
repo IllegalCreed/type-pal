@@ -93,11 +93,9 @@ describe('ED-3 PAL project reference index', () => {
     const index = createProjectReferenceIndex(diagnostics.projectReferences)
     const edges = index.allReferences()
 
-    // SCRIPT-AUTHOR-2 replaces 24 nudges + 24 animation targets with one stair target move:
-    // e56's route addresses fall from 57 to 10 (-47), without changing external blockers.
-    // E2E-005 moves the report onto Xianglan and restores her return route: +18 addresses.
-    // The entry now has only two external Xianglan references; her own movement is self-owned.
-    expect(diagnostics.entityAddressReferences).toHaveLength(38_129)
+    // SCRIPT-GOV-2 folds repeated author targets into structural loops. Pin the current census
+    // while retaining every deletion blocker and independent collector/index parity gate below.
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_734)
     expect(
       diagnostics.entityAddressReferences.filter(
         (reference) =>
@@ -152,7 +150,7 @@ describe('ED-3 PAL project reference index', () => {
           reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
-    expect(actualEntityBlockers).toHaveLength(4_384) // Seven scene-owned Xianglan targets become two.
+    expect(actualEntityBlockers).toHaveLength(4_274)
 
     expect(
       edges.filter(
@@ -161,7 +159,7 @@ describe('ED-3 PAL project reference index', () => {
       ),
     ).toHaveLength(795)
     const shopEdges = edges.filter((edge) => edge.target.kind === 'shop')
-    expect(shopEdges).toHaveLength(30)
+    expect(shopEdges).toHaveLength(31)
     // SCRIPT-GOV-1 restores the doctor's post-gift shop branch. Pin its exact owner,
     // step and branch leaf as well as the total; this is not another first-gift reward.
     expect(
@@ -311,8 +309,8 @@ describe('ED-3 PAL project reference index', () => {
         .sort(),
     )
     expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(815)
-    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(527)
-    expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(1)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(528)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(0)
     expect(
       actorEdges
         .filter(
@@ -370,8 +368,8 @@ describe('ED-3 PAL project reference index', () => {
         (edge) =>
           edge.target.kind === 'actor' &&
           edge.target.id === 'zhao-linger' &&
-          edge.where.includes('.machine.states.') &&
-          edge.where.includes('.next.'),
+          edge.where ===
+            'scenes.s023.entities.e433.behaviors.trigger.default.flow.stages.initial.body[0].cond.actorId',
       ),
     ).toMatchObject({
       source: {
@@ -381,7 +379,15 @@ describe('ED-3 PAL project reference index', () => {
         },
       },
       relation: { kind: 'actor-use', use: 'condition-in-party' },
-      locator: { kind: 'script-owner' },
+      locator: {
+        kind: 'canonical-script',
+        reference: {
+          locator: {
+            container: { kind: 'step', stepId: 'initial', section: 'body' },
+            commandPath: '0',
+          },
+        },
+      },
     })
     const itemEdges = edges.filter((edge) => edge.relation.kind === 'item-use')
     const oldItemReferences = collectItemReferences(state, canonical)
@@ -420,8 +426,8 @@ describe('ED-3 PAL project reference index', () => {
         ]),
       ),
     ).toEqual({ read: 46, lose: 39, consume: 9, reward: 899, hold: 34, configure: 155 })
-    expect(itemEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(801)
-    expect(itemEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(6)
+    expect(itemEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(807)
+    expect(itemEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(0)
     expect(
       itemEdges.filter(
         (edge) => edge.source.owner.kind === 'enemy' && edge.locator.kind === 'object',
@@ -467,7 +473,7 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
     expect(battleSpriteEdges).toHaveLength(180)
-    expect(assetEdges).toHaveLength(6_014)
+    expect(assetEdges).toHaveLength(5_966)
     // The restored Xiulan/Ling'er follow-ups add one portrait each, and Anu's farewell
     // adds both speakers' portraits. Preserve exact canonical ownership and command paths.
     const restoredPortraitSteps = new Set([
@@ -752,8 +758,7 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    // Xianglan's approach is now explicit in her report, retiring one auto selection.
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_468)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_450)
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -830,7 +835,8 @@ describe('ED-3 PAL project reference index', () => {
         },
       })),
     )
-    expect(edges.filter((edge) => edge.relation.kind === 'scene-hook-reference')).toHaveLength(293)
+    expect(edges.filter((edge) => edge.relation.kind === 'scene-hook-reference')).toHaveLength(294)
+    expect(edges.filter((edge) => edge.relation.kind === 'script-reference')).toHaveLength(10)
     // D-02: s172 disables both s182 hook slots without selecting a concrete hook. This is one
     // parent-scene dependency, formerly omitted; existing hook/behavior counts above stay unchanged.
     expect(
@@ -870,14 +876,8 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    // First-talk/kitchen adds forty rows and fifty-four aliases; no parity or payload gate is relaxed.
-    // Two external kitchen pose references replace one retired page binding: net +1.
-    // E2E-005: five fewer external addresses, one fewer behavior selection, two portrait uses.
-    // SCRIPT-GOV-1: the exact shop leaf and four portrait leaves asserted above add five rows.
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_247)
-    // The retired behavior selection also removes its parent entity/scene aliases.
-    // The five new shop/portrait references each have one target and introduce no aliases.
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_162)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_084)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(27_986)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

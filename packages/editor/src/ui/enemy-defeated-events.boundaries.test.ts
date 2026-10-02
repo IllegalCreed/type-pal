@@ -22,7 +22,7 @@ const chanceStop = (skip: number): PresentableEnemyDefeatedCommand =>
   ({
     kind: 'branch',
     cond: { kind: 'chance', percent: skip },
-    then: [{ kind: 'stopScript' }],
+    then: [{ kind: 'returnScript' }],
   }) as PresentableEnemyDefeatedCommand
 const dialog: PresentableEnemyDefeatedCommand = {
   kind: 'dialog',

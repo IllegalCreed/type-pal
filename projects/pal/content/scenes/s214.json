@@ -250,22 +250,19 @@
                       "kind": "dialog"
                     },
                     {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 16,
+                          "dy": -8,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ],
                   "next": "legacy-002"
@@ -291,22 +288,19 @@
                       "kind": "dialog"
                     },
                     {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 16,
+                          "dy": -8,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -324,22 +318,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s214",
-                        "entity": "e3647"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s214",
-                        "entity": "e3647"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s214",
+                            "entity": "e3647"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s214",
+                            "entity": "e3647"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -458,22 +467,19 @@
                       "kind": "dialog"
                     },
                     {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 16,
+                          "dy": -8,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ],
                   "next": "legacy-002"
@@ -499,22 +505,19 @@
                       "kind": "dialog"
                     },
                     {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 16,
+                          "dy": -8,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -532,22 +535,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s214",
-                        "entity": "e3648"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s214",
-                        "entity": "e3648"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s214",
+                            "entity": "e3648"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s214",
+                            "entity": "e3648"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

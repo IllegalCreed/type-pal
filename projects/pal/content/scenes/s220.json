@@ -2596,13 +2596,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s220",
-                        "entity": "e3812"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s220",
+                            "entity": "e3812"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2730,13 +2741,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s220",
-                        "entity": "e3813"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s220",
+                            "entity": "e3813"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3033,13 +3055,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s220",
-                        "entity": "e3821"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s220",
+                            "entity": "e3821"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

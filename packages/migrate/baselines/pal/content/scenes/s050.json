@@ -64,6 +64,7 @@
     },
     {
       "id": "e844",
+      "label": "骆员外",
       "pos": {
         "col": 75,
         "row": 26,
@@ -91,316 +92,306 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3954"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3956"
-                            },
-                            {
-                              "text": "dlg.3957"
-                            },
-                            {
-                              "text": "dlg.3958"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3954"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3959"
-                            },
-                            {
-                              "text": "dlg.3960"
-                            },
-                            {
-                              "text": "dlg.3961"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3963"
-                            },
-                            {
-                              "text": "dlg.3964"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3966"
-                            },
-                            {
-                              "text": "dlg.3967"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3969"
-                            },
-                            {
-                              "text": "dlg.3970"
-                            },
-                            {
-                              "text": "dlg.3971"
-                            },
-                            {
-                              "text": "dlg.3972"
-                            },
-                            {
-                              "text": "dlg.3973"
-                            },
-                            {
-                              "text": "dlg.3974"
-                            },
-                            {
-                              "text": "dlg.3975"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3977"
-                            },
-                            {
-                              "text": "dlg.3978"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3979"
-                            },
-                            {
-                              "text": "dlg.3980"
-                            },
-                            {
-                              "text": "dlg.3981"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 9,
-                        "mode": "buy"
+                        },
+                        "slot": "top"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
-                    }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3977"
-                            },
-                            {
-                              "text": "dlg.3978"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3956"
                           },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3979"
-                            },
-                            {
-                              "text": "dlg.3980"
-                            },
-                            {
-                              "text": "dlg.3981"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
+                          {
+                            "text": "dlg.3957"
                           },
-                          "slot": "top"
+                          {
+                            "text": "dlg.3958"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 9,
-                        "mode": "buy"
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3959"
+                          },
+                          {
+                            "text": "dlg.3960"
+                          },
+                          {
+                            "text": "dlg.3961"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3963"
+                          },
+                          {
+                            "text": "dlg.3964"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3966"
+                          },
+                          {
+                            "text": "dlg.3967"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3969"
+                          },
+                          {
+                            "text": "dlg.3970"
+                          },
+                          {
+                            "text": "dlg.3971"
+                          },
+                          {
+                            "text": "dlg.3972"
+                          },
+                          {
+                            "text": "dlg.3973"
+                          },
+                          {
+                            "text": "dlg.3974"
+                          },
+                          {
+                            "text": "dlg.3975"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3977"
+                          },
+                          {
+                            "text": "dlg.3978"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3979"
+                          },
+                          {
+                            "text": "dlg.3980"
+                          },
+                          {
+                            "text": "dlg.3981"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 9,
+                      "mode": "buy"
                     }
-                  }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3977"
+                          },
+                          {
+                            "text": "dlg.3978"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3979"
+                          },
+                          {
+                            "text": "dlg.3980"
+                          },
+                          {
+                            "text": "dlg.3981"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 9,
+                      "mode": "buy"
+                    }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "尸患平息：骆员外囤米赔本",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -426,6 +417,32 @@
                       },
                       "kind": "dialog"
                     }
+                  ],
+                  "label": "埋怨除妖后生意赔本",
+                  "next": "unsold-rice"
+                },
+                {
+                  "id": "unsold-rice",
+                  "label": "叹糯米只能等端午再卖",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.4018"
+                          },
+                          {
+                            "text": "dlg.4019"
+                          }
+                        ]
+                      }
+                    }
                   ]
                 }
               ]
@@ -442,22 +459,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e844"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e844"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e844"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e844"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -469,6 +501,7 @@
     },
     {
       "id": "e845",
+      "label": "糯米店伙计",
       "pos": {
         "col": 81,
         "row": 22,
@@ -492,131 +525,111 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买糯米（100文）",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "confirm-decisions",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "步骤 initial",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3992"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.伙计"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3992"
                           }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-001-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-001-yes"
-                      }
-                    }
-                  },
-                  "decision-001-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3989"
-                            },
-                            {
-                              "text": "dlg.3990"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.伙计"
-                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.伙计"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  },
-                  "decision-001-yes": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "not",
-                          "cond": {
-                            "kind": "hasMoney",
-                            "atLeast": 100
+                    },
+                    {
+                      "kind": "confirm",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.3989"
+                              },
+                              {
+                                "text": "dlg.3990"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.伙计"
+                            }
                           }
                         },
-                        "then": [
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "cue": {
-                              "rows": [
-                                {
-                                  "text": "dlg.3989"
-                                },
-                                {
-                                  "text": "dlg.3990"
-                                }
-                              ],
-                              "identity": {
-                                "kind": "unbound",
-                                "speaker": "spk.伙计"
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ],
+                      "onYes": []
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "kind": "hasMoney",
+                          "atLeast": 100
+                        }
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.3989"
+                              },
+                              {
+                                "text": "dlg.3990"
                               }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.伙计"
                             }
                           }
-                        ]
-                      },
-                      {
-                        "kind": "giveMoney",
-                        "delta": -100
-                      },
-                      {
-                        "kind": "giveItem",
-                        "itemId": "75"
-                      }
-                    ],
-                    "next": {
-                      "kind": "restart"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "giveMoney",
+                      "delta": -100
+                    },
+                    {
+                      "kind": "giveItem",
+                      "itemId": "75"
                     }
-                  }
+                  ],
+                  "label": "确认购买并支付一百文"
                 }
-              }
+              ]
             }
           },
           "legacy-001": {
@@ -659,22 +672,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e845"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e845"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e845"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e845"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -686,6 +714,7 @@
     },
     {
       "id": "e846",
+      "label": "糯米店伙计",
       "pos": {
         "col": 84,
         "row": 22,
@@ -709,131 +738,111 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买糯米（100文）",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "confirm-decisions",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "步骤 initial",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3992"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.伙计"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3992"
                           }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-001-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-001-yes"
-                      }
-                    }
-                  },
-                  "decision-001-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3989"
-                            },
-                            {
-                              "text": "dlg.3990"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.伙计"
-                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.伙计"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  },
-                  "decision-001-yes": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "not",
-                          "cond": {
-                            "kind": "hasMoney",
-                            "atLeast": 100
+                    },
+                    {
+                      "kind": "confirm",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.3989"
+                              },
+                              {
+                                "text": "dlg.3990"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.伙计"
+                            }
                           }
                         },
-                        "then": [
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "cue": {
-                              "rows": [
-                                {
-                                  "text": "dlg.3989"
-                                },
-                                {
-                                  "text": "dlg.3990"
-                                }
-                              ],
-                              "identity": {
-                                "kind": "unbound",
-                                "speaker": "spk.伙计"
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ],
+                      "onYes": []
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "kind": "hasMoney",
+                          "atLeast": 100
+                        }
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.3989"
+                              },
+                              {
+                                "text": "dlg.3990"
                               }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.伙计"
                             }
                           }
-                        ]
-                      },
-                      {
-                        "kind": "giveMoney",
-                        "delta": -100
-                      },
-                      {
-                        "kind": "giveItem",
-                        "itemId": "75"
-                      }
-                    ],
-                    "next": {
-                      "kind": "restart"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "giveMoney",
+                      "delta": -100
+                    },
+                    {
+                      "kind": "giveItem",
+                      "itemId": "75"
                     }
-                  }
+                  ],
+                  "label": "确认购买并支付一百文"
                 }
-              }
+              ]
             }
           },
           "legacy-001": {
@@ -876,22 +885,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e846"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e846"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e846"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e846"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -969,22 +993,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e847"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e847"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e847"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e847"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1070,22 +1109,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e848"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e848"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e848"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e848"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1163,22 +1217,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e849"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e849"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e849"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e849"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1259,22 +1328,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e850"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e850"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e850"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e850"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1352,22 +1436,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e851"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e851"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e851"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e851"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1448,22 +1547,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e852"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e852"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e852"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e852"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1541,22 +1655,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e853"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e853"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e853"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e853"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1637,22 +1766,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e854"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e854"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e854"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e854"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1730,22 +1874,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e855"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e855"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e855"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e855"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1823,22 +1982,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e856"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e856"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e856"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e856"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1916,22 +2090,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e857"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e857"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e857"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e857"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2012,22 +2201,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e858"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e858"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e858"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e858"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2102,22 +2306,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e859"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s050",
-                        "entity": "e859"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "left",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e859"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s050",
+                            "entity": "e859"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

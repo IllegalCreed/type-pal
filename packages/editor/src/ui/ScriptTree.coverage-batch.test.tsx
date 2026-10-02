@@ -270,7 +270,8 @@ describe('当前脚本摘要的独立业务合同', () => {
     expect(
       describeCommand({ kind: 'teleportOut', onFail: [{ kind: 'wait', ms: 40 }] }).blocks,
     ).toEqual([{ title: '不灵(无出口)', seg: 'onFail', body: [{ kind: 'wait', ms: 40 }] }])
-    expect(describeCommand({ kind: 'confirm', onNo: [] }).blocks).toEqual([
+    expect(describeCommand({ kind: 'confirm', onYes: [], onNo: [] }).blocks).toEqual([
+      { title: '选「是」', seg: 'onYes', body: [] },
       { title: '选「否」', seg: 'onNo', body: [] },
     ])
     for (const kind of ['callScript', 'jumpScript'] as const) {

@@ -2081,42 +2081,29 @@
                       "ms": 160
                     },
                     {
-                      "dx": -8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s002",
-                        "entity": "e38"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s002",
-                        "entity": "e38"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s002",
-                        "entity": "e38"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s002",
-                        "entity": "e38"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -8,
+                          "dy": -4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s002",
+                            "entity": "e38"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s002",
+                            "entity": "e38"
+                          }
+                        },
+                        {
+                          "kind": "clearDialog"
+                        }
+                      ]
                     },
                     {
                       "cue": {
@@ -2682,6 +2669,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -2697,12 +2685,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "right",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s002",
                         "entity": "e38"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 0,
@@ -2713,11 +2709,25 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s002",
                         "entity": "e40"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],

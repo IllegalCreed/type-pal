@@ -183,8 +183,6 @@ describe('current script compiler/runtime host', () => {
             { kind: 'suspendEntity', target, ticks: 1 },
             { kind: 'setFlag', flag: 'loop-done', value: true },
           ],
-          yield: 'worldTick',
-          maxIterations: 2,
         },
         { kind: 'callScript', script: 'finish' },
       ],

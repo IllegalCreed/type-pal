@@ -220,6 +220,17 @@
     "label": "原精灵 54",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "open": {
+        "label": "已打开",
+        "steps": [
+          {
+            "frame": 1,
+            "durationMs": 100
+          }
+        ]
+      }
     }
   },
   {
@@ -228,6 +239,17 @@
     "label": "原精灵 53",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "open": {
+        "label": "已打开",
+        "steps": [
+          {
+            "frame": 1,
+            "durationMs": 100
+          }
+        ]
+      }
     }
   },
   {
@@ -6200,6 +6222,15 @@
     "label": "原精灵 259(0x65 换装)",
     "layout": {
       "kind": "static"
+    }
+  },
+  {
+    "id": "sprite-208",
+    "asset": "sprite.pal.208",
+    "label": "李逍遥端酒菜",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   }
 ]

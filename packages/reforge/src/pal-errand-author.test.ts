@@ -302,11 +302,9 @@ test('the village entry only calls Xianglan; reporting and the reminder are her 
   const stroll = entity('s004', 'e83').behaviors!.auto!.default!
   expect(stroll.label).toBe('村中闲逛')
   if (stroll.flow.kind !== 'stages') throw new Error('village stroll keeps its existing steps')
-  expect(stroll.flow.stages.map((step) => step.label)).toEqual([
-    '绕行村路至转角',
-    '转角停步，再向前走',
-    '绕另一侧村路回到原处',
-  ])
+  expect(stroll.flow.stages).toHaveLength(1)
+  expect(stroll.flow.stages[0]!.body[0]).toMatchObject({ kind: 'loop', mode: 'forever' })
+  expect(stroll.flow.stages[0]!.label).toBeTruthy()
 })
 
 function deferred() {
@@ -502,7 +500,9 @@ test('Xianglan returns in one nonempty background step with the original route a
   const body = source.stages[0]!.body
   const pose = (facing: 'right' | 'up' | 'down') => [
     { kind: 'setEntityFacing', target: xianglan, facing },
+    { kind: 'wait', ms: 100 },
     { kind: 'setEntityFrame', target: xianglan, frame: 0 },
+    { kind: 'wait', ms: 100 },
   ]
   const move = (col: number, row: number, speed: 'slow' | 'normal') => ({
     kind: 'moveEntity',
@@ -513,17 +513,22 @@ test('Xianglan returns in one nonempty background step with the original route a
   expect(body).toEqual([
     ...pose('right'),
     move(140, 44, 'slow'),
+    { kind: 'wait', ms: 100 },
     ...pose('right'),
-    ...pose('up'),
-    // L_888 waits 30/4/20 exploration ticks (100 ms each), not battle ticks (40 ms).
-    { kind: 'wait', ms: 3000 },
-    ...pose('down'),
-    { kind: 'wait', ms: 400 },
+    ...pose('up').slice(0, -1),
+    // Explicit pause plus the two former per-command 100 ms intervals.
+    { kind: 'wait', ms: 3200 },
+    ...pose('down').slice(0, -1),
+    { kind: 'wait', ms: 600 },
     move(157, 44, 'slow'),
+    { kind: 'wait', ms: 100 },
     move(157, 49, 'slow'),
-    { kind: 'wait', ms: 2000 },
+    { kind: 'wait', ms: 2200 },
     move(158, 49, 'normal'),
+    { kind: 'wait', ms: 100 },
     move(158, 61, 'normal'),
+    { kind: 'wait', ms: 100 },
     ...pose('down'),
+    { kind: 'finishStep', next: { kind: 'complete' } },
   ])
 })

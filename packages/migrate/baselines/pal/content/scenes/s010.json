@@ -12,6 +12,7 @@
   "entities": [
     {
       "id": "e191",
+      "label": "洪大夫",
       "pos": {
         "col": 115,
         "row": 65,
@@ -36,7 +37,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "邻里问诊",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -87,6 +88,11 @@
                           "kind": "clearDialog"
                         },
                         {
+                          "kind": "fade",
+                          "dir": "in",
+                          "ms": 600
+                        },
+                        {
                           "cue": {
                             "rows": [
                               {
@@ -100,32 +106,35 @@
                           },
                           "kind": "dialog"
                         }
-                      ]
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.705"
+                      ],
+                      "else": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.705"
+                              },
+                              {
+                                "text": "dlg.706"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
                           },
-                          {
-                            "text": "dlg.706"
-                          }
-                        ],
-                        "identity": {
-                          "kind": "unbound",
-                          "speaker": "spk.洪大夫"
+                          "kind": "dialog"
                         }
-                      },
-                      "kind": "dialog"
+                      ]
                     }
-                  ]
+                  ],
+                  "label": "受伤诊治，无恙劝返"
                 }
               ]
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "婶婶病重：赠灵芝与诊治购药",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -133,6 +142,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "赠灵芝助婶婶",
                   "body": [
                     {
                       "cue": {
@@ -160,6 +170,99 @@
                     {
                       "itemId": "107",
                       "kind": "giveItem"
+                    }
+                  ],
+                  "next": "care-and-shop"
+                },
+                {
+                  "id": "care-and-shop",
+                  "label": "伤者免费诊治，康健者购药",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "kind": "allFullHp"
+                        }
+                      },
+                      "then": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.708"
+                              },
+                              {
+                                "text": "dlg.709"
+                              },
+                              {
+                                "text": "dlg.710"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "delta": 9999,
+                          "kind": "increaseHpMp"
+                        },
+                        {
+                          "dir": "out",
+                          "kind": "fade",
+                          "ms": 600
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "fade",
+                          "dir": "in",
+                          "ms": 600
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.712"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
+                          },
+                          "kind": "dialog"
+                        }
+                      ],
+                      "else": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.719"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "openShop",
+                          "mode": "buy",
+                          "shop": 1
+                        }
+                      ]
                     }
                   ]
                 }
@@ -200,7 +303,7 @@
             }
           },
           "legacy-003": {
-            "label": "触发行为 3",
+            "label": "结伴归来：诊治与购药",
             "order": 3,
             "flow": {
               "kind": "stages",
@@ -255,6 +358,11 @@
                           "kind": "clearDialog"
                         },
                         {
+                          "kind": "fade",
+                          "dir": "in",
+                          "ms": 600
+                        },
+                        {
                           "cue": {
                             "rows": [
                               {
@@ -271,60 +379,63 @@
                           },
                           "kind": "dialog"
                         }
+                      ],
+                      "else": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.1196"
+                              },
+                              {
+                                "text": "dlg.1197"
+                              },
+                              {
+                                "text": "dlg.1198"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.1199"
+                              },
+                              {
+                                "text": "dlg.1200"
+                              },
+                              {
+                                "text": "dlg.1201"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "openShop",
+                          "mode": "buy",
+                          "shop": 1
+                        }
                       ]
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.1196"
-                          },
-                          {
-                            "text": "dlg.1197"
-                          },
-                          {
-                            "text": "dlg.1198"
-                          }
-                        ],
-                        "identity": {
-                          "kind": "unbound",
-                          "speaker": "spk.洪大夫"
-                        }
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.1199"
-                          },
-                          {
-                            "text": "dlg.1200"
-                          },
-                          {
-                            "text": "dlg.1201"
-                          }
-                        ],
-                        "identity": {
-                          "kind": "unbound",
-                          "speaker": "spk.洪大夫"
-                        }
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "kind": "openShop",
-                      "mode": "buy",
-                      "shop": 1
                     }
-                  ]
+                  ],
+                  "label": "受伤免费诊治，康健叮嘱购药"
                 }
               ]
             }
@@ -340,22 +451,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s010",
-                        "entity": "e191"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s010",
-                        "entity": "e191"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s010",
+                            "entity": "e191"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s010",
+                            "entity": "e191"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

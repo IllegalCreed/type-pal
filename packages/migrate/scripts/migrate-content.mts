@@ -1,7 +1,8 @@
 /**
  * PAL current-only publication command.
  *
- * Default is a read-only plan. `--write` publishes content20/SAVE8, assets and the
+ * Default builds a plan after pending transaction recovery. `--write` publishes
+ * current content, assets and the
  * current baseline in one recoverable transaction, then proves the same publication
  * produces a zero-diff plan. There is no bootstrap, intermediate epoch or old-project route.
  */

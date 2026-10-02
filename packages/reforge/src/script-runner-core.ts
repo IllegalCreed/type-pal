@@ -2,10 +2,10 @@ import type {
   AuthorCondition,
   AutoCommandFrame,
   AutoScriptContinuation,
-  BaseStateTransition,
   EntityAddress,
   FlowCursor,
   SceneReveal,
+  StepExit,
 } from '@type-pal/content'
 import { flowCanComplete } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
@@ -13,11 +13,10 @@ import {
   type BaseRuntimeLeafCommand,
   type ExecutableBaseCommand,
   type ExecutableBaseScriptFlowLike,
-  type ExecutableCommandBoundary,
   type ExecutableCommandLike,
   type ExecutableSharedScriptLike,
   SCRIPT_COMPILER_VERSION,
-  type ScriptBoundaryPolicy,
+  type ScriptRootScope,
   type ScriptTiming,
 } from './script-compiler-core.js'
 import {
@@ -26,11 +25,11 @@ import {
   validateScriptContinuation,
 } from './script-continuation.js'
 
+import { ScriptExecutionBudget } from './script-execution-budget.js'
+
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
-export type ScriptGateBoundary =
-  | { kind: 'settlement' }
-  | { kind: 'continuation'; reachSafePoint(): SafePointDecision | Promise<SafePointDecision> }
+export type ScriptGateBoundary = { kind: 'settlement' }
 
 export interface ScriptRuntimeContext {
   self?: EntityAddress
@@ -61,7 +60,8 @@ export interface ScriptRuntimeHostLike<RuntimeLeafCommand> {
     signal: AbortSignal,
   ): void | Promise<void>
   evalCondition(condition: AuthorCondition, context: Readonly<ScriptRuntimeContext>): boolean
-  confirm(signal: AbortSignal): Promise<boolean>
+  gameplayNow?(): number
+  confirm(signal: AbortSignal, reportInteraction?: () => void): Promise<boolean>
   startBattle(request: BattleRequest, signal: AbortSignal): Promise<BattleResult>
   teleportOut(signal: AbortSignal): Promise<boolean>
   revealSceneEntry?(reveal: SceneReveal, signal: AbortSignal): Promise<void>
@@ -76,7 +76,6 @@ export interface SharedScriptResolverLike<RuntimeLeafCommand> {
   resolve(
     id: string,
     timing: ScriptTiming,
-    boundaryPolicy: ScriptBoundaryPolicy,
     signal: AbortSignal,
   ):
     | ExecutableSharedScriptLike<RuntimeLeafCommand>
@@ -123,7 +122,7 @@ export interface RunBaseScriptFlowOptions {
 
 class ScriptStopped extends Error {
   constructor() {
-    super('script stopped by stopScript')
+    super('script activation lost its cursor ownership')
   }
 }
 
@@ -131,20 +130,23 @@ function throwIfAborted(signal: AbortSignal): void {
   if (signal.aborted) throw new DOMException('script aborted', 'AbortError')
 }
 
-function assertState(states: Readonly<Record<string, unknown>>, state: string, path: string): void {
-  if (!Object.hasOwn(states, state)) throw new Error(`${path}: state 不存在 ${state}`)
+class StepFinished {
+  constructor(readonly next: StepExit) {}
+}
+class ScriptReturned {}
+class LoopBroken {}
+class LoopContinued {
+  constructor(readonly loop?: string) {}
 }
 
 export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
   private static readonly MAX_CALL_DEPTH = SCRIPT_MAX_CALL_DEPTH
-  private static readonly MAX_SYNCHRONOUS_STATE_TRANSITIONS = 4096
   private callDepth = 0
   private self?: EntityAddress
   private checkpointController?: FlowCursorController
   private checkpointCursor?: FlowCursor
   private resumeFrames: AutoCommandFrame[] = []
   private readonly frames: AutoCommandFrame[] = []
-  private checkpointOutcomes = new Map<string, { command: 'confirm'; no: boolean }>()
   running = false
   onStep?: (event: ScriptStepEventLike<RuntimeLeafCommand>) => void
   /** Optional debugger pause at an authored command, never at an internal safe point.
@@ -156,6 +158,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     private readonly host: ScriptRuntimeHostLike<RuntimeLeafCommand>,
     private readonly signal: AbortSignal,
     private readonly resolver?: SharedScriptResolverLike<RuntimeLeafCommand>,
+    private readonly budget = new ScriptExecutionBudget(),
   ) {}
 
   async runFlow(
@@ -164,10 +167,6 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
   ): Promise<void> {
     if (executable.compilerVersion !== SCRIPT_COMPILER_VERSION)
       throw new Error(`ScriptRunnerCore: compilerVersion ${executable.compilerVersion} 不受支持`)
-    if (executable.boundaryPolicy !== 'perCommand' && executable.boundaryPolicy !== 'transition')
-      throw new Error(
-        `ScriptRunnerCore: boundaryPolicy ${String(executable.boundaryPolicy)} 不受支持`,
-      )
     throwIfAborted(this.signal)
     if (options.resume) {
       if (!options.cursor || !options.cursorController.checkpointEnabled)
@@ -181,25 +180,23 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     }
     const previousSelf = this.self
     const previousTiming = this.runningTiming
-    const previousBoundaryPolicy = this.runningBoundaryPolicy
+    const previousRootScope = this.runningRootScope
     const previousDigest = this.runningDigest
     this.self = options.self === undefined ? undefined : structuredClone(options.self)
     this.runningTiming = executable.timing
-    this.runningBoundaryPolicy = executable.boundaryPolicy
+    this.runningRootScope = executable.rootScope
     this.runningDigest = executable.canonicalContentDigest
     this.checkpointController = options.cursorController.checkpointEnabled
       ? options.cursorController
       : undefined
     this.resumeFrames = structuredClone(options.resume?.frames ?? [])
-    this.checkpointOutcomes = new Map(Object.entries(options.resume?.outcomes ?? {}))
     this.running = true
     try {
-      if (executable.flow.kind === 'stages') await this.runStages(executable, options)
-      else await this.runStateMachine(executable, options)
+      await this.runStages(executable, options)
     } finally {
       this.self = previousSelf
       this.runningTiming = previousTiming
-      this.runningBoundaryPolicy = previousBoundaryPolicy
+      this.runningRootScope = previousRootScope
       this.runningDigest = previousDigest
       this.running = false
       this.checkpointController = undefined
@@ -232,7 +229,6 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         // During restore the child address stack is consumed one frame at a time. A host
         // gate may pause before the next child is entered; snapshots must keep that tail.
         frames: structuredClone([...this.frames, ...this.resumeFrames]),
-        outcomes: Object.fromEntries(this.checkpointOutcomes),
       },
       ready,
     )
@@ -253,187 +249,66 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     } while (!this.checkpoint(false))
   }
 
+  private async consumeWork(): Promise<void> {
+    if (this.budget.consume()) {
+      await this.host.yieldMacroTask(this.signal)
+      throwIfAborted(this.signal)
+    }
+  }
+
   private async runStages(
     executable: ExecutableBaseScriptFlowLike<RuntimeLeafCommand>,
     options: RunBaseScriptFlowOptions,
   ): Promise<void> {
-    if (executable.flow.kind !== 'stages') throw new Error('ScriptRunnerCore: 期望 stages flow')
+    await this.consumeWork()
     const stageId =
-      options.cursor === undefined
-        ? executable.flow.initial
-        : options.cursor.kind === 'stage'
-          ? options.cursor.stage
-          : (() => {
-              throw new Error('ScriptRunnerCore: state cursor 不能运行 stages flow')
-            })()
-    const stage = executable.flow.stages.find((candidate) => candidate.id === stageId)
+      options.cursor?.kind === 'stage' ? options.cursor.stage : executable.flow.initial
+    const stage = executable.flow.stages.find((value) => value.id === stageId)
     if (!stage) throw new Error(`ScriptRunnerCore: stage cursor 不存在 ${stageId}`)
+    let next: StepExit =
+      typeof stage.next === 'object'
+        ? { kind: 'complete' }
+        : stage.next
+          ? { kind: 'stage', stage: stage.next }
+          : { kind: 'stay' }
     try {
       this.checkpointCursor = { kind: 'stage', stage: stageId }
-      await this.awaitGate()
       if (options.runSceneEntry && stage.entry) {
-        if (!options.allowSceneEntry)
-          throw new Error('ScriptRunnerCore: 非 onEnter flow 禁止执行 scene entry')
-        if (!this.host.revealSceneEntry)
-          throw new Error('ScriptRunnerCore: host 未实现 revealSceneEntry')
+        if (!options.allowSceneEntry || !this.host.revealSceneEntry)
+          throw new Error('ScriptRunnerCore: scene entry 不允许或缺少 host')
         await this.runCommands(stage.entry.prepare, [stage.id, 'entry', 'prepare'])
         throwIfAborted(this.signal)
         await this.awaitGate()
         await this.host.revealSceneEntry(stage.entry.reveal, this.signal)
         throwIfAborted(this.signal)
       }
-      await this.runCommands(stage.body, [stage.id])
+      try {
+        await this.runCommands(stage.body, [stage.id])
+      } catch (error) {
+        if (error instanceof StepFinished) next = error.next
+        else if (error instanceof ScriptReturned && executable.rootScope === 'script') return
+        else throw error
+      }
       throwIfAborted(this.signal)
       await this.awaitGate({ kind: 'settlement' })
-      await options.cursorController.reachSafePoint(
-        typeof stage.next === 'object'
+      const cursor: FlowCursor =
+        next.kind === 'complete'
           ? { kind: 'completed' }
-          : { kind: 'stage', stage: stage.next ?? stage.id },
+          : { kind: 'stage', stage: next.kind === 'stage' ? next.stage : stageId }
+      if (
+        cursor.kind === 'stage' &&
+        !executable.flow.stages.some((value) => value.id === cursor.stage)
       )
+        throw new Error(`ScriptRunnerCore: finishStep目标不存在 ${cursor.stage}`)
+      await options.cursorController.reachSafePoint(cursor)
     } catch (error) {
       if (!(error instanceof ScriptStopped)) throw error
     }
-  }
-
-  private async runStateMachine(
-    executable: ExecutableBaseScriptFlowLike<RuntimeLeafCommand>,
-    options: RunBaseScriptFlowOptions,
-  ): Promise<void> {
-    if (executable.flow.kind !== 'stateMachine')
-      throw new Error('ScriptRunnerCore: 期望 stateMachine flow')
-    const { machine } = executable.flow
-    let stateId =
-      options.cursor === undefined
-        ? machine.initial
-        : options.cursor.kind === 'state'
-          ? (() => {
-              if (options.cursor.machine !== machine.id)
-                throw new Error(
-                  `ScriptRunnerCore: machine cursor ${options.cursor.machine} 不匹配 ${machine.id}`,
-                )
-              return options.cursor.state
-            })()
-          : (() => {
-              throw new Error('ScriptRunnerCore: stage cursor 不能运行 stateMachine flow')
-            })()
-    assertState(machine.states, stateId, `machine ${machine.id}`)
-    let firstState = true
-    let synchronousTransitions = 0
-    let continuation: ScriptGateBoundary | undefined
-    try {
-      while (true) {
-        throwIfAborted(this.signal)
-        await this.checkpointGate()
-        this.checkpointCursor = { kind: 'state', machine: machine.id, state: stateId }
-        await this.awaitGate(continuation)
-        continuation = undefined
-        const state = machine.states[stateId]
-        if (!state) throw new Error(`ScriptRunnerCore: state 不存在 ${stateId}`)
-        if (firstState && options.runSceneEntry && state.entry) {
-          if (!options.allowSceneEntry)
-            throw new Error('ScriptRunnerCore: 非 onEnter flow 禁止执行 scene entry')
-          if (!this.host.revealSceneEntry)
-            throw new Error('ScriptRunnerCore: host 未实现 revealSceneEntry')
-          await this.runCommands(state.entry.prepare, [machine.id, stateId, 'entry', 'prepare'])
-          throwIfAborted(this.signal)
-          await this.awaitGate()
-          await this.host.revealSceneEntry(state.entry.reveal, this.signal)
-          throwIfAborted(this.signal)
-        }
-        const outcomes = firstState
-          ? this.checkpointOutcomes
-          : new Map<string, { command: 'confirm'; no: boolean }>()
-        firstState = false
-        this.checkpointOutcomes = outcomes
-        await this.runCommands(state.body, [machine.id, stateId], outcomes, true)
-        throwIfAborted(this.signal)
-        await this.checkpointGate()
-        // Once a transition condition has been evaluated, commit its selected target before
-        // allowing a snapshot. Loading the old state's end must not redraw an already-made choice.
-        await this.beginCheckpointMutation()
-        const transition = this.resolveTransition(state.next, outcomes)
-        if (transition.kind === 'complete') {
-          await this.awaitGate({ kind: 'settlement' })
-          await options.cursorController.reachSafePoint({ kind: 'completed' })
-          return
-        }
-        if (transition.kind === 'continue') {
-          assertState(machine.states, transition.state, `${machine.id}.${stateId}.next`)
-          synchronousTransitions++
-          if (synchronousTransitions > ScriptRunnerCore.MAX_SYNCHRONOUS_STATE_TRANSITIONS)
-            throw new Error(
-              `ScriptRunnerCore: machine ${machine.id} 的 continue 链超过 ` +
-                `${ScriptRunnerCore.MAX_SYNCHRONOUS_STATE_TRANSITIONS}（state ${stateId}）`,
-            )
-          stateId = transition.state
-          if (this.checkpointController)
-            await options.cursorController.reachSafePoint({
-              kind: 'state',
-              machine: machine.id,
-              state: stateId,
-            })
-          continue
-        }
-        const target =
-          transition.kind === 'stay'
-            ? stateId
-            : transition.kind === 'restart'
-              ? machine.initial
-              : transition.state
-        assertState(machine.states, target, `${machine.id}.${stateId}.next`)
-        await this.awaitGate({ kind: 'settlement' })
-        const cursor: FlowCursor = {
-          kind: 'state',
-          machine: machine.id,
-          state: target,
-        }
-        const decision = await options.cursorController.reachSafePoint(cursor)
-        if (transition.kind !== 'to' || decision === 'stop') return
-        continuation = {
-          kind: 'continuation',
-          reachSafePoint: () => options.cursorController.reachSafePoint(cursor),
-        }
-        if (transition.yield === 'macroTask') await this.host.yieldMacroTask(this.signal)
-        else await this.host.waitWorldTick(this.signal)
-        throwIfAborted(this.signal)
-        synchronousTransitions = 0
-        stateId = target
-      }
-    } catch (error) {
-      if (!(error instanceof ScriptStopped)) throw error
-    }
-  }
-
-  private resolveTransition(
-    transition: BaseStateTransition,
-    outcomes: ReadonlyMap<string, { command: 'confirm'; no: boolean }>,
-  ): Exclude<BaseStateTransition, { kind: 'branch' | 'commandOutcome' }> {
-    if (transition.kind === 'branch')
-      return this.resolveTransition(
-        this.host.evalCondition(transition.cond, {
-          self: this.self,
-          timing: this.runningTiming,
-        })
-          ? transition.then
-          : transition.else,
-        outcomes,
-      )
-    if (transition.kind === 'commandOutcome') {
-      const outcome = outcomes.get(transition.commandId)
-      if (!outcome)
-        throw new Error(`ScriptRunnerCore: commandOutcome 未找到已执行命令 ${transition.commandId}`)
-      if (outcome.command !== transition.command)
-        throw new Error(`ScriptRunnerCore: commandOutcome ${transition.commandId} 类型不匹配`)
-      return this.resolveTransition(outcome.no ? transition.then : transition.else, outcomes)
-    }
-    return transition
   }
 
   private async runCommands(
     commands: readonly ExecutableCommandLike<RuntimeLeafCommand>[],
     path: readonly (number | string)[],
-    outcomes?: Map<string, { command: 'confirm'; no: boolean }>,
-    recordTopLevelOutcomes = false,
   ): Promise<void> {
     if (this.frames.length >= 256) throw new Error('ScriptRunnerCore: 执行帧深度超过256')
     const frame = this.resumeFrames.shift() ?? { index: 0 }
@@ -441,21 +316,35 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     try {
       this.checkpoint(true)
       for (let index = frame.index; index < commands.length; index++) {
+        await this.consumeWork()
         const command = commands[index]
         if (!command) throw new Error('ScriptRunnerCore: 指令不存在')
         throwIfAborted(this.signal)
         await this.checkpointGate()
         const commandPath = [...path, index]
-        if (this.beforeStep) await this.beforeStep({ path: commandPath, command })
-        await this.awaitGate()
-        await this.beginCheckpointMutation()
+        // Structural traversal only changes the continuation. A hidden/suspended owner may
+        // still settle its step, including a conditional finish or a return through a call.
+        // Actual effects and interactive requests retain the full gameplay gate.
+        const metadataOnly = !['leaf', 'confirm', 'startBattle', 'teleportOut'].includes(
+          command.kind,
+        )
+        if (this.beforeStep) {
+          await this.awaitGate(metadataOnly ? { kind: 'settlement' } : undefined)
+          await this.beforeStep({ path: commandPath, command })
+        }
+        if (command.kind === 'finishStep' || command.kind === 'returnScript') {
+          await this.beginCheckpointMutation()
+          await this.awaitGate({ kind: 'settlement' })
+        } else {
+          await this.awaitGate(metadataOnly ? { kind: 'settlement' } : undefined)
+          await this.beginCheckpointMutation()
+        }
         this.onStep?.({ path: commandPath, command })
-        await this.runCommand(command, commandPath, outcomes, recordTopLevelOutcomes)
+        await this.runCommand(command, commandPath)
         throwIfAborted(this.signal)
         frame.index = index + 1
         delete frame.control
         this.checkpoint(true)
-        await this.runBoundaries(command.after)
       }
     } finally {
       this.frames.pop()
@@ -465,8 +354,6 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
   private async runCommand(
     command: ExecutableCommandLike<RuntimeLeafCommand>,
     path: readonly (number | string)[],
-    outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
-    recordOutcome: boolean,
   ): Promise<void> {
     const frame = this.frames.at(-1)
     if (!frame) throw new Error('ScriptRunnerCore: 缺少执行帧')
@@ -518,6 +405,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
             checkpointedMotion)
         )
           this.checkpoint(true)
+        const before = this.host.gameplayNow?.() ?? 0
         await this.host.execute(
           command.command,
           {
@@ -527,10 +415,33 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           },
           this.signal,
         )
+        const zeroWait =
+          typeof command.command === 'object' &&
+          command.command !== null &&
+          'kind' in command.command &&
+          command.command.kind === 'wait' &&
+          'ms' in command.command &&
+          Number(command.command.ms) <= 0
+        if (!zeroWait && (this.host.gameplayNow?.() ?? 0) > before)
+          this.budget.resumedAfterProgress()
         return
       }
-      case 'stop':
-        throw new ScriptStopped()
+      case 'returnScript':
+        if (this.runningRootScope !== 'script') throw new Error('returnScript outside script root')
+        throw new ScriptReturned()
+      case 'finishStep':
+        if (this.runningRootScope !== 'flow') throw new Error('finishStep outside owner flow')
+        throw new StepFinished(command.next)
+      case 'breakLoop':
+        if (!this.loopAncestors.length) throw new Error('breakLoop outside lexical loop')
+        throw new LoopBroken()
+      case 'continueLoop':
+        if (
+          !this.loopAncestors.length ||
+          (command.loop && !this.loopAncestors.includes(command.loop))
+        )
+          throw new Error('continueLoop target is not a lexical ancestor')
+        throw new LoopContinued(command.loop)
       case 'branch': {
         const arm =
           frame.control?.kind === 'branch'
@@ -539,20 +450,45 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
               ? 'then'
               : 'else'
         frame.control = { kind: 'branch', arm }
-        await this.runCommands(command[arm], [...path, 'branch'], outcomes)
+        await this.runCommands(command[arm], [...path, 'branch'])
         return
       }
       case 'loop':
-        await this.runLoopCommand(command, path, outcomes)
+      case 'repeat':
+        await this.runLoopCommand(command, path)
         return
       case 'confirm': {
-        const no =
-          frame.control?.kind === 'confirm'
-            ? frame.control.no
-            : !(await this.host.confirm(this.signal))
-        frame.control = { kind: 'confirm', no }
-        if (recordOutcome && command.id) outcomes?.set(command.id, { command: 'confirm', no })
-        if (no) await this.runCommands(command.onNo, [...path, 'onNo'], outcomes)
+        let arm: 'onYes' | 'onNo'
+        if (frame.control?.kind === 'confirm') arm = frame.control.arm
+        else {
+          let pending = false,
+            active = true,
+            settled = false,
+            reported = false
+          const answer = this.host.confirm(this.signal, () => {
+            if (active && pending && !reported && !this.signal.aborted) {
+              reported = true
+              this.budget.resumedAfterProgress()
+            }
+          })
+          void answer.then(
+            () => {
+              settled = true
+            },
+            () => {
+              settled = true
+            },
+          )
+          await Promise.resolve()
+          pending = !settled
+          try {
+            arm = (await answer) ? 'onYes' : 'onNo'
+          } finally {
+            active = false
+          }
+        }
+        frame.control = { kind: 'confirm', arm }
+        await this.runCommands(command[arm], [...path, arm])
         return
       }
       case 'startBattle': {
@@ -564,7 +500,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         }
         frame.control = { kind: 'startBattle', arm }
         const body = arm === 'none' ? undefined : command[arm]
-        if (body) await this.runCommands(body, [...path, arm], outcomes)
+        if (body) await this.runCommands(body, [...path, arm])
         return
       }
       case 'teleportOut': {
@@ -573,77 +509,82 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
             ? frame.control.failed
             : !(await this.host.teleportOut(this.signal))
         frame.control = { kind: 'teleportOut', failed }
-        if (failed && command.onFail)
-          await this.runCommands(command.onFail, [...path, 'onFail'], outcomes)
+        if (failed && command.onFail) await this.runCommands(command.onFail, [...path, 'onFail'])
         return
       }
       case 'callScript':
-        await this.callScript(command, path, outcomes)
+        await this.callScript(command, path)
         return
     }
   }
 
+  private loopAncestors: (string | undefined)[] = []
+
   private async runLoopCommand(
-    command: Extract<ExecutableCommandLike<RuntimeLeafCommand>, { kind: 'loop' }>,
+    command: Extract<ExecutableCommandLike<RuntimeLeafCommand>, { kind: 'loop' | 'repeat' }>,
     path: readonly (number | string)[],
-    outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
   ): Promise<void> {
     const frame = this.frames.at(-1)
-    if (!frame) throw new Error('ScriptRunnerCore: 缺少loop执行帧')
-    const condition = () =>
-      this.host.evalCondition(command.cond, { self: this.self, timing: this.runningTiming })
-    let control = frame.control?.kind === 'loop' ? frame.control : undefined
-    if (!control) {
-      if (command.mode === 'while' && !condition()) return
-      control = { kind: 'loop', iteration: 1, phase: 'body' }
-      frame.control = control
-    }
-    while (true) {
-      if (control.phase === 'body') {
-        await this.runCommands(command.body, [...path, `iteration:${control.iteration}`], outcomes)
-        control.phase = 'test'
-      }
-      if (control.phase === 'test') {
+    if (!frame) throw new Error('ScriptRunnerCore: 缺少循环执行帧')
+    if (!frame.control)
+      frame.control =
+        command.kind === 'repeat'
+          ? { kind: 'repeat', iteration: 1 }
+          : { kind: 'loop', phase: command.mode === 'while' ? 'test' : 'body' }
+    const control = frame.control
+    this.loopAncestors.push(command.id)
+    try {
+      while (true) {
+        await this.consumeWork()
+        if (command.kind === 'loop' && control.kind === 'loop' && control.phase === 'test') {
+          await this.beginCheckpointMutation()
+          if (command.mode === 'forever') throw new Error('forever loop cannot resume at test')
+          const selected = this.host.evalCondition(command.cond, {
+            self: this.self,
+            timing: this.runningTiming,
+          })
+          if (command.mode === 'while' ? !selected : selected) return
+          control.phase = 'body'
+          this.checkpoint(true)
+        }
+        try {
+          await this.runCommands(command.body, [...path, 'body'])
+        } catch (error) {
+          if (error instanceof LoopBroken) return
+          if (!(error instanceof LoopContinued) || (error.loop && error.loop !== command.id))
+            throw error
+        }
         await this.beginCheckpointMutation()
-        if (command.mode === 'until' && condition()) return
-        control.phase = 'next'
+        if (command.kind === 'repeat' && control.kind === 'repeat') {
+          if (control.iteration >= command.count) return
+          control.iteration++
+        } else if (command.kind === 'loop' && control.kind === 'loop') {
+          control.phase = command.mode === 'forever' ? 'body' : 'test'
+        } else throw new Error('ScriptRunnerCore: 循环控制帧类型不匹配')
+        this.checkpoint(true)
       }
-      this.checkpoint(true)
-      await this.host.waitWorldTick(this.signal)
-      throwIfAborted(this.signal)
-      await this.beginCheckpointMutation()
-      if (command.mode === 'while' && !condition()) return
-      if (control.iteration >= command.maxIterations)
-        throw new Error(`ScriptRunnerCore: loop 超过 maxIterations=${command.maxIterations}`)
-      control.iteration++
-      control.phase = 'body'
+    } finally {
+      this.loopAncestors.pop()
     }
   }
 
   private async callScript(
     command: Extract<ExecutableCommandLike<RuntimeLeafCommand>, { kind: 'callScript' }>,
     path: readonly (number | string)[],
-    outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
   ): Promise<void> {
     if (!this.resolver) throw new Error(`ScriptRunnerCore: 无 resolver，无法解析 ${command.script}`)
     if (this.callDepth >= ScriptRunnerCore.MAX_CALL_DEPTH)
       throw new Error(
         `ScriptRunnerCore: callScript 调用深度超过 ${ScriptRunnerCore.MAX_CALL_DEPTH}`,
       )
-    const script = await this.resolver.resolve(
-      command.script,
-      this.runningTiming,
-      this.runningBoundaryPolicy,
-      this.signal,
-    )
+    const script = await this.resolver.resolve(command.script, this.runningTiming, this.signal)
     if (script.id !== command.script)
       throw new Error(`ScriptRunnerCore: resolver 返回错误 script id ${script.id}`)
     if (script.compilerVersion !== SCRIPT_COMPILER_VERSION)
       throw new Error(`ScriptRunnerCore: shared ${script.id} compilerVersion 不匹配`)
     if (
       script.canonicalContentDigest !== this.runningDigest ||
-      script.timing !== this.runningTiming ||
-      script.boundaryPolicy !== this.runningBoundaryPolicy
+      script.timing !== this.runningTiming
     )
       throw new Error(`ScriptRunnerCore: shared ${script.id} executable cache 已过期`)
     const inherited = command.self ?? this.self
@@ -652,6 +593,10 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     if (script.self === 'required' && !inherited)
       throw new Error(`ScriptRunnerCore: ${command.script} 需要 self`)
     const previousSelf = this.self
+    const previousRootScope = this.runningRootScope
+    const previousLoops = this.loopAncestors
+    this.runningRootScope = 'script'
+    this.loopAncestors = []
     this.self =
       script.self === 'none'
         ? undefined
@@ -660,29 +605,24 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           : structuredClone(inherited)
     this.callDepth++
     try {
-      await this.runCommands(script.body, [...path, `call:${script.id}`], outcomes)
+      await this.runCommands(script.body, [...path, `call:${script.id}`])
     } catch (error) {
-      if (!(error instanceof ScriptStopped)) throw error
+      if (!(error instanceof ScriptReturned)) throw error
     } finally {
+      this.runningRootScope = previousRootScope
+      this.loopAncestors = previousLoops
       this.callDepth--
       this.self = previousSelf
     }
   }
 
   private runningTiming: ScriptTiming = 'interactive'
-  private runningBoundaryPolicy: ScriptBoundaryPolicy = 'perCommand'
+  private runningRootScope: ScriptRootScope = 'flow'
   private runningDigest = ''
 
   private async awaitGate(boundary?: ScriptGateBoundary): Promise<void> {
     const decision = await this.host.gate?.(this.signal, boundary)
     throwIfAborted(this.signal)
     if (decision === 'stop') throw new ScriptStopped()
-  }
-
-  private async runBoundaries(boundaries: readonly ExecutableCommandBoundary[]): Promise<void> {
-    for (const boundary of boundaries) {
-      await this.host.wait(boundary.ms, this.signal)
-      throwIfAborted(this.signal)
-    }
   }
 }

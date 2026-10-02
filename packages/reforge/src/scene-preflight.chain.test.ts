@@ -175,11 +175,11 @@ describe('WORLD-ASYNC-COMMIT-1 real main preflight consumes frozen canonical sta
   })
 
   test.each([
-    'stage',
-    'state',
-  ] as const)('%s cursor changes invalidate entry prepared at that cursor', async (kind) => {
+    'before',
+    'after',
+  ] as const)('%s hook step changes invalidate entry prepared at that cursor', async (kind) => {
     const h = harness()
-    if (kind === 'state')
+    if (kind === 'after')
       await h.runtime.runCommands(
         [
           {
@@ -198,9 +198,7 @@ describe('WORLD-ASYNC-COMMIT-1 real main preflight consumes frozen canonical sta
       'onEnter',
     )
     expect(activation).toBeDefined()
-    await activation!.lease.reachSafePoint(
-      kind === 'stage' ? { kind, stage: 'two' } : { kind, machine: 'entry-machine', state: 'two' },
-    )
+    await activation!.lease.reachSafePoint({ kind: 'stage', stage: 'two' })
     activation!.lease.close()
     h.assets.resolve()
     const plan = await preparing

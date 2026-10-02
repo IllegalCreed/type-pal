@@ -14,7 +14,11 @@ describe('collectBattleFieldTaggedReferences', () => {
               else: [{ kind: 'startBattle', teamId: 'c', fieldId: 3 }],
             },
             { kind: 'loop', body: [{ kind: 'startBattle', teamId: 'd', fieldId: 4 }] },
-            { kind: 'confirm', onNo: [{ kind: 'startBattle', teamId: 'e', fieldId: 5 }] },
+            {
+              kind: 'confirm',
+              onYes: [],
+              onNo: [{ kind: 'startBattle', teamId: 'e', fieldId: 5 }],
+            },
             {
               kind: 'startBattle',
               teamId: 'f',

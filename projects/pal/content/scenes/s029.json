@@ -151,22 +151,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s029",
-                        "entity": "e535"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s029",
-                        "entity": "e535"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s029",
+                            "entity": "e535"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s029",
+                            "entity": "e535"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -203,313 +218,321 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2647"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赌鬼"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "初次交互",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2647"
                           }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "continuation-003"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "continuation-001"
-                      }
-                    }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2648"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赌鬼",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赌鬼"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "after-checkpoint-002": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2648"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赌鬼"
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "continuation-001": {
-                    "label": "流程分支 001",
-                    "body": [
-                      {
-                        "kind": "giveMoney",
-                        "delta": -50
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s029",
-                          "entity": "e537"
+                    },
+                    {
+                      "kind": "confirm",
+                      "onYes": [
+                        {
+                          "kind": "giveMoney",
+                          "delta": -50
                         },
-                        "channel": "trigger",
-                        "selection": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s029",
-                          "entity": "e536"
+                        {
+                          "kind": "selectEntityBehavior",
+                          "target": {
+                            "scene": "s029",
+                            "entity": "e537"
+                          },
+                          "channel": "trigger",
+                          "selection": {
+                            "kind": "use",
+                            "value": "legacy-001"
+                          }
                         },
-                        "channel": "auto",
-                        "selection": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2648"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赌鬼"
+                        {
+                          "kind": "selectEntityBehavior",
+                          "target": {
+                            "scene": "s029",
+                            "entity": "e536"
+                          },
+                          "channel": "auto",
+                          "selection": {
+                            "kind": "use",
+                            "value": "legacy-001"
                           }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint-002"
-                    }
-                  },
-                  "continuation-002": {
-                    "label": "流程分支 002",
-                    "body": [
-                      {
-                        "kind": "giveMoney",
-                        "delta": -50
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s029",
-                          "entity": "e537"
                         },
-                        "channel": "trigger",
-                        "selection": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s029",
-                          "entity": "e536"
+                        {
+                          "kind": "clearDialog"
                         },
-                        "channel": "auto",
-                        "selection": {
-                          "kind": "use",
-                          "value": "legacy-001"
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2648"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.赌鬼"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stage",
+                            "stage": "after-checkpoint-002"
+                          }
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2648"
+                      ],
+                      "onNo": [
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2644"
+                              },
+                              {
+                                "text": "dlg.2645"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.李逍遥",
+                              "portrait": {
+                                "asset": "portrait.pal.001",
+                                "side": "right"
+                              }
                             }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赌鬼",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                          }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stage",
+                            "stage": "phase-002"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "after-checkpoint",
+                  "label": "交互后续 1",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2648"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赌鬼",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stay"
+                      }
                     }
-                  },
-                  "continuation-003": {
-                    "label": "流程分支 003",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2644"
-                            },
-                            {
-                              "text": "dlg.2645"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                  ]
+                },
+                {
+                  "id": "after-checkpoint-002",
+                  "label": "交互后续 2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2648"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赌鬼"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stay"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "phase-002",
+                  "label": "交互后续 3",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2647"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赌鬼",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "phase-002"
+                    },
+                    {
+                      "kind": "confirm",
+                      "onYes": [
+                        {
+                          "kind": "giveMoney",
+                          "delta": -50
+                        },
+                        {
+                          "kind": "selectEntityBehavior",
+                          "target": {
+                            "scene": "s029",
+                            "entity": "e537"
+                          },
+                          "channel": "trigger",
+                          "selection": {
+                            "kind": "use",
+                            "value": "legacy-001"
+                          }
+                        },
+                        {
+                          "kind": "selectEntityBehavior",
+                          "target": {
+                            "scene": "s029",
+                            "entity": "e536"
+                          },
+                          "channel": "auto",
+                          "selection": {
+                            "kind": "use",
+                            "value": "legacy-001"
+                          }
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2648"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.赌鬼",
+                              "portrait": {
+                                "asset": "portrait.pal.001",
+                                "side": "right"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stage",
+                            "stage": "after-checkpoint"
+                          }
+                        }
+                      ],
+                      "onNo": [
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2644"
+                              },
+                              {
+                                "text": "dlg.2645"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.李逍遥",
+                              "portrait": {
+                                "asset": "portrait.pal.001",
+                                "side": "right"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stage",
+                            "stage": "continuation-004"
+                          }
+                        }
+                      ]
                     }
-                  },
-                  "continuation-004": {
-                    "label": "流程分支 004",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2644"
-                            },
-                            {
-                              "text": "dlg.2645"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                  ]
+                },
+                {
+                  "id": "continuation-004",
+                  "label": "交互后续 4",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2644"
+                          },
+                          {
+                            "text": "dlg.2645"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "phase-002": {
-                    "label": "后续阶段 002",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2647"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赌鬼",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-002",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-002",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "continuation-004"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "continuation-002"
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stay"
                       }
                     }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         },
@@ -523,6 +546,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -538,6 +562,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "run",
                       "to": {
@@ -549,6 +577,10 @@
                         "scene": "s029",
                         "entity": "e536"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -564,11 +596,21 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s029",
                         "entity": "e536"
+                      }
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],

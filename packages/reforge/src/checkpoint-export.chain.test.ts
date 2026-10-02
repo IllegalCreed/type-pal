@@ -1,7 +1,7 @@
 // GLM batch-2 originally reported B11/B12; these regressions do not import audit probes.
 import { afterEach, expect, test, vi } from 'vitest'
 import { checkpointHarness as harness } from './__tests__/checkpoint-export-fixture.js'
-import { confirm, machine } from './__tests__/save-lineage-fixture.js'
+import { confirm, firstAndRepeat } from './__tests__/save-lineage-fixture.js'
 import { deferred, worldFixture } from './__tests__/world-async-fixture.js'
 import { buildCurrentSavePayload } from './save/ops.js'
 
@@ -14,7 +14,7 @@ afterEach(() => {
 async function pendingFlow(h: ReturnType<typeof harness>, entered: { promise: Promise<void> }) {
   const running = h.runtime.runCommands(
     [
-      { kind: 'confirm', onNo: [] },
+      { kind: 'confirm', onYes: [], onNo: [] },
       { kind: 'setFlag', flag: 'complete', value: true },
     ],
     { signal: new AbortController().signal },
@@ -32,8 +32,8 @@ test('actual DEV zero-argument export survives JSON and the current codec/restor
   expect(exported).toBeInstanceOf(Promise)
   const result = JSON.parse(JSON.stringify(await exported))
   expect(result).toMatchObject({
-    version: 10,
-    contentVersion: 21,
+    version: 11,
+    contentVersion: 22,
     projectId: 'checkpoint',
     world: { money: 10, party: [{ template: 'hero' }], audio: { currentMusic: null } },
     position: { sceneId: 'target', pos: { col: 1.5, row: 2.5, height: 0 }, facing: 'down' },
@@ -113,7 +113,7 @@ test('persistent root exports its next cursor at the safe point, not a partial c
       return answer.promise
     },
   })
-  h.env.definition.hooks!.onTeleport!.variants.exit!.flow = machine([confirm])
+  h.env.definition.hooks!.onTeleport!.variants.exit!.flow = firstAndRepeat([confirm])
   const running = h.runtime.runSceneHook(h.env.definition, 'onTeleport', {
     signal: new AbortController().signal,
   })
@@ -122,17 +122,16 @@ test('persistent root exports its next cursor at the safe point, not a partial c
   answer.resolve(true)
   await running
   const result = await exported
-  expect(result.world.script!.flags).toEqual({ first: true })
+  expect(result.world.script!.flags).toEqual({ first: true, childEnd: true })
   expect(result.world.script!.behaviors.scenes?.target?.onTeleport?.cursor?.at).toEqual({
-    kind: 'state',
-    machine: 'exit',
-    state: 'last',
+    kind: 'stage',
+    stage: 'last',
   })
   await h.runtime.runSceneHook(h.env.definition, 'onTeleport', {
     signal: new AbortController().signal,
   })
   expect(h.world.script!.flags).toEqual({ first: true, childEnd: true })
-  expect(result.world.script!.flags).toEqual({ first: true })
+  expect(result.world.script!.flags).toEqual({ first: true, childEnd: true })
 })
 
 test.each([

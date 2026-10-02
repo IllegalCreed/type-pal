@@ -9,7 +9,6 @@ import type {
   BaseSceneHook,
   BaseScriptFlow,
   BehaviorId,
-  CursorHandoff,
   EntityAddress,
   FlowCursor,
   HookId,
@@ -72,13 +71,6 @@ function clone<T>(value: T): T {
 
 function sameValue(left: unknown, right: unknown): boolean {
   return JSON.stringify(left) === JSON.stringify(right)
-}
-
-function flowCursorKey(cursor: FlowCursor): string {
-  if (cursor.kind === 'completed') return JSON.stringify(['completed'])
-  return cursor.kind === 'stage'
-    ? JSON.stringify(['stage', cursor.stage])
-    : JSON.stringify(['state', cursor.machine, cursor.state])
 }
 
 function ownerKey(owner: PersistentFlowOwner): string {
@@ -173,13 +165,7 @@ function effectiveBehaviorId(
 }
 
 export function initialFlowCursor(flow: BaseScriptFlow): FlowCursor {
-  return flow.kind === 'stages'
-    ? { kind: 'stage', stage: flow.initial }
-    : {
-        kind: 'state',
-        machine: flow.machine.id,
-        state: flow.machine.initial,
-      }
+  return { kind: 'stage', stage: flow.initial }
 }
 
 export function assertFlowCursor(flow: BaseScriptFlow, cursor: FlowCursor): void {
@@ -187,17 +173,8 @@ export function assertFlowCursor(flow: BaseScriptFlow, cursor: FlowCursor): void
     if (!flowCanComplete(flow)) throw new Error('flow 未声明 complete，不能使用 completed cursor')
     return
   }
-  if (flow.kind === 'stages') {
-    if (cursor.kind !== 'stage') throw new Error('stages flow 不能使用 state cursor')
-    if (!flow.stages.some((stage) => stage.id === cursor.stage))
-      throw new Error(`stage cursor 不存在 ${cursor.stage}`)
-    return
-  }
-  if (cursor.kind !== 'state') throw new Error('stateMachine flow 不能使用 stage cursor')
-  if (cursor.machine !== flow.machine.id)
-    throw new Error(`machine cursor ${cursor.machine} 不匹配 ${flow.machine.id}`)
-  if (!Object.hasOwn(flow.machine.states, cursor.state))
-    throw new Error(`state cursor 不存在 ${cursor.state}`)
+  if (!flow.stages.some((stage) => stage.id === cursor.stage))
+    throw new Error(`stage cursor 不存在 ${cursor.stage}`)
 }
 
 export function resolveEntityBehavior(
@@ -264,63 +241,18 @@ export function selectEntityBehavior(
   channel: 'trigger' | 'auto',
   selection: Selection<BehaviorId>,
   coordinator?: FlowRuntimeCoordinator,
-  cursorHandoff?: CursorHandoff,
 ): boolean {
   assertEntityTarget(entity, target)
   if (selection.kind === 'use' && !behaviorRegistry(entity, channel)?.[selection.value])
     throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${selection.value}`)
   const current = clone(entityWorldState(world, target) ?? {})
   const previousId = effectiveBehaviorId(entity, current, channel)
-  const previous = resolveEntityBehavior(entity, world, target, channel)
   const next = clone(current)
   applyBehaviorSelection(next, channel, selection)
   const nextId = effectiveBehaviorId(entity, next, channel)
-  if (cursorHandoff) {
-    if (!coordinator) throw new Error('cursorHandoff: 缺少 FlowRuntimeCoordinator')
-    if (cursorHandoff.kind !== 'stateMap' || cursorHandoff.onUnmapped !== 'error')
-      throw new Error('cursorHandoff: 仅支持 stateMap + onUnmapped=error')
-    if (selection.kind !== 'use') throw new Error('cursorHandoff: 仅 selection.use 可声明游标交接')
-    if (!previous || previous.behaviorId !== cursorHandoff.fromBehavior)
-      throw new Error(
-        `cursorHandoff: 当前 ${channel} behavior ${
-          previous?.behaviorId ?? '<disabled>'
-        } 不匹配来源 ${cursorHandoff.fromBehavior}`,
-      )
-    const targetBehavior = behaviorRegistry(entity, channel)?.[selection.value]
-    if (!targetBehavior)
-      throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${selection.value}`)
-    if (!Array.isArray(cursorHandoff.cases) || cursorHandoff.cases.length === 0)
-      throw new Error('cursorHandoff.cases: 期望非空映射数组')
-    const sourceKeys = new Set<string>()
-    for (const mapping of cursorHandoff.cases) {
-      assertFlowCursor(previous.behavior.flow, mapping.from)
-      assertFlowCursor(targetBehavior.flow, mapping.to)
-      const key = flowCursorKey(mapping.from)
-      if (sourceKeys.has(key)) throw new Error(`cursorHandoff: 来源游标重复 ${key}`)
-      sourceKeys.add(key)
-    }
-    const currentCursorKey = flowCursorKey(previous.cursor)
-    const matches = cursorHandoff.cases.filter(
-      (mapping) => flowCursorKey(mapping.from) === currentCursorKey,
-    )
-    if (matches.length !== 1)
-      throw new Error(
-        `cursorHandoff: 当前游标 ${JSON.stringify(previous.cursor)} 命中 ${matches.length} 条映射`,
-      )
-    const slot = next[channel]
-    if (!slot || nextId !== selection.value)
-      throw new Error('cursorHandoff: 目标 behavior 选择未生效')
-    const mapping = matches[0]
-    if (!mapping) throw new Error('cursorHandoff: 唯一映射缺失')
-    slot.cursor = {
-      behavior: selection.value,
-      at: clone(mapping.to),
-    }
-  } else {
-    preserveMatchingCursor(next, channel, previousId, nextId)
-  }
+  preserveMatchingCursor(next, channel, previousId, nextId)
   writeEntityWorldState(world, target, next)
-  const changed = previousId !== nextId || cursorHandoff !== undefined
+  const changed = previousId !== nextId
   if (changed) coordinator?.bump(entityOwner(target, channel))
   return changed
 }
@@ -575,6 +507,7 @@ interface PendingBarrier {
 }
 
 export class FlowRuntimeCoordinator {
+  private readonly idleWaiters = new Map<string, Set<() => void>>()
   private readonly epochs = new Map<string, number>()
   private readonly active = new Map<string, FlowLease>()
   private readonly leaseKeys = new WeakMap<FlowLease, string>()
@@ -775,8 +708,37 @@ export class FlowRuntimeCoordinator {
   }
 
   finish(key: string, lease: FlowLease): void {
-    if (this.active.get(key) === lease) this.active.delete(key)
+    if (this.active.get(key) === lease) {
+      this.active.delete(key)
+      for (const wake of [...(this.idleWaiters.get(key) ?? [])]) wake()
+    }
     this.resolveBarrierIfReady()
+  }
+
+  waitForOwnerIdle(owner: PersistentFlowOwner, signal: AbortSignal): Promise<void> {
+    const key = ownerKey(owner)
+    signal.throwIfAborted()
+    if (!this.active.has(key)) return Promise.resolve()
+    return new Promise((resolve, reject) => {
+      const waiters = this.idleWaiters.get(key) ?? new Set<() => void>()
+      const cleanup = () => {
+        waiters.delete(wake)
+        if (!waiters.size) this.idleWaiters.delete(key)
+        signal.removeEventListener('abort', abort)
+      }
+      const wake = () => {
+        cleanup()
+        resolve()
+      }
+      const abort = () => {
+        cleanup()
+        reject(new DOMException('automatic owner wait aborted', 'AbortError'))
+      }
+      waiters.add(wake)
+      this.idleWaiters.set(key, waiters)
+      signal.addEventListener('abort', abort, { once: true })
+      if (signal.aborted) abort()
+    })
   }
 
   markSnapshotReady(lease: FlowLease, ready: boolean): void {

@@ -10,7 +10,7 @@ const maps: MapIndexV1 = {
   ],
 }
 
-describe('PAL SceneIndex content21 seed/ownership', () => {
+describe('PAL SceneIndex current seed/ownership', () => {
   test('按稳定场景顺序用地图名确定性消歧', () => {
     expect(
       buildPalSceneIndex(

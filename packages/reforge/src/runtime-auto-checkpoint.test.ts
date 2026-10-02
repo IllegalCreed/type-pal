@@ -40,7 +40,6 @@ function retainedChaseFixture(index = 1) {
                     }
                   : { index },
               ],
-              outcomes: {},
             },
           },
         },
@@ -255,8 +254,6 @@ test.each([
           kind: 'loop',
           mode,
           cond: { kind: 'chance', percent: 50 },
-          yield: 'worldTick',
-          maxIterations: 5,
           body: [{ kind: 'giveMoney', delta: 7 }],
         },
         { kind: 'wait', ms: 500_000 },
@@ -336,8 +333,6 @@ test.each([
               kind: 'loop',
               mode: 'while',
               cond: { kind: 'var', var: 'iterations', op: '<', value: 3 },
-              yield: 'worldTick',
-              maxIterations: 10,
               body: [
                 { kind: 'giveMoney', delta: 1 },
                 { kind: 'addVar', var: 'iterations', delta: 1 },
@@ -364,7 +359,7 @@ test.each([
   const resume = saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume
   expect(resume?.frames).toEqual([
     { index: 0, control: { kind: 'branch', arm: 'then' } },
-    { index: 1, control: { kind: 'loop', iteration: 2, phase: 'body' } },
+    { index: 1, control: { kind: 'loop', phase: 'body' } },
     { index: 2 },
     { index: 2 },
   ])
@@ -417,11 +412,11 @@ test.each([
 })
 
 test.each([
-  'missing-completed',
   'missing-selected',
-  'mismatched-selected',
-  'future-result',
-] as const)('restore preflight refuses a %s confirm result before effects', async (kind) => {
+  'wrong-kind',
+  'mismatched-child',
+  'extra-result-map',
+] as const)('restore preflight refuses a %s confirmation continuation before effects', async (kind) => {
   const entered = deferred(),
     release = deferred()
   const effect = vi.fn(async (command: RuntimeCommand) => {
@@ -430,42 +425,23 @@ test.each([
       await release.promise
     }
   })
-  const f = fixture({
-    confirm: async () => kind === 'missing-completed' || kind === 'future-result',
-    executeEffect: effect,
-  })
+  const f = fixture({ confirm: async () => false, executeEffect: effect })
   const e = f.scene.entities[0]!
   e.pages![0]!.auto = 'answer'
   e.behaviors!.auto = {
     answer: {
       label: 'Answer',
       order: 0,
-      flow: {
-        kind: 'stateMachine',
-        machine: {
-          id: 'answer',
-          label: 'Answer',
-          initial: 'first',
-          states: {
-            first: {
-              label: 'First',
-              body: [
-                { kind: 'confirm', id: 'answer', onNo: [{ kind: 'wait', ms: 500_000 }] },
-                { kind: 'wait', ms: 500_000 },
-                { kind: 'confirm', id: 'later', onNo: [] },
-              ],
-              next: {
-                kind: 'commandOutcome',
-                commandId: 'answer',
-                command: 'confirm',
-                outcome: 'no',
-                then: { kind: 'complete' },
-                else: { kind: 'stay' },
-              },
-            },
-          },
+      flow: stage([
+        {
+          kind: 'confirm',
+          onYes: [],
+          onNo: [
+            { kind: 'giveMoney', delta: 1 },
+            { kind: 'wait', ms: 500_000 },
+          ],
         },
-      },
+      ]),
     },
   }
   const running = f.runtime.runEntityBehavior(f.scene, 'e', 'auto', { signal: f.signal })
@@ -473,15 +449,16 @@ test.each([
   const saved = await f.runtime.withSaveBarrier(() => structuredClone(f.world))
   await f.runtime.validateAutomaticContinuations(saved, new AbortController().signal)
   const resume = saved.script!.behaviors.entities!.s!.e!.auto!.cursor!.resume!
-  if (kind === 'missing-completed' || kind === 'missing-selected') delete resume.outcomes.answer
-  if (kind === 'mismatched-selected') resume.outcomes.answer!.no = false
-  if (kind === 'future-result') resume.outcomes.later = { command: 'confirm', no: false }
+  if (kind === 'missing-selected') delete resume.frames[0]!.control
+  if (kind === 'wrong-kind') resume.frames[0]!.control = { kind: 'branch', arm: 'then' }
+  if (kind === 'mismatched-child') resume.frames[0]!.control = { kind: 'confirm', arm: 'onYes' }
+  if (kind === 'extra-result-map') Object.assign(resume, { outcomes: {} })
   const before = structuredClone(f.world)
   await expect(
     f.runtime.validateAutomaticContinuations(saved, new AbortController().signal),
-  ).rejects.toThrow(/auto resume/)
+  ).rejects.toThrow(/auto resume|resume/)
   expect(f.world).toEqual(before)
-  expect(effect).toHaveBeenCalledTimes(1)
+  expect(effect).toHaveBeenCalledTimes(2)
   release.resolve()
   await running
 })
@@ -563,13 +540,15 @@ test('a non-reentrant reward effect is settled before checkpoint capture, not re
   await running
 })
 
-test('a permanently cycling auto state machine snapshots at its tick without finishing the patrol', async () => {
+test('a continuously repeating patrol snapshots at its explicit wait without ending the step', async () => {
   const entered = deferred(),
     tick = deferred()
   const f = fixture({
-    waitWorldTick: async () => {
-      entered.resolve()
-      await tick.promise
+    executeEffect: async (command) => {
+      if (command.kind === 'wait') {
+        entered.resolve()
+        await tick.promise
+      }
     },
   })
   const e = f.scene.entities[0]!
@@ -578,21 +557,16 @@ test('a permanently cycling auto state machine snapshots at its tick without fin
     patrol: {
       label: 'Patrol',
       order: 0,
-      flow: {
-        kind: 'stateMachine',
-        machine: {
-          id: 'patrol',
-          label: 'Patrol',
-          initial: 'walk',
-          states: {
-            walk: {
-              label: 'Walk',
-              body: [{ kind: 'addVar', var: 'laps', delta: 1 }],
-              next: { kind: 'to', state: 'walk', yield: 'worldTick' },
-            },
-          },
+      flow: stage([
+        {
+          kind: 'loop',
+          mode: 'forever',
+          body: [
+            { kind: 'addVar', var: 'laps', delta: 1 },
+            { kind: 'wait', ms: 100 },
+          ],
         },
-      },
+      ]),
     },
   }
   const running = f.runtime.runEntityBehavior(f.scene, 'e', 'auto', { signal: f.signal })
@@ -600,11 +574,13 @@ test('a permanently cycling auto state machine snapshots at its tick without fin
   const snapshot = await f.runtime.withSaveBarrier(() => structuredClone(f.world))
   expect(snapshot.script?.vars.laps).toBe(1)
   expect(snapshot.script?.behaviors.entities?.s?.e?.auto?.cursor?.at).toEqual({
-    kind: 'state',
-    machine: 'patrol',
-    state: 'walk',
+    kind: 'stage',
+    stage: 'first',
   })
-  expect(snapshot.script?.behaviors.entities?.s?.e?.auto?.cursor?.at.kind).not.toBe('completed')
+  expect(snapshot.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 0, control: { kind: 'loop', phase: 'body' } },
+    { index: 1 },
+  ])
   const rejected = expect(running).rejects.toMatchObject({ name: 'AbortError' })
   f.controller.abort()
   tick.resolve()
@@ -652,20 +628,21 @@ test.each([
   if (kind === 'index') resume.frames[0]!.index = 2
   if (kind === 'control') resume.frames[0]!.control = { kind: 'branch', arm: 'then' }
   if (kind === 'child') resume.frames.push({ index: 0 })
-  if (kind === 'outcome') resume.outcomes.missing = { command: 'confirm', no: false }
+  if (kind === 'outcome')
+    Object.assign(resume, { outcomes: { missing: { command: 'confirm', no: false } } })
   if (kind === 'motion-phase')
     resume.frames[0]!.control = { kind: 'leaf', command: 'stepEntity', phase: 'done' }
   const before = structuredClone(f.world)
   await expect(
     f.runtime.validateAutomaticContinuations(snapshot, new AbortController().signal),
-  ).rejects.toThrow(/auto resume/)
+  ).rejects.toThrow(kind === 'outcome' ? 'resume.outcomes: 未知字段' : /auto resume/)
   expect(f.world).toEqual(before)
   expect(effect).toHaveBeenCalledTimes(1)
   arrive.resolve()
   await running
 })
 
-test('normal stopScript returns do not turn a later activation into a saved continuation', async () => {
+test('normal finishStep returns do not turn a later activation into a saved continuation', async () => {
   const f = fixture()
   const e = f.scene.entities[0]!
   e.pages![0]!.auto = 'once-per-activation'
@@ -675,7 +652,7 @@ test('normal stopScript returns do not turn a later activation into a saved cont
       order: 0,
       flow: stage([
         { kind: 'addVar', var: 'activations', delta: 1 },
-        { kind: 'stopScript' },
+        { kind: 'finishStep', next: { kind: 'stay' } },
         { kind: 'setFlag', flag: 'tail', value: true },
       ]),
     },
@@ -705,7 +682,6 @@ test('restore preflight rejects excessive shared depth and a mismatched scene be
             resume: {
               digest: 'c'.repeat(64),
               frames: Array.from({ length: 130 }, () => ({ index: 0 })),
-              outcomes: {},
             },
           },
         },
@@ -737,23 +713,132 @@ test('restore preflight rejects excessive shared depth and a mismatched scene be
   expect(f.world.money).toBe(0)
 })
 
-test('an already selected random state transition is committed before snapshot readiness', async () => {
-  const selecting = deferred(),
-    commit = deferred(),
-    walking = deferred(),
-    arrived = deferred()
+test('repeat resumes inside its second body without replaying rewards or losing the remaining count', async () => {
+  const entered = deferred(),
+    release = deferred()
+  let waits = 0
   const f = fixture({
-    random: () => 0,
-    gate: async (_signal, boundary) => {
-      if (boundary?.kind === 'settlement') {
-        selecting.resolve()
-        await commit.promise
+    executeEffect: async (command) => {
+      if (command.kind === 'giveMoney') f.world.money += command.delta
+      if (command.kind === 'wait' && ++waits === 2) {
+        entered.resolve()
+        await release.promise
       }
     },
-    executeEffect: async (command) => {
-      if (command.kind === 'wait') {
-        walking.resolve()
-        await arrived.promise
+  })
+  const e = f.scene.entities[0]!
+  e.pages![0]!.auto = 'repeat'
+  e.behaviors!.auto = {
+    repeat: {
+      label: 'Repeat',
+      order: 0,
+      flow: stage([
+        {
+          kind: 'repeat',
+          count: 4,
+          body: [
+            { kind: 'giveMoney', delta: 3 },
+            { kind: 'wait', ms: 1 },
+          ],
+        },
+        { kind: 'finishStep', next: { kind: 'complete' } },
+      ]),
+    },
+  }
+  const running = f.runtime.runEntityBehavior(f.scene, 'e', 'auto', { signal: f.signal })
+  await entered.promise
+  const saved = await f.runtime.withSaveBarrier(() => structuredClone(f.world))
+  expect(saved.money).toBe(6)
+  expect(saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 0, control: { kind: 'repeat', iteration: 2 } },
+    { index: 1 },
+  ])
+  const restored = new ScriptProjectRuntime({ sharedScripts: {} }, saved, 'c'.repeat(64), {
+    ...f.options,
+    executeEffect: (command) => {
+      if (command.kind === 'giveMoney') saved.money += command.delta
+    },
+  })
+  await restored.validateAutomaticContinuations(saved, new AbortController().signal)
+  await restored.runEntityBehavior(f.scene, 'e', 'auto', { signal: new AbortController().signal })
+  expect(saved.money).toBe(12)
+  expect(saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.at).toEqual({ kind: 'completed' })
+  release.resolve()
+  await running
+})
+
+test('saving exactly after self state0 restores a conditional finish without replaying the reward', async () => {
+  let saving: Promise<WorldState> | undefined
+  const random = vi.fn(() => 0)
+  const blocked = deferred()
+  const f = fixture({
+    random,
+    gate: (signal, boundary) => {
+      signal.throwIfAborted()
+      if (f.world.script?.entityState.s?.e === 0 && boundary?.kind !== 'settlement')
+        return blocked.promise
+    },
+    executeEffect: (command) => {
+      if (command.kind === 'giveMoney') f.world.money += command.delta
+      if (command.kind === 'setEntityState')
+        saving = f.runtime.withSaveBarrier(() => structuredClone(f.world))
+    },
+  })
+  const e = f.scene.entities[0]!
+  e.pages![0]!.auto = 'depart'
+  e.behaviors!.auto = {
+    depart: {
+      label: 'Depart',
+      order: 0,
+      flow: stage([
+        { kind: 'giveMoney', delta: 7 },
+        { kind: 'setEntityState', target: { scene: 's', entity: 'e' }, state: 0 },
+        {
+          kind: 'branch',
+          cond: { kind: 'chance', percent: 50 },
+          then: [{ kind: 'finishStep', next: { kind: 'complete' } }],
+        },
+      ]),
+    },
+  }
+  await f.runtime.runEntityBehavior(f.scene, 'e', 'auto', { signal: f.signal })
+  expect(saving).toBeDefined()
+  const saved = await saving!
+  expect(saved.money).toBe(7)
+  expect(saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 2 },
+  ])
+  const restoredRandom = vi.fn(() => 0)
+  const restored = new ScriptProjectRuntime({ sharedScripts: {} }, saved, 'c'.repeat(64), {
+    ...f.options,
+    random: restoredRandom,
+    gate: (_signal, boundary) => {
+      if (boundary?.kind !== 'settlement') return blocked.promise
+    },
+    executeEffect: (command) => {
+      if (command.kind === 'giveMoney') saved.money += command.delta
+    },
+  })
+  await restored.runEntityBehavior(f.scene, 'e', 'auto', { signal: new AbortController().signal })
+  expect(saved.money).toBe(7)
+  expect(restoredRandom).toHaveBeenCalledTimes(1)
+  expect(saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.at).toEqual({ kind: 'completed' })
+  blocked.resolve()
+})
+
+test('an already selected next step commits atomically before snapshot readiness', async () => {
+  const selecting = deferred(),
+    commit = deferred()
+  let finishing = false
+  const f = fixture({
+    random: () => 0,
+    beforeStep: ({ command }) => {
+      finishing = command.kind === 'finishStep'
+    },
+    gate: async (_signal, boundary) => {
+      if (boundary?.kind === 'settlement' && finishing) {
+        selecting.resolve()
+        await commit.promise
       }
     },
   })
@@ -764,37 +849,30 @@ test('an already selected random state transition is committed before snapshot r
       label: 'Choose',
       order: 0,
       flow: {
-        kind: 'stateMachine',
-        machine: {
-          id: 'route',
-          label: 'Route',
-          initial: 'choose',
-          states: {
-            choose: {
-              label: 'Choose',
-              body: [],
-              next: {
+        kind: 'stages',
+        initial: 'choose',
+        stages: [
+          {
+            id: 'choose',
+            body: [
+              {
                 kind: 'branch',
                 cond: { kind: 'chance', percent: 50 },
-                then: { kind: 'to', state: 'left', yield: 'worldTick' },
-                else: { kind: 'to', state: 'right', yield: 'worldTick' },
+                then: [{ kind: 'finishStep', next: { kind: 'stage', stage: 'left' } }],
+                else: [{ kind: 'finishStep', next: { kind: 'stage', stage: 'right' } }],
               },
-            },
-            left: {
-              label: 'Left',
-              body: [
-                { kind: 'wait', ms: 500_000 },
-                { kind: 'giveMoney', delta: 1 },
-              ],
-              next: { kind: 'complete' },
-            },
-            right: {
-              label: 'Right',
-              body: [{ kind: 'giveMoney', delta: 999 }],
-              next: { kind: 'complete' },
-            },
+            ],
           },
-        },
+          {
+            id: 'left',
+            body: [
+              { kind: 'wait', ms: 100 },
+              { kind: 'giveMoney', delta: 1 },
+            ],
+            next: { kind: 'complete' },
+          },
+          { id: 'right', body: [{ kind: 'giveMoney', delta: 999 }], next: { kind: 'complete' } },
+        ],
       },
     },
   }
@@ -807,21 +885,20 @@ test('an already selected random state transition is committed before snapshot r
   commit.resolve()
   const saved = await saving
   expect(saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.at).toEqual({
-    kind: 'state',
-    machine: 'route',
-    state: 'left',
+    kind: 'stage',
+    stage: 'left',
   })
+  const random = vi.fn(() => 0.99)
   const restored = new ScriptProjectRuntime({ sharedScripts: {} }, saved, 'c'.repeat(64), {
     ...f.options,
     gate: () => {},
-    random: () => 0.99,
+    random,
     executeEffect: (command) => {
       if (command.kind === 'giveMoney') saved.money += command.delta
     },
   })
   await restored.runEntityBehavior(f.scene, 'e', 'auto', { signal: new AbortController().signal })
   expect(saved.money).toBe(1)
-  await walking.promise
-  arrived.resolve()
+  expect(random).not.toHaveBeenCalled()
   await running
 })

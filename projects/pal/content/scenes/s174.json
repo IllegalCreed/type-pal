@@ -274,6 +274,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -286,6 +287,16 @@
                       "target": {
                         "scene": "s174",
                         "entity": "e2874"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],
@@ -305,10 +316,11 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 740
                     },
                     {
                       "facing": "down",
@@ -319,6 +331,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -328,7 +344,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -339,6 +355,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -348,7 +368,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 360
                     },
                     {
                       "kind": "moveEntity",
@@ -364,6 +384,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "fast",
                       "to": {
@@ -374,6 +398,16 @@
                       "target": {
                         "scene": "s174",
                         "entity": "e2874"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],
@@ -1466,13 +1500,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s174",
-                        "entity": "e2878"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s174",
+                            "entity": "e2878"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

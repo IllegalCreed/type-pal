@@ -1,10 +1,10 @@
 # 作者脚本与运行时合同
 
-类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE10；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/script-system-design.md)，不作为当前执行入口。
 
-## canonical script 契约（contentVersion 21）
+## canonical script 契约（contentVersion 22）
 
 ### 作者身份与存储
 
@@ -31,107 +31,74 @@
 
 ### 控制流
 
-`AuthorScriptFlow` 有两种 canonical 形态：
-
-普通作者界面以「方案 → 步骤 → 指令」为默认模型：方案区分不同剧情时期的行为，步骤区分首次、
-再次激活及复读。首次执行后转下次内容，不需要另建连续流程状态机。2026-10-01已将PAL中29套
-简单历史machine真正整理为stages；编辑器也为默认节拍、仅下次去向的machine提供显式「整理为步骤」，
-经过正常引用校验、撤销/重做和保存，不在加载或运行时偷偷转换。整理后不保留machine容器，状态名称保留为步骤名称，
-步骤及指令稳定编号、正文、出现前准备和运行去向保留；外部游标引用阻止无效整理。
-跨方案由正文中的显式`selectEntityBehavior`指令完成，编辑器入口为「添加指令 → 切换实体脚本」，
-指定场景/实体、交互或自动脚本类型及目标具名方案；列表摘要显示「切换交互脚本／切换自动行为」。
-点击方案卡只选择编辑/预览对象，不切换游戏运行态；步骤详情「下次运行」只指定本方案内部步骤或完成。
-步骤区域标题统一为「步骤列表」，数量与帮助紧邻标题；一或多个步骤均显示同样的完整步骤卡，
-不按数量隐藏卡片或引入另一个单步编辑概念。每套方案至少保留一步，是否继续由显式去向决定。
-剩余165套涉及同次继续、跨拍或分派的历史machine仍保留原逻辑，随E2E逐项合理化，不代表
-推荐作者理解第二套状态机，也不宣称本轮已退役其schema或兼容旧machine游标存档。
-
-2026-10-01客栈李大娘下楼的46个逐拍状态重写为一个普通步骤，包含六段目标坐标与速度指令；
-转折路段不是再次激活的步骤，最后明确完成，不再用空结束状态持续轮询。
-自动脚本保存位置由SAVE10的引擎内部continuation承载，作者不为存档拆步骤。
-目标移动沿投影平面直线推进，四档速度保持原菱形轴步距对应的平面距离；
-只有完整剩余距离不超过当前一步才到点，不能因单轴已接近而吸附另一条远距离轴。
-脚本方案显示名按「剧情时期/触发背景：实际用途」命名，稳定ID与显示名分离；
-全PAL命名治理仍未完成，不将已核客栈批次等同全工程改名完成。
-普通步骤可填写非空`label`说明本轮用途，名称留空表示当前草稿未命名；卡片保留编号并显示名称，
-详情、去向、引用定位和预览图例亦显示名称。名称可编辑、撤销/重做并保存重开，不参与游标/去向身份，
-compiler不将步骤label写入可执行树。现行content digest仍覆盖作者元数据，不对旧开发档放宽校验。
-
-复杂流程的作者提示区分「本次立即/稍后继续」与「下次重复/起始/指定段落」，
-目标下拉显示中文状态名并保存原稳定ID；restart采用配置的initial，不是列表首项。
-世界拍/宏任务仍是内部枚举，界面以「下一次世界更新/稍后继续（不等世界更新）」及解释呈现。
+作者只使用「方案 → 步骤 → 指令」：方案区分剧情时期，步骤区分首次、再次激活和复读。
+一次执行中的走路、转弯、说话、选择和等待留在同一步正文中；不再有机器状态、连续流程或整理旧机器的入口。
+跨方案仍使用显式的selectEntityBehavior；点击方案卡仅选择编辑或预览对象，不改变游戏运行态。
 
 ```ts
-type AuthorScriptFlow =
-  | {
-      kind: 'stages'
-      initial: StageId
-      stages: Array<{
-        id: StageId
-        label?: string
-        entry?: BaseSceneEntryPresentation
-        body: AuthorCommand[]
-        next?: StageId | { kind: 'complete' }
-      }>
-    }
-  | {
-      kind: 'stateMachine'
-      machine: {
-        id: MachineId
-        label: string
-        cadence?: 'transition'
-        initial: StateId
-        states: Record<
-          StateId,
-          {
-            label: string
-            entry?: BaseSceneEntryPresentation
-            body: AuthorCommand[]
-            next: BaseStateTransition
-          }
-        >
-      }
-    }
+type AuthorScriptFlow = {
+  kind: 'stages'
+  initial: StageId
+  stages: Array<{
+    id: StageId
+    label?: string
+    entry?: BaseSceneEntryPresentation
+    body: AuthorCommand[]
+    next?: StageId | { kind: 'complete' }
+  }>
+}
 
-type BaseStateTransition =
-  | { kind: 'complete' }
+type StepExit =
   | { kind: 'stay' }
-  | { kind: 'restart' }
-  | { kind: 'continue'; state: StateId }
-  | { kind: 'advance'; state: StateId }
-  | { kind: 'to'; state: StateId; yield: 'macroTask' | 'worldTick' }
-  | { kind: 'branch'; cond: AuthorCondition; then: BaseStateTransition; else: BaseStateTransition }
-  | {
-      kind: 'commandOutcome'
-      commandId: CommandId
-      command: 'confirm'
-      outcome: 'no'
-      then: BaseStateTransition
-      else: BaseStateTransition
-    }
+  | { kind: 'stage'; stage: StageId }
+  | { kind: 'complete' }
+
+type StructuredCommand =
+  | { kind: 'finishStep'; next: StepExit }
+  | { kind: 'returnScript' }
+  | { kind: 'confirm'; onYes: AuthorCommand[]; onNo: AuthorCommand[] }
+  | { kind: 'repeat'; count: number; body: AuthorCommand[]; id?: string; label?: string }
+  | { kind: 'loop'; mode: 'while' | 'until'; cond: AuthorCondition; body: AuthorCommand[]; id?: string; label?: string }
+  | { kind: 'loop'; mode: 'forever'; body: AuthorCommand[]; id?: string; label?: string }
+  | { kind: 'breakLoop' }
+  | { kind: 'continueLoop'; loop?: string }
 ```
 
-`continue` 表示同一次 invocation 内同步进入下一 state；`advance` 在 safe-point 提交 cursor；
-`to` 还显式声明宏任务或世界拍让步；`commandOutcome` 绑定稳定 `CommandId`，承接命令结果分支。
-stage省略next表示下次仍运行当前步骤，指定StageId表示下一次激活转到该步骤；
-stage与machine都可显式`{kind:'complete'}`，正文成功结束后在安全点提交`{kind:'completed'}`游标。
-完成的owner保留方案身份但不再获取lease、触发前台或自动轮询；保存/读回保持完成状态。
-同有效方案选择保留游标；真正切换方案（含禁用后重新启用）仍从初始节点复位。
-取消、stopScript、未结束的共享调用、未通过modal安全门或过期epoch不得制造完成；
-完成绑定刷新不重置无关实体动画。不用作者空结束节点表达一次性结束。
-`jumpScript`、匿名 binding 和作者可见 generated block 均不是 v5 作者命令。
+步骤next只描述正文正常结束后的默认去向：省略表示下次仍在当前步骤，稳定ID表示下次进入指定步骤，
+complete表示完成方案。正文可用finishStep提前结束本次执行并显式覆盖下次去向；它不是立即跳去执行下一步骤。
+finishStep仅允许行为或场景hook的步骤正文及结构化子树，不允许共享、物品私有、敌AI、技能或入场prepare。
+没有self不等于没有步骤，判断权限使用明确的命令根作用域和本flow步骤集合。
 
-`cadence:'transition'` 是显式节拍模式：compiler 不在 state 正文及其嵌套分支、循环、战斗结果、
-共享脚本调用之间插入兼容等待，正文的多条命令视为同一条源指令在同一帧内完成，只有 state
-transition 决定是否进入下一世界拍。它主要用于忠实承载迁移后的源指令状态机；普通作者脚本
-省略该字段，继续使用既有的 per-command 节拍。PAL 的世界拍为 100ms，而源引擎 `0x09` 以
-40ms 帧计数；迁移后统一展开为每计数一个 100ms 世界拍，这是明确登记的节拍近似，不冒充
-绝对时长无损。
+returnScript仅返回当前共享或私有命令根，不修改调用方步骤。跨调用根不可break/continue。
+confirm两臂各自编辑，臂正常结束后仍继续下方指令；需要结束整个步骤必须显式finishStep。
+不保存命令结果识别名，也不把结果经commandOutcome映射到状态。
 
-compiler 将 canonical flow 降成只存在于内存或可删缓存的 `ExecutableFlow`。生成块可以有内部
-地址和调度节点，但必须带 compiler/content digest，且绝不能回写 canonical 内容、存档、引用索引
-或 MG2 冲突键。SAVE10只存带同一content digest的自动执行帧，不存生成块或可执行代码；
-内部指令ordinal属于执行定位，不作为任何内容对象身份。
+repeat精确执行正安全整数次；while前测、until后测、forever明确长期循环。
+条件判断一次后记录选中的分支，恢复不重掷chance。breakLoop退出最近循环；
+continueLoop默认开始最近循环的下一轮，可按稳定loop id选择同根词法祖先，不能跳同级或任意节点。
+只有需要从内层引用外层的循环才需命名，同根重复id、非祖先目标和跨根引用拒绝。
+复制有名循环须重映射其内部引用，移动到目标不再是祖先的位置不可静默保存。
+
+步骤区域仍统一为「步骤列表」，数量和帮助紧邻标题；单步与多步都显示完整卡片。
+步骤label是作者用途说明，稳定id才是游标身份。目标选择显示可读名称，compiler不把label写入执行树。
+正文、步骤选择、引用定位和移动轨迹沿用同一套指令树；场景播放从实际选中的步骤开始。
+当前content digest仍覆盖作者元数据，不对旧开发档放宽校验。
+
+一次性方案保存completed游标，保留绑定身份但不继续获取执行权。取消、过期epoch、未通过settlement gate
+或尚未返回的子调用不能制造完成。finishStep在当前lease上原子提交一次目标并清理续跑帧，旧执行器不能覆盖新绑定。
+同有效方案选择保留游标；真正切换方案重新从其初始步骤执行，不继承旧巡逻等待计数或内部执行位置。
+
+指令顺序执行，只有明确等待或真实异步动作消耗游戏时间；没有每条auto指令附加100ms、循环强制世界拍，
+也没有成功执行一步后额外40ms。保留观感所需的节拍写在正文，重复帧和动作以repeat/loop表达，
+不能把每一拍包装成一个步骤。固定姿态位移不自动改成会改变步态的走路指令。
+
+零时间循环以运行器工作量保护停止，而不是用累计循环次数限制正常巡逻寿命。
+预算跨自动实体的方案重启和signal更换、步骤返回与共享调用；CPU公平让步、既返Promise和wait0不算真实进展。
+实际宿主时间或明确的真实交互进展才允许重置，相关技术计数不成为作者日常表单。
+
+compiler只在内存或可删缓存里产生执行树，带compilerVersion和content digest。
+SAVE11保存同一digest下的内部执行帧，不保存机器状态、生成块或可执行代码。
+内部指令序号用于执行定位，不成为任何内容对象的身份。
 
 ### 显式执行实体交互方案
 
@@ -143,7 +110,7 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
   不切方案、不重置游标，不模拟自然交互键/触碰/距离。需要切换时先显式`selectEntityBehavior`，
   物品的面对/距离条件仍由调用方编排。
 - 只允许interactive链；auto直接/经共享调用与入场prepare都拒绝。使用同一个signal、宿主与活动链，
-  子self为目标，返回后父self不变；子stop结束子链，取消向上传播。busy/递归显式失败，不静默截断。
+  子self为目标，返回后父self不变；子finishStep结束子步骤，取消向上传播。busy/递归显式失败，不静默截断。
 - 无绑定、禁用或completed目标为no-op；缺目标、异当前场景、永久移除明确失败。已有实体可隐藏，
   显式调用不等于玩家自然交互；目标在正文中隐藏仍可完成后续对白。
 - 当前调用限定同场景session。子链直接/间接`loadScene`、`loadLastSave`、`quitToTitle`、`gameOver`、
@@ -178,7 +145,7 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 ### 编辑器分层与场景预览
 
 - `CanonicalScriptBodyEditor` 是所有 `AuthorCommand[]` 的唯一作者态正文组件；
-  `CanonicalScriptFlowEditor` 在它外层统一编辑 stage/state/transition。共享脚本、物品私有脚本、
+  `CanonicalScriptFlowEditor` 在它外层统一编辑步骤与默认下次去向。共享脚本、物品私有脚本、
   实体 Behavior 和场景 Hook 只保留各自的 identity、选择、引用和元数据外壳，不各写一套正文
   编辑器。
 - 所有修改都派发到同一个 `ScriptEditSession`，因此共用 schema/reference/cursor 校验以及
@@ -195,22 +162,20 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 ### 持久状态与调度
 
 - `WorldScriptState` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，
-  以及 Page/Behavior/Hook 选择、epoch 和 `FlowCursor`。
-- 作者cursor仍在flow业务边界提交；SAVE10另保存自动flow的引擎内部命令续跑位置、嵌套控制帧及单步提交相位，
+  以及 Page/Behavior/Hook 选择、epoch 和仅含stage/completed的`FlowCursor`。
+- 作者cursor仍在flow业务边界提交；SAVE11另保存自动flow的引擎内部命令续跑位置、嵌套控制帧及单步提交相位，
   不把它们变成作者步骤，也不保存临时交互/战斗调用栈。后台移动不等待整步结束才允许存档，详见当前存档合同。
-- 默认 auto 的 100ms compatibility boundary、段间 40ms、hidden/authority 等兼容调度由
-  compiler 显式物化；`cadence:'transition'` 则只物化 transition 声明的节拍。runtime 不再靠
-  遍历 AST 后的隐式 sleep 猜节拍。
+- 自动行为的动作节拍在正文显式表达；调度只处理生命周期、权限和保存门的挂起/唤醒，不附加指令等待。
 - Page/Behavior/Hook 选择真正变化时递增 owner epoch；旧 invocation 持 lease 跑到下一
   safe-point，过期 cursor 的 CAS 会被丢弃。
 - 保存活动身份只在同runtime、exact AbortSignal和真实live lease之间共享；owner epoch失效与lease关闭不是同一件事。
   内联场景钩子/行为有独立owner互斥与cursor，作为父命令的子调用自然结束前仍被保存barrier计数；
-  它不会因保存gate在`to`链中途返回假成功，但abort/epoch检查仍有效。同owner busy不重入。
+  它不会因保存gate在嵌套指令中途返回假成功，但abort/epoch检查仍有效。同owner busy不重入。
   独立新根仍等待gate并在醒来时复核来源场景/session，独立在途根仍按原安全点暂停规则执行。
 
 ### 当前加载与发布边界
 
-- HTTP/runtime/editor loader 只接受 contentVersion 21；存档只接受 SAVE10 / content21。
+- HTTP/runtime/editor loader 只接受 contentVersion 22；存档只接受 SAVE11 / content22。
 - 作者正文直接维护；已退役的原版完整脚本转换核不再参与发布。保留的窄资源/地图供应分区
   经三方merge与完整闭包预检后提交manifest；不发布脚本分片、版本transition或migration sidecar。
 - 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时
@@ -218,10 +183,10 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ## 场景入场呈现
 
-场景 `onEnter` 流程的初始节点可以声明 `entry: { prepare, reveal }`；对于 stages 是 `initial` 指定的 stage，
-对于 stateMachine 是 `machine.initial` 指定的 state。其他节点、实体行为和普通共享脚本不能声明此字段。
+场景 `onEnter` 流程仅在`initial`指定的初始步骤声明`entry: { prepare, reveal }`。
+其他步骤、实体行为和普通共享脚本不能声明此字段。
 `prepare` 为作者指令列表，`reveal` 使用 `SceneReveal`；执行顺序为准备目标画面、呈现切换、正文。
 
-该范围由 [作者流程校验](../../../packages/content/src/author-script-core.ts#L938) 的
+该范围由 [作者流程校验](../../../packages/content/src/author-script-core.ts) 的
 `allowSceneEntry` 与初始节点检查共同约束；字段定义见同文件 `BaseSceneEntryPresentation`。
 编辑方法见 [场景入场指南](../guides/scene-entry-authoring.md)。

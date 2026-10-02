@@ -184,7 +184,7 @@ test('onDefeated recursion reports exact count/number errors and does not rewrit
       else: [
         { kind: 'giveMoney', delta: 0 },
         { kind: 'setFlag', flag: 'reward', value: false },
-        { kind: 'stopScript' },
+        { kind: 'returnScript' },
       ],
     },
   ]

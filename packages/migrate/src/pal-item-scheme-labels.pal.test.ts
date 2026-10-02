@@ -4,10 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { validateAuthorItems, validateAuthorScenes, validateSceneIndex } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
-import {
-  assertPalItemSchemeLabelInvariant,
-  inspectPalItemSchemeRoots,
-} from './pal-item-scheme-labels.js'
+import { inspectPalItemSchemeRoots } from './pal-item-scheme-labels.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
@@ -32,22 +29,20 @@ function projectContent() {
 }
 
 describe('PAL item scheme author labels', () => {
-  test('baseline keeps generated names while current author names retain the same 49 rooted schemes', () => {
-    const expected = { expectedSchemes: 49, expectedMachineInners: 4, expectedItemRoots: 11 }
-    const baseline = assertPalItemSchemeLabelInvariant({ ...baselineContent(), ...expected })
+  test('canonical baseline and current author content retain the same 49 rooted schemes', () => {
+    const expected = { expectedSchemes: 49, expectedItemRoots: 11 }
+    const baseline = inspectPalItemSchemeRoots({ ...baselineContent(), ...expected })
     const current = projectContent()
     const before = structuredClone(current)
     const project = inspectPalItemSchemeRoots({ ...current, ...expected })
 
     expect(baseline).toMatchObject({
       schemes: 49,
-      machineInners: 4,
       itemRoots: 11,
       opaqueLabels: 0,
     })
     expect(project).toMatchObject({
       schemes: 49,
-      machineInners: 4,
       itemRoots: 11,
       opaqueLabels: 0,
     })
@@ -89,7 +84,6 @@ describe('PAL item scheme author labels', () => {
       inspectPalItemSchemeRoots({
         ...current,
         expectedSchemes: 49,
-        expectedMachineInners: 4,
         expectedItemRoots: 11,
       }),
     ).toThrow('PAL 物品剧情方案悬空引用')

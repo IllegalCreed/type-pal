@@ -41,6 +41,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -54,13 +55,21 @@
                         "scene": "s253",
                         "entity": "e4459"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -74,6 +83,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -87,13 +97,21 @@
                         "scene": "s253",
                         "entity": "e4459"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -122,6 +140,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -137,6 +156,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -145,19 +168,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s253",
                         "entity": "e4460"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -171,6 +206,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -186,6 +222,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "right",
                       "kind": "setEntityFacing",
                       "target": {
@@ -194,19 +234,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s253",
                         "entity": "e4460"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -220,6 +272,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -233,13 +286,21 @@
                         "scene": "s253",
                         "entity": "e4460"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -268,6 +329,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -281,13 +343,21 @@
                         "scene": "s253",
                         "entity": "e4461"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -301,6 +371,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -314,13 +385,21 @@
                         "scene": "s253",
                         "entity": "e4461"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -349,6 +428,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -362,13 +442,21 @@
                         "scene": "s253",
                         "entity": "e4462"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -382,6 +470,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -395,13 +484,21 @@
                         "scene": "s253",
                         "entity": "e4462"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1232,353 +1329,75 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "自动行为 1",
-                "cadence": "transition",
-                "initial": "first-cycle-01",
-                "states": {
-                  "bridge-01": {
-                    "label": "bridge-01",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "repeat",
+                      "count": 6,
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s253",
+                            "entity": "e4464"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
                         }
+                      ]
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s253",
+                        "entity": "e4464"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "bridge-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "bridge-02": {
-                    "label": "bridge-02",
-                    "body": [
-                      {
-                        "kind": "playSound",
-                        "asset": "sound.pal.261"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "second-cycle-01",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "completed": {
-                    "label": "completed",
-                    "body": [],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "first-cycle-01": {
-                    "label": "first-cycle-01",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.261"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "repeat",
+                      "count": 6,
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s253",
+                            "entity": "e4464"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
                         }
+                      ]
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "first-cycle-02",
-                      "yield": "worldTick"
                     }
-                  },
-                  "first-cycle-01-phase-02": {
-                    "label": "first-cycle-01-phase-02",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "first-cycle-02-phase-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "first-cycle-01-phase-03": {
-                    "label": "first-cycle-01-phase-03",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "first-cycle-02-phase-03",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "first-cycle-01-phase-04": {
-                    "label": "first-cycle-01-phase-04",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "first-cycle-02-phase-04",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "first-cycle-01-phase-05": {
-                    "label": "first-cycle-01-phase-05",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "first-cycle-02-phase-05",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "first-cycle-01-phase-06": {
-                    "label": "first-cycle-01-phase-06",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "first-cycle-02-phase-06",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "first-cycle-02": {
-                    "label": "first-cycle-02",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "first-cycle-01-phase-02"
-                    }
-                  },
-                  "first-cycle-02-phase-02": {
-                    "label": "first-cycle-02-phase-02",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "first-cycle-01-phase-03"
-                    }
-                  },
-                  "first-cycle-02-phase-03": {
-                    "label": "first-cycle-02-phase-03",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "first-cycle-01-phase-04"
-                    }
-                  },
-                  "first-cycle-02-phase-04": {
-                    "label": "first-cycle-02-phase-04",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "first-cycle-01-phase-05"
-                    }
-                  },
-                  "first-cycle-02-phase-05": {
-                    "label": "first-cycle-02-phase-05",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "first-cycle-01-phase-06"
-                    }
-                  },
-                  "first-cycle-02-phase-06": {
-                    "label": "first-cycle-02-phase-06",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "bridge-01"
-                    }
-                  },
-                  "second-cycle-01": {
-                    "label": "second-cycle-01",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "second-cycle-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "second-cycle-01-phase-02": {
-                    "label": "second-cycle-01-phase-02",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "second-cycle-02-phase-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "second-cycle-01-phase-03": {
-                    "label": "second-cycle-01-phase-03",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "second-cycle-02-phase-03",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "second-cycle-01-phase-04": {
-                    "label": "second-cycle-01-phase-04",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "second-cycle-02-phase-04",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "second-cycle-01-phase-05": {
-                    "label": "second-cycle-01-phase-05",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "second-cycle-02-phase-05",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "second-cycle-01-phase-06": {
-                    "label": "second-cycle-01-phase-06",
-                    "body": [
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s253",
-                          "entity": "e4464"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "second-cycle-02-phase-06",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "second-cycle-02": {
-                    "label": "second-cycle-02",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "second-cycle-01-phase-02"
-                    }
-                  },
-                  "second-cycle-02-phase-02": {
-                    "label": "second-cycle-02-phase-02",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "second-cycle-01-phase-03"
-                    }
-                  },
-                  "second-cycle-02-phase-03": {
-                    "label": "second-cycle-02-phase-03",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "second-cycle-01-phase-04"
-                    }
-                  },
-                  "second-cycle-02-phase-04": {
-                    "label": "second-cycle-02-phase-04",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "second-cycle-01-phase-05"
-                    }
-                  },
-                  "second-cycle-02-phase-05": {
-                    "label": "second-cycle-02-phase-05",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "second-cycle-01-phase-06"
-                    }
-                  },
-                  "second-cycle-02-phase-06": {
-                    "label": "second-cycle-02-phase-06",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "completed"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         }

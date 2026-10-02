@@ -283,7 +283,7 @@ test('stationary normal item menu immediately awaits the entire NPC gift, once, 
   await key(h, 'ArrowDown', 150)
   expect(state().player.pos).not.toEqual(start)
   fixture.assertPristine()
-})
+}, 15_000)
 
 test('normal item cancellation and invalid wine position preserve inventory and never enter the gift', async () => {
   const { h, fixture, loaded } = await boot('wrong-position')

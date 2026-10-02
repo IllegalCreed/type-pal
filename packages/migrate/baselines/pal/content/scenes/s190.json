@@ -240,28 +240,22 @@
                       "kind": "dialog"
                     },
                     {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s190",
-                        "entity": "e3197"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s190",
-                        "entity": "e3197"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 8,
+                          "dy": -4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s190",
+                            "entity": "e3197"
+                          }
+                        },
+                        {
+                          "kind": "clearDialog"
+                        }
+                      ]
                     },
                     {
                       "cue": {

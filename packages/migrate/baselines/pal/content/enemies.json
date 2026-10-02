@@ -110,7 +110,7 @@
         },
         "then": [
           {
-            "kind": "stopScript"
+            "kind": "returnScript"
           }
         ]
       },
@@ -183,7 +183,7 @@
         },
         "then": [
           {
-            "kind": "stopScript"
+            "kind": "returnScript"
           }
         ]
       },
@@ -428,7 +428,7 @@
         },
         "then": [
           {
-            "kind": "stopScript"
+            "kind": "returnScript"
           }
         ]
       },
@@ -500,7 +500,7 @@
         },
         "then": [
           {
-            "kind": "stopScript"
+            "kind": "returnScript"
           }
         ]
       },

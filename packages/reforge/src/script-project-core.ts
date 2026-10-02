@@ -14,7 +14,12 @@ import {
   withScriptActivityLineage,
 } from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
-import { BaseSharedScriptResolver, compileBaseScriptFlow } from './script-compiler-core.js'
+import {
+  BaseSharedScriptResolver,
+  compileBaseCommandRoot,
+  compileBaseScriptFlow,
+} from './script-compiler-core.js'
+import { ScriptExecutionBudgets } from './script-execution-budget.js'
 import type {
   BaseScriptRuntimeHost,
   ScriptGateBoundary,
@@ -283,7 +288,6 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
             command.channel,
             command.selection,
             this.coordinator,
-            command.cursorHandoff,
           )
         else if (command.kind === 'selectEntityPage')
           selectBaseEntityPage(
@@ -320,8 +324,12 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
     })
   }
 
-  confirm(signal: AbortSignal): Promise<boolean> {
-    return this.options.confirm(signal)
+  gameplayNow(): number {
+    return this.options.gameplayNow?.() ?? 0
+  }
+
+  confirm(signal: AbortSignal, reportInteraction?: () => void): Promise<boolean> {
+    return this.options.confirm(signal, reportInteraction)
   }
 
   async startBattle(
@@ -373,6 +381,7 @@ export interface RunBaseProjectCommandsOptions {
 type SynchronousSnapshot<T> = T extends PromiseLike<unknown> ? never : T
 
 export class BaseScriptProjectRuntime {
+  private readonly executionBudgets = new ScriptExecutionBudgets()
   readonly coordinator: FlowRuntimeCoordinator
   readonly host: BaseProjectScriptRuntimeHost
   private readonly shared: BaseSharedScriptResolver
@@ -416,7 +425,14 @@ export class BaseScriptProjectRuntime {
       active = this.coordinator.beginEntityBehavior(this.world, entity, target, channel)
     }
     if (!active) return false
-    const runner = new ScriptRunnerCore(this.host, options.signal, this.shared)
+    const runner = new ScriptRunnerCore(
+      this.host,
+      options.signal,
+      this.shared,
+      channel === 'auto'
+        ? this.executionBudgets.forAutomatic(sceneSessionId, scene.id, entityId, options.signal)
+        : this.executionBudgets.forSignal(options.signal),
+    )
     try {
       await withRegisteredScriptActivityLineage(
         this.host,
@@ -467,7 +483,12 @@ export class BaseScriptProjectRuntime {
       active = this.coordinator.beginSceneHook(this.world, scene, slot)
     }
     if (!active) return false
-    const runner = new ScriptRunnerCore(this.host, options.signal, this.shared)
+    const runner = new ScriptRunnerCore(
+      this.host,
+      options.signal,
+      this.shared,
+      this.executionBudgets.forSignal(options.signal),
+    )
     try {
       await withRegisteredScriptActivityLineage(
         this.host,
@@ -500,21 +521,19 @@ export class BaseScriptProjectRuntime {
     options: RunBaseProjectCommandsOptions,
   ): Promise<void> {
     await withScriptActivityLineage(this.host, this.coordinator, options.signal, async () => {
-      const runner = new ScriptRunnerCore(this.host, options.signal, this.shared)
+      const runner = new ScriptRunnerCore(
+        this.host,
+        options.signal,
+        this.shared,
+        this.executionBudgets.forSignal(options.signal),
+      )
       await runner.runFlow(
-        compileBaseScriptFlow(
-          {
-            kind: 'stages',
-            initial: '__transient',
-            stages: [{ id: '__transient', body: [...structuredClone(commands)] }],
-          },
-          {
-            canonicalContentDigest: this.canonicalContentDigest,
-            timing: options.timing ?? 'interactive',
-          },
-        ),
+        compileBaseCommandRoot(commands, {
+          canonicalContentDigest: this.canonicalContentDigest,
+          timing: options.timing ?? 'interactive',
+        }),
         {
-          cursor: { kind: 'stage', stage: '__transient' },
+          cursor: { kind: 'stage', stage: '__script' },
           cursorController: { reachSafePoint: () => 'continue' },
           ...(options.self ? { self: structuredClone(options.self) } : {}),
         },

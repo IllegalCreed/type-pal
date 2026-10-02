@@ -28,38 +28,10 @@ export async function validateScriptContinuation<T>(
   checkAutoScriptContinuation(resume)
   if (resume.digest !== executable.canonicalContentDigest)
     throw new Error('auto resume: 内容digest不匹配')
-  let commands: readonly ExecutableCommandLike<T>[]
-  if (executable.flow.kind === 'stages') {
-    if (cursor.kind !== 'stage') throw new Error('auto resume: stages需要stage游标')
-    const stage = executable.flow.stages.find((value) => value.id === cursor.stage)
-    if (!stage) throw new Error('auto resume: stage不存在')
-    commands = stage.body
-  } else {
-    if (cursor.kind !== 'state' || cursor.machine !== executable.flow.machine.id)
-      throw new Error('auto resume: machine游标不匹配')
-    const state = executable.flow.machine.states[cursor.state]
-    if (!state) throw new Error('auto resume: state不存在')
-    commands = state.body
-  }
-  const rootFrame = resume.frames[0]
-  if (!rootFrame) throw new Error('auto resume: 缺少根执行帧')
-  const expectedOutcomes = new Map<string, boolean | undefined>()
-  if (executable.flow.kind === 'stateMachine') {
-    for (const [index, command] of commands.entries()) {
-      if (command.kind !== 'confirm' || !command.id) continue
-      if (index < rootFrame.index) expectedOutcomes.set(command.id, undefined)
-      else if (index === rootFrame.index && rootFrame.control?.kind === 'confirm')
-        expectedOutcomes.set(command.id, rootFrame.control.no)
-    }
-  }
-  for (const id of Object.keys(resume.outcomes))
-    if (!expectedOutcomes.has(id)) throw new Error(`auto resume: confirm结果尚未执行或不存在 ${id}`)
-  for (const [id, selected] of expectedOutcomes) {
-    const outcome = Object.hasOwn(resume.outcomes, id) ? resume.outcomes[id] : undefined
-    if (!outcome) throw new Error(`auto resume: 缺少已执行confirm结果 ${id}`)
-    if (selected !== undefined && outcome.no !== selected)
-      throw new Error(`auto resume: confirm结果与控制帧不一致 ${id}`)
-  }
+  if (cursor.kind !== 'stage') throw new Error('auto resume: 需要stage游标')
+  const stage = executable.flow.stages.find((value) => value.id === cursor.stage)
+  if (!stage) throw new Error('auto resume: stage不存在')
+  let commands: readonly ExecutableCommandLike<T>[] = stage.body
   let callDepth = 0
   let self = initialSelf
   let location: ScriptContinuationLocation<T> = {}
@@ -82,11 +54,17 @@ export async function validateScriptContinuation<T>(
       if (hasChild) throw new Error('auto resume: 单步相位不能有子帧')
     }
     if (frame.control?.kind === 'loop' && command?.kind === 'loop') {
-      if (frame.control.iteration > command.maxIterations)
-        throw new Error('auto resume: loop迭代越界')
       if (frame.control.phase !== 'body' && hasChild)
         throw new Error('auto resume: loop非body不能有子帧')
+      if (frame.control.phase === 'test' && command.mode === 'forever')
+        throw new Error('auto resume: forever没有条件测试相位')
     }
+    if (
+      frame.control?.kind === 'repeat' &&
+      command?.kind === 'repeat' &&
+      frame.control.iteration > command.count
+    )
+      throw new Error('auto resume: repeat迭代越界')
     if (!hasChild) {
       location = {
         ...(command?.kind === 'leaf' ? { leaf: command.command } : {}),
@@ -107,10 +85,13 @@ export async function validateScriptContinuation<T>(
           throw new Error('auto resume: 缺少loop body相位')
         commands = command.body
         break
+      case 'repeat':
+        if (control?.kind !== 'repeat') throw new Error('auto resume: 缺少repeat迭代')
+        commands = command.body
+        break
       case 'confirm':
-        if (control?.kind !== 'confirm' || !control.no)
-          throw new Error('auto resume: confirm子帧不是onNo')
-        commands = command.onNo
+        if (control?.kind !== 'confirm') throw new Error('auto resume: 缺少confirm选择')
+        commands = command[control.arm]
         break
       case 'startBattle':
         if (control?.kind !== 'startBattle' || control.arm === 'none')
@@ -125,12 +106,7 @@ export async function validateScriptContinuation<T>(
       case 'callScript': {
         if (++callDepth > SCRIPT_MAX_CALL_DEPTH) throw new Error('auto resume: shared调用深度越界')
         if (!resolver) throw new Error('auto resume: 缺少shared resolver')
-        const script = await resolver.resolve(
-          command.script,
-          executable.timing,
-          executable.boundaryPolicy,
-          signal,
-        )
+        const script = await resolver.resolve(command.script, executable.timing, signal)
         if (script.id !== command.script || script.canonicalContentDigest !== resume.digest)
           throw new Error('auto resume: shared内容不匹配')
         const inherited = command.self ?? self

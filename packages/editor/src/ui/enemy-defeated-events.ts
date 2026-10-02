@@ -218,7 +218,7 @@ function strictSkipPercent(
     command.cond.kind !== 'chance' ||
     (requireAbsentElse ? command.else !== undefined : (command.else?.length ?? 0) !== 0) ||
     command.then.length !== 1 ||
-    command.then[0]?.kind !== 'stopScript'
+    command.then[0]?.kind !== 'returnScript'
   )
     return undefined
   return command.cond.percent
@@ -487,7 +487,7 @@ function presentCommand(
         ...(reference.invalid ? { invalid: true } : {}),
       }
     }
-    case 'stopScript':
+    case 'returnScript':
       return { path, kind: command.kind, label: '结束本敌槽后续事件' }
     case 'branch': {
       const condition = describeCondition(command.cond, context)
@@ -561,7 +561,7 @@ const summaryCategoryByKind: Partial<Record<EnemyDefeatedEventNode['kind'], stri
   setFlag: '状态变化',
   setVar: '状态变化',
   addVar: '状态变化',
-  stopScript: '流程终止',
+  returnScript: '流程终止',
 }
 
 interface EnemyDefeatedSummaryCandidate {
@@ -592,7 +592,7 @@ function analyzeSummaryNode(
 ): EnemyDefeatedSummaryFlow {
   const category = summaryCategoryByKind[node.kind]
   const ownCategories = category ? [{ path: node.path, kind: node.kind, label: category }] : []
-  if (node.kind === 'stopScript') {
+  if (node.kind === 'returnScript') {
     return {
       candidates: [],
       categories: ownCategories,
@@ -694,7 +694,7 @@ export function presentEnemyDefeatedEvents(
         .filter((category) => category.path !== primaryPath)
         .filter((category) =>
           main
-            ? category.kind !== 'branch' && category.kind !== 'stopScript'
+            ? category.kind !== 'branch' && category.kind !== 'returnScript'
             : fallback.kind !== 'branch' || category.kind !== 'branch',
         )
         .map((category) => category.label),
@@ -727,7 +727,7 @@ export function findEditableEnemyDefeatedItemReward(
   if (
     commands
       .slice(0, startIndex)
-      .some((command) => command.kind === 'branch' || command.kind === 'stopScript')
+      .some((command) => command.kind === 'branch' || command.kind === 'returnScript')
   )
     return undefined
   const following = commands[giveIndex + 1]
@@ -754,7 +754,7 @@ export function replaceEditableEnemyDefeatedItemReward(
       replacement.push({
         kind: 'branch',
         cond: { kind: 'chance', percent: 100 - next.probability },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       })
     }
     replacement.push({ kind: 'giveItem', itemId: next.itemId, count: next.count })

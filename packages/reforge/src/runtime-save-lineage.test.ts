@@ -3,9 +3,9 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import {
   confirm,
   deferred,
+  firstAndRepeat,
   fixture,
   flag,
-  machine,
   stage,
 } from './__tests__/save-lineage-fixture.js'
 import { BaseScriptProjectRuntime } from './script-project-core.js'
@@ -55,7 +55,7 @@ describe('SAVE-BARRIER-LINEAGE-1 current runtime', () => {
     expect(f.runtime.coordinator.gateClosed()).toBe(false)
   })
 
-  test('the same independent root stops at its checkpoint, then resumes after release', async () => {
+  test('an independent root settles the complete foreground step before snapshot, then repeats', async () => {
     const entered = deferred(),
       answer = deferred<boolean>()
     const f = fixture({
@@ -64,18 +64,17 @@ describe('SAVE-BARRIER-LINEAGE-1 current runtime', () => {
         return answer.promise
       },
     })
-    f.scene.hooks!.onTeleport!.variants.exit!.flow = machine([confirm])
+    f.scene.hooks!.onTeleport!.variants.exit!.flow = firstAndRepeat([confirm])
     const running = f.runtime.runSceneHook(f.scene, 'onTeleport', { signal: f.signal })
     await entered.promise
     const saving = f.runtime.withSaveBarrier(() => structuredClone(f.world.script))
     answer.resolve(true)
     await running
     const snapshot = await saving
-    expect(snapshot?.flags).toEqual({ first: true })
+    expect(snapshot?.flags).toEqual({ first: true, childEnd: true })
     expect(snapshot?.behaviors.scenes?.s?.onTeleport?.cursor?.at).toEqual({
-      kind: 'state',
-      machine: 'exit',
-      state: 'last',
+      kind: 'stage',
+      stage: 'last',
     })
     await f.runtime.runSceneHook(f.scene, 'onTeleport', { signal: f.signal })
     expect(f.world.script?.flags).toEqual({ first: true, childEnd: true })
@@ -262,8 +261,8 @@ describe('SAVE-BARRIER-LINEAGE-1 current runtime', () => {
   test('child failure closes both leases and permits a later successful attempt', async () => {
     let fail = true
     const f = fixture({
-      yieldMacroTask: async () => {
-        if (fail) throw new Error('child failed')
+      executeEffect: async (command) => {
+        if (fail && command.kind === 'wait') throw new Error('child failed')
       },
     })
     await expect(

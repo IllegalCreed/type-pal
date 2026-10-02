@@ -18,8 +18,8 @@ function state(): EditorState {
     manifest: {
       id: 'refs',
       name: 'refs',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -305,7 +305,7 @@ function recursiveState(): EditorState {
           then: [],
           else: [{ kind: 'giveItem', itemId: 'target' }],
         },
-        { kind: 'confirm', onNo: [{ kind: 'loseItem', itemId: 'target' }] },
+        { kind: 'confirm', onYes: [], onNo: [{ kind: 'loseItem', itemId: 'target' }] },
         {
           kind: 'startBattle',
           enemyTeamId: 'team-1',
@@ -876,36 +876,35 @@ describe('collectItemReferences', () => {
                     label: '交谈',
                     order: 0,
                     flow: {
-                      kind: 'stateMachine',
-                      machine: {
-                        id: 'dialog',
-                        label: '连续交谈',
-                        initial: 'start',
-                        states: {
-                          start: {
-                            label: '开始',
-                            body: [{ kind: 'confirm', id: 'choice', onNo: [] }],
-                            next: {
-                              kind: 'commandOutcome',
-                              commandId: 'choice',
-                              command: 'confirm',
-                              outcome: 'no',
-                              then: {
-                                kind: 'branch',
-                                cond: { kind: 'flag', flag: 'outer', is: true },
-                                then: {
+                      kind: 'stages',
+                      initial: 'start',
+                      stages: [
+                        {
+                          id: 'start',
+                          label: '开始',
+                          body: [
+                            {
+                              kind: 'confirm',
+                              onYes: [{ kind: 'finishStep', next: { kind: 'stay' } }],
+                              onNo: [
+                                {
                                   kind: 'branch',
-                                  cond: { kind: 'hasItem', itemId: 'target' },
-                                  then: { kind: 'stay' },
-                                  else: { kind: 'stay' },
+                                  cond: { kind: 'flag', flag: 'outer', is: true },
+                                  then: [
+                                    {
+                                      kind: 'branch',
+                                      cond: { kind: 'hasItem', itemId: 'target' },
+                                      then: [{ kind: 'finishStep', next: { kind: 'stay' } }],
+                                      else: [{ kind: 'finishStep', next: { kind: 'stay' } }],
+                                    },
+                                  ],
+                                  else: [{ kind: 'finishStep', next: { kind: 'stay' } }],
                                 },
-                                else: { kind: 'stay' },
-                              },
-                              else: { kind: 'stay' },
+                              ],
                             },
-                          },
+                          ],
                         },
-                      },
+                      ],
                     },
                   },
                 },
@@ -948,9 +947,9 @@ describe('collectItemReferences', () => {
       expect.arrayContaining([
         expect.objectContaining({
           access: 'read',
-          label: expect.stringContaining('连续流程“连续交谈”'),
-          unavailableReason: expect.stringContaining('状态去向条件'),
-          where: expect.stringContaining('.next.then.then.cond'),
+          label: expect.stringContaining('步骤 1'),
+          locator: expect.objectContaining({ kind: 'canonical-script' }),
+          where: expect.stringContaining('.body[0].onNo[0].then[0].cond'),
         }),
         expect.objectContaining({
           access: 'reward',
@@ -959,7 +958,9 @@ describe('collectItemReferences', () => {
         }),
       ]),
     )
-    expect(references.find((reference) => reference.access === 'read')?.locator).toBeUndefined()
+    expect(references.find((reference) => reference.access === 'read')?.locator).toMatchObject({
+      kind: 'canonical-script',
+    })
     expect(
       blockingItemReferences(state(), 'target', canonical).some(
         (reference) =>

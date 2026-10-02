@@ -104,8 +104,8 @@ function shellState(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -430,8 +430,8 @@ describe('App item reference navigation', () => {
   ): Promise<EditSession> => {
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
     } as EditorState['manifest']
     const source = {
       readText: vi.fn(async () => ''),
@@ -2207,8 +2207,8 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
@@ -2285,8 +2285,8 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
     shell.scenes[0]!.entry.pos = { col: 9, row: 8, height: 0 }
@@ -2299,7 +2299,7 @@ describe('App item reference navigation', () => {
     }
 
     const merged = mergeEditorProjectionWithCurrentAuthorState(canonical, shell)
-    expect(merged.manifest.contentVersion).toBe(21)
+    expect(merged.manifest.contentVersion).toBe(22)
     expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
     expect(
       (merged.scenes[0] as unknown as ScriptEditorState['scenes'][number]).entities[0]!.behaviors!

@@ -39,24 +39,19 @@ interface PalItemSchemeLabelPlanEntry {
   itemId: string
   path: string
   currentLabel: string
-  expectedLabel: string
-  currentMachineLabel?: string
-  expectedMachineLabel?: string
 }
 
 export interface PalItemSchemeLabelReport {
   schemes: number
-  machineInners: number
   itemRoots: number
   opaqueLabels: number
-  labels: Array<{ id: string; itemId: string; path: string; label: string; machineLabel?: string }>
+  labels: Array<{ id: string; itemId: string; path: string; label: string }>
 }
 
 interface PalItemSchemeLabelArgs {
   items: readonly AuthorItemData[]
   scenes: readonly AuthorSceneDef[]
   expectedSchemes: number
-  expectedMachineInners: number
   expectedItemRoots?: number
 }
 
@@ -80,6 +75,7 @@ function walkCommands(
         walkCommands(command.else ?? [], `${commandPath}.else`, visit)
         break
       case 'loop':
+      case 'repeat':
         walkCommands(command.body, `${commandPath}.body`, visit)
         break
       case 'startBattle':
@@ -90,6 +86,7 @@ function walkCommands(
         walkCommands(command.onFail ?? [], `${commandPath}.onFail`, visit)
         break
       case 'confirm':
+        walkCommands(command.onYes, `${commandPath}.onYes`, visit)
         walkCommands(command.onNo, `${commandPath}.onNo`, visit)
         break
     }
@@ -101,21 +98,10 @@ function walkFlow(
   path: string,
   visit: (command: AuthorCommand, path: string) => void,
 ): void {
-  if (flow.kind === 'stages') {
-    flow.stages.forEach((stage, index) => {
-      walkCommands(stage.entry?.prepare ?? [], `${path}.stages[${index}].entry.prepare`, visit)
-      walkCommands(stage.body, `${path}.stages[${index}].body`, visit)
-    })
-    return
-  }
-  for (const [stateId, state] of Object.entries(flow.machine.states)) {
-    walkCommands(
-      state.entry?.prepare ?? [],
-      `${path}.machine.states.${stateId}.entry.prepare`,
-      visit,
-    )
-    walkCommands(state.body, `${path}.machine.states.${stateId}.body`, visit)
-  }
+  flow.stages.forEach((stage, index) => {
+    walkCommands(stage.entry?.prepare ?? [], `${path}.stages[${index}].entry.prepare`, visit)
+    walkCommands(stage.body, `${path}.stages[${index}].body`, visit)
+  })
 }
 
 function selectionEdges(commands: readonly AuthorCommand[], path: string): SelectionEdge[] {
@@ -197,15 +183,7 @@ function isCanonicalTopLabel(label: string, itemNames: readonly string[]): boole
 }
 
 function isCandidate(node: SchemeNode, itemNames: readonly string[]): boolean {
-  if (OPAQUE_ITEM_SCHEME_LABEL.test(node.label) || isCanonicalTopLabel(node.label, itemNames))
-    return true
-  if (node.flow.kind !== 'stateMachine') return false
-  const machineLabel = node.flow.machine.label
-  if (OPAQUE_ITEM_SCHEME_LABEL.test(machineLabel)) return true
-  return (
-    machineLabel.endsWith('连续流程') &&
-    isCanonicalTopLabel(machineLabel.slice(0, -'连续流程'.length), itemNames)
-  )
+  return OPAQUE_ITEM_SCHEME_LABEL.test(node.label) || isCanonicalTopLabel(node.label, itemNames)
 }
 
 function collectNodes(scenes: readonly AuthorSceneDef[]): Map<string, SchemeNode> {
@@ -341,38 +319,19 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
       if (previous.order === current.order && previous.id === current.id)
         throw new Error(`PAL 物品剧情方案 order + id 不唯一: ${previous.path} / ${current.path}`)
     }
-    group.forEach((node, index) => {
-      const expectedLabel = `${item.name}剧情方案${index === 0 ? '' : ` ${index + 1}`}`
-      const machineLabel = node.flow.kind === 'stateMachine' ? node.flow.machine.label : undefined
+    group.forEach((node) => {
       entries.push({
         address: node.address,
         id: node.id,
         itemId,
         path: node.path,
         currentLabel: node.label,
-        expectedLabel,
-        ...(machineLabel === undefined
-          ? {}
-          : {
-              currentMachineLabel: machineLabel,
-              expectedMachineLabel: `${expectedLabel}连续流程`,
-            }),
       })
     })
   }
 
-  const machineInners = entries.filter((entry) => entry.currentMachineLabel !== undefined).length
-  if (machineInners !== args.expectedMachineInners)
-    throw new Error(
-      `PAL 物品剧情方案 machine-inner 数漂移: ${machineInners} != ${args.expectedMachineInners}`,
-    )
   const opaqueLabels = [...nodes.values()].reduce(
-    (count, node) =>
-      count +
-      Number(OPAQUE_ITEM_SCHEME_LABEL.test(node.label)) +
-      Number(
-        node.flow.kind === 'stateMachine' && OPAQUE_ITEM_SCHEME_LABEL.test(node.flow.machine.label),
-      ),
+    (count, node) => count + Number(OPAQUE_ITEM_SCHEME_LABEL.test(node.label)),
     0,
   )
   return { entries, opaqueLabels }
@@ -384,7 +343,6 @@ function labelReport(
 ): PalItemSchemeLabelReport {
   return {
     schemes: entries.length,
-    machineInners: entries.filter((entry) => entry.currentMachineLabel !== undefined).length,
     itemRoots: new Set(entries.map((entry) => entry.itemId)).size,
     opaqueLabels,
     labels: entries.map((entry) => ({
@@ -392,9 +350,6 @@ function labelReport(
       itemId: entry.itemId,
       path: entry.path,
       label: entry.currentLabel,
-      ...(entry.currentMachineLabel === undefined
-        ? {}
-        : { machineLabel: entry.currentMachineLabel }),
     })),
   }
 }
@@ -403,24 +358,5 @@ function labelReport(
 export function inspectPalItemSchemeRoots(args: PalItemSchemeLabelArgs): PalItemSchemeLabelReport {
   const { entries, opaqueLabels } = derivePalItemSchemeLabelPlan(args)
   if (opaqueLabels) throw new Error(`PAL 物品剧情方案仍含 ${opaqueLabels} 个 opaque label`)
-  return labelReport(entries, opaqueLabels)
-}
-
-/** PAL supply seed gate: unique roots, deterministic generated names and synchronized inners. */
-export function assertPalItemSchemeLabelInvariant(
-  args: PalItemSchemeLabelArgs,
-): PalItemSchemeLabelReport {
-  const { entries, opaqueLabels } = derivePalItemSchemeLabelPlan(args)
-  if (opaqueLabels) throw new Error(`PAL 物品剧情方案仍含 ${opaqueLabels} 个 opaque label`)
-  for (const entry of entries) {
-    if (entry.currentLabel !== entry.expectedLabel)
-      throw new Error(
-        `PAL 物品剧情方案名称漂移: ${entry.path}.label = ${JSON.stringify(entry.currentLabel)}，期望 ${JSON.stringify(entry.expectedLabel)}`,
-      )
-    if (entry.currentMachineLabel !== entry.expectedMachineLabel)
-      throw new Error(
-        `PAL 物品剧情方案 machine-inner 未与父名同步: ${entry.path}.flow.machine.label = ${JSON.stringify(entry.currentMachineLabel)}，期望 ${JSON.stringify(entry.expectedMachineLabel)}`,
-      )
-  }
   return labelReport(entries, opaqueLabels)
 }

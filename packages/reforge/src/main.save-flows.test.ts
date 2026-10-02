@@ -30,7 +30,7 @@ async function saved(store: IndexedDbSaveStore) {
 }
 
 function expectedRestored(world: WorldState): WorldState {
-  // SAVE10 normalization supplies counts and the documented restore step clears transient conditions.
+  // SAVE11 normalization supplies counts and the documented restore step clears transient conditions.
   return {
     ...structuredClone(world),
     audio: {},
@@ -44,14 +44,14 @@ function expectedRestored(world: WorldState): WorldState {
   }
 }
 
-test('H5 F5 stores real SAVE10 data, F9 restores after actual menu spell, and scopes remain isolated', async () => {
+test('H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and scopes remain isolated', async () => {
   const { h, store } = await boot()
   const before = structuredClone(observation().world)
   await key(h, 'F5')
   const payload = await saved(store)
   expect(payload).toEqual({
-    version: 10,
-    contentVersion: 21,
+    version: 11,
+    contentVersion: 22,
     projectId: 'shell-project',
     world: before,
     position: { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },

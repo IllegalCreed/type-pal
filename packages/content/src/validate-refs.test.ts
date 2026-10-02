@@ -691,6 +691,7 @@ test('动作引用保留场景页与嵌套命令的精确校验路径', () => {
         wave: [
           {
             kind: 'confirm',
+            onYes: [],
             onNo: [
               {
                 kind: 'playEntityAction',

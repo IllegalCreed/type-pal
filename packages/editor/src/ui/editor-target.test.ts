@@ -7,8 +7,8 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       entryPoints: [
         {

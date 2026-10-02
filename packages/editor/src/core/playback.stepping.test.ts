@@ -98,35 +98,28 @@ describe('preview command stepping and continuous dialogue', () => {
     r.unchanged()
   })
 
-  test('state transitions do not consume a click between body commands', async () => {
+  test('one step sequences its body without an empty transition click', async () => {
     const r = preview()
     await r.start(
       {
-        kind: 'stateMachine',
-        machine: {
-          id: 'preview-machine',
-          label: '状态',
-          initial: 'first',
-          states: {
-            first: {
-              label: '起始',
-              body: [{ kind: 'setPartyFacing', facing: 'left' }],
-              next: { kind: 'continue', state: 'last' },
-            },
-            last: {
-              label: '末尾',
-              body: [{ kind: 'setPartyFacing', facing: 'right' }],
-              next: { kind: 'stay' },
-            },
+        kind: 'stages',
+        initial: 'first',
+        stages: [
+          {
+            id: 'first',
+            body: [
+              { kind: 'setPartyFacing', facing: 'left' },
+              { kind: 'setPartyFacing', facing: 'right' },
+            ],
           },
-        },
+        ],
       },
       { paused: true },
     )
     r.p.step()
     await settle()
     expect(r.p.view.player.facing).toBe('left')
-    expect(r.p.activePath).toBe('preview-machine/first/0')
+    expect(r.p.activePath).toBe('first/0')
     r.p.step()
     await settle()
     expect(r.p.view.player.facing).toBe('right')
@@ -162,7 +155,7 @@ describe('preview command stepping and continuous dialogue', () => {
     await r.start(
       flowOf([
         dialogue('你好'),
-        { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: -3 }] },
+        { kind: 'confirm', onYes: [], onNo: [{ kind: 'giveMoney', delta: -3 }] },
         { kind: 'giveMoney', delta: 7 },
       ]),
     )

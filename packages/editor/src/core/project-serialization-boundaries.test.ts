@@ -19,7 +19,12 @@ vi.mock('./handle-store.js', async (original) => ({
 }))
 beforeEach(() => authorSaveStorage.receipts.clear())
 
-import type { AuthorSceneDef, ScriptChunkV1, ScriptIndexV1 } from '@type-pal/content'
+import type {
+  AuthorSceneDef,
+  AuthorScriptLibrary,
+  ScriptChunkV1,
+  ScriptIndexV1,
+} from '@type-pal/content'
 import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { EditSession } from './edit-session.js'
 import { UpdateEntityCommand } from './entity-commands.js'
@@ -116,8 +121,8 @@ test('entity names survive actual dual-session serialization and current loader 
   ])
   expect(saved.entities[0]!.behaviors).toEqual(scene.entities[0]!.behaviors)
   expect(saved.entities[0]).toMatchObject({ actor: 'hero' })
-  expect(reopened.manifest.contentVersion).toBe(21)
-  expect(reopened.manifest.minimumSaveVersion).toBe(10)
+  expect(reopened.manifest.contentVersion).toBe(22)
+  expect(reopened.manifest.minimumSaveVersion).toBe(11)
 })
 
 test('named steps survive canonical scene serialization and real current loader reopening', async () => {
@@ -151,8 +156,82 @@ test('named steps survive canonical scene serialization and real current loader 
   const reopened = await loadCurrentProjectFrom(fsaSource(output.dir))
   const scenes = await loadAllAuthorScenes(reopened)
   expect(scenes[0]?.hooks).toEqual(scene.hooks)
-  expect(reopened.manifest.contentVersion).toBe(21)
-  expect(reopened.manifest.minimumSaveVersion).toBe(10)
+  expect(reopened.manifest.contentVersion).toBe(22)
+  expect(reopened.manifest.minimumSaveVersion).toBe(11)
+})
+
+test('nested confirmation, named loop control and shared returns survive current author serialization', async () => {
+  const { opened, disk } = await blankState('structured-steps')
+  const sharedScripts: AuthorScriptLibrary = {
+    'local-return': {
+      name: '局部等待',
+      self: 'none',
+      body: [{ kind: 'wait', ms: 50 }, { kind: 'returnScript' }, { kind: 'wait', ms: 999 }],
+    },
+  }
+  const scene: AuthorSceneDef = {
+    ...opened.scenes[0]!,
+    hooks: {
+      onEnter: {
+        initial: 'opening',
+        variants: {
+          opening: {
+            label: '开场选择',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'choose',
+              stages: [
+                {
+                  id: 'choose',
+                  label: '确认与重试',
+                  body: [
+                    {
+                      kind: 'repeat',
+                      id: 'attempt',
+                      label: '外层重试',
+                      count: 3,
+                      body: [
+                        {
+                          kind: 'confirm',
+                          onYes: [
+                            {
+                              kind: 'loop',
+                              mode: 'until',
+                              cond: { kind: 'chance', percent: 50 },
+                              body: [{ kind: 'continueLoop', loop: 'attempt' }],
+                            },
+                            { kind: 'callScript', script: 'local-return' },
+                          ],
+                          onNo: [{ kind: 'breakLoop' }],
+                        },
+                      ],
+                    },
+                    { kind: 'finishStep', next: { kind: 'stage', stage: 'repeat-talk' } },
+                  ],
+                },
+                {
+                  id: 'repeat-talk',
+                  label: '后续复读',
+                  body: [{ kind: 'finishStep', next: { kind: 'stay' } }],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  }
+  const before = structuredClone({ scene, sharedScripts })
+  const state = toEditorState(opened.project, [scene], {}, {}, [])
+  state.sharedScripts = sharedScripts
+  const files = await serializeProjectWithMapCopies(state, fsaSource(disk.dir))
+  const reopened = await loadCurrentProjectFrom(
+    fsaSource(memoryAuthorDirectory(structuredClone(files)).dir),
+  )
+  expect((await loadAllAuthorScenes(reopened))[0]?.hooks).toEqual(scene.hooks)
+  expect(reopened.authorContent.sharedScripts).toEqual(sharedScripts)
+  expect({ scene, sharedScripts }).toEqual(before)
 })
 
 test('S01(当前模型): sharedScripts 携带具体脚本体输出并可经正式 loader 重开核对', async () => {

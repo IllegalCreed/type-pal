@@ -40,16 +40,14 @@ export function stageFlow(body: AuthorCommand[] = []): AuthorScriptFlow {
 
 export function transitionFlow(nested = false): AuthorScriptFlow {
   return {
-    kind: 'stateMachine',
-    machine: {
-      id: 'guard-machine',
-      label: '引用保护状态机',
-      initial: 'one',
-      states: {
-        one: {
-          label: '检查场景',
-          body: [],
-          next: {
+    kind: 'stages',
+    initial: 'one',
+    stages: [
+      {
+        id: 'one',
+        label: '检查场景',
+        body: [
+          {
             kind: 'branch',
             cond: nested
               ? {
@@ -64,18 +62,20 @@ export function transitionFlow(nested = false): AuthorScriptFlow {
                 }
               : { kind: 'currentScene', scene: 'target' },
             then: nested
-              ? {
-                  kind: 'branch',
-                  cond: { kind: 'currentScene', scene: 'target' },
-                  then: { kind: 'stay' },
-                  else: { kind: 'stay' },
-                }
-              : { kind: 'stay' },
-            else: { kind: 'stay' },
+              ? [
+                  {
+                    kind: 'branch',
+                    cond: { kind: 'currentScene', scene: 'target' },
+                    then: [{ kind: 'finishStep', next: { kind: 'stay' } }],
+                    else: [{ kind: 'finishStep', next: { kind: 'stay' } }],
+                  },
+                ]
+              : [{ kind: 'finishStep', next: { kind: 'stay' } }],
+            else: [{ kind: 'finishStep', next: { kind: 'stay' } }],
           },
-        },
+        ],
       },
-    },
+    ],
   }
 }
 

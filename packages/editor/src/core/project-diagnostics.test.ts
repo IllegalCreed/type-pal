@@ -33,7 +33,6 @@ import {
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   collectCanonicalScriptCommandVisits,
-  collectCanonicalScriptTransitionVisits,
   collectScriptReferenceIssuesFromVisits,
   type ScriptEditorState,
 } from './script-editor.js'
@@ -75,8 +74,8 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
   const manifest: CurrentManifest = {
     id: 'test',
     name: 'Test',
-    contentVersion: 21,
-    minimumSaveVersion: 10,
+    contentVersion: 22,
+    minimumSaveVersion: 11,
     defaultEntryId: 'new-game',
     content: {
       maps: 'content/maps/index.json',
@@ -192,7 +191,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   const collectAssets = vi.fn(collectEditorAssetReferenceSnapshotFromSlices)
   const collectAssetDiagnostics = vi.fn(collectEditorAssetDiagnostics)
   const collectVisits = vi.fn(collectCanonicalScriptCommandVisits)
-  const collectTransitions = vi.fn(collectCanonicalScriptTransitionVisits)
   const collectCanonicalAssets = vi.fn(collectCanonicalAssetReferenceEntries)
   const collectScriptIssues = vi.fn(collectScriptReferenceIssuesFromVisits)
   const collectWorldVariables = vi.fn(collectWorldVariableReferencesV1FromVisits)
@@ -206,7 +204,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
     collectEditorAssetReferenceSnapshotFromSlices: collectAssets,
     collectEditorAssetDiagnostics: collectAssetDiagnostics,
     collectCanonicalScriptCommandVisits: collectVisits,
-    collectCanonicalScriptTransitionVisits: collectTransitions,
     collectCanonicalAssetReferenceEntries: collectCanonicalAssets,
     collectScriptReferenceIssuesFromVisits: collectScriptIssues,
     collectWorldVariableReferencesV1FromVisits: collectWorldVariables,
@@ -240,7 +237,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectAssets).toHaveBeenCalledOnce()
   expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
   expect(collectVisits).toHaveBeenCalledOnce()
-  expect(collectTransitions).toHaveBeenCalledOnce()
   expect(collectCanonicalAssets).toHaveBeenCalledOnce()
   expect(collectScriptIssues).toHaveBeenCalledOnce()
   expect(collectWorldVariables).toHaveBeenCalledOnce()
@@ -257,7 +253,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   collectAssets.mockClear()
   collectAssetDiagnostics.mockClear()
   collectVisits.mockClear()
-  collectTransitions.mockClear()
   collectCanonicalAssets.mockClear()
   collectScriptIssues.mockClear()
   collectWorldVariables.mockClear()
@@ -271,7 +266,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectAssets).toHaveBeenCalledOnce()
   expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
   expect(collectVisits).toHaveBeenCalledOnce()
-  expect(collectTransitions).toHaveBeenCalledOnce()
   expect(collectCanonicalAssets).toHaveBeenCalledOnce()
   expect(collectScriptIssues).not.toHaveBeenCalled()
   expect(collectWorldVariables).toHaveBeenCalledOnce()
@@ -1220,8 +1214,8 @@ describe('X7 项目诊断与保存门', () => {
       ...legacy,
       manifest: {
         ...legacy.manifest,
-        contentVersion: 21,
-        minimumSaveVersion: 10,
+        contentVersion: 22,
+        minimumSaveVersion: 11,
         content: {
           ...legacy.manifest.content,
           worldVariables: 'content/world-variables.json',

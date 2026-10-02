@@ -9,16 +9,12 @@ export function visitCommands(value, visit, path = '') {
 function behaviorNodes(behavior) {
   const flow = behavior.flow
   if (flow?.kind === 'stages') return flow.stages ?? []
-  if (flow?.kind === 'stateMachine')
-    return Object.entries(flow.machine?.states ?? {}).map(([id, state]) => ({ id, ...state }))
   return []
 }
 
 function initialNode(behavior) {
   const flow = behavior.flow
-  return behaviorNodes(behavior).find(
-    (node) => node.id === (flow.kind === 'stages' ? flow.initial : flow.machine?.initial),
-  )
+  return behaviorNodes(behavior).find((node) => node.id === flow.initial)
 }
 
 export function canonicalTokens(body, owner) {

@@ -72,11 +72,11 @@ describe('PAL full-tree scene copy differential', () => {
     const withSelf = selfCounts.filter(({ count }) => count > 0)
     expect(withSelf).toHaveLength(245)
     expect([...selfCounts].sort((left, right) => right.count - left.count).slice(0, 5)).toEqual([
-      { id: 's108', count: 6897 },
-      { id: 's019', count: 5368 },
-      { id: 's176', count: 2562 },
-      { id: 's052', count: 1672 },
-      { id: 's186', count: 1575 },
+      { id: 's108', count: 3128 },
+      { id: 's019', count: 2098 },
+      { id: 's176', count: 883 },
+      { id: 's049', count: 786 },
+      { id: 's052', count: 760 },
     ])
   })
 })

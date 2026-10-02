@@ -1,7 +1,6 @@
 import type {
   AuthorCommand,
   AuthorCondition,
-  AuthorScriptFlow,
   Command,
   EnemyOnDefeatedCommand,
   ScriptCondition,
@@ -15,11 +14,6 @@ import {
   type ScriptEditorState,
   visitCanonicalScriptCommands,
 } from './script-editor.js'
-
-type AuthorStateTransition = Extract<
-  AuthorScriptFlow,
-  { kind: 'stateMachine' }
->['machine']['states'][string]['next']
 
 export type ItemReferenceAccess = 'read' | 'lose' | 'consume' | 'reward' | 'hold' | 'configure'
 
@@ -140,7 +134,10 @@ function commandArms(command: Command): Array<[string, readonly Command[] | unde
         ['else', command.else],
       ]
     case 'confirm':
-      return [['onNo', command.onNo]]
+      return [
+        ['onYes', command.onYes],
+        ['onNo', command.onNo],
+      ]
     case 'startBattle':
       return [
         ['onLose', command.onLose],
@@ -313,37 +310,10 @@ export function collectCanonicalItemTaggedReferences(
     push(command.itemId, 'reward', `获得 ×${command.count ?? 1}`, '.itemId')
   else if (command.kind === 'loseItem')
     push(command.itemId, 'lose', `失去 ×${command.count ?? 1}`, '.itemId')
-  else if (command.kind === 'branch' || command.kind === 'loop')
+  else if (command.kind === 'branch' || (command.kind === 'loop' && command.mode !== 'forever'))
     scanCanonicalCondition(command.cond, (itemId, detail, suffix) => {
       push(itemId, 'read', detail, suffix)
     })
-  return references
-}
-
-/** State-machine transitions are outside command visits but share the same item-condition leaves. */
-export function collectCanonicalItemTransitionTaggedReferences(
-  transition: AuthorStateTransition,
-  where: string,
-): CanonicalItemTaggedReference[] {
-  const references: CanonicalItemTaggedReference[] = []
-  const visit = (node: AuthorStateTransition, path: string): void => {
-    switch (node.kind) {
-      case 'branch':
-        scanCanonicalCondition(node.cond, (itemId, detail, suffix) => {
-          references.push({ itemId, access: 'read', detail, where: `${path}${suffix}` })
-        })
-        visit(node.then, `${path}.then`)
-        visit(node.else, `${path}.else`)
-        return
-      case 'commandOutcome':
-        visit(node.then, `${path}.then`)
-        visit(node.else, `${path}.else`)
-        return
-      default:
-        return
-    }
-  }
-  visit(transition, where)
   return references
 }
 
@@ -396,7 +366,7 @@ function scanEnemyOnDefeatedCommands(
       case 'setFlag':
       case 'setVar':
       case 'addVar':
-      case 'stopScript':
+      case 'returnScript':
         return
       default: {
         const unreachable: never = command
@@ -404,44 +374,6 @@ function scanEnemyOnDefeatedCommands(
       }
     }
   })
-}
-
-function scanCanonicalStateTransitionItemReferences(
-  transition: AuthorStateTransition,
-  context: {
-    source: 'scene'
-    label: string
-    where: string
-  },
-  out: ItemReference[],
-): void {
-  for (const reference of collectCanonicalItemTransitionTaggedReferences(transition, context.where))
-    add(out, reference.itemId, {
-      access: reference.access,
-      source: context.source,
-      label: context.label,
-      where: reference.where,
-      detail: reference.detail,
-      unavailableReason: '该引用位于连续流程的状态去向条件中；可打开所属方案后编辑。',
-    })
-}
-
-function scanCanonicalFlowTransitionItemReferences(
-  flow: AuthorScriptFlow,
-  context: { label: string; where: string },
-  out: ItemReference[],
-): void {
-  if (flow.kind !== 'stateMachine') return
-  for (const [stateId, state] of Object.entries(flow.machine.states))
-    scanCanonicalStateTransitionItemReferences(
-      state.next,
-      {
-        source: 'scene',
-        label: `${context.label} / 连续流程“${flow.machine.label}” / 状态“${state.label}”`,
-        where: `${context.where}.machine.states.${stateId}.next`,
-      },
-      out,
-    )
 }
 
 /** 当前脚本中的物品读取/获得/失去引用；locator 直接复用脚本编辑器稳定定位。 */
@@ -469,30 +401,6 @@ export function collectCanonicalItemReferences(state: ScriptEditorState): ItemRe
         ownerItemId: source.ownerItemId,
       })
   })
-
-  for (const scene of state.scenes) {
-    for (const entity of scene.entities)
-      for (const channel of ['trigger', 'auto'] as const)
-        for (const [behaviorId, behavior] of Object.entries(entity.behaviors?.[channel] ?? {}))
-          scanCanonicalFlowTransitionItemReferences(
-            behavior.flow,
-            {
-              label: `场景 ${scene.id} / 实体 ${entity.id} / ${channel === 'trigger' ? '交互脚本' : '自动行为'}“${behavior.label}”`,
-              where: `scenes.${scene.id}.entities.${entity.id}.behaviors.${channel}.${behaviorId}.flow`,
-            },
-            out,
-          )
-    for (const slot of ['onEnter', 'onTeleport'] as const)
-      for (const [hookId, hook] of Object.entries(scene.hooks?.[slot]?.variants ?? {}))
-        scanCanonicalFlowTransitionItemReferences(
-          hook.flow,
-          {
-            label: `场景 ${scene.id} / ${slot === 'onEnter' ? '进场脚本' : '传送出口脚本'}“${hook.label}”`,
-            where: `scenes.${scene.id}.hooks.${slot}.variants.${hookId}.flow`,
-          },
-          out,
-        )
-  }
 
   return out
 }

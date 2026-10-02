@@ -512,7 +512,7 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
             cond: { kind: 'chance', percent: 100 },
             then: [{ kind: 'playSound', asset: 'sound.pal.001' }],
           },
-          { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: 5 }] },
+          { kind: 'confirm', onYes: [], onNo: [{ kind: 'giveMoney', delta: 5 }] },
         ],
       },
     ])
@@ -699,7 +699,7 @@ describe('stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)', (
           {
             kind: 'branch',
             cond: { kind: 'chance', percent: 79 }, // rnd 0 → 命中
-            then: [{ kind: 'playSound', asset: 'sound.pal.007' }, { kind: 'stopScript' }],
+            then: [{ kind: 'playSound', asset: 'sound.pal.007' }, { kind: 'returnScript' }],
           },
           { kind: 'giveItem', itemId: '99' }, // 命中臂后必须不落穿(曾 21% 掉落变 100%)
         ],
@@ -719,7 +719,7 @@ describe('stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)', (
           {
             kind: 'branch',
             cond: { kind: 'chance', percent: 79 }, // rnd 0.99 → 不中
-            then: [{ kind: 'stopScript' }],
+            then: [{ kind: 'returnScript' }],
           },
           { kind: 'giveItem', itemId: '99' },
         ],
@@ -1085,7 +1085,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     host.confirm = async () => yes
     const r = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
-      { kind: 'confirm', onNo: [{ kind: 'playSound', asset: 'sound.pal.007' }] },
+      { kind: 'confirm', onYes: [], onNo: [{ kind: 'playSound', asset: 'sound.pal.007' }] },
       { kind: 'playSound', asset: 'sound.pal.001' },
     ]
     await r.run(body)

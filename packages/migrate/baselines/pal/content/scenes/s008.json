@@ -138,6 +138,7 @@
     },
     {
       "id": "e176",
+      "label": "丁香兰",
       "pos": {
         "col": 60,
         "row": -16,
@@ -374,7 +375,7 @@
             }
           },
           "legacy-004": {
-            "label": "触发行为 4",
+            "label": "远行前：香兰道别",
             "order": 4,
             "flow": {
               "kind": "stages",
@@ -404,6 +405,29 @@
                       },
                       "kind": "dialog"
                     }
+                  ],
+                  "label": "询问逍遥远行",
+                  "next": "remember-me"
+                },
+                {
+                  "id": "remember-me",
+                  "label": "叮咛别忘记自己",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.香兰"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.1165"
+                          }
+                        ]
+                      }
+                    }
                   ]
                 }
               ]
@@ -414,6 +438,7 @@
     },
     {
       "id": "e177",
+      "label": "丁秀兰",
       "pos": {
         "col": 56,
         "row": -17,
@@ -472,7 +497,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "夜访丁家：挽留与怄气",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -628,13 +653,36 @@
                       },
                       "kind": "dialog"
                     }
+                  ],
+                  "label": "挽留逍遥并质疑学剑之约",
+                  "next": "pout"
+                },
+                {
+                  "id": "pout",
+                  "label": "赌气催逍遥走",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.秀兰"
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.776"
+                          }
+                        ]
+                      }
+                    }
                   ]
                 }
               ]
             }
           },
           "legacy-002": {
-            "label": "触发行为 2",
+            "label": "探病问候：诉说父亲久病",
             "order": 2,
             "flow": {
               "kind": "stages",
@@ -662,6 +710,36 @@
                       },
                       "kind": "dialog"
                     }
+                  ],
+                  "label": "询问探病来意",
+                  "next": "fathers-chronic-illness"
+                },
+                {
+                  "id": "fathers-chronic-illness",
+                  "label": "说起爹爹旧疾",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.秀兰",
+                          "portrait": {
+                            "asset": "portrait.pal.035",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.877"
+                          },
+                          {
+                            "text": "dlg.878"
+                          }
+                        ]
+                      }
+                    }
                   ]
                 }
               ]
@@ -678,110 +756,115 @@
               "stages": [
                 {
                   "id": "initial",
-                  "body": [],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 91
-                      },
-                      "then": []
-                    },
-                    {
-                      "dir": "down",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "dir": "down",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "dir": "down",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "dir": "down",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 160
-                    },
-                    {
-                      "dir": "up",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "dir": "up",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "dir": "up",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "dir": "up",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "chance",
+                            "percent": 91
+                          },
+                          "then": []
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "repeat",
+                          "count": 3,
+                          "body": [
+                            {
+                              "dir": "down",
+                              "kind": "stepEntity",
+                              "target": {
+                                "scene": "s008",
+                                "entity": "e177"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            }
+                          ]
+                        },
+                        {
+                          "dir": "down",
+                          "kind": "stepEntity",
+                          "target": {
+                            "scene": "s008",
+                            "entity": "e177"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 360
+                        },
+                        {
+                          "kind": "repeat",
+                          "count": 3,
+                          "body": [
+                            {
+                              "dir": "up",
+                              "kind": "stepEntity",
+                              "target": {
+                                "scene": "s008",
+                                "entity": "e177"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            }
+                          ]
+                        },
+                        {
+                          "dir": "up",
+                          "kind": "stepEntity",
+                          "target": {
+                            "scene": "s008",
+                            "entity": "e177"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 320
+                        },
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s008",
+                            "entity": "e177"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s008",
+                            "entity": "e177"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
-                  ],
-                  "next": "initial"
+                  ]
                 }
               ]
             }
@@ -795,22 +878,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s008",
-                        "entity": "e177"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s008",
+                            "entity": "e177"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s008",
+                            "entity": "e177"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -885,6 +983,7 @@
     },
     {
       "id": "e180",
+      "label": "老王",
       "pos": {
         "col": 113,
         "row": 59,
@@ -963,7 +1062,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "求药归来：问候与称赞孝心",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -989,7 +1088,30 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "问候求药归来",
+                  "next": "praise-filial-piety"
+                },
+                {
+                  "id": "praise-filial-piety",
+                  "label": "称赞孝心",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老王"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.1245"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "next": "initial"
                 }
               ]
             }
@@ -1493,11 +1615,9 @@
                     }
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

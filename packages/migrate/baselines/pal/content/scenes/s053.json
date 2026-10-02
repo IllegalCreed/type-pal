@@ -1638,22 +1638,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e905"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e905"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e905"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e905"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1664,126 +1679,96 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "auto-lifecycle-s053-e905-legacy-001",
-                "label": "自动行为 1 · 源循环",
-                "initial": "source-10156",
-                "states": {
-                  "source-10156": {
-                    "label": "源指令 10156",
-                    "body": [
-                      {
-                        "kind": "moveEntity",
-                        "target": {
-                          "scene": "s053",
-                          "entity": "e905"
-                        },
-                        "to": {
-                          "col": 85,
-                          "row": -7,
-                          "height": 0
-                        },
-                        "speed": "slow"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-10157",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-10157": {
-                    "label": "源指令 10157",
-                    "body": [
-                      {
-                        "kind": "moveEntity",
-                        "target": {
-                          "scene": "s053",
-                          "entity": "e905"
-                        },
-                        "to": {
-                          "col": 85,
-                          "row": 8,
-                          "height": 0
-                        },
-                        "speed": "slow"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-10158",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-10158": {
-                    "label": "源指令 10158",
-                    "body": [
-                      {
-                        "kind": "moveEntity",
-                        "target": {
-                          "scene": "s053",
-                          "entity": "e905"
-                        },
-                        "to": {
-                          "col": 77,
-                          "row": 8,
-                          "height": 0
-                        },
-                        "speed": "slow"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-10159",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-10159": {
-                    "label": "源指令 10159",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "source-35630"
-                    }
-                  },
-                  "source-35630": {
-                    "label": "源指令 35630",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s053",
-                          "entity": "e905"
-                        },
-                        "facing": "up"
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "target": {
+                        "scene": "s053",
+                        "entity": "e905"
                       },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s053",
-                          "entity": "e905"
+                      "to": {
+                        "col": 85,
+                        "row": -7,
+                        "height": 0
+                      },
+                      "speed": "slow"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "target": {
+                        "scene": "s053",
+                        "entity": "e905"
+                      },
+                      "to": {
+                        "col": 85,
+                        "row": 8,
+                        "height": 0
+                      },
+                      "speed": "slow"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "target": {
+                        "scene": "s053",
+                        "entity": "e905"
+                      },
+                      "to": {
+                        "col": 77,
+                        "row": 8,
+                        "height": 0
+                      },
+                      "speed": "slow"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 140
+                    },
+                    {
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e905"
+                          },
+                          "facing": "up"
                         },
-                        "frame": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-35631",
-                      "yield": "worldTick"
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e905"
+                          },
+                          "frame": 0
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        },
+                        {
+                          "kind": "continueLoop"
+                        }
+                      ]
                     }
-                  },
-                  "source-35631": {
-                    "label": "源指令 35631",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "source-35630"
-                    }
-                  }
-                },
-                "cadence": "transition"
-              }
+                  ]
+                }
+              ]
             }
           }
         }
@@ -2282,68 +2267,23 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 95
-                      },
-                      "then": [
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
                         {
-                          "kind": "loop",
-                          "mode": "until",
-                          "cond": {
-                            "kind": "not",
-                            "cond": {
-                              "kind": "chance",
-                              "percent": 95
-                            }
-                          },
-                          "body": [
-                            {
-                              "facing": "up",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s053",
-                                "entity": "e908"
-                              }
-                            },
-                            {
-                              "frame": 0,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s053",
-                                "entity": "e908"
-                              }
-                            }
-                          ],
-                          "yield": "worldTick",
-                          "maxIterations": 10000
-                        },
-                        {
-                          "facing": "right",
+                          "facing": "up",
                           "kind": "setEntityFacing",
                           "target": {
                             "scene": "s053",
                             "entity": "e908"
                           }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         },
                         {
                           "frame": 0,
@@ -2355,7 +2295,232 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 160
+                          "ms": 100
+                        },
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "chance",
+                            "percent": 95
+                          },
+                          "then": [
+                            {
+                              "kind": "loop",
+                              "mode": "forever",
+                              "body": [
+                                {
+                                  "facing": "up",
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s053",
+                                    "entity": "e908"
+                                  }
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "frame": 0,
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s053",
+                                    "entity": "e908"
+                                  }
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "branch",
+                                  "cond": {
+                                    "kind": "not",
+                                    "cond": {
+                                      "kind": "chance",
+                                      "percent": 95
+                                    }
+                                  },
+                                  "then": [
+                                    {
+                                      "kind": "breakLoop"
+                                    }
+                                  ],
+                                  "else": [
+                                    {
+                                      "kind": "wait",
+                                      "ms": 100
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "facing": "right",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 360
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 73,
+                                "height": 0,
+                                "row": -7
+                              },
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 280
+                            },
+                            {
+                              "facing": "down",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 480
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 73,
+                                "height": 0,
+                                "row": -3
+                              },
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 72,
+                                "height": 0,
+                                "row": -3
+                              },
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 320
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 72,
+                                "height": 0,
+                                "row": -1
+                              },
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 69,
+                                "height": 0,
+                                "row": -1
+                              },
+                              "target": {
+                                "scene": "s053",
+                                "entity": "e908"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 360
                         },
                         {
                           "kind": "moveEntity",
@@ -2372,7 +2537,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 80
+                          "ms": 280
                         },
                         {
                           "facing": "down",
@@ -2381,6 +2546,10 @@
                             "scene": "s053",
                             "entity": "e908"
                           }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         },
                         {
                           "frame": 0,
@@ -2392,7 +2561,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 280
+                          "ms": 480
                         },
                         {
                           "kind": "moveEntity",
@@ -2408,6 +2577,10 @@
                           }
                         },
                         {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
                           "kind": "moveEntity",
                           "speed": "slow",
                           "to": {
@@ -2422,7 +2595,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 120
+                          "ms": 320
                         },
                         {
                           "kind": "moveEntity",
@@ -2438,6 +2611,10 @@
                           }
                         },
                         {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
                           "kind": "moveEntity",
                           "speed": "slow",
                           "to": {
@@ -2449,485 +2626,437 @@
                             "scene": "s053",
                             "entity": "e908"
                           }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        },
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 640
+                        },
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 72,
+                            "height": 0,
+                            "row": -1
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 72,
+                            "height": 0,
+                            "row": 2
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 69,
+                            "height": 0,
+                            "row": 2
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 280
+                        },
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 480
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 72,
+                            "height": 0,
+                            "row": 2
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 72,
+                            "height": 0,
+                            "row": -4
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 560
+                        },
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 70,
+                            "height": 0,
+                            "row": -4
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 600
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 73,
+                            "height": 0,
+                            "row": -4
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 73,
+                            "height": 0,
+                            "row": 4
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 75,
+                            "height": 0,
+                            "row": 4
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 75,
+                            "height": 0,
+                            "row": 8
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 760
+                        },
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 560
+                        },
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 680
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 75,
+                            "height": 0,
+                            "row": 2
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 72,
+                            "height": 0,
+                            "row": 2
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 72,
+                            "height": 0,
+                            "row": -7
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 73,
+                            "height": 0,
+                            "row": -7
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 400
+                        },
+                        {
+                          "kind": "moveEntity",
+                          "speed": "slow",
+                          "to": {
+                            "col": 69,
+                            "height": 0,
+                            "row": -7
+                          },
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
                         }
                       ]
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 160
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 73,
-                        "height": 0,
-                        "row": -7
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 280
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 73,
-                        "height": 0,
-                        "row": -3
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": -3
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": -1
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 69,
-                        "height": 0,
-                        "row": -1
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
                     }
-                  ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": [
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 440
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    }
-                  ],
-                  "next": "legacy-003"
-                },
-                {
-                  "id": "legacy-003",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": -1
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": 2
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 69,
-                        "height": 0,
-                        "row": 2
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 280
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": 2
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": -4
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 360
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    }
-                  ],
-                  "next": "legacy-004"
-                },
-                {
-                  "id": "legacy-004",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 70,
-                        "height": 0,
-                        "row": -4
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 73,
-                        "height": 0,
-                        "row": -4
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 73,
-                        "height": 0,
-                        "row": 4
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 75,
-                        "height": 0,
-                        "row": 4
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 75,
-                        "height": 0,
-                        "row": 8
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 560
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 360
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 480
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 75,
-                        "height": 0,
-                        "row": 2
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": 2
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 72,
-                        "height": 0,
-                        "row": -7
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 73,
-                        "height": 0,
-                        "row": -7
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 200
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 69,
-                        "height": 0,
-                        "row": -7
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    }
-                  ],
-                  "next": "initial"
+                  ]
                 }
               ]
             }
@@ -2941,22 +3070,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e908"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "left",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e908"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3036,22 +3180,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e909"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e909"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e909"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s053",
+                            "entity": "e909"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4165,11 +4324,9 @@
                     "kind": "setPartyFacing"
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

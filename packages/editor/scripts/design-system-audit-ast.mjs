@@ -594,16 +594,17 @@ function staticMemberExpression(baseExpression, key, bindings, resolving = new S
     return { known: true, expression: bindings.get(directKey), bindingKey: directKey }
 
   let base = unwrapExpression(baseExpression)
-  if (path && bindings?.has(path) && !resolving.has(path)) {
-    resolving.add(path)
+  let memberResolving = resolving
+  if (path && bindings?.has(path)) {
+    if (resolving.has(path)) return { known: false }
+    memberResolving = new Set([...resolving, path])
     base = unwrapExpression(bindings.get(path))
-    resolving.delete(path)
   }
   if (base && ts.isObjectLiteralExpression(base)) {
     let hasUnknownSpread = false
     for (const property of [...base.properties].reverse()) {
       if (ts.isSpreadAssignment(property)) {
-        const spread = staticMemberExpression(property.expression, key, bindings, resolving)
+        const spread = staticMemberExpression(property.expression, key, bindings, memberResolving)
         if (spread.known) return spread
         hasUnknownSpread = true
         continue

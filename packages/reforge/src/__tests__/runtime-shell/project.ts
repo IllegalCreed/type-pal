@@ -96,8 +96,8 @@ export async function shellProject(
   const manifest: CurrentManifest = {
     id: 'shell-project',
     name: 'Shell Project',
-    contentVersion: 21,
-    minimumSaveVersion: 10,
+    contentVersion: 22,
+    minimumSaveVersion: 11,
     defaultEntryId: 'start',
     entryPoints: [
       {

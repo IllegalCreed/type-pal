@@ -21,39 +21,36 @@ function state(): ScriptEditorState {
                 label: '进场',
                 order: 0,
                 flow: {
-                  kind: 'stateMachine',
-                  machine: {
-                    id: 'machine-a',
-                    label: '流程',
-                    initial: 'start',
-                    states: {
-                      start: {
-                        label: '开始',
-                        body: [
-                          {
-                            kind: 'branch',
-                            cond: {
-                              kind: 'all',
-                              of: [
-                                { kind: 'flag', flag: 'quest.open', is: true },
-                                {
-                                  kind: 'not',
-                                  cond: { kind: 'var', var: 'score', op: '>=', value: 2 },
-                                },
-                              ],
-                            },
-                            then: [{ kind: 'setVar', var: 'score', value: 3 }],
+                  kind: 'stages',
+                  initial: 'start',
+                  stages: [
+                    {
+                      id: 'start',
+                      label: '开始',
+                      body: [
+                        {
+                          kind: 'branch',
+                          cond: {
+                            kind: 'all',
+                            of: [
+                              { kind: 'flag', flag: 'quest.open', is: true },
+                              {
+                                kind: 'not',
+                                cond: { kind: 'var', var: 'score', op: '>=', value: 2 },
+                              },
+                            ],
                           },
-                        ],
-                        next: {
+                          then: [{ kind: 'setVar', var: 'score', value: 3 }],
+                        },
+                        {
                           kind: 'branch',
                           cond: { kind: 'flag', flag: 'transition.ready', is: true },
-                          then: { kind: 'stay' },
-                          else: { kind: 'restart' },
+                          then: [{ kind: 'finishStep', next: { kind: 'stay' } }],
+                          else: [{ kind: 'finishStep', next: { kind: 'stage', stage: 'start' } }],
                         },
-                      },
+                      ],
                     },
-                  },
+                  ],
                 },
               },
             },
@@ -142,7 +139,7 @@ describe('world variable canonical references', () => {
         'shared-script',
       ]),
     )
-    expect(index.byId.get('transition.ready')?.[0]?.reference).toBeUndefined()
+    expect(index.byId.get('transition.ready')?.[0]?.reference).toBeDefined()
     expect(index.byId.get('quest.open')?.[0]?.reference).toBeDefined()
   })
 

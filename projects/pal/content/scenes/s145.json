@@ -398,6 +398,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -413,6 +414,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -421,11 +426,25 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s145",
                         "entity": "e2401"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],
@@ -445,6 +464,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -460,6 +480,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -468,11 +492,25 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s145",
                         "entity": "e2401"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],
@@ -514,113 +552,126 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
-                      "dx": -16,
-                      "dy": 8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -16,
+                          "dy": 8,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s145",
+                            "entity": "e2402"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "dx": -16,
-                      "dy": 8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -12,
+                          "dy": 6,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s145",
+                            "entity": "e2402"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "dx": -12,
-                      "dy": 6,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -8,
+                          "dy": 4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s145",
+                            "entity": "e2402"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "dx": -12,
-                      "dy": 6,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -6,
+                          "dy": 3,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s145",
+                            "entity": "e2402"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "dx": -8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -4,
+                          "dy": 2,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s145",
+                            "entity": "e2402"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "dx": -8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": -2,
+                          "dy": 1,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s145",
+                            "entity": "e2402"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "dx": -6,
-                      "dy": 3,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 3,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
-                    },
-                    {
-                      "dx": -4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
-                    },
-                    {
-                      "dx": -4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
-                    },
-                    {
-                      "dx": -2,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
-                      }
-                    },
-                    {
-                      "dx": -2,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s145",
-                        "entity": "e2402"
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],
@@ -949,58 +1000,37 @@
                     "kind": "playSound"
                   },
                   {
-                    "dx": 0,
-                    "dy": 16,
-                    "kind": "nudgeParty",
-                    "layer": 10
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 0,
-                    "dy": 16,
-                    "kind": "nudgeParty",
-                    "layer": 10
-                  },
-                  {
-                    "facing": "down",
-                    "gesture": 1,
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 0,
-                    "dy": 16,
-                    "kind": "nudgeParty",
-                    "layer": 10
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 0,
-                    "dy": 16,
-                    "kind": "nudgeParty",
-                    "layer": 10
-                  },
-                  {
-                    "facing": "down",
-                    "gesture": 1,
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "clearDialog"
+                    "kind": "repeat",
+                    "count": 2,
+                    "body": [
+                      {
+                        "dx": 0,
+                        "dy": 16,
+                        "kind": "nudgeParty",
+                        "layer": 10
+                      },
+                      {
+                        "facing": "down",
+                        "kind": "setPartyFacing"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "dx": 0,
+                        "dy": 16,
+                        "kind": "nudgeParty",
+                        "layer": 10
+                      },
+                      {
+                        "facing": "down",
+                        "gesture": 1,
+                        "kind": "setPartyFacing"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      }
+                    ]
                   },
                   {
                     "dx": 0,

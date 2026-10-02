@@ -205,8 +205,8 @@ describe('current runtime projection', () => {
     const manifest: CurrentManifest = {
       id: 'test',
       name: 'Test',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'second',
       entryPoints: [
         {

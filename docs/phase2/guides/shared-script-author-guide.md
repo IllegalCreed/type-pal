@@ -1,6 +1,6 @@
 # 脚本库与可复用脚本作者手册
 
-> 适用版本：contentVersion 21 / SAVE10（2026-10-01）。脚本模型不带产品版本后缀；作者内容直接使用
+> 适用版本：contentVersion 22 / SAVE11。脚本模型不带产品版本后缀；作者内容直接使用
 > `AuthorCommand`、`AuthorScriptFlow`、`AuthorScriptLibrary` 与 `WorldScriptState`。正式上线前只支持
 > 当前 canonical 工程；脚本分片、旧地址 sidecar、旧 upgrader 和“迁移内部实现”均已删除。
 >
@@ -57,7 +57,7 @@ type AuthorScriptLibrary = Record<
 ## 统一编辑器与场景工作台
 
 共享脚本、物品私有脚本、实体 Behavior、场景 Hook 使用同一个 canonical 指令树；Behavior
-和 Hook 的 stage/state/transition 也使用同一个流程编辑器。各入口自己的面板只负责稳定 id、
+和 Hook 的步骤及默认下次去向也使用同一个流程编辑器。各入口自己的面板只负责稳定 id、
 显示名、选择、删除守卫和引用列表，不能另设整段 JSON 编辑器。
 
 场景入口不是独立的“第四套脚本编辑器”，而是在通用编辑器外保留场景专属工作台：
@@ -92,11 +92,14 @@ type AuthorScriptLibrary = Record<
 ```
 
 调用点只保存稳定 `script` id 和可选 `self`，不保存 `chunk`。callee 正常结束或执行
-`stopScript` 后返回 caller；当前作者命令没有 `jumpScript`。
+`returnScript` 后返回 caller；当前作者命令没有 `jumpScript`。
 
 「打开共享脚本」进入目标脚本；右侧引用列表列出场景 Behavior、Hook、物品和其他共享脚本中的
-直接调用方，没有单独的“扫描调用位置”按钮。contentVersion 21 作者界面不显示“迁移内部实现”页签；若项目仍含脚本分片、旧地址或
-旧版本字段，当前 loader 会直接拒绝，重新执行当前迁移发布即可，不提供产品内升级工作台。
+直接调用方，没有单独的“扫描调用位置”按钮。contentVersion 22 作者界面不显示“迁移内部实现”页签；若项目仍含脚本分片、旧地址或
+旧版本字段，当前 loader 会直接拒绝，使用当前版本重新生成开发工程，不提供产品内升级工作台。
+
+共享和私有命令根不能使用finishStep去改变调用方步骤，也不能跨调用根break/continue循环。
+需要决定某NPC下次步骤时，条件和finishStep应编排在该NPC方案自身的步骤正文中。
 
 ## 物品私有脚本
 
@@ -131,7 +134,7 @@ type AuthorScriptLibrary = Record<
 
 ## 重迁与当前发布
 
-当前发布以稳定 ScriptId、PageId、BehaviorId、HookId、StageId/StateId 作为作者冲突键，不以生成块
+当前发布以稳定 ScriptId、PageId、BehaviorId、HookId、StageId 作为作者冲突键，不以生成块
 或数组位置为键。作者独有共享脚本保留；双方修改同一 canonical identity 时显式冲突并保持零写。
 原版完整脚本转换核已退役，作者正文直接维护。保留的窄资源/地图供应分区只在当前工程上发布，
 发布前完整预检，manifest最后写入；仓库不常驻旧脚本升级链。

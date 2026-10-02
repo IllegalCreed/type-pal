@@ -1,6 +1,7 @@
 import {
   buildEntityLifecycleReferenceIndex,
   emptyWorldScriptState,
+  type RuntimeCommand,
   resolveAuthorDialogueTree,
   validateActors,
   validateAuthorScenes,
@@ -13,6 +14,7 @@ import suzhouJson from '../../../projects/pal/content/scenes/s023.json' with { t
 import riceShopJson from '../../../projects/pal/content/scenes/s050.json' with { type: 'json' }
 import courtJson from '../../../projects/pal/content/scenes/s081.json' with { type: 'json' }
 import prisonGateJson from '../../../projects/pal/content/scenes/s084.json' with { type: 'json' }
+import prisonJson from '../../../projects/pal/content/scenes/s091.json' with { type: 'json' }
 import capitalJson from '../../../projects/pal/content/scenes/s100.json' with { type: 'json' }
 import capitalVendorJson from '../../../projects/pal/content/scenes/s111.json' with { type: 'json' }
 import gardenJson from '../../../projects/pal/content/scenes/s118.json' with { type: 'json' }
@@ -33,6 +35,7 @@ const scenes = resolveAuthorDialogueTree(
     riceShopJson,
     courtJson,
     prisonGateJson,
+    prisonJson,
     capitalJson,
     capitalVendorJson,
     gardenJson,
@@ -48,7 +51,7 @@ const signal = new AbortController().signal
 interface PaymentCase {
   sceneId: string
   entityId: string
-  kind: 'item' | 'gate' | 'information'
+  kind: 'item' | 'gate' | 'information' | 'admission'
   cost: number
   itemId?: string
 }
@@ -150,12 +153,10 @@ async function prepare(entry: PaymentCase, money: number) {
   const run = harness(entry, world)
   if (entry.kind === 'gate') {
     const hook = scene('s081').hooks!.onEnter!.variants.default!.flow
-    if (hook.kind !== 'stateMachine') throw new Error('expected canonical court installer')
     for (const id of ['e1583', 'e1584']) {
-      // Source 14541/14542 installs L_14581. The authored court graph has the same
-      // installation leaf in two alternative continuations; neither is invented here.
-      const installers = Object.values(hook.machine.states).flatMap((state) =>
-        state.body.filter(
+      // Source 14541/14542 installs L_14581 in two alternate continuations.
+      const installers = hook.stages.flatMap((step) =>
+        nestedCommands(step.body).filter(
           (command) =>
             command.kind === 'selectEntityBehavior' &&
             command.channel === 'trigger' &&
@@ -178,6 +179,31 @@ async function prepare(entry: PaymentCase, money: number) {
     expect(run.cursor()).toEqual({ kind: 'stage', stage: 'legacy-002' })
   }
   return run
+}
+
+function nestedCommands(commands: readonly RuntimeCommand[]): RuntimeCommand[] {
+  return commands.flatMap((command): RuntimeCommand[] => {
+    let children: RuntimeCommand[] = []
+    switch (command.kind) {
+      case 'branch':
+        children = [...command.then, ...(command.else ?? [])]
+        break
+      case 'loop':
+      case 'repeat':
+        children = command.body
+        break
+      case 'confirm':
+        children = [...command.onYes, ...command.onNo]
+        break
+      case 'startBattle':
+        children = [...(command.onLose ?? []), ...(command.onFlee ?? [])]
+        break
+      case 'teleportOut':
+        children = command.onFail ?? []
+        break
+    }
+    return [command, ...nestedCommands(children)]
+  })
 }
 
 async function restore(entry: PaymentCase, world: WorldState) {
@@ -304,5 +330,49 @@ test.each(
         command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
       ),
     ).toEqual(entry.kind === 'gate' ? ['dlg.4937'] : ['dlg.6327'])
+  }
+})
+
+const admission: PaymentCase = { sceneId: 's091', entityId: 'e1682', kind: 'admission', cost: 300 }
+
+test.each(
+  [0, 299, 300, 301].flatMap((money) => [false, true].map((answer) => ({ money, answer }))),
+)('prison admission with $money and confirmation $answer settles the correct repeat, including save/restore', async ({
+  money,
+  answer,
+}) => {
+  const run = await prepare(admission, money)
+  await run.activate(answer)
+  const paid = answer && money >= 300
+  const stage = paid ? 'legacy-002' : 'recovered-001'
+  expect(run.world.money).toBe(money - (paid ? 300 : 0))
+  expect(run.world.inventory).toEqual([])
+  expect(run.effects.filter((command) => command.kind === 'giveMoney')).toEqual(
+    paid ? [{ kind: 'giveMoney', delta: -300 }] : [],
+  )
+  expect(run.cursor()).toEqual({ kind: 'stage', stage })
+  const spoken = run.effects.flatMap((command) =>
+    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+  )
+  expect(spoken).toEqual(
+    paid
+      ? ['dlg.5337', 'dlg.5338', 'dlg.5340']
+      : ['dlg.5337', 'dlg.5338', 'dlg.5344', 'dlg.5346', 'dlg.5347', 'dlg.5348'],
+  )
+  if (paid) expect(run.order.indexOf('confirm')).toBeLessThan(run.order.indexOf('giveMoney'))
+
+  for (const current of [run, await restore(admission, run.world)]) {
+    const balance = current.world.money
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const repeat = await current.activate()
+      expect(repeat.every((command) => command.kind === 'dialog')).toBe(true)
+      expect(
+        repeat.flatMap((command) =>
+          command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+        ),
+      ).toEqual([paid ? 'dlg.5342' : 'dlg.5350'])
+      expect(current.world.money).toBe(balance)
+      expect(current.cursor()).toEqual({ kind: 'stage', stage })
+    }
   }
 })

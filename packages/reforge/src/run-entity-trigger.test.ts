@@ -415,8 +415,11 @@ test.each([
   await f.runtime.runCommands([command], { signal })
 })
 
-test('stop is local to child, while abort propagates and prevents its parent tail', async () => {
-  const stopped = fixture([{ kind: 'stopScript' }, { kind: 'setFlag', flag: 'bad', value: true }])
+test('finishing the child step is local, while abort propagates and prevents its parent tail', async () => {
+  const stopped = fixture([
+    { kind: 'finishStep', next: { kind: 'stay' } },
+    { kind: 'setFlag', flag: 'bad', value: true },
+  ])
   await stopped.runtime.runCommands([{ kind: 'runEntityTrigger', target }, parentTail], {
     signal: new AbortController().signal,
   })

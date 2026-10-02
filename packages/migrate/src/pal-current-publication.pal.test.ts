@@ -7,6 +7,7 @@ import {
   type ItemData,
   type ShopDef,
   type SpriteDef,
+  validateAuthorSharedScripts,
   validateSceneIndex,
 } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
@@ -118,6 +119,12 @@ describe('PAL current-only publication', () => {
     const replay = createMigrationPlan(snapshotOf(publication), snapshotOf(target), publication)
     expect(replay.summary).toMatchObject({ writes: 0, deletes: 0, conflicts: 0 })
     expect(replay.target.get('content/shops.json')).toEqual(target.files.get('content/shops.json'))
+    // The next publication consumes an authored baseline too, not a retired converter seed.
+    // Added/duplicated command nodes and sell's inert shop field must survive that boundary.
+    const rebasedPublication = buildPalCurrentPublication(snapshotOf(target), sources)
+    for (const [path, value] of target.files)
+      if (path.startsWith('content/scenes/'))
+        expect(rebasedPublication.files.get(path)).toEqual(value)
     expect(
       (publication.files.get('content/shops.json') as unknown as ShopDef[]).map(({ id }) => id),
     ).toEqual(Array.from({ length: 20 }, (_, i) => i + 1))
@@ -134,7 +141,7 @@ describe('PAL current-only publication', () => {
       validatePalCurrentPublication({ publication: empty, manifest, sources }),
     ).not.toThrow()
   })
-  it('publishes the current baseline and raw-owned partitions directly as content21/SAVE10', () => {
+  it('publishes the current baseline and raw-owned partitions directly as content22/SAVE11', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
     const sources = loadPalContentSupplySources(repo)
@@ -176,6 +183,7 @@ describe('PAL current-only publication', () => {
     firstFlow.stages[0]!.body.unshift({ kind: 'wait', ms: 27 })
     staleBaseline.files.set(authoredScenePath, sceneBody as never)
     const shared: AuthorScriptLibrary = {
+      ...validateAuthorSharedScripts(staleBaseline.files.get('content/shared-scripts.json')),
       'shared/user/author-proof': {
         name: '作者共享正文',
         self: 'none',

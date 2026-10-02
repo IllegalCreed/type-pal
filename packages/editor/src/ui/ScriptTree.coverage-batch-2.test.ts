@@ -45,9 +45,9 @@ describe('当前脚本树的未覆盖业务摘要', () => {
     assertDescriptions([
       { command: { kind: 'clearDialog' }, icon: '🧹', label: '清对话框' },
       {
-        command: { kind: 'stopScript' },
-        icon: '⛔',
-        label: '终止脚本(跳转臂尾;阶段不转移)',
+        command: { kind: 'returnScript' },
+        icon: '↩',
+        label: '返回调用处',
       },
       { command: { kind: 'quitToTitle' }, icon: '🏁', label: '游戏通关退出 → 回标题屏' },
       {

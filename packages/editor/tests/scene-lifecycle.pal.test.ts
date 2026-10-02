@@ -38,7 +38,7 @@ const source: FileSource = {
   },
 }
 
-test('s108 的 6,897 条 self 引用全部由 deletion scope 排除，只留下真实外部 blocker', async () => {
+test('s108 的 3,128 条结构化 self 引用全部由 deletion scope 排除，只留下真实外部 blocker', async () => {
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
   const shell = toEditorState(project, scenes, {}, {}, await loadStampTemplates(project))
@@ -60,7 +60,7 @@ test('s108 的 6,897 条 self 引用全部由 deletion scope 排除，只留下�
         return false
     }
   })
-  expect(selfReferences).toHaveLength(6897)
+  expect(selfReferences).toHaveLength(3128)
 
   const index = collectCurrentProjectReferenceIndex(shell, canonical)
   const target = { kind: 'scene' as const, id: 's108' }

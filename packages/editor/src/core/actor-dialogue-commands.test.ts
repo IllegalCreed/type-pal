@@ -25,7 +25,7 @@ function state(): EditorState {
     manifest: {
       id: 'dialogue-expression',
       name: 'dialogue expression',
-      contentVersion: 21,
+      contentVersion: 22,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -37,7 +37,7 @@ function state(): EditorState {
           startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
-      minimumSaveVersion: 10,
+      minimumSaveVersion: 11,
     },
     scenes: [
       {

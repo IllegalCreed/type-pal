@@ -33,17 +33,13 @@ const stagesFlow: BaseScriptFlow = {
   ],
 }
 
-const machineFlow: BaseScriptFlow = {
-  kind: 'stateMachine',
-  machine: {
-    id: 'm1',
-    label: 'Machine',
-    initial: 'idle',
-    states: {
-      idle: { label: 'Idle', body: [], next: { kind: 'stay' } },
-      run: { label: 'Run', body: [], next: { kind: 'stay' } },
-    },
-  },
+const otherFlow: BaseScriptFlow = {
+  kind: 'stages',
+  initial: 'idle',
+  stages: [
+    { id: 'idle', body: [], next: 'run' },
+    { id: 'run', body: [], next: { kind: 'complete' } },
+  ],
 }
 
 const entity: BaseSceneEntity & { zone: true } = {
@@ -58,13 +54,13 @@ const entity: BaseSceneEntity & { zone: true } = {
   behaviors: {
     trigger: {
       't-1': { label: '一', order: 1, flow: stagesFlow },
-      't-2': { label: '二', order: 2, flow: machineFlow },
+      't-2': { label: '二', order: 2, flow: otherFlow },
     },
   },
 }
 
 checkRuntimeScriptFlow(stagesFlow, 'fixture.stages')
-checkRuntimeScriptFlow(machineFlow, 'fixture.machine')
+checkRuntimeScriptFlow(otherFlow, 'fixture.other')
 validateBaseScenes([
   {
     id: 's1',
@@ -76,36 +72,22 @@ validateBaseScenes([
 const address = { scene: 's1', entity: 'npc1' }
 
 describe('W2-A A04 flow 游标机械', () => {
-  test('initialFlowCursor：stages → stage 游标；stateMachine → state 游标带 machine id', () => {
+  test('initialFlowCursor follows each behavior’s stable initial step', () => {
     expect(initialFlowCursor(stagesFlow)).toEqual({ kind: 'stage', stage: 's-a' })
-    expect(initialFlowCursor(machineFlow)).toEqual({
-      kind: 'state',
-      machine: 'm1',
-      state: 'idle',
-    })
+    expect(initialFlowCursor(otherFlow)).toEqual({ kind: 'stage', stage: 'idle' })
   })
 
-  test('assertFlowCursor 四类拒绝：错 kind/不存在 stage/机器不匹配/不存在 state', () => {
-    expect(() => assertFlowCursor(stagesFlow, { kind: 'state', machine: 'm', state: 'x' })).toThrow(
-      'stages flow 不能使用 state cursor',
-    )
+  test('assertFlowCursor rejects missing steps and undeclared completion without accepting another flow’s step', () => {
     expect(() => assertFlowCursor(stagesFlow, { kind: 'stage', stage: 'nope' })).toThrow(
       'stage cursor 不存在 nope',
     )
-    expect(() => assertFlowCursor(machineFlow, { kind: 'stage', stage: 's-a' })).toThrow(
-      'stateMachine flow 不能使用 stage cursor',
+    expect(() => assertFlowCursor(otherFlow, { kind: 'stage', stage: 's-a' })).toThrow(
+      'stage cursor 不存在 s-a',
     )
-    expect(() =>
-      assertFlowCursor(machineFlow, { kind: 'state', machine: 'other', state: 'idle' }),
-    ).toThrow('machine cursor other 不匹配 m1')
-    expect(() =>
-      assertFlowCursor(machineFlow, { kind: 'state', machine: 'm1', state: 'void' }),
-    ).toThrow('state cursor 不存在 void')
-    // 合法游标不抛
+    expect(() => assertFlowCursor(stagesFlow, { kind: 'completed' })).toThrow(/未声明 complete/)
     expect(() => assertFlowCursor(stagesFlow, { kind: 'stage', stage: 's-b' })).not.toThrow()
-    expect(() =>
-      assertFlowCursor(machineFlow, { kind: 'state', machine: 'm1', state: 'run' }),
-    ).not.toThrow()
+    expect(() => assertFlowCursor(otherFlow, { kind: 'stage', stage: 'run' })).not.toThrow()
+    expect(() => assertFlowCursor(otherFlow, { kind: 'completed' })).not.toThrow()
   })
 
   test('resolveEntityBehavior：target 与定义不匹配即 throw（assertEntityTarget）', () => {
@@ -127,7 +109,7 @@ describe('W2-A A04 flow 游标机械', () => {
     expect(committed).toBe(true)
     const resolved = resolveEntityBehavior(entity, world, address, 'trigger')
     expect(resolved?.behaviorId).toBe('t-2')
-    expect(resolved?.cursor).toEqual({ kind: 'state', machine: 'm1', state: 'idle' }) // 初始游标随行为
+    expect(resolved?.cursor).toEqual({ kind: 'stage', stage: 'idle' }) // 初始游标随行为
   })
 })
 

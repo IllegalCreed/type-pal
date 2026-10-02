@@ -86,16 +86,14 @@ test('nested conditions and until/while previews retain conditionality rather th
     {
       kind: 'loop',
       mode: 'until',
-      yield: 'worldTick',
-      maxIterations: 3,
+
       cond: { kind: 'flag', flag: 'stop', is: true },
       body: [{ kind: 'wait', ms: 5 }],
     },
     {
       kind: 'loop',
       mode: 'while',
-      yield: 'worldTick',
-      maxIterations: 3,
+
       cond: {
         kind: 'not',
         cond: {
@@ -161,22 +159,14 @@ test('shared calls lower only when self is compatible; missing or foreign-self c
   })
   expect({ input, shared }).toEqual(before)
 })
-test('state machine preview starts at the named initial state and maps restart/to to explicit indices', () => {
+test('step preview orders the named initial step and maps stable successors for read-only sampling', () => {
   const flow: AuthorScriptFlow = {
-    kind: 'stateMachine',
-    machine: {
-      id: 'machine',
-      label: 'Machine',
-      initial: 'second',
-      states: {
-        first: { label: 'First', body: [{ kind: 'wait', ms: 1 }], next: { kind: 'restart' } },
-        second: {
-          label: 'Second',
-          body: [{ kind: 'wait', ms: 2 }],
-          next: { kind: 'to', state: 'first', yield: 'worldTick' },
-        },
-      },
-    },
+    kind: 'stages',
+    initial: 'second',
+    stages: [
+      { id: 'first', label: 'First', body: [{ kind: 'wait', ms: 1 }], next: 'second' },
+      { id: 'second', label: 'Second', body: [{ kind: 'wait', ms: 2 }], next: 'first' },
+    ],
   }
   checkAuthorScriptFlow(flow, 'fixture.flow')
   const before = structuredClone(flow)

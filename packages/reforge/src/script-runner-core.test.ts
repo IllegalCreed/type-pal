@@ -211,34 +211,6 @@ function compile(flow: BaseScriptFlow, timing: 'auto' | 'interactive' = 'interac
   })
 }
 
-function states(
-  entries: BaseScriptFlow extends infer _Flow
-    ? Record<
-        string,
-        {
-          label: string
-          body: Extract<BaseScriptFlow, { kind: 'stages' }>['stages'][number]['body']
-          next: Extract<
-            BaseScriptFlow,
-            { kind: 'stateMachine' }
-          >['machine']['states'][string]['next']
-        }
-      >
-    : never,
-  cadence?: 'transition',
-): BaseScriptFlow {
-  return {
-    kind: 'stateMachine',
-    machine: {
-      id: 'machine',
-      label: '状态机',
-      ...(cadence === undefined ? {} : { cadence }),
-      initial: 'initial',
-      states: entries,
-    },
-  }
-}
-
 describe('ScriptRunnerCore flow semantics', () => {
   test('a completed stage executes once, commits only after settlement, and becomes inert', async () => {
     const host = fakeHost()
@@ -272,58 +244,7 @@ describe('ScriptRunnerCore flow semantics', () => {
     ).rejects.toThrow(/未声明 complete/)
   })
 
-  test.each([
-    'complete',
-    'branch',
-    'commandOutcome',
-  ] as const)('machine %s completion is final without an extra tick', async (kind) => {
-    const host = fakeHost()
-    host.conditions.set('finish', true)
-    const next: Extract<
-      BaseScriptFlow,
-      { kind: 'stateMachine' }
-    >['machine']['states'][string]['next'] =
-      kind === 'complete'
-        ? { kind: 'complete' }
-        : kind === 'branch'
-          ? {
-              kind: 'branch',
-              cond: { kind: 'flag', flag: 'finish', is: true },
-              then: { kind: 'complete' },
-              else: { kind: 'stay' },
-            }
-          : {
-              kind: 'commandOutcome',
-              commandId: 'answer',
-              command: 'confirm',
-              outcome: 'no',
-              then: { kind: 'stay' },
-              else: { kind: 'complete' },
-            }
-    const cursors = controller()
-    const flow = compile(
-      states({
-        initial: {
-          label: 'One',
-          body:
-            kind === 'commandOutcome'
-              ? [{ kind: 'confirm', id: 'answer', onNo: [] }]
-              : [{ kind: 'giveMoney', delta: 7 }],
-          next,
-        },
-      }),
-    )
-    const runner = new ScriptRunnerCore(host, new AbortController().signal)
-    await runner.runFlow(flow, { cursorController: cursors })
-    expect(cursors.cursors).toEqual([{ kind: 'completed' }])
-    expect(host.waitWorldTick).not.toHaveBeenCalled()
-    expect(host.yieldMacroTask).not.toHaveBeenCalled()
-    const before = [...host.calls]
-    await runner.runFlow(flow, { cursor: { kind: 'completed' }, cursorController: cursors })
-    expect(host.calls).toEqual(before)
-  })
-
-  test('abort and stopScript never manufacture completion', async () => {
+  test('abort before implicit or explicit settlement never manufactures completion', async () => {
     for (const stop of [true, false]) {
       const host = fakeHost()
       const cursors = controller()
@@ -335,14 +256,17 @@ describe('ScriptRunnerCore flow semantics', () => {
         kind: 'stages',
         initial: 'one',
         stages: [
-          { id: 'one', body: stop ? [{ kind: 'stopScript' }] : [], next: { kind: 'complete' } },
+          {
+            id: 'one',
+            body: stop ? [{ kind: 'finishStep', next: { kind: 'stay' } }] : [],
+            next: { kind: 'complete' },
+          },
         ],
       })
       const pending = new ScriptRunnerCore(host, ac.signal).runFlow(flow, {
         cursorController: cursors,
       })
-      if (stop) await pending
-      else await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
+      await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
       expect(cursors.cursors).toEqual([])
     }
   })
@@ -402,202 +326,10 @@ describe('ScriptRunnerCore flow semantics', () => {
     expect(second.cursors).toEqual([{ kind: 'stage', stage: 'completed' }])
   })
 
-  test('a source prefix runs once before a persistent tail loop', async () => {
-    const host = fakeHost()
-    const flow = compile(
-      states({
-        initial: {
-          label: '一次性前缀',
-          body: [{ kind: 'setFlag', flag: 'prefix', value: true }],
-          next: { kind: 'continue', state: 'tail' },
-        },
-        tail: {
-          label: '循环正文',
-          body: [{ kind: 'setFlag', flag: 'tail', value: true }],
-          next: { kind: 'to', state: 'tail', yield: 'worldTick' },
-        },
-      }),
-    )
-    const first = controller(['stop'])
-    await new ScriptRunnerCore(host, new AbortController().signal).runFlow(flow, {
-      cursorController: first,
-    })
-    const second = controller(['stop'])
-    await new ScriptRunnerCore(host, new AbortController().signal).runFlow(flow, {
-      cursor: first.cursors[0],
-      cursorController: second,
-    })
-
-    expect(host.calls).toEqual([
-      'execute:setFlag:-:-',
-      'execute:setFlag:-:-',
-      'execute:setFlag:-:-',
-    ])
-    expect(first.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'tail' }])
-    expect(second.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'tail' }])
-  })
-
-  test('continue stays synchronous while advance commits and ends', async () => {
-    const host = fakeHost()
-    const cursors = controller()
-    const runner = new ScriptRunnerCore(host, new AbortController().signal)
-    await runner.runFlow(
-      compile(
-        states({
-          initial: {
-            label: '前缀',
-            body: [{ kind: 'clearDialog' }],
-            next: { kind: 'continue', state: 'continuation' },
-          },
-          continuation: {
-            label: '同步后缀',
-            body: [{ kind: 'setFlag', flag: 'continued', value: true }],
-            next: { kind: 'advance', state: 'later' },
-          },
-          later: {
-            label: '下次激活',
-            body: [{ kind: 'setFlag', flag: 'too-early', value: true }],
-            next: { kind: 'stay' },
-          },
-        }),
-      ),
-      { cursorController: cursors },
-    )
-
-    expect(host.calls).toEqual(['execute:clearDialog:-:-', 'execute:setFlag:-:-'])
-    expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'later' }])
-  })
-
-  test('fails loudly when a malformed executable contains an unbounded continue chain', async () => {
-    const executable = compile(
-      states({
-        initial: {
-          label: 'A',
-          body: [],
-          next: { kind: 'continue', state: 'b' },
-        },
-        b: {
-          label: 'B',
-          body: [],
-          next: { kind: 'stay' },
-        },
-      }),
-    )
-    if (executable.flow.kind !== 'stateMachine') throw new Error('expected state machine')
-    executable.flow.machine.states.b!.next = { kind: 'continue', state: 'initial' }
-
-    await expect(
-      new ScriptRunnerCore(fakeHost(), new AbortController().signal).runFlow(executable, {
-        cursorController: controller(),
-      }),
-    ).rejects.toThrow(/continue 链超过 4096/)
-  })
-
-  test('to commits, crosses the safe-point and yields before same-activation continuation', async () => {
-    const host = fakeHost()
-    const cursors = controller()
-    const runner = new ScriptRunnerCore(host, new AbortController().signal)
-    await runner.runFlow(
-      compile(
-        states({
-          initial: {
-            label: '初始',
-            body: [{ kind: 'clearDialog' }],
-            next: { kind: 'to', state: 'target', yield: 'macroTask' },
-          },
-          target: {
-            label: '目标',
-            body: [{ kind: 'setFlag', flag: 'target', value: true }],
-            next: { kind: 'stay' },
-          },
-        }),
-      ),
-      { cursorController: cursors },
-    )
-
-    expect(host.calls).toEqual([
-      'execute:clearDialog:-:-',
-      'yield:macroTask',
-      'execute:setFlag:-:-',
-    ])
-    expect(cursors.cursors).toEqual([
-      { kind: 'state', machine: 'machine', state: 'target' },
-      { kind: 'state', machine: 'machine', state: 'target' },
-    ])
-  })
-
-  test('transition cadence executes a compound source state in one frame and yields once', async () => {
-    const host = fakeHost()
-    const cursors = controller()
-    await new ScriptRunnerCore(host, new AbortController().signal).runFlow(
-      compile(
-        states(
-          {
-            initial: {
-              label: '复合源指令',
-              body: [
-                { kind: 'setFlag', flag: 'first', value: true },
-                { kind: 'setFlag', flag: 'second', value: true },
-              ],
-              next: { kind: 'to', state: 'target', yield: 'worldTick' },
-            },
-            target: {
-              label: '下一源指令',
-              body: [{ kind: 'setFlag', flag: 'target', value: true }],
-              next: { kind: 'stay' },
-            },
-          },
-          'transition',
-        ),
-        'auto',
-      ),
-      { cursorController: cursors },
-    )
-
-    expect(host.calls).toEqual([
-      'execute:setFlag:-:-',
-      'execute:setFlag:-:-',
-      'yield:worldTick',
-      'execute:setFlag:-:-',
-    ])
-    expect(host.calls).not.toContain('wait:100')
-    expect(cursors.cursors).toEqual([
-      { kind: 'state', machine: 'machine', state: 'target' },
-      { kind: 'state', machine: 'machine', state: 'target' },
-    ])
-  })
-
-  test('a closed save gate stops a to-transition after cursor commit', async () => {
-    const host = fakeHost()
-    const cursors = controller(['stop'])
-    const runner = new ScriptRunnerCore(host, new AbortController().signal)
-    await runner.runFlow(
-      compile(
-        states({
-          initial: {
-            label: '初始',
-            body: [{ kind: 'clearDialog' }],
-            next: { kind: 'to', state: 'target', yield: 'worldTick' },
-          },
-          target: {
-            label: '目标',
-            body: [{ kind: 'setFlag', flag: 'target', value: true }],
-            next: { kind: 'stay' },
-          },
-        }),
-      ),
-      { cursorController: cursors },
-    )
-
-    expect(host.calls).toEqual(['execute:clearDialog:-:-'])
-    expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'target' }])
-  })
-
   test('host execution gate freezes commands and empty-flow safe-points', async () => {
     const host = fakeHost()
     const firstGate = deferred<void>()
-    const secondGate = deferred<void>()
-    const gates = [firstGate, secondGate]
+    const gates = [firstGate]
     host.gate = vi.fn(() => gates.shift()?.promise)
     const cursors = controller()
     const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
@@ -612,13 +344,9 @@ describe('ScriptRunnerCore flow semantics', () => {
     expect(cursors.cursors).toEqual([])
 
     firstGate.resolve()
-    await Promise.resolve()
-    expect(cursors.cursors).toEqual([])
-
-    secondGate.resolve()
     await running
     expect(cursors.cursors).toEqual([{ kind: 'stage', stage: 'initial' }])
-    expect(host.gate).toHaveBeenCalledTimes(2)
+    expect(host.gate).toHaveBeenCalledTimes(1)
   })
 
   test('a completed body settles through its modal safe-point gate, not its closed gameplay gate', async () => {
@@ -657,51 +385,6 @@ describe('ScriptRunnerCore flow semantics', () => {
     }
   })
 
-  test('machine to commits a completed body but the next state remains behind the gameplay gate', async () => {
-    const host = fakeHost()
-    const paused = deferred<void>()
-    let closed = false
-    const execute = host.execute
-    host.execute = async (command, context, signal) => {
-      await execute(command, context, signal)
-      if (command.kind === 'setFlag' && command.flag === 'hide') closed = true
-    }
-    host.gate = (_signal, boundary) =>
-      boundary?.kind === 'settlement' ? undefined : closed ? paused.promise : undefined
-    const cursors = controller()
-    const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
-      compile(
-        states({
-          initial: {
-            label: 'Hide',
-            body: [{ kind: 'setFlag', flag: 'hide', value: true }],
-            next: { kind: 'to', state: 'next', yield: 'worldTick' },
-          },
-          next: {
-            label: 'Next',
-            body: [{ kind: 'setFlag', flag: 'later', value: true }],
-            next: { kind: 'stay' },
-          },
-        }),
-      ),
-      { cursorController: cursors },
-    )
-    try {
-      await new Promise<void>((resolve) => setTimeout(resolve, 0))
-      expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'next' }])
-      expect(host.calls).toEqual(['execute:setFlag:-:-', 'yield:worldTick'])
-      closed = false
-      paused.resolve()
-      await running
-      expect(host.calls).toEqual(['execute:setFlag:-:-', 'yield:worldTick', 'execute:setFlag:-:-'])
-      expect(cursors.cursors).toHaveLength(2)
-    } finally {
-      closed = false
-      paused.resolve()
-      await running
-    }
-  })
-
   test('abort during a suspended safe-point gate never commits the cursor', async () => {
     const host = fakeHost()
     const paused = deferred<void>()
@@ -722,131 +405,7 @@ describe('ScriptRunnerCore flow semantics', () => {
     expect(cursors.cursors).toEqual([])
   })
 
-  test.each([
-    {
-      accepted: false,
-      expectedState: 'no',
-      expectedFlag: 'no-path',
-    },
-    {
-      accepted: true,
-      expectedState: 'yes',
-      expectedFlag: 'yes-path',
-    },
-  ])('commandOutcome consumes the top-level confirm result without replay ($expectedState)', async ({
-    accepted,
-    expectedState,
-    expectedFlag,
-  }) => {
-    const host = fakeHost()
-    host.confirmations.push(accepted)
-    const cursors = controller()
-    const runner = new ScriptRunnerCore(host, new AbortController().signal)
-    await runner.runFlow(
-      compile(
-        states({
-          initial: {
-            label: '选择',
-            body: [{ kind: 'confirm', id: 'choice', onNo: [] }],
-            next: {
-              kind: 'commandOutcome',
-              commandId: 'choice',
-              command: 'confirm',
-              outcome: 'no',
-              then: { kind: 'continue', state: 'no' },
-              else: { kind: 'continue', state: 'yes' },
-            },
-          },
-          no: {
-            label: '否',
-            body: [{ kind: 'setFlag', flag: 'no-path', value: true }],
-            next: { kind: 'stay' },
-          },
-          yes: {
-            label: '是',
-            body: [{ kind: 'setFlag', flag: 'yes-path', value: true }],
-            next: { kind: 'stay' },
-          },
-        }),
-      ),
-      { cursorController: cursors },
-    )
-
-    expect(host.calls).toEqual(['confirm', 'execute:setFlag:-:-'])
-    expect(host.execute).toHaveBeenCalledWith(
-      { kind: 'setFlag', flag: expectedFlag, value: true },
-      { self: undefined, timing: 'interactive' },
-      expect.any(AbortSignal),
-    )
-    expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: expectedState }])
-  })
-
-  test('until loops yield only on back-edges and fail loudly at maxIterations', async () => {
-    const host = fakeHost()
-    let checks = 0
-    host.evalCondition = vi.fn(() => ++checks >= 3)
-    const cursors = controller()
-    const runner = new ScriptRunnerCore(host, new AbortController().signal)
-    await runner.runFlow(
-      compile({
-        kind: 'stages',
-        initial: 'initial',
-        stages: [
-          {
-            id: 'initial',
-            body: [
-              {
-                kind: 'loop',
-                mode: 'until',
-                cond: { kind: 'flag', flag: 'done', is: true },
-                body: [{ kind: 'clearDialog' }],
-                yield: 'worldTick',
-                maxIterations: 3,
-              },
-            ],
-          },
-        ],
-      }),
-      { cursorController: cursors },
-    )
-
-    expect(host.calls).toEqual([
-      'execute:clearDialog:-:-',
-      'yield:worldTick',
-      'execute:clearDialog:-:-',
-      'yield:worldTick',
-      'execute:clearDialog:-:-',
-    ])
-
-    const blocked = fakeHost()
-    blocked.evalCondition = vi.fn(() => false)
-    await expect(
-      new ScriptRunnerCore(blocked, new AbortController().signal).runFlow(
-        compile({
-          kind: 'stages',
-          initial: 'initial',
-          stages: [
-            {
-              id: 'initial',
-              body: [
-                {
-                  kind: 'loop',
-                  mode: 'until',
-                  cond: { kind: 'flag', flag: 'never', is: true },
-                  body: [{ kind: 'clearDialog' }],
-                  yield: 'worldTick',
-                  maxIterations: 2,
-                },
-              ],
-            },
-          ],
-        }),
-        { cursorController: controller() },
-      ),
-    ).rejects.toThrow(/maxIterations=2/)
-  })
-
-  test('stopScript leaves the persistent cursor untouched', async () => {
+  test('finishStep stay explicitly preserves the persistent step', async () => {
     const host = fakeHost()
     const cursors = controller()
     await new ScriptRunnerCore(host, new AbortController().signal).runFlow(
@@ -856,7 +415,10 @@ describe('ScriptRunnerCore flow semantics', () => {
         stages: [
           {
             id: 'initial',
-            body: [{ kind: 'stopScript' }, { kind: 'setFlag', flag: 'unreachable', value: true }],
+            body: [
+              { kind: 'finishStep', next: { kind: 'stay' } },
+              { kind: 'setFlag', flag: 'unreachable', value: true },
+            ],
             next: 'later',
           },
           { id: 'later', body: [] },
@@ -866,7 +428,7 @@ describe('ScriptRunnerCore flow semantics', () => {
     )
 
     expect(host.calls).toEqual([])
-    expect(cursors.cursors).toEqual([])
+    expect(cursors.cursors).toEqual([{ kind: 'stage', stage: 'initial' }])
   })
 
   test('shared calls inherit composite self and the caller timing', async () => {
@@ -898,40 +460,7 @@ describe('ScriptRunnerCore flow semantics', () => {
       { cursorController: controller(), self },
     )
 
-    expect(host.calls).toEqual(['execute:clearDialog:s001:e1', 'wait:100', 'wait:100'])
-  })
-
-  test('shared calls inherit transition cadence without adding hidden waits', async () => {
-    const host = fakeHost()
-    const library: BaseScriptLibrary = {
-      helper: {
-        name: '同帧帮助脚本',
-        self: 'none',
-        body: [{ kind: 'clearDialog' }],
-      },
-    }
-    await new ScriptRunnerCore(
-      host,
-      new AbortController().signal,
-      new BaseSharedScriptResolver(library, digest),
-    ).runFlow(
-      compile(
-        states(
-          {
-            initial: {
-              label: '调用共享脚本',
-              body: [{ kind: 'callScript', script: 'helper' }],
-              next: { kind: 'stay' },
-            },
-          },
-          'transition',
-        ),
-        'auto',
-      ),
-      { cursorController: controller() },
-    )
-
-    expect(host.calls).toEqual(['execute:clearDialog:-:-'])
+    expect(host.calls).toEqual(['execute:clearDialog:s001:e1'])
   })
 
   test('scene entry executes prepare, reveal and body exactly once when requested', async () => {

@@ -75,8 +75,8 @@ function editorState(): EditorState {
     manifest: {
       id: 'scene-lifecycle',
       name: '场景生命周期',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       entryPoints: [
         {

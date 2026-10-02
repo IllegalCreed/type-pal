@@ -11,11 +11,9 @@ import type { SpriteActionBinding } from './sprite.js'
 export type PageId = string
 export type BehaviorId = string
 export type StageId = string
-export type MachineId = string
-export type StateId = string
+export type LoopId = string
 export type HookId = string
 export type ScriptId = string
-export type CommandId = string
 
 export interface EntityAddress {
   scene: string
@@ -31,20 +29,9 @@ export interface TriggerActivation {
   range?: number
 }
 
-export type FlowCursor =
-  | { kind: 'stage'; stage: StageId }
-  | { kind: 'state'; machine: MachineId; state: StateId }
-  | { kind: 'completed' }
+export type FlowCursor = { kind: 'stage'; stage: StageId } | { kind: 'completed' }
 
-export interface CursorHandoff {
-  kind: 'stateMap'
-  fromBehavior: BehaviorId
-  cases: Array<{
-    from: FlowCursor
-    to: FlowCursor
-  }>
-  onUnmapped: 'error'
-}
+export type StepExit = { kind: 'stay' } | { kind: 'stage'; stage: StageId } | { kind: 'complete' }
 
 export interface BehaviorCursor {
   behavior: BehaviorId
@@ -55,8 +42,9 @@ export interface BehaviorCursor {
 
 export type AutoCommandControl =
   | { kind: 'branch'; arm: 'then' | 'else' }
-  | { kind: 'loop'; iteration: number; phase: 'body' | 'test' | 'next' }
-  | { kind: 'confirm'; no: boolean }
+  | { kind: 'loop'; phase: 'body' | 'test' }
+  | { kind: 'repeat'; iteration: number }
+  | { kind: 'confirm'; arm: 'onYes' | 'onNo' }
   | { kind: 'startBattle'; arm: 'onLose' | 'onFlee' | 'none' }
   | { kind: 'teleportOut'; failed: boolean }
   | { kind: 'leaf'; command: 'stepEntity' | 'chasePlayer'; phase: 'continuation' | 'done' }
@@ -70,7 +58,6 @@ export interface AutoCommandFrame {
 export interface AutoScriptContinuation {
   digest: string
   frames: AutoCommandFrame[]
-  outcomes: Record<string, { command: 'confirm'; no: boolean }>
 }
 
 export interface ActiveBehaviorSlot {
@@ -159,6 +146,7 @@ type ReplacedAuthorCommandKind =
   | 'branch'
   | 'callScript'
   | 'confirm'
+  | 'returnScript'
   | 'jumpScript'
   | 'mountParty'
   | 'moveEntity'
@@ -228,22 +216,27 @@ export type BaseAuthorCommand =
       choreography?: import('./enemy.js').BattleChoreography[]
     }
   | { kind: 'teleportOut'; onFail?: BaseAuthorCommand[] }
-  | { kind: 'confirm'; id?: CommandId; onNo: BaseAuthorCommand[] }
+  | { kind: 'confirm'; onYes: BaseAuthorCommand[]; onNo: BaseAuthorCommand[] }
+  | { kind: 'finishStep'; next: StepExit }
+  | { kind: 'returnScript' }
+  | { kind: 'breakLoop' }
+  | { kind: 'continueLoop'; loop?: LoopId }
+  | { kind: 'repeat'; id?: LoopId; label?: string; count: number; body: BaseAuthorCommand[] }
   | { kind: 'branch'; cond: AuthorCondition; then: BaseAuthorCommand[]; else?: BaseAuthorCommand[] }
   | {
       kind: 'loop'
+      id?: LoopId
+      label?: string
       mode: 'while' | 'until'
       cond: AuthorCondition
       body: BaseAuthorCommand[]
-      yield: 'worldTick'
-      maxIterations: number
     }
+  | { kind: 'loop'; id?: LoopId; label?: string; mode: 'forever'; body: BaseAuthorCommand[] }
   | {
       kind: 'selectEntityBehavior'
       target: EntityAddress
       channel: 'trigger' | 'auto'
       selection: Selection<BehaviorId>
-      cursorHandoff?: CursorHandoff
     }
   | {
       kind: 'selectEntityPage'
@@ -273,6 +266,10 @@ const RETAINED_RUNTIME_COMMAND_KINDS = Object.fromEntries(
 
 const AUTHOR_ONLY_COMMAND_KINDS = {
   loop: true,
+  repeat: true,
+  finishStep: true,
+  breakLoop: true,
+  continueLoop: true,
   runEntityTrigger: true,
   selectEntityBehavior: true,
   selectEntityPage: true,
@@ -311,69 +308,44 @@ export interface BaseAuthorStage {
   next?: StageNext
 }
 
-export type BaseStateTransition =
-  | { kind: 'complete' }
-  | { kind: 'stay' }
-  | { kind: 'restart' }
-  | { kind: 'continue'; state: StateId }
-  | { kind: 'advance'; state: StateId }
-  | { kind: 'to'; state: StateId; yield: 'macroTask' | 'worldTick' }
-  | {
-      kind: 'branch'
-      cond: AuthorCondition
-      then: BaseStateTransition
-      else: BaseStateTransition
-    }
-  | {
-      kind: 'commandOutcome'
-      commandId: CommandId
-      command: 'confirm'
-      outcome: 'no'
-      then: BaseStateTransition
-      else: BaseStateTransition
-    }
-
-export interface BaseScriptStateMachine {
-  id: MachineId
-  label: string
-  /**
-   * When set to `transition`, state bodies execute without implicit per-command pacing.
-   * Every scheduling boundary must be expressed by the state's transition.
-   * Omitted machines keep the default per-command cadence.
-   */
-  cadence?: 'transition'
-  initial: StateId
-  states: Record<
-    StateId,
-    {
-      label: string
-      entry?: BaseSceneEntryPresentation
-      body: BaseAuthorCommand[]
-      next: BaseStateTransition
-    }
-  >
+export type BaseScriptFlow = {
+  kind: 'stages'
+  initial: StageId
+  stages: BaseAuthorStage[]
 }
 
-export type BaseScriptFlow =
-  | { kind: 'stages'; initial: StageId; stages: BaseAuthorStage[] }
-  | { kind: 'stateMachine'; machine: BaseScriptStateMachine }
-
-/** Completion is valid only for a flow that explicitly declares a completion edge. */
-export function flowCanComplete(
-  flow:
-    | { kind: 'stages'; stages: readonly { next?: StageNext }[] }
-    | {
-        kind: 'stateMachine'
-        machine: { states: Readonly<Record<string, { next: BaseStateTransition }>> }
-      },
-): boolean {
-  const completes = (next: BaseStateTransition): boolean =>
-    next.kind === 'complete' ||
-    ((next.kind === 'branch' || next.kind === 'commandOutcome') &&
-      (completes(next.then) || completes(next.else)))
-  return flow.kind === 'stages'
-    ? flow.stages.some((stage) => typeof stage.next === 'object' && stage.next.kind === 'complete')
-    : Object.values(flow.machine.states).some((state) => completes(state.next))
+/** Completion may be selected inside a branch as well as at the natural end of a step. */
+export function flowCanComplete(flow: {
+  kind: 'stages'
+  stages: readonly { next?: StageNext; body?: readonly unknown[] }[]
+}): boolean {
+  const hasCompletion = (commands: readonly unknown[]): boolean =>
+    commands.some((command) => {
+      if (!command || typeof command !== 'object') return false
+      if (
+        'kind' in command &&
+        command.kind === 'finishStep' &&
+        'next' in command &&
+        command.next &&
+        typeof command.next === 'object' &&
+        'kind' in command.next &&
+        command.next.kind === 'complete'
+      )
+        return true
+      for (const key of ['body', 'then', 'else', 'onYes', 'onNo', 'onLose', 'onFlee', 'onFail'])
+        if (
+          key in command &&
+          Array.isArray(Reflect.get(command, key)) &&
+          hasCompletion(Reflect.get(command, key))
+        )
+          return true
+      return false
+    })
+  return flow.stages.some(
+    (stage) =>
+      (typeof stage.next === 'object' && stage.next.kind === 'complete') ||
+      hasCompletion(stage.body ?? []),
+  )
 }
 
 export interface BaseEntityBehavior {
@@ -642,9 +614,27 @@ function checkSceneTransition(value: unknown, path: string): void {
 export function checkBaseAuthorCommands(
   value: unknown,
   path: string,
-  options: CommandValidationOptions = {},
+  providedOptions: CommandValidationOptions = {},
 ): asserts value is BaseAuthorCommand[] {
   if (!Array.isArray(value)) throw new Error(`${path}: 期望 BaseAuthorCommand[]`)
+  const options = { ...providedOptions, loopAncestors: providedOptions.loopAncestors ?? [] }
+  if (!providedOptions.loopAncestors) {
+    const ids = new Set<string>()
+    const collect = (commands: unknown[]) => {
+      for (const value of commands) {
+        if (!value || typeof value !== 'object') continue
+        const node = value as Record<string, unknown>
+        if ((node.kind === 'loop' || node.kind === 'repeat') && node.id !== undefined) {
+          const id = nonEmptyString(node.id, `${path}.loop.id`)
+          if (ids.has(id)) throw new Error(`${path}: 同一命令根重复循环 id ${id}`)
+          ids.add(id)
+        }
+        for (const key of ['body', 'then', 'else', 'onYes', 'onNo', 'onLose', 'onFlee', 'onFail'])
+          if (Array.isArray(node[key])) collect(node[key])
+      }
+    }
+    collect(value)
+  }
   value.forEach((entry, index) => {
     const command = record(entry, `${path}[${index}]`)
     const commandPath = `${path}[${index}]`
@@ -712,15 +702,65 @@ export function checkBaseAuthorCommands(
       if (command.else !== undefined)
         checkBaseAuthorCommands(command.else, `${commandPath}.else`, options)
     }
-    if (kind === 'loop') {
-      if (command.mode !== 'while' && command.mode !== 'until')
-        throw new Error(`${commandPath}.mode: 期望 while|until`)
-      checkCondition(command.cond, `${commandPath}.cond`)
-      checkBaseAuthorCommands(command.body, `${commandPath}.body`, options)
-      if (command.yield !== 'worldTick')
-        throw new Error(`${commandPath}.yield: canonical loop 必须 worldTick`)
-      if (!Number.isInteger(command.maxIterations) || Number(command.maxIterations) <= 0)
-        throw new Error(`${commandPath}.maxIterations: 期望正整数`)
+    if (kind === 'finishStep') {
+      exactKeys(command, ['kind', 'next'], commandPath)
+      if (options.rootScope !== 'flow') throw new Error(`${commandPath}: finishStep 仅允许步骤正文`)
+      const next = record(command.next, `${commandPath}.next`)
+      if (next.kind === 'stage') {
+        exactKeys(next, ['kind', 'stage'], `${commandPath}.next`)
+        const target = nonEmptyString(next.stage, `${commandPath}.next.stage`)
+        if (!options.stageIds?.has(target))
+          throw new Error(`${commandPath}.next.stage: 未命中 stage ${target}`)
+      } else {
+        exactKeys(next, ['kind'], `${commandPath}.next`)
+        if (next.kind !== 'stay' && next.kind !== 'complete')
+          throw new Error(`${commandPath}.next.kind: 期望 stay|stage|complete`)
+      }
+    }
+    if (kind === 'returnScript') {
+      exactKeys(command, ['kind'], commandPath)
+      if ((options.rootScope ?? 'script') !== 'script')
+        throw new Error(`${commandPath}: returnScript 仅允许独立脚本根`)
+    }
+    if (kind === 'breakLoop') {
+      exactKeys(command, ['kind'], commandPath)
+      if (!(options.loopDepth && options.loopDepth > 0))
+        throw new Error(`${commandPath}: breakLoop 需要同一命令根内的循环`)
+    }
+    if (kind === 'continueLoop') {
+      exactKeys(command, ['kind', 'loop'], commandPath)
+      if (options.loopAncestors.length === 0)
+        throw new Error(`${commandPath}: continueLoop 需要词法循环祖先`)
+      if (command.loop !== undefined) {
+        const target = nonEmptyString(command.loop, `${commandPath}.loop`)
+        if (!options.loopAncestors.includes(target))
+          throw new Error(`${commandPath}.loop: 不是同根词法祖先 ${target}`)
+      }
+    }
+    if (kind === 'loop' || kind === 'repeat') {
+      if (command.id !== undefined) nonEmptyString(command.id, `${commandPath}.id`)
+      if (command.label !== undefined) nonEmptyString(command.label, `${commandPath}.label`)
+      if (options.rootScope === 'prepare') throw new Error(`${commandPath}: prepare 禁止循环`)
+      if (kind === 'repeat') {
+        exactKeys(command, ['kind', 'id', 'label', 'count', 'body'], commandPath)
+        if (!Number.isSafeInteger(command.count) || Number(command.count) < 1)
+          throw new Error(`${commandPath}.count: 期望正安全整数`)
+      } else if (command.mode === 'forever') {
+        exactKeys(command, ['kind', 'id', 'label', 'mode', 'body'], commandPath)
+      } else {
+        exactKeys(command, ['kind', 'id', 'label', 'mode', 'cond', 'body'], commandPath)
+        if (command.mode !== 'while' && command.mode !== 'until')
+          throw new Error(`${commandPath}.mode: 期望 while|until|forever`)
+        checkCondition(command.cond, `${commandPath}.cond`)
+      }
+      checkBaseAuthorCommands(command.body, `${commandPath}.body`, {
+        ...options,
+        loopDepth: (options.loopDepth ?? 0) + 1,
+        loopAncestors: [
+          ...options.loopAncestors,
+          typeof command.id === 'string' ? command.id : undefined,
+        ],
+      })
     }
     if (kind === 'startBattle') {
       exactKeys(
@@ -771,8 +811,8 @@ export function checkBaseAuthorCommands(
     if (kind === 'teleportOut' && command.onFail !== undefined)
       checkBaseAuthorCommands(command.onFail, `${commandPath}.onFail`, options)
     if (kind === 'confirm') {
-      exactKeys(command, ['kind', 'id', 'onNo'], commandPath)
-      if (command.id !== undefined) nonEmptyString(command.id, `${commandPath}.id`)
+      exactKeys(command, ['kind', 'onYes', 'onNo'], commandPath)
+      checkBaseAuthorCommands(command.onYes, `${commandPath}.onYes`, options)
       checkBaseAuthorCommands(command.onNo, `${commandPath}.onNo`, options)
     }
     if (kind === 'callScript') {
@@ -782,21 +822,11 @@ export function checkBaseAuthorCommands(
       if (command.self !== undefined) checkEntityAddress(command.self, `${commandPath}.self`)
     }
     if (kind === 'selectEntityBehavior') {
-      exactKeys(command, ['kind', 'target', 'channel', 'selection', 'cursorHandoff'], commandPath)
+      exactKeys(command, ['kind', 'target', 'channel', 'selection'], commandPath)
       checkEntityAddress(command.target, `${commandPath}.target`)
       if (command.channel !== 'trigger' && command.channel !== 'auto')
         throw new Error(`${commandPath}.channel: 期望 trigger|auto`)
       checkSelection(command.selection, `${commandPath}.selection`, nonEmptyString)
-      if (command.cursorHandoff !== undefined) {
-        if (
-          !command.selection ||
-          typeof command.selection !== 'object' ||
-          !('kind' in command.selection) ||
-          command.selection.kind !== 'use'
-        )
-          throw new Error(`${commandPath}.cursorHandoff: 仅 selection.use 可声明游标交接`)
-        checkCursorHandoff(command.cursorHandoff, `${commandPath}.cursorHandoff`)
-      }
     }
     if (kind === 'selectEntityPage') {
       checkEntityAddress(command.target, `${commandPath}.target`)
@@ -819,175 +849,19 @@ export function checkBaseAuthorCommands(
   })
 }
 
-function checkCursorHandoff(value: unknown, path: string): void {
-  const handoff = record(value, path)
-  exactKeys(handoff, ['kind', 'fromBehavior', 'cases', 'onUnmapped'], path)
-  if (handoff.kind !== 'stateMap') throw new Error(`${path}.kind: 期望 stateMap`)
-  nonEmptyString(handoff.fromBehavior, `${path}.fromBehavior`)
-  if (handoff.onUnmapped !== 'error') throw new Error(`${path}.onUnmapped: 期望 error`)
-  if (!Array.isArray(handoff.cases) || handoff.cases.length === 0)
-    throw new Error(`${path}.cases: 期望非空映射数组`)
-  const seen = new Set<string>()
-  handoff.cases.forEach((rawCase, index) => {
-    const casePath = `${path}.cases[${index}]`
-    const mapping = record(rawCase, casePath)
-    exactKeys(mapping, ['from', 'to'], casePath)
-    checkFlowCursor(mapping.from, `${casePath}.from`)
-    checkFlowCursor(mapping.to, `${casePath}.to`)
-    const sourceKey = flowCursorKey(mapping.from as FlowCursor)
-    if (seen.has(sourceKey)) throw new Error(`${casePath}.from: 游标映射来源重复`)
-    seen.add(sourceKey)
-  })
-}
-
 function checkSceneEntry(value: unknown, path: string, options: CommandValidationOptions): void {
   const entry = record(value, path)
   exactKeys(entry, ['prepare', 'reveal'], path)
   checkBaseAuthorCommands(entry.prepare, `${path}.prepare`, {
     ...options,
     forbidRunEntityTrigger: 'prepare',
+    rootScope: 'prepare',
+    loopDepth: 0,
+    loopAncestors: undefined,
   })
   const reveal = record(entry.reveal, `${path}.reveal`)
   if (reveal.kind !== 'dither' && reveal.kind !== 'fade' && reveal.kind !== 'cut')
     throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
-}
-
-interface StateCommandIds {
-  all: ReadonlySet<string>
-  topLevelResults: ReadonlyMap<string, 'confirm'>
-}
-
-function collectStateCommandIds(value: unknown, path: string): StateCommandIds {
-  if (!Array.isArray(value)) throw new Error(`${path}: 期望 BaseAuthorCommand[]`)
-  const all = new Set<string>()
-  const topLevelResults = new Map<string, 'confirm'>()
-
-  const visit = (commands: unknown[], commandsPath: string, topLevel: boolean): void => {
-    commands.forEach((entry, index) => {
-      const commandPath = `${commandsPath}[${index}]`
-      const command = record(entry, commandPath)
-      const kind = nonEmptyString(command.kind, `${commandPath}.kind`)
-      if (kind === 'confirm' && command.id !== undefined) {
-        const id = nonEmptyString(command.id, `${commandPath}.id`)
-        if (all.has(id)) throw new Error(`${commandPath}.id: 同一 state 内重复 CommandId ${id}`)
-        all.add(id)
-        if (topLevel) topLevelResults.set(id, 'confirm')
-      }
-      if (kind === 'branch') {
-        visit(command.then as unknown[], `${commandPath}.then`, false)
-        if (command.else !== undefined)
-          visit(command.else as unknown[], `${commandPath}.else`, false)
-      } else if (kind === 'loop') {
-        visit(command.body as unknown[], `${commandPath}.body`, false)
-      } else if (kind === 'startBattle') {
-        if (command.onLose !== undefined)
-          visit(command.onLose as unknown[], `${commandPath}.onLose`, false)
-        if (command.onFlee !== undefined)
-          visit(command.onFlee as unknown[], `${commandPath}.onFlee`, false)
-      } else if (kind === 'teleportOut' && command.onFail !== undefined) {
-        visit(command.onFail as unknown[], `${commandPath}.onFail`, false)
-      } else if (kind === 'confirm') {
-        visit(command.onNo as unknown[], `${commandPath}.onNo`, false)
-      }
-    })
-  }
-
-  visit(value, path, true)
-  return { all, topLevelResults }
-}
-
-function checkStateTarget(value: unknown, path: string, stateIds: ReadonlySet<string>): string {
-  const state = nonEmptyString(value, path)
-  if (!stateIds.has(state)) throw new Error(`${path}: 未知 state ${state}`)
-  return state
-}
-
-function checkStateTransition(
-  value: unknown,
-  path: string,
-  stateIds: ReadonlySet<string>,
-  commands: StateCommandIds,
-): void {
-  const transition = record(value, path)
-  if (
-    transition.kind === 'stay' ||
-    transition.kind === 'restart' ||
-    transition.kind === 'complete'
-  ) {
-    exactKeys(transition, ['kind'], path)
-    return
-  }
-  if (transition.kind === 'continue' || transition.kind === 'advance') {
-    exactKeys(transition, ['kind', 'state'], path)
-    checkStateTarget(transition.state, `${path}.state`, stateIds)
-    return
-  }
-  if (transition.kind === 'to') {
-    exactKeys(transition, ['kind', 'state', 'yield'], path)
-    checkStateTarget(transition.state, `${path}.state`, stateIds)
-    if (transition.yield !== 'macroTask' && transition.yield !== 'worldTick')
-      throw new Error(`${path}.yield: 期望 macroTask|worldTick`)
-    return
-  }
-  if (transition.kind === 'branch') {
-    exactKeys(transition, ['kind', 'cond', 'then', 'else'], path)
-    checkCondition(transition.cond, `${path}.cond`)
-    checkStateTransition(transition.then, `${path}.then`, stateIds, commands)
-    checkStateTransition(transition.else, `${path}.else`, stateIds, commands)
-    return
-  }
-  if (transition.kind === 'commandOutcome') {
-    exactKeys(transition, ['kind', 'commandId', 'command', 'outcome', 'then', 'else'], path)
-    const commandId = nonEmptyString(transition.commandId, `${path}.commandId`)
-    if (transition.command !== 'confirm') throw new Error(`${path}.command: 期望 confirm`)
-    if (transition.outcome !== 'no') throw new Error(`${path}.outcome: confirm 期望 no`)
-    const commandKind = commands.topLevelResults.get(commandId)
-    if (!commandKind)
-      throw new Error(`${path}.commandId: 未命中同一 state 顶层结果命令 ${commandId}`)
-    if (commandKind !== transition.command)
-      throw new Error(`${path}.command: 与 ${commandId} 的命令 kind 不匹配`)
-    checkStateTransition(transition.then, `${path}.then`, stateIds, commands)
-    checkStateTransition(transition.else, `${path}.else`, stateIds, commands)
-    return
-  }
-  throw new Error(
-    `${path}.kind: 期望 complete|stay|restart|continue|advance|to|branch|commandOutcome`,
-  )
-}
-
-function collectContinueTargets(value: unknown, targets: Set<string>): void {
-  const transition = value as BaseStateTransition
-  if (transition.kind === 'continue') {
-    targets.add(transition.state)
-    return
-  }
-  if (transition.kind === 'branch' || transition.kind === 'commandOutcome') {
-    collectContinueTargets(transition.then, targets)
-    collectContinueTargets(transition.else, targets)
-  }
-}
-
-function checkContinueGraph(graph: ReadonlyMap<string, ReadonlySet<string>>, path: string): void {
-  const done = new Set<string>()
-  const active = new Set<string>()
-  const stack: string[] = []
-
-  const visit = (state: string): void => {
-    if (done.has(state)) return
-    if (active.has(state)) {
-      const start = stack.indexOf(state)
-      const cycle = [...stack.slice(start), state].join(' -> ')
-      throw new Error(`${path}: continue 转移形成无让步环 ${cycle}`)
-    }
-    active.add(state)
-    stack.push(state)
-    for (const target of graph.get(state) ?? []) visit(target)
-    stack.pop()
-    active.delete(state)
-    done.add(state)
-  }
-
-  for (const state of graph.keys()) visit(state)
 }
 
 export interface CheckBaseScriptFlowOptions extends CommandValidationOptions {
@@ -1000,84 +874,44 @@ export function checkBaseScriptFlow(
   options: CheckBaseScriptFlowOptions = {},
 ): asserts value is BaseScriptFlow {
   const flow = record(value, path)
-  if (flow.kind === 'stages') {
-    exactKeys(flow, ['kind', 'initial', 'stages'], path)
-    const initial = nonEmptyString(flow.initial, `${path}.initial`)
-    if (!Array.isArray(flow.stages) || flow.stages.length === 0)
-      throw new Error(`${path}.stages: 期望非空数组`)
-    const ids = new Set<string>()
-    flow.stages.forEach((raw, index) => {
-      const stage = record(raw, `${path}.stages[${index}]`)
-      exactKeys(stage, ['id', 'label', 'entry', 'body', 'next'], `${path}.stages[${index}]`)
-      const id = nonEmptyString(stage.id, `${path}.stages[${index}].id`)
-      if (stage.label !== undefined) nonEmptyString(stage.label, `${path}.stages[${index}].label`)
-      if (ids.has(id)) throw new Error(`${path}.stages[${index}].id: 重复 ${id}`)
-      ids.add(id)
-      if (stage.entry !== undefined) {
-        if (!options.allowSceneEntry || id !== initial)
-          throw new Error(`${path}.stages[${index}].entry: 只允许 onEnter initial stage`)
-        checkSceneEntry(stage.entry, `${path}.stages[${index}].entry`, options)
-      }
-      checkBaseAuthorCommands(stage.body, `${path}.stages[${index}].body`, options)
-    })
-    if (!ids.has(initial)) throw new Error(`${path}.initial: 未命中 stage ${initial}`)
-    flow.stages.forEach((raw, index) => {
-      const next = (raw as { next?: unknown }).next
-      if (typeof next === 'object' && next !== null) {
-        const completion = record(next, `${path}.stages[${index}].next`)
-        exactKeys(completion, ['kind'], `${path}.stages[${index}].next`)
-        if (completion.kind !== 'complete')
-          throw new Error(`${path}.stages[${index}].next.kind: 期望 complete`)
-        return
-      }
-      if (next !== undefined && (typeof next !== 'string' || !ids.has(next)))
-        throw new Error(`${path}.stages[${index}].next: 未命中 stage ${String(next)}`)
-    })
-    return
-  }
-  if (flow.kind === 'stateMachine') {
-    exactKeys(flow, ['kind', 'machine'], path)
-    const machine = record(flow.machine, `${path}.machine`)
-    exactKeys(machine, ['id', 'label', 'cadence', 'initial', 'states'], `${path}.machine`)
-    nonEmptyString(machine.id, `${path}.machine.id`)
-    nonEmptyString(machine.label, `${path}.machine.label`)
-    if (machine.cadence !== undefined && machine.cadence !== 'transition')
-      throw new Error(`${path}.machine.cadence: 期望 transition`)
-    const initial = nonEmptyString(machine.initial, `${path}.machine.initial`)
-    const states = record(machine.states, `${path}.machine.states`)
-    const stateIds = new Set(Object.keys(states))
-    const continueGraph = new Map<string, ReadonlySet<string>>()
-    if (stateIds.size === 0) throw new Error(`${path}.machine.states: 不能为空`)
-    if (!stateIds.has(initial)) throw new Error(`${path}.machine.initial: 未命中 state ${initial}`)
-    for (const [stateId, raw] of Object.entries(states)) {
-      nonEmptyString(stateId, `${path}.machine.states id`)
-      const state = record(raw, `${path}.machine.states.${stateId}`)
-      exactKeys(state, ['label', 'entry', 'body', 'next'], `${path}.machine.states.${stateId}`)
-      nonEmptyString(state.label, `${path}.machine.states.${stateId}.label`)
-      if (state.entry !== undefined) {
-        if (!options.allowSceneEntry || stateId !== initial)
-          throw new Error(`${path}.machine.states.${stateId}.entry: 只允许 onEnter initial state`)
-        checkSceneEntry(state.entry, `${path}.machine.states.${stateId}.entry`, options)
-      }
-      checkBaseAuthorCommands(state.body, `${path}.machine.states.${stateId}.body`, options)
-      const commandIds = collectStateCommandIds(
-        state.body,
-        `${path}.machine.states.${stateId}.body`,
-      )
-      checkStateTransition(
-        state.next,
-        `${path}.machine.states.${stateId}.next`,
-        stateIds,
-        commandIds,
-      )
-      const continueTargets = new Set<string>()
-      collectContinueTargets(state.next, continueTargets)
-      continueGraph.set(stateId, continueTargets)
+  exactKeys(flow, ['kind', 'initial', 'stages'], path)
+  if (flow.kind !== 'stages') throw new Error(`${path}.kind: 期望 stages`)
+  const initial = nonEmptyString(flow.initial, `${path}.initial`)
+  if (!Array.isArray(flow.stages) || flow.stages.length === 0)
+    throw new Error(`${path}.stages: 期望非空数组`)
+  const ids = new Set<string>()
+  flow.stages.forEach((raw, index) => {
+    const stage = record(raw, `${path}.stages[${index}]`)
+    exactKeys(stage, ['id', 'label', 'entry', 'body', 'next'], `${path}.stages[${index}]`)
+    const id = nonEmptyString(stage.id, `${path}.stages[${index}].id`)
+    if (ids.has(id)) throw new Error(`${path}.stages[${index}].id: 重复 ${id}`)
+    ids.add(id)
+  })
+  if (!ids.has(initial)) throw new Error(`${path}.initial: 未命中 stage ${initial}`)
+  flow.stages.forEach((raw, index) => {
+    const stage = record(raw, `${path}.stages[${index}]`)
+    const stagePath = `${path}.stages[${index}]`
+    if (stage.label !== undefined) nonEmptyString(stage.label, `${stagePath}.label`)
+    if (stage.entry !== undefined) {
+      if (!options.allowSceneEntry || stage.id !== initial)
+        throw new Error(`${stagePath}.entry: 只允许 onEnter initial stage`)
+      checkSceneEntry(stage.entry, `${stagePath}.entry`, options)
     }
-    checkContinueGraph(continueGraph, `${path}.machine`)
-    return
-  }
-  throw new Error(`${path}.kind: 期望 stages|stateMachine`)
+    checkBaseAuthorCommands(stage.body, `${stagePath}.body`, {
+      ...options,
+      rootScope: 'flow',
+      stageIds: ids,
+      loopDepth: 0,
+      loopAncestors: undefined,
+    })
+    const next = stage.next
+    if (typeof next === 'object' && next !== null) {
+      const completion = record(next, `${stagePath}.next`)
+      exactKeys(completion, ['kind'], `${stagePath}.next`)
+      if (completion.kind !== 'complete') throw new Error(`${stagePath}.next.kind: 期望 complete`)
+    } else if (next !== undefined && (typeof next !== 'string' || !ids.has(next)))
+      throw new Error(`${stagePath}.next: 未命中 stage ${String(next)}`)
+  })
 }
 
 export function checkBaseEntityBehaviors(
@@ -1196,7 +1030,13 @@ export function checkBaseScriptLibrary(
       throw new Error(`${path}.${id}.description: 期望 string`)
     if (script.self !== 'none' && script.self !== 'optional' && script.self !== 'required')
       throw new Error(`${path}.${id}.self: 期望 none|optional|required`)
-    checkBaseAuthorCommands(script.body, `${path}.${id}.body`, options)
+    checkBaseAuthorCommands(script.body, `${path}.${id}.body`, {
+      ...options,
+      rootScope: 'script',
+      loopDepth: 0,
+      stageIds: undefined,
+      loopAncestors: undefined,
+    })
   }
 }
 
@@ -1211,20 +1051,7 @@ function checkFlowCursor(value: unknown, path: string): void {
     nonEmptyString(cursor.stage, `${path}.stage`)
     return
   }
-  if (cursor.kind === 'state') {
-    exactKeys(cursor, ['kind', 'machine', 'state'], path)
-    nonEmptyString(cursor.machine, `${path}.machine`)
-    nonEmptyString(cursor.state, `${path}.state`)
-    return
-  }
-  throw new Error(`${path}.kind: 期望 stage|state|completed`)
-}
-
-function flowCursorKey(cursor: FlowCursor): string {
-  if (cursor.kind === 'completed') return JSON.stringify(['completed'])
-  return cursor.kind === 'stage'
-    ? JSON.stringify(['stage', cursor.stage])
-    : JSON.stringify(['state', cursor.machine, cursor.state])
+  throw new Error(`${path}.kind: 期望 stage|completed`)
 }
 
 function checkPersistedSelection(
@@ -1244,7 +1071,7 @@ function checkPersistedSelection(
 
 export function checkAutoScriptContinuation(value: unknown, path = 'resume'): void {
   const resume = record(value, path)
-  exactKeys(resume, ['digest', 'frames', 'outcomes'], path)
+  exactKeys(resume, ['digest', 'frames'], path)
   if (typeof resume.digest !== 'string' || !/^[a-f0-9]{64}$/.test(resume.digest))
     throw new Error(`${path}.digest: 期望小写 SHA-256`)
   if (!Array.isArray(resume.frames) || resume.frames.length === 0 || resume.frames.length > 256)
@@ -1271,15 +1098,19 @@ export function checkAutoScriptContinuation(value: unknown, path = 'resume'): vo
         if (control.arm !== 'then' && control.arm !== 'else') throw new Error(`${cp}.arm: 非法分支`)
         break
       case 'loop':
-        exactKeys(control, ['kind', 'iteration', 'phase'], cp)
-        if (!Number.isSafeInteger(control.iteration) || Number(control.iteration) < 1)
-          throw new Error(`${cp}.iteration: 期望正安全整数`)
-        if (control.phase !== 'body' && control.phase !== 'test' && control.phase !== 'next')
+        exactKeys(control, ['kind', 'phase'], cp)
+        if (control.phase !== 'body' && control.phase !== 'test')
           throw new Error(`${cp}.phase: 非法循环相位`)
         break
+      case 'repeat':
+        exactKeys(control, ['kind', 'iteration'], cp)
+        if (!Number.isSafeInteger(control.iteration) || Number(control.iteration) < 1)
+          throw new Error(`${cp}.iteration: 期望正安全整数`)
+        break
       case 'confirm':
-        exactKeys(control, ['kind', 'no'], cp)
-        if (typeof control.no !== 'boolean') throw new Error(`${cp}.no: 期望boolean`)
+        exactKeys(control, ['kind', 'arm'], cp)
+        if (control.arm !== 'onYes' && control.arm !== 'onNo')
+          throw new Error(`${cp}.arm: 期望 onYes|onNo`)
         break
       case 'startBattle':
         exactKeys(control, ['kind', 'arm'], cp)
@@ -1293,14 +1124,6 @@ export function checkAutoScriptContinuation(value: unknown, path = 'resume'): vo
       default:
         throw new Error(`${cp}.kind: 非法控制帧`)
     }
-  }
-  const outcomes = record(resume.outcomes, `${path}.outcomes`)
-  for (const [id, raw] of Object.entries(outcomes)) {
-    nonEmptyString(id, `${path}.outcomes id`)
-    const outcome = record(raw, `${path}.outcomes.${id}`)
-    exactKeys(outcome, ['command', 'no'], `${path}.outcomes.${id}`)
-    if (outcome.command !== 'confirm' || typeof outcome.no !== 'boolean')
-      throw new Error(`${path}.outcomes.${id}: 期望confirm结果`)
   }
 }
 
@@ -1356,7 +1179,7 @@ function checkNestedNumberRecord(
 }
 
 /**
- * SAVE10 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
+ * SAVE11 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
  * cursor 始终携带所属 behavior/hook，避免换槽后把旧位置串到新 flow。
  */
 export function checkWorldScriptState(

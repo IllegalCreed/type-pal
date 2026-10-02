@@ -184,11 +184,8 @@ import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { MoveEntityCommitControl, ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
-import type {
-  SafePointDecision,
-  ScriptGateBoundary,
-  ScriptRuntimeContext,
-} from './script-runner-core.js'
+import type { SafePointDecision, ScriptRuntimeContext } from './script-runner-core.js'
+import { ScriptWakeGate } from './script-wake-gate.js'
 import { parseShopTrialParameters, runShopTrial } from './shop-trial.js'
 import { settleWalkAnimation } from './sprite-anim.js'
 import {
@@ -1035,6 +1032,7 @@ export async function bootGame(
     epoch: number
     sceneSessionId: string
   }
+  const autoWakeGate = new ScriptWakeGate()
   const autoActivations = new Map<string, AutoActivation>()
   const autoActivationBySignal = new WeakMap<AbortSignal, AutoActivation>()
   let nextAutoActivationEpoch = 1
@@ -1046,6 +1044,7 @@ export async function bootGame(
     )
   }
   const resumeScriptExecutionGates = (): void => {
+    autoWakeGate.notify()
     if (scriptConfirmModal.active) return
     for (const waiter of scriptExecutionGateWaiters.splice(0)) {
       waiter.signal.removeEventListener('abort', waiter.abort)
@@ -1074,7 +1073,6 @@ export async function bootGame(
   }
   const waitForScriptGameplay = async (
     signal: AbortSignal,
-    boundary?: ScriptGateBoundary,
   ): Promise<SafePointDecision | undefined> => {
     await waitForScriptModal(signal)
     const activation = autoActivationBySignal.get(signal)
@@ -1096,12 +1094,19 @@ export async function bootGame(
         )
       )
         return
-      if (boundary?.kind === 'continuation' && scriptRuntime?.coordinator.gateClosed()) {
-        const decision = await boundary.reachSafePoint()
-        signal.throwIfAborted()
-        if (decision === 'stop') return decision
-      }
-      await presentation.waitPassive(120, signal)
+      await autoWakeGate.wait(signal, () => {
+        if (autoActivations.get(ownerId) !== activation)
+          throw asyncIntentAbortError('automatic activation replaced while suspended')
+        const current = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
+        if (!current) throw asyncIntentAbortError('automatic owner left scene')
+        return (
+          !scriptConfirmModal.active &&
+          autoActivationSafePointOpen(
+            entityLifecycleGates(current, { hasAuto: true }).autoAllowed,
+            pendingTouchTrigger.blocksAutoSafePoint,
+          )
+        )
+      })
     }
   }
   // WorldScenePresentation owns 0x87 frame overrides, party gesture, shake and wave draw state.
@@ -3106,7 +3111,7 @@ export async function bootGame(
       gate: (signal, boundary) =>
         boundary?.kind === 'settlement'
           ? waitForScriptModal(signal)
-          : waitForScriptGameplay(signal, boundary),
+          : waitForScriptGameplay(signal),
       // Completed bodies may have hidden their own auto owner. Cursor settlement is not another
       // gameplay mutation: keep modal/abort/CAS checks, then gate the next body independently.
       entityPosRelativeToParty: (target, dcol, drow) => {
@@ -3145,7 +3150,13 @@ export async function bootGame(
           return host.query.facingEntity(target.entity, range)
         },
       },
-      confirm: (signal) => host.confirm(signal),
+      gameplayNow: () => frames.now,
+      confirm: async (signal, reportInteraction) => {
+        const answer = await host.confirm(signal)
+        signal.throwIfAborted()
+        reportInteraction?.()
+        return answer
+      },
       startBattle: (request, signal) =>
         host.startBattle(
           request.enemyTeamId,
@@ -3930,19 +3941,19 @@ export async function bootGame(
     void (async () => {
       try {
         while (!ac.signal.aborted) {
-          if (!entityLifecycleGates(e, { hasAuto: true }).autoAllowed) {
-            await host.wait(120, ac.signal)
-            continue
-          }
           const ran = await runtime.runEntityBehavior(canonical, e.id, 'auto', {
             signal: ac.signal,
           })
           if (!e.pages?.[0]?.auto) return
           if (!ran) {
-            await host.wait(120, ac.signal)
-            continue
+            const owner = {
+              kind: 'entity-behavior' as const,
+              target: { scene: canonical.id, entity: e.id },
+              channel: 'auto' as const,
+            }
+            if (!runtime.coordinator.isOwnerActive(owner)) return
+            await runtime.coordinator.waitForOwnerIdle(owner, ac.signal)
           }
-          await host.wait(40, ac.signal)
         }
       } catch (error) {
         if (!isAbortError(error)) console.error('[auto]', e.id, error)

@@ -66,18 +66,12 @@ describe('G3 author/runtime command 残差', () => {
     mode: 'while',
     cond: { kind: 'chance', percent: 50 },
     body: [],
-    yield: 'worldTick',
-    maxIterations: 2,
   })
 
   test.each([
-    ['loop mode 非法', { mode: 'repeat' }, 'commands[0].mode: 期望 while|until'],
-    [
-      'loop yield 非 worldTick',
-      { yield: 'macroTask' },
-      'commands[0].yield: canonical loop 必须 worldTick',
-    ],
-    ['loop maxIterations 非正', { maxIterations: 0 }, 'commands[0].maxIterations: 期望正整数'],
+    ['loop mode 非法', { mode: 'repeat' }, 'commands[0].mode: 期望 while|until|forever'],
+    ['loop yield 非 worldTick', { yield: 'macroTask' }, 'commands[0].yield: 未知字段'],
+    ['loop maxIterations 已退役', { maxIterations: 0 }, 'commands[0].maxIterations: 未知字段'],
   ] as const)('%s拒绝（同一合法 loop 仅改所测字段）', (_label, over, error) => {
     expectAcceptsUnchanged((value) => checkAuthorCommands(value, 'commands'), [legalLoop()])
     const bad = { ...legalLoop(), ...over }

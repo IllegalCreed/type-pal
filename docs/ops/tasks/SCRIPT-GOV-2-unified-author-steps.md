@@ -1,6 +1,6 @@
 # SCRIPT-GOV-2 统一作者步骤模型
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Core / Editor / Content按下文文件域独占
@@ -77,9 +77,44 @@ Root及三贡献者独立读取当前模型、真实运行器与消费者，确�
   用临时候选重写工具，不恢复原版转换核或新增产品常驻迁移入口。只写author字段及必须的版本，不改资源供应分区。
   专属新测试以pal-unified-steps开头，Core不改这些文件；旧governance历史结构测试退役与新业务断言接替需两Owner协调。
 - Root：本卡/母卡/看板/治理文档，scripts/e2e与其它跨包版本引用，独立复核、整仓门、最小UI和真实检查点链。
+  同时负责migrate当前消费者与发布基线：等Content冻结后，以现有baselineWrites重建已核作者分区，
+  保留地图及资源供应分区hash，验证窄供应核重建/三方合并零差异；不恢复完整原版转换器。
+  Root复核发现当前作者脚本已引用旧发布基线没有的端菜精灵sprite-208及两扇门的open姿态，
+  另有首批补全的locale。基线须同步这两份既有作者定义，才能独立闭包；不将它们误当供应源分区。
+  六角色及其精灵仍由窄供应核重建后逐项相等验证，资源catalog、地图和其它非作者hash保持不变。
 
 所有补丁必须用隔离树绝对路径。每个Owner仅提交自己的路径，Git index提交按Root安排串行；主树仅只读参考。
 实现中若发现新的不可表达内容、源行为争议或需要新能力，先停对应包向Root报告，不擅自补全局变量/兼容模式。
+
+本轮中断后接续由core_finish、editor_finish、content_finish分别继承原文件域；此前未提交改动保留，
+没有并行旧Owner。Root继续独占runtime-shell/project.ts、project-loader.test.ts、runtime-project-view.test.ts、
+startup-entry.test.ts四个版本夹具；Content独占pal-unified-steps前缀的新内容回归。
+
+### 随机姿态循环的词法重试
+
+Root、Core与Content各自直接读s112/e2109/default：现3段只是帧0–3、帧4、回帧3的随机动画，
+初段内层until中stop必须放弃当前姿态段尾部并重试该段；finishStep stay会回整动画开头，
+最近break会错误执行尾文，returnScript也不能返回一个不存在的成功标记。前4个相似单步声音方案可直接finishStep stay，
+不因此增加新层；此例证明外层循环重试的真实需要。
+
+新增精确准入：loop/repeat可选稳定id与可读label；continueLoop可选loop引用，省略指最近循环，
+有值只允许命中同一命令根内的词法祖先。禁止数字depth、任意goto、跨shared根或私有分派变量。
+breakLoop仍只退出最近循环。只对真正需要被内层引用的重试循环命名，不给所有循环强加技术标识。
+while继续前测、until继续后测、forever重进正文、repeat进入下一次迭代；不额外重掷chance、不重置零时间预算。
+同根重复id和非法祖先目标应拒绝；编辑器复制/移动/撤销同步保全命名循环引用，界面选择可读循环名。
+断言必须覆盖内层不吞外层continue、跨根拒绝、取消/续跑与随机次数/时刻。
+
+### 集成复核发现的同族遗漏
+
+- 自隐藏后结算：旧runCommands在执行命令后直接等待compiler的after，不重新进入生命周期门；
+  机械展开为setEntityState(self,0)、wait、finishStep后，wait会被不可见实体的自动执行门暂停。
+  Core保持真实叶指令门；Content全族查新添的纯结束尾等待，删除无后续作用的等待，不前移到隐藏前，
+  不改隐藏时刻。真实作者等待、仍有后续副作用的分支不能按此规则删除。另列oracle时长差异及主壳存读回归。
+- s091/e1682探监费：Root独立读取原始提取all.json:100445–100590。15383询问，确认后0x1E
+  的-300/15398表示余额不足跳到拒绝共用段；该段end advance后复读dlg.5350。付费成功复读dlg.5342。
+  当前旧机器及首版步骤候选都在余额不足文案后错误落入扣费和成功后继，属于此前付款族未覆盖的漏结束。
+  本批修为不足与拒绝同后继、够钱才扣300；不是改变已核剧情。Core覆盖0/299/300/301、拒绝、复读与存读，
+  Content只改该已核失败分支并给予可读名称。原版数据已直接给出分支，不以SDL参考推断原版执行。
 
 ## 先前只读分工
 
@@ -106,3 +141,25 @@ schema/runtime/editor/当前内容必须在同一canonical候选中完成切换�
 
 本轮内部已按上文委派，无需用户转发。只允许整体候选内各自文件域的实现，不能把未完成双模型合入main或标记done。
 用户本轮确认6012没有未保存改动，允许候选验证后更新，服务和页面保留。
+
+## 独立验收记录
+
+2026-10-03 Root已独立复核执行器、保存结算、词法循环范围、编辑器引用与深层保存消费者。
+147个旧机器hash、294个场景非脚本字段及10个共享调用者的历史hash均直接对Git1b3bffb79重算相符。
+作者内容冻结hash为10f2c0528fa2ee4424ae18ab56e6b2f618b830e655bf501ebd5a0698666af93c；
+全部1329个自动方案只有一个步骤，具体时序、四交接族与尾等待例外见[内容证据](../../testing/script-governance/unified-steps-evidence.md)。
+
+质量验收采用完整组合证据：Content1256；Reforge全包7600，随后Content专属回归增至5480由Root独立复跑；
+Editor3811；Migrate453；Game2773；Extractor357；Shared128。Migrate全包曾有作者商店引用在生成分区提前检查的失败，
+Root修正为生成处只核源货单/炼丹，作者引用在merge后的完整闭包验证；相关4项出版回归最终通过。
+Root另独立复跑8个高风险脚本文件，因并行冷启动出现一次主壳测试5秒超时，单文件24项5.84秒全绿，
+原失败日志保留，不改产品或重试逻辑。7包typecheck及全仓Biome2798文件零error/warning/info，diff检查通过。
+
+最小实际界面通过：6014的s003/e56单步骤卡、紧邻标题的数量/帮助、地图路线、可读方案切换指令、
+选步骤2播放仅出现“别怠慢了客人”，finishStep表单只有可读下次去向；没有保存预览改动到作者工程。
+001–005新SAVE11链均passed，Root重算报告输入hash、原档及恢复世界；004/005含真实中途与后台续跑恢复。
+旧SAVE10档和旧回执保持历史，不手改版本或digest。当前仍在收整回执/主树集成，尚未宣布done。
+
+旧版本兼容审查pass：当前产品没有machine作者类型、状态游标、handoff、旧结束命令或版本fallback。
+敌AI召唤结果图和宿主既有世界拍服务不属于作者机器，不因名称相似误删。未用世界拍服务未被compiler/runner调用，
+不能生成隐含作者等待。后期剧情的视觉与命名继续随E2E推进，不用本批有限模型轨迹声称全游戏观感已验。

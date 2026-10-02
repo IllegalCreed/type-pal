@@ -5,13 +5,11 @@ import type {
   AuthorScriptFlow,
   AuthorScriptLibrary,
   EntityAddress,
-  FlowCursor,
   Selection,
   TriggerActivation,
 } from '@type-pal/content'
 import {
   checkAuthorScriptLibrary,
-  flowCanComplete,
   rewriteExplicitSceneReferences,
   validateAuthorItems,
   validateAuthorScenes,
@@ -36,10 +34,6 @@ type AuthorSceneHook = NonNullable<
   NonNullable<NonNullable<AuthorSceneDef['hooks']>['onEnter']>['variants']
 >[string]
 type AuthorSharedScript = AuthorScriptLibrary[string]
-export type AuthorStateTransition = Extract<
-  AuthorScriptFlow,
-  { kind: 'stateMachine' }
->['machine']['states'][string]['next']
 
 export interface ScriptEditorState {
   scenes: AuthorSceneDef[]
@@ -104,14 +98,8 @@ export type ScriptCommandOwner =
   | { kind: 'shared-script'; scriptId: string }
 
 export type ScriptCommandContainer =
-  | { kind: 'step'; stepId: string; section: 'prepare' | 'body' }
-  | {
-      kind: 'state'
-      machineId: string
-      stateId: string
-      section: 'prepare' | 'body'
-    }
   | { kind: 'body' }
+  | { kind: 'step'; stepId: string; section: 'prepare' | 'body' }
 
 export interface ScriptCommandLocator {
   kind: 'command'
@@ -217,6 +205,7 @@ function walkCommands(
           'else',
         ])
         break
+      case 'repeat':
       case 'loop':
         walkCommands(command.body, visit, `${commandPath}.body`, owner, container, [
           ...locatorPath,
@@ -224,6 +213,10 @@ function walkCommands(
         ])
         break
       case 'confirm':
+        walkCommands(command.onYes, visit, `${commandPath}.onYes`, owner, container, [
+          ...locatorPath,
+          'onYes',
+        ])
         walkCommands(command.onNo, visit, `${commandPath}.onNo`, owner, container, [
           ...locatorPath,
           'onNo',
@@ -255,40 +248,17 @@ function walkFlowCommands(
   path: string,
   owner: ScriptCommandOwner,
 ): void {
-  if (flow.kind === 'stages') {
-    for (const stage of flow.stages) {
-      walkCommands(
-        stage.entry?.prepare ?? [],
-        visit,
-        `${path}.stages.${stage.id}.entry.prepare`,
-        owner,
-        { kind: 'step', stepId: stage.id, section: 'prepare' },
-      )
-      walkCommands(stage.body, visit, `${path}.stages.${stage.id}.body`, owner, {
-        kind: 'step',
-        stepId: stage.id,
-        section: 'body',
-      })
-    }
-    return
-  }
-  for (const [stateId, state] of Object.entries(flow.machine.states)) {
+  for (const stage of flow.stages) {
     walkCommands(
-      state.entry?.prepare ?? [],
+      stage.entry?.prepare ?? [],
       visit,
-      `${path}.machine.states.${stateId}.entry.prepare`,
+      `${path}.stages.${stage.id}.entry.prepare`,
       owner,
-      {
-        kind: 'state',
-        machineId: flow.machine.id,
-        stateId,
-        section: 'prepare',
-      },
+      { kind: 'step', stepId: stage.id, section: 'prepare' },
     )
-    walkCommands(state.body, visit, `${path}.machine.states.${stateId}.body`, owner, {
-      kind: 'state',
-      machineId: flow.machine.id,
-      stateId,
+    walkCommands(stage.body, visit, `${path}.stages.${stage.id}.body`, owner, {
+      kind: 'step',
+      stepId: stage.id,
       section: 'body',
     })
   }
@@ -371,12 +341,6 @@ export interface CanonicalScriptCommandVisit {
   locator: ScriptCommandLocator
 }
 
-export interface CanonicalScriptTransitionVisit {
-  transition: AuthorStateTransition
-  path: string
-  owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
-}
-
 /** Materialize one canonical command walk so every derived index for a revision can reuse it. */
 export function collectCanonicalScriptCommandVisits(
   state: ScriptEditorState,
@@ -385,54 +349,6 @@ export function collectCanonicalScriptCommandVisits(
   visitCanonicalScriptCommands(state, (command, path, locator) => {
     visits.push({ command, path, locator })
   })
-  return visits
-}
-
-function appendFlowTransitionVisits(
-  visits: CanonicalScriptTransitionVisit[],
-  flow: AuthorScriptFlow,
-  path: string,
-  owner: CanonicalScriptTransitionVisit['owner'],
-): void {
-  if (flow.kind !== 'stateMachine') return
-  for (const [stateId, state] of Object.entries(flow.machine.states))
-    visits.push({
-      transition: state.next,
-      path: `${path}.machine.states.${stateId}.next`,
-      owner,
-    })
-}
-
-/** Materialize state-machine transitions, whose condition leaves are not command visits. */
-export function collectCanonicalScriptTransitionVisits(
-  state: ScriptEditorState,
-): CanonicalScriptTransitionVisit[] {
-  const visits: CanonicalScriptTransitionVisit[] = []
-  for (const scene of state.scenes) {
-    for (const entity of scene.entities)
-      for (const channel of ['trigger', 'auto'] as const)
-        for (const [id, value] of Object.entries(entity.behaviors?.[channel] ?? {}))
-          appendFlowTransitionVisits(
-            visits,
-            value.flow,
-            `scenes.${scene.id}.entities.${entity.id}.behaviors.${channel}.${id}.flow`,
-            {
-              kind: 'entity-behavior',
-              sceneId: scene.id,
-              entityId: entity.id,
-              channel,
-              behaviorId: id,
-            },
-          )
-    for (const slot of ['onEnter', 'onTeleport'] as const)
-      for (const [id, value] of Object.entries(scene.hooks?.[slot]?.variants ?? {}))
-        appendFlowTransitionVisits(
-          visits,
-          value.flow,
-          `scenes.${scene.id}.hooks.${slot}.variants.${id}.flow`,
-          { kind: 'scene-hook', sceneId: scene.id, slot, hookId: id },
-        )
-  }
   return visits
 }
 
@@ -450,11 +366,16 @@ function mapCommands(
           ...(command.else ? { else: mapCommands(command.else, map) } : {}),
         }
         break
+      case 'repeat':
       case 'loop':
         command = { ...command, body: mapCommands(command.body, map) }
         break
       case 'confirm':
-        command = { ...command, onNo: mapCommands(command.onNo, map) }
+        command = {
+          ...command,
+          onYes: mapCommands(command.onYes, map),
+          onNo: mapCommands(command.onNo, map),
+        }
         break
       case 'startBattle':
         command = {
@@ -478,44 +399,15 @@ function mapFlowCommands(
   flow: AuthorScriptFlow,
   map: (command: AuthorCommand) => AuthorCommand,
 ): AuthorScriptFlow {
-  if (flow.kind === 'stages')
-    return {
-      ...clone(flow),
-      stages: flow.stages.map((stage) => ({
-        ...clone(stage),
-        ...(stage.entry
-          ? {
-              entry: {
-                ...clone(stage.entry),
-                prepare: mapCommands(stage.entry.prepare, map),
-              },
-            }
-          : {}),
-        body: mapCommands(stage.body, map),
-      })),
-    }
   return {
-    kind: 'stateMachine',
-    machine: {
-      ...clone(flow.machine),
-      states: Object.fromEntries(
-        Object.entries(flow.machine.states).map(([id, machineState]) => [
-          id,
-          {
-            ...clone(machineState),
-            ...(machineState.entry
-              ? {
-                  entry: {
-                    ...clone(machineState.entry),
-                    prepare: mapCommands(machineState.entry.prepare, map),
-                  },
-                }
-              : {}),
-            body: mapCommands(machineState.body, map),
-          },
-        ]),
-      ),
-    },
+    ...clone(flow),
+    stages: flow.stages.map((stage) => ({
+      ...clone(stage),
+      ...(stage.entry
+        ? { entry: { ...clone(stage.entry), prepare: mapCommands(stage.entry.prepare, map) } }
+        : {}),
+      body: mapCommands(stage.body, map),
+    })),
   }
 }
 
@@ -647,45 +539,12 @@ export function collectScriptReferenceIssuesFromVisits(
         path: `${path}.selection.value`,
         message: `${command.channel} behavior "${command.selection.value}" 不存在`,
       })
-    if (!command.cursorHandoff) continue
-    const source = registry?.[command.cursorHandoff.fromBehavior]
-    if (!source)
-      issues.push({
-        severity: 'error',
-        path: `${path}.cursorHandoff.fromBehavior`,
-        message: `${command.channel} 来源 behavior "${command.cursorHandoff.fromBehavior}" 不存在`,
-      })
-    for (const [index, mapping] of command.cursorHandoff.cases.entries()) {
-      if (source && !flowContainsCursor(source.flow, mapping.from))
-        issues.push({
-          severity: 'error',
-          path: `${path}.cursorHandoff.cases[${index}].from`,
-          message: '来源游标不属于来源 behavior',
-        })
-      if (selected && !flowContainsCursor(selected.flow, mapping.to))
-        issues.push({
-          severity: 'error',
-          path: `${path}.cursorHandoff.cases[${index}].to`,
-          message: '目标游标不属于目标 behavior',
-        })
-    }
   }
   return issues
 }
 
 export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptReferenceIssue[] {
   return collectScriptReferenceIssuesFromVisits(state, collectCanonicalScriptCommandVisits(state))
-}
-
-function flowContainsCursor(flow: AuthorScriptFlow, cursor: FlowCursor): boolean {
-  if (cursor.kind === 'completed') return flowCanComplete(flow)
-  if (flow.kind === 'stages')
-    return cursor.kind === 'stage' && flow.stages.some((stage) => stage.id === cursor.stage)
-  return (
-    cursor.kind === 'state' &&
-    cursor.machine === flow.machine.id &&
-    Object.hasOwn(flow.machine.states, cursor.state)
-  )
 }
 
 export function behaviorReferences(
@@ -720,12 +579,6 @@ export function behaviorReferences(
     const selectionMatches =
       command.selection.kind === 'use' && command.selection.value === behaviorId
     if (selectionMatches) references.push({ kind: 'command', path, locator })
-    if (!selectionMatches && command.cursorHandoff?.fromBehavior === behaviorId)
-      references.push({
-        kind: 'command',
-        path: `${path}.cursorHandoff.fromBehavior`,
-        locator,
-      })
   })
   return references
 }
@@ -805,7 +658,7 @@ export interface CanonicalBehaviorReferenceEntry {
   target: EntityAddress
   channel: 'trigger' | 'auto'
   behaviorId: string
-  use: 'page-binding' | 'select-behavior' | 'cursor-handoff'
+  use: 'page-binding' | 'select-behavior'
   reference: CanonicalScriptReference
 }
 
@@ -904,19 +757,6 @@ export function buildCanonicalSchemeReferenceIndexesFromVisits(
           use: 'select-behavior',
           reference: { kind: 'command', path, locator },
         })
-      const sourceId = command.cursorHandoff?.fromBehavior
-      if (sourceId && sourceId !== selectionId)
-        pushBehavior({
-          target: command.target,
-          channel: command.channel,
-          behaviorId: sourceId,
-          use: 'cursor-handoff',
-          reference: {
-            kind: 'command',
-            path: `${path}.cursorHandoff.fromBehavior`,
-            locator,
-          },
-        })
     }
     if (command.kind !== 'selectSceneHooks') continue
     for (const slot of ['onEnter', 'onTeleport'] as const) {
@@ -938,6 +778,7 @@ const COMMAND_PATH_LABELS: Readonly<Record<string, string>> = {
   then: '条件成立',
   else: '条件不成立',
   body: '循环内容',
+  onYes: '选择“是”',
   onNo: '选择“否”',
   onLose: '战败后',
   onFlee: '逃跑后',
@@ -998,14 +839,8 @@ function commandLocatorBody(
   }
   const flow = commandOwnerFlow(state, owner)
   if (!flow || container.kind === 'body') return undefined
-  if (container.kind === 'step') {
-    if (flow.kind !== 'stages') return undefined
-    const step = flow.stages.find((candidate) => candidate.id === container.stepId)
-    return container.section === 'prepare' ? step?.entry?.prepare : step?.body
-  }
-  if (flow.kind !== 'stateMachine' || flow.machine.id !== container.machineId) return undefined
-  const machineState = flow.machine.states[container.stateId]
-  return container.section === 'prepare' ? machineState?.entry?.prepare : machineState?.body
+  const step = flow.stages.find((candidate) => candidate.id === container.stepId)
+  return container.section === 'prepare' ? step?.entry?.prepare : step?.body
 }
 
 export function resolveCanonicalScriptCommand(
@@ -1084,23 +919,10 @@ function commandContainerLabel(
   const container = locator.container
   if (container.kind === 'body') return undefined
   const flow = commandOwnerFlow(state, locator.owner)
-  if (container.kind === 'step') {
-    return [
-      flow?.kind === 'stages'
-        ? previewStepLabel(flow, { kind: 'stage', stage: container.stepId })
-        : `步骤 ${container.stepId}`,
-      container.section === 'prepare' ? '画面出现前' : '脚本正文',
-    ].join(' / ')
-  }
-  const machineState =
-    flow?.kind === 'stateMachine' && flow.machine.id === container.machineId
-      ? flow.machine.states[container.stateId]
-      : undefined
   return [
-    flow?.kind === 'stateMachine' && flow.machine.id === container.machineId
-      ? `连续流程“${flow.machine.label}”`
-      : `连续流程 ${container.machineId}`,
-    `状态“${machineState?.label ?? container.stateId}”`,
+    flow
+      ? previewStepLabel(flow, { kind: 'stage', stage: container.stepId })
+      : `步骤 ${container.stepId}`,
     container.section === 'prepare' ? '画面出现前' : '脚本正文',
   ].join(' / ')
 }
@@ -1662,20 +1484,8 @@ export class RenameEntityBehaviorCommand extends SnapshotCommand {
         return command
       const rewritesSelection =
         command.selection.kind === 'use' && command.selection.value === this.from
-      const rewritesHandoff = command.cursorHandoff?.fromBehavior === this.from
-      if (!rewritesSelection && !rewritesHandoff) return command
-      return {
-        ...command,
-        ...(rewritesSelection ? { selection: { kind: 'use' as const, value: this.to } } : {}),
-        ...(rewritesHandoff
-          ? {
-              cursorHandoff: {
-                ...command.cursorHandoff!,
-                fromBehavior: this.to,
-              },
-            }
-          : {}),
-      }
+      if (!rewritesSelection) return command
+      return { ...command, selection: { kind: 'use' as const, value: this.to } }
     })
   }
 }
@@ -2339,18 +2149,4 @@ export function presentSelection<T>(
   if (selection.kind === 'inherit') return { tone: 'inherit', label: '继承静态定义' }
   if (selection.kind === 'disabled') return { tone: 'disabled', label: '显式禁用' }
   return { tone: 'use', label: `使用：${valueLabel(selection.value)}` }
-}
-
-export function stateTransitionExecutionLabel(transition: AuthorStateTransition): string {
-  const labels: Record<AuthorStateTransition['kind'], string> = {
-    complete: '本方案完成',
-    stay: '下次重复本段',
-    restart: '下次从起始段开始',
-    continue: '本次立即继续',
-    advance: '下次执行指定段落',
-    to: '本次稍后继续',
-    branch: '按条件选择后续',
-    commandOutcome: '按操作结果选择后续',
-  }
-  return labels[transition.kind]
 }

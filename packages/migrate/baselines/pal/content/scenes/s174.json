@@ -274,6 +274,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -287,13 +288,21 @@
                         "scene": "s174",
                         "entity": "e2874"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -307,10 +316,11 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 740
                     },
                     {
                       "facing": "down",
@@ -321,6 +331,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -330,7 +344,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -341,6 +355,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -350,7 +368,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 360
                     },
                     {
                       "kind": "moveEntity",
@@ -366,6 +384,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "fast",
                       "to": {
@@ -377,13 +399,21 @@
                         "scene": "s174",
                         "entity": "e2874"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -393,6 +423,7 @@
     },
     {
       "id": "e2875",
+      "label": "老婆婆",
       "pos": {
         "col": 61,
         "row": 12,
@@ -1029,7 +1060,7 @@
             }
           },
           "legacy-003": {
-            "label": "触发行为 3",
+            "label": "阿奴来访：师徒相见与告别",
             "order": 3,
             "flow": {
               "kind": "stages",
@@ -1324,6 +1355,54 @@
                       },
                       "kind": "dialog"
                     }
+                  ],
+                  "label": "婆婆介绍阿奴并催办正事",
+                  "next": "anu-farewell"
+                },
+                {
+                  "id": "anu-farewell",
+                  "label": "阿奴向婆婆告别",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "asset": "portrait.pal.029",
+                            "side": "right"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.10154"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老婆婆",
+                          "portrait": {
+                            "asset": "portrait.pal.082",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top",
+                        "rows": [
+                          {
+                            "text": "dlg.10156"
+                          }
+                        ]
+                      }
+                    }
                   ]
                 }
               ]
@@ -1421,13 +1500,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s174",
-                        "entity": "e2878"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s174",
+                            "entity": "e2878"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1488,11 +1578,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1551,11 +1639,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1614,11 +1700,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1678,11 +1762,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1742,11 +1824,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1805,11 +1885,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1893,11 +1971,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-003"
-                },
-                {
-                  "id": "legacy-003",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1956,11 +2032,9 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -3058,11 +3132,9 @@
                     "kind": "setPartyFacing"
                   }
                 ],
-                "next": "legacy-004"
-              },
-              {
-                "id": "legacy-004",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }
@@ -3514,11 +3586,9 @@
                     ]
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

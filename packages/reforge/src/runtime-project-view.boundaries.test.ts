@@ -63,19 +63,19 @@ describe('B4 page/trigger/auto 有→无→有刷新', () => {
 })
 
 describe('B5 hook 游标选择的入场投影', () => {
-  test('stages 游标命中对应 stage 的 entry；stateMachine 游标命中对应 state；正文一律空', () => {
+  test('hook 步骤游标选择对应呈现，投影正文一律为空', () => {
     const world = emptyWorldScriptState()
     const view = baseSceneView(legalScene(), world)
     // onEnter initial=first → 该 stage 的 entry（cut）
     expect(view.onEnter).toEqual([{ entry: { prepare: [], reveal: { kind: 'cut' } }, body: [] }])
-    // onTeleport 状态机 initial=a 无 entry → 空 body 投影（不复活可执行正文）
+    // onTeleport 步骤方案 initial=a 无 entry → 空 body 投影（不复活可执行正文）
     expect(view.onTeleport).toEqual([{ body: [] }])
-    // 状态机游标切到 b（非 initial，守卫下无 entry）→ 仍空 body；入场呈现只在 onEnter initial
+    // 步骤方案游标切到 b（非 initial，守卫下无 entry）→ 仍空 body；入场呈现只在 onEnter initial
     const worldB = worldWith((w) => {
       w.behaviors.scenes = {
         s1: {
           onTeleport: {
-            cursor: { hook: 'tp', at: { kind: 'state', machine: 'm1', state: 'b' } },
+            cursor: { hook: 'tp', at: { kind: 'stage', stage: 'b' } },
           },
         },
       }

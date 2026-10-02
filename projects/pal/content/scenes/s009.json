@@ -220,7 +220,6 @@
                     },
                     {
                       "kind": "confirm",
-                      "id": "decision-001",
                       "onNo": [
                         {
                           "kind": "clearDialog"
@@ -240,9 +239,13 @@
                           }
                         },
                         {
-                          "kind": "stopScript"
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
-                      ]
+                      ],
+                      "onYes": []
                     },
                     {
                       "kind": "clearDialog"
@@ -269,7 +272,6 @@
                     },
                     {
                       "kind": "confirm",
-                      "id": "decision-002",
                       "onNo": [
                         {
                           "kind": "clearDialog"
@@ -289,9 +291,13 @@
                           }
                         },
                         {
-                          "kind": "stopScript"
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
-                      ]
+                      ],
+                      "onYes": []
                     },
                     {
                       "kind": "clearDialog"

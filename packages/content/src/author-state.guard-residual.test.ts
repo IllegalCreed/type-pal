@@ -29,7 +29,7 @@ describe('G2 world script state 残差', () => {
                 selection: { kind: 'use', value: 'talk' },
                 cursor: {
                   behavior: 'talk',
-                  at: { kind: 'state', machine: 'conversation', state: 'waiting' },
+                  at: { kind: 'stage', stage: 'waiting' },
                 },
               },
             },
@@ -108,7 +108,7 @@ describe('G2 world script state 残差', () => {
     const before = deepSnapshot(bad)
     expectExactError(
       () => checkWorldScriptState(bad),
-      'world.script.behaviors.entities.s001.e1.trigger.cursor.at.kind: 期望 stage|state|completed',
+      'world.script.behaviors.entities.s001.e1.trigger.cursor.at.kind: 期望 stage|completed',
     )
     expect(bad).toEqual(before)
   })

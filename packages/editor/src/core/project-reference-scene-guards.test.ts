@@ -96,49 +96,51 @@ describe('scene dependency guard: canonical command owners', () => {
   })
 })
 
-describe('scene dependency guard: state-machine transition roots', () => {
+describe('scene dependency guard: nested step conditions', () => {
   test.each([
     'onEnter',
     'onTeleport',
     'trigger',
     'auto',
-  ] as const)('%s collects all/any/not and nested transitions once, not command bodies', async (kind) => {
+  ] as const)('%s collects all/any/not and nested step conditions once with editable locators', async (kind) => {
     const flow = transitionFlow(true)
-    if (flow.kind !== 'stateMachine') throw new Error('fixture flow')
-    flow.machine.states.one!.body = [
-      { kind: 'branch', cond: { kind: 'currentScene', scene: 'target' }, then: [] },
-    ]
+    flow.stages[0]!.body.unshift({
+      kind: 'branch',
+      cond: { kind: 'currentScene', scene: 'target' },
+      then: [],
+    })
     const f = await sceneGuardFixture(flow, kind)
     const edges = sceneReferences(f.cold())
-    const transitions = edges.filter((edge) => edge.locator.kind === 'script-owner')
-    const root = `${f.path}.machine.states.one.next`
+    const root = `${f.path}.stages.one.body`
     expect(
-      transitions.map(({ target, where, relation, locator, source, deletePolicy }) => ({
-        target,
-        where,
-        relation,
-        locator,
-        owner: source.owner,
-        deletePolicy,
+      edges.map((edge) => ({
+        target: edge.target,
+        where: edge.where,
+        relation: edge.relation,
+        owner: edge.source.owner,
+        deletePolicy: edge.deletePolicy,
       })),
     ).toEqual(
       [
-        `${root}.cond.of[0].scene`,
-        `${root}.cond.of[1].of[0].cond.scene`,
-        `${root}.then.cond.scene`,
+        `${root}[0].cond.scene`,
+        `${root}[1].cond.of[0].scene`,
+        `${root}[1].cond.of[1].of[0].cond.scene`,
+        `${root}[1].then[0].cond.scene`,
       ].map((where) => ({
         target: targetScene,
         where,
         relation: { kind: 'command-target', use: 'condition-current-scene' },
-        locator: { kind: 'script-owner', owner: f.owner },
         owner: { kind: 'script-owner', owner: f.owner },
         deletePolicy: 'replace-suggest',
       })),
     )
-    expect(edges).toHaveLength(4)
     expect(
-      edges.filter((edge) => edge.locator.kind === 'canonical-script').map((edge) => edge.where),
-    ).toEqual([`${f.path}.machine.states.one.body[0].cond.scene`])
+      edges.map((edge) =>
+        edge.locator.kind === 'canonical-script'
+          ? edge.locator.reference.locator.commandPath
+          : undefined,
+      ),
+    ).toEqual(['0', '1', '1', '1/then/0'])
     expect(sceneReferences(f.warm())).toEqual(edges)
     expect(
       f.cold().deletionImpact(targetScene, f.cold().deletionScopeFor([sourceScene, targetScene]))

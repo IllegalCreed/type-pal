@@ -78,7 +78,7 @@ function hasRetiredPublicSymbol(line: string): boolean {
 }
 
 describe('current-only product boundary', () => {
-  test.each(['demo', 'e2e-own', 'pal'])('%s manifest is canonical content21 startup data', (id) => {
+  test.each(['demo', 'e2e-own', 'pal'])('%s manifest is canonical content22 startup data', (id) => {
     const manifestPath = join(repoRoot, `projects/${id}/manifest.json`)
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as Record<string, unknown>
     const content = manifest.content as Record<string, string>

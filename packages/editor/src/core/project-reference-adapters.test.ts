@@ -24,9 +24,7 @@ import {
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalScriptCommandVisit,
-  type CanonicalScriptTransitionVisit,
   collectCanonicalScriptCommandVisits,
-  collectCanonicalScriptTransitionVisits,
   collectCanonicalSharedScriptReferencesFromVisits,
   type ScriptEditorState,
 } from './script-editor.js'
@@ -70,7 +68,7 @@ const commandVisit = (
 const manifest = {
   id: 'test',
   name: 'Test',
-  contentVersion: 21,
+  contentVersion: 22,
   defaultEntryId: 'main',
   entryPoints: [
     {
@@ -82,7 +80,7 @@ const manifest = {
   ],
   content: {},
   assets: { catalog: 'assets/index.json', roles: {} },
-  minimumSaveVersion: 10,
+  minimumSaveVersion: 11,
 } as unknown as CurrentManifest
 const noEntryManifest = { ...manifest, entryPoints: [] } as unknown as CurrentManifest
 
@@ -98,7 +96,7 @@ describe('project reference adapters', () => {
       commandVisits: [
         commandVisit({ kind: 'loadScene', scene: 'next', entryId: 'door' }, 'shared.test.body[0]'),
       ],
-      transitionVisits: [],
+
       entityAddressReferences: [],
     })
     const index = createProjectReferenceIndex(snapshot)
@@ -270,7 +268,7 @@ describe('project reference adapters', () => {
       state: { manifest: noEntryManifest, scenes: [], scriptChunks: {} } as unknown as EditorState,
       scriptState: { scenes: [], items: [], sharedScripts: {} },
       commandVisits: [],
-      transitionVisits: [],
+
       entityAddressReferences: references,
     })
     const index = createProjectReferenceIndex(snapshot)
@@ -354,7 +352,7 @@ describe('project reference adapters', () => {
       } as unknown as EditorState,
       scriptState: { scenes: [], items: [], sharedScripts: {} },
       commandVisits: [],
-      transitionVisits: [],
+
       entityAddressReferences: [runtimeReference],
     })
     const index = createProjectReferenceIndex(snapshot)
@@ -471,7 +469,7 @@ describe('project reference adapters', () => {
         commandVisit({ kind: 'learnSkill', role: 0, skill: 'skill-live' }, 'live-learn'),
         livePoison,
       ],
-      transitionVisits: [],
+
       entityAddressReferences: [],
     })
     const index = createProjectReferenceIndex(snapshot)
@@ -592,7 +590,7 @@ describe('project reference adapters', () => {
       worlds: [],
     } as unknown as EditorState
 
-    const edges = actorReferenceEdges(state, [parent, nested], [], scriptState)
+    const edges = actorReferenceEdges(state, [parent, nested], scriptState)
     expect(
       edges.map((edge) =>
         edge.target.kind === 'actor'
@@ -638,7 +636,7 @@ describe('project reference adapters', () => {
         },
       ],
     } as unknown as EditorState
-    const edges = actorReferenceEdges(state, [], [], {
+    const edges = actorReferenceEdges(state, [], {
       scenes: [],
       items: [],
       sharedScripts: {},
@@ -671,7 +669,7 @@ describe('project reference adapters', () => {
     )
   })
 
-  test('canonical item command and transition leaves keep exact owner locators', () => {
+  test('canonical shared and step condition leaves keep exact owner locators', () => {
     const command = commandVisit(
       {
         kind: 'branch',
@@ -680,20 +678,24 @@ describe('project reference adapters', () => {
       },
       'sharedScripts.shared/test.body[0]',
     )
-    const transition: CanonicalScriptTransitionVisit = {
-      transition: {
+    const transition: CanonicalScriptCommandVisit = {
+      command: {
         kind: 'branch',
         cond: { kind: 'ownsItem', itemId: 'target', atLeast: 1 },
-        then: { kind: 'stay' },
-        else: { kind: 'restart' },
+        then: [],
       },
-      path: 'scenes.scene.entities.entity.behaviors.trigger.flow.machine.states.open.next',
-      owner: {
-        kind: 'entity-behavior',
-        sceneId: 'scene',
-        entityId: 'entity',
-        channel: 'trigger',
-        behaviorId: 'flow',
+      path: 'scenes.scene.entities.entity.behaviors.trigger.flow.stages.open.body[0]',
+      locator: {
+        kind: 'command',
+        owner: {
+          kind: 'entity-behavior',
+          sceneId: 'scene',
+          entityId: 'entity',
+          channel: 'trigger',
+          behaviorId: 'flow',
+        },
+        container: { kind: 'step', stepId: 'open', section: 'body' },
+        commandPath: '0',
       },
     }
     const scriptState = {
@@ -712,13 +714,9 @@ describe('project reference adapters', () => {
                     label: '连续行为',
                     order: 0,
                     flow: {
-                      kind: 'stateMachine',
-                      machine: {
-                        id: 'machine',
-                        label: '连续流程',
-                        initial: 'open',
-                        states: { open: { label: '开场', body: [], next: transition.transition } },
-                      },
+                      kind: 'stages',
+                      initial: 'open',
+                      stages: [{ id: 'open', body: [transition.command] }],
                     },
                   },
                 },
@@ -745,7 +743,7 @@ describe('project reference adapters', () => {
       scriptChunks: {},
     } as unknown as EditorState
 
-    const edges = itemReferenceEdges(state, [command], [transition], scriptState)
+    const edges = itemReferenceEdges(state, [command, transition], scriptState)
     expect(edges).toHaveLength(2)
     expect(edges).toMatchObject([
       {
@@ -756,7 +754,7 @@ describe('project reference adapters', () => {
       {
         target: { kind: 'item', id: 'target' },
         relation: { kind: 'item-use', access: 'read' },
-        locator: { kind: 'script-owner', owner: transition.owner },
+        locator: { kind: 'canonical-script', reference: { locator: transition.locator } },
       },
     ])
   })
@@ -834,7 +832,7 @@ describe('project reference adapters', () => {
     } as unknown as EditorState
     const index = createProjectReferenceIndex(
       buildProjectReferenceSnapshot(
-        itemReferenceEdges(state, [], [], { scenes: [], items: [], sharedScripts: {} }),
+        itemReferenceEdges(state, [], { scenes: [], items: [], sharedScripts: {} }),
       ),
     )
     const target = { kind: 'item', id: 'target' } as const
@@ -1327,13 +1325,13 @@ describe('project reference adapters', () => {
       sharedScripts: scriptState.sharedScripts,
     } as unknown as EditorState
     const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
-    const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
+
     const index = createProjectReferenceIndex(
       buildProjectReferenceSnapshotFromProjection({
         state,
         scriptState,
         commandVisits,
-        transitionVisits,
+
         entityAddressReferences: [],
         assetReferences: collectEditorAssetReferences(state),
         canonicalAssetReferences: collectCanonicalAssetReferenceEntries(commandVisits),

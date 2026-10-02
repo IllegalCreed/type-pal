@@ -168,7 +168,10 @@ function collectScriptSprites(stages: readonly ScriptStage[]): string[] {
         if (c.onLose) walk(c.onLose)
         if (c.onFlee) walk(c.onFlee)
       }
-      if (c.kind === 'confirm') walk(c.onNo)
+      if (c.kind === 'confirm') {
+        walk(c.onYes)
+        walk(c.onNo)
+      }
       if (c.kind === 'setEntityAuto' || c.kind === 'setEntityTrigger')
         for (const st of c.stages ?? []) walk(st.body)
     }
@@ -192,11 +195,12 @@ function collectCanonicalScriptSprites(
         walk(command.then)
         walk(command.else ?? [])
       } else if (command.kind === 'confirm') {
+        walk(command.onYes)
         walk(command.onNo)
       } else if (command.kind === 'startBattle') {
         walk(command.onLose ?? [])
         walk(command.onFlee ?? [])
-      } else if (command.kind === 'loop') {
+      } else if (command.kind === 'loop' || command.kind === 'repeat') {
         walk(command.body)
       } else if (command.kind === 'teleportOut') {
         walk(command.onFail ?? [])
@@ -207,16 +211,9 @@ function collectCanonicalScriptSprites(
       }
     }
   }
-  if (flow.kind === 'stages') {
-    for (const stage of flow.stages) {
-      walk(stage.entry?.prepare ?? [])
-      walk(stage.body)
-    }
-  } else {
-    for (const state of Object.values(flow.machine.states)) {
-      walk(state.entry?.prepare ?? [])
-      walk(state.body)
-    }
+  for (const stage of flow.stages) {
+    walk(stage.entry?.prepare ?? [])
+    walk(stage.body)
   }
   return [...out]
 }

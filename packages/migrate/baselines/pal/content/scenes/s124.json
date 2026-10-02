@@ -91,6 +91,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -106,12 +107,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s124",
                         "entity": "e2206"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 0,
@@ -123,7 +132,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 320
                     },
                     {
                       "kind": "moveEntity",
@@ -139,6 +148,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "run",
                       "to": {
@@ -150,13 +163,21 @@
                         "scene": "s124",
                         "entity": "e2206"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -256,6 +277,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -269,13 +291,21 @@
                         "scene": "s124",
                         "entity": "e2207"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -289,22 +319,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s124",
-                        "entity": "e2207"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s124",
-                        "entity": "e2207"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "left",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s124",
+                            "entity": "e2207"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s124",
+                            "entity": "e2207"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1206,11 +1251,9 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2239,28 +2282,22 @@
                     }
                   },
                   {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 0,
-                    "dy": -4,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s124",
-                      "entity": "e2210"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 0,
-                    "dy": -4,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s124",
-                      "entity": "e2210"
-                    }
+                    "kind": "repeat",
+                    "count": 2,
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "dx": 0,
+                        "dy": -4,
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s124",
+                          "entity": "e2210"
+                        }
+                      }
+                    ]
                   },
                   {
                     "kind": "clearDialog"
@@ -2680,11 +2717,9 @@
                     }
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

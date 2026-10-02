@@ -139,30 +139,22 @@ export const legalScene = (): BaseSceneDef => ({
           label: '出场',
           order: 0,
           flow: {
-            kind: 'stateMachine',
-            machine: {
-              id: 'm1',
-              label: '状态机',
-              initial: 'a',
-              states: {
-                a: {
-                  label: 'A',
-                  body: [],
-                  next: {
+            kind: 'stages',
+            initial: 'a',
+            stages: [
+              {
+                id: 'a',
+                label: 'A',
+                body: [
+                  {
                     kind: 'branch',
                     cond: { kind: 'currentScene', scene: 's1' },
-                    then: { kind: 'to', state: 'b', yield: 'worldTick' },
-                    else: { kind: 'stay' },
+                    then: [{ kind: 'finishStep', next: { kind: 'stage', stage: 'b' } }],
                   },
-                },
-                b: {
-                  label: 'B',
-                  body: [],
-                  // guard: entry 只允许 onEnter initial state——非 initial 状态不带入场呈现
-                  next: { kind: 'stay' },
-                },
+                ],
               },
-            },
+              { id: 'b', label: 'B', body: [] },
+            ],
           },
         },
       },

@@ -283,10 +283,10 @@ function throwIfAborted(signal: AbortSignal): void {
   if (signal.aborted) throw new DOMException('script aborted', 'AbortError')
 }
 
-/** stopScript 哨兵:跳转臂终止整个脚本本次运行(从任意嵌套臂穿透到 runStages 收口)。 */
+/** returnScript 哨兵:跳转臂终止整个脚本本次运行(从任意嵌套臂穿透到 runStages 收口)。 */
 class ScriptStopped extends Error {
   constructor() {
-    super('script stopped by stopScript')
+    super('script stopped by returnScript')
   }
 }
 
@@ -481,7 +481,7 @@ export class ScriptRunner {
       throwIfAborted(this.signal)
       applyStageNext(this.world, key, idx, stage.next)
     } catch (err) {
-      // 跳转臂终止(stopScript):本次运行干净结束,**阶段不转移**(原版命中跳 0 号 END 退出,
+      // 跳转臂终止(returnScript):本次运行干净结束,**阶段不转移**(原版命中跳 0 号 END 退出,
       // 下次触发重掷;auto 循环下拍重跑 = 原版 auto 侧"原地不动")。其余异常原样上抛。
       if (!(err instanceof ScriptStopped)) throw err
     } finally {
@@ -700,7 +700,7 @@ export class ScriptRunner {
         await h.clearActorCondition(cmd.actor, cmd.condition, this.signal)
         throwIfAborted(this.signal)
         return
-      case 'stopScript':
+      case 'returnScript':
         throw new ScriptStopped() // 跳转臂终止(见类注;runStages 收口)
       case 'quitToTitle':
         return h.quitToTitle?.(cmd.videos, this.signal) // 0xA0 通关退出 → 回标题屏
@@ -760,10 +760,11 @@ export class ScriptRunner {
         )
       case 'openShop':
         return h.openShop(cmd.shop, cmd.mode, this.signal)
-      case 'confirm':
-        if (await h.confirm(this.signal)) return
+      case 'confirm': {
+        const accepted = await h.confirm(this.signal)
         throwIfAborted(this.signal)
-        return this.runBody(cmd.onNo, [...path, 'onNo'])
+        return this.runBody(accepted ? cmd.onYes : cmd.onNo, [...path, accepted ? 'onYes' : 'onNo'])
+      }
       case 'cameraPan':
         return h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal)
       case 'cameraSnap':

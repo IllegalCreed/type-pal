@@ -80,7 +80,11 @@ describe('standalone author audit reuses the author-save validation kernel', () 
                 {
                   id: 'start',
                   body: [
-                    { kind: 'confirm', onNo: [{ kind: 'callScript', script: 'shared/visit' }] },
+                    {
+                      kind: 'confirm',
+                      onYes: [],
+                      onNo: [{ kind: 'callScript', script: 'shared/visit' }],
+                    },
                   ],
                 },
               ],
@@ -95,7 +99,9 @@ describe('standalone author audit reuses the author-save validation kernel', () 
       'shared/visit': {
         name: 'Visit',
         self: 'none',
-        body: [{ kind: 'confirm', onNo: [{ kind: 'callScript', script: 'shared/missing' }] }],
+        body: [
+          { kind: 'confirm', onYes: [], onNo: [{ kind: 'callScript', script: 'shared/missing' }] },
+        ],
       },
     })
     await expect(f.check()).rejects.toThrow(/shared\/missing/)

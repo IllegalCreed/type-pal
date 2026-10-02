@@ -27,7 +27,7 @@ function state(actors: ActorDef[] = []): EditorState {
     manifest: {
       id: 'actor-crud',
       name: 'actor crud',
-      contentVersion: 21,
+      contentVersion: 22,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

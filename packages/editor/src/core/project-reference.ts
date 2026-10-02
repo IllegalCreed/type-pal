@@ -100,7 +100,6 @@ export type ScriptCommandOwnerSnapshot =
 export type ScriptCommandContainerSnapshot =
   | readonly [kind: 0]
   | readonly [kind: 1, stepId: string, section: 0 | 1]
-  | readonly [kind: 2, machineId: string, stateId: string, section: 0 | 1]
 
 export type ProjectReferenceSourceOwnerSnapshot = readonly [
   kind: number,
@@ -190,7 +189,7 @@ export type ProjectReferenceRelation =
   | { kind: 'world-sprite-use' }
   | { kind: 'world-sprite-action-use'; actionId: string }
   | { kind: 'battle-sprite-use'; expectedProfile: BattleSpriteProfileKind }
-  | { kind: 'behavior-reference'; use: 'page-binding' | 'select-behavior' | 'cursor-handoff' }
+  | { kind: 'behavior-reference'; use: 'page-binding' | 'select-behavior' }
   | { kind: 'scene-hook-reference'; use: 'hook-initial' | 'select-hook' }
   | { kind: 'tileset-use'; use: 'map' | 'stamp' }
   | { kind: 'stamp-placement-source' }
@@ -762,8 +761,6 @@ function encodeScriptCommandContainer(
       return [0]
     case 'step':
       return [1, container.stepId, container.section === 'prepare' ? 0 : 1]
-    case 'state':
-      return [2, container.machineId, container.stateId, container.section === 'prepare' ? 0 : 1]
   }
 }
 
@@ -778,13 +775,6 @@ function decodeScriptCommandContainer(
         kind: 'step',
         stepId: container[1],
         section: container[2] === 0 ? 'prepare' : 'body',
-      }
-    case 2:
-      return {
-        kind: 'state',
-        machineId: container[1],
-        stateId: container[2],
-        section: container[3] === 0 ? 'prepare' : 'body',
       }
   }
 }

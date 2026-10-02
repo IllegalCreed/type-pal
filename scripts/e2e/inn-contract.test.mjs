@@ -51,8 +51,8 @@ const handoffPayload = (engine) =>
         },
       }
     : {
-        version: 10,
-        contentVersion: 21,
+        version: 11,
+        contentVersion: 22,
         projectId: 'pal',
         position: { sceneId: 's003' },
         world: {
@@ -230,10 +230,10 @@ test('failed predecessor, changed bytes and other fragment cannot become 002 adm
   )
   assert.throws(() => validatePredecessor(r, { ...p, gs: { ...p.gs, dwCash: 500 } }, 'game', bytes))
 })
-test('002 Reforge admission strictly requires the current SAVE10/content21 predecessor', () => {
+test('002 Reforge admission strictly requires the current SAVE11/content22 predecessor', () => {
   const payload = {
-    version: 10,
-    contentVersion: 21,
+    version: 11,
+    contentVersion: 22,
     projectId: 'pal',
     position: { sceneId: 's001', pos: { col: 60, height: 0, row: -24 }, facing: 'down' },
     world: { money: 0, party: [{ id: 'li-xiaoyao' }] },
@@ -253,6 +253,7 @@ test('002 Reforge admission strictly requires the current SAVE10/content21 prede
     )
   }
   assert.equal(validate(payload).sha256, sha256(JSON.stringify(payload)))
+  assert.throws(() => validate({ ...payload, version: 10, contentVersion: 21 }))
   assert.throws(() => validate({ ...payload, version: 8 }))
   assert.throws(() => validate({ ...payload, contentVersion: 20 }))
   assert.throws(() => validate({ ...payload, version: 8, contentVersion: 20 }))
@@ -327,8 +328,8 @@ test('committed restore DTO is separately bounded and detached without changing 
 })
 
 const restorePayloadFixture = () => ({
-  version: 10,
-  contentVersion: 21,
+  version: 11,
+  contentVersion: 22,
   projectId: 'pal',
   position: { sceneId: 's003', pos: { col: 126, row: 45, height: 0 }, facing: 'down' },
   world: {
@@ -485,8 +486,8 @@ test('actual transformed restore reads committed World before real auto call, no
     player,
     facing: 'down',
     inputProject: { manifest: { id: 'pal' } },
-    SAVE_VERSION: 10,
-    CONTENT_VERSION: 21,
+    SAVE_VERSION: 11,
+    CONTENT_VERSION: 22,
     pendingChaseTerminal: new Map(),
     hasLivePendingChaseTerminal: () => false,
     assertRunnerActive: () => {},

@@ -43,7 +43,7 @@ afterEach(() => {
 test.each([
   'hidden',
   'suspended',
-] as const)('a machine to boundary remains saveable when %s before a later F5, then resumes without replay', async (mode) => {
+] as const)('a paused command inside one ordinary step remains saveable when %s before F5, then resumes without replay', async (mode) => {
   host = await installShellHost()
   const pause: AuthorCommand =
     mode === 'hidden'
@@ -67,25 +67,20 @@ test.each([
             label: 'Walk',
             order: 0,
             flow: {
-              kind: 'stateMachine',
-              machine: {
-                id: 'walk',
-                label: 'Walk',
-                initial: 'first',
-                states: {
-                  first: {
-                    label: 'First',
-                    body: [{ kind: 'giveMoney', delta: 7 }, pause],
-                    next: { kind: 'to', state: 'second', yield: 'worldTick' },
-                  },
-                  second: {
-                    label: 'Second',
-                    body: [{ kind: 'giveMoney', delta: 9 }],
-                    next: { kind: 'advance', state: 'complete' },
-                  },
-                  complete: { label: 'Complete', body: [], next: { kind: 'stay' } },
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                {
+                  id: 'first',
+                  body: [
+                    { kind: 'giveMoney', delta: 7 },
+                    pause,
+                    { kind: 'wait', ms: 100 },
+                    { kind: 'giveMoney', delta: 9 },
+                    { kind: 'finishStep', next: { kind: 'complete' } },
+                  ],
                 },
-              },
+              ],
             },
           },
         },
@@ -120,10 +115,10 @@ test.each([
     },
   ]
   const booted = await bootScenario(host, { first })
-  const cursor = { kind: 'state', machine: 'walk', state: 'second' }
+  const cursor = { kind: 'stage', stage: 'first' }
   await advance(host, () => {
     const at = state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at
-    return at?.kind === 'state' && at.state === 'second'
+    return at?.kind === 'stage' && at.stage === 'first' && state().world.money === 57
   })
   expect(state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual(cursor)
   for (let frame = 0; frame < 5; frame++) {
@@ -152,12 +147,10 @@ test.each([
   await key(host, 'Enter')
   await advance(host, () => {
     const at = state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at
-    return state().world.money === 66 && at?.kind === 'state' && at.state === 'complete'
+    return state().world.money === 66 && at?.kind === 'completed'
   })
   expect(state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual({
-    kind: 'state',
-    machine: 'walk',
-    state: 'complete',
+    kind: 'completed',
   })
   booted.assertInputUnchanged()
 })
@@ -817,6 +810,11 @@ function auntRouteScene(startWithRoute = true) {
   if (route.kind !== 'stages') throw new Error('actual aunt route must use ordinary steps')
   for (const stage of route.stages)
     for (const command of stage.body) {
+      if (command.kind === 'wait') continue
+      if (command.kind === 'finishStep') {
+        expect(command.next).toEqual({ kind: 'complete' })
+        continue
+      }
       if (
         command.kind !== 'moveEntity' &&
         command.kind !== 'setEntityTriggerActivation' &&
@@ -930,7 +928,7 @@ test.each([
     stage: 'leave-reception',
   })
   expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames).toEqual([
-    { index: phase === 'first-target' ? 1 : 4 },
+    { index: phase === 'first-target' ? 2 : 8 },
   ])
   expect(saved?.world.script?.behaviors.entities?.a?.npc?.trigger?.selection).toBeUndefined()
   await key(host, 'F9')
@@ -1235,45 +1233,38 @@ test('F9 cancels a real in-flight diagonal move without late position, reward or
   booted.assertInputUnchanged()
 })
 
-function departure(kind: 'stages' | 'stateMachine', explicitCompletion = false): AuthorScriptFlow {
+function departure(finish: 'next' | 'direct' | 'branch'): AuthorScriptFlow {
   const body: AuthorCommand[] = [
     { kind: 'moveEntity', target, to: endpoint, speed: 'slow' },
     { kind: 'giveMoney', delta: 7 },
     { kind: 'setEntityState', target, state: 0 },
+    ...(finish === 'direct'
+      ? [{ kind: 'finishStep', next: { kind: 'complete' } } satisfies AuthorCommand]
+      : []),
+    ...(finish === 'branch'
+      ? [
+          {
+            kind: 'branch',
+            cond: { kind: 'chance', percent: 100 },
+            then: [{ kind: 'finishStep', next: { kind: 'complete' } }],
+          } satisfies AuthorCommand,
+        ]
+      : []),
   ]
-  return kind === 'stages'
-    ? {
-        kind,
-        initial: 'depart',
-        stages: explicitCompletion
-          ? [{ id: 'depart', body, next: { kind: 'complete' } }]
-          : [
-              { id: 'depart', body, next: 'completed' },
-              { id: 'completed', body: [] },
-            ],
-      }
-    : {
-        kind,
-        machine: {
-          id: 'departure',
-          label: 'Departure',
-          initial: 'depart',
-          states: explicitCompletion
-            ? { depart: { label: 'Depart', body, next: { kind: 'complete' } } }
-            : {
-                depart: { label: 'Depart', body, next: { kind: 'advance', state: 'completed' } },
-                completed: { label: 'Complete', body: [], next: { kind: 'stay' } },
-              },
-        },
-      }
+  return {
+    kind: 'stages',
+    initial: 'depart',
+    stages: [
+      { id: 'depart', body, ...(finish === 'next' ? { next: { kind: 'complete' as const } } : {}) },
+    ],
+  }
 }
 
 test.each([
-  ['stages', false],
-  ['stateMachine', false],
-  ['stages', true],
-  ['stateMachine', true],
-] as const)('completed %s auto (explicit completion %s) commits after self state0, permitting real F5/F9 without replay', async (kind, explicitCompletion) => {
+  'next',
+  'direct',
+  'branch',
+] as const)('ordinary auto completion (%s) commits after self state0, permitting F5/F9 without replay', async (finish) => {
   host = await installShellHost()
   const first = shellScene('a')
   first.entities = [
@@ -1284,7 +1275,7 @@ test.each([
       pages: [{ id: 'normal', label: 'Normal', auto: 'leave' }],
       initialPage: 'normal',
       behaviors: {
-        auto: { leave: { label: 'Leave', order: 0, flow: departure(kind, explicitCompletion) } },
+        auto: { leave: { label: 'Leave', order: 0, flow: departure(finish) } },
       },
     },
   ]
@@ -1293,11 +1284,7 @@ test.each([
   expect(state().world.money).toBe(57)
   expect(state().entities[0]?.pos).toEqual(endpoint)
   expect(state().entities[0]?.hidden).toBe(true)
-  const cursor = explicitCompletion
-    ? { kind: 'completed' }
-    : kind === 'stages'
-      ? { kind: 'stage', stage: 'completed' }
-      : { kind: 'state', machine: 'departure', state: 'completed' }
+  const cursor = { kind: 'completed' }
   await advance(
     host,
     () =>
@@ -1327,5 +1314,74 @@ test.each([
   expect(state().world.money).toBe(57)
   expect(state().entities[0]?.hidden).toBe(true)
   expect(state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual(cursor)
+  booted.assertInputUnchanged()
+})
+
+test('the actual kitchen departure hides the hall aunt, settles and survives F5/F9', async () => {
+  host = await installShellHost()
+  const aunt = validateAuthorScenes([structuredClone(inn)])[0]!.entities.find(
+    (entity) => entity.id === 'e56',
+  )!
+  const route = structuredClone(aunt.behaviors!.auto!['go-to-kitchen']!.flow)
+  for (const stage of route.stages)
+    for (const command of stage.body) {
+      if (command.kind === 'moveEntity') {
+        command.target = target
+        command.to = { ...command.to, col: command.to.col - 123, row: command.to.row - 60 }
+      } else if (command.kind === 'setEntityState') {
+        command.target =
+          command.target.scene === 's003' ? target : { scene: 'b', entity: 'kitchen-aunt' }
+      } else if (command.kind !== 'wait' && command.kind !== 'finishStep') {
+        throw new Error(`unexpected canonical kitchen departure command: ${command.kind}`)
+      }
+    }
+  const first = shellScene('a'),
+    second = shellScene('b')
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: { col: 14, row: 6, height: 0 },
+      pages: [{ id: 'normal', label: 'Normal', auto: 'route' }],
+      initialPage: 'normal',
+      behaviors: { auto: { route: { label: 'Actual kitchen departure', order: 0, flow: route } } },
+    },
+  ]
+  second.entities = [
+    { id: 'kitchen-aunt', sprite: 'walker', pos: { col: 4, row: 4, height: 0 }, hidden: true },
+  ]
+  const booted = await bootScenario(host, { first, second })
+  const completed = () =>
+    state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at.kind === 'completed'
+  await advance(host, completed)
+  expect(state().entities[0]?.pos).toEqual({ col: 1, row: 1, height: 0 })
+  expect(state().entities[0]?.hidden).toBe(true)
+  expect(state().world.script?.entityState).toMatchObject({
+    a: { npc: 0 },
+    b: { 'kitchen-aunt': 2 },
+  })
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  await key(host, 'F5')
+  for (let frame = 0; frame < 40 && !(await store.getPayload('quick')); frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('quick')
+  expect(saved).not.toBeNull()
+  expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual({
+    kind: 'completed',
+  })
+  await key(host, 'F9')
+  for (let frame = 0; frame < 20; frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  expect(completed()).toBe(true)
+  expect(state().entities[0]?.hidden).toBe(true)
+  expect(state().world.script?.entityState).toEqual(saved?.world.script?.entityState)
+  expect(state().world.script?.entityPos).toEqual(saved?.world.script?.entityPos)
+  expect(state().world.money).toBe(50)
   booted.assertInputUnchanged()
 })
