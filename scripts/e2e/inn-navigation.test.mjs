@@ -64,6 +64,7 @@ function harness({ destination = (c) => c >= 5, batch = 1, blocked = [] } = {}) 
     throw new Error(`timeout: ${label}`)
   }
   const options = {
+    engine: 'reforge',
     keyboard,
     map,
     read,

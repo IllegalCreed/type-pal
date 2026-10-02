@@ -93,7 +93,7 @@ test('004 room entry inside proximity still plans an ordinary step into the actu
     false,
     'proximity must not finish the route without input',
   )
-  assert.deepEqual(planInnRoute(map, start, mealServingDestination), ['ArrowUp'])
+  assert.deepEqual(planInnRoute(map, start, mealServingDestination, [], 'game'), ['ArrowUp'])
   assert.equal(mealServingDestination(108, 29), true)
 })
 test('004 inventory follows actual WorldState array entries, including RF wine1, and rejects map DTOs', () => {
@@ -657,6 +657,7 @@ test('004 target ready -> event-before-dialog transition releases held input and
     let error
     try {
       await navigate({
+        engine: 'game',
         keyboard,
         map,
         read,
@@ -697,6 +698,7 @@ test('004 rejects a script outside the goal without current-leg ordinary landing
     const held = new Set()
     await assert.rejects(
       navigateMealRoute({
+        engine: 'game',
         keyboard: { down: async (key) => held.add(key), up: async (key) => held.delete(key) },
         map,
         read: async () => (reads++ === 0 ? start : outside),
@@ -756,6 +758,7 @@ test('004 game observed script after a real current-leg landing waits without an
     committed = false
   const read = async () => states[Math.min(reads++, states.length - 1)]
   await navigateMealRoute({
+    engine: 'game',
     keyboard: {
       down: async (key) => {
         held.add(key)
@@ -876,6 +879,7 @@ test('004 game serving already in true radius waits naturally without directiona
   assert.equal(mealServingDestination(108, 30), false)
   let reads = 0
   await navigateMealRoute({
+    engine: 'game',
     keyboard: {
       down: async (key) => actions.push(['down', key]),
       up: async (key) => actions.push(['up', key]),
@@ -936,6 +940,7 @@ test('004 ready held navigation never requests the costly full-trace boundary pr
     actions = []
   const read = async () => ({ scene: 's003', position: [...position], ready: true })
   await navigateMealRoute({
+    engine: 'game',
     keyboard: {
       down: async (key) => {
         held.add(key)
@@ -989,6 +994,7 @@ test('004 busy or scene-exit evidence releases every held direction before a cos
     actions = []
   const read = async () => states[Math.min(reads++, states.length - 1)]
   await navigateMealRoute({
+    engine: 'game',
     keyboard: {
       down: async (key) => {
         held.add(key)

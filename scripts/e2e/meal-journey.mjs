@@ -4,8 +4,14 @@ import { resolve } from 'node:path'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { readWorld } from './game-observer.mjs'
 import { assertInnRestoreCommitted } from './inn-contract.mjs'
-import { committedInnMoves, navigateInnRoute, partitionInnMoves } from './inn-navigation.mjs'
-import { INN_DIRECTIONS, planInnRoute } from './inn-route.mjs'
+import {
+  committedInnMoves,
+  createRouteProgressDeadline,
+  navigateInnRoute,
+  partitionInnMoves,
+  waitForRouteOpening,
+} from './inn-navigation.mjs'
+import { planInnRoute, routeStepBlocked } from './inn-route.mjs'
 import { kitchenGrid, kitchenReady, kitchenScene } from './kitchen-contract.mjs'
 import {
   assertMealCollector,
@@ -37,6 +43,7 @@ import { appendBounded } from './opening-policy.mjs'
 
 /** Target touch may acquire its script between two reads, before dialogue or scene load is visible. */
 export async function navigateMealRoute({
+  engine,
   keyboard,
   map,
   read,
@@ -49,9 +56,11 @@ export async function navigateMealRoute({
   finished,
   onInput,
   onProgress,
+  onReplan = () => {},
   boundaryCommitted = () => false,
 }) {
   let heldKey
+  const remaining = createRouteProgressDeadline()
   const release = async (reason) => {
     if (heldKey === undefined) return
     const key = heldKey
@@ -88,7 +97,26 @@ export async function navigateMealRoute({
       }
       assert(inScene(state), 'route entered unexpected scene without target landing')
       assert(ready(state), 'unexpected script/dialogue outside target boundary')
-      const path = planInnRoute(map, grid(state), destination, state.routeActors)
+      remaining(state.position)
+      let path
+      try {
+        path = planInnRoute(map, grid(state), destination, state.routeActors, engine)
+      } catch (error) {
+        await waitForRouteOpening({
+          error,
+          engine,
+          state,
+          release,
+          onReplan,
+          read,
+          until,
+          inScene,
+          ready,
+          finished,
+          remaining,
+        })
+        continue
+      }
       assert(path.length > 0)
       const key = path[0]
       if (key !== heldKey) {
@@ -104,11 +132,24 @@ export async function navigateMealRoute({
           JSON.stringify(next.position) !== JSON.stringify(before) ||
           !inScene(next) ||
           !ready(next) ||
-          finished(next),
+          finished(next) ||
+          routeStepBlocked(engine, grid(next), key, next.routeActors),
         'normal input committed progress',
-        5000,
+        remaining(before),
       )
-      onProgress({ key, from: before, to: observed.position })
+      const moved = JSON.stringify(before) !== JSON.stringify(observed.position)
+      if (moved) {
+        remaining(observed.position)
+        onProgress({ key, from: before, to: observed.position })
+      } else if (
+        inScene(observed) &&
+        ready(observed) &&
+        !finished(observed) &&
+        routeStepBlocked(engine, grid(observed), key, observed.routeActors)
+      ) {
+        await release('observed actor obstruction; replan held route')
+        onReplan({ key, position: observed.position, actors: observed.routeActors })
+      }
       if (finished(observed)) return
       const targetObserved = inScene(observed) && destination(...grid(observed))
       if (targetObserved) {
@@ -485,6 +526,7 @@ export async function runMealJourney(engine) {
         const startOrder = await evidenceOrder()
         const navigateDriver = engine === 'game' ? navigateMealRoute : navigateInnRoute
         await navigateDriver({
+          engine,
           keyboard: page.keyboard,
           map: maps[sid],
           read: snapshot,
@@ -510,6 +552,15 @@ export async function runMealJourney(engine) {
               { scene: sid, phase, context: contextLabel, atMs: Date.now(), ...step },
               600,
             ),
+          onReplan: (value) => {
+            report.route.replans ??= []
+            report.route.replans.push({
+              scene: sid,
+              phase,
+              context: contextLabel,
+              ...value,
+            })
+          },
         })
         report.route.legs.push({
           scene: sid,
@@ -1051,23 +1102,13 @@ export async function runMealJourney(engine) {
         await beginPhase('control-move')
         const s = await snapshot(),
           start = kitchenGrid(s.position, engine)
-        const key = planInnRoute(
-            maps.s003,
-            start,
-            (c, r) => Math.abs(c - start[0]) + Math.abs(r - start[1]) === 1,
-            s.routeActors,
-          )[0],
-          d = INN_DIRECTIONS.find((d) => d.key === key)
-        assert(d)
-        const destination = [start[0] + d.col, start[1] + d.row]
+        const oneStep = (c, r) => Math.abs(c - start[0]) + Math.abs(r - start[1]) === 1
         await navigate(
           's003',
-          (c, r) => c === destination[0] && r === destination[1],
-          (s) =>
-            ready(s) &&
-            inScene(s, 's003') &&
-            JSON.stringify(kitchenGrid(s.position, engine)) === JSON.stringify(destination),
+          oneStep,
+          (s) => ready(s) && inScene(s, 's003') && oneStep(...kitchenGrid(s.position, engine)),
         )
+        const destination = kitchenGrid((await snapshot()).position, engine)
         const moves = committedInnMoves(await evidence(), phaseOrder)
         assert(
           moves.some((e) => ['commit:tickSceneInput', 'commit:player.pos'].includes(e.source)),

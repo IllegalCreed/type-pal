@@ -24,7 +24,6 @@ import { installErrandObserver, readErrandGame, readErrandReforge } from './erra
 import { readWorld } from './game-observer.mjs'
 import { assertInnRestoreCommitted } from './inn-contract.mjs'
 import { committedInnMoves, navigateInnRoute } from './inn-navigation.mjs'
-import { INN_DIRECTIONS, planInnRoute } from './inn-route.mjs'
 import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
 import { assertMealDialogue } from './meal-contract.mjs'
 import {
@@ -197,11 +196,16 @@ export async function runErrandJourney(engine) {
       const navigate = async (sid, destination, finished) => {
         const startOrder = (await drive()).order
         await (engine === 'game' ? navigateMealRoute : navigateInnRoute)({
+          engine,
           keyboard: page.keyboard,
           map: contract.maps[sid],
           read: snapshot,
           until,
           health,
+          onReplan: (value) => {
+            report.route.replans ??= []
+            report.route.replans.push({ phase, scene: sid, ...value })
+          },
           grid,
           inScene: (s) => inScene(s, sid),
           ready,
@@ -410,16 +414,8 @@ export async function runErrandJourney(engine) {
         await dialogue('s004', 'news')
         await begin('control-move')
         const state = await snapshot(),
-          start = grid(state),
-          key = planInnRoute(
-            contract.maps.s004,
-            start,
-            (c, r) => Math.abs(c - start[0]) + Math.abs(r - start[1]) === 1,
-            state.routeActors,
-          )[0],
-          d = INN_DIRECTIONS.find((d) => d.key === key)
-        assert(d)
-        const destination = (c, r) => c === start[0] + d.col && r === start[1] + d.row
+          start = grid(state)
+        const destination = (c, r) => Math.abs(c - start[0]) + Math.abs(r - start[1]) === 1
         await navigate(
           's004',
           destination,

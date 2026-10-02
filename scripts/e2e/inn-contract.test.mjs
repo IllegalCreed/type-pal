@@ -941,9 +941,12 @@ test('normal route planner respects collision and body obstacles without writing
       collision: Array.from({ length: 8 }, () => Array(4).fill(0)),
     },
     original = structuredClone(map)
-  const path = planInnRoute(map, [4, 2], (c, r) => c === 3 && r === 2)
+  const path = planInnRoute(map, [4, 2], (c, r) => c === 3 && r === 2, [], 'game')
   assert.deepEqual(path, ['ArrowLeft'])
   assert.deepEqual(map, original)
   map.collision = map.collision.map((r) => r.map(() => 1))
-  assert.throws(() => planInnRoute(map, [4, 2], (c, r) => c === 3 && r === 2), /no normal/)
+  assert.throws(
+    () => planInnRoute(map, [4, 2], (c, r) => c === 3 && r === 2, [], 'game'),
+    /no normal/,
+  )
 })

@@ -1,8 +1,65 @@
 import assert from 'node:assert/strict'
-import { planInnRoute } from './inn-route.mjs'
+import {
+  planInnRoute,
+  routeFrontierOpened,
+  routeStepBlocked,
+  TemporaryRouteObstruction,
+} from './inn-route.mjs'
+
+/** An obstruction replan must not restart the unchanged-position five-second deadline. */
+export function createRouteProgressDeadline(now = () => performance.now()) {
+  let prior,
+    since = now()
+  return (position) => {
+    const key = JSON.stringify(position)
+    if (key !== prior) {
+      prior = key
+      since = now()
+    }
+    const remaining = 5000 - (now() - since)
+    assert(remaining > 0, 'normal input committed progress deadline exhausted')
+    return remaining
+  }
+}
+
+/** Wait with every key released; only a blocking frontier opening wakes the expensive planner. */
+export async function waitForRouteOpening({
+  error,
+  engine,
+  state,
+  release,
+  onReplan,
+  read,
+  until,
+  inScene,
+  ready,
+  finished,
+  remaining,
+}) {
+  if (!(error instanceof TemporaryRouteObstruction)) throw error
+  await release('temporarily occupied route; wait without held keys')
+  onReplan({
+    kind: 'wait-for-clearance',
+    position: state.position,
+    frontier: error.frontier,
+    actors: state.routeActors,
+  })
+  await until(
+    read,
+    (next) =>
+      JSON.stringify(next.position) !== JSON.stringify(state.position) ||
+      !inScene(next) ||
+      !ready(next) ||
+      finished(next) ||
+      routeFrontierOpened(engine, error.frontier, next.routeActors),
+    'temporary route occupation clears',
+    remaining(state.position),
+  )
+}
 
 /** Ordinary held input only. Progress observations are not an exact census of committed steps. */
 export async function navigateInnRoute({
+  engine,
   keyboard,
   map,
   read,
@@ -15,8 +72,10 @@ export async function navigateInnRoute({
   finished,
   onInput,
   onProgress,
+  onReplan = () => {},
 }) {
   let heldKey
+  const remaining = createRouteProgressDeadline()
   const release = async (reason) => {
     if (heldKey === undefined) return
     const key = heldKey
@@ -45,7 +104,26 @@ export async function navigateInnRoute({
         await until(read, finished, 'actual touch/scene transition')
         return
       }
-      const path = planInnRoute(map, grid(state), destination, state.routeActors)
+      remaining(state.position)
+      let path
+      try {
+        path = planInnRoute(map, grid(state), destination, state.routeActors, engine)
+      } catch (error) {
+        await waitForRouteOpening({
+          error,
+          engine,
+          state,
+          release,
+          onReplan,
+          read,
+          until,
+          inScene,
+          ready,
+          finished,
+          remaining,
+        })
+        continue
+      }
       assert(path.length > 0)
       const key = path[0]
       if (key !== heldKey) {
@@ -62,14 +140,27 @@ export async function navigateInnRoute({
           JSON.stringify(next.position) !== JSON.stringify(before) ||
           !inScene(next) ||
           !ready(next) ||
-          finished(next),
+          finished(next) ||
+          routeStepBlocked(engine, grid(next), key, next.routeActors),
         'normal input committed progress',
-        5000,
+        remaining(before),
       )
       // Release immediately at the first observed scene/script boundary, not after another poll.
       if (finished(observed) || !inScene(observed) || !ready(observed))
         await release('route effect')
-      onProgress({ key, from: before, to: observed.position })
+      const moved = JSON.stringify(before) !== JSON.stringify(observed.position)
+      if (moved) {
+        remaining(observed.position)
+        onProgress({ key, from: before, to: observed.position })
+      } else if (
+        inScene(observed) &&
+        ready(observed) &&
+        !finished(observed) &&
+        routeStepBlocked(engine, grid(observed), key, observed.routeActors)
+      ) {
+        await release('observed actor obstruction; replan held route')
+        onReplan({ key, position: observed.position, actors: observed.routeActors })
+      }
       if (finished(observed)) return
       if (!ready(observed)) {
         const settled = await until(

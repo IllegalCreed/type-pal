@@ -219,11 +219,16 @@ export async function runInnJourney(engine) {
       const navigate = async (sid, destination, finished) => {
         const startOrder = await evidenceOrder()
         await navigateInnRoute({
+          engine,
           keyboard: page.keyboard,
           map: maps[sid],
           read: snapshot,
           until,
           health,
+          onReplan: (value) => {
+            report.route.replans ??= []
+            report.route.replans.push({ scene: sid, ...value })
+          },
           grid: (state) => grid(state, engine),
           inScene: (state) => (sid === 's001' ? room(state, engine) : hall(state, engine)),
           ready: (state) => ready(state, engine),

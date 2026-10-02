@@ -178,11 +178,16 @@ export async function runKitchenJourney(engine) {
       const navigate = async (sid, destination, finished) => {
         const startOrder = await evidenceOrder()
         await navigateInnRoute({
+          engine,
           keyboard: page.keyboard,
           map: maps[sid],
           read: snapshot,
           until,
           health,
+          onReplan: (value) => {
+            report.route.replans ??= []
+            report.route.replans.push({ scene: sid, ...value })
+          },
           grid: (s) => kitchenGrid(s.position, engine),
           inScene: (s) => inScene(s, sid),
           ready,

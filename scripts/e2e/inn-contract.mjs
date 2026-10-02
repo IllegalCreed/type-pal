@@ -262,6 +262,7 @@ export async function readInnContract(root = repoRoot) {
     'packages/game/src/core/scene-system.ts',
     'packages/reforge/src/main.ts',
     'packages/reforge/src/entity-walk.ts',
+    'packages/reforge/src/entity-motion.ts',
     'packages/reforge/src/world-scene-presentation.ts',
     'packages/reforge/src/render.ts',
     'packages/reforge/src/runtime-script-project.ts',
