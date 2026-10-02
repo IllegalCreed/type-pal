@@ -31,6 +31,9 @@ const needles = [
     hashedTest: 'packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts',
     registeredFile: 'src/shell/bootstrap-resources.grok-mid-1.test.ts',
     oldFile: 'src/shell/bootstrap-resources.test.ts',
+    runByDefault: false,
+    counted: true,
+    classification: 'new-oracle',
     targetFullName:
       'grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立',
     from: '    ports.loadAssets(sceneId),',
@@ -48,6 +51,9 @@ const needles = [
     hashedTest: 'packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts',
     registeredFile: 'src/shell/bootstrap-resources.grok-mid-1.test.ts',
     oldFile: 'src/shell/bootstrap-resources.test.ts',
+    runByDefault: false,
+    counted: true,
+    classification: 'new-oracle',
     targetFullName:
       'grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用',
     from: `  const soundfontSettled = soundfontData.then(
@@ -75,6 +81,9 @@ const needles = [
       'grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧',
     from: '    map.set(i,',
     to: '    map.set(i + 1,',
+    runByDefault: false,
+    counted: false,
+    classification: 'existing-proof/cross-check',
   },
   {
     id: 'C4-protect-snapshot',
@@ -85,6 +94,9 @@ const needles = [
     hashedTest: 'packages/game/src/assets/scene-cache.grok-mid-1.test.ts',
     registeredFile: 'src/assets/scene-cache.grok-mid-1.test.ts',
     oldFile: 'src/assets/loader.test.ts',
+    runByDefault: false,
+    counted: true,
+    classification: 'new-oracle',
     targetFullName:
       'grok-mid-1 scene cache eviction protect 切换后原先受保护的场景成为下一次淘汰对象',
     from: `    this.maxEntries = opts?.maxEntries
@@ -94,6 +106,30 @@ const needles = [
     this.onEvict = opts?.onEvict
     const frozenProtect = opts?.protect?.()
     this.protect = () => frozenProtect`,
+  },
+  {
+    id: 'C5-count-bound',
+    batch: 'G4',
+    axis: 'portraits.json count does not replace the portraits array as the PNG fetch bound',
+    source: 'packages/game/src/assets/dialog-assets.ts',
+    testFiles: [
+      'src/assets/dialog-assets.glm-phase1-leaves.test.ts',
+      'src/assets/dialog-resources.grok-mid-1.test.ts',
+    ],
+    hashedTest: 'packages/game/src/assets/dialog-resources.grok-mid-1.test.ts',
+    registeredFile: 'src/assets/dialog-resources.grok-mid-1.test.ts',
+    oldFile: 'src/assets/dialog-assets.glm-phase1-leaves.test.ts',
+    targetFullName:
+      'grok-mid-1 dialog parallel degradation portraits.json 的 count 不决定 PNG 请求次数',
+    from: `  await Promise.all(
+    manifest.portraits.map(async (entry) => {`,
+    to: `  const countedPortraits = Array.from({ length: manifest.count }, (_, index) => {
+    return manifest.portraits[index] ?? { chunkIndex: index, width: 1, height: 1 }
+  })
+  await Promise.all(
+    countedPortraits.map(async (entry) => {`,
+    counted: true,
+    classification: 'new-oracle',
   },
 ]
 
@@ -169,10 +205,20 @@ function loadReport(path) {
   }
 }
 
+function oneTrailingNewline(text) {
+  if (!text) return ''
+  return `${text.replace(/\n+$/, '')}\n`
+}
+
+function normalizePatch(text) {
+  const lines = text.split('\n').map((line) => (line === ' ' ? '' : line))
+  return `${lines.join('\n').replace(/\n+$/, '')}\n`
+}
+
 function writeRun(dir, label, run, report) {
   writeFileSync(join(dir, `${label}.json`), `${JSON.stringify(report, null, 2)}\n`)
-  writeFileSync(join(dir, `${label}.stdout`), run.stdout)
-  writeFileSync(join(dir, `${label}.stderr`), run.stderr)
+  writeFileSync(join(dir, `${label}.stdout`), oneTrailingNewline(run.stdout))
+  writeFileSync(join(dir, `${label}.stderr`), oneTrailingNewline(run.stderr))
 }
 
 function runNeedle(needle) {
@@ -209,7 +255,7 @@ function runNeedle(needle) {
     writeRun(dir, 'original', originalRun, originalReport)
     writeRun(dir, 'mutant', mutantRun, mutantReport)
     writeRun(dir, 'restored', restoredRun, restoredReport)
-    writeFileSync(join(dir, 'patch.diff'), diff.stdout)
+    writeFileSync(join(dir, 'patch.diff'), normalizePatch(diff.stdout))
     const judgement = judgeTriple(
       {
         original: { report: originalReport, run: originalRun },
@@ -270,13 +316,21 @@ function runNeedle(needle) {
 function main() {
   const only = process.argv.find((arg) => arg.startsWith('--only='))
   const ids = only ? new Set(only.slice('--only='.length).split(',')) : null
-  const selected = needles.filter((needle) => !ids || ids.has(needle.id))
+  const selected = needles.filter((needle) =>
+    ids ? ids.has(needle.id) : needle.runByDefault !== false,
+  )
   const summaries = []
   let failed = false
   for (const needle of selected) {
     try {
       const meta = runNeedle(needle)
-      summaries.push({ id: meta.id, accepted: meta.accepted, reasons: meta.reasons })
+      summaries.push({
+        id: meta.id,
+        accepted: meta.accepted,
+        reasons: meta.reasons,
+        counted: needle.counted !== false,
+        classification: needle.classification ?? 'new-oracle',
+      })
       if (!meta.accepted) failed = true
     } catch (error) {
       failed = true
@@ -284,7 +338,26 @@ function main() {
       console.error(error)
     }
   }
-  writeFileSync(join(evidenceRoot, 'index.json'), `${JSON.stringify(summaries, null, 2)}\n`)
+  const indexPath = join(evidenceRoot, 'index.json')
+  let previous = []
+  try {
+    previous = JSON.parse(readFileSync(indexPath, 'utf8'))
+  } catch {
+    previous = []
+  }
+  const byId = new Map(previous.map((row) => [row.id, row]))
+  for (const row of summaries) byId.set(row.id, row)
+  for (const needle of needles) {
+    const current = byId.get(needle.id) ?? { id: needle.id, accepted: null, reasons: [] }
+    byId.set(needle.id, {
+      ...current,
+      counted: needle.counted !== false,
+      classification: needle.classification ?? 'new-oracle',
+    })
+  }
+  const order = needles.map((needle) => needle.id)
+  const merged = order.filter((id) => byId.has(id)).map((id) => byId.get(id))
+  writeFileSync(indexPath, `${JSON.stringify(merged, null, 2)}\n`)
   console.log(JSON.stringify(summaries, null, 2))
   if (failed) process.exitCode = 1
 }

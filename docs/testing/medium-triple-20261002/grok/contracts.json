@@ -12,10 +12,17 @@
   "counts": {
     "executed": 19,
     "netNew": 19,
-    "existingProof": 6,
+    "existingProof": 7,
     "notSeparatelyTested": 2,
     "unreachable": 1,
-    "blocked": 1
+    "blocked": 1,
+    "countedNewOracles": [
+      "C1-assets-identity",
+      "C2-settle-order",
+      "C4-protect-snapshot",
+      "C5-count-bound"
+    ],
+    "demotedCrossCheck": ["C3-icon-index"]
   },
   "executed": [
     {
@@ -131,7 +138,9 @@
       "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
       "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
       "expected": "iconFrames.get(0) 索引为 0x31、宽 1、opaque 1；get(1) 为 0x32；portrait 8 索引为 0x44；portrait 4 不在 map；warn 原文 dialog-assets: portrait 4 load failed, skip:；不出现 all assets failed",
-      "notRepeated": "400 D07 保留兄弟头像但图标 404；D14 保留图标但头像 map 为空"
+      "notRepeated": "图标键 0/1 与像素、遮罩已由冻结 G02-D01/D04/D08/D13/D14 证明。本例只保留失败头像与成功头像、图标同时存在的组合正例，不计第四新目标",
+      "iconKeyOracle": "existing-proof/cross-check",
+      "combinationRetained": true
     },
     {
       "id": "G4-overlap",
@@ -159,13 +168,14 @@
       "id": "G4-count-ignored",
       "group": "G4",
       "classification": "new",
-      "source": "packages/game/src/assets/dialog-assets.ts:26-49",
+      "source": "packages/game/src/assets/dialog-assets.ts:48-49",
       "caller": "loadDialogAssets",
       "legalInput": "portraits.json count 为 9，portraits 数组只有 chunk 3；图标清单 404",
       "testFile": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
       "fullName": "grok-mid-1 dialog parallel degradation portraits.json 的 count 不决定 PNG 请求次数",
       "expected": "只请求 portraits/03.png；头像 3 索引为 7,9；iconFrames.size 为 0；warn 原文 [dialog-assets] icons failed, skip:",
-      "notRepeated": "400 D04 是空数组；glm L23 的 count 与数组长度一致"
+      "notRepeated": "400 各例的 count 与 portraits.length 相同，D04 是 count 0 的空数组。glm L23 的 count 也与数组长度一致。按 count 扩循环只让本例多请求 PNG",
+      "needle": "C5-count-bound"
     },
     {
       "id": "G5-protect-switch",
@@ -273,6 +283,13 @@
       "classification": "unreachable",
       "source": "packages/game/src/assets/dialog-assets.ts:114-116",
       "reason": "loadPortraits 与 loadDialogIcons 都在 Promise.all 内各自 catch。清单失败、单张失败和非法 base64 都到不了外层 [dialog-assets] all assets failed。没有合法输入能先绕过两个 catch 再抛到外层"
+    },
+    {
+      "id": "G4-icon-key",
+      "classification": "existing-proof",
+      "crossCheck": true,
+      "historicalCounter": "docs/testing/medium-triple-20261002/grok/counters/C3-icon-index",
+      "reason": "冻结候选 f4665f7ac51b80cae5620e4c08bd62f607881f73 的 dialog-icons.grok-r1.test.ts blob fd46f6f329286b4bca83ebebf5b845cb02777d0e：G02-D01/D04/D08/D13/D14 直接断言图标键 0/1 及像素或遮罩。C3 的 map.set(i + 1) 打的是同一 oracle。历史三态保留，不计第四个新目标"
     },
     {
       "id": "G4-400-dialog",
@@ -912,5 +929,10 @@
         }
       ]
     }
-  ]
+  ],
+  "rework": {
+    "id": "GROK-R1-01",
+    "previousCandidate": "8ab4752727699a821492e26c2bb3111171234f5d",
+    "action": "C3-icon-index 降为 existing-proof/cross-check；C5-count-bound 替换第四个新 oracle。C1/C2/C4 证据保留。"
+  }
 }

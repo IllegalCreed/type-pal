@@ -2,21 +2,36 @@
   {
     "id": "C1-assets-identity",
     "accepted": true,
-    "reasons": []
+    "reasons": [],
+    "counted": true,
+    "classification": "new-oracle"
   },
   {
     "id": "C2-settle-order",
     "accepted": true,
-    "reasons": []
+    "reasons": [],
+    "counted": true,
+    "classification": "new-oracle"
   },
   {
     "id": "C3-icon-index",
     "accepted": true,
-    "reasons": []
+    "reasons": [],
+    "counted": false,
+    "classification": "existing-proof/cross-check"
   },
   {
     "id": "C4-protect-snapshot",
     "accepted": true,
-    "reasons": []
+    "reasons": [],
+    "counted": true,
+    "classification": "new-oracle"
+  },
+  {
+    "id": "C5-count-bound",
+    "accepted": true,
+    "reasons": [],
+    "counted": true,
+    "classification": "new-oracle"
   }
 ]
