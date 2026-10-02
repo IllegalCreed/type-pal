@@ -1,0 +1,57 @@
+{
+  "id": "Q-ET2",
+  "file": "packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） 超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负",
+  "targetNameSubstring": "超杀：伤害钳到剩余 HP",
+  "axis": "输入轴单轴变异：超杀例剩余 HP 30→200（maxHP 500，合法；脱离超杀区）——钳制关系双双失效：HP 135≠0、数字 65≠hpBefore（期望随输入捕获，红来自钳制语义判别而非初始常量答案错配）。AoE/对照例夹具不受影响。",
+  "sha256": {
+    "original": "f21e6e034c72269e708cfe6696ac121c4100789d49a8b29302a80266cea87252",
+    "mutated": "1832b749c18cf5c20e5a0557a3f63ce76d056a8c5d607ac15d57a069603c7cc0",
+    "restored": "f21e6e034c72269e708cfe6696ac121c4100789d49a8b29302a80266cea87252"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 135 to be +0 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-ET2.positive.json",
+      "raw": "Q-ET2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 2,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-ET2.mutant.json",
+      "raw": "Q-ET2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-ET2.restored.json",
+      "raw": "Q-ET2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

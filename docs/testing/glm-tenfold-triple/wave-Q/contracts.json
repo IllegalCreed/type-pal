@@ -1,515 +1,11 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 140
+    "total": 141
   },
   "contracts": [
     {
       "id": "C001",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
-      "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
-    },
-    {
-      "id": "C002",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
-      "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
-    },
-    {
-      "id": "C003",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
-      "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（:1072 costMP===1 筛除；sdlpal uibattle.c:763-766 极限技门）",
-      "caller": "同上；296 costMP=1 / 297 costMP=2",
-      "oldAssertion": "battle-system.test.ts:1089-1119 无 costMP 门臂",
-      "axis": "合法耗魔值域（1 vs 2）",
-      "oracle": "costMP===1（极限技）跳过不选，costMP=2 正常入选",
-      "classification": "new condition arm (ultimate-move gate)"
-    },
-    {
-      "id": "C004",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
-      "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（:1050-1052 selectingPlayerIdx 门）",
-      "caller": "同上；测试 BattleState 不设 selectingPlayerIdx（合法缺省）",
-      "oldAssertion": "battle-system.test.ts pickAutoMagic 旧例固定 selectingPlayerIdx:0，无缺席臂",
-      "axis": "BattleState 缺省字段",
-      "oracle": "selectingPlayerIdx===undefined → 返 0",
-      "classification": "new condition arm (absent selector)"
-    },
-    {
-      "id": "C005",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
-      "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（:1054-1056 silence 门）",
-      "caller": "生产 caller = battle-system.ts:1372 Force 键自动战斗；测试直驱 pickAutoMagic + typed BattleState（status.silence 经投影链后直设）",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage），无 silence 臂",
-      "axis": "status.silence=3（合法正数）",
-      "oracle": "silence>0 恒返 0（物理攻击），不查法术表",
-      "classification": "new condition arm（silence gate）"
-    },
-    {
-      "id": "C006",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
-      "status": "passed",
-      "source": "game core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽写入）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic 投影）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201（startBattle 前投影）；测试走同一公开双函数",
-      "oldAssertion": "game-state/dev-panel 投影旧测覆盖 rgwMagic 投影主链（r6 复核已对照）；本例是 pickAutoMagic 批的链路直证锚",
-      "axis": "合法 typed 槽位输入 → 数组逐位相等",
-      "oracle": "projectRuntimeToBattleRoles 输出 role.magic 逐槽等于手填 rgwMagic（32 槽保序、零槽补 0）",
-      "classification": "typed-projection chain anchor（Q-R5-03 撤回后按公开链展开）"
-    },
-    {
-      "id": "C007",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
-      "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（:1077 strict power>maxPower 不等不替换）",
-      "caller": "同上；两法术 baseDamage 同 30、costMP 同 2、range=0",
-      "oldAssertion": "无旧例（r7 新增，RC7 变异真实因果的正向锚）",
-      "axis": "baseDamage 30 vs 30（同威力）",
-      "oracle": "同威力后来者不替换 → 返回先遇到的 296",
-      "classification": "new condition arm (tie keeps first)"
-    },
-    {
-      "id": "C008",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
-      "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（:1072 costMP>role.mp 筛除）",
-      "caller": "同上；投影后 role.mp=30 vs costMP=31",
-      "oldAssertion": "旧测无 MP 门臂（rolesWith mp=99 恒足额）",
-      "axis": "costMP=31 vs mp=30（合法边界）",
-      "oracle": "唯一已学法术 costMP>role.mp → 跳过返 0，不选不扣",
-      "classification": "new condition arm (MP gate)"
-    },
-    {
-      "id": "C009",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
-      "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（:1074-1078 power 择优）",
-      "caller": "同上；296 baseDamage=10 / 297 baseDamage=30、range=0",
-      "oldAssertion": "battle-system.test.ts 回归例用 range=9999 随机项，无确定性择优臂",
-      "axis": "baseDamage 10 vs 30（合法威力域）",
-      "oracle": "range=0 消随机项后 strict power>maxPower：更高 baseDamage 替换先遇者 → 297",
-      "classification": "new condition arm (strict power replace)"
-    },
-    {
-      "id": "C010",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
-      "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（:1064-1066 resolveMagicObject 失败 continue）",
-      "caller": "同上；学习槽 400 而 spells 表只含 297",
-      "oldAssertion": "旧测无 resolve 失败臂（学习表内 id 都可解析）",
-      "axis": "合法 id 域错位（400 ∉ spells）",
-      "oracle": "已学槽 spell 不在表 → 跳过，best 保持 0",
-      "classification": "new condition arm (resolve miss)"
-    },
-    {
-      "id": "C011",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
-      "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
-    },
-    {
-      "id": "C012",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
-      "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
-    },
-    {
-      "id": "C013",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
-      "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
-    },
-    {
-      "id": "C014",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-magic-enemy-inline.glm-q.test.ts",
-      "fullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 对照：同输入由队员 cast → E1 运行（敌 HP 扣减 + enemy 目标数字）",
-      "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic E1 inline 排除门（:327 !casterIsEnemy——inline 伤害仅 player→enemy；敌方施法伤害走 E2 :369 casterIsEnemy 分支另行结算）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（双敌 roster 隔离施法敌与友军）+ 真实 runScript（非 mock）+ createCommandBus",
-      "oldAssertion": "actions.test.ts :1897 E2 敌施法掉血+数字已证（player 目标/blue）；magic-inline-damage.test.ts 全部 E1 例为 player cast。未证轴：敌 cast 时 E1 是否确实不运行（施法敌与友军 HP 原样、无 enemy 目标数字）及同输入 player cast 的 E1 语义对照",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "E1 enemy-cast exclusion arms（!casterIsEnemy 门的双向对照；baseDamage=0 隔离 E2 观察）"
-    },
-    {
-      "id": "C015",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-magic-enemy-inline.glm-q.test.ts",
-      "fullName": "Q08 performMagic 敌方施法不触发 E1 inline 伤害（!casterIsEnemy 门） 敌 cast 时 E1 不结算（施法敌自身与友军 HP 原样、无 enemy 目标数字）",
-      "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic E1 inline 排除门（:327 !casterIsEnemy——inline 伤害仅 player→enemy；敌方施法伤害走 E2 :369 casterIsEnemy 分支另行结算）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（双敌 roster 隔离施法敌与友军）+ 真实 runScript（非 mock）+ createCommandBus",
-      "oldAssertion": "actions.test.ts :1897 E2 敌施法掉血+数字已证（player 目标/blue）；magic-inline-damage.test.ts 全部 E1 例为 player cast。未证轴：敌 cast 时 E1 是否确实不运行（施法敌与友军 HP 原样、无 enemy 目标数字）及同输入 player cast 的 E1 语义对照",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "E1 enemy-cast exclusion arms（!casterIsEnemy 门的双向对照；baseDamage=0 隔离 E2 观察）"
-    },
-    {
-      "id": "C016",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle 施法音=0（magicSound 0）不 push、pendingSounds 通道不初始化",
-      "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic 失败施法音臂（:170-184 pendingCastSound 捕获；:261-268 fizzle 早退——施法音仍即时播）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构 + **真实 runScript**（event-system 导出，非 mock）+ 合成最小合法失败脚本 [end, raw 0x41, end] entry1（0x41=mark-script-failed，script.c:1623-1627 在真实 runner 内置 fScriptSuccess=false）",
-      "oldAssertion": "actions.test.ts「scriptOnUse 失败→MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」用 mock 手置旗（未断言 pendingSounds）；「M6 法术音」证成功路径起手音。本文件只补 fizzle 施法音/零音两轴（r12 版 mock+越界 entry 不合法，r13 重写）",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
-    },
-    {
-      "id": "C017",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
-      "status": "passed",
-      "source": "game core/battle/actions/magic.ts performMagic 失败施法音臂（:170-184 pendingCastSound 捕获；:261-268 fizzle 早退——施法音仍即时播）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构 + **真实 runScript**（event-system 导出，非 mock）+ 合成最小合法失败脚本 [end, raw 0x41, end] entry1（0x41=mark-script-failed，script.c:1623-1627 在真实 runner 内置 fScriptSuccess=false）",
-      "oldAssertion": "actions.test.ts「scriptOnUse 失败→MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」用 mock 手置旗（未断言 pendingSounds）；「M6 法术音」证成功路径起手音。本文件只补 fizzle 施法音/零音两轴（r12 版 mock+越界 entry 不合法，r13 重写）",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
-    },
-    {
-      "id": "C018",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
-      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
-      "status": "passed",
-      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
-      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
-      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
-    },
-    {
-      "id": "C019",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
-      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
-      "status": "passed",
-      "source": "game core/battle/battle-opcodes.ts refreshEnemyBattlePositions（:78-95，PAL_BattleMakeScene 等价）+ battle-positions.ts getEnemyBasePos（:86-92 含 yPosOffset）",
-      "caller": "dispatchBattleOpcode 直驱；断言用固定基准 layoutBase(idx)=getEnemyBasePos(undefined,count,idx,0)（无 enemyPos 注入 → 产品 fallback 布局；r8 改为一手坐标常量 oracle）",
-      "oldAssertion": "battle-opcodes.test.ts:1459-1479 已断言全队 posOriginal/pos（DH1 0 槽批）",
-      "axis": "yPosOffset 变化可证伪（Q08-S1-RC5 以 0→4 验证判别力）",
-      "oracle": "复用槽与施法者 posOriginal/pos 逐坐标等于一手 fallback 布局常量（见 r8 改写）",
-      "classification": "needs independent oracle（r8 待改：getEnemyBasePos 计算 expected 非独立——见 Q-R7-02）"
-    },
-    {
-      "id": "C020",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
-      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
-      "status": "passed",
-      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
-      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
-      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
-    },
-    {
-      "id": "C021",
-      "batch": "Q08",
-      "package": "game",
-      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
-      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
-      "status": "passed",
-      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON room 门（:1330 room<count fail）",
-      "caller": "dispatchBattleOpcode 直驱（同 summonCtx 形态）",
-      "oldAssertion": "battle-opcodes.test.ts:1503-1511 已证 room0→failJump 且不扩容（本例为活敌数量 1→3 的同 guard，**不计新**——按 Q-R7-02 判定改记 existing-proof 复核例）",
-      "axis": "3 活敌 0 死槽（合法阵容）",
-      "oracle": "room=0 < count=1 → newIp=300，全槽不被改写",
-      "classification": "existing-proof cross-check（不计新；Q-R7-02 收窄）"
-    },
-    {
-      "id": "C022",
-      "batch": "Q09",
-      "package": "game",
-      "file": "game/src/framebuffer-ports.glm-q.test.ts",
-      "fullName": "Q09 createFramebuffer clear 归零全部索引",
-      "status": "passed",
-      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
-      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
-      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
-    },
-    {
-      "id": "C023",
-      "batch": "Q09",
-      "package": "game",
-      "file": "game/src/framebuffer-ports.glm-q.test.ts",
-      "fullName": "Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
-      "status": "passed",
-      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
-      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
-      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
-    },
-    {
-      "id": "C024",
-      "batch": "Q09",
-      "package": "game",
-      "file": "game/src/framebuffer-ports.glm-q.test.ts",
-      "fullName": "Q09 createFramebuffer writePixel 四边界外全部忽略；界内按 y*width+x 落位",
-      "status": "passed",
-      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
-      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
-      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
-    },
-    {
-      "id": "C025",
-      "batch": "Q09",
-      "package": "game",
-      "file": "game/src/framebuffer-ports.glm-q.test.ts",
-      "fullName": "Q09 createFramebuffer 默认 320×200；自定义尺寸按参数建",
-      "status": "passed",
-      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
-      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
-      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
-    },
-    {
-      "id": "C026",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C027",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C028",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C029",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C030",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C031",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C032",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C033",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C034",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C035",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C036",
-      "batch": "Q06",
-      "package": "game",
-      "file": "game/src/status-poison-equip.glm-q.test.ts",
-      "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
-      "status": "passed",
-      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
-      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
-      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
-    },
-    {
-      "id": "C037",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -523,7 +19,7 @@
       "classification": "boundary-rejection contract（r10 新目标；如实登记为边界拒绝，不冒称合法正向资源）"
     },
     {
-      "id": "C038",
+      "id": "C002",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -537,7 +33,7 @@
       "classification": "new full-pipeline contract target（r10 合法化重写；FP4 已独立为另一目标——见边界合同 override）"
     },
     {
-      "id": "C039",
+      "id": "C003",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -551,7 +47,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C040",
+      "id": "C004",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -565,7 +61,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C041",
+      "id": "C005",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -579,7 +75,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C042",
+      "id": "C006",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -593,7 +89,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C043",
+      "id": "C007",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -607,7 +103,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C044",
+      "id": "C008",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -621,7 +117,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C045",
+      "id": "C009",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -635,7 +131,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C046",
+      "id": "C010",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -649,7 +145,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C047",
+      "id": "C011",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -663,7 +159,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C048",
+      "id": "C012",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -677,7 +173,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C049",
+      "id": "C013",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -691,7 +187,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C050",
+      "id": "C014",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -705,7 +201,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C051",
+      "id": "C015",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -719,7 +215,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C052",
+      "id": "C016",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -733,7 +229,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C053",
+      "id": "C017",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -747,7 +243,7 @@
       "classification": "residual gates（battle-sprite 六门/legacy profile/label+origin.ref 失效/保护裁剪/effect record 三门/tiles 标签/透传/偏移视图）"
     },
     {
-      "id": "C054",
+      "id": "C018",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -761,7 +257,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C055",
+      "id": "C019",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -775,7 +271,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C056",
+      "id": "C020",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -789,7 +285,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C057",
+      "id": "C021",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -803,7 +299,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C058",
+      "id": "C022",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -817,7 +313,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C059",
+      "id": "C023",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -831,7 +327,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C060",
+      "id": "C024",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -845,7 +341,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C061",
+      "id": "C025",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -859,7 +355,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C062",
+      "id": "C026",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -873,7 +369,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C063",
+      "id": "C027",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -887,7 +383,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C064",
+      "id": "C028",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -901,7 +397,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C065",
+      "id": "C029",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -915,7 +411,7 @@
       "classification": "residual gates（worklet 缺失/RIFF 守卫/16 通道锁/isReady 拒绝销毁/webkit 回退/透传/中途 dispose/真实 MIDI 解析/非 MIDI 拒绝）"
     },
     {
-      "id": "C066",
+      "id": "C030",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -929,7 +425,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C067",
+      "id": "C031",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -943,7 +439,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C068",
+      "id": "C032",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -957,7 +453,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C069",
+      "id": "C033",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -971,7 +467,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C070",
+      "id": "C034",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -985,7 +481,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C071",
+      "id": "C035",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -999,7 +495,7 @@
       "classification": "page-shell contracts（工程 id 透传/错误画屏 fillText/无画布/无 ctx/非 Error 序列化）"
     },
     {
-      "id": "C072",
+      "id": "C036",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1013,7 +509,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C073",
+      "id": "C037",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1027,7 +523,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C074",
+      "id": "C038",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1041,7 +537,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C075",
+      "id": "C039",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1055,7 +551,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C076",
+      "id": "C040",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1069,7 +565,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C077",
+      "id": "C041",
       "batch": "Q05",
       "package": "reforge",
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -1083,7 +579,7 @@
       "classification": "new contracts（去重排序/transform+summon 入队/未知目标精确拒绝/hook effect summon/缺省 enemyId/环终止/cast 去重/fallback cast）"
     },
     {
-      "id": "C078",
+      "id": "C042",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1097,7 +593,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C079",
+      "id": "C043",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1111,7 +607,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C080",
+      "id": "C044",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1125,7 +621,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C081",
+      "id": "C045",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1139,7 +635,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C082",
+      "id": "C046",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -1153,7 +649,7 @@
       "classification": "residual param arms（field 0/abc/-5 回退 24、缺省敌表前 3、空敌表）"
     },
     {
-      "id": "C083",
+      "id": "C047",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1167,7 +663,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C084",
+      "id": "C048",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1181,7 +677,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C085",
+      "id": "C049",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1195,7 +691,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C086",
+      "id": "C050",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1209,7 +705,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C087",
+      "id": "C051",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1223,7 +719,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C088",
+      "id": "C052",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1237,7 +733,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C089",
+      "id": "C053",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1251,7 +747,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C090",
+      "id": "C054",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -1265,7 +761,7 @@
       "classification": "residual shell arms（?battle-trial|?skill 拒绝/偏好四态/手势恢复/gallery 解码容错）"
     },
     {
-      "id": "C091",
+      "id": "C055",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1279,7 +775,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C092",
+      "id": "C056",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1293,7 +789,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C093",
+      "id": "C057",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1307,7 +803,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C094",
+      "id": "C058",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1321,7 +817,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C095",
+      "id": "C059",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -1335,7 +831,7 @@
       "classification": "residual key arms（未处理键 passthrough/环绕回首项/读档相位钳制/缩略图逐槽恰读一次）"
     },
     {
-      "id": "C096",
+      "id": "C060",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1349,7 +845,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C097",
+      "id": "C061",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1363,7 +859,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C098",
+      "id": "C062",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1377,7 +873,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C099",
+      "id": "C063",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1391,7 +887,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C100",
+      "id": "C064",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1405,7 +901,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C101",
+      "id": "C065",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1419,7 +915,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C102",
+      "id": "C066",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1433,7 +929,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C103",
+      "id": "C067",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1447,7 +943,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C104",
+      "id": "C068",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -1461,7 +957,7 @@
       "classification": "residual arms（stamp 写读与守卫/resize 增缩/组合保护/重复 id/未知 id/越界钳制）"
     },
     {
-      "id": "C105",
+      "id": "C069",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1475,7 +971,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C106",
+      "id": "C070",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1489,7 +985,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C107",
+      "id": "C071",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1503,7 +999,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C108",
+      "id": "C072",
       "batch": "Q02",
       "package": "reforge",
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -1517,7 +1013,7 @@
       "classification": "new contracts（版本门带工程名/匿名/透传正载/httpSource URL 拼接）"
     },
     {
-      "id": "C109",
+      "id": "C073",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1531,7 +1027,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C110",
+      "id": "C074",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1545,7 +1041,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C111",
+      "id": "C075",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1559,7 +1055,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C112",
+      "id": "C076",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1573,7 +1069,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C113",
+      "id": "C077",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1587,7 +1083,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C114",
+      "id": "C078",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1601,7 +1097,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C115",
+      "id": "C079",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1615,7 +1111,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C116",
+      "id": "C080",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1629,7 +1125,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C117",
+      "id": "C081",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1643,7 +1139,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C118",
+      "id": "C082",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1657,7 +1153,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C119",
+      "id": "C083",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1671,7 +1167,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C120",
+      "id": "C084",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -1685,7 +1181,7 @@
       "classification": "residual lifecycle arms（token 单调/视图逐字段/预取消/空闲 no-op/队头取消离队/迟到 abort 无害/答案冻结/取消后显式再激活/answer 已提交被取消）"
     },
     {
-      "id": "C121",
+      "id": "C085",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1699,7 +1195,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C122",
+      "id": "C086",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1713,7 +1209,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C123",
+      "id": "C087",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1727,7 +1223,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C124",
+      "id": "C088",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1741,7 +1237,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C125",
+      "id": "C089",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1755,7 +1251,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C126",
+      "id": "C090",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1769,7 +1265,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C127",
+      "id": "C091",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1783,7 +1279,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C128",
+      "id": "C092",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1797,7 +1293,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C129",
+      "id": "C093",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1811,7 +1307,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C130",
+      "id": "C094",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1825,7 +1321,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C131",
+      "id": "C095",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1839,7 +1335,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C132",
+      "id": "C096",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1853,7 +1349,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C133",
+      "id": "C097",
       "batch": "Q04",
       "package": "reforge",
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -1867,7 +1363,7 @@
       "classification": "residual gates（machine 不匹配/stage-state 互斥/cursor 悬空/无 resolver/深度 128/错 id/digest 过期/self=none+required/缺 revealSceneEntry/while 前置序）"
     },
     {
-      "id": "C134",
+      "id": "C098",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1881,7 +1377,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C135",
+      "id": "C099",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1895,7 +1391,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C136",
+      "id": "C100",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1909,7 +1405,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C137",
+      "id": "C101",
       "batch": "Q01",
       "package": "reforge",
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -1923,7 +1419,7 @@
       "classification": "residual arms（白名单伴随参数接受臂/resize 钳制/blur 清键/Escape 终态 DOM）"
     },
     {
-      "id": "C138",
+      "id": "C102",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -1937,7 +1433,7 @@
       "classification": "residual arms（muted 置真/pause 抛错容忍/maxDecoded 逐臂/无适配器告警）"
     },
     {
-      "id": "C139",
+      "id": "C103",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -1951,7 +1447,7 @@
       "classification": "residual arms（muted 置真/pause 抛错容忍/maxDecoded 逐臂/无适配器告警）"
     },
     {
-      "id": "C140",
+      "id": "C104",
       "batch": "Q03",
       "package": "reforge",
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -1963,6 +1459,524 @@
       "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
       "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
       "classification": "residual arms（muted 置真/pause 抛错容忍/maxDecoded 逐臂/无适配器告警）"
+    },
+    {
+      "id": "C105",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C106",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C107",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C108",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C109",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C110",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
+      "status": "passed",
+      "source": "game core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽写入）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic 投影）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201（startBattle 前投影）；测试走同一公开双函数",
+      "oldAssertion": "game-state/dev-panel 投影旧测覆盖 rgwMagic 投影主链（r6 复核已对照）；本例是 pickAutoMagic 批的链路直证锚",
+      "axis": "合法 typed 槽位输入 → 数组逐位相等",
+      "oracle": "projectRuntimeToBattleRoles 输出 role.magic 逐槽等于手填 rgwMagic（32 槽保序、零槽补 0）",
+      "classification": "typed-projection chain anchor（Q-R5-03 撤回后按公开链展开）"
+    },
+    {
+      "id": "C111",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
+      "status": "passed",
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1054-1056 silence 门）",
+      "caller": "生产 caller = battle-system.ts:1372 Force 键自动战斗；测试直驱 pickAutoMagic + typed BattleState（status.silence 经投影链后直设）",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage），无 silence 臂",
+      "axis": "status.silence=3（合法正数）",
+      "oracle": "silence>0 恒返 0（物理攻击），不查法术表",
+      "classification": "new condition arm（silence gate）"
+    },
+    {
+      "id": "C112",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
+      "status": "passed",
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1050-1052 selectingPlayerIdx 门）",
+      "caller": "同上；测试 BattleState 不设 selectingPlayerIdx（合法缺省）",
+      "oldAssertion": "battle-system.test.ts pickAutoMagic 旧例固定 selectingPlayerIdx:0，无缺席臂",
+      "axis": "BattleState 缺省字段",
+      "oracle": "selectingPlayerIdx===undefined → 返 0",
+      "classification": "new condition arm (absent selector)"
+    },
+    {
+      "id": "C113",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
+      "status": "passed",
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1064-1066 resolveMagicObject 失败 continue）",
+      "caller": "同上；学习槽 400 而 spells 表只含 297",
+      "oldAssertion": "旧测无 resolve 失败臂（学习表内 id 都可解析）",
+      "axis": "合法 id 域错位（400 ∉ spells）",
+      "oracle": "已学槽 spell 不在表 → 跳过，best 保持 0",
+      "classification": "new condition arm (resolve miss)"
+    },
+    {
+      "id": "C114",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+      "status": "passed",
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1072 costMP===1 筛除；sdlpal uibattle.c:763-766 极限技门）",
+      "caller": "同上；296 costMP=1 / 297 costMP=2",
+      "oldAssertion": "battle-system.test.ts:1089-1119 无 costMP 门臂",
+      "axis": "合法耗魔值域（1 vs 2）",
+      "oracle": "costMP===1（极限技）跳过不选，costMP=2 正常入选",
+      "classification": "new condition arm (ultimate-move gate)"
+    },
+    {
+      "id": "C115",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
+      "status": "passed",
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1072 costMP>role.mp 筛除）",
+      "caller": "同上；投影后 role.mp=30 vs costMP=31",
+      "oldAssertion": "旧测无 MP 门臂（rolesWith mp=99 恒足额）",
+      "axis": "costMP=31 vs mp=30（合法边界）",
+      "oracle": "唯一已学法术 costMP>role.mp → 跳过返 0，不选不扣",
+      "classification": "new condition arm (MP gate)"
+    },
+    {
+      "id": "C116",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
+      "status": "passed",
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1074-1078 power 择优）",
+      "caller": "同上；296 baseDamage=10 / 297 baseDamage=30、range=0",
+      "oldAssertion": "battle-system.test.ts 回归例用 range=9999 随机项，无确定性择优臂",
+      "axis": "baseDamage 10 vs 30（合法威力域）",
+      "oracle": "range=0 消随机项后 strict power>maxPower：更高 baseDamage 替换先遇者 → 297",
+      "classification": "new condition arm (strict power replace)"
+    },
+    {
+      "id": "C117",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+      "status": "passed",
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1077 strict power>maxPower 不等不替换）",
+      "caller": "同上；两法术 baseDamage 同 30、costMP 同 2、range=0",
+      "oldAssertion": "无旧例（r7 新增，RC7 变异真实因果的正向锚）",
+      "axis": "baseDamage 30 vs 30（同威力）",
+      "oracle": "同威力后来者不替换 → 返回先遇到的 296",
+      "classification": "new condition arm (tie keeps first)"
+    },
+    {
+      "id": "C118",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
+      "fullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） attackAll + 数字 targetIdx=1 → 仍结算全体队员（type!=normal 强制 all，fight.c:4719）",
+      "status": "passed",
+      "source": "game core/battle/actions/magic.ts:368-391 E2 inline 敌方攻击魔法结算：目标派发行 :369 `magic.type === 'normal' ? input.targetIdx : 'all'`（非 normal 强制全体；DM6 预掷 :248-252 同派发）",
+      "caller": "生产 caller = 敌 AI 施法路径（battle-system 敌动作选目标后调 performMagic casterIsEnemy=true；非 normal 法术的 targetIdx 为数字单选）",
+      "oldAssertion": "旧 fullName 锚：actions.test.ts「performMagic > 敌人非攻击 type(summon)但 baseDamage>0 → 仍结算伤害(E2 gate type-agnostic,sdlpal fight.c:4772)」自注「这里单队员」；magic-damage.test.ts「applyEnemyMagicDamage > AoE target=\"all\":全体活队员吃伤害」为直调单元（target 显式传参，不覆盖派发行）",
+      "axis": "输入轴：attackAll + 数字 targetIdx=1（反控 Q-ET1：type attackAll→normal 单轴变异恰一红）",
+      "oracle": "三队员 HP 数组 toEqual([435,435,435])（手算锚：magStr 28+(0+6)*6=64；calcBase(64,30)=trunc(128-48+0.5)/4=20；+45=65；wind×5/5=65；rngFactor 1.0 无自卫）+ 三条 showDamageNum toEqual([{target:{kind:player,idx:0/1/2},value:65,color:blue}] 依序)",
+      "classification": "new contract（E2 AoE 派发语义 performMagic 级首证；corpus 0 命中）"
+    },
+    {
+      "id": "C119",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
+      "fullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） 对照：normal + 同 targetIdx=1 → 仅目标队员结算，其余原样",
+      "status": "passed",
+      "source": "game core/battle/actions/magic.ts:369 E2 目标派发 normal 分支（magic.type === normal → input.targetIdx 原样单体）",
+      "caller": "生产 caller = 敌 AI 施法 normal 法术（单体选目标）；与 AoE 例同 roster/同伤害输入构成同输入族对照",
+      "oldAssertion": "旧 fullName 锚：actions.test.ts「performMagic > 敌人攻击魔法(baseDamage>0)→ 目标队员真掉血 + emit showDamageNum(E2 enemy→player 结算)」——1 队员夹具，未断言其余队员不受波及",
+      "axis": "输入轴：normal + targetIdx=1（AoE 例的语义对照组，非独立反控目标）",
+      "oracle": "HP 数组 toEqual([500,435,500])（仅目标落血，其余原样）+ 恰一条 showDamageNum toEqual([{target:{kind:player,idx:1},value:65,color:blue}])",
+      "classification": "new contract（normal 单体边界 performMagic 级多队员首证）"
+    },
+    {
+      "id": "C120",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
+      "fullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） 超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负",
+      "status": "passed",
+      "source": "game core/battle/magic-damage.ts:257-259 applyEnemyMagicDamage 超杀钳（`if (dmg > role.hp) dmg = role.hp` + `role.hp = Math.max(0, role.hp - dmg)`；sdlpal fight.c:4805/4840）→ magic.ts:380-388 数字 value = hpBefore-hpAfter（钳后真实 delta）",
+      "caller": "生产 caller = performMagic E2 数字 emit 路径（pendingNums → showDamageNum）；对照 E1「超杀显示完整算出伤害」（magic-inline-damage.test.ts :646-651 注释锚）",
+      "oldAssertion": "旧 fullName 锚：magic-damage.test.ts「applyEnemyMagicDamage > clamp:dmg > 剩余 HP → 钳到 HP(hp30 吃 65 → 掉 30,hp→0)」为直调单元结果层；performMagic 级 emitted 数字 value 无旧断言（:1897 toMatchObject 不含 value）",
+      "axis": "输入轴：剩余 HP 30 < 计算伤害 65（反控 Q-ET2：hp 30→200 脱离超杀区，钳制关系双失效恰一红）",
+      "oracle": "role.hp toBe(0)（落 0 不为负）+ showDamageNum toEqual([{target:{kind:player,idx:0},value:hpBefore,color:blue}])（期望随输入捕获：value=整段剩余 HP 30，非完整计算伤害 65）",
+      "classification": "new contract（E2 超杀数字语义 performMagic 级首证；与 E1 完整伤害显示构成双路径对照）"
+    },
+    {
+      "id": "C121",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）",
+      "status": "passed",
+      "source": "game core/battle/actions/magic.ts performMagic 失败施法音臂（:170-184 pendingCastSound 捕获；:261-268 fizzle 早退——施法音仍即时播）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构 + **真实 runScript**（event-system 导出，非 mock）+ 合成最小合法失败脚本 [end, raw 0x41, end] entry1（0x41=mark-script-failed，script.c:1623-1627 在真实 runner 内置 fScriptSuccess=false）",
+      "oldAssertion": "actions.test.ts「scriptOnUse 失败→MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」用 mock 手置旗（未断言 pendingSounds）；「M6 法术音」证成功路径起手音。本文件只补 fizzle 施法音/零音两轴（r12 版 mock+越界 entry 不合法，r13 重写）",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
+    },
+    {
+      "id": "C122",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "fullName": "Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41） fizzle 施法音=0（magicSound 0）不 push、pendingSounds 通道不初始化",
+      "status": "passed",
+      "source": "game core/battle/actions/magic.ts performMagic 失败施法音臂（:170-184 pendingCastSound 捕获；:261-268 fizzle 早退——施法音仍即时播）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构 + **真实 runScript**（event-system 导出，非 mock）+ 合成最小合法失败脚本 [end, raw 0x41, end] entry1（0x41=mark-script-failed，script.c:1623-1627 在真实 runner 内置 fScriptSuccess=false）",
+      "oldAssertion": "actions.test.ts「scriptOnUse 失败→MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess」用 mock 手置旗（未断言 pendingSounds）；「M6 法术音」证成功路径起手音。本文件只补 fizzle 施法音/零音两轴（r12 版 mock+越界 entry 不合法，r13 重写）",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "legal fizzle audio arms（真实 0x41 路径；r12 的两个 enemy 例按旧 :1859-1894/:1297-1342 更强直证删除）"
+    },
+    {
+      "id": "C123",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
+      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
+      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+    },
+    {
+      "id": "C124",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
+      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
+      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+    },
+    {
+      "id": "C125",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON room 门（:1330 room<count fail）",
+      "caller": "dispatchBattleOpcode 直驱（同 summonCtx 形态）",
+      "oldAssertion": "battle-opcodes.test.ts:1503-1511 已证 room0→failJump 且不扩容（本例为活敌数量 1→3 的同 guard，**不计新**——按 Q-R7-02 判定改记 existing-proof 复核例）",
+      "axis": "3 活敌 0 死槽（合法阵容）",
+      "oracle": "room=0 < count=1 → newIp=300，全槽不被改写",
+      "classification": "existing-proof cross-check（不计新；Q-R7-02 收窄）"
+    },
+    {
+      "id": "C126",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts refreshEnemyBattlePositions（:78-95，PAL_BattleMakeScene 等价）+ battle-positions.ts getEnemyBasePos（:86-92 含 yPosOffset）",
+      "caller": "dispatchBattleOpcode 直驱；断言用固定基准 layoutBase(idx)=getEnemyBasePos(undefined,count,idx,0)（无 enemyPos 注入 → 产品 fallback 布局；r8 改为一手坐标常量 oracle）",
+      "oldAssertion": "battle-opcodes.test.ts:1459-1479 已断言全队 posOriginal/pos（DH1 0 槽批）",
+      "axis": "yPosOffset 变化可证伪（Q08-S1-RC5 以 0→4 验证判别力）",
+      "oracle": "复用槽与施法者 posOriginal/pos 逐坐标等于一手 fallback 布局常量（见 r8 改写）",
+      "classification": "needs independent oracle（r8 待改：getEnemyBasePos 计算 expected 非独立——见 Q-R7-02）"
+    },
+    {
+      "id": "C127",
+      "batch": "Q09",
+      "package": "game",
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer 默认 320×200；自定义尺寸按参数建",
+      "status": "passed",
+      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
+      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
+      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
+    },
+    {
+      "id": "C128",
+      "batch": "Q09",
+      "package": "game",
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer writePixel 四边界外全部忽略；界内按 y*width+x 落位",
+      "status": "passed",
+      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
+      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
+      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
+    },
+    {
+      "id": "C129",
+      "batch": "Q09",
+      "package": "game",
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer clear 归零全部索引",
+      "status": "passed",
+      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
+      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
+      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
+    },
+    {
+      "id": "C130",
+      "batch": "Q09",
+      "package": "game",
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
+      "status": "passed",
+      "source": "game src/present/framebuffer.ts createFramebuffer（writePixel/clear/toImageData）",
+      "caller": "纯函数直驱 + 完整 256 色 typed Palette",
+      "oldAssertion": "SCREEN_W/H 常量被旧测引用；createFramebuffer 本体 corpus 0 直测命中",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
+    },
+    {
+      "id": "C131",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C132",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C133",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C134",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C135",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C136",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C137",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C138",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C139",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C140",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
+    },
+    {
+      "id": "C141",
+      "batch": "Q06",
+      "package": "game",
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+      "status": "passed",
+      "source": "game src/core/player-poison-state.ts isPlayerPoisoned/curePlayerPoisonByKind/removePoisonLevel99/addPoisonForPlayer + src/core/equipment-state.ts getPlayerFleeRate/getPlayerPoisonResistance",
+      "caller": "createInitialGameState 合法 GameState 直驱 + setObjectPoisons 注入 + effectRoles typed 完整表",
+      "oldAssertion": "core/event-system.test.ts A3 群（0x29 抗性/去重/0x75 清毒/cure-by-level 真等级）+ cross-module G07-01/02",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     }
   ]
 }

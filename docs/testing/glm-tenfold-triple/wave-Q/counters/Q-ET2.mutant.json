@@ -1,0 +1,78 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 3,
+  "numPassedTests": 2,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790917694174,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391）"
+          ],
+          "fullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） attackAll + 数字 targetIdx=1 → 仍结算全体队员（type!=normal 强制 all，fight.c:4719）",
+          "status": "passed",
+          "title": "attackAll + 数字 targetIdx=1 → 仍结算全体队员（type!=normal 强制 all，fight.c:4719）",
+          "duration": 1.7305830000000242,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391）"
+          ],
+          "fullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） 对照：normal + 同 targetIdx=1 → 仅目标队员结算，其余原样",
+          "status": "passed",
+          "title": "对照：normal + 同 targetIdx=1 → 仅目标队员结算，其余原样",
+          "duration": 0.26149999999995543,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391）"
+          ],
+          "fullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） 超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负",
+          "status": "failed",
+          "title": "超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负",
+          "duration": 2.798000000000002,
+          "failureMessages": [
+            "AssertionError: expected 135 to be +0 // Object.is equality\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts:249:38\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790917694744,
+      "endTime": 1790917694748.798,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts"
+    }
+  ]
+}

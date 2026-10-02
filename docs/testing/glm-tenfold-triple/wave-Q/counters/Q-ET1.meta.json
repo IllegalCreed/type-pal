@@ -1,0 +1,57 @@
+{
+  "id": "Q-ET1",
+  "file": "packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
+  "targetFullName": "Q08 performMagic E2 敌方攻击魔法目标派发与超杀钳制（magic.ts:368-391） attackAll + 数字 targetIdx=1 → 仍结算全体队员（type!=normal 强制 all，fight.c:4719）",
+  "targetNameSubstring": "attackAll + 数字 targetIdx=1",
+  "axis": "输入轴单轴变异：AoE 例的施法输入 type 'attackAll'→'normal'（其余输入与断言不动）——合法类型；非 normal 强制全体派发失效后仅目标队员落血，[435,435,435] HP 结算断言恰一红（数字数组断言同随失效）。对照/超杀例为独立输入不受影响。",
+  "sha256": {
+    "original": "f21e6e034c72269e708cfe6696ac121c4100789d49a8b29302a80266cea87252",
+    "mutated": "fb8fc9d7fb876ee4946acc39994e4bf384c2da9c1be6f8601c81cc5d0b22b9d5",
+    "restored": "f21e6e034c72269e708cfe6696ac121c4100789d49a8b29302a80266cea87252"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 500, 435, 500 ] to deeply equal [ 435, 435, 435 ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-ET1.positive.json",
+      "raw": "Q-ET1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 2,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-ET1.mutant.json",
+      "raw": "Q-ET1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-ET1.restored.json",
+      "raw": "Q-ET1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

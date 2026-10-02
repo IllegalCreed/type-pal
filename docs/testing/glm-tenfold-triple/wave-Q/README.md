@@ -1,13 +1,49 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r14 续批1）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r15 续批2）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r14 候选**（r13 复核：fizzle 两例已 accept，**结构净新上限 137 /
-缺口至少 563**；已关闭项不重开；r13 候选 8fb2f3de/pin 2ae2a100 保留供独立复核）。
-不合 main、不标 done。
+本文件描述 **r15 候选**（r14 联合复核：enemy-inline 两例伪证/重复 counter 已撤回；
+**当前 141 执行 / 结构净新上限 140 / 缺口至少 560**；r14 候选 9b3e82348/pin 39412086e
+保留供独立复核）。不合 main、不标 done。
+
+## r15 相对 r14 的改动（Q-R14-01/02 撤回 + E2 目标语义新批）
+
+1. **Q-R14-01/02 撤回（按 codex-p13-kimi-review-20261002）**：删除
+   `battle-magic-enemy-inline.glm-q.test.ts`（2 例）——敌 cast 例 baseDamage=0 独立挡住
+   E1（asShort(baseDamage)>0 门），不能检验 !casterIsEnemy；对照组同时翻
+   caster/targetIsEnemy/敌数/baseDamage 多轴非单轴差异。旧 magic-inline-damage:657-675
+   （正伤害敌不自伤）与 :205-239（队员落血 50 + 完整数字）已更强直证，无独立合法新轴。
+   Q-EI1（初始 HP 80→90 保留 expect 80 = 初始常量答案错配）与 Q-EI2（旧 player-inline
+   交叉验证）两组**退役登记**（retired 列表 + .retired.meta.json），原 meta/JSON/raw/patch
+   全部保留不改。
+2. **新批 `battle-magic-e2-target-semantics.glm-q.test.ts`（3 例 typed 零强转）**：
+   ① **AoE 派发**——attackAll + 数字 targetIdx=1 → 仍结算全体队员（magic.ts:369
+   `type==='normal' ? targetIdx : 'all'`，sdlpal fight.c:4719）；旧 :1928 自注
+   「type != normal → 全体，这里单队员」，单队员夹具结构上无法区分派发；corpus 0 命中。
+   ② **normal 单体对照**——同 roster 同伤害输入，仅目标队员落血（500,435,500）+ 恰一条
+   数字；旧 :1897 为 1 队员夹具。③ **超杀钳制数字**——剩余 HP 30 < 计算伤害 65：HP 落 0
+   不为负、数字=整段剩余 HP（期望随 hpBefore 捕获，非初始常量回显）；对照 E1「超杀显示
+   完整算出伤害」（:646-651 注释锚）构成双路径语义对照；旧 :1897 toMatchObject 不含
+   value，单元层 :474 未覆盖 emit 路径。
+3. **反控 Q-ET1/2（输入轴单轴变异，均新执行目标）**：ET1 type 'attackAll'→'normal'
+   （合法类型）→ AoE 例 HP 数组 [435,435,435] vs [500,435,500] 恰一红；ET2 剩余 HP
+   30→200（脱离超杀区）→ 钳制关系双失效（135≠0、65≠hpBefore）恰一红。期望随输入
+   捕获，红来自业务语义判别非初始答案错配。三相 3/3→2/3→3/3、exit 0/1/0、恢复
+   hash 一致。
+4. **账目（撤回 + 新批后）**：141 执行（138 + 3 新）/ 扣 room0 旧合同（历史 C114 编号）
+   后**结构净新上限 140 / 缺口至少 560**；反控 **65 存档（63 保留 + 2 新增 − 2 退役）/
+   56 不同执行目标 / 净新合同目标结构上限 55**。原 50 数量门不需要凑针；700/50 组不缩。
+5. 门禁：game 全包串行（2809 − 2 + 3 = **2810**）/ typecheck ×3 零 / 根 lint 完整
+   0/0/0 / docs / diff / verifier 见 receipt。
+
+## r14 段（历史；两例已按 r15 撤回）
+
+r14 交付的 battle-magic-enemy-inline 2 例与 Q-EI1/2 两针被 r14 联合复核 counter
+（伪证/重复），r15 全部撤回退役，详见上节与 counters.json retired 列表。历史叙述
+保留于 git（9b3e82348/pin 39412086e）。
 
 ## r13 相对 r12 的改动（Q-R12-01/02）
 
