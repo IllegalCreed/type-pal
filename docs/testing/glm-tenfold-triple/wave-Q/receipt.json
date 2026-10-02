@@ -5,7 +5,7 @@
   "branch": "codex/glm-wave-q-runtime-residual-r1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "candidateHead": "2d6ced2034fd590c777d6a7b1f56d51d52bb4dd9",
+  "candidateHead": "004fe83a37901d0db087758f06027ca6c716fe12",
   "verifier": {
     "command": "node docs/testing/glm-tenfold-triple/verify-targets.mjs --wave Q --base 8b3ca062953b17a12178f8d1a9e36657971234b1",
     "frozenHashesValid": true,
