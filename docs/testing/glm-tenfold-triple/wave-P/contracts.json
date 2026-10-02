@@ -27,7 +27,7 @@
       "caller": "createEditorAssetReader(source,state)",
       "oldAssertion": "editor-asset-reader 由 UI 测试经 assetBase 间接消费（PreviewCanvas.glm-ui-wave.test.tsx 的 record/kind 路径）；无旧直读 fullName",
       "axis": "本合同新轴: 期望 kind 与实际不符报双 kind 为新轴",
-      "oracle": "完整断言: expect(() => reader.record(firstId, wrongKind)).toThrow(\n// src/core/editor-asset-io.glm-p.test.ts:93",
+      "oracle": "完整断言:\nexpect(() => reader.record(firstId, wrongKind)).toThrow(\n  `AssetId \"${firstId}\" 期望 ${wrongKind}，实际 ${first.kind}`\n)\n// src/core/editor-asset-io.glm-p.test.ts:93-95（完整 matcher 与 expected 文案）",
       "classification": "reader-contract"
     },
     {
@@ -839,7 +839,7 @@
       "caller": "describeScriptCommandOwner/describeCanonicalScriptReference",
       "oldAssertion": "script-editor.test.ts › locates state-machine commands and rejects an invalid command path :488-490（已精确整串断言机器正文段标签=existing-proof 不计新）；本合同为合法 entry.prepare 段整串标签新轴",
       "axis": "本合同新轴: 命令引用容器标签（连续流程/状态/正文段）",
-      "oracle": "完整断言: expect(\n      describeCanonicalScriptReference(state, {\n        kind: 'command',\n        path: 'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior',\n        locator: {\n          kind: 'command',\n          owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },\n          container: { kind: 'state', machineId: 'machine-1', stateId: 'idle', section: 'prepare' },\n          commandPath: '0',\n        },\n      }),\n    ).toBe(\n// src/core/script-editor.p03.glm-p.test.ts:477",
+      "oracle": "完整断言（整串标签 toBe）:\nexpect(describeCanonicalScriptReference(state, handoff)).toBe(\n  '场景 s001 / 进场脚本“进场A” / 连续流程“巡逻机” / 状态“待机” / 画面出现前 / 第 1 条指令「切换实体脚本方案」'\n)\n// src/core/script-editor.p03.glm-p.test.ts（entry.prepare 段整串）",
       "classification": "label-contract"
     },
     {
@@ -1175,7 +1175,7 @@
       "caller": "buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)",
       "oldAssertion": "无旧直测 fullName：同键多引用追加序",
       "axis": "本合同新轴: P03-G16 命令 selection 命中以 use:command 入索引；同键多引用按序追加",
-      "oracle": "真实断言行: expect(entry.length).toBeGreaterThanOrEqual(2)\n// src/core/script-editor.p03b.glm-p.test.ts:182",
+      "oracle": "真实顺序 oracle（完整 entry 数组，按走访序）:\nexpect(entry).toEqual([\n  { kind: 'page', path: 'scenes.s001.entities.e1.pages.default.trigger', locator: { kind: 'entity-page', sceneId: 's001', entityId: 'e1', pageId: 'default', channel: 'trigger' } },\n  { kind: 'command', path: 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]', locator: { kind: 'command', owner: { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'trigger', behaviorId: 'talk' }, container: { kind: 'step', stepId: 'start', section: 'body' }, commandPath: '0' } },\n])\n// src/core/script-editor.p03b.glm-p.test.ts:186-207（r12 新标题测试体内）",
       "classification": "index-aggregation"
     },
     {
