@@ -46,12 +46,13 @@
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
-    "fullEditorSuite": "517 files / 3864 tests 全绿 exit 0（本轮 P03 净 11 例 + Toolbar 重写；负载漂移史见前两轮登记）",
+    "fullEditorSuite": "517 files / 3864 tests 全绿 exit 0",
     "typecheck": "exit 0",
-    "rootLint": "PASS 2804 files; 0/0/0",
+    "rootLint": "PASS 2825 files 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
-    "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（未改工具，r3.6 判据保留）"
+    "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（未改工具，r3.6 判据保留）",
+    "docsGate": "docs: PASS 817 Markdown / 4285 links / 0 issues（C13 退役说明改目录 README 后过门）"
   },
   "notDone": [
     "P02 剩余暗区",
@@ -73,11 +74,11 @@
   "anchors": {
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
     "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-    "testCodeAnchor": "r10b 提交（P03 合法 entry fixture+完整 cursor 核验+Toolbar 收敛重写；见 git log packages/editor/src）",
+    "testCodeAnchor": "183e4fa9b（合法 cursor+公开 Session 准入+默认 waitFor）",
     "toolEvidenceAnchor": "dc8fd75ce13c4134f4795066a67ceb0d79b6f54e（r3.6 工具；本轮未改工具，22/22 自测沿用）",
-    "finalRemoteCandidate": "a3a7c390643ef38bbab3f73974c8f51be2d0d43c"
+    "finalRemoteCandidate": "7ec3cca8a937cbdc9a22d9593709f5c5f083fd0b"
   },
   "threeStateProvenance": "相对 48ade197：9 旧针三态未变；P02-C08 与 4 枚 P03 针因源/执行集变化重采（P03 又于 r10.5 因合法 cursor 修复再重采 4 枚）；C13 退役保留 r9 原字节存档",
-  "finalRemoteCandidate": "a3a7c390643ef38bbab3f73974c8f51be2d0d43c（r10 闭合并证据同提交；测试锚 9af140d83→r10b 光标核验提交）",
+  "finalRemoteCandidate": "7ec3cca8a937cbdc9a22d9593709f5c5f083fd0b（r10.5 测试锚 183e4fa9b；其后证据/README/docs-only 提交至 tip）",
   "sourceSha256Note": "r8 复核指出三个旧摘要（editor-asset-io/Toolbar/counter.mjs）未同步；本轮自最终字节重算全部八个"
 }
