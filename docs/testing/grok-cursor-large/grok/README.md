@@ -5,7 +5,7 @@
 
 Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**。
 派发 BASE `0704d3de6d3d2a2099475a42f601b654bba08579`。
-完整候选 SHA 在 [receipt.json](receipt.json) 的 `candidateHead`：`16db4d1ed9d394a2506293e7b4448f8a0c19ceef`。随后的 docs pin 不改这个值。
+完整候选 SHA 在 [receipt.json](receipt.json) 的 `candidateHead`：`b0d8dbd3f202251e82ce8761645c4ac408d84f11`。功能返工是 `fedacf2ec73452222ebafd38f37e824a19eb5cdf`，上一测试提交是 `16db4d1ed9d394a2506293e7b4448f8a0c19ceef`，上一 docs pin 是 `919fc291a6e2b5b8710bac756e6a7d28d99dbae7`。随后的 docs pin 不改这个新的 candidateHead。
 
 ## 累计
 
@@ -42,8 +42,8 @@ G10 四组：G10-A `rng-player.ts` 默认跳过键、负帧号、等窗和零时
 - [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G10 各四枚三态原日志
 - [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked；全包有一条 PAL 资产环境 ENOENT，单列给 Codex
 - [coverage-delta.json](coverage-delta.json)：46 个所属源，语句分母 3501，本次 v8 多覆盖 164 条语句、126 个分支、131 行。这是私有测量，正式 ratchet 留给 Codex
-- [receipt.json](receipt.json)：`candidateHead` 是 `16db4d1ed9d394a2506293e7b4448f8a0c19ceef`
-- [judge.mjs](judge.mjs) 与 [judge-selftest.json](judge-selftest.json)：runner 和自测共用的判据；40 组存档重判仍接受
+- [receipt.json](receipt.json)：`candidateHead` 是 `b0d8dbd3f202251e82ce8761645c4ac408d84f11`
+- [judge.mjs](judge.mjs) 与 [judge-selftest.json](judge-selftest.json)：runner 和自测共用的判据。四个旧判误会收的反例现在拒收，40 组存档重判仍接受，真实 Vitest 单红叠未处理异常拒收且退出码 1
 - [pixels/README.md](pixels/README.md)：六组真实画布和六条功能宿主的 PNG、SHA256 与读回日志
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
@@ -180,6 +180,6 @@ G10 四组：G10-A `rng-player.ts` 默认跳过键、负帧号、等窗和零时
 
 反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G10-A,G10-B,G10-C,G10-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。G10-A、G10-B、G10-D 的 patch 收成三行 hunk，变异后的源 SHA256 与重采前相同。历史 G01 到 G09 与探针日志未重写。
 
-全包 `pnpm --filter @type-pal/game exec vitest run` 退出码 1。278 个文件通过，4 个文件跳过，1 个文件失败。测试 3145 passed、13 skipped。失败套件是 `src/dev/dev-panel.test.ts`：工作树没有 gitignore 的 `data/extracted/data/enemy-teams.json`，收集阶段 `readFileSync` 抛出 ENOENT。主检出 `/Users/zhangxu/illegal/type-pal/data/extracted/data/enemy-teams.json` 存在。未复制真实数据，未改旧测。本卡 grok-r1 文件都在通过列表里。这条环境异常单列给 Codex，全包不算绿。
+全包 `pnpm --filter @type-pal/game exec vitest run` 在返工树上再次退出码 1。278 个文件通过，4 个文件跳过，1 个文件失败。测试 3145 passed、13 skipped。失败套件仍是 `src/dev/dev-panel.test.ts`：工作树没有 gitignore 的 `data/extracted/data/enemy-teams.json`，收集阶段 `readFileSync` 抛出 ENOENT。主检出 `/Users/zhangxu/illegal/type-pal/data/extracted/data/enemy-teams.json` 存在。未复制真实数据，未改旧测。图像落盘没有新增 `it`，计数与 `16db4d1ed9d394a2506293e7b4448f8a0c19ceef` 相同。审核在隔离资产副本上的 3173/3173 保留为那次只读结果，不记成这次退出码。本卡 grok-r1 文件都在通过列表里。这条环境异常单列给 Codex，全包不算绿。
 
-根 `pnpm lint`：2967 files，0 errors / 0 warnings / 0 infos。`node scripts/docs/check.mjs`：PASS，0 issues。`verify-targets.mjs --owner grok --base 0704d3de6d3d2a2099475a42f601b654bba08579` 在工作树里会看到 8 个未跟踪的 `node_modules` 符号链接（`.gitignore` 的 `node_modules/` 不匹配符号链接）。把这 8 个链接临时移开后退出码 0：`globalFrozenSources` 716，`allocatedSources` 120，`frozenHashesValid` true，`changedPaths` 494。链接已放回，不进入提交。G02 到 G09 的三态 vitest JSON 只做了 Biome 排版，解析后的值与排版前相同。`git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...16db4d1ed9d394a2506293e7b4448f8a0c19ceef` 退出码 0。私有 coverage 见 [coverage-delta.json](coverage-delta.json)：46 个源的语句、分支、行 total 都与 `targets.json` 相同，多覆盖 164 条语句、126 个分支、131 行。全包退出码仍是 1，因为 `dev-panel.test.ts` 的 ENOENT；`--coverage.reportOnFailure` 仍写出了报告。不合 main，不跑正式 ratchet，不标 done。
+根 `pnpm lint`：2988 files，0 errors / 0 warnings / 0 infos。`node scripts/docs/check.mjs`：PASS，0 issues。`verify-targets.mjs --owner grok --base 0704d3de6d3d2a2099475a42f601b654bba08579` 在工作树里会看到 8 个未跟踪的 `node_modules` 符号链接（`.gitignore` 的 `node_modules/` 不匹配符号链接）。把这 8 个链接临时移开后退出码 0：`globalFrozenSources` 716，`allocatedSources` 120，`ownerOverlap` 0，`frozenHashesValid` true，`changedPaths` 530。链接已放回，不进入提交。`git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...b0d8dbd3f202251e82ce8761645c4ac408d84f11` 退出码 0。功能返工 `fedacf2ec73452222ebafd38f37e824a19eb5cdf` 的 10 份 readback JSON 展开了短数组，根 lint 报 10 条 format；候选提交把写入收成同行短数组，PNG SHA256 不变。上一候选 `16db4d1ed9d394a2506293e7b4448f8a0c19ceef` 当时记录的是 lint 2967 files、`changedPaths` 494。G02 到 G09 的三态 vitest JSON 只做了 Biome 排版，解析后的值与排版前相同。G02-C 与 G04-A 的 patch 字节已换成可应用 hunk，mutant SHA256 未变，三态日志未重采。私有 coverage 见 [coverage-delta.json](coverage-delta.json)：46 个源的语句、分支、行 total 都与 `targets.json` 相同，多覆盖 164 条语句、126 个分支、131 行。全包退出码仍是 1，因为 `dev-panel.test.ts` 的 ENOENT；`--coverage.reportOnFailure` 仍写出了报告。作者交付 pending，不声称 accept，不合 main，不跑正式 ratchet，不标 done。

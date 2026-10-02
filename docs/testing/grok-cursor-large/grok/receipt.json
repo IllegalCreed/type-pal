@@ -7,17 +7,19 @@
   "mergedToMain": false,
   "officialRatchet": false,
   "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
-  "candidateHead": "16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
+  "candidateHead": "b0d8dbd3f202251e82ce8761645c4ac408d84f11",
   "candidateObject": "commit",
+  "previousCandidateHead": "16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
+  "previousDocsCommit": "919fc291a6e2b5b8710bac756e6a7d28d99dbae7",
+  "functionalRework": "fedacf2ec73452222ebafd38f37e824a19eb5cdf",
   "docsPin": {
     "role": "docs-only",
-    "candidateHead": "16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
+    "candidateHead": "b0d8dbd3f202251e82ce8761645c4ac408d84f11",
     "paths": [
       "docs/testing/grok-cursor-large/grok/receipt.json",
-      "docs/testing/grok-cursor-large/grok/coverage-delta.json",
       "docs/testing/grok-cursor-large/grok/README.md"
     ],
-    "note": "这一提交只补回执、私有覆盖差额和入口链接。candidateHead 保持测试与证据提交，不再为对齐 HEAD 追加提交。"
+    "note": "这一提交只更新回执和入口里的候选 SHA 与门禁数字。candidateHead 是读回日志格式修复提交，不是本 docs 提交自身。功能返工是 fedacf2ec73452222ebafd38f37e824a19eb5cdf：10 份 readback JSON 被两格缩进展开短数组，根 lint 报 10 条 format。格式提交把写入收成 Biome 同行短数组，PNG SHA256 与 file×fullName 不变。上一测试提交是 16db4d1ed9d394a2506293e7b4448f8a0c19ceef，上一 docs pin 是 919fc291a6e2b5b8710bac756e6a7d28d99dbae7。"
   },
   "counts": {
     "newContracts": 400,
@@ -50,14 +52,18 @@
     "skippedTests": 13,
     "failure": "packages/game/src/dev/dev-panel.test.ts readFileSync ENOENT data/extracted/data/enemy-teams.json",
     "countedGreen": false,
-    "dataCopied": false
+    "dataCopied": false,
+    "reworkRerun": true,
+    "reviewerIsolatedAssetGreen": "3173/3173",
+    "reviewerIsolatedAssetNote": "审核在只读资产副本上的结果。本工作树没有复制 data/extracted 与 data/raw，退出码仍是上面的 1。"
   },
   "lint": {
     "command": "pnpm lint",
-    "files": 2967,
+    "files": 2988,
     "errors": 0,
     "warnings": 0,
-    "infos": 0
+    "infos": 0,
+    "previousCandidateFiles": 2967
   },
   "docsCheck": {
     "command": "node scripts/docs/check.mjs",
@@ -65,7 +71,7 @@
     "issues": 0
   },
   "diffCheck": {
-    "command": "git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...16db4d1ed9d394a2506293e7b4448f8a0c19ceef",
+    "command": "git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...b0d8dbd3f202251e82ce8761645c4ac408d84f11",
     "exitCode": 0
   },
   "verifier": {
@@ -84,8 +90,9 @@
     "exitCodeWithSymlinksMovedAside": 0,
     "globalFrozenSources": 716,
     "allocatedSources": 120,
+    "ownerOverlap": 0,
     "frozenHashesValid": true,
-    "changedPathsBeforeDocsPin": 494
+    "changedPathsBeforeDocsPin": 530
   },
   "counters": {
     "accepted": [
@@ -134,5 +141,26 @@
     "historicalReporterJson": "G02–G09 的 original/mutant/restored JSON 经 Biome 排版。排版前后 json 解析值的规范哈希相同。"
   },
   "pixels": ["G04-D08", "G05-A11", "G06-A12", "G07-B13", "G08-D07", "G10-B01", "G10-B02"],
-  "coverageDelta": "docs/testing/grok-cursor-large/grok/coverage-delta.json"
+  "coverageDelta": "docs/testing/grok-cursor-large/grok/coverage-delta.json",
+  "rework": {
+    "id": "GROK-R1",
+    "judgeShared": true,
+    "falseAcceptsRejected": 4,
+    "legacyWouldAcceptThoseFour": true,
+    "archivesRejudged": 40,
+    "archivesRejected": 0,
+    "realVitestProbe": {
+      "id": "real-vitest-single-red-plus-unhandled",
+      "rejected": true,
+      "exitCode": 1,
+      "signal": null
+    },
+    "historicalProbeRejectPreserved": true,
+    "patchesRegenerated": ["G02-C", "G04-A"],
+    "mutantShaUnchanged": true,
+    "logsRecollected": false,
+    "pixelDumps": 14,
+    "newItAdded": 0,
+    "executionSetUnchanged": true
+  }
 }
