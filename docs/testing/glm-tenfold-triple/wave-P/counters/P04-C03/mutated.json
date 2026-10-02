@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "P04-G06 UpdateEnemyTeam 稳定 id 合同"
-          ],
+          "ancestorTitles": ["P04-G06 UpdateEnemyTeam 稳定 id 合同"],
           "fullName": "P04-G06 UpdateEnemyTeam 稳定 id 合同 patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表",
           "status": "failed",
           "title": "patch 携带 id:other → 应用后队 id 仍为 teamId，other 不入表",

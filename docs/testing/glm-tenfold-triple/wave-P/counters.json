@@ -1,6 +1,6 @@
 {
   "total": 17,
-  "note": "r14（续批二）：活跃 17 针逐条取自最终 receipt 并独立验证 git apply+hash+恰一红（+P04-C03 敌队稳定 id，三行唯一锚）；judge：完整身份集+三相 raw+0→1→0 退出政策；P03-C13 退役存档在 counters/P03-C13/（r9 原字节，不计活跃索引）",
+  "note": "r17：活跃 16 针（P04-C01 空 id 守卫针退役——空 party id 被公开 validateStartWorld:95-107 拒收、空 actor id 无当前合法 producer，未证明合法临时输入生产链；历史三态与 patch 原样保留于 counters/P04-C01/，不计活跃、不补旧目标新针）。逐针取自最终 receipt 并独立验证 git apply+hash+恰一红；judge：完整身份集+三相 raw+0→1→0 退出政策；P03-C13 退役档同口径。",
   "counters": [
     {
       "id": "P01-C01",
@@ -1499,7 +1499,8 @@
           ]
         }
       },
-      "outDir": "P04-C01"
+      "outDir": "P04-C01",
+      "status": "archived-retired"
     },
     {
       "id": "P04-C02",
@@ -1627,5 +1628,6 @@
       },
       "outDir": "P04-C03"
     }
-  ]
+  ],
+  "active": 16
 }

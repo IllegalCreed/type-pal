@@ -49,6 +49,18 @@ const candidateRoot = process.cwd()
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
+// r17：落盘 JSON 统一经 biome format（值不变，短数组折叠等格式归一），避免证据 JSON 格式 error。
+function writeJson(outDir, name, value) {
+  const path = join(outDir, name)
+  const raw = JSON.stringify(value, null, 2)
+  const biome = spawnSync('npx', ['biome', 'format', '--stdin-file-path', name], {
+    input: raw,
+    encoding: 'utf8',
+    cwd: candidateRoot,
+  })
+  writeFileSync(path, biome.status === 0 && biome.stdout ? biome.stdout : raw)
+}
+
 // patch 先于建树生成（纯本地 diff + git apply 实测），失败直接 throw。
 function buildPatch() {
   const original = readFileSync(join(candidateRoot, productFile), 'utf8')
@@ -229,7 +241,7 @@ try {
     signal: positive.signal,
   })
   if (!positiveJudge.valid) throw new Error(`positive invalid: ${positiveJudge.reasons.join(',')}`)
-  writeFileSync(join(outDir, 'positive.json'), JSON.stringify(positive.json, null, 2))
+  writeJson(outDir, 'positive.json', positive.json)
   writeFileSync(join(outDir, 'positive.raw.txt'), `${positive.output.replace(/\n+$/, '')}\n`)
   record.positive = {
     exitCode: positive.exit,
@@ -243,7 +255,7 @@ try {
   record.productSha256MutatedTree = sha256(readFileSync(rel(productFile)))
   const mutatedRun = runVitest(counterTree, testSpec)
   const mutatedStats = collect(mutatedRun)
-  writeFileSync(join(outDir, 'mutated.json'), JSON.stringify(mutatedRun.json, null, 2))
+  writeJson(outDir, 'mutated.json', mutatedRun.json)
   writeFileSync(join(outDir, 'mutated.raw.txt'), `${mutatedRun.output.replace(/\n+$/, '')}\n`)
   const mutantJudge = judgeMutant({
     exitCode: mutatedRun.exit,
@@ -273,7 +285,7 @@ try {
     throw new Error('restored file does not match candidate bytes')
   const restored = runVitest(counterTree, testSpec)
   const restoredStats = collect(restored)
-  writeFileSync(join(outDir, 'restored.json'), JSON.stringify(restored.json, null, 2))
+  writeJson(outDir, 'restored.json', restored.json)
   writeFileSync(join(outDir, 'restored.raw.txt'), `${restored.output.replace(/\n+$/, '')}\n`)
   const restoredJudge = judgeClean({
     exitCode: restored.exit,
@@ -308,7 +320,7 @@ try {
 
 if (exitCode !== 0 || !record) process.exitCode = exitCode
 else {
-  writeFileSync(join(outDir, 'receipt.json'), JSON.stringify(record, null, 2))
+  writeJson(outDir, 'receipt.json', record)
   console.log(
     JSON.stringify({
       id,

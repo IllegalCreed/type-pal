@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "P04-G01 collectActorReferences 选择性扫描与空 id 守卫"
-          ],
+          "ancestorTitles": ["P04-G01 collectActorReferences 选择性扫描与空 id 守卫"],
           "fullName": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
           "status": "passed",
           "title": "includeScriptCommands:false 仅排除命令扫描臂；实体/入口/敌人条件臂保留",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P04-G01 collectActorReferences 选择性扫描与空 id 守卫"
-          ],
+          "ancestorTitles": ["P04-G01 collectActorReferences 选择性扫描与空 id 守卫"],
           "fullName": "P04-G01 collectActorReferences 选择性扫描与空 id 守卫 空串 actor id 不产出任何引用边；同场非空 id 照常收集",
           "status": "failed",
           "title": "空串 actor id 不产出任何引用边；同场非空 id 照常收集",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P04-G02 引用 detail 标签策略与自删除豁免"
-          ],
+          "ancestorTitles": ["P04-G02 引用 detail 标签策略与自删除豁免"],
           "fullName": "P04-G02 引用 detail 标签策略与自删除豁免 显式 detail 三值与策略回退两值精确",
           "status": "passed",
           "title": "显式 detail 三值与策略回退两值精确",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P04-G02 引用 detail 标签策略与自删除豁免"
-          ],
+          "ancestorTitles": ["P04-G02 引用 detail 标签策略与自删除豁免"],
           "fullName": "P04-G02 引用 detail 标签策略与自删除豁免 actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
           "status": "passed",
           "title": "actorReferenceBlocksDeletion：自援护与伴随数据豁免，外部实体引用阻塞",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P04-G03 scriptChunks 分片命令以 shared-script locator 入账"
-          ],
+          "ancestorTitles": ["P04-G03 scriptChunks 分片命令以 shared-script locator 入账"],
           "fullName": "P04-G03 scriptChunks 分片命令以 shared-script locator 入账 where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本",
           "status": "passed",
           "title": "where 精确含 JSON 引号键；label 取脚本 id；locator 指向分片脚本",

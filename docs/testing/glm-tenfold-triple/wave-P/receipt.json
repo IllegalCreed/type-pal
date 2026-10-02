@@ -12,8 +12,8 @@
   "counts": {
     "contractsExecuted": 98,
     "workGroups": 25,
-    "countersActive": 17,
-    "countersArchived": 1,
+    "countersActive": 16,
+    "countersArchived": 2,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
     "browserScreenshots": 66,
@@ -21,7 +21,7 @@
     "gap": {
       "examples": 602,
       "groups": 45,
-      "counters": 33,
+      "counters": 34,
       "flows": 2
     }
   },
@@ -49,10 +49,11 @@
     "P-R13-02": "C13 四历史文件（positive.json/raw、mutated.json/raw）从 31995d09 恢复 r9-tip 原字节（positive 1353a9be 复核一致，12/1/12 三相一致）；新失败尝试不再保留（覆盖即弃，无 attempt 目录）；采集规则：仅 active 注册针，退役目录不再被扫描覆盖；22 判据自测不重做",
     "P-R13-ledger": "r14 真账续批：G14 五owner(:384-410)/四fallback(:423-442)/两locator(:459,471) 全臂 oracle 补全；G15 截断 oracle 补全+行锚修正(126-128/146-148/151/157-160)；G16-01(:172-184)/G16-03(:240-247) 以 isDefined 之后真实业务断言入账；G16-02 axis 去 use:command 旧称、锚 :194-233",
     "P04-batch": "r14 续批 P04 首批 11 例 5 组：actor-references 开关/空id守卫/detail五值/自援护豁免/分片where + enemy-commands withEnemy 替换/未命中、UpdateEnemy 缺席臂/onDefeated整键删除/构造期快照、AddEnemy invert；+P04-C01/C02 两枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）",
-    "P04-batch2": "+P04-G06 敌队稳定 id（enemy-team-commands.ts:77 三行唯一锚）与 P04-C03 反控；G07 dialogue-portrait identity 臂停该组（identity 形 cue 仅作者视图类型合法；旧证强转注入，不复制）——证据与停组理由见 contracts.json note"
+    "P04-batch2": "+P04-G06 敌队稳定 id（enemy-team-commands.ts:77 三行唯一锚）与 P04-C03 反控；G07 dialogue-portrait identity 臂停该组（identity 形 cue 仅作者视图类型合法；旧证强转注入，不复制）——证据与停组理由见 contracts.json note",
+    "P-R17": "①12 份 counter JSON biome format（值不变）+工具 emit 经 biome format；②G01-1 开关臂换当前合法共享脚本；G01-2/G03-1 撤回+C01 退役（validateStartWorld 拒收空 party id、chunks 无当前 producer，历史原字节保留）；G02 合法闭合夹具、levelUp 轴归旧证；③G07 停测撤回，经公开投影路径补 2 例（无强转无新接口）；C02/C03 与七条 enemy/team 合同保留未重采"
   },
   "commands": {
-    "directedVitest": "98/98 passed（r14 续批二真实重生，directed-vitest.json，全 11 个 wave-P 文件）",
+    "directedVitest": "98/98 passed（r17 返工后真实重生，directed-vitest.json，全 11 个 wave-P 文件）",
     "fullEditorSuite": "518 files / 3872 tests 全绿 exit 0（P03b 8 例入集）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2825 files 0/0/0",
@@ -73,13 +74,13 @@
     "packages/editor/src/core/editor-asset-io.glm-p.test.ts": "c333f92de0cc84bff36aca4a6aa70bdb12ace8e00f1bc54e36046a737e738e83",
     "packages/editor/src/core/script-editor.p03.glm-p.test.ts": "4f19e7f7e1920832de7e3ec29c7009f0b2dfb4fd486a6afec1a4468d152ab672",
     "packages/editor/src/core/script-editor.p03b.glm-p.test.ts": "b35c02bd755c6f125fb5734b7c80b5f9131f34b9e5f17c8e37f9bc82036ab575",
-    "packages/editor/src/core/actor-references.glm-p.test.ts": "aeea3db6848f6d2864b937001f754940350e133a8edc4a372ac1721afeddc544",
+    "packages/editor/src/core/actor-references.glm-p.test.ts": "ad26252922835b7fb332d0eb378aceeb924e03a3a82c4d1a6d6ac9f31305824f",
     "packages/editor/src/core/enemy-commands.glm-p.test.ts": "a1baa05053aa6c74df3e7d6c6110037a1af488f6932f2fa17833cb4a158ef205",
     "packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
     "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
     "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "855efe4f06f46b54d3b325078821fe831868a2a9d5adddcd08e861efd1189287",
     "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
-    "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ae62f15652dbd1b8a2869758914a1c551a8040c06123ed619c1b6991ba5ae5be",
+    "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ca391c0d7be918227e728e78f7655dc36eb75f7e3a806ca72a2b94c0b6916c90",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter-judge.mjs": "30b27e9639442bc7cf3d6832fc16dd79f776881f3b3c31ffcd8b416918cc1418",
     "packages/editor/src/core/enemy-team-commands.glm-p.test.ts": "aad43edb0c375b201585e98a91061849d2697412781c62e3f35b6a9efddc95e3"
   },
@@ -94,7 +95,7 @@
   },
   "threeStateProvenance": "相对 48ade197：9 旧针三态未变；P02-C08 与 4 枚 P03 针因源/执行集变化重采（P03 又于 r10.5 因合法 cursor 修复再重采 4 枚）；C13 退役保留 r9 原字节存档",
   "finalRemoteCandidate": "cdbc45edde3a142bb4ea563d1a4933544e324c8f（r10.5 闭合：P03b 合法 fixture + G16-02 精确顺序 oracle + 反控重采同提交；其后仅 receipt pin）",
-  "sourceSha256Note": "r14 续批二自最终字节重算（13 项：10 测试文件 + kit + counter/counter-judge）",
+  "sourceSha256Note": "r17 自最终字节重算 actor-references 测试与 counter 工具摘要（共 13 项）",
   "countsHistory": {
     "r13": {
       "contractsExecuted": 86,
@@ -126,6 +127,17 @@
         "examples": 603,
         "groups": 46,
         "counters": 34,
+        "flows": 2
+      }
+    },
+    "r14": {
+      "contractsExecuted": 98,
+      "workGroups": 25,
+      "countersActive": 17,
+      "gap": {
+        "examples": 602,
+        "groups": 45,
+        "counters": 33,
         "flows": 2
       }
     }

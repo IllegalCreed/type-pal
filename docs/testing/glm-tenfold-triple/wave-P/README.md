@@ -50,13 +50,27 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 
 | 项 | 数量 | 说明 |
 |---|---:|---|
-| 合法新用例 | **98 / 700**（执行数；r14 续批 P04 共 12 例已含） | 98/98 绿（[directed-vitest.json](directed-vitest.json) 全 11 文件真实实跑；逐合同 [contracts.json](contracts.json) 全臂 oracle+当前行锚） |
-| 合同工作组 | 25 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 + P04-G01…G06 |
-| 有效反控 | **17 / 50**（+P04-C01 空id守卫、P04-C02 invert整键删除、P04-C03 敌队稳定 id，三个不同目标；P03-C13 退役档不计活跃） | 严格判据采样，逐针恰一红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
+| 合法新用例 | **98 / 700**（执行数；r17 返工后：P04 合法 12 例＝开关/合法化 5 例+enemy/team 纯命令 7 例，含 G07 公开投影 2 新例；G01-2/G03-1 已撤） | 98/98 绿（[directed-vitest.json](directed-vitest.json) 全 11 文件真实实跑；逐合同 [contracts.json](contracts.json) 全臂 oracle+当前行锚） |
+| 合同工作组 | 25 / 70 | P01-G01…G11 + P02-G01…G03 + P03-G12…G16 + P04-G01/G02/G04…G07（G03 撤） |
+| 有效反控 | **16 / 50**（P04-C02 invert整键删除、P04-C03 敌队稳定 id 保留；P04-C01 空 id 守卫针 r17 退役，原字节保留于 counters/P04-C01/；P03-C13 退役档同口径） | 严格判据采样，逐针恰一红（[counters.json](counters.json)），三态证据 [counters/](counters/) |
 | 浏览器流程 | **18 / 20 完整证明** | F14/F18 如实登记未证，另交视觉阶段（[browser/browser-evidence.json](browser/browser-evidence.json)） |
 | 私有同分母 coverage | 上轮 +32/+16/+2（分母 28489 不变） | r14 续批未重跑，不计入 |
 
-## r14 续批真实改动（相对 691e33ccf）
+## r17 返工真实改动（相对 2cd548a8b）
+
+- P-R17-01：P04-C01/C02/C03 十二份 JSON 统一 biome format（值不变）；counter 工具落盘
+  JSON 改经 `biome format --stdin-file-path`（后续采样不再产生格式 error）。
+- P-R17-02：G01-1 开关臂输入换当前合法 canonical 共享脚本（RuntimeScriptLibrary）；
+  G01-2 空 id 轴与 G03-1 chunks where 轴撤回（空 party id 被公开 validateStartWorld 拒收、
+  非空 chunks 无当前 producer），P04-C01 退役（原字节保留，不计活跃）；
+  G02 换引用目标闭合合法夹具，levelUp 伴随免删轴归旧证（actor-references.test.ts 已证）。
+- P-R17-03：G07 整组停测裁决撤回——按公开投影路径补测（buildBlankProject 种子→当前作者
+  文件真实 IO→loadCurrentProjectFrom→toEditorState→assertProjectSaveValid），共享脚本与
+  敌人 onDefeated identity 立绘引用各一合同，无测试侧强转、无新增接口。
+- C02/C03 与七条 enemy/team 纯命令合同保留；spec 文件未变，未重采。
+
+## r14 续批真实改动（相对 691e33ccf，历史）
+
 
 - 真账修复（r13 复核点名项）：G14 五owner/四fallback/两locator 全臂 oracle 补全；
   G15 截断 oracle 补全+漂移行锚修正；G16-01/03 以 isDefined 之后的真实业务断言入账；
