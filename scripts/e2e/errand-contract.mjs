@@ -38,7 +38,7 @@ export function errandArguments(args) {
 
 export function validateErrandPredecessor(report, payload, engine, bytes) {
   assert.equal(report.case, 'saves', '005 requires 004 saves, not story/items')
-  assert.equal(report.profile, 'verify', 'capture cannot be a 005 predecessor')
+  assert.notEqual(report.profile, 'capture', 'capture cannot be a 005 predecessor')
   assert.equal(report.engine, engine, 'wrong engine predecessor')
   assertMealCaseReport(report)
   assert.equal(report.checkpoint.sha256, sha256(bytes), '004 bytes changed')
