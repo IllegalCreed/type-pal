@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2",
+  "owner": "kimi",
+  "base": "5805749d6c2954628cf912904bdd903a327d68c4",
+  "sourceBase": "8990f0cde3edfe6feb908234aeafcc937daaec52",
+  "canonicalVersions": { "content": 21, "save": 10 },
+  "contractSources": [
+    {
+      "path": "packages/reforge/src/script-confirm-modal.ts",
+      "blob": "d528b62e73e892759bbfea407d6986295a798507",
+      "sha256": "ecb85a197c6da25bf91c1b7b893fd80544cd28e4b1c09214df9b71a1a748b7e5"
+    },
+    {
+      "path": "packages/reforge/src/script-activity-lineage.ts",
+      "blob": "ae8736f1beeea9db859dd0ff41a6c42a4ada6e77",
+      "sha256": "306b34595d8e9ba5abe4848e2eabf4f3ee012d8770da90366c7e588a667b468c"
+    }
+  ],
+  "newTestFiles": [
+    {
+      "path": "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+      "blob": "10459c509feb34017b9f06c8e7228df3a077bf6b",
+      "cases": 8
+    },
+    {
+      "path": "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+      "blob": "9a534c361805e9336cbb0308bbc02141c577285c",
+      "cases": 8
+    }
+  ],
+  "publicEntries": [
+    "ScriptConfirmModalQueue (script-confirm-modal.ts:31; 生产caller main.ts:1044/2668/4951)",
+    "registeredScriptActivityLease/withRegisteredScriptActivityLineage/withScriptActivityLineage (script-activity-lineage.ts:15/33/67; 生产caller runtime-script-project.ts:207/496、script-project-core.ts:331/421)",
+    "FlowRuntimeCoordinator beginActivity/begin/hasActiveLease/gateClosed/waitForActivationGate/requestSaveBarrier (script-world.ts:577-794)"
+  ],
+  "dedupBaseline": {
+    "main": {
+      "script-confirm-modal.test.ts": "6e4a6e081dffa799159b7e1f0974d1b2712e0bff",
+      "script-activity-lineage.test.ts": "ba6234eed67f5f99cddd54aec271d17c87c65bff"
+    },
+    "Q": { "script-confirm-modal.glm-q.test.ts": "6251dc97db8dd49967e22247ca60746cc6d9ebcc" },
+    "others": "O/P/Grok-large/Grok-medium/Cursor-large/Cursor-medium 两旧文件 blob 与 main 相同或仅一行无例差(47468ab→HEAD 1+/1-); Kimi-medium-1 为 script-continuation/author-flow-stages 异域, 无同域新增"
+  },
+  "new": [
+    {
+      "id": "KM-LIFE-M01",
+      "anchor": "script-confirm-modal.ts:79-90",
+      "condition": "captureFrame是激活port: blocked及已有active两次activate均false, capture零调用, 队列/token/frame不动; 真激活恰一次",
+      "fullName": "M01 refused activations never touch the capture port; a real activation captures exactly once",
+      "oracle": "capture spy 0→0(blocked×2)→1(真激活)→1(已有active×2); pendingCount 1; view undefined→{token:1,frame:'captured'}",
+      "oldLimit": "Q canActivate/active旧例(activate 不动队列)无capture port; capture旧例只证成功替换"
+    },
+    {
+      "id": "KM-LIFE-M02",
+      "anchor": "script-confirm-modal.ts:43-55",
+      "condition": "公开view是包装快照: 改写返回对象selectedYes/answerPending/presentedFrames不污染内部与最终答案",
+      "fullName": "M02 mutating a handed-out view wrapper never leaks into the next view or the final answer",
+      "oracle": "改写后下一view仍{selectedYes:false,answerPending:false,presentedFrames:0}; toggle从真实false起步→true; presented计数1; 最终答案true",
+      "oldLimit": "Q视图例只读取字段, 未改view包装; frame深拷贝非承诺不测"
+    },
+    {
+      "id": "KM-LIFE-M03",
+      "anchor": "script-confirm-modal.ts:96-117",
+      "condition": "默认No先submit: 帧门未满时toggle/submit/submitNo不能改false答案; 两帧后兑现false",
+      "fullName": "M03 an early default-No submit stays false through the pending window",
+      "oracle": "submit后answerPending true; 三操作后仍true且selectedYes false; 两帧后resolves false(false-versus-undefined判别)",
+      "oldLimit": "Q已有true答案锁定; 其false默认用例未在待兑现期再操作; main Esc例为结算后惰性"
+    },
+    {
+      "id": "KM-LIFE-M04",
+      "anchor": "script-confirm-modal.ts:115-151",
+      "condition": "两帧已presented但无提交: Promise仍pending, active与answerPending=false保持; 显式submit才兑现",
+      "fullName": "M04 two presented frames without a submit keep the answer pending until an explicit submit",
+      "oracle": "settlement journal: 两帧+flush后count=0, active true, answerPending false, presentedFrames 2; submit后count=1 value=false, view undefined",
+      "oldLimit": "main旧例先提交后两帧只验最终结果, 无settlement journal; 不假定自动默认选择"
+    },
+    {
+      "id": "KM-LIFE-M05",
+      "anchor": "script-confirm-modal.ts:137-144",
+      "condition": "三请求入队, 激活前取消中间项(index1): 首尾token1/3与FIFO/各自答案/pending计数正确",
+      "fullName": "M05 cancelling the middle queued request before activation preserves first and third in FIFO order",
+      "oracle": "中间reject AbortError, pendingCount 3→2; 首token1 frame first resolves false; 尾token3 frame third resolves true; 终0",
+      "oldLimit": "Q只测head(index0)取消或active取消, 未证正索引splice不误删首尾"
+    },
+    {
+      "id": "KM-LIFE-M06",
+      "anchor": "script-confirm-modal.ts:146-158",
+      "condition": "标准Signal add/removeEventListener实例spy: 兑现/abort/cancelAll各移除自己注册handler, 同引用且恰一次, 迟到abort不重复移除",
+      "fullName": "M06 every settlement path removes exactly its own registered abort listener once",
+      "oracle": "三相位: add各1次('abort',fn,{once:true}); remove各1次('abort',同一fn引用); 兑现后迟到abort remove仍1次",
+      "oldLimit": "Q'结算后移除监听'只验迟到abort结果, 未验真正remove调用/handler/拒绝路径"
+    },
+    {
+      "id": "KM-LIFE-M07",
+      "anchor": "script-confirm-modal.ts:130-158",
+      "condition": "第一项已结算、第二项真实active时第一Signal迟到abort: 第二token/view/答案/pending保留",
+      "fullName": "M07 a late abort of a settled first request leaves the truly active second request intact",
+      "oracle": "首resolves true→激活二(token2)→首signal迟到abort→active true, view{token:2,frame:'two'}, pendingCount 1→二submitNo兑现false",
+      "oldLimit": "Q迟到abort发生在空队列; 旧active+queued中止都取消, 不证后来新活动存活"
+    },
+    {
+      "id": "KM-LIFE-M08",
+      "anchor": "script-confirm-modal.ts:56-76",
+      "condition": "标准API spy封enqueue初检后/真实addEventListener前的abort窗口: 真实controller.abort, reject AbortError, pending0, 无可激活",
+      "fullName": "M08 an abort landing between the enqueue pre-check and listener registration still rejects cleanly",
+      "oracle": "spy内真实abort→rejects{name:'AbortError',message:'脚本确认框所属 runner 已取消'}; pendingCount 0; view undefined; activateIfPossible(true) false",
+      "oldLimit": "Q仅预取消/已安装监听后取消; 禁止伪Signal或改aborted私态"
+    },
+    {
+      "id": "KM-LIFE-L01",
+      "anchor": "script-activity-lineage.ts:33-59",
+      "condition": "withRegistered外借真实lease中body拒绝自有Error: 同一reason, registration移除但lease仍活, save barrier仍等外部close",
+      "fullName": "L01 a rejected body on a borrowed lease keeps the same reason, drops the registration and never closes the lease",
+      "oracle": "rejects toBe(同一Error); lookup undefined; hasActiveLease(borrowed) true; barrier.ready false直至外部close后ready",
+      "oldLimit": "旧failed activity测withScript拥有的transient, 不能证明借入lease不被helper关闭"
+    },
+    {
+      "id": "KM-LIFE-L02",
+      "anchor": "script-activity-lineage.ts:15-26/47-59",
+      "condition": "同key/exactSignal两个活跃真实lease, 最新scope先正常结束: lookup退回仍活较早lease, 随后全清",
+      "fullName": "L02 the latest scope settling first falls lookup back to the earlier live lease",
+      "oracle": "lookup b→endB先结→lookup a→b.close仍a→endA结+a.close→undefined",
+      "oldLimit": "旧overlap仅较早scope先结束、最新存活; 不是反向出栈fallback"
+    },
+    {
+      "id": "KM-LIFE-L03",
+      "anchor": "script-activity-lineage.ts:15-26/55-59",
+      "condition": "最新lease已close但其body/finally未结: lookup跳过它退回较早live; 最新finally结清不删较早registration",
+      "fullName": "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration",
+      "oracle": "latest.close后hasActiveLease false, lookup=earlier; endLatest结(scope完成)后lookup仍earlier; 全结后undefined",
+      "oldLimit": "旧closed pending-finally无另一个live predecessor; Codex preflight 3/3含此轴"
+    },
+    {
+      "id": "KM-LIFE-L04",
+      "anchor": "script-activity-lineage.ts:15-26/47-59",
+      "condition": "同opaque key/exactSignal两个真实coordinator各自mint并注册live lease: 分别查询只回本coordinator, 结一域不擦另一域",
+      "fullName": "L04 two coordinators each return only their own registered lease for the same key and signal",
+      "oracle": "lookup(c1)=lease1, lookup(c2)=lease2; scope1结后c1 undefined而c2仍lease2; scope2结后全undefined",
+      "oldLimit": "旧different coordinator只验无对应注册时独立等待; 此为helper权限隔离合法输入"
+    },
+    {
+      "id": "KM-LIFE-L05",
+      "anchor": "script-activity-lineage.ts:41-59",
+      "condition": "同key/coordinator两个真实Signal及live lease并行注册: 一方拒绝/finally后另一域仍正确可借, 最终自行close",
+      "fullName": "L05 a rejected scope on one signal leaves the other signal lineage borrowable and cleanable",
+      "oracle": "scopeA rejects toBe(failure)→lookupA undefined, leaseA仍活; lookupB=leaseB→scopeB结→undefined; 各自close",
+      "oldLimit": "旧different signal只验独立等待; 未同时注册两Signal并核局部清理"
+    },
+    {
+      "id": "KM-LIFE-L06",
+      "anchor": "script-activity-lineage.ts:67-95",
+      "condition": "自有transient的async body pending时lookup仍live, barrier未ready; body拒绝后同一Error, membership/registration释放, barrier可ready",
+      "fullName": "L06 a pending async body keeps its own transient live and the barrier waiting; rejection releases both with the same reason",
+      "oracle": "deferred pending时lookup defined且barrier.ready false; reject后pending rejects toBe(同一Error); lookup undefined; hasActiveLease false; barrier ready",
+      "oldLimit": "旧failed activity仅同步throw/message; 只新增异步持有+reason identity"
+    },
+    {
+      "id": "KM-LIFE-L07",
+      "anchor": "script-activity-lineage.ts:40/73/78-80; script-world.ts waitForActivationGate",
+      "condition": "真实AbortController自有reason: 预取消沿公开helper返回精确同一reason; gate等待取消为coordinator的AbortError, body零调用, gate释放无迟到执行",
+      "fullName": "L07 a pre-aborted signal surfaces its own exact reason and a gate-wait abort surfaces the coordinator reason with no late body",
+      "oracle": "withScript/withRegistered预取消均rejects toBe(自有Error); gate等待取消rejects{name:'AbortError',message:'script activation aborted'}(coordinator reason); body 0调用; release+flush后无迟到",
+      "oldLimit": "旧仅默认AbortError/name; 两时序轴同例, 不换reason字符串凑数"
+    },
+    {
+      "id": "KM-LIFE-L08",
+      "anchor": "script-activity-lineage.ts:41-59/74-94",
+      "condition": "同key/exactSignal第一次scope失败释放后第二次合法进入: 第二body确有新live lease而非旧闭lease, 最终全清",
+      "fullName": "L08 re-entering the same lineage after a failed scope borrows a fresh live lease, never the closed one",
+      "oracle": "第一scope内捕获first lease, 失败后hasActiveLease false; 重入返回're-entered', second defined且not.toBe(first), 完成后全undefined, barrier ready",
+      "oldLimit": "旧失败后只证barrier能ready; replacement旧例未在同lineage重新登记比较lease身份"
+    }
+  ],
+  "existingProof": [
+    {
+      "condition": "FIFO/默认No/两帧门",
+      "blob": "6e4a6e081dffa799159b7e1f0974d1b2712e0bff",
+      "file": "script-confirm-modal.test.ts",
+      "fullName": "is FIFO, defaults to No and settles only after two presented frames",
+      "matchers": [":22 resolves false", ":30 resolves true"]
+    },
+    {
+      "condition": "Esc=No+结算后双提交惰性",
+      "blob": "6e4a6e081dffa799159b7e1f0974d1b2712e0bff",
+      "file": "script-confirm-modal.test.ts",
+      "fullName": "Esc is always No and double-submit cannot change the answer",
+      "matchers": [":42 resolves false"]
+    },
+    {
+      "condition": "active+queued abort拒绝",
+      "blob": "6e4a6e081dffa799159b7e1f0974d1b2712e0bff",
+      "file": "script-confirm-modal.test.ts",
+      "fullName": "aborting active and queued requests rejects without choosing either branch",
+      "matchers": [":55-57 rejects AbortError/pendingCount 0"]
+    },
+    {
+      "condition": "cancelAll会话替换+迟到输入惰性",
+      "blob": "6e4a6e081dffa799159b7e1f0974d1b2712e0bff",
+      "file": "script-confirm-modal.test.ts",
+      "fullName": "session replacement rejects every request and late input is inert",
+      "matchers": [":70-72"]
+    },
+    {
+      "condition": "token单调+FIFO(3请求)",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+      "matchers": ["tokens toEqual([1,2,3])"]
+    },
+    {
+      "condition": "空闲view undefined+逐字段",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态",
+      "matchers": ["toMatchObject 五字段"]
+    },
+    {
+      "condition": "预取消入队同步拒绝",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活",
+      "matchers": ["rejects toSatisfy(isAbortError)+pendingCount 0"]
+    },
+    {
+      "condition": "无活动no-op",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op",
+      "matchers": ["not.toThrow+view undefined"]
+    },
+    {
+      "condition": "canActivate=false/已有active不动队列",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 canActivate=false 或已有活动请求时 activate 不动队列",
+      "matchers": ["pendingCount 1/2+frame held"]
+    },
+    {
+      "condition": "队头取消离队+capture只换被激活项/缺席保留原frame",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项 / Q01 captureFrame 缺席时保留入队时的原始 frame",
+      "matchers": ["view frame 'captured'/token 2 / frame 'original'"]
+    },
+    {
+      "condition": "cancelAll默认/自定义文案",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测",
+      "matchers": ["toMatchObject message 两则"]
+    },
+    {
+      "condition": "结算后迟到abort不改值(空队列)",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果",
+      "matchers": ["resolves false两次+view undefined"]
+    },
+    {
+      "condition": "true答案锁定(待兑现期)",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案",
+      "matchers": ["resolves true"]
+    },
+    {
+      "condition": "中止active后显式再激活",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连",
+      "matchers": ["active false+pendingCount 1+frame waiting"]
+    },
+    {
+      "condition": "已提交帧门未满被取消:拒绝不兑现",
+      "blob": "6251dc97db8dd49967e22247ca60746cc6d9ebcc",
+      "file": "script-confirm-modal.glm-q.test.ts(Q)",
+      "fullName": "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留",
+      "matchers": ["answerPending true+rejects AbortError+view undefined"]
+    },
+    {
+      "condition": "同runtime/signal/coordinator借用+清理",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "same runtime/exact signal/coordinator borrows live activity and cleans registration",
+      "matchers": [":36 toBe(lease)", ":41-42 undefined/hasActiveLease false"]
+    },
+    {
+      "condition": "different runtime/signal/coordinator独立等待",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "different %s waits as an independent root",
+      "matchers": [":75 body not called", ":80 called 1"]
+    },
+    {
+      "condition": "registration拒绝closed/foreign/forged lease",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "registration refuses %s lease before body",
+      "matchers": [":104 toThrow(/活跃 lease/)"]
+    },
+    {
+      "condition": "closed lease pending-finally不能进入/不能冒充replacement(单一registration)",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "closed lease with pending finally cannot enter after ready, nor impersonate its replacement",
+      "matchers": [":119 undefined", ":133-134 hasActiveLease对照"]
+    },
+    {
+      "condition": "overlap较早scope先结束最新存活",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "overlapping registrations settle out of order without erasing the live sibling",
+      "matchers": [":150/:154 toBe(b)"]
+    },
+    {
+      "condition": "failed activity同步释放+barrier ready",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "failed activity releases membership and does not strand later snapshots",
+      "matchers": [":171 toThrow('body failed')", ":172-177"]
+    },
+    {
+      "condition": "abort预取消/gate等待默认AbortError+body零调用",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "abort before registration or while waiting never invokes the body",
+      "matchers": [":186/:198 toMatchObject name", ":202 body not called"]
+    },
+    {
+      "condition": "nested持久lease边界/epoch失效/忙owner",
+      "blob": "ba6234eed67f5f99cddd54aec271d17c87c65bff",
+      "file": "script-activity-lineage.test.ts",
+      "fullName": "child/grandchild keep the barrier pending even if parent closes first 等4例",
+      "matchers": [":206-288"]
+    }
+  ],
+  "unreachable": [],
+  "blocked": [],
+  "notes": [
+    "captureFrame抛错恢复策略不追加(协议39行); 不允许mock coordinator.beginActivity制造登记失败",
+    "L07 gate等待轴的精确reason是coordinator自有的'script activation aborted' AbortError(非调用方reason), 按真实源码语义断言",
+    "Q候选从固定对象5dbf72d7只读对照, 未拷入正式测试"
+  ],
+  "summary": {
+    "new": 16,
+    "existingProof": 22,
+    "unreachable": 0,
+    "blocked": 0,
+    "capacity": "预计12-18, 硬上限24; 实交16新例(16候选每ID一主例)"
+  }
+}

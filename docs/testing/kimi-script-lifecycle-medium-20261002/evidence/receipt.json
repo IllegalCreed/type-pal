@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2",
+  "owner": "kimi",
+  "branch": "codex/kimi-script-lifecycle-medium-r1",
+  "base": "5805749d6c2954628cf912904bdd903a327d68c4",
+  "sourceBase": "8990f0cde3edfe6feb908234aeafcc937daaec52",
+  "canonicalVersions": { "content": 21, "save": 10 },
+  "testsCommit": "9d384895b4fc6a1de3d700ddc5013dc8bc4491ab",
+  "candidateHead": "PENDING-PIN",
+  "delivered": {
+    "newCases": 16,
+    "netNew": 16,
+    "candidatesHandled": "16/16（每ID一主例）",
+    "existingProof": 22,
+    "unreachable": 0,
+    "blocked": 0,
+    "capacity": "预计12-18, 硬上限24"
+  },
+  "files": {
+    "tests": [
+      "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+      "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts"
+    ],
+    "evidence": [
+      "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/README.md",
+      "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/contracts.json",
+      "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/directed-vitest.json",
+      "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/receipt.json",
+      "docs/testing/kimi-script-lifecycle-medium-20261002/evidence/gates/"
+    ],
+    "outOfScopeWrites": []
+  },
+  "gates": {
+    "directed": {
+      "command": "pnpm --filter @type-pal/reforge exec vitest run src/script-confirm-lifecycle.kimi-mid-2.test.ts src/script-lineage-lifecycle.kimi-mid-2.test.ts src/script-confirm-modal.test.ts src/script-activity-lineage.test.ts --reporter=json",
+      "result": "38 passed / 0 failed / 0 pending / 0 todo (新16+同域旧22)",
+      "report": "directed-vitest.json"
+    },
+    "typecheck": { "reforge": 0 },
+    "reforgeFull": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge test",
+      "firstRun": "26 failed / 2237 passed (2263) — render-occlusion 21 + pal-meal-shell 5",
+      "canvasFix": "render-occlusion 21红根因: 本树canvas原生模块未构建('native canvas 2d unavailable'); pnpm rebuild canvas后21/21绿, 与diff无关(本提交仅新增2测试文件)",
+      "finalRun": "2258 passed / 5 failed (2263, canvas修复后重跑; 5红全部pal-meal-shell环境资产红)",
+      "environmentReds": {
+        "file": "src/pal-meal-shell.test.ts",
+        "count": 5,
+        "cause": "projects/pal/assets/migrated/faces/*.png 为本机生成资产(gitignore未跟踪,本树0个在盘); AssetResolver ENOENT",
+        "unrelatedToDiff": "BASE..HEAD 仅新增2测试文件与kimi证据; pal-meal-shell.test.ts与全部产品源逐字节同BASE",
+        "report": "原报告留于 gates/reforge-full.raw.txt"
+      }
+    },
+    "rootLint": {
+      "command": "node scripts/quality/lint-zero.mjs",
+      "result": "PASS 0 errors/0 warnings/0 infos (提交前实跑)"
+    },
+    "docsCheck": {
+      "command": "node scripts/docs/check.mjs",
+      "result": "PASS 0 issues (828 Markdown)"
+    },
+    "gitDiffCheck": { "command": "git diff --check BASE...HEAD", "result": "0 issues" },
+    "verify": {
+      "command": "node docs/testing/kimi-script-lifecycle-medium-20261002/verify.mjs --base 5805749d6c2954628cf912904bdd903a327d68c4",
+      "result": "frozen 14 hashes valid / scopeValid=true (终态实跑)"
+    }
+  },
+  "counters": {
+    "policy": "作者不写/运行反控工具, 不重采旧针; 4代表变异与≥2旧绿新红由Codex按最终候选采样"
+  },
+  "coverage": "未测(按协议不重复全仓; 85%并集归Codex)",
+  "unfinished": [
+    "pal-meal-shell 5条环境资产红需本机生成资产复绿, 非本卡产品发现",
+    "共享导航/正式接入归Codex"
+  ]
+}
