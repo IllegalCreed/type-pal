@@ -1,6 +1,6 @@
 # E2E-CAPTURE-1 — 已验001–004本地原声录像
 
-Status: build
+Status: rework
 Phase: ops
 Owner: Codex Root
 Coding Owner: pre005_media_probe
@@ -83,3 +83,19 @@ Owner按同范围窄返工；旧小样/失败保留。普通verify、用户系�
 原report revision仍227，保持历史事实：BGM失败但SFX输出RMS0.0711、MP4独立解码RMS0.0692676仍failed；
 SFX被吞EncodingError时BGM RMS0.0707448，仍failed无成功媒体。双context仍running、清理全部true。
 此前两次无手势初态前提不满足的尝试不作音频失败证明。两P1闭合，Root准入集中八段，不改verify donor原字节。
+
+## 正式媒体首部反控与用户存储决定
+
+Root在794d0890代码冻结上跑两阶段001–004，八个runner/media均passed，普通RF004 verify亦passed；
+实际文件/codec/原声与终态抽查后，独立原音相关发现RF001首部缺失，不能以程序passed替代完整媒体验收。
+原game/RF intro文件SHA同为806efd7e0e0be814dc6a63aad287755b7610c98108ca8a281cf89835336aa90d，
+原video34.466667秒/audio34.534014秒。game七窗口约+29.625ms，RF约-550ms且不随时间增长；
+native WebM和MP4画面均比对应原片提前约0.58–0.60秒，不是转码或慢性漂移。原首0.55秒有实际声音，不是可省空白。
+RF video-audio早于recording-start603.4ms；首次合成完成至recorder-start只有0.5ms，不能单独归因编码器构造。
+原passed报告、失败结论与源码不改。修法尚为只读proposal：先连续录真实标题并验证编码器ready，再正常Enter，
+最终从同一原始录制依明确时间标记裁取完整入口，不补黑、不拼接原视频、不seek或改游戏。
+
+用户随后告知已删除录屏、硬盘空间紧张。Root已立即停止媒体生成/复录和分析子进程，不重建已删文件；
+实际检查本轮八段story.mp4/story.webm全部已不存在，原声小样备份中的媒体也被删除，剩余小型报告仍是历史证据，
+旧哈希清单描述删除前字节，不声称现在文件仍可回读。当前代码未实施首部proposal，本卡不done、不宣布capture-ready。
+后续是否继续最小验证或停止补录按用户存储选择，不自动恢复大文件；6012保持原服务。
