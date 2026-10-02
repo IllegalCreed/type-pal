@@ -1,7 +1,13 @@
 /** TEST-GLM-WAVE-O-1 O02：三方合并的身份数组/原子回退/接管语义与输入不可变合同。
- *  旧证：migration-merge.test.ts / boundaries 覆盖常规对象合并与既有冲突类型；
- *  本卡补齐 gap-map 缺口臂：无 base 的身份数组、失效身份、顺序冲突、数组洞、
- *  pages/stages 回退、authored 接管（stamps/sprites/assets）、catalog 目标校验。
+ *  旧证（existing-proof 扣除登记，不计净新）：
+ *  - migration-merge.test.ts:318-331「scene index 双边不同重排冲突」= 双方互异重排 →
+ *    array-order（原「双方不同重排」行重复已删，O-R10 续审）；
+ *  - :244-273 首段「map index /maps 稳定 id 合并」= 双方各增不同地图并集
+ *    （原「maps/index 并集」行重复已删，O-R10 续审）；
+ *  - :378-417 pages 删改/尾增/非尾插删冲突族、:452-526 v5 pages/stages 稳定 id 合并
+ *    为最近邻锚（本文件逐行 oldAssertion 标注条件差）。
+ *  本卡保留轴：无 base 的身份数组、失效身份、共存正控、数组洞、原子回退粒度、
+ *  authored 接管（stamps/sprites/assets）、目标校验与输入不可变。
  */
 import { describe, expect, test } from 'vitest'
 import { jsonAbsent, jsonPresent, mergeManagedFile, type VersionedJson } from './migration-merge.js'
@@ -53,31 +59,11 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
     expect(result.conflicts.map(({ type }) => type)).toEqual(['invalid-identity'])
   })
 
-  test('scenes/index.json 严格顺序：双方不同重排 → array-order 冲突', () => {
-    const base = jsonPresent({
-      scenes: [
-        { id: 'a', path: 'p/a' },
-        { id: 'b', path: 'p/b' },
-        { id: 'c', path: 'p/c' },
-      ],
-    })
-    const ours = jsonPresent({
-      scenes: [
-        { id: 'b', path: 'p/b' },
-        { id: 'a', path: 'p/a' },
-        { id: 'c', path: 'p/c' },
-      ],
-    })
-    const theirs = jsonPresent({
-      scenes: [
-        { id: 'c', path: 'p/c' },
-        { id: 'a', path: 'p/a' },
-        { id: 'b', path: 'p/b' },
-      ],
-    })
-    const result = mergeManagedFile('content/scenes/index.json', base, ours, theirs)
-    expect(result.conflicts.map(({ type }) => type)).toEqual(['array-order'])
-  })
+  // O-R10 续审扣除（existing-proof，不计净新）：
+  // - 「双方不同重排 → array-order」与旧 migration-merge.test.ts:318-331
+  //   「scene index 双边不同重排冲突」同条件同答案（三场景双方互异重排 → /scenes array-order）；
+  // - 「maps/index /maps 双方各新增并集」与旧 :244-273 首段同条件同答案
+  //   （双方各增不同 id → [theirs 新增, ours 新增] 序并集）。
 
   test('scenes/index.json：一方新增、一方重排可共存（公共序一致）', () => {
     const base = jsonPresent({ scenes: [{ id: 'a', path: 'p/a' }] })
@@ -94,27 +80,6 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
       { id: 'a', path: 'p/a-rev' },
       { id: 'b', path: 'p/b' },
     ])
-  })
-
-  test('maps/index.json /maps 身份模式：双方各新增一张地图时并集合并', () => {
-    const base = jsonPresent({ maps: [{ id: 'map-1', path: 'content/maps/map-1.json' }] })
-    const ours = jsonPresent({
-      maps: [
-        { id: 'map-1', path: 'content/maps/map-1.json' },
-        { id: 'map-2', path: 'content/maps/map-2.json' },
-      ],
-    })
-    const theirs = jsonPresent({
-      maps: [
-        { id: 'map-1', path: 'content/maps/map-1.json' },
-        { id: 'map-3', path: 'content/maps/map-3.json' },
-      ],
-    })
-    const result = mergeManagedFile('content/maps/index.json', base, ours, theirs)
-    expect(result.conflicts).toEqual([])
-    expect(
-      (result.value.value as { maps: Array<{ id: string }> }).maps.map(({ id }) => id),
-    ).toEqual(['map-1', 'map-3', 'map-2'])
   })
 
   test('已有场景文件缺 entities 键：双方同时建立 entities 仍按身份合并', () => {

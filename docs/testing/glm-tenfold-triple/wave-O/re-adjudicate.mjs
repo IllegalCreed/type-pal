@@ -62,14 +62,17 @@ for (const dir of readdirSync(resolve(evidenceRoot, 'counters'), { withFileTypes
     }
     for (const phase of ['control', 'injected', 'restored'])
       judgePhase(runs[phase], spec, phase, pkg)
+    // O-R10-01 修正：身份比较必须传 flattenTests 后的叶集合（file×fullName），
+    // 不能传 suite 数组——suite 无 file/fullName，会把每份报告折成同一个
+    // undefined 键导致比较恒真（Codex r10 反例：换一个 passed 邻居 fullName 仍被接受）。
     sameExecutionIdentity(
-      runs.control.json.testResults ?? [],
-      runs.injected.json.testResults ?? [],
+      flattenTests(runs.control.json),
+      flattenTests(runs.injected.json),
       'control↔injected',
     )
     sameExecutionIdentity(
-      runs.injected.json.testResults ?? [],
-      runs.restored.json.testResults ?? [],
+      flattenTests(runs.injected.json),
+      flattenTests(runs.restored.json),
       'injected↔restored',
     )
     // result.json 记录的红例 fullName 必须与当前判定结果一致

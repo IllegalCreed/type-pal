@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/rewards-lifecycle.glm-o.test.ts",
-    "title": "负级/零级 → 不改任何属性，delta 全 0"
+    "title": "负级/零级 → 不改任何属性，delta 全 0",
+    "target": "O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0"
   },
   "mutation": {
     "file": "src/rewards.ts",

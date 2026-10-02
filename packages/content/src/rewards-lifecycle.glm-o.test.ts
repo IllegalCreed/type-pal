@@ -56,11 +56,17 @@ describe('O08 applyLevelGrowth：钳位与确定性区间', () => {
     expect(high.luck).toBe(2)
   })
 
-  test('多级累积：每级独立掷随机', () => {
+  test('多级累积：每级独立掷随机（计数 rng 区分每级取样）', () => {
     const t = target()
-    const delta = applyLevelGrowth(t, 3, () => 0)
-    expect(delta.level).toBe(3)
-    expect(delta.maxHP).toBe(30)
-    expect(delta.luck).toBe(6)
+    // 计数 rng：仅第 1 次 r() 调用掷 0，其余掷 →1。maxHP 每级恰好掷一次：
+    // 第 1 级 10+0、第 2 级 10+7=17 → 合计 27。若实现每级复用同一次抽样，
+    // 结果只能是 20 或 34 —— 计数 rng 使「独立抽样」可证伪。
+    let calls = 0
+    const delta = applyLevelGrowth(t, 2, () => (calls++ === 0 ? 0 : 0.999999))
+    expect(calls).toBe(12) // 2 级 × 6 项掷随机属性（luck 固定不掷）
+    expect(delta.level).toBe(2)
+    expect(delta.maxHP).toBe(10 + 17)
+    expect(delta.attack).toBe(5 + 5)
+    expect(delta.luck).toBe(4) // luck 固定 +2 不掷
   })
 })
