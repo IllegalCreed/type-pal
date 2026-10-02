@@ -9,7 +9,7 @@ Reviewer: Codex / aunt_stairs_audit / script_names_audit（只读专项）
 Visual Verification Owner: Codex / User
 Visual Verification Timing: mixed
 Contributor: Codex
-Branch: codex/e2e-003
+Branch: codex/pre-005-cleanup（Root当前接收；旧codex/e2e-003已合入并退役）
 
 ## 目标与范围
 

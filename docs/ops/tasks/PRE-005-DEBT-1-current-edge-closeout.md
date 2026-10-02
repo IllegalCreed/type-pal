@@ -114,3 +114,8 @@ e2e-004-content目录（原presentation-clock分支）、e2e-004-runner目录（
 资源实拷贝逐文件与主树相同，链接仅指主树未动其目标；不删除唯一作者输入。
 原报告里的绝对来源不重写，复制后的前驱仍由report相邻save读取，映射/每文件哈希在上述清单。
 Root/current pre005和外部GLM/Cursor/Grok/未知counter工作树不在退休范围。原6012 PID88523继续监听；主树仅用户.zcodeignore未跟踪。
+
+遗漏复查再退3条未挂载且为main祖先的本地分支：codex/e2e-003@6d126ea976f0aa7632975bbb031187f5670e1d1f、
+codex/e2e-004@554b8a0552db30294a9050b4466659c4a14549f8、codex/e2e-004-continuity@523cf97d0a33768dbb91b345ddece7fb26b7c7d6。
+三者远端ref不存在，提交仍在main历史，可按原SHA恢复分支；SCRIPT-AUTHOR-2改记Root当前工作分支，母治理不关闭。
+本轮此时累计8工作树、12本地分支退休；不含尚在验收的新pre005包。
