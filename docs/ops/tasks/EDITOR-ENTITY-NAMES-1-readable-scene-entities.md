@@ -1,9 +1,9 @@
 # EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: W7 / P3
-Coding Owner: entity_names 贡献者（C3薄表单接口窄返工；Root只写文档）
+Coding Owner: entity_names 贡献者（交付）；Root存量步骤字段窄修（独立accept）
 Contributor: Codex 子 Agent
 Generation Owner: N/A
 Reviewer: Codex Root 独立验收
@@ -130,11 +130,27 @@ Branch: codex/editor-entity-names
   父CommandForm唯一持有locale，World/Actor生产入口仅两处，callback只返回显示文本；value/onChange仍为ID。
   不修改原family规则。最终editor全套在此源冻结点重跑，不以此前失败计数冒称成功。
 
+## 最终技术验收收据（2026-10-02）
+
+- 冻结实现e111a273e（含Root步骤字段窄修5efe62fe8/ce7f5d941），Root独立accept；C1/C2/C3全部闭合。
+  Root窄修另有贡献者只读独立accept，不以实现者自测冒充审查。
+- Root最终完整editor490文件3757项通过；此前489文件3749通过/3失败和原SIGINT未完成日志保留。
+  仍为原15秒门，未排除任何测试/更改timeout/放宽架构规则；并行压力减轻后全套一次零失败，T1闭合。
+- content完整124文件1253项、reforge完整258文件2183项通过；这两包源码在后续仅editor窄返工期间未改，
+  复用同一冻结源的完整回归，不虚报又跑了一次。七包最终串行typecheck（editor双配置）全部完成，
+  lint2739文件0error/0warning/0info；docs815文档4289链接255任务0issue；PAL294场景/223地图/1934资源通过。
+- 直接设计gate101文件/原2证据例外通过，所有原门保留。未跑根完整check/coverage ratchet或新的RF001～003故事批次，
+  不宣称全仓测试或新剧情E2E通过；本次只有实例元数据和作者界面，没有演出修改。
+- 旧版本兼容审查pass：只增当前可选非空作者label，没有旧类型/parser/upgrader/双读或digest放宽；
+  stable ID/复合地址/指令/游标/存档身份仍不变，旧开发档活动continuation仍受现行完整digest校验。
+- 真浏览器6011已验证改名即时传播、取消、撤销/重做/清除、目标下拉及异场景名称；未写PAL浏览器草稿到磁盘。
+  正式保存重开由真实writer/receipt/current loader回归证明。12个作者label去除后与f5726a504逐项相同。
+- 日志：`build/e2e/entity-names-root-editor-accepted-full.log`、`root-content-full`、`root-reforge-full`、
+  `root-types-accepted`、`root-lint-accepted`、`root-docs-accepted`、`root-pal-author`、`root-design-final`、
+  `root-counters-final`和`metadata-proof`；原红/C1/C2/C3/各中间失败日志原样保留。
+- 技术实现/独立审查已完成；Status review仅待用户名称及界面体验，不替代母卡全PAL后续命名。
+
 ## 下一位 Agent 提示词
 
-接手EDITOR-ENTITY-NAMES-1，状态build。先读AGENTS.md、CLAUDE.md、第二阶段READ-FIRST、本卡及引用锚点。
-你是唯一实现写入Owner，在指定候选树实现实体label及可读编辑器，修改packages/content与packages/editor及相关测试，
-不写PAL内容/文档，不改6012主工作树，不改ID/运行逻辑/save/schema版本/规则配置，不恢复转换核。
-特别检查主属性会话和脚本会话的即刻名称一致性、真实保存重开、同名不同ID、草稿串写。
-使用apply_patch，按触发规则读pnpm/Vitest等skill；自测留日志，提交候选但不合main、不关闭服务、不操作用户浏览器。
-输出SHA、修改范围、红→绿与验证证据、风险；Root独立review后决定接收或返工。不得自行标done。
+无下一位Agent提示词，等待用户体验验收。后续E2E按实体→方案→步骤同步核读命名；未核人名/用途问用户，
+不猜名，不改变ID，不重复接收本批实现或重跑已冻结历史剧情报告。
