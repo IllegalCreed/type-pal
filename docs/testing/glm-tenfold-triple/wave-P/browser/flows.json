@@ -336,11 +336,20 @@
     "id": "F14",
     "name": "战场编辑：空表缺省 #024 警告观察（创建按钮点击未产生可观测撤销项——两次尝试均无 undo 条目，如实登记为未证完整功能流）",
     "before": "f14-before.png",
-    "beforeSha256": "5623f55df247cc37c3e127701ccfe4988f5b497129d46c11b35cccd0b46b6b29",
-    "after": ["f14-after-create.png", "f14-after-undo.png"],
+    "beforeSha256": "12195a3563dc7a18949e67f056cde1a29b12187c35707b0f10024844cf2291eb",
+    "after": [
+      "f14-creating.png",
+      "f14-after-created.png",
+      "f14-after-undo.png",
+      "f14-after-redo.png",
+      "f14-after-reopen.png"
+    ],
     "sha256": {
-      "created": "d476d931452025470c53cfb0b8c603bb38af9357768d1e7663a251965d2fd076",
-      "undone": "dd74197350fe50b45ab3f99cecfc58542e288eea37c58f5dcefc89eefa5f6c78"
+      "creating": "55ca2f3fddf12180bdaaf2093961a77d71628372d6ce4b6ac8faed2799ec9817",
+      "created": "f5abef476d6cbeff83fe50b1598f78021dec7627f8f05742a5fefbf19792dc37",
+      "undone": "2ec11d4fbf02e7a462bfc8c77b71bf76a3ebef3d59b15a28b0c3d0f656c0d841",
+      "redone": "758fa7a2ea7f7832afc41f38c20d6a874f200b7f1cf288990ada72d0dcc2dec1",
+      "reopened": "2b26171fef623c78b80eb1e71ec34ee7167aae45add845de312e6dfc63b62334"
     },
     "phaseEvidence": {
       "before": "f14-before.png 12195a3563dc7a18949e67f056cde1a29b12187c35707b0f10024844cf2291eb",
@@ -358,7 +367,17 @@
       "rejection": [],
       "warn": []
     },
-    "result": "r18 补验：创建态/真实提交/对象存在+选中+真实撤销条目/编辑菜单 undo 对象消失/redo 恢复全部实证；保存重开子相位 blocked（首次保存需原生 showDirectoryPicker，IAB 不可达）；整流未证完整"
+    "result": "r18 补验：创建态/真实提交/对象存在+选中+真实撤销条目/编辑菜单 undo 对象消失/redo 恢复全部实证；保存重开子相位 blocked（首次保存需原生 showDirectoryPicker，IAB 不可达）；整流未证完整",
+    "supersededShots": {
+      "before": "f14-before.png",
+      "beforeSha256": "5623f55df247cc37c3e127701ccfe4988f5b497129d46c11b35cccd0b46b6b29",
+      "after": ["f14-after-create.png", "f14-after-undo.png"],
+      "sha256": {
+        "created": "d476d931452025470c53cfb0b8c603bb38af9357768d1e7663a251965d2fd076",
+        "undone": "dd74197350fe50b45ab3f99cecfc58542e288eea37c58f5dcefc89eefa5f6c78"
+      },
+      "note": "r3 时代旧 attempt 映射原文；f14-before.png/f14-after-undo.png 同名文件已被 r18 新相位覆盖（旧字节在 Git 8878616db^），其余旧文件仍在树中"
+    }
   },
   {
     "id": "F15",
@@ -430,12 +449,13 @@
   {
     "id": "F18",
     "name": "窄窗 375×700：菜单折叠为「导航」下拉；自动化三次点击未能展开下拉（IAB 宿主限制），窄窗模块可达性如实登记为未证",
-    "before": "f18-before-wide.png",
-    "beforeSha256": "3cf415006d4339ff2144842cad28e3bc4dcdcf2c571038343a3a4cefa5bf68c1",
-    "after": ["f18-after-narrow.png", "f18-after-restore.png"],
+    "before": "f18-narrow-before.png",
+    "beforeSha256": "6304c9ac722055d108fe02de11e94e3c3a97cb4c4fb6770796091840b038bd86",
+    "after": ["f18-nav-open.png", "f18-nav-open-retry.png", "f18-overlay-detail.png"],
     "sha256": {
-      "narrow": "73b6d44add3a05cc66e9c4764e4d0284d3ce52d33578bc386b0b213b6f2a7e14",
-      "restored": "b6fd8ffbd4599f1ed1b626564a547afe023757dbe24753c06c2a8a0dd87f92bc"
+      "navOpenAttempt1": "97f518b1effccae9ce130d78715c730c1c703e37e8ffe1748a1c07c834c1c5d5",
+      "navOpenAttempt2": "97f518b1effccae9ce130d78715c730c1c703e37e8ffe1748a1c07c834c1c5d5",
+      "overlayDetail": "515e9518e183b3d1ea685a94f7a370428d5deb0b0854f084459bf382f3a6a6d2"
     },
     "phaseEvidence": {
       "narrowCollapsed": "f18-narrow-before.png 6304c9ac722055d108fe02de11e94e3c3a97cb4c4fb6770796091840b038bd86",
@@ -451,7 +471,17 @@
       "rejection": [],
       "warn": []
     },
-    "result": "r18 补验：产品级 blocked——375px 工具栏（撤销/重做/保存）完全覆盖导航触发按钮（10/10 命中测试全落工具栏）；键盘派发宿主不可用（press 零 keydown）；下拉未打开"
+    "result": "r18 补验：产品级 blocked——375px 工具栏（撤销/重做/保存）完全覆盖导航触发按钮（10/10 命中测试全落工具栏）；键盘派发宿主不可用（press 零 keydown）；下拉未打开",
+    "supersededShots": {
+      "before": "f18-before-wide.png",
+      "beforeSha256": "3cf415006d4339ff2144842cad28e3bc4dcdcf2c571038343a3a4cefa5bf68c1",
+      "after": ["f18-after-narrow.png", "f18-after-restore.png"],
+      "sha256": {
+        "narrow": "73b6d44add3a05cc66e9c4764e4d0284d3ce52d33578bc386b0b213b6f2a7e14",
+        "restored": "b6fd8ffbd4599f1ed1b626564a547afe023757dbe24753c06c2a8a0dd87f92bc"
+      },
+      "note": "r3 时代旧 attempt 映射原文；五个旧文件仍在树中且哈希有效，仅不再作为当前相位证据引用"
+    }
   },
   {
     "id": "F19",

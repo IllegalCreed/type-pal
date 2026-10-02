@@ -3,7 +3,7 @@
 - 逐流程记录：[flows.json](flows.json)（id/name/result/phaseEvidence/console）。
 - 汇总账（含截图 SHA256 全表与 18/20 完整证明口径）：[browser-evidence.json](browser-evidence.json)。
 - 自有 lab 工程复现配方（不在仓库树内）：[lab-project.md](lab-project.md)。
-- 截图：`f<NN>-*.png`，66 张；SHA256 以 browser-evidence.json 的 `screenshotSha256` 为准。
+- 截图：`f<NN>-*.png`，74 张（r18 视觉阶段 +8：F14 六相位/F18 四证据，其中 f14-before/f14-after-undo 同名覆盖旧 attempt 字节）；SHA256 以 browser-evidence.json 的 `screenshotSha256`（74 项，逐文件实算）为准。旧 66 项表原文保存于同文件 `screenshotSha256Superseded`（superseded/history，不作为当前证明）。
 
 ## 流程 → 截图对照
 
