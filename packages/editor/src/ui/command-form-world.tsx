@@ -690,7 +690,7 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
                   : cmd.pos
                     ? { mode: 'pos', pos: cmd.pos }
                     : { mode: 'default' }
-                onChange(rebuild(targetMode, f || undefined))
+                onChange(makeLoadScene(cmd.scene, targetMode, f || undefined, cmd.transition))
               }}
             />
           </Row>

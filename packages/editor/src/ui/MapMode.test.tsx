@@ -1959,6 +1959,40 @@ describe('MapMode 地图内容选择交互', () => {
     expect(session.getState().maps['map-a']).toBe(mapBefore)
   })
 
+  test.each([
+    'Escape',
+    'Inspector',
+  ] as const)('%s 清选更新通知且不修改地图或历史', async (entry) => {
+    const { host, canvas, session, onWorkspaceNotice } = await mountMapMode()
+    const before = session.getState()
+    const historyBefore = session.getHistoryVersion()
+    const revisionBefore = session.getMapRevision('map-a')
+    await selectFloor(host, canvas)
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith({
+      kind: 'info',
+      message: '已选择 1 个视觉槽、1 个格点。',
+    })
+
+    await act(async () => {
+      if (entry === 'Escape')
+        canvas.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+      else host.querySelector<HTMLButtonElement>('[aria-label="清空地图选区"]')!.click()
+    })
+    expect(host.querySelector('.map-selection-head')).toBeNull()
+    expect(host.querySelector('.map-properties-section')).not.toBeNull()
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith({ kind: 'info', message: '选区已清空。' })
+    expect(session.getState()).toBe(before)
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+    expect(session.getMapRevision('map-a')).toBe(revisionBefore)
+    expect(session.isDirty()).toBe(false)
+
+    const noticeCount = onWorkspaceNotice.mock.calls.length
+    await act(async () => {
+      canvas.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    })
+    expect(onWorkspaceNotice).toHaveBeenCalledTimes(noticeCount)
+  })
+
   test('变换预览锁定 Inspector，切回平移后取消预览、清空选区并恢复地图属性', async () => {
     const { host, canvas, onWorkspaceNotice } = await mountMapMode()
     await selectFloor(host, canvas)
@@ -1978,7 +2012,7 @@ describe('MapMode 地图内容选择交互', () => {
   })
 
   test('组合模板与既有选区正交，当前层自动承接组合底层且不出现映射面板', async () => {
-    const { host, canvas } = await mountMapMode({ stamps: [stampTemplate()] })
+    const { host, canvas, onWorkspaceNotice } = await mountMapMode({ stamps: [stampTemplate()] })
     await selectFloor(host, canvas)
     await activateStamp(host)
 
@@ -1995,6 +2029,10 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => inspectorTab(host, '属性').click())
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
     expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('false')
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith({
+      kind: 'info',
+      message: '已退出组合放置；模板与普通地图选区仍保留。',
+    })
   })
 
   test('同 ID 项目更换 EditSession 时清空组合放置态与最近使用', async () => {
