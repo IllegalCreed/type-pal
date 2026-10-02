@@ -24,6 +24,7 @@ import type {
   AuthorScriptFlow,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { ScriptEditSession } from './script-editor.js'
 import {
   behaviorReferences,
   canonicalScriptReferenceDestinationExists,
@@ -101,7 +102,18 @@ function selectionCommand(behaviorId: string): AuthorCommand {
   }
 }
 
-function handoffCommand(from: string, to: string): AuthorCommand {
+/** 各 behavior 的真实合法游标（与 fixture 中 flow 定义一致）：
+ * talk=stages/start；auto2=stateMachine machine-1/idle。一手门
+ * script-editor.ts:655-668 按 source/selected flow 逐一核 cursor 归属。 */
+const LEGAL_CURSOR = {
+  talk: { kind: 'stage', stage: 'start' },
+  auto2: { kind: 'state', machine: 'machine-1', state: 'idle' },
+} as const
+
+function handoffCommand(
+  from: keyof typeof LEGAL_CURSOR,
+  to: keyof typeof LEGAL_CURSOR,
+): AuthorCommand {
   return {
     kind: 'selectEntityBehavior',
     target,
@@ -110,7 +122,7 @@ function handoffCommand(from: string, to: string): AuthorCommand {
     cursorHandoff: {
       kind: 'stateMap',
       fromBehavior: from,
-      cases: [{ from: { kind: 'stage', stage: 'start' }, to: { kind: 'stage', stage: 'start' } }],
+      cases: [{ from: LEGAL_CURSOR[from], to: LEGAL_CURSOR[to] }],
       onUnmapped: 'error',
     },
   }
@@ -147,8 +159,15 @@ function scene(extra?: Partial<AuthorSceneDef>): AuthorSceneDef {
   }
 }
 
+/** 公开准入门：真实 ScriptEditSession 构造（作者校验+引用闭包）。fixture 不合法时
+ * 抛错由各测试直接失败——不把准入检查算新业务合同，只保证输入合法。 */
+function assertFixturePassesPublicSession(state: ScriptEditorState): ScriptEditorState {
+  void new ScriptEditSession(structuredClone(state))
+  return state
+}
+
 function editorState(): ScriptEditorState {
-  return {
+  return assertFixturePassesPublicSession({
     scenes: [
       scene({
         hooks: {
@@ -214,7 +233,7 @@ function editorState(): ScriptEditorState {
         ],
       },
     },
-  }
+  })
 }
 
 describe('P03-G12 behaviorReferences 只读引用收集', () => {
@@ -271,7 +290,13 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
       cursorHandoff: {
         kind: 'stateMap',
         fromBehavior: 'talk',
-        cases: [{ from: { kind: 'stage', stage: 'start' }, to: { kind: 'stage', stage: 'start' } }],
+        // 合法映射：talk(stages/start) → auto2(stateMachine machine-1/idle)
+        cases: [
+          {
+            from: { kind: 'stage', stage: 'start' },
+            to: { kind: 'state', machine: 'machine-1', state: 'idle' },
+          },
+        ],
         onUnmapped: 'error',
       },
     })

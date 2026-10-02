@@ -104,15 +104,12 @@ describe('P02-G03 工具选项托盘键盘合同', () => {
     await act(async () => trigger.click())
     // 产品 focusOption 经 requestAnimationFrame 落焦；portal 选项按钮分批挂载。
     // 等待可观察收敛：焦点落进托盘且全部选项挂载完成，不手工抢焦、不用空 act 代替帧。
-    await vi.waitFor(
-      () => {
-        expect(tray().contains(document.activeElement)).toBe(true)
-        expect(tray().querySelectorAll<HTMLButtonElement>('button')).toHaveLength(
-          ISOMETRIC_BRUSH_SIZES.length,
-        )
-      },
-      { interval: 16, timeout: 2000 },
-    )
+    await vi.waitFor(() => {
+      expect(tray().contains(document.activeElement)).toBe(true)
+      expect(tray().querySelectorAll<HTMLButtonElement>('button')).toHaveLength(
+        ISOMETRIC_BRUSH_SIZES.length,
+      )
+    })
     const options = [...tray().querySelectorAll<HTMLButtonElement>('button')]
     // 收敛后焦点停在当前值(1)选项=首项；后续移动全部由产品键盘处理器驱动。
     expect(document.activeElement).toBe(options[0])
