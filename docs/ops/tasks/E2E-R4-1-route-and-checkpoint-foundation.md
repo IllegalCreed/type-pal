@@ -19,6 +19,10 @@ Visual Verification Timing: e2e-consolidated（001独立执行器首批）
 详见[003回执](../../testing/e2e-003.md)；003新统一门/用户观感与004厨房朝向counter各自记录。
 本母卡仍build：004以后、跨片段完整runner、capture录像音轨及全局Q1/Q2未完成。
 
+2026-10-02用户已定义[004](E2E-004-1-meal-and-beggar-wine.md)：取酒菜→送苗族跟班→正常物品菜单赠桂花酒给醉道士→
+完整剧情结束且恢复移动，包含物品使用，不停在得到桂花酒。当前只登记draft，正常菜单/耗酒/触发/控制调用域及
+合法现行003前驱待核；不造档/道具、不提前进入005，不把范围批准写成实跑passed。
+
 ### 001收口记录（2026-09-28）
 
 001已按[独立验证子卡](../archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md)核定verify done：
