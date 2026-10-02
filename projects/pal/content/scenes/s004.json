@@ -2756,7 +2756,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "村中闲逛",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2885,7 +2885,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "绕行村路至转角"
                 },
                 {
                   "id": "legacy-002",
@@ -2924,7 +2925,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-003"
+                  "next": "legacy-003",
+                  "label": "转角停步，再向前走"
                 },
                 {
                   "id": "legacy-003",
@@ -3225,7 +3227,8 @@
                       "ms": 80
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "绕另一侧村路回到原处"
                 }
               ]
             }
@@ -3304,7 +3307,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 1200
+                      "ms": 3000
                     },
                     {
                       "kind": "setEntityFacing",
@@ -3324,7 +3327,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "moveEntity",
@@ -3354,7 +3357,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 800
+                      "ms": 2000
                     },
                     {
                       "kind": "moveEntity",

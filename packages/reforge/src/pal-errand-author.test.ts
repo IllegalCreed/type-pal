@@ -297,6 +297,14 @@ test('the village entry only calls Xianglan; reporting and the reminder are her 
   expect(entity('s004', 'e83').behaviors!.trigger).not.toHaveProperty('legacy-002')
   expect(entity('s004', 'e83').behaviors!.trigger).toHaveProperty('legacy-001')
   expect(entity('s004', 'e83').behaviors!.trigger).toHaveProperty('legacy-003')
+  const stroll = entity('s004', 'e83').behaviors!.auto!.default!
+  expect(stroll.label).toBe('村中闲逛')
+  if (stroll.flow.kind !== 'stages') throw new Error('village stroll keeps its existing steps')
+  expect(stroll.flow.stages.map((step) => step.label)).toEqual([
+    '绕行村路至转角',
+    '转角停步，再向前走',
+    '绕另一侧村路回到原处',
+  ])
 })
 
 function deferred() {
@@ -505,12 +513,13 @@ test('Xianglan returns in one nonempty background step with the original route a
     move(140, 44, 'slow'),
     ...pose('right'),
     ...pose('up'),
-    { kind: 'wait', ms: 1200 },
+    // L_888 waits 30/4/20 exploration ticks (100 ms each), not battle ticks (40 ms).
+    { kind: 'wait', ms: 3000 },
     ...pose('down'),
-    { kind: 'wait', ms: 160 },
+    { kind: 'wait', ms: 400 },
     move(157, 44, 'slow'),
     move(157, 49, 'slow'),
-    { kind: 'wait', ms: 800 },
+    { kind: 'wait', ms: 2000 },
     move(158, 49, 'normal'),
     move(158, 61, 'normal'),
     ...pose('down'),
