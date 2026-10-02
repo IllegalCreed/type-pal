@@ -56,6 +56,18 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 | 浏览器流程 | **18 / 20 完整证明** | F14/F18 如实登记未证，另交视觉阶段（[browser/browser-evidence.json](browser/browser-evidence.json)） |
 | 私有同分母 coverage | 上轮 +32/+16/+2（分母 28489 不变） | r14 续批未重跑，不计入 |
 
+## NEXT2 有限实施批（2026-10-02，packet P-NEXT2-01～12）
+
+- 新文件：`packages/editor/src/core/map-reference-session-next2.glm-p.test.ts`（12 合同）+
+  专属 fixture `src/__tests__/glm-p/next2/lab.ts`（合法链：seed→文件级合法多地图→公开 loader→
+  懒 state→保存门自证；读取门仅声明 deferred/拒绝）。
+- 12 轴：foreign state 权限拒收、引用订阅退订、map 域不打扰全局观察者、markSaved 快照身份、
+  双扫描单生命周期、默认不重试失败、显式重试成功清失败、非 Error 消息、%8 进度发布、
+  单 worker 单排队启动、退订不打断扫描、缺 loader fail-closed。逐合同排重账
+  [next2/contracts.json](next2/contracts.json)、实跑 [next2/directed-vitest.json](next2/directed-vitest.json)。
+- 旧证不重做（六 worker cap/迟到 path/scan+hydrate 共享/删除 redo 复查）；四个代表产品控制由
+  Codex 在最终候选统一实采；原 700/70/50/20 目标与 18/20 流程口径不变。
+
 ## r18 续批真实改动（相对 0f588c3e9）
 
 - P05 首批（battle-simulator 域，4 组 4 例）：resolver 敌方/背包 label 两臂（party 臂为旧证）、

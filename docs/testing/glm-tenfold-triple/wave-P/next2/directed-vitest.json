@@ -1,0 +1,80 @@
+{
+  "generatedFrom": "真实 vitest --reporter=json 实跑 map-reference-session-next2.glm-p.test.ts（NEXT2 12 合同）",
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "tests": [
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-01 foreign state 不是当前权限 结构克隆/他 session state 整串拒收；当前 state 返回同一 batch",
+      "status": "passed",
+      "duration": 29.992
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-02 引用订阅退订 扫描挂起期退订一个监听：幸存者收终态更新，退订者不再被调用",
+      "status": "passed",
+      "duration": 10.065
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-03 map 域扫描不打扰全局观察者 引用通知发生；全局订阅零调用且 version/historyVersion/dirty 不变",
+      "status": "passed",
+      "duration": 7.162
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-04 良性保存保持引用快照身份 markSaved 后 batch 同引用且 generation/refVersion 不变",
+      "status": "passed",
+      "duration": 3.242
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-05 双扫描共享一次扫描生命周期 同一挂起扫描上第二个 ensure：每图恰读一次、单次 initial-terminal 通知、同结果 batch",
+      "status": "passed",
+      "duration": 8.995
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-06 默认重复扫描不重试已记录失败 一次失败后默认 ensure：零新读取、同失败快照、generation 不变",
+      "status": "passed",
+      "duration": 9.662
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-07 显式重试在真实成功后清空失败 先失败后 retryFailures:true 健康读取：done、零失败、覆盖完整、无 dirty/history",
+      "status": "passed",
+      "duration": 12.009
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-08 非 Error IO 拒绝的公开消息 loadMap 拒绝自有字符串：fail-closed 消息恰为 String(cause)",
+      "status": "passed",
+      "duration": 7.605
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-09 第 8 完成先于第 9 完成发布进度 9 图挂起：快照出现 completed=8/running=true，随后终态 completed=9",
+      "status": "passed",
+      "duration": 13.632
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-10 释放一个 worker 只启动一个排队读取 8 图按住前 6：放行 1 张后恰第 7 张开始、第 8 张仍排队",
+      "status": "passed",
+      "duration": 43.949
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-11 退订引用订阅不打断扫描 扫描中途退订唯一监听：全部地图完成、batch/refVersion 正确",
+      "status": "passed",
+      "duration": 7.162
+    },
+    {
+      "file": "src/core/map-reference-session-next2.glm-p.test.ts",
+      "fullName": "P-NEXT2-12 缺 loader 经扫描 API fail-closed 无 loadMap 选项：每图恰抛未配置消息、不完成健康批、零 hydrate/history",
+      "status": "passed",
+      "duration": 1.77
+    }
+  ]
+}

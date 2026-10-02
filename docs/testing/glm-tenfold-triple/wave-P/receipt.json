@@ -8,7 +8,7 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "r18 视觉阶段：仅 browser/ 证据与 receipt 更新（F14 五相位实证+保存重开 blocked；F18 产品级覆盖缺陷 blocked）；最终远端候选以推送 tip 为准（head 不引用自身提交）",
+  "headNote": "NEXT2 批：测试+fixture+next2 证据；最终远端候选以推送 tip 为准（head 不引用自身提交）",
   "counts": {
     "contractsExecuted": 102,
     "workGroups": 29,
@@ -53,7 +53,8 @@
     "P-R17": "①12 份 counter JSON biome format（值不变）+工具 emit 经 biome format；②G01-1 开关臂换当前合法共享脚本；G01-2/G03-1 撤回+C01 退役（validateStartWorld 拒收空 party id、chunks 无当前 producer，历史原字节保留）；G02 合法闭合夹具、levelUp 轴归旧证；③G07 停测撤回，经公开投影路径补 2 例（无强转无新接口）；C02/C03 与七条 enemy/team 合同保留未重采",
     "P05-batch": "r18 续批 P05 首批 4 例 4 组（resolver label 两臂/保留路径守卫两臂/fieldId 来源/成员形态）+P05-C01/C02/C03 三枚不同目标反控（恰一红 0→1→0，git apply+hash 独立验证）；C01 退役档措辞按 r18 复核纠正（JSON 值同字节变、raw 原字节未变）",
     "P-F14-F18-visual": "r18 视觉阶段（GLM-5.3-Flash 专属批次）：mkdtemp 独占副本（buildBlankProject glm-p-f1418，manifest 读回）+ 空闲端口 6187 独立服务；F14 创建态/真实提交/对象存在+选中+真实撤销条目/编辑菜单 undo 消失/redo 恢复五相位实证（6 截图，console 零 error/pageError/rejection），保存重开子相位 blocked（首次保存需原生 showDirectoryPicker——use-editor-project-session.ts pickDir；IAB 不可达；三条真实保存入口挂起零诊断；冷重开确认未落盘）；F18 产品级 blocked（375px 工具栏撤销/重做/保存 y5-35 完全覆盖导航触发 x239-293 y4-36，10/10 elementFromPoint 命中工具栏；.ds-menubar 87px/230px overflow-visible；键盘派发宿主不可用 press 零 keydown）。两流仍计未证完整 18/20，产品缺陷与 blocked 证据交 Codex 裁决；代码/测试/旧针零改动",
-    "P-screenshot-index-sync": "r18 索引维护（Codex 证据索引交接）：顶层 screenshotSha256 重建为最终候选 74 张已跟踪 PNG 逐文件实算；f14-before/f14-after-undo 两同名文件旧→新哈希已对齐当前字节（旧字节在 Git 8878616db^）；8 张新相位图全部登记；flows.json F14/F18 before/after/sha256 字段统一为当前字节，旧 attempt 映射原文存于各行 supersededShots；旧 66 项索引表原文存于 browser-evidence.json screenshotSha256Superseded。截图/内嵌哈希/console 记录零改动；18/20 保持"
+    "P-screenshot-index-sync": "r18 索引维护（Codex 证据索引交接）：顶层 screenshotSha256 重建为最终候选 74 张已跟踪 PNG 逐文件实算；f14-before/f14-after-undo 两同名文件旧→新哈希已对齐当前字节（旧字节在 Git 8878616db^）；8 张新相位图全部登记；flows.json F14/F18 before/after/sha256 字段统一为当前字节，旧 attempt 映射原文存于各行 supersededShots；旧 66 项索引表原文存于 browser-evidence.json screenshotSha256Superseded。截图/内嵌哈希/console 记录零改动；18/20 保持",
+    "P-NEXT2": "NEXT2 有限实施批（packet P-NEXT2-01～12）：map-reference-session-next2.glm-p.test.ts 12 合同 + __tests__/glm-p/next2/lab.ts 专属 fixture（seed→文件级合法多地图 index/body→memoryAuthorDirectory→公开 loader→toEditorState 懒 state→保存门自证；读取门仅声明 deferred/拒绝，真实读取走 loadProjectMap）。轴：会话权限拒收/引用订阅退订/全局观察者隔离/markSaved 快照稳定/双扫描单生命周期/默认不重试/重试成功清失败/非 Error 消息/%8 进度发布/单 worker 单排队启动/退订不打断扫描/缺 loader fail-closed。六 worker cap/迟到 path/scan+hydrate 共享等旧证不重做（逐合同排重见 next2/contracts.json）；四代表产品控制由 Codex 统一实采，作者未写采样工具"
   },
   "commands": {
     "directedVitest": "102/102 passed（r18 续批真实重生，directed-vitest.json，全 12 个 wave-P 文件）",
@@ -64,7 +65,9 @@
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
     "judgeSelfTest": "node --test counter-judge.test.mjs → 22 pass / 0 fail（工具未改沿用）",
     "docsGate": "docs: PASS 818 Markdown / 4285 links / 0 issues（content20 SAVE8 冻结口径）",
-    "browserEvidence": "browser-evidence.json + flows.json + README 索引同步（r18 视觉阶段；截图 74 张含 sha256）"
+    "browserEvidence": "browser-evidence.json + flows.json + README 索引同步（r18 视觉阶段；截图 74 张含 sha256）",
+    "next2Directed": "next2/next2 12/12（directed-vitest.json 真实实跑；3 连稳定 12/12）",
+    "editorFullSuite": "NEXT2 批 523 文件 3900/3900 全绿 exit 0（串行 --no-file-parallelism；含 next2 12 例；首跑 1 红为 lab.ts 注释误用禁词 工程，boundary 门拦截后改 项目 复跑全绿）"
   },
   "notDone": [
     "P02 剩余暗区",
@@ -87,7 +90,9 @@
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ca391c0d7be918227e728e78f7655dc36eb75f7e3a806ca72a2b94c0b6916c90",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter-judge.mjs": "30b27e9639442bc7cf3d6832fc16dd79f776881f3b3c31ffcd8b416918cc1418",
     "packages/editor/src/core/enemy-team-commands.glm-p.test.ts": "aad43edb0c375b201585e98a91061849d2697412781c62e3f35b6a9efddc95e3",
-    "packages/editor/src/core/battle-simulator.glm-p.test.ts": "d357d8de7f2fd956a139a6816f422578cddda5ffabc57ae4e2644674158abe15"
+    "packages/editor/src/core/battle-simulator.glm-p.test.ts": "d357d8de7f2fd956a139a6816f422578cddda5ffabc57ae4e2644674158abe15",
+    "packages/editor/src/core/map-reference-session-next2.glm-p.test.ts": "aaf9f98d72d459ba4a61e425e71dc2378682a6ae8c8a2ede4345277d7eadd9dd",
+    "packages/editor/src/__tests__/glm-p/next2/lab.ts": "fa412b83a474869a48f763d25f672a48fa56d8d14a8ec440068025b65112a760"
   },
   "anchors": {
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
