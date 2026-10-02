@@ -89,3 +89,24 @@ Root `premise verified / design agree / build allowed`：源码、历史政策�
 
 贡献者按上述白名单隔离施工、自验后交冻结SHA并停写；Root独立红绿复核、质量门、真正更新再交用户。
 不合main、不碰6012、不需要用户转发给固定席位。未跑的三case/正常演示不得写passed。
+
+## 独立接收与实跑（2026-10-02）
+
+- 产品fdb697d09/夹具c3411f052接为Root3132b6904/0334a897d：完整复读main仅两处、11项实际主壳与Root两个counter。
+  Root独立定向56/57后5000ms超时、单pal4/5另用例超时保留；不是业务/计时断言失败，不做超时豁免。
+  一手核隔离夹具却枚举294scene造成无关读/验证/digest；91d8178a2（Roote98be9c89）仅fixture index指向原完整两scene，
+  真实9MB BDF/生产parser/资源/地图/全部defs/原5业务断言与5000ms/160预算不变；新增disk有但未索引s004正规loadScene拒绝。
+  原5及新拒绝反控6项绿，不把此fixture冒称全PAL出版闭包；正式六case仍消费完整PAL项目。
+- 工具f36170a1接为Roote88e0ba6b：三case/有界drive DTO/阶段末原全trace强门、实际DOM输入/RPC记录、成功dither输出锚；
+  Root独立135工具绿、全仓lint2760文件0/0/0。Root新增四个items/saves入口，默认两个004入口为story。
+- Root冻结9a488c02实际六case：story两40行/各1context；items两15前置行/各1context＋cancel0dispatch/invalid1且不耗酒；
+  saves两40行/各3context＋实际carry/end World/Canvas fresh相等。全部child status/core/route/sourceStable passed，collector error0。
+  Root逐项复算404来源（398Git/6资产）、全部trace/四原档、game两次真实save clone输入与exact1成功ack。
+- 原both比较器failed仅因新增错误warnings===[]模型：factory原协议保留Chrome性能advisory/exactURL可选state404。
+  5b318a91（Root7a01ba090）恢复Array结构及原errors零规则，136工具绿，不新增filter/ignore、不改Canvas后台/制造state文件。
+  旧comparison原字节保留；Root新004-continuity-reviewed-suite.json明确model-only复核原六回执，绝非新六次演出。
+  warning原计数game0/0/1、RF2/1/2保留，不声称console零警告；硬性静态零诊断不变。
+- 新正常story尾段同域观测：邀约完整实绘→旁白game1.200s/RF1.217s，hidden→旁白1.101/1.173s；
+  RF尾dither准备17.4ms、预算后约733.8ms到实际输出72。旧隐藏后17.334s停留已消除，正文/720ms/72步/字速零diff。
+- 全仓统一check正在Root冻结候选执行；源只因测试fixture/收据模型后续增量更新，历史E2E revision9a不重写。
+  仅完成硬门与安全更新后才交6012；当前main/用户页面仍原样保持，不提前报done。
