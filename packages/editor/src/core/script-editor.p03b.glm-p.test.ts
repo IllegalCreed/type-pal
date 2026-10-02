@@ -16,6 +16,7 @@
 import type { AuthorCommand, AuthorSceneDef, AuthorScriptFlow } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
+  ScriptEditSession,
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalScriptCommandVisit,
   collectCanonicalScriptCommandVisits,
@@ -43,6 +44,7 @@ function npcEntity(): AuthorSceneDef['entities'][number] {
     id: 'e1',
     sprite: 'npc',
     pos: { col: 1, row: 1, height: 0 },
+    initialPage: 'default',
     pages: [
       {
         id: 'default',
@@ -93,17 +95,26 @@ function sceneDef(entities: AuthorSceneDef['entities']): AuthorSceneDef {
 }
 
 function stateWith(entities: AuthorSceneDef['entities']): ScriptEditorState {
-  return {
+  // 公开准入门：真实 ScriptEditSession 构造（作者校验+引用闭包），非法即测试失败。
+  const build = (): ScriptEditorState => ({
     scenes: [sceneDef(entities)],
     items: [],
     sharedScripts: {
       'shared/user/lib': {
         name: '共享库',
         self: 'none',
-        body: [selectionCommand('talk')],
+        body: [
+          {
+            kind: 'setFlag',
+            flag: 'lib-used',
+            value: true,
+          },
+        ],
       },
     },
-  } as ScriptEditorState
+  })
+  void new ScriptEditSession(structuredClone(build()))
+  return build()
 }
 
 const paths = (visits: readonly CanonicalScriptCommandVisit[]) => visits.map((v) => v.path)
@@ -129,7 +140,8 @@ describe('P03-G15 visitCanonicalScriptCommands 走访臂', () => {
   })
 
   test('hostile.onLose 命令以独立来源走访且路径精确', () => {
-    const visits = collectCanonicalScriptCommandVisits(stateWith([hostileEntity()]))
+    // onLose 命令引用同场景 e1（靶实体必须在场，公开校验核实体存在性）。
+    const visits = collectCanonicalScriptCommandVisits(stateWith([npcEntity(), hostileEntity()]))
     const hit = paths(visits).filter((p) => p.includes('hostile.onLose'))
     expect(hit).toEqual(['scenes.s001.entities.e2.hostile.onLose[0]'])
   })
@@ -172,15 +184,42 @@ describe('P03-G16 scheme 引用索引聚合', () => {
     })
   })
 
-  test('命令 selection 命中以 use:command 入索引；同键多引用按序追加', () => {
+  test('同键引用按走访序精确追加：page-binding 在前、命令 selection 在后', () => {
     const state = stateWith([npcEntity()])
     const visits = collectCanonicalScriptCommandVisits(state)
     const indexes = buildCanonicalSchemeReferenceIndexesFromVisits(state, visits)
     const key = JSON.stringify(['s001', 'e1', 'trigger', 'talk'])
     const entry = indexes.behavior.get(key)!
-    // page-binding + 命令 selection 至少两条，同键按走访序追加。
-    expect(entry.length).toBeGreaterThanOrEqual(2)
-    expect(entry.some((ref) => ref.kind === 'command')).toBe(true)
+    // 精确完整顺序：page-binding（页槽）→ 命令 selection（behavior body）。
+    expect(entry).toEqual([
+      {
+        kind: 'page',
+        path: 'scenes.s001.entities.e1.pages.default.trigger',
+        locator: {
+          kind: 'entity-page',
+          sceneId: 's001',
+          entityId: 'e1',
+          pageId: 'default',
+          channel: 'trigger',
+        },
+      },
+      {
+        kind: 'command',
+        path: 'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]',
+        locator: {
+          kind: 'command',
+          owner: {
+            kind: 'entity-behavior',
+            sceneId: 's001',
+            entityId: 'e1',
+            channel: 'trigger',
+            behaviorId: 'talk',
+          },
+          container: { kind: 'step', stepId: 'start', section: 'body' },
+          commandPath: '0',
+        },
+      },
+    ])
   })
 
   test('scene-hook entry 以 canonicalSceneHookReferenceKey 聚合', () => {
