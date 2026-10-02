@@ -104,6 +104,11 @@ Codex独立核候选、去重与反控；仅接收后串行全仓check→官方r
 
 ## 导航
 
+- [Cursor r2独立复核（2026-10-02）](codex-cursor-r2-review-20261002.md)、
+  [机器证据](codex-cursor-r2-review-20261002.json)：新4493/707绿，50三态结构匹配，
+  typed/默认等待/旧judge漏收/清理关闭；2旧合同针扣新增配额后上限48，698真账/700缺口、
+  DS键盘相位与selftest生成格式/raw EOF仍counter，多数真实视觉阶段保留；未main/正式结算。
+
 - [Grok r2独立复核（2026-10-02）](codex-grok-r2-review-20261002.md)、
   [机器证据](codex-grok-r2-review-20261002.json)：原三业务项关闭，3173/400/40/像素证据过；
   仅selftest生成报告后lint1格式红，窄修生成器即可，不重采40针或扩另一包。仍未main/正式结算。

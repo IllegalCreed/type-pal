@@ -27,7 +27,7 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GROK-RENDER-HOST-LARGE-1 | [一阶段渲染/资源/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | rework | Grok / 仅修自测报告生成格式 | r2 原三业务项关闭，3173绿/400身份/40针/像素过；selftest后lint1格式红，不重采或扩包 |
-| TEST-CURSOR-ASSET-UI-LARGE-1 | [Editor资源叶与设计控件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | rework | Cursor / 静态、typed、judge清理、真账排重与未证流程 | r1 Editor4493绿/707身份对应，lint1格式红；50存档43目标，净新上限≤698；23截图hash不等12流程 |
+| TEST-CURSOR-ASSET-UI-LARGE-1 | [Editor资源叶与设计控件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | rework | Cursor / 真账/至少2新例与2新目标、DS键盘及生成格式 | r2 4493/707绿，旧桥/等待/judge清理关闭；50存档50执行目标含2旧目标，上限48；selftest后lint1格式/raw EOF红 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
