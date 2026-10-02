@@ -349,7 +349,27 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r11；覆盖旧窄返工交接）
+## Codex 最新独立复核（2026-10-02，r12；覆盖旧交接）
+
+固定08ddbf064c1c3368cf6f5ee7f54987cff6e3f59d，证据1c752fc20478a6262663e23bf559fa5e6422d3f5。
+新game定向相邻158/extract363绿、未变Reforge2150完整字节证明复用，三typecheck/3041文件
+静态0/0/0/docs/diff/verifier过。66三态结构/hash对应，61旧业务未变+5新；旧描述同步关闭。
+新fizzle commands长1却entry42，mock手置旗；真实runScript越界warn且仍成功/动画1，合法
+entry1+raw0x41实跑无warning/失败旗false/动画0/sound9入队或0无队列，修法无需新机制。
+另两enemy观察旧actions更强直证，转existing-proof，140新增4暂未接收，上限仍135/缺口≥565。
+只受影响新FZ重采/退役，旧61不重开；原700/50组及真账继续，反控数量已足，D-Q01-1另draft。
+
+[详细审核与完整返工/续批提示词](../../testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.json)。整卡rework，
+未作者/main写入、未UI/模型/剧情操作、未done/正式结算；用户代码发送前手动选GLM-5.3。
+
+### 下一位GLM Q提示词（用户手动转发；优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、分支codex/glm-wave-q-runtime-residual-r1，固定08ddbf064c1c3368cf6f5ee7f54987cff6e3f59d。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md最新段及docs/testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.md/json，执行最新Q完整范围。仅修新音频批合法真实脚本：长1commands的ip42/10不合法，mock手置失败旗不验收；用已独证真实runScript+合法[end,raw0x41,end]/entry1或等价脚本，观测失败/动画0/sound9入队或sound0无队列。两enemy例为旧更强直接证明，existing-proof扣列/删重及FZ退役保留，不换数字充新；撤回未交数字buffer主张。140新增4未接收，上限仍135/至少565例缺口，700/50组不缩；原50针数量足，旧61及slot/投影/CLI/描述修项不重开，只受新文件/执行集变化的新针重采。修后连续合法生命周期/Q10隔离CLI与完整真账，避让Grok46、分阶段game/extract与Reforge，D-Q01-1不夹修/不剧情或世界后门。原白名单外只读，派发冻结不变；每批定向相邻/typecheck推送后继续，末批三包全测/静态0/0/0/docs/diff/verifier/真实SHA及未完账。不合main、不done、不官方门、不清原树。
+```
+
+## Codex r11独立复核（2026-10-02，历史）
 
 固定17512c692ef74aaa397baee625dcea773a7815af、测试/证据d816b1fac4ed024005d9ec20bfe5b8d620c98f19。
 未用通用回引API已删，literal-only真尾标/EOF/回引/输出界再独证通过，主账61存档/52目标/

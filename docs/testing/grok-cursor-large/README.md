@@ -1,5 +1,11 @@
 # Grok / Cursor 两条独立大测试包
 
+2026-10-02当前：[Cursor r4与GLM三路合并独立复核/四份直接交接](../glm-tenfold-triple/codex-opqc-r12-review-20261002.md)、
+[机器证据](../glm-tenfold-triple/codex-opqc-r12-review-20261002.json)。新728定向相邻/717身份、53结构针、
+静态完整0/0/0；精确kind C08-34独立感度关闭，替代C05-09仍旧排序证明，净新目标上限49，
+663旧matcher与真实条件/caller账未闭，717扣十四旧证上限703仍待全量排重。只当前未闭项返工，
+旧工具/typed/视觉不重开。Grok代码证据accept仍有效、无作者返工，待Codex正式门；未main/done/结算。
+
 2026-10-02当前：[Cursor r3独立复核与可复制返工](codex-cursor-r3-review-20261002.md)、
 [机器证据](codex-cursor-r3-review-20261002.json)。格式/EOF/DS键盘相位/非空fixture关闭，
 728定向相邻绿、717身份/52结构反控对应、静态完整0/0/0；仍708旧matcher未核与跨行oracle缺结果，

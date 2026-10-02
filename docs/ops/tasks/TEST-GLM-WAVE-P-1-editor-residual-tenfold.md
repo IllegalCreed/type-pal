@@ -246,7 +246,26 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r10.5；覆盖旧窄返工交接）
+## Codex 最新独立复核（2026-10-02，r11；覆盖旧交接）
+
+固定31995d09260ad7361df9902d692fbe5b86ad347e，证据24ca4de4f007377d3bc9f1bd7692fec0285d0570。
+新121定向相邻绿、86身份对应/typecheck/22自测零、2826文件静态0/0/0/docs/diff/verifier过。
+新增P03b四factory公开ScriptEditSession均拒：npc缺initialPage，hostile/zone/empty悬空e1引用；
+新8例未接收，合法上限仍78/至少622例缺口。空源例手传[]丢真实shared visits；G16顺序/use标题
+没有对应oracle，旧账多个完整expected被首行抽取回退。诊断合法修复副本四种准入通过，不冒称候选已修。
+14旧活跃三态保持，C13退役/旧cursor/默认等待不重开；原700/70组/50目标/20流程及F14/F18未完。
+
+[详细审核与完整返工/续批提示词](../../testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.json)。整卡rework，
+未作者树/主树写入、未UI/模型操作、未main/done/结算。用户代码阶段手动选GLM-5.3，视觉另阶段Flash。
+
+### 下一位GLM P提示词（用户手动转发；优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、分支codex/glm-wave-p-editor-residual-r1，固定31995d09260ad7361df9902d692fbe5b86ad347e。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md最新段及docs/testing/glm-tenfold-triple/codex-opqc-r12-review-20261002.md/json，执行最新P完整范围。只修新增P03b合法输入与真实oracle：npc加initialPage，hostile补合法同行e1，zone/empty去悬空shared，helper公开session准入；不造接口/强转。空源用真空state及真实collect结果，不手传[]掩盖非空；G16顺序/use收窄或精确断言，旧expected不得被首行抽取回退，旧owner/body读完整断言排重。86新增8未接收，上限78/≥622例仍partial，700/70组/50目标/20流程不缩。旧14针/C13/合法cursor/默认等待/18流程不重开，F14/F18另视觉。修后连续原P02-P10合法余族/真账，避让Cursor74源，原白名单外全只读、派发冻结不变；每批定向相邻/typecheck推送后继续，末批全包/静态0/0/0/docs/diff/verifier/真实SHA和准确余账。不合main、不done、不官方门、不清树。
+```
+
+## Codex r10.5独立复核（2026-10-02，历史）
 
 固定9d8e4e5c50d0d5621525ca4b2a3e135e49ff77a2，测试183e4fa9b4f17f4abb3113d57dabac0e830fa18c，
 证据e84b0f365a66f6d4482ebb040331d659154f59c5。三处handoff真实cursor/公开session准入、

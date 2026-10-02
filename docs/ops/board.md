@@ -27,13 +27,13 @@ P旧三桥/双红/区间误记关闭；部分交付仍rework，700/50及P20真�
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GROK-RENDER-HOST-LARGE-1 | [一阶段渲染/资源/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | review | Codex / 统一门与选择性集成 | r3代码证据accept：400/40组/40目标、两selftest后静态零；字节未变复用3173，未main/done/结算 |
-| TEST-CURSOR-ASSET-UI-LARGE-1 | [Editor资源叶与设计控件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | rework | Cursor / C01-C10真账与至少1真新目标 | r3 728定向相邻/717身份/静态零，格式/键盘/非空fixture关闭；708旧锚未核，52目标含新旧重复上限49，700净新未接收 |
+| TEST-CURSOR-ASSET-UI-LARGE-1 | [Editor资源叶与设计控件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | rework | Cursor / 663旧锚真账与至少1真新目标 | r4 728绿/53结构针/静态零，精确kind针关闭；替代排序仍旧证，上限49目标/703新例未全量排重 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 原合法余族连续补测与真账 | r11工具/计数rng/删重关闭；485执行上限484、65针63目标；410空条件/247token未闭，702/1429/154绿/静态零 |
-| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 原P02-P10连续补测与完整oracle账 | r10.5合法cursor/默认等待/历史七文件关闭；107定向相邻绿、78/17组/14针/18流程，622例与F14/F18未完 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 原typed生命周期与合成CLI连续补测 | r11收窄/主账关闭；136执行上限135、61存档52目标足50，363绿/静态零；≥565例与50组账未完 |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | GLM O / 两针最终身份重采、IO旧证明扣列与余账 | r11-b1 485执行上限478/缺口≥222、63/65最终身份；75条件/410空/247token仍部分，702绿/静态零 |
+| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | GLM P / 新P03b公开准入与真oracle后续合法余族 | r11 121绿/86身份/14旧针/静态零，新增8 fixture全拒、合法上限78/≥622缺口，F14/F18另视觉 |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | GLM Q / 新音频合法脚本与两旧例扣列后续余族 | r12 140身份/66结构针/158相邻+363绿/静态零；新4未接收、上限135/≥565缺口，原61保留 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | Codex / 待错误承接窄准入 | 合法当前存档+外部读失败独立复现1未处理拒绝，不随Q修产品 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |
