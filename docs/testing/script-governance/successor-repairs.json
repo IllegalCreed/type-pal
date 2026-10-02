@@ -1028,12 +1028,7 @@
       "textSha256": "ebb702bae03694629dcd880d7e61e2f8c8d67c3847ca6413fe33751add71a452"
     }
   ],
-  "localeReused": [
-    "dlg.5438",
-    "dlg.5439",
-    "dlg.7199",
-    "dlg.7200"
-  ],
+  "localeReused": ["dlg.5438", "dlg.5439", "dlg.7199", "dlg.7200"],
   "dialogueIdentityDecision": {
     "rule": "An activation boundary resets the first-stage display to top and clears the portrait. Restore those presentation defaults unless the new segment explicitly declares a style/portrait.",
     "explicitAuthorSpeakerWithoutNewSourceNameRow": [
@@ -1048,27 +1043,14 @@
   "fadeRepair": {
     "scene": "s010",
     "entity": "e191",
-    "behaviors": [
-      "default",
-      "legacy-001",
-      "legacy-003"
-    ],
-    "sequence": [
-      "fade out 600",
-      "clearDialog",
-      "fade in 600",
-      "final treatment dialogue"
-    ],
+    "behaviors": ["default", "legacy-001", "legacy-003"],
+    "sequence": ["fade out 600", "clearDialog", "fade in 600", "final treatment dialogue"],
     "source": "Original redraw opcode 0x05 consumes needToFadeIn for 600 ms; current clearDialog only closes the dialog. No runtime coupling added."
   },
   "knownGood": [
     {
       "scene": "s084",
-      "entities": [
-        "e1599",
-        "e1600",
-        "e1601"
-      ],
+      "entities": ["e1599", "e1600", "e1601"],
       "entry": 14990,
       "successor": 14999,
       "reason": "Each initial body explicitly selects legacy-002 for all three constables. Actual project-runtime plus SAVE10 restoration verifies no repeated gate nudge."
@@ -1172,11 +1154,7 @@
       "reason": "Follow-up dlg2074 has ambiguous speaker context; do not guess."
     },
     {
-      "entries": [
-        17546,
-        17573,
-        17632
-      ],
+      "entries": [17546, 17573, 17632],
       "reason": "Root reachability not proven."
     },
     {

@@ -38,13 +38,7 @@
           "fromIndex": 3,
           "toIndex": 1
         },
-        "finalBodyKinds": [
-          "dialog",
-          "confirm",
-          "branch",
-          "giveMoney",
-          "giveItem"
-        ],
+        "finalBodyKinds": ["dialog", "confirm", "branch", "giveMoney", "giveItem"],
         "approvedUserBehavior": "Declining or having insufficient money never deducts money or grants an item. Ask for confirmation before checking and collecting the price."
       },
       "nextBefore": [
@@ -167,10 +161,7 @@
         "noTarget": 14578,
         "retainedEntry": 14581,
         "installer": 14541,
-        "successAutoTargets": [
-          14596,
-          14600
-        ],
+        "successAutoTargets": [14596, 14600],
         "successTriggerTarget": 14593
       },
       "labels": {
@@ -218,10 +209,7 @@
         "noTarget": 14578,
         "retainedEntry": 14581,
         "installer": 14542,
-        "successAutoTargets": [
-          14596,
-          14600
-        ],
+        "successAutoTargets": [14596, 14600],
         "successTriggerTarget": 14593
       },
       "labels": {
@@ -499,13 +487,7 @@
       "failed": 0,
       "passed": 40
     },
-    "matrix": [
-      "decline",
-      "zero balance",
-      "cost minus one",
-      "exact price",
-      "more than price"
-    ],
+    "matrix": ["decline", "zero balance", "cost minus one", "exact price", "more than price"],
     "integration": "Actual ScriptProjectRuntime, normal activation into the paid follow-up, current SAVE10 builder/store/preflight/normalize, restored repeated activation.",
     "visual": "Not run; no browser, video, or 6012 changes."
   }

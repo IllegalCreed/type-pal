@@ -59,6 +59,7 @@
       "reason": "stopScript inside the step stops that activation without committing next. Inside callScript it only returns from the callee, so caller effects and next still run."
     }
   ],
+  "semanticDebtPathsRevision": "6c3e1fbe3; paths describe the pre-payment-fix discovery snapshot, exact before/after paths are in payment-repairs.json",
   "semanticDebts": [
     {
       "key": "s023/e437/trigger/default",

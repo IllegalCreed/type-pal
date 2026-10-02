@@ -168,6 +168,25 @@ Root早次114项合跑有8个失败，为新增固定步骤名称尚未同步到
 旧002至005分别有1、2、1、19个全局digest续跑点，不能在新内容上继续冒称有效。
 冻结后仅从旧001重建二阶段002→003→004 saves→005 saves，不重播视频或第一阶段，不修改旧档/指纹。
 
+### 首批技术验收
+
+Root独立验收接受18套后继、18套结构、8个收费绑定及相邻医生修复。原始证据与未解决范围见
+[独立回执](../../testing/script-governance/independent-review.json)和[当前检查点](../../testing/script-governance/current-checkpoints.md)。
+全部实现/作者内容在e3586965e冻结，其后bb08d30ee仅补已核新增引用的测试断言；没有运行时、schema或版本改动。
+
+七包typecheck与11,116测试通过。首轮整仓门发现旧shop数量，实际逐项核出shop+1、portrait+4，
+明确owner/step/locator及全部原parity保留后再跑；第二轮所有包通过，末尾仅两份JSON回执格式有2个诊断。
+格式修正未改JSON语义hash，随后全仓lint零诊断；各原失败日志保留，不把exit1改写为exit0。
+最终文档门与作者工程检查另行通过，所有新运行器/工具回归纳入常规根检查。
+
+e358同版RF002、003、004 saves、005 saves全部passed；Root复核各登记输入、5个新档（含004端菜中途档）
+及9份trace，正式保存/恢复完整世界hash相同，并目视厨房、端菜与村口读回。原warning1/1/2/2不删除。
+52个E2E文件17,990,370字节已保全到main的build/evidence-archive/script-governance-20261002；不含视频。
+旧002至005档不再冒称当前前驱，原001无auto.resume且经过当前preflight可继续使用。
+
+本卡保留build：首批已验收，但147套复杂流程、未证源链/帧序列及已登记后期视觉E2E仍未完成。
+后续按统一步骤设计推进，不扩大本次已冻结内容。无下一位Agent提示词；首批交用户检视，后续仍由Codex推进。
+
 ## 下一位 Agent 提示词
 
 已在当前任务内部委派，无需用户转发。贡献者只在白名单内交证据；Root核前提后分批开放build，不能自行标done。
