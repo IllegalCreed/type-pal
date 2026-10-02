@@ -3,6 +3,7 @@
  * 不重复 dialog-box.test 的控制符/翻页/时序，也不重复 P16 的底框立绘像素。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../__tests__/grok-render-r1/legal-host.js'
 import type { DialogBoxState } from '../core/game-state.js'
 import {
@@ -148,7 +149,7 @@ describe('G05-A dialog 可见文字', () => {
     expect(at(fb, 60, 126)).toBe(0)
   })
 
-  it('G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C', () => {
+  it('G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C', async () => {
     const fb = createFramebuffer()
     const state = startDialogLine('李:', { style: 'top' })
     drawDialogBox(fb, state, wide)
@@ -163,5 +164,7 @@ describe('G05-A dialog 可见文字', () => {
     flushToCanvas(fb, ctx2d, palette)
     expect(Array.from(ctx2d.getImageData(12, 8, 1, 1).data)).toEqual([1, 2, 140, 255])
     expect(at(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)
+    const snap = ctx2d.getImageData(0, 0, 320, 200)
+    await dumpFramebuffer('G05-A11', 320, 200, snap.data, [{ x: 12, y: 8, rgba: [1, 2, 140, 255] }])
   })
 })

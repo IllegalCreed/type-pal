@@ -5,6 +5,7 @@
  */
 import type { PlayerRoles } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette, legalRole } from '../__tests__/grok-render-r1/legal-host.js'
 import { createInitialGameState } from '../core/game-state.js'
 import { buildFadeOut } from '../core/palette-fade.js'
@@ -143,7 +144,7 @@ describe('G04-D present 冻屏归属与调色板', () => {
     expect(out.colors[0xfe]).toEqual([0, 0xfe, 0])
   })
 
-  it('G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9', () => {
+  it('G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9', async () => {
     const fb = createFramebuffer()
     fb.writePixel(4, 6, 9)
     const palette = legalPalette((colors) => {
@@ -157,6 +158,8 @@ describe('G04-D present 冻屏归属与调色板', () => {
     flushToCanvas(fb, ctx2d, palette)
     expect(Array.from(ctx2d.getImageData(4, 6, 1, 1).data)).toEqual([10, 20, 30, 255])
     expect(fb.indices[6 * 320 + 4]).toBe(9)
+    const snap = ctx2d.getImageData(0, 0, 320, 200)
+    await dumpFramebuffer('G04-D08', 320, 200, snap.data, [{ x: 4, y: 6, rgba: [10, 20, 30, 255] }])
   })
 
   it('G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色', () => {

@@ -12,6 +12,8 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { identityMultiset, judgeMutant, judgeTriple } from './judge.mjs'
+import { buildApplicablePatch } from './patch.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '../../../..')
@@ -64,85 +66,6 @@ function runVitest(tree, testFile, jsonPath) {
   }
 }
 
-function executions(report) {
-  const rows = []
-  for (const file of report.testResults ?? []) {
-    for (const assertion of file.assertionResults ?? []) {
-      rows.push(`${file.name}\t${assertion.fullName}\t${assertion.status}`)
-    }
-  }
-  rows.sort()
-  return rows
-}
-
-function namesOf(report) {
-  const rows = []
-  for (const file of report.testResults ?? []) {
-    for (const assertion of file.assertionResults ?? [])
-      rows.push(`${file.name}\t${assertion.fullName}`)
-  }
-  rows.sort()
-  return rows
-}
-
-function failedAssertions(report) {
-  const failed = []
-  for (const file of report.testResults ?? []) {
-    for (const assertion of file.assertionResults ?? []) {
-      if (assertion.status !== 'passed') failed.push(assertion)
-    }
-  }
-  return failed
-}
-
-function stackedUnhandled(stdout, stderr) {
-  return /Unhandled Errors|Uncaught Exception|Unhandled Rejection/i.test(`${stdout}\n${stderr}`)
-}
-
-function judgeClean(report, run) {
-  const reasons = []
-  if (run.signal) reasons.push(`signal ${run.signal}`)
-  if (run.exitCode !== 0) reasons.push(`exit ${run.exitCode}`)
-  if (stackedUnhandled(run.stdout, run.stderr)) reasons.push('unhandled error')
-  if ((report.numTotalTests ?? 0) === 0) reasons.push('zero executions')
-  if ((report.numPendingTests ?? 0) !== 0 || (report.numTodoTests ?? 0) !== 0) {
-    reasons.push('pending or todo')
-  }
-  const failed = failedAssertions(report)
-  if (failed.length !== 0) reasons.push(`failed ${failed.length}`)
-  if ((report.numPassedTests ?? 0) === 0) reasons.push('no passed tests')
-  return reasons
-}
-
-function judgeMutant(report, run, target) {
-  const reasons = []
-  if (run.signal) reasons.push(`signal ${run.signal}`)
-  if (run.exitCode !== 1) reasons.push(`exit ${run.exitCode}`)
-  if (stackedUnhandled(run.stdout, run.stderr)) reasons.push('unhandled error stacked on assertion')
-  if ((report.numTotalTests ?? 0) === 0) reasons.push('zero executions')
-  if ((report.numPendingTests ?? 0) !== 0 || (report.numTodoTests ?? 0) !== 0) {
-    reasons.push('pending or todo')
-  }
-  const failed = failedAssertions(report)
-  if (failed.length !== 1) reasons.push(`failed count ${failed.length}`)
-  else {
-    const only = failed[0]
-    const message = (only.failureMessages ?? []).join('\n')
-    if (!String(only.fullName).includes(target)) reasons.push(`wrong target ${only.fullName}`)
-    if (!message.includes('AssertionError')) reasons.push('failure is not AssertionError')
-    if (/^\s*(TypeError|ReferenceError|SyntaxError)/m.test(message)) {
-      reasons.push('non-assertion exception')
-    }
-  }
-  const other = executions(report).filter((row) => !row.endsWith('\tfailed'))
-  if (other.some((row) => !row.endsWith('\tpassed'))) reasons.push('non-passed sibling')
-  return { reasons, assertion: failed[0] ?? null }
-}
-
-function sameNames(left, right) {
-  return JSON.stringify(namesOf(left)) === JSON.stringify(namesOf(right))
-}
-
 function writeRun(dir, label, run, report) {
   writeFileSync(join(dir, `${label}.json`), `${JSON.stringify(report, null, 2)}\n`)
   writeFileSync(join(dir, `${label}.stdout`), run.stdout)
@@ -151,13 +74,6 @@ function writeRun(dir, label, run, report) {
 
 function loadReport(path) {
   return JSON.parse(text(path))
-}
-
-function rewritePatchPaths(raw, source) {
-  const lines = raw.split('\n')
-  if (lines[0]?.startsWith('--- ')) lines[0] = `--- a/${source}`
-  if (lines[1]?.startsWith('+++ ')) lines[1] = `+++ b/${source}`
-  return lines.join('\n')
 }
 
 function runNeedle(needle) {
@@ -170,25 +86,14 @@ function runNeedle(needle) {
     const original = read(sourcePath)
     const originalSha = sha256(original)
     const sourceText = original.toString('utf8')
-    const parts = sourceText.split(needle.from)
-    if (parts.length !== 2) {
-      throw new Error(`${needle.id} mutation site count ${parts.length - 1}`)
-    }
+    if (!needle.targetFullName) throw new Error(`${needle.id} missing targetFullName`)
+    const built = buildApplicablePatch(sourceText, needle.from, needle.to, needle.source)
     const json = (label) => join(tree, `${label}.json`)
     const originalRun = runVitest(tree, needle.testFile, json('original'))
     const originalReport = loadReport(json('original'))
-    const mutantBytes = Buffer.from(parts.join(needle.to), 'utf8')
-    writeFileSync(sourcePath, mutantBytes)
+    writeFileSync(sourcePath, built.mutantText)
     const mutantSha = sha256(read(sourcePath))
-    const originalCopy = `${sourcePath}.original`
-    writeFileSync(originalCopy, original)
-    const patch = spawnSync('diff', ['-u', originalCopy, sourcePath], { encoding: 'utf8' })
-    const patchText = rewritePatchPaths(patch.stdout ?? '', needle.source)
-    if (patch.status !== 1 || !patchText.includes('\n-') || !patchText.includes('\n+')) {
-      throw new Error(
-        `${needle.id} diff status ${patch.status}: ${(patch.stderr ?? '').slice(0, 400)}`,
-      )
-    }
+    const patchText = built.patch
     const mutantRun = runVitest(tree, needle.testFile, json('mutant'))
     const mutantReport = loadReport(json('mutant'))
     writeFileSync(sourcePath, original)
@@ -199,21 +104,20 @@ function runNeedle(needle) {
     writeRun(dir, 'mutant', mutantRun, mutantReport)
     writeRun(dir, 'restored', restoredRun, restoredReport)
     writeFileSync(join(dir, 'patch.diff'), patchText)
-    const cleanReasons = judgeClean(originalReport, originalRun)
-    const restoredReasons = judgeClean(restoredReport, restoredRun)
-    const mutantJudgement = judgeMutant(mutantReport, mutantRun, needle.target)
-    const nameMismatch =
-      !sameNames(originalReport, mutantReport) || !sameNames(originalReport, restoredReport)
-    const reasons = [
-      ...cleanReasons.map((reason) => `original ${reason}`),
-      ...restoredReasons.map((reason) => `restored ${reason}`),
-      ...mutantJudgement.reasons.map((reason) => `mutant ${reason}`),
-    ]
+    const judgement = judgeTriple(
+      {
+        original: { report: originalReport, run: originalRun },
+        mutant: { report: mutantReport, run: mutantRun },
+        restored: { report: restoredReport, run: restoredRun },
+      },
+      { file: needle.testFile, fullName: needle.targetFullName },
+      { tempRoot: tree },
+    )
+    const reasons = [...judgement.reasons]
     if (originalSha !== restoredSha) reasons.push('restored bytes differ')
     if (originalSha === mutantSha) reasons.push('mutation did not change bytes')
-    if (nameMismatch) reasons.push('execution name multiset changed')
     const accepted = reasons.length === 0
-    const assertion = mutantJudgement.assertion
+    const assertion = judgement.assertion
     const meta = {
       id: needle.id,
       batch: needle.batch,
@@ -241,7 +145,7 @@ function runNeedle(needle) {
       },
       assertionError: assertion ? (assertion.failureMessages ?? []).join('\n') : '',
       fullName: assertion?.fullName ?? '',
-      names: namesOf(originalReport).length,
+      names: identityMultiset(originalReport, tree).length,
     }
     writeFileSync(join(dir, 'meta.json'), `${JSON.stringify(meta, null, 2)}\n`)
     return meta
@@ -276,7 +180,15 @@ function runProbe() {
     const run = runVitest(tree, 'src/probe-unhandled.grok-r1.test.ts', jsonPath)
     const report = loadReport(jsonPath)
     writeRun(dir, 'probe', run, report)
-    const judgement = judgeMutant(report, run, 'probe single red plus unhandled')
+    const judgement = judgeMutant(
+      report,
+      run,
+      {
+        file: 'src/probe-unhandled.grok-r1.test.ts',
+        fullName: 'probe single red plus unhandled',
+      },
+      { tempRoot: tree },
+    )
     const rejected = judgement.reasons.some((reason) => reason.includes('unhandled'))
     const meta = {
       id: 'probe-reject',
@@ -302,25 +214,30 @@ function selectedNeedles() {
   return all.filter((needle) => ids.has(needle.id))
 }
 
-const summaries = []
-let failed = false
-try {
-  if (!process.argv.includes('--skip-probe')) summaries.push(runProbe())
-  for (const needle of selectedNeedles()) {
-    const meta = runNeedle(needle)
-    summaries.push({ id: meta.id, accepted: meta.accepted, reasons: meta.reasons })
-    if (!meta.accepted) failed = true
-  }
-  if (existsSync(join(evidenceRoot, 'index.json'))) {
-    const previous = JSON.parse(text(join(evidenceRoot, 'index.json')))
-    for (const item of previous) {
-      if (!summaries.some((summary) => summary.id === item.id)) summaries.push(item)
+function main() {
+  const summaries = []
+  let failed = false
+  try {
+    if (!process.argv.includes('--skip-probe')) summaries.push(runProbe())
+    for (const needle of selectedNeedles()) {
+      const meta = runNeedle(needle)
+      summaries.push({ id: meta.id, accepted: meta.accepted, reasons: meta.reasons })
+      if (!meta.accepted) failed = true
     }
+    if (existsSync(join(evidenceRoot, 'index.json'))) {
+      const previous = JSON.parse(text(join(evidenceRoot, 'index.json')))
+      for (const item of previous) {
+        if (!summaries.some((summary) => summary.id === item.id)) summaries.push(item)
+      }
+    }
+    writeFileSync(join(evidenceRoot, 'index.json'), `${JSON.stringify(summaries, null, 2)}\n`)
+  } catch (error) {
+    console.error(error)
+    failed = true
   }
-  writeFileSync(join(evidenceRoot, 'index.json'), `${JSON.stringify(summaries, null, 2)}\n`)
-} catch (error) {
-  console.error(error)
-  failed = true
+  if (failed) process.exitCode = 1
+  else console.log(JSON.stringify(summaries, null, 2))
 }
-if (failed) process.exitCode = 1
-else console.log(JSON.stringify(summaries, null, 2))
+
+const invoked = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+if (invoked) main()

@@ -7,6 +7,7 @@
     "to": "battleSprites.set(`${entry.kind}:${entry.id}`, { frames })",
     "testFile": "src/assets/load-all-assemble.grok-r1.test.ts",
     "target": "G01-A07",
+    "targetFullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
     "axis": "战斗精灵键归属从 kind-id 被改成 kind:id"
   },
   {
@@ -17,6 +18,7 @@
     "to": "words: wordsRaw.flat ?? ['MUT']",
     "testFile": "src/assets/load-all-bounds.grok-r1.test.ts",
     "target": "G01-B06",
+    "targetFullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
     "axis": "缺 flat 时词表从空数组变成带 MUT 的数组"
   },
   {
@@ -27,6 +29,7 @@
     "to": "return [{ id: -1 }] as ObjectPlayerView[]",
     "testFile": "src/assets/load-all-recover.grok-r1.test.ts",
     "target": "G01-C01",
+    "targetFullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
     "axis": "object-players 失败恢复从空数组变成占位 id -1"
   },
   {
@@ -37,6 +40,7 @@
     "to": "    let fetched\n    try {\n      fetched = await this.fetcher(sceneId)\n    } catch (error) {\n      this.cache.set(sceneId, {\n        sceneId: -1,\n        mapNum: -1,\n        tilemap: { width: 1, height: 1, cells: [[{ lower: 0, upper: 0 }]], tileset: 'x' },\n        palette: { colors: [], cycles: [] },\n        eventObjects: [],\n        npcSprites: new Map(),\n        eventCommands: [],\n        labelMap: {},\n      })\n      throw error\n    }\n    this.cache.set(sceneId, fetched)",
     "testFile": "src/assets/scene-cache.grok-r1.test.ts",
     "target": "G01-D02",
+    "targetFullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
     "axis": "fetcher 拒绝后仍把 sceneId -1 写入缓存"
   },
   {
@@ -47,6 +51,7 @@
     "to": "      {},",
     "testFile": "src/assets/png-decode.grok-r1.test.ts",
     "target": "G02-A05",
+    "targetFullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
     "axis": "PNG 解码失败不再把原始异常放进 Error.cause"
   },
   {
@@ -57,6 +62,7 @@
     "to": "    out.set(c, 0)",
     "testFile": "src/assets/tileset-gzip.grok-r1.test.ts",
     "target": "G02-B05",
+    "targetFullName": "G02-B gzip 魔数与帧锚点 G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]",
     "axis": "gzip 分块拼接从累计偏移改成每段都从 0 覆盖"
   },
   {
@@ -67,6 +73,7 @@
     "to": "anchorY: first ? first.height + 1 : 0",
     "testFile": "src/assets/tileset-load.grok-r1.test.ts",
     "target": "G02-C03",
+    "targetFullName": "G02-C sprite 与 tileset 加载边界 G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB",
     "axis": "角色锚点 Y 在首帧高度上再加 1"
   },
   {
@@ -77,6 +84,7 @@
     "to": "console.warn(`dialog-assets: portrait load failed, skip:`, err)",
     "testFile": "src/assets/dialog-icons.grok-r1.test.ts",
     "target": "G02-D07",
+    "targetFullName": "G02-D 对话图标与 base64 G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在",
     "axis": "单张头像失败的 warn 不再带 chunkIndex"
   },
   {
@@ -87,6 +95,7 @@
     "to": "        for (let dy = 1; dy >= -1 && v < 0; dy--) {",
     "testFile": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
     "target": "G03-A09",
+    "targetFullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
     "axis": "接缝邻居扫描从北向南改成从南向北"
   },
   {
@@ -97,6 +106,7 @@
     "to": "    anchorX: Math.floor(f.width / 2) - (f.width > 1 && f.width % 2 === 1 ? 1 : 0),",
     "testFile": "src/present/draw-sprite-clip.grok-r1.test.ts",
     "target": "G03-B01",
+    "targetFullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
     "axis": "宽度大于 1 的奇数帧水平锚点再减 1"
   },
   {
@@ -107,6 +117,7 @@
     "to": "    offX = 16 // East||West ? -16 : +16",
     "testFile": "src/present/follower-pos-axis.grok-r1.test.ts",
     "target": "G03-C05",
+    "targetFullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
     "axis": "第二名跟随者左右朝向的水平偏移被固定成 +16"
   },
   {
@@ -117,6 +128,7 @@
     "to": "    if (!t) break",
     "testFile": "src/present/follower-render-gap.grok-r1.test.ts",
     "target": "G03-D02",
+    "targetFullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
     "axis": "跟随者缺 trail 槽时从跳过该槽改成终止后续槽"
   },
   {
@@ -127,6 +139,7 @@
     "to": "wave[i + 16] = wave[i]!",
     "testFile": "src/present/screen-wave-mirror.grok-r1.test.ts",
     "target": "G04-A01",
+    "targetFullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
     "axis": "32 相位镜像从 320 减偏移改成复制前 16 相"
   },
   {
@@ -137,6 +150,7 @@
     "to": "if (level > 0 && level < SCREEN_H + 1)",
     "testFile": "src/present/screen-shake-bounds.grok-r1.test.ts",
     "target": "G04-B01",
+    "targetFullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
     "axis": "摇晃高度上限从小于 200 放宽到小于 201"
   },
   {
@@ -147,6 +161,7 @@
     "to": "else if (aLow < bLow) b++",
     "testFile": "src/present/dither-fade-nibble.grok-r1.test.ts",
     "target": "G04-C02",
+    "targetFullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
     "axis": "低位大于目标时从减一改成加一"
   },
   {
@@ -157,6 +172,7 @@
     "to": "  if (gs.suspendRaf && !gs.blackScreenHold) {\n    return\n  }",
     "testFile": "src/present/present-hold.grok-r1.test.ts",
     "target": "G04-D01",
+    "targetFullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
     "axis": "suspendRaf 不再压过 blackScreenHold 的清屏"
   },
   {
@@ -167,6 +183,7 @@
     "to": "      basePos.y + i * (LINE_HEIGHT_PX + 1),",
     "testFile": "src/present/dialog-box-pixels.grok-r1.test.ts",
     "target": "G05-A05",
+    "targetFullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
     "axis": "已显示行的行距从 18 像素改成 19 像素"
   },
   {
@@ -177,6 +194,7 @@
     "to": "throw new Error('font: fetch glyphs.json failed')",
     "testFile": "src/present/font-width.grok-r1.test.ts",
     "target": "G05-B08",
+    "targetFullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
     "axis": "字形清单失败的错误文本不再带 HTTP 状态码"
   },
   {
@@ -187,6 +205,7 @@
     "to": "    if (frame) {\n      blitDigitSprite(fb, frame, x, y)\n      x -= DIGIT_WIDTH\n    }",
     "testFile": "src/present/draw-number-slots.grok-r1.test.ts",
     "target": "G05-C03",
+    "targetFullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
     "axis": "缺帧时不再为这一位留出 6 像素"
   },
   {
@@ -197,6 +216,7 @@
     "to": "ctx?.iconFrames?.get(KEY_ICON_FRAME)",
     "testFile": "src/present/dialog-box-chrome.grok-r1.test.ts",
     "target": "G05-D01",
+    "targetFullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
     "axis": "等键图标忽略右括号和左括号选出的帧号"
   },
   {
@@ -207,6 +227,7 @@
     "to": "        fb.writePixel(fbX, fbY, (cur & 0xf0) | ((cur & 0x0f) >> 2))",
     "testFile": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
     "target": "G06-A01",
+    "targetFullName": "G06-A 物品列表像素 G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
     "axis": "物品框阴影把底色低四位右移两位"
   },
   {
@@ -217,6 +238,7 @@
     "to": "71, 151 + li * 17, DESCTEXT_COLOR",
     "testFile": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
     "target": "G06-B01",
+    "targetFullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
     "axis": "第二条物品描述的行距从 16 像素改成 17 像素"
   },
   {
@@ -227,6 +249,7 @@
     "to": "    rows: state.partyMembers.length - 1,",
     "testFile": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
     "target": "G06-C01",
+    "targetFullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
     "axis": "一人队伍不再保底画出一行选人框"
   },
   {
@@ -237,6 +260,7 @@
     "to": "if (!pd || pd.level >= 3) continue",
     "testFile": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
     "target": "G06-D10",
+    "targetFullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
     "axis": "毒等级等于 3 时不再显示"
   },
   {
@@ -247,6 +271,7 @@
     "to": "const rows = state.partyMembers.length - 1",
     "testFile": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
     "target": "G07-A01",
+    "targetFullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
     "axis": "一人选人阶段不再保底画出一行选人框"
   },
   {
@@ -257,6 +282,7 @@
     "to": "const price = Number(String(items.find((item) => item.id === it.id)?.price ?? it.rightText ?? '0'))",
     "testFile": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
     "target": "G07-B01",
+    "targetFullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
     "axis": "列表价改读目录 price，不再读菜单快照 rightText"
   },
   {
@@ -267,6 +293,7 @@
     "to": "if (img.opaque[off] === 2) continue\n      fb.writePixel(dstX + x, dstY + y, img.indices[off]!)",
     "testFile": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
     "target": "G07-C01",
+    "targetFullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
     "axis": "透明孔被当成不透明点写进缓冲"
   },
   {
@@ -277,6 +304,7 @@
     "to": "if (bg && bg.indices[0] !== 0) {",
     "testFile": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
     "target": "G07-D01",
+    "targetFullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
     "axis": "背景索引 0 被跳过，不再覆盖底色"
   },
   {
@@ -287,6 +315,7 @@
     "to": "if (it.fadeStep < 0 && false && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)",
     "testFile": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
     "target": "G08-A01",
+    "targetFullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
     "axis": "染色第二遍被关掉后重叠点不再被染回"
   },
   {
@@ -297,6 +326,7 @@
     "to": "r.hp <= Math.min(100, Math.floor(r.maxHP / 5))",
     "testFile": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
     "target": "G08-B01",
+    "targetFullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
     "axis": "体力正好等于门槛时合击被判成不健康"
   },
   {
@@ -307,6 +337,7 @@
     "to": "const w1 = Math.max(wordWidthCols(data.name), 2)",
     "testFile": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
     "target": "G08-C04",
+    "targetFullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
     "axis": "二字名的隐藏涨点框不再钳到 3"
   },
   {
@@ -317,6 +348,7 @@
     "to": "const baseX = x - (frame.width >> 2)",
     "testFile": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
     "target": "G08-D01",
+    "targetFullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
     "axis": "奇数宽特效锚点改成右移两位"
   },
   {
@@ -327,6 +359,7 @@
     "to": "this.cursor += 0",
     "testFile": "src/shell/input-replay.grok-r1.test.ts",
     "target": "G09-A08",
+    "targetFullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
     "axis": "回放游标停在第一帧，越过末帧后的追加快照仍会被读到"
   },
   {
@@ -337,6 +370,7 @@
     "to": "if (state.accumulator >= interval) state.accumulator = 0",
     "testFile": "src/shell/main-loop-gates.grok-r1.test.ts",
     "target": "G09-B04",
+    "targetFullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
     "axis": "余量正好等于间隔时也被清掉"
   },
   {
@@ -347,6 +381,7 @@
     "to": "  expectedTotal: number = 811,",
     "testFile": "src/shell/boot-loading-host.grok-r1.test.ts",
     "target": "G09-C01",
+    "targetFullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
     "axis": "默认启动分母从 810 改成 811"
   },
   {
@@ -357,6 +392,7 @@
     "to": "const pct = p.totalBytes > 0 ? Math.floor((p.bytes / p.totalBytes) * 100) : 1",
     "testFile": "src/shell/precache-ui-host.grok-r1.test.ts",
     "target": "G09-D01",
+    "targetFullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
     "axis": "总字节为 0 时小组件百分比从 0 变成 1"
   },
   {
@@ -367,6 +403,7 @@
     "to": "    const endFrame = endFrameRaw === -1 ? chunk.frameCount - 1 : endFrameRaw",
     "testFile": "src/shell/rng-window.grok-r1.test.ts",
     "target": "G10-A02",
+    "targetFullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1",
     "axis": "只有 endFrame 恰好为 -1 才播到末帧，-2 被当成真实帧号"
   },
   {
@@ -377,6 +414,7 @@
     "to": "  const f = Math.max(0, Math.min(2, factor))",
     "testFile": "src/shell/trademark-splash.grok-r1.test.ts",
     "target": "G10-B01",
+    "targetFullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB",
     "axis": "淡出系数上界从 1 放宽到 2，时间回退时颜色翻倍"
   },
   {
@@ -387,6 +425,7 @@
     "to": "  const speed = o.speed === 0 ? 2 : o.speed",
     "testFile": "src/shell/fbp-scroll.grok-r1.test.ts",
     "target": "G10-C03",
+    "targetFullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
     "axis": "speed 0 被当成 2，步进从 800ms 变成 400ms"
   },
   {
@@ -397,6 +436,7 @@
     "to": "  const skipKeys = new Set(o.skipKeys ?? ['Space'])",
     "testFile": "src/shell/ending-avi-host.grok-r1.test.ts",
     "target": "G10-D01",
+    "targetFullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
     "axis": "省略跳过键时默认吃掉 Space"
   }
 ]

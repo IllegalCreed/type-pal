@@ -4,6 +4,7 @@
  * 不重复 P04 的 123/45、现有 3 和半价 40，也不重复 glm 的空店与不可卖。
  */
 import { afterEach, describe, expect, it } from 'vitest'
+import { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../../__tests__/grok-render-r1/legal-host.js'
 import type { IndexedImage } from '../../assets/png.js'
 import { MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST } from '../../core/menu/inventory-menu.js'
@@ -313,7 +314,7 @@ describe('G07-B 商店预览像素', () => {
     expect(pixel(fb, rightDigitX(69, 6, 1), 115)).toBe(SENTINEL)
   })
 
-  it('G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', () => {
+  it('G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', async () => {
     const gs = makeGs()
     const bead = makeItem(44, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })
     const items = [bead]
@@ -338,5 +339,9 @@ describe('G07-B 商店预览像素', () => {
     flushToCanvas(fb, ctx2d, palette)
     expect(Array.from(ctx2d.getImageData(40, 8, 1, 1).data)).toEqual([40, 18, 70, 255])
     expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)
+    const snap = ctx2d.getImageData(0, 0, 320, 200)
+    await dumpFramebuffer('G07-B13', 320, 200, snap.data, [
+      { x: 40, y: 8, rgba: [40, 18, 70, 255] },
+    ])
   })
 })

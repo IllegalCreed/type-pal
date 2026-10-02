@@ -8,6 +8,10 @@
 `probe-reject/` 是真实 Vitest：一条 `expect(1).toBe(2)` 叠 15ms 后抛出的 `probe-unhandled-exception`。
 JSON 里只有一条 AssertionError，退出码为 1；stderr 同时有 Unhandled Errors。judge 因此拒收。
 
+GROK-R1-01 把判据抽到 [judge.mjs](../judge.mjs)。`run-counters.mjs` 和 [judge.selftest.mjs](../judge.selftest.mjs) 都 import 这一份。判据核对登记的完整 file 与 fullName，三态 file×fullName 多重集合，实际叶非零且与顶层计数闭合，并拒收 collection、runtime、raw、spawn 和 signal。自测用 G01-A 存档构造四个旧判据会误收的反例，新判据全部拒收；40 组存档只重判、不重采，仍然接受。自测里另起的真实 Vitest 进程也对单红叠未处理异常拒收，退出码 1，signal 为 null。记录在 [judge-selftest.json](../judge-selftest.json)。
+
+GROK-R1-02 只重写了 G02-C 与 G04-A 的 `patch.diff`。hunk 行数与源码上下文现在能 `git apply`。两枚 mutant SHA256 仍是 `635fc5f54e5afbee61e617967c3647068bdf98e9baa9f87b1ea04438c5fd33ae` 与 `f0b566797559fd4ce97d5595bcf4e2c67f8678be07840eedf4896c223101db3b`。三态 JSON、stdout、stderr 没有重采。索引里的 patch SHA256 已改成新补丁字节。
+
 | 针 | 目标测试 | mutant 首行 |
 |---|---|---|
 | G01-A | G01-A07 | `expected [ 'enemy:4', 'player:2' ] to deeply equal [ 'enemy-4', 'player-2' ]` |

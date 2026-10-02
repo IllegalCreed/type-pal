@@ -4,6 +4,7 @@
  * 不重复 P01 的选中色、翻页和已装备色，也不重复 P02 的现行数量 7 与攻击数字。
  */
 import { afterEach, describe, expect, it } from 'vitest'
+import { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../../__tests__/grok-render-r1/legal-host.js'
 import type { IndexedImage } from '../../assets/png.js'
 import {
@@ -367,7 +368,7 @@ describe('G06-A 物品列表像素', () => {
     expect(pixel(fb, rightDigitX(240, 4, 0), 74)).toBe(yellowDigit(4))
   })
 
-  it('G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', () => {
+  it('G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', async () => {
     const gs = makeGs()
     const item = makeItem(22, '甲', { flags: { usable: true } })
     const items = [item]
@@ -393,5 +394,9 @@ describe('G06-A 物品列表像素', () => {
     flushToCanvas(fb, ctx2d, palette)
     expect(Array.from(ctx2d.getImageData(0, 140, 1, 1).data)).toEqual([110, 7, 14, 255])
     expect(pixel(fb, 0, 140)).toBe(ITEMBOX_ID)
+    const snap = ctx2d.getImageData(0, 0, 320, 200)
+    await dumpFramebuffer('G06-A12', 320, 200, snap.data, [
+      { x: 0, y: 140, rgba: [110, 7, 14, 255] },
+    ])
   })
 })

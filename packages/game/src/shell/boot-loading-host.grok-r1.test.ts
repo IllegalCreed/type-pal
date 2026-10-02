@@ -3,6 +3,7 @@
  * 默认分母、缺节点、合并刷新和还原 fetch。不重领 3/4、99 封顶和 onProgress 0.5。
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { dumpHost, readHost } from '../__tests__/grok-render-r1/dump-evidence.js'
 import {
   failBootLoading,
   finishBootLoading,
@@ -44,6 +45,14 @@ describe('G09-C 启动加载宿主', () => {
     await flushRender()
     expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 0 / 810')
     expect(document.getElementById('boot-loading-fill')?.style.width).toBe('0%')
+    await dumpHost('G09-C01', [
+      readHost(
+        'boot-default',
+        document.getElementById('boot-loading-status'),
+        document.getElementById('boot-loading-fill'),
+        document.getElementById('boot-loading'),
+      ),
+    ])
   })
 
   it('G09-C02 fetch 拒绝后完成数仍加一', async () => {
@@ -77,6 +86,14 @@ describe('G09-C 启动加载宿主', () => {
     await flushRender()
     expect(document.getElementById('boot-loading-status')).toBeNull()
     expect(document.getElementById('boot-loading-fill')?.style.width).toBe('25%')
+    await dumpHost('G09-C04', [
+      readHost(
+        'fill-only',
+        document.getElementById('boot-loading-status'),
+        document.getElementById('boot-loading-fill'),
+        document.getElementById('boot-loading'),
+      ),
+    ])
   })
 
   it('G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽', async () => {
@@ -187,7 +204,7 @@ describe('G09-C 启动加载宿主', () => {
     expect(document.getElementById('boot-loading-fill')?.style.width).toBe('')
   })
 
-  it('G09-C11 失败文案是启动失败加原文，并带上错误类', () => {
+  it('G09-C11 失败文案是启动失败加原文，并带上错误类', async () => {
     mount()
     initBootLoading(4)
     failBootLoading('磁盘满')
@@ -195,5 +212,13 @@ describe('G09-C 启动加载宿主', () => {
     expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-error')).toBe(
       true,
     )
+    await dumpHost('G09-C11', [
+      readHost(
+        'boot-failed',
+        document.getElementById('boot-loading-status'),
+        document.getElementById('boot-loading-fill'),
+        document.getElementById('boot-loading'),
+      ),
+    ])
   })
 })

@@ -78,6 +78,12 @@
 
 本批新合同 25。累计 400/40/40。
 
+## GROK-R1
+
+没有新的停组产品缺陷。R1-01 到 R1-03 是判据、两份补丁字节和图像落盘，不改产品，也不把环境缺口写成原版真值。
+
+审核在隔离资产副本上得到的 game 全包 3173/3173 保留为那次只读复制的结果。本工作树仍没有 gitignore 的 `data/extracted` 与 `data/raw`，不把 3173 写成这次提交的退出码。
+
 ## 全包资产环境
 
 全包 `vitest run` 退出码 1。唯一失败套件是 `packages/game/src/dev/dev-panel.test.ts`。工作树没有 gitignore 的 `data/extracted/data/enemy-teams.json`，套件回调在收集阶段 `readFileSync` 抛出 ENOENT。主检出 `/Users/zhangxu/illegal/type-pal/data/extracted/data/enemy-teams.json` 存在。未复制真实数据，未改这条旧测。3145 条测试通过，13 条跳过。本卡新增测试均通过。这条环境异常单列给 Codex，全包不算绿。

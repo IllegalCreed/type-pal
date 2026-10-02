@@ -1413,7 +1413,7 @@
       },
       "patch": {
         "path": "docs/testing/grok-cursor-large/grok/counters/G02-C/patch.diff",
-        "sha256": "35c1ea2eb7646a47c160d477858c1063193fc0194390232bfc53450953fd5824",
+        "sha256": "b46c807488bd394a742b6fbd3b1c97ac8fae6a57d15aee7e19910a93cea14cef",
         "bytes": 284
       },
       "logs": [
@@ -2156,8 +2156,8 @@
       ],
       "patch": {
         "path": "docs/testing/grok-cursor-large/grok/counters/G04-A/patch.diff",
-        "sha256": "78318b66f9d96693eca5466402bf07e7148266802dc596dee62c61e28908a4d1",
-        "bytes": 367
+        "sha256": "27f2099350b82a263453480f74fed0bb4d95be818d1ce54d5578cdec3bdf8673",
+        "bytes": 264
       },
       "logs": [
         "docs/testing/grok-cursor-large/grok/counters/G04-A/original.json",

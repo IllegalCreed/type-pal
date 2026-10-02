@@ -4,6 +4,7 @@
  */
 import type { Palette } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../__tests__/grok-render-r1/legal-host.js'
 import type { IndexedImage } from '../assets/png.js'
 import { createFramebuffer } from '../present/framebuffer.js'
@@ -79,6 +80,11 @@ describe('G10-B 商标淡出与卷轴停点', () => {
     expect([mid[0], mid[1], mid[2], mid[3]]).toEqual([100, 40, 10, 255])
     expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([0, 0, 0, 255])
     expect(fb.indices[0]).toBe(200)
+    await dumpFramebuffer('G10-B01-fade', 320, 200, mid, [{ x: 0, y: 0, rgba: [100, 40, 10, 255] }])
+    const finalSnap = ctx.getImageData(0, 0, 320, 200)
+    await dumpFramebuffer('G10-B01-final', 320, 200, finalSnap.data, [
+      { x: 0, y: 0, rgba: [0, 0, 0, 255] },
+    ])
   })
 
   it('G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200', async () => {
@@ -96,6 +102,10 @@ describe('G10-B 商标淡出与卷轴停点', () => {
     })
     expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([0, 0, 0, 255])
     expect(fb.indices[0]).toBe(200)
+    const finalSnap = ctx.getImageData(0, 0, 320, 200)
+    await dumpFramebuffer('G10-B02-final', 320, 200, finalSnap.data, [
+      { x: 0, y: 0, rgba: [0, 0, 0, 255] },
+    ])
   })
 
   it('G10-B03 默认淡出前等待 1000 毫秒', async () => {

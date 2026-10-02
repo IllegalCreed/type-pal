@@ -3,6 +3,7 @@
  * 奇数宽特效锚点和真实 framebuffer 上的五位飘字。不重领偶数 2×2、寿命和颜色集合。
  */
 import { describe, expect, it } from 'vitest'
+import { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../../__tests__/grok-render-r1/legal-host.js'
 import type { IndexedImage } from '../../assets/png.js'
 import type { BattleAnimOverlay } from '../../core/battle/battle-state.js'
@@ -116,7 +117,7 @@ describe('G08-D 特效与飘字像素', () => {
     expect(layer.count).toBe(1)
   })
 
-  it('G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D', () => {
+  it('G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D', async () => {
     const fb = createFramebuffer()
     fillSentinel(fb)
     drawBattleEffectOverlay(fb, overlayAt(160, 90), solid(3, 1, 0x2d))
@@ -131,5 +132,9 @@ describe('G08-D 特效与飘字像素', () => {
     flushToCanvas(fb, ctx2d, palette)
     expect(Array.from(ctx2d.getImageData(161, 89, 1, 1).data)).toEqual([45, 9, 18, 255])
     expect(pixel(fb, 161, 89)).toBe(0x2d)
+    const snap = ctx2d.getImageData(0, 0, 320, 200)
+    await dumpFramebuffer('G08-D07', 320, 200, snap.data, [
+      { x: 161, y: 89, rgba: [45, 9, 18, 255] },
+    ])
   })
 })

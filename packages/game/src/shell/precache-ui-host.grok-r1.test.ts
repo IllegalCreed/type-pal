@@ -3,6 +3,7 @@
  * 零字节、自定义虚线、缺按钮和进入后的错误门。不重领默认 12% 单调和按钮点击。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { dumpHost, readHost } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { createPrecacheWidget, createUnifiedProgressUi } from './precache-ui.js'
 
 function mount(html: string): void {
@@ -35,7 +36,7 @@ afterEach(() => {
 })
 
 describe('G09-D 预缓存宿主', () => {
-  it('G09-D01 总字节为 0 时小组件百分比和条宽都是 0', () => {
+  it('G09-D01 总字节为 0 时小组件百分比和条宽都是 0', async () => {
     const widget = createPrecacheWidget()
     widget.update({ done: 0, total: 0, bytes: 0, totalBytes: 0 })
     const el = document.getElementById('precache-widget')
@@ -43,6 +44,9 @@ describe('G09-D 预缓存宿主', () => {
     const fill = bar?.children[0]
     expect(fill instanceof HTMLElement ? fill.style.width : '').toBe('0%')
     expect(el?.textContent).toBe('后台缓存资源 0% (0/0MB)')
+    await dumpHost('G09-D01', [
+      readHost('precache-zero', el, fill instanceof HTMLElement ? fill : null, el),
+    ])
   })
 
   it('G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor', () => {
@@ -99,7 +103,7 @@ describe('G09-D 预缓存宿主', () => {
     expect(calls).toBe(1)
   })
 
-  it('G09-D08 没有进入按钮容器时 markPlayable 立刻放行', () => {
+  it('G09-D08 没有进入按钮容器时 markPlayable 立刻放行', async () => {
     mount(`
       <div id="boot-loading">
         <div id="boot-loading-fill"></div>
@@ -113,6 +117,14 @@ describe('G09-D 预缓存宿主', () => {
     expect(calls).toBe(1)
     expect(fillWidth()).toBe('12%')
     expect(statusText()).toBe('必要资源就绪 — 可进入')
+    await dumpHost('G09-D08', [
+      readHost(
+        'enter-without-button',
+        document.getElementById('boot-loading-status'),
+        document.getElementById('boot-loading-fill'),
+        document.getElementById('boot-loading'),
+      ),
+    ])
   })
 
   it('G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden', () => {
@@ -225,15 +237,26 @@ describe('G09-D 预缓存宿主', () => {
     expect(document.getElementById('precache-widget')?.textContent).toBe('后台缓存中…')
   })
 
-  it('G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除', () => {
+  it('G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除', async () => {
     vi.useFakeTimers()
     const widget = createPrecacheWidget()
     widget.done()
     const el = document.getElementById('precache-widget')
     expect(el?.style.opacity).toBe('0')
+    const atDone = readHost('done', el, null, el)
+    atDone.flags = [`opacity:${el?.style.opacity ?? ''}`, ...atDone.flags]
     vi.advanceTimersByTime(599)
-    expect(document.getElementById('precache-widget')).not.toBeNull()
+    const mid = document.getElementById('precache-widget')
+    expect(mid).not.toBeNull()
+    const at599 = readHost('599ms', mid, null, mid)
+    at599.flags = [`opacity:${mid?.style.opacity ?? ''}`, ...at599.flags]
     vi.advanceTimersByTime(1)
     expect(document.getElementById('precache-widget')).toBeNull()
+    vi.useRealTimers()
+    await dumpHost('G09-D20', [
+      atDone,
+      at599,
+      { label: '600ms', text: '', width: '', flags: ['absent'] },
+    ])
   })
 })
