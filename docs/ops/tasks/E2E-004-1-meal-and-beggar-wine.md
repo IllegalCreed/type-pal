@@ -84,6 +84,7 @@ Root premise verified / design agree / build allowed：独立审计的条件性c
   禁止save codec/version、整体schema版本/旧兼容、资产供应、全局touch、自动调度、公共配置/规则、其他实体剧情扩张。
   保留旧红日志，修订旧内联回归为NPC所有权；优先先交能力与测试冻结SHA，再交作者内容SHA，均不合main。
 - Root：docs/看板/索引、package004命令、scripts/e2e/kitchen-contract.mjs及其test（现行持久取菜表达的严格003交接合同）；
+  独立反控另写run-entity-trigger-root.test.ts（仅Root Owner、不与贡献者实现/测试文件重叠）；
   只读独立复核新工具/能力/内容，必要补测另窄授权后才改贡献者文件，最终集中质量门/正式RF002→003→004及6012交付。
 - e2e004_runner：已有新meal-*工具交付4e1a5ab7965c1e40262a4677c65a3203d3ef5051停写；必要工具counter窄返工另派。
 
@@ -108,6 +109,15 @@ Root premise verified / design agree / build allowed：独立审计的条件性c
   reforge-004-stationary-baseline-2026-10-02T03-01-16-800Z停在serve前，是工具已在range就等touch的问题，
   不作为赠酒根因counter。Root另直接读character.ts:30/141和main.ts:836/2670确认库存数组，旧RF计数/map测试是工具错误，
   不是迁移/作者/运行时缺陷。原失败不改写，工具各自红→绿并冻结后再复跑静止入口。
+- 工具1cf2e7f07冻结后原基线03-21-56-707Z实际counter成立：正式use站位137,72朝下、e62可见137,73，
+  select赠酒/touch已设、2秒静止仍无172且酒数组1；core=counter-confirmed，不是RF004通过。
+  Root逐项复算400源与实际trace SHA/错误0，全部材质重物化中间样本保留；两旧failed不改写。
+- 能力aa340e033只进入Root隔离候选，不接受/合main：Root读完整实现并复核独立两counter后，
+  自写两项真实runtime反控均红（004-invocation-root-counter-red.log）：最后子effect期间换session，目标仍被写completed；
+  同signal两个API调用乱序结束清掉仍活跃scope，后者loadScene未拒绝。贡献者只在原白名单窄修cursor提交守卫与scope registration，
+  不新增parallel/save结构，需Root红→绿才接收。
+- 作者增量追加pal-inn-stairs-target相邻e19旧auto名称断言改静态up/无auto；preview host缺setActorAppearance导致208
+  可静默不画，需相邻可视spriteId反控与最窄host增量，不扩张portrait/battle预览系统。
 
 ## 用户范围（2026-10-02）
 
