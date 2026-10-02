@@ -1,14 +1,37 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r21 Q-NEXT-01/02 修复）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r22 Q-NEXT2 有限批）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r21 候选**（Q-NEXT-01/02 合并修复：双桥清除 + 敌引用合法化；
-161 执行不变，修复后结构净新上限 160 / 缺口 ≥540，修复前审慎口径 ≤156/≥544 分列
-待 Codex 五针重采裁决；r20 候选 2d6ced203/pin 4ec6e0676 保留供独立复核）。
-不合 main、不标 done。
+本文件描述 **r22 候选**（Q-NEXT2 有限批：Codex next2 packet 核定的 14 条
+dither-transition 程序化合同；**当前 175 执行 / 结构净新上限 174 / 缺口至少 526**；
+r21 候选 004fe83a3/pin 3f5791a2e 保留供独立复核）。不合 main、不标 done。
+Q-NEXT2 逐合同排重账见 [next2/README.md](next2/README.md)。
+
+## r22：Q-NEXT2-01～14 有限批（dither palette 身份 / 容量·视图·网格 / controller 所有权）
+
+1. **新文件**：`dither-next2.glm-q.test.ts`（14 例，真实公开 API 直驱）+ 专属 fixture
+   `__tests__/glm-q/next2/dither2.ts`（完整 256 条合法 RGB palette 构造器——unique 基表
+   红=index 保证不碰撞，重复/最近色对照/同距经 overrides 构造；无短板/holes/假
+   Partial）。plan 只经真实 buildDitherPalettePlan 产出；controller 只调公开
+   begin/finish/cancel/cancelOwned；预期全为独立常量/手算小图（25 格行掩码
+   11110/11110/11000/11000/11110 手推自 PHASE_RANK），不复制生产 nearest/grid 算法。
+2. **三组合同**：①palette 身份五轴（重复 exact 取首 / 最近色 G·B 距离 / 同距取先 /
+   非精确零索引缓存 / 快照隔离——旧基表全 unique 从未进入这些轴）；②容量·视图·网格
+   六轴（输出容量上界 / 真实 plan 容量上界 / 三端非零偏移视图 / 同背板异视图双臂
+   拒收 / 零预算不动 / ragged 二维格）；③controller 所有权三轴（匹配 owner 取消 /
+   快照捕获失败保护旧 effect——snapshot() 在 begin 的 supersede 取消之前求值 /
+   显式 reason 对象身份 rejects.toBe）。旧 72 步顺序、source·target 不变、正常 4×
+   格、普通 supersede、旧 owner false、默认 AbortError 不重领。
+3. **反控**：本批零新针——四个代表产品控制由 Codex 在最终固定候选统一实采；旧
+   CLI14、五针、71 档案零改动。
+4. **门禁**：reforge glm-q 定向 112/112 + 相邻 dither-transition/scene-switch 34/34 +
+   **全包 2164/2164** + typecheck 0；game 2812 / pal-extract 381 未触明确复用；
+   pin 后完整 lint 0/0/0、docs/diff/verifier。
+5. **账目**：175 执行（161 + 14）/ 净新结构上限 174 / 缺口 ≥526；反控 71/62/61 不变。
+   原 700/50 组不缩；本批完成 ≠ 整卡 done。
 
 ## r21：Q-NEXT-01/02 一次合并修复（无新增用例，14 fullName 与业务 oracle 全保持）
 
