@@ -65,7 +65,7 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
   // - 「maps/index /maps 双方各新增并集」与旧 :244-273 首段同条件同答案
   //   （双方各增不同 id → [theirs 新增, ours 新增] 序并集）。
 
-  test('scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致；单侧真重排必冲突由旧 :318 证）', () => {
+  test('scenes/index.json：一方尾增、一方改同位字段可共存（公共子序一致）', () => {
     const base = jsonPresent({ scenes: [{ id: 'a', path: 'p/a' }] })
     const ours = jsonPresent({
       scenes: [
