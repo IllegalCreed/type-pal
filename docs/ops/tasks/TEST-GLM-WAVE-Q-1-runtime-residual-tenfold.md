@@ -349,7 +349,26 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r12；覆盖旧交接）
+## Codex 最新独立复核（2026-10-02，r13；覆盖旧交接）
+
+固定2ae2a10030b93cfe99a4770f6df29ba4e7258061，证据8fb2f3de3ce7af2256dc7871ca902f803bd77274。
+Q-R12代码证据accept：两个合法真实runScript+0x41 fizzle/no-warning/队列/失败旗/动画通过，
+两enemy删重/FZ3-5历史meta原字节保留；63/63活跃三态hash/身份、61旧+2新更新对应。
+新156定向相邻绿、未变Reforge2150/extract363明确字节复用、3041文件静态0/0/0/docs/diff/verifier过。
+138执行接收两音频轴后结构上限137/缺口≥563；54执行目标上限53，原50数量足，不再打旧针或凑针。
+原700/50组/真账仍partial/rework；直接合法生命周期/隔离CLI续批，不重复fizzle等已闭项。
+
+[详细接收边界与连续续批提示词](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.json)。
+未作者/main/模型/UI/正式门或结算，用户代码发送前手动选GLM-5.3，D-Q01-1另draft。
+
+### 下一位GLM Q提示词（用户手动转发，优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、分支codex/glm-wave-q-runtime-residual-r1，固定2ae2a10030b93cfe99a4770f6df29ba4e7258061。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md最新段及docs/testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md/json完整Q范围。真实合法fizzle/两enemy删重/退役证据和63/63三态通过，不重做fizzle/旧61/slot/投影/CLI，不为数量再补针。直接Q07/Q08合法生命周期/Q10 mkdtemp合成CLI与完整真账，138接收新2后净新结构上限137/≥563缺口，旧保守135/565随正常批次同步，700/50组不缩，避让Grok46。分阶段game/extract与Reforge，D-Q01-1另draft/Kimi只读审不夹修，不剧情/后门；原白名单外只读，派发冻结不变、不擅迁版本。每批定向相邻/typecheck推送后继续，仅真变源/执行集重采受影响针，末批三包/静态0/0/0/docs/diff/verifier/真实SHA和余账；不main/done/官方门/清树。
+```
+
+## Codex r12独立复核（2026-10-02，历史）
 
 固定08ddbf064c1c3368cf6f5ee7f54987cff6e3f59d，证据1c752fc20478a6262663e23bf559fa5e6422d3f5。
 新game定向相邻158/extract363绿、未变Reforge2150完整字节证明复用，三typecheck/3041文件

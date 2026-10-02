@@ -246,7 +246,26 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r11；覆盖旧交接）
+## Codex 最新独立复核（2026-10-02，r12；覆盖旧交接）
+
+固定12e0349af6b43375c96cac508b19c414f18393fc，证据cdbc45edde3a142bb4ea563d1a4933544e324c8f。
+四实际factory公开准入/真实空scheme索引/完整page-before-command顺序代码accept，不重开旧输入反例。
+新121定向相邻绿、14活跃针对应、2826文件静态0/0/0/docs/diff/verifier过；证据/真账仍counter：
+directed G16一标题过时，85/86身份匹配；contracts未更新、旧expected继续截断；退役C13四正/变相
+误覆盖为11例/变异0红，restored/receipt仍旧12例，恢复历史不重打不存在目标，不影响14活跃计数。
+86执行/19组/14针/18流程、≥614例与F14/F18等未完，原配额不缩；整卡rework，修证据后继续合法余族。
+
+[详细审核与当前返工/续批提示词](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.json)。
+未作者/main/模型/UI/正式门或结算，用户代码阶段手动选GLM-5.3，视觉另阶段Flash。
+
+### 下一位GLM P提示词（用户手动转发，优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、分支codex/glm-wave-p-editor-residual-r1，固定12e0349af6b43375c96cac508b19c414f18393fc。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md最新段及docs/testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md/json完整P范围。公开合法性/顺序代码accept，不重做；只闭P-R13-01/02：真实重生directed新G16标题，contracts匹配最终代码完整matcher expected，不保留删除length断言/截toThrow/toBe；C13四正/变JSON/raw误采覆盖旧归档，恢复31995d09已核原字节，新失败attempt另标保存，不重打退役针、不影响14，采集只选active。86/19组/14针/18流程仍partial，≥614例/51组/36针/F14-F18缺口，700/70组/50目标/20流程不缩。修证据后直接原合法余族/真账，避让Cursor74，原白名单外只读、派发冻结不变、不擅迁版本。每批定向相邻/typecheck推送后继续，只有真变源/执行集重采受影响针，末批全包/静态0/0/0/docs/diff/verifier/真实SHA及余账；不main/done/官方门/清树。
+```
+
+## Codex r11独立复核（2026-10-02，历史）
 
 固定31995d09260ad7361df9902d692fbe5b86ad347e，证据24ca4de4f007377d3bc9f1bd7692fec0285d0570。
 新121定向相邻绿、86身份对应/typecheck/22自测零、2826文件静态0/0/0/docs/diff/verifier过。

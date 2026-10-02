@@ -1,5 +1,11 @@
 # GLM O/P/Q：十倍规模的三条独立残余合同测试包
 
+2026-10-02当前：[O r12/P r12/Q r13/Cursor r5独立复核及四份直接交接](codex-opqc-r13-review-20261002.md)、
+[机器证据](codex-opqc-r13-review-20261002.json)。O/Q本轮窄代码证据accept，P公开合法性/顺序代码accept，
+但定向标题/旧oracle/C13退役历史混相仍counter；Cursor中间空洞新轴独证/50目标数量门关闭，
+静态5error+5warning/685旧锚仍counter。O475/P86/Q138、结构上限474/86/137仍部分，原配额不缩。
+不重复已闭fizzle/typed/旧针等窄项，不给Kimi/Grok增加工作，未main/done/正式结算；提示词同条最终回复直接给。
+
 2026-10-02当前：[O r11-b1/P r11/Q r12/Cursor r4独立复核与四份直接交接](codex-opqc-r12-review-20261002.md)、
 [机器证据](codex-opqc-r12-review-20261002.json)。四路测试与静态门通过但原卡仍rework：
 O仅两needle标题身份过期，IO六旧合同扣列/410空条件待续；P新8fixture公开准入失败与oracle账未闭；

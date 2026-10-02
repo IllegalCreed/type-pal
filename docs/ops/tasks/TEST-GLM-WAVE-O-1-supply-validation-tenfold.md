@@ -227,7 +227,25 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r11-b1；覆盖旧交接）
+## Codex 最新独立复核（2026-10-02，r12；覆盖旧交接）
+
+固定c36119a887a839df561e293ea5dccf5c70d2188f，证据97651e002252e3e7299e5844f1debcf30890acc3。
+O-R12窄代码证据accept：65/65最终三态身份/hash、3受影响针更新、IO10删重/残余收窄、标题/pin过。
+新migrate692绿，未变content1429/shared154明确字节复用，静态3233文件完整0/0/0/docs/diff/verifier过。
+475执行/净新上限474/缺口≥226，392空条件/228token与原700/60组仍部分，整卡rework；
+不重复已关闭针/工具/IO旧修，直接原合法余族+真账，旧README摘要随正常批次维护。
+
+[详细接收边界与连续续批提示词](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.json)。
+未作者/main写入、未UI/模型/正式门或结算；用户代码阶段手动选GLM-5.3，不擅迁主树新版本。
+
+### 下一位GLM O提示词（用户手动转发，优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支codex/glm-wave-o-supply-validation-r1，固定c36119a887a839df561e293ea5dccf5c70d2188f。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md最新段及docs/testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md/json完整O范围。窄项accept，65/65/IO10删重/标题/pin关闭，不重做或全重采；直接原write-plan/plan/合法深域和392空条件/228token真账，475上限474/≥226缺口，700/60组不缩，旧摘要随批维护，不只交窄返工完成。Grok六合同短审由Codex接收后参考，不等待或写其报告。只原新测/fixture/wave-O可写，其它全只读，派发冻结不变、不擅迁主树版本。每批定向相邻/typecheck推送后继续，仅真变源/执行集重采受影响针；末批三包/静态0/0/0/docs/diff/verifier/真实SHA与未完账，不main/done/官方门/清树。
+```
+
+## Codex r11-b1独立复核（2026-10-02，历史）
 
 固定a295f42c09cb8c6272849adb7d86c96beb16040f，证据59cc687ba6723183c5803781d6113dda187ed5cb。
 新migrate702绿、未变content1429/shared154完整字节证明复用，三typecheck/静态3233文件0/0/0/

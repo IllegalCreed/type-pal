@@ -119,7 +119,27 @@ Codex核74源hash、公开入口、旧证明与GC-1分配，**build allowed仅�
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r4；覆盖旧交接）
+## Codex 最新独立复核（2026-10-02，r5；覆盖旧交接）
+
+固定f7f64784e176eb233ae74a67fe811270f0f8dea5，证据cac301580d1988e65c97eedf55b623e98289e596。
+新723定向相邻绿/717身份、54三态结构hash/patch对应；新C05-10中间空洞为旧尾空位未覆条件，
+独立旧3绿/恰新1红、恢复13全绿/source逐字节恢复，净新目标数量50门关闭，不再换针。
+typecheck/docs/diff/verifier过但完整lint真实5error+5warning（staging未用import/literal模板/格式，
+C05-10三相JSON与receipt格式），685旧matcher/717自动human标记、部分.not不完整oracle仍counter。
+717扣十四旧证上限703未全量排重，700/70组/50合法目标/12流程不缩；只当前静态+真账返工，
+旧kind/视觉/typed/judge关闭项不重做，不全量重采54或仅报告工具完成。
+
+[详细审核与当前返工提示词](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.json)。整卡rework，
+未作者/main/UI/模型写入或正式门/结算；诊断仅自有副本串行已恢复，不冒称作者静态全绿。
+
+### 下一位Cursor提示词（用户手动转发，优先于下方历史）
+
+```text
+继续TEST-CURSOR-ASSET-UI-LARGE-1，唯一Cursor Owner，原树/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal、分支codex/cursor-asset-ui-large-r1，固定f7f64784e176eb233ae74a67fe811270f0f8dea5。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md最新段及docs/testing/glm-tenfold-triple/codex-opqc-r13-review-20261002.md/json完整Cursor范围。新中间空洞针独证旧3绿仅新红，54目标扣四旧项净新50数量门关闭，别再换/补针、不重拍12视觉/旧kind/judge/typed。只闭CURSOR-R5-01/02：真实5error+5warning，staging两unused import/三literal模板/format、C05-10三相JSON与receipt格式，保留literal字节/JSON值/raw，正常生成收尾格式，自测/生成后lint完整0/0/0，不ignore/降规则/删证据。685 oldMatcher none与717自动humanVerified不构真正人工排重，C01-C10逐条件真实源码/caller/合法构造/旧fullName matcher/不同axis/完整oracle，.not片段补到matcher，候选与确认分离，保留人工值，不只交工具完成。703结构上限不是700接收，全量排重后真差额不足才补例；原700/70组/50目标/12流程不缩，原白名单外只读、74源/派发冻结不变、不擅迁版本。每批定向相邻/typecheck推送后连续真账，真变源/执行集仅受影响针重采，不全重采54；末批全包/静态0/0/0/docs/diff/verifier/真实SHA和余账，不main/done/官方门/清原树或共享临时树。
+```
+
+## Codex r4独立复核（2026-10-02，历史）
 
 固定e3bcc779d52a8e3ed2a1a9b2ceb3c3fe1e1c3db4，证据967ec2f8e3f7c17c2a191617deaeb09665b65857。
 新728定向相邻绿/717身份、53三态结构/hash/patch对应，两selftest/typecheck/3272文件静态0/0/0/
