@@ -8,7 +8,21 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
-## Codex 有限接续批准入（2026-10-02，当前优先）
+## Codex 证据索引交接（2026-10-02，当前优先）
+
+用户要求继续就直接给提示词。本阶段只准入P已交证据索引同步，不要求重跑受阻视觉。
+固定已推送候选 `6b7669693b2ea3fa7b1004c79017945eba29d7ca`；本地/远端已核匹配且树干净。
+Codex只读预检：F14/F18内嵌10张新相位图hash均与文件一致；顶层screenshotSha256仍旧值，两同名F14文件错配、新图缺登记。
+F14创建/提交/undo/redo已有实证，保存重开host-blocked；F18固定P候选导航遮挡及键盘宿主未证，可达仍blocked，原18/20不变。此处不是完整独立视觉复验或产品修复准入。
+本次仅原wave-P/browser/README/receipt可写，用户发送前手动选GLM-5.3文本；不浏览器/新截图/全测/覆盖/反控重采。原102例/19活跃针保留，原700总目标不缩，Status仍rework。
+
+### 下一位GLM P提示词（仅索引维护，用户手动转发）
+
+```text
+继续 TEST-GLM-WAVE-P-1，仅做已交视觉证据的哈希索引同步，状态仍rework/partial，不重跑视觉。原树 /Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal，分支 codex/glm-wave-p-editor-residual-r1，固定候选 6b7669693b2ea3fa7b1004c79017945eba29d7ca。先只读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md 最新“证据索引交接”段、原共同协议及本树 wave-P/browser/browser-evidence.json、flows.json、README、receipt；不要merge审查分支。Codex已经复算F14/F18内嵌的10张新相位图SHA全部匹配，但browser-evidence顶层screenshotSha256仍是旧表，f14-before/f14-after-undo与当前文件不符，新增截图也未登记。只对最终候选实际已跟踪PNG逐文件实算，统一顶层索引、flows.json中的文件/hash字段及数量、README/receipt当前口径；不可把旧错误表当有效历史证明。旧索引原文留明确superseded/history记录，原图/新相位图不改、不删、不重拍；已有内嵌匹配值保持，不能编hash或改原console记录。F14仅创建/提交/undo/redo已证，保存重开仍host-blocked；F18仅固定候选覆盖障碍取证，导航/键盘可达未证，仍18/20；不要把blocked改成通过，不重复点击目录选择器或导航，不启动浏览器/服务器、不修UI产品，不冒称当前main故障已复现。仅wave-P/browser、README、receipt原证据白名单可写；产品/测试/配置/基线/真实工程/其它Owner/共享文档只读。包源与测试不变，不跑全包/覆盖或重采19针。最后回执编辑后lint完整0/0/0、docs/diff/verifier，输出逐PNG索引实算一致/数量及旧索引保存位置、一个真实完整40位SHA并推送原分支。一次完成索引维护交Codex，随后停止本包作者续做，不再额外pin轮；不合main、不done、不官方门、不清原树。
+```
+
+## Codex 有限接续批准入（2026-10-02，历史；该批已交付）
 
 用户要求后续任务；[本轮固定有限清单](../../testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md)与本节覆盖下方泛化历史交接。
 仅F14/F18两条未证功能流；原102测试/19活跃针/18真实流程保持，实际视觉用Flash。

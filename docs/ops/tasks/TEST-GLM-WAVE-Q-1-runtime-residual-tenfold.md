@@ -8,7 +8,13 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
-## Codex 有限接续批准入（2026-10-02，当前优先）
+## Codex 当前接收责任（2026-10-02，当前优先）
+
+本轮有限包已推送 `4ec6e0676d398815c96f44cb6c4d475cbe6ad771`，作者树干净、本地/远端一致。十四固定fullName在最终161份案例表中逐条passed；测试候选2d6ced2034fd590c777d6a7b1f56d51d52bb4dd9之后仅receipt pin。原代码/证据待独立实跑，五新产品反控明确归Codex，不是作者漏交，不重采旧71。
+Status仍rework/partial，原700目标不缩，未完整独立验收/合main/done或覆盖结算。
+**无下一位GLM Q续做提示词，等待Codex独立审核/收口。** 当前作者停止重做该已交有限包；下方原派发仅历史，不能泛化继续700或把独立验收责任转回作者。
+
+## Codex 有限接续批准入（2026-10-02，历史；该批已交付）
 
 用户要求后续任务；[本轮固定有限清单](../../testing/glm-tenfold-triple/codex-opq-next-batch-20261002.md)与本节覆盖下方泛化历史交接。
 已核12种OBJECT入口接线+2组合，共14有限条目；新增精确两文件，旧147/71保持，五新产品反控由Codex独立阶段统一实采。
