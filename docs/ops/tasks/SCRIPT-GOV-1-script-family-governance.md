@@ -8,7 +8,7 @@ Reviewer: Codex Root
 Generation Owner: N/A
 Visual Verification Owner: Codex
 Visual Verification Timing: e2e-deferred
-Branch: codex/script-governance
+Branch: main
 
 ## 用户目标与本批范围
 
@@ -186,6 +186,12 @@ e358同版RF002、003、004 saves、005 saves全部passed；Root复核各登记�
 
 本卡保留build：首批已验收，但147套复杂流程、未证源链/帧序列及已登记后期视觉E2E仍未完成。
 后续按统一步骤设计推进，不扩大本次已冻结内容。无下一位Agent提示词；首批交用户检视，后续仍由Codex推进。
+
+首批ee1a7b570已fast-forward合入main并推送。6012原PID88523仍监听、HTTP200；用户.zcodeignore未动。
+隔离工作树已由应用归档为可恢复快照，本地codex/script-governance分支已按已合入检查删除，未改其它工作树。
+E2E原字节、当前census及17份质量/失败日志已保全于build/evidence-archive/script-governance-20261002，
+其中质量日志在logs子目录。包含最终独立回执后的再次全仓lint为2787文件、0error/0warning/0info；
+最终文档门为830 Markdown/4425本地链接/263任务、0问题。没有重新声称整仓pnpm check原始exit1为0。
 
 ## 下一位 Agent 提示词
 
