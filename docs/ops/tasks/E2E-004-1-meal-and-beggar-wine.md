@@ -118,6 +118,11 @@ Root premise verified / design agree / build allowed：独立审计的条件性c
   不新增parallel/save结构，需Root红→绿才接收。
 - 作者增量追加pal-inn-stairs-target相邻e19旧auto名称断言改静态up/无auto；preview host缺setActorAppearance导致208
   可静默不画，需相邻可视spriteId反控与最窄host增量，不扩张portrait/battle预览系统。
+- 能力07816dc52窄返工：coordinator实际cursor commit前同步guard，Set registration与各隐式runner独立生命周期收尾。
+  Root保持同两独立反控红→绿（123项含scope/lineage/save相邻），代码复读与独立审计accept；无新存档栈或版本分支。
+  Root editor5文件74项含完整NPC/caller PAL preview绿；七包types exit0且无诊断、全仓lint2755文件0/0/0。
+- 外观preview f7c749a8b只沿用单角色sprite overlay：portrait/battle不模拟、不改作者数据。
+  Root复读两文件并独立16项绿；作者内容包仍待真实main菜单回归/独立接收，不提前外推正式RF004。
 
 ## 用户范围（2026-10-02）
 
