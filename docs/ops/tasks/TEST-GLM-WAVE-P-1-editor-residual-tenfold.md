@@ -246,7 +246,29 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r10）
+## Codex 最新独立复核（2026-10-02，r10.5；覆盖旧窄返工交接）
+
+固定9d8e4e5c50d0d5621525ca4b2a3e135e49ff77a2，测试183e4fa9b4f17f4abb3113d57dabac0e830fa18c，
+证据e84b0f365a66f6d4482ebb040331d659154f59c5。三处handoff真实cursor/公开session准入、
+Toolbar默认waitFor、C13七原文件逐字节恢复且archived-retired关闭。14活跃三态/hash/身份/patch对应，
+9未变+5更新，本轮逐枚复算不是全重放；退役C13不要求与当前执行集一致。
+本轮P78+旧script27+旧M2=107定向相邻全绿，typecheck/22自测零、2825文件静态完整0/0/0、
+docs/diff/716冻结/195白名单过，未新跑Editor全包，保留上轮3863绿+1旧M红历史不冒称全门绿。
+原700/70组/50目标/20流程不缩，78/17组/14活跃/18流程仅部分，至少622/53组/36目标/F14-F18两流程未完。
+G14同上及截操作数真账未闭；连续P02残余/P03-P10及完整matcher/expected账，摘要旧数随续批同步。
+
+[详细审核与三份完整续批提示词](../../testing/glm-tenfold-triple/codex-opq-r11-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opq-r11-review-20261002.json)。整卡仍rework，
+不重复已闭窄返工，未写贡献者树/未自动投递/未main/done/正式结算。
+用户发送代码前手动选GLM-5.3；F14/F18真实视觉另阶段先手动选GLM-5.3-Flash，不混派。
+
+### 下一位GLM P提示词（用户手动转发；优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、原分支codex/glm-wave-p-editor-residual-r1，固定9d8e4e5c50d0d5621525ca4b2a3e135e49ff77a2。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r11-review-20261002.md/json与本卡最新段，按最新GLM P完整续批范围连续P02残余/P03-P10。合法cursor/公开准入/默认等待/C13历史七文件已关闭，不重做或只报窄返工完成；G14同上/截matcher和旧摘要随真实条件账补全。78执行/17组/14活跃/18流程，至少622例/53组/36目标/F14-F18未证；700/70组/50不同合法目标/20流程不缩，避让Cursor74源新增主合同。纯代码阶段不浏览器不代看图；旧M完整门红由Codex集中、不授权改旧测。仅原新测/专属fixture/wave-P可写，产品/旧测/配置/baseline/真实数据/其它队列/共享文档只读；派发冻结不变。每批定向相邻/typecheck推送后直接下一合法组，仅变源/执行集重采受影响针，末批Editor全包/静态完整0/0/0/docs/diff/verifier/真实SHA与准确余账。不合main、不done、不官方门、不清原树。
+```
+
+## Codex r10独立复核（2026-10-02，历史）
 
 固定43a281325192645ac775f93428c3ba2f788bdd94，counter/rework。最终不可变串行全包3863绿+1旧M红；78定向全绿、旧M单文件3次2/2，完整门失败不覆盖且旧测不在P写白名单。typecheck/22自测/2821文件静态0/0/0/docs/diff/716冻结/187白名单过。14三态身份/hash对应，9旧未变+5更新，3针9相独立重放过。onEnter entry位置/非initial真断言/新locator与标签/真实RAF收敛关闭；三处handoff仍stage↔state不匹配，公开ScriptEditSession拒收。默认等待独占诊断3次5/5，原候选仍扩2000ms；C13历史七文件被删及账摘要仍counter。结构78/17组/14目标/18流程，622/53组/36目标/2流程未完，不main/done/正式结算。
 

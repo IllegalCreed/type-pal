@@ -1,6 +1,6 @@
 # TEST-GROK-RENDER-HOST-LARGE-1 — 一阶段渲染/资源/有限宿主大包补测
 
-Status: rework
+Status: review
 Phase: phase1
 Capability: render-host / test-coverage
 Coding Owner: Grok（仅新测试/专属fixture/证据）
@@ -116,7 +116,21 @@ Codex核源码入口/现有断言与46源hash，所有权已落GC-1，**build al
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r2）
+## Codex 最新独立接收（2026-10-02，r3；覆盖旧交接）
+
+固定f4665f7ac51b80cae5620e4c08bd62f607881f73、工具/证据985c615cc8a157a8cecf0750a696be86fdf0e1c8。
+GROK-R2-01关闭，Reviewer Codex independent code/evidence accept，400/40组/40不同目标已接收，
+状态review。连续两次真实selftest再lint2988文件完整0/0/0，生成报告格式和值均幂等；
+40原三态/hash/身份/patch复算对应，不假称全重放；完整包字节无变，明确复用上轮独立3173全绿。
+新typecheck/docs/diff/716冻结/120分配源/530白名单过。旧R1业务与像素分类不重开，Cursor本轮不审。
+
+[详细接收](../../testing/grok-cursor-large/codex-grok-r3-review-20261002.md)、
+[机器证据](../../testing/grok-cursor-large/codex-grok-r3-review-20261002.json)。
+未合main/未done/未正式覆盖结算，无下一位Grok提示词；等Codex独占集成树串行
+全仓check→官方ratchet→受保护strict-fast后决定收口，不要求作者扩另包或重采40针。
+不自动投递、未写贡献者树/环境链接，不清退休树直至正式接收。
+
+## Codex r2独立复核（2026-10-02，历史；后继r3已关闭）
 
 固定4c86186076215d8f019436dbcce3d1599878e03d，原R1三业务项关闭，只剩GROK-R2-01生成报告格式counter。新3173全绿/400身份对应/typecheck零，40patch/三态hash/40不同目标对应，唯一judge四反例/40重判/真实异常probe过；8真实canvasPNG至少6组hash与读回成立、6host图仅DOM数据编码不是UI截图。自测写judge-selftest.json后根lint真实1format error，不能只提交前format掩盖；只修生成器/收尾，别重采40针或扩400包。docs/diff/冻结/白名单过，仍rework、不main/done/正式结算。
 

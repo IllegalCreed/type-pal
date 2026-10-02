@@ -227,7 +227,28 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r10）
+## Codex 最新独立复核（2026-10-02，r11；覆盖旧窄返工交接）
+
+固定db461c0978553f5adc4b36a4413c2b9615c9ed0e、证据fd9ccd7d41b087f42d26bcbbe0a40c58b2627911。
+再判flatten/4拒收自测、CC10完整target、两merge删重及成长计数rng oracle accept；
+65活跃三态/hash/身份/patch逐枚复算对应，62原组未变+3重采，不假称全业务重放。
+新全包702（unit664+pal38）/1429/154全绿、三typecheck零、静态3233文件完整0/0/0、
+docs/diff/716冻结/786白名单过，485最终定向身份对齐。485执行/净新结构上限484/缺口≥216，
+65存档63目标9退役；真账410空条件/247 token锚仍partial，75非空不等于75已独立accept真账。
+原700/60组不缩、整卡仍rework；连续补原合法余族及完整条件/caller/旧断言/oracle账，
+不再重复关闭工具项、摘要旧数随正常续批同步，不单开只修摘要的轮次。
+
+[详细审核与三份完整续批提示词](../../testing/glm-tenfold-triple/codex-opq-r11-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opq-r11-review-20261002.json)。
+未写贡献者树、未UI/模型操作、未main/done/官方门/正式覆盖结算。用户发送前手动选GLM-5.3。
+
+### 下一位GLM O提示词（用户手动转发；优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、原分支codex/glm-wave-o-supply-validation-r1，固定db461c0978553f5adc4b36a4413c2b9615c9ed0e。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r11-review-20261002.md/json与本卡最新段，执行其中最新GLM O完整续批范围；flatten/完整target/两删重/计数rng已关闭，不重做、不再只报窄返工完成。连续原合法余族与410空条件/247token真账，逐条件核生产caller及旧断言，不换域凑新。485执行/净新上限484/缺口≥216、65针63目标9退役；原700/60组不缩。仅原新测/专属fixture/wave-O可写，产品/旧测/配置/baseline/真实数据/其它队列/共享文档只读；冻结与派发不变。每批定向相邻/typecheck阶段推送后直接下一合法组，仅变源/执行集重采受影响针，末批三包和完整静态0/0/0/docs/diff/verifier/真实完整SHA及未完账。不合main、不done、不官方门、不清原树。
+```
+
+## Codex r10独立复核（2026-10-02，历史）
 
 固定12be8ec2ae73bfe8692c9aa678abc990a990e8df，整卡counter/rework。新704/1429/154全绿、487身份对应，三typecheck/静态0/0/0/docs/diff/冻结通过。66三态结构对应/64目标/61未变；旧路径计数judge、六桥、删19旧例/8退役、WORD真oracle与rich-text9轴关闭。新re-adjudicate传suite非leaf导致异身份误收，修调用方即可、不重采66；O08-CC10补完整target。464条件空/249token旧锚仍counter，完整oracle抽取工具已闭。结构净新上限486/缺口≥214，原700/60组继续，不main/done/正式结算。
 

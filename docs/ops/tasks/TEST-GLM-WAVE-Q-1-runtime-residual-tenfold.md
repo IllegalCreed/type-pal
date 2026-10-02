@@ -349,7 +349,29 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```
 
 
-## Codex 最新独立复核（2026-10-02，r10）
+## Codex 最新独立复核（2026-10-02，r11；覆盖旧窄返工交接）
+
+固定17512c692ef74aaa397baee625dcea773a7815af、测试/证据d816b1fac4ed024005d9ec20bfe5b8d620c98f19。
+未用通用回引API已删，literal-only真尾标/EOF/回引/输出界再独证通过，主账61存档/52目标/
+净新目标上限51与136执行/净新上限135/缺口≥565关闭。61三态业务/hash/身份/指定单红对应，
+51旧业务组未变+10CLI更新，本轮复算不是全重放；FP3只索引axis字符串旧数、尾标注释只需
+8+6bit描述修正（两零是终止后padding），随正常续批修文，不重复重采或造产品编码器。
+新extract363绿/typecheck三包零、3020文件静态完整0/0/0/docs/diff/716冻结/662白名单过；
+完整字节无变的Reforge2150/game2805旧独立报告明确复用，136最终身份逐条匹配。
+原700/50组未闭，整卡仍rework，反控数量已足；连续Q07/Q08合法typed生命周期与Q10合成CLI，
+不再重做旧slot/投影/MAP-PAT-FP/窄返工、不拆标题凑针；D-Q01-1继续另产品draft。
+
+[详细审核与三份完整续批提示词](../../testing/glm-tenfold-triple/codex-opq-r11-review-20261002.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-opq-r11-review-20261002.json)。
+未写贡献者树/未UI或模型操作/未main/done/正式结算，用户代码发送前手动选GLM-5.3。
+
+### 下一位GLM Q提示词（用户手动转发；优先于下方历史）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、原分支codex/glm-wave-q-runtime-residual-r1，固定17512c692ef74aaa397baee625dcea773a7815af。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r11-review-20261002.md/json与本卡最新段，按最新GLM Q完整续批范围连续Q07/Q08 typed合法生命周期和Q10 mkdtemp合成CLI。literal-only严格尾标/MAP-PAT-FP真实轴/61-52-51与136-135-565已关闭，别重做或只报窄返工完成；FP3描述axis/尾标8+6注释随正常续批同步、不重采已证针。700/50组不缩，至少565例及完整组账未闭，50针数量已足，不拆目标凑数。避让Grok46新增主合同；分阶段game/extract和Reforge，D-Q01-1不夹修、不learnedSpells/capture误设/剧情/世界后门。仅原新测/fixture/wave-Q可写，生产/旧测/配置/baseline/真实数据/其它队列/共享文档只读，派发冻结不变。每批定向相邻/typecheck阶段推送后直接下一合法组，仅变源/执行集重采受影响针，末批三包/静态完整0/0/0/docs/diff/verifier与真实完整SHA/未完账。不合main、不done、不官方门、不清原树。
+```
+
+## Codex r10独立复核（2026-10-02，历史）
 
 固定751933d1524fce56e970a1615e1d5079867c0aa0，原合法MAP/PAT和真实FP2/3/4业务窄项accept，整卡counter/rework。新extract363绿/typecheck三包零、未变Reforge2150/game2805完整字节证明复用，3020文件静态0/0/0/docs/diff/716冻结/662白名单过；136身份状态对应。MAP8240B严格until终止、无EOF/负回引/越界，合法输入关闭；未用通用回引API多两bit使[7,7,7,7,9]变尾178，优先删未需API而非重造产品编码器。实际61存档/52目标/51原组未变，非62；FP4重定目标不增存档，room0扣一次，净新目标结构上限51已足50，不再补针；136执行扣C114后上限135/缺口≥565，若保守134需另排除且≥566。新3针9相过，源依赖变仅10CLI重采、其它51保留。700/50组未闭、不main/done/正式结算。
 

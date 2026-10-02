@@ -1,5 +1,11 @@
 # Grok / Cursor 两条独立大测试包
 
+2026-10-02最新：[Grok r3独立接收](codex-grok-r3-review-20261002.md)、
+[机器证据](codex-grok-r3-review-20261002.json)。生成格式最后窄项关闭，两selftest后根lint完整0/0/0，
+400/40组/40不同目标代码证据accept，卡review、等待Codex串行全仓check→官方ratchet→受保护strict-fast
+及main选择性集成/正式并集覆盖结算；未done，不要求作者重采40针或另扩包。
+Cursor本轮按用户要求不审，其r2结论与原卡保持，不把历史交付或作者自验当接收。
+
 2026-10-01 用户授权 Grok、Cursor 同时补大量测试；本轮只开放测试、专属 fixture 与证据，
 不开放产品实现、官方覆盖率门、E2E 或 UI 取舍。手动转发，不恢复 ZCode 自动操作。
 
