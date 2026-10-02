@@ -55,6 +55,10 @@ main.ts:1195旧inline helper的return Promise/finally会提早释放owner标记�
 - 当前调用域限定同scene-session：子链直接/经shared/嵌套的loadScene、loadLastSave、quitToTitle等替换scene/world操作
   在副作用前明确拒绝，目录说明“切场在调用返回后编排”；外部session替换则AbortError终止子与父尾。
   不改普通根trigger/shared既有切场语义，不为004开发区分主动/外部切场的新世界控制协议。
+- 该限定还包括gameOver，以及非leaf的teleportOut/startBattle（会新建hook/onDefeated runner），均在原命令副作用前拒绝；
+  不顺带禁同场摆位/外观/物品。chase经shared改self后可隐式进入其他trigger，故禁令与观察hooks按同runtime/exact signal
+  的活跃调用scope继承到所有新runner，finally清理；只传最初子runner options不算完成。beforeStep后还有gate await，
+  最终同步派发点再次核session/signal，放行同ID异session的旧副作用是counter。
 - busy、同目标重入、A→B→A必须错误并中止调用者尾段，不能把false全当成功或等待自己；无绑定/完成与busy不得混淆。
 - 使用同一AbortSignal、host/coordinator与activity lineage；子self为目标、返回父self不变；子stop只结束子，abort向父传播，
   finally释放owner/lease。父save gate关闭未ready时允许同lineage子链，完整结束前不可假ready；不新增存档执行栈/兼容分支。
@@ -80,6 +84,10 @@ Root premise verified / design agree / build allowed：独立审计的条件性c
   只读独立复核新工具/能力/内容，必要补测另窄授权后才改贡献者文件，最终集中质量门/正式RF002→003→004及6012交付。
 - e2e004_runner：已有新meal-*工具交付4e1a5ab7965c1e40262a4677c65a3203d3ef5051停写；必要工具counter窄返工另派。
 
+本轮工具counter追加白名单（只meal-journey/contract及新meal相邻test）：送菜目标改为e15真实108,29，
+防入场已在range而未实际落步；WorldState.inventory严格按现行数组读取，删除错误map DTO/兼容；
+冻结实际编译/guard/lineage/host源及能力新增helper，不能仅主壳hash声称全调用链冻结。均不改产品/旧001–003工具。
+
 零诊断门保持；测试红→绿、禁重入/异session/auto/shared/save/abort、真实scratch预览、实际main菜单use与持久208回归必须有证据。
 尚未实现/未跑的RF项不得报pass；第一阶段回执不外推新引擎。
 
@@ -93,6 +101,10 @@ Root premise verified / design agree / build allowed：独立审计的条件性c
   无已端菜外观。19回归红→绿、两文件Biome零诊断。新候选作者冻结前不能拿此合同跑旧作者正文并报003绿。
 - 用户本轮确认6012没有未保存改动、可更新；Root实际只读页面显示“已保存”、保存按钮禁用，服务PID88523保持。
   更新仍等能力/作者独立验收，不提前覆盖当前工程。
+- 原基线RF002/003分别02-56-36-266Z/02-59-13-038Z已正常重建，未改档/使用当前digest；旧入口counter首轮
+  reforge-004-stationary-baseline-2026-10-02T03-01-16-800Z停在serve前，是工具已在range就等touch的问题，
+  不作为赠酒根因counter。Root另直接读character.ts:30/141和main.ts:836/2670确认库存数组，旧RF计数/map测试是工具错误，
+  不是迁移/作者/运行时缺陷。原失败不改写，工具各自红→绿并冻结后再复跑静止入口。
 
 ## 用户范围（2026-10-02）
 
