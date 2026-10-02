@@ -123,6 +123,9 @@ test('Root counter: a genuine long frame cannot turn 720ms dither into gameplay-
   }
   expect(ditherRunning()).toBe(false)
   expect(observation().world.money).toBe(59)
+  // The effect/tail have committed; allow the real invocation lease's final task turn.
+  await h.settleIO()
+  await drain()
   expect(observation().script.running).toBe(false)
 })
 
