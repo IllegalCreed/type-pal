@@ -692,12 +692,16 @@ export async function runMealJourney(engine) {
           (s) => ready(s) && JSON.stringify(kitchenGrid(s.position, engine)) === '[121,48]',
         )
         await beginPhase('guest-room')
+        const servingStartOrder = phaseOrder
         await navigate(
           's003',
           await touchDestination(51, (c, r) => Math.abs(c - 133) + Math.abs(r - 42) <= 1),
           (s) => inScene(s, 's001') && ready(s),
         )
         await beginPhase('serve')
+        // First-stage idle touch can start e15 immediately after entering its true footprint.
+        // Keep its first hide/95 even if they preceded the next ready-state observation.
+        if (engine === 'game') phaseOrder = servingStartOrder
         await navigate(
           's001',
           await touchDestination(15, mealServingDestination),

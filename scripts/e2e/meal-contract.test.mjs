@@ -899,3 +899,28 @@ test('004 game serving already in true radius waits naturally without directiona
   })
   assert.deepEqual(actions, [], 'game may trigger naturally inside radius without a synthetic step')
 })
+test('004 first-stage serving evidence begins before room entry so an early first cue cannot be filtered away', async () => {
+  const actual = await readMealContract(),
+    contract = { ...actual, rows: actual.rows.slice(2, 15) }
+  const beforeRoom = 10,
+    afterRoomReady = 12
+  const pages = contract.rows.map((row, index) => ({
+    engine: 'game',
+    order: index === 0 ? 11 : 13 + index,
+    page: { instance: index, lines: [row.text], title: row.speaker },
+  }))
+  assert.equal(
+    assertMealDialogue({ pages: pages.filter((page) => page.order > beforeRoom) }, 'game', contract)
+      .size,
+    13,
+  )
+  assert.throws(
+    () =>
+      assertMealDialogue(
+        { pages: pages.filter((page) => page.order > afterRoomReady) },
+        'game',
+        contract,
+      ),
+    /missing\/reordered/,
+  )
+})
