@@ -1,0 +1,33 @@
+{
+  "id": "G07-D",
+  "batch": "G07",
+  "axis": "背景索引 0 被跳过，不再覆盖底色",
+  "source": "packages/game/src/present/menu/draw-opening-menu.ts",
+  "testFile": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+  "target": "G07-D01",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a",
+    "mutant": "fade9673b069f9e9c240640ca1a55d24f16780f8e75ffb1eff550a6b22815999",
+    "restored": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 7,
+    "mutantFailed": 1,
+    "restored": 7
+  },
+  "assertionError": "AssertionError: expected 90 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-D-GXwlN7/packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts:57:29\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+  "names": 7
+}

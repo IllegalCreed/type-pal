@@ -1,5 +1,7 @@
 # O/P/Q 冻结交付收口
 
+2026-10-03全部测试统一接入与新main结果见[有限收口](../finite-test-intake-20261003/README.md)。下文1b基点与21/10门为历史，不覆盖最新结论。关联历史排重审核：[O r6](codex-o-r6-review-20261001.md)、[P r35](codex-p-r35-review-20261001.md)、[Q r6](codex-q-r6-review-20261001.md)、[OPQ r11](codex-opq-r11-review-20261002.md)、[OPQC r12](codex-opqc-r12-review-20261002.md)、[OPQC r13](codex-opqc-r13-review-20261002.md)。
+
 用户于2026-10-02要求冻结现有交付，不再无限补量；2026-10-03要求通过后提交推送、关卡并清理退休分支/工作树。原700例、组数、50针及视觉数量门退休，原数据不改写为达标；质量门不降低。
 
 当前状态：固定代码/证据在本轮1b3bffb7基点accept；16计数counter已闭合。check/ratchet过，但strict因旧I06随机少1分支拒收；该基点GitHub Coverage另有缺ignored头像五旧红。三卡blocked，未由本任务推main/done/清作者树或分支。

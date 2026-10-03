@@ -1,0 +1,152 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 10,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790881103591,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "status": "failed",
+          "title": "G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "duration": 27.249041000000034,
+          "failureMessages": [
+            "AssertionError: expected '正在加载资源 0 / 811' to be '正在加载资源 0 / 810' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G09-C-MtAOjK/packages/game/src/shell/boot-loading-host.grok-r1.test.ts:45:73\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+          "status": "passed",
+          "title": "G09-C02 fetch 拒绝后完成数仍加一",
+          "duration": 19.699707999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+          "status": "passed",
+          "title": "G09-C03 只有状态节点时写入 1 / 4",
+          "duration": 19.634208,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+          "status": "passed",
+          "title": "G09-C04 只有进度条时宽度写成 25%",
+          "duration": 19.708541999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "status": "passed",
+          "title": "G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "duration": 18.123207999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "status": "passed",
+          "title": "G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "duration": 1.8203750000000127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "status": "passed",
+          "title": "G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "duration": 36.056625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "status": "passed",
+          "title": "G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "duration": 19.170749999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "status": "passed",
+          "title": "G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "duration": 1.5902919999999767,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "status": "passed",
+          "title": "G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "duration": 19.096667000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "status": "passed",
+          "title": "G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "duration": 1.1191669999999476,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790881103966,
+      "endTime": 1790881104149.1191,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G09-C-MtAOjK/packages/game/src/shell/boot-loading-host.grok-r1.test.ts"
+    }
+  ]
+}

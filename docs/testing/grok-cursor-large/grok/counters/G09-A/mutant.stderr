@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/shell/input-replay.grok-r1.test.ts:117:26
+    115|     expect(src.nextSnapshot(99)).toBe(first)
+    116|     const mid = src.nextSnapshot(99)
+    117|     expect(mid.frameNum).toBe(1)
+       |                          ^
+    118|     expect(mid).toBe(second)
+    119|     expect(src.nextSnapshot(9).frameNum).toBe(9)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

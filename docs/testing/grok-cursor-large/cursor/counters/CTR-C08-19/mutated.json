@@ -1,0 +1,142 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868213975,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+          "status": "passed",
+          "title": "C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+          "duration": 0.9294999999999618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+          "status": "failed",
+          "title": "C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+          "duration": 3.7471669999999904,
+          "failureMessages": [
+            "AssertionError: expected 'roof-4' to be 'roof-3' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-19-6DKJkj/packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:37:49\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+          "status": "passed",
+          "title": "C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+          "duration": 0.2853749999999309,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+          "status": "passed",
+          "title": "C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+          "duration": 0.6809160000000247,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+          "status": "passed",
+          "title": "C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+          "duration": 1.184500000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+          "status": "passed",
+          "title": "C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+          "duration": 0.9164160000000265,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+          "status": "passed",
+          "title": "C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+          "duration": 0.26145900000005895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+          "status": "passed",
+          "title": "C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+          "duration": 0.07941700000014862,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+          "status": "passed",
+          "title": "C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+          "duration": 1.5772500000000491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G05 stamp-draft 选择移动与层 slot"],
+          "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错",
+          "status": "passed",
+          "title": "C08-G05-10 moveStampDraftSelection 越界方向抛错",
+          "duration": 0.1584170000000995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868215396,
+      "endTime": 1790868215406.1584,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-19-6DKJkj/packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+--- a/packages/game/src/present/menu/draw-opening-menu.ts
++++ b/packages/game/src/present/menu/draw-opening-menu.ts
+@@ -55,4 +55,4 @@
+   // 1. 全屏背景 blit(sdlpal uigame.c:71 PAL_MKFDecompressChunk + PAL_FBPBlitToSurface)
+-  if (bg) {
++  if (bg && bg.indices[0] !== 0) {
+     drawBattleBg(fb, bg)
+   }

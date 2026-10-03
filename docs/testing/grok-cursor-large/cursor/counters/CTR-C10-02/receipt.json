@@ -1,0 +1,152 @@
+{
+  "id": "CTR-C10-02",
+  "productFile": "packages/editor/src/ui/design-system/collection-search.ts",
+  "findText": "if (!needle) return items",
+  "replaceText": "if (!needle) return []",
+  "testSpec": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+  "expectFullname": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "601983ce62c8cc35234d526b7373811b2d21f5a84bbb4fa417465f88c8a8f8a0",
+  "patch": "--- a/packages/editor/src/ui/design-system/collection-search.ts\n+++ b/packages/editor/src/ui/design-system/collection-search.ts\n@@ -7,7 +7,7 @@\n   getSearchParts: (item: T) => readonly (string | number | null | undefined)[],\n ): readonly T[] {\n   const needle = query.trim().toLocaleLowerCase()\n-  if (!needle) return items\n+  if (!needle) return []\n   return items.filter((item) =>\n     getSearchParts(item).some((part) =>\n       part == null ? false : String(part).toLocaleLowerCase().includes(needle),\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 15,
+    "executedFullNames": [
+      "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+      "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+      "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+      "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+      "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+      "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+      "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+      "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+      "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+      "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
+      "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+      "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+      "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+      "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+      "C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 15,
+      "identitySet": [
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "c2ba02cae02eb2a9e15a7d516c0fcf400ec2bb6f68aee1480a0a7d743f9375c9",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 15,
+    "executedFullNames": [
+      "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+      "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+      "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+      "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+      "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+      "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+      "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+      "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+      "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+      "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
+      "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+      "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+      "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+      "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+      "C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick"
+    ],
+    "failed": [
+      {
+        "fullName": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+        "message": "AssertionError: expected [] to be [ { id: 'a' } ] // Object.is equality",
+        "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled"
+      ]
+    },
+    "target": {
+      "fullName": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+      "message": "AssertionError: expected [] to be [ { id: 'a' } ] // Object.is equality",
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 15,
+    "executedFullNames": [
+      "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+      "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+      "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+      "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+      "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+      "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+      "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+      "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+      "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+      "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
+      "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+      "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+      "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+      "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+      "C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 15,
+      "identitySet": [
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+        "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx×C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled"
+      ]
+    }
+  }
+}

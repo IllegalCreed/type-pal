@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉
+AssertionError: expected +0 to be 173 // Object.is equality
+
+- Expected
++ Received
+
+- 173
++ 0
+
+ ❯ src/present/present-hold.grok-r1.test.ts:76:27
+     74|     fb.indices[0] = 173
+     75|     presentFrame(fb, gs, ctx())
+     76|     expect(fb.indices[0]).toBe(173)
+       |                           ^
+     77|   })
+     78|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

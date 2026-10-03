@@ -1,0 +1,242 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 20,
+  "numPassedTests": 19,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790880445098,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+          "status": "failed",
+          "title": "G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+          "duration": 44.503874999999994,
+          "failureMessages": [
+            "AssertionError: expected '1%' to be '0%' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G09-D-MMB4px/packages/game/src/shell/precache-ui-host.grok-r1.test.ts:44:65\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+          "status": "passed",
+          "title": "G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+          "duration": 2.4735000000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+          "status": "passed",
+          "title": "G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+          "duration": 2.172124999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
+          "status": "passed",
+          "title": "G09-D04 负数的必要进度钳到 0%",
+          "duration": 1.1908750000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
+          "status": "passed",
+          "title": "G09-D05 大于 1 的必要进度钳到虚线 12%",
+          "duration": 0.749416999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+          "status": "passed",
+          "title": "G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+          "duration": 0.8299999999999841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
+          "status": "passed",
+          "title": "G09-D07 第二次 markPlayable 不调用 onEnter",
+          "duration": 0.8902499999999804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+          "status": "passed",
+          "title": "G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+          "duration": 0.3496250000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+          "status": "passed",
+          "title": "G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+          "duration": 0.6088330000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+          "status": "passed",
+          "title": "G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+          "duration": 0.6268340000000308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
+          "status": "passed",
+          "title": "G09-D11 第二次 enterGame 不再多挂一个小组件",
+          "duration": 5.6423750000000155,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
+          "status": "passed",
+          "title": "G09-D12 没有记过总字节时，小组件保持占位文案",
+          "duration": 1.70554199999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
+          "status": "passed",
+          "title": "G09-D13 进入之后 fail 不再给覆盖层加错误类",
+          "duration": 1.7186249999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
+          "status": "passed",
+          "title": "G09-D14 没有状态节点时 fail 仍加上错误类",
+          "duration": 0.2556659999999624,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+          "status": "passed",
+          "title": "G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+          "duration": 2.227375000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
+          "status": "passed",
+          "title": "G09-D16 没有进度条时必要进度仍写状态文案",
+          "duration": 0.26862500000004275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+          "status": "passed",
+          "title": "G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+          "duration": 0.2346249999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
+          "status": "passed",
+          "title": "G09-D18 进入按钮的 click 只触发一次 onEnter",
+          "duration": 0.5176250000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+          "status": "passed",
+          "title": "G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+          "duration": 1.02637500000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+          "status": "passed",
+          "title": "G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+          "duration": 1.8586250000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790880445469,
+      "endTime": 1790880445538.8586,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G09-D-MMB4px/packages/game/src/shell/precache-ui-host.grok-r1.test.ts"
+    }
+  ]
+}

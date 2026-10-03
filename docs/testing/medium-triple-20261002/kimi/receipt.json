@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 2,
+  "taskId": "TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1",
+  "owner": "kimi",
+  "branch": "codex/kimi-current-continuation-medium-r1",
+  "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "canonicalVersions": { "content": 21, "save": 10 },
+  "rework": {
+    "round": "r1 (KIMI-R1-01/02) + r2 (KIMI-R2-01)",
+    "r1-01": "K6末例非法b.entry子轴(公开checkBaseScriptFlow真实拒收'只允许 onEnter initial state')已去entry, 保留合法第二stage nested branch臂隔离; 4作者fixture+organized产物补公开合法性断言; 旧完整oracle重排重(非换名计新)",
+    "r1-02": "严格单一judge(每针同一非零file×fullName多重范围67/67/67/50叶×control/variant/restored三相; 多重集合恒等; pending/todo/skip/重复叶/缺叶/多叶/错身份/多红/非AssertionError/内嵌运行时错/collection/suite/未处理异常/signal/错误exit全拒收)与拒收自测共用; 12原字节.raw.txt+12原JSON入固定提交; 逐针产品与测试三态SHA实采(恢复=正控)",
+    "r2-01": "reportToRun完整化: numRuntimeErrorTestSuites非零/零叶suite/无failed叶failed suite/顶层suite-test计数不闭合/success矛盾/signal/spawn全拒收; 拒收自测accepted2/rejected21(含审核叠放反例); mutants.mjs --recompute对原12份JSON/raw字节复算4针三态全过(67/67/67/50), 原字节零改写, 回执counters/evidence/recompute-r2.json; 不重采不追加",
+    "preserved": "4针不同新oracle目标与3针真实旧绿新红方向保留; 9条deferredBudget不加量; 32例不变"
+  },
+  "testsCommit": "5e839a919219644aac8ddbb71030de5284a13682",
+  "candidateHead": "本轮唯一r2提交tip, 完整40位SHA见交付回执",
+  "delivered": {
+    "newCases": 32,
+    "netNew": 32,
+    "existingProof": 22,
+    "unreachable": 1,
+    "deferredBudget": 9,
+    "blocked": 0,
+    "capacity": "24-32例目标, 硬上限36"
+  },
+  "files": {
+    "tests": [
+      "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+      "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts"
+    ],
+    "evidence": [
+      "docs/testing/medium-triple-20261002/kimi/README.md",
+      "docs/testing/medium-triple-20261002/kimi/contracts.json",
+      "docs/testing/medium-triple-20261002/kimi/directed-vitest.json",
+      "docs/testing/medium-triple-20261002/kimi/reforge-full-vitest/",
+      "docs/testing/medium-triple-20261002/kimi/counters/"
+    ],
+    "outOfScopeWrites": []
+  },
+  "gates": {
+    "directed": {
+      "command": "vitest run src/script-continuation.kimi-mid-1.test.ts src/author-stage-organization.kimi-mid-1.test.ts",
+      "result": "32 passed / 0 failed / 0 pending / 0 todo",
+      "report": "directed-vitest.json"
+    },
+    "adjacent": {
+      "command": "vitest run src/runtime-auto-checkpoint.test.ts src/author-flow-stages.test.ts src/script-runner-core.test.ts (+2 new)",
+      "result": "114 passed / 0 failed (新32+相邻82)"
+    },
+    "typecheck": { "reforge": 0, "content": 0 },
+    "contentFull": {
+      "command": "vitest run (packages/content)",
+      "result": "1255 passed / 0 failed"
+    },
+    "reforgeFull": {
+      "command": "vitest run (packages/reforge)",
+      "result": "2252 passed / 5 failed (r1重采)",
+      "environmentReds": {
+        "file": "src/pal-meal-shell.test.ts",
+        "count": 5,
+        "cause": "projects/pal/assets/migrated/faces/*.png 为本机生成资产(gitignore未跟踪,本树0个在盘); AssetResolver ENOENT face.pal.li-xiaoyao 等",
+        "unrelatedToDiff": "BASE..HEAD 仅新增2测试文件与kimi证据; pal-meal-shell.test.ts与全部产品源逐字节同BASE; Codex独立补齐只读资产后全绿(见审核文档)",
+        "report": "reforge-full-vitest/ (无损3分片+index.json, r1重采)"
+      }
+    },
+    "rootLint": {
+      "command": "node scripts/quality/lint-zero.mjs",
+      "result": "PASS 0 errors/0 warnings/0 infos (最终提交前实跑)"
+    },
+    "docsCheck": {
+      "command": "node scripts/docs/check.mjs",
+      "result": "FAIL 1 issue (known residual)",
+      "residual": "docs/testing/medium-triple-20261002/README.md:1 子目录未进入导航: docs/testing/medium-triple-20261002/kimi — 共享README归Codex维护, 贡献者只读, 留集成时接线"
+    },
+    "gitDiffCheck": { "command": "git diff --check BASE...HEAD", "result": "0 issues" },
+    "verify": {
+      "command": "node docs/testing/medium-triple-20261002/verify.mjs --owner kimi --base f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+      "result": "frozenHashesValid=true scopeValid=true (提交前实跑)"
+    }
+  },
+  "counters": {
+    "runner": "counters/mutants.mjs (r3完整judge: reportToRun不丢runtime计数/failed零叶suite/顶层闭合; 自测 accepted 2 / rejected 21)",
+    "scopeDiscipline": "每针声明同一非零file×fullName多重范围(67/67/67/50叶), control/variant/restored三相共用同一严格判据; 未选中/pending叶子不可写passed",
+    "needles": [
+      {
+        "id": "machine-id-cursor",
+        "source": "packages/reforge/src/script-continuation.ts:38",
+        "target": "K1 machine executable refuses a cursor from a foreign machine id",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "范围67叶: runtime-auto-checkpoint 35旧叶全绿, 仅目标新红",
+        "restored": "同范围重跑全绿 exit0"
+      },
+      {
+        "id": "battle-none-arm",
+        "source": "packages/reforge/src/script-continuation.ts:116",
+        "target": "K2 a startBattle child without an outcome arm rejects",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "范围67叶: runtime-auto-checkpoint 35旧叶全绿, 仅目标新红",
+        "restored": "同范围重跑全绿 exit0"
+      },
+      {
+        "id": "none-explicit-self",
+        "source": "packages/reforge/src/script-continuation.ts:137",
+        "target": "K3 a none-self shared script refuses an explicit command self",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "范围67叶同判据(旧绿计数于另3针, 满足≥2)",
+        "restored": "同范围重跑全绿 exit0"
+      },
+      {
+        "id": "unreachable-tail",
+        "source": "packages/content/src/author-flow-stages.ts:40",
+        "target": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+        "variant": "恰一AssertionError exit1",
+        "sensitivity": "范围50叶: author-flow-stages 18旧叶全绿, 仅目标新红",
+        "restored": "同范围重跑全绿 exit0"
+      }
+    ],
+    "evidenceDir": "counters/evidence/ — 12原JSON+12原字节.raw.txt+summary.json(逐针产品与测试三态SHA, 恢复=正控; repoHashes仓库零漂移)+recompute-r2.json(r2复算回执: 原字节按完整judge复算4针三态全过, 含各工件sha256)"
+  },
+  "coverage": "未测(按卡不重复全仓测量; 85%并集归Codex)",
+  "unfinished": [
+    "deferredBudget 9条(contracts.json逐条锚点), 是否放行由Codex裁决",
+    "pal-meal-shell 5条环境红需本机生成资产复绿, 非本卡产品发现",
+    "docs导航残项1条(共享README归Codex)"
+  ]
+}

@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1",
+  "owner": "kimi",
+  "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "canonicalVersions": { "content": 21, "save": 10 },
+  "contractSources": [
+    {
+      "path": "packages/reforge/src/script-continuation.ts",
+      "blob": "1749304fadab3589208b6acb38d9f676b4f445e7",
+      "sha256": "2e00ff6452592179d554b9e02fb80e113980a93b3c52b109495930ddcadad32f"
+    },
+    {
+      "path": "packages/content/src/author-flow-stages.ts",
+      "blob": "afe152d06b9441b379bb1fc94f55495980d78bbd",
+      "sha256": "5bf898814d87d0ecac315786a0d01a49fced8ec487f0d0ca3d04fd83414f03bc"
+    }
+  ],
+  "newTestFiles": [
+    {
+      "path": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+      "blob": "5b6eef15e1549ef4b22e0c8faae57fc714943f23",
+      "cases": 28
+    },
+    {
+      "path": "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts",
+      "blob": "a8f786953d40778e2886d758569a743294c4f810",
+      "cases": 4
+    }
+  ],
+  "publicEntries": [
+    "packages/reforge/src/script-continuation.ts validateScriptContinuation (直接公开函数; 生产caller script-runner-core.ts:218 ScriptRunnerCore.validateContinuation, 更上层 runtime-script-project.ts:730 validateAutomaticContinuations)",
+    "packages/reforge/src/runtime-script-compiler.ts compileRuntimeScriptFlow / RuntimeSharedScriptResolver (真实compiler与解析器)",
+    "@type-pal/content organizeFlowAsStages (生产caller packages/editor/src/ui/ScriptEditor.tsx:4389)"
+  ],
+  "new": [
+    {
+      "id": "K1-1",
+      "anchor": "script-continuation.ts:32-33",
+      "condition": "stages可执行体+state游标",
+      "fullName": "K1 stages executable refuses a state-machine cursor before walking frames",
+      "oracle": "精确拒收 'auto resume: stages需要stage游标'（Error.message 子串+not-null AssertionError 形）"
+    },
+    {
+      "id": "K1-2",
+      "anchor": "script-continuation.ts:34-35",
+      "condition": "stage游标命名不存在stage",
+      "fullName": "K1 stages executable refuses a cursor naming an absent stage",
+      "oracle": "精确拒收 'auto resume: stage不存在'"
+    },
+    {
+      "id": "K1-3",
+      "anchor": "script-continuation.ts:38-39",
+      "condition": "state游标machine id与可执行体不符",
+      "fullName": "K1 machine executable refuses a cursor from a foreign machine id",
+      "oracle": "精确拒收 'auto resume: machine游标不匹配'；反控针 machine-id-cursor"
+    },
+    {
+      "id": "K1-4",
+      "anchor": "script-continuation.ts:68-69,90-97",
+      "condition": "frame.index恰等于body长度=合法已结束resume",
+      "fullName": "K1 a legally ended resume at the exact body end yields an empty location and no shared read",
+      "oracle": "location 精确 {}（零键）+ resolver spy 零调用"
+    },
+    {
+      "id": "K2-1",
+      "anchor": "script-continuation.ts:100-104",
+      "condition": "branch else臂合法下钻",
+      "fullName": "K2 branch else descent returns the real compiled leaf inside the else arm",
+      "oracle": "location 精确 {leaf:{kind:'giveMoney',delta:2}} 且 leaf===编译产物 else[0].command（同一引用）"
+    },
+    {
+      "id": "K2-2",
+      "anchor": "script-continuation.ts:110-114",
+      "condition": "confirm onNo合法下钻",
+      "fullName": "K2 confirm onNo descent returns the real compiled leaf inside onNo",
+      "oracle": "location 精确 {leaf:{delta:3}} 且 leaf===onNo[0].command 同引用"
+    },
+    {
+      "id": "K2-3",
+      "anchor": "script-continuation.ts:84-97",
+      "condition": "loop终态于test相位（无子帧）",
+      "fullName": "K2 a loop settled at test phase reports its control frame as a detached clone",
+      "oracle": "location 精确 {control:{kind:'loop',iteration:2,phase:'test'}} 且 control 非输入同引用（structuredClone）"
+    },
+    {
+      "id": "K2-4",
+      "anchor": "script-continuation.ts:115-119",
+      "condition": "startBattle onLose/onFlee结果臂合法下钻",
+      "fullName": "K2 startBattle %s descent returns the real compiled leaf of that outcome arm (onLose/onFlee 2例)",
+      "oracle": "location 精确 {leaf:{delta:4|5}} 且 leaf===battle[arm][0].command 同引用"
+    },
+    {
+      "id": "K2-5",
+      "anchor": "script-continuation.ts:120-124",
+      "condition": "teleportOut failed=true合法下钻onFail",
+      "fullName": "K2 teleportOut failure descent returns the real compiled leaf inside onFail",
+      "oracle": "location 精确 {leaf:{delta:6}} 且 leaf===onFail[0].command 同引用"
+    },
+    {
+      "id": "K2-6",
+      "anchor": "script-continuation.ts:84-86",
+      "condition": "loop控制帧iteration>maxIterations",
+      "fullName": "K2 a loop frame past maxIterations rejects before descending",
+      "oracle": "精确拒收 'auto resume: loop迭代越界'"
+    },
+    {
+      "id": "K2-7",
+      "anchor": "script-continuation.ts:87-88",
+      "condition": "loop非body相位带子帧",
+      "fullName": "K2 a loop child under a non-body phase rejects",
+      "oracle": "精确拒收 'auto resume: loop非body不能有子帧'"
+    },
+    {
+      "id": "K2-8",
+      "anchor": "script-continuation.ts:105-107",
+      "condition": "loop子帧缺控制帧",
+      "fullName": "K2 a loop child without its control frame rejects",
+      "oracle": "精确拒收 'auto resume: 缺少loop body相位'"
+    },
+    {
+      "id": "K2-9",
+      "anchor": "script-continuation.ts:101-102",
+      "condition": "branch子帧缺选择",
+      "fullName": "K2 a branch child without its selection rejects",
+      "oracle": "精确拒收 'auto resume: 缺少branch选择'"
+    },
+    {
+      "id": "K2-10",
+      "anchor": "script-continuation.ts:110-112",
+      "condition": "confirm子帧no=false",
+      "fullName": "K2 a confirm child settled as yes rejects",
+      "oracle": "精确拒收 'auto resume: confirm子帧不是onNo'"
+    },
+    {
+      "id": "K2-11",
+      "anchor": "script-continuation.ts:115-117",
+      "condition": "startBattle子帧arm=none",
+      "fullName": "K2 a startBattle child without an outcome arm rejects",
+      "oracle": "精确拒收 'auto resume: 缺少战斗结果'；反控针 battle-none-arm"
+    },
+    {
+      "id": "K2-12",
+      "anchor": "script-continuation.ts:120-122",
+      "condition": "teleportOut子帧failed=false",
+      "fullName": "K2 a teleportOut child settled as succeeded rejects",
+      "oracle": "精确拒收 'auto resume: 缺少teleport失败结果'"
+    },
+    {
+      "id": "K3-1",
+      "anchor": "script-continuation.ts:127",
+      "condition": "callScript子帧无resolver",
+      "fullName": "K3 a shared child without any resolver rejects",
+      "oracle": "精确拒收 'auto resume: 缺少shared resolver'"
+    },
+    {
+      "id": "K3-2",
+      "anchor": "script-continuation.ts:134-135",
+      "condition": "真实RuntimeSharedScriptResolver钉在异digest",
+      "fullName": "K3 a resolver pinned to another content digest rejects",
+      "oracle": "精确拒收 'auto resume: shared内容不匹配'"
+    },
+    {
+      "id": "K3-3",
+      "anchor": "script-continuation.ts:136-138",
+      "condition": "shared self=none遇显式command.self",
+      "fullName": "K3 a none-self shared script refuses an explicit command self",
+      "oracle": "精确拒收 'auto resume: shared self=none禁止显式self'；反控针 none-explicit-self"
+    },
+    {
+      "id": "K3-4",
+      "anchor": "script-continuation.ts:139",
+      "condition": "shared self=required无继承无显式",
+      "fullName": "K3 a required-self shared script without any inherited self rejects",
+      "oracle": "精确拒收 'auto resume: shared需要self'"
+    },
+    {
+      "id": "K3-5",
+      "anchor": "script-continuation.ts:128-141",
+      "condition": "required继承initialSelf下钻+resolver实参透传",
+      "fullName": "K3 a required-self shared script inherits the caller self as a detached clone with caller timing",
+      "oracle": "location.self 值等 SELF_A 且非同引用; spy记录 ['shared','auto','perCommand',signal]; leaf===真实resolve产物body[0].command"
+    },
+    {
+      "id": "K3-6",
+      "anchor": "script-continuation.ts:136-140",
+      "condition": "optional显式command.self覆盖继承",
+      "fullName": "K3 an optional-self shared script prefers the explicit command self over the inherited one",
+      "oracle": "location.self 值等 SELF_B 且非同引用"
+    },
+    {
+      "id": "K3-7",
+      "anchor": "script-continuation.ts:140",
+      "condition": "none清除继承self",
+      "fullName": "K3 a none-self shared script drops the inherited self from its resolved location",
+      "oracle": "location 精确 {leaf:{delta:9}} 且 Object.hasOwn(location,'self')===false"
+    },
+    {
+      "id": "K4-1",
+      "anchor": "script-continuation.ts:66-67",
+      "condition": "预取消signal于首帧throwIfAborted",
+      "fullName": "K4 a pre-aborted signal rejects before any shared resolution",
+      "oracle": "拒绝 name='AbortError' + resolver spy 零调用"
+    },
+    {
+      "id": "K4-2",
+      "anchor": "script-continuation.ts:66-67,128-133",
+      "condition": "公开resolver await阶段取消",
+      "fullName": "K4 aborting while the resolver is pending rejects the walk without a resolved location",
+      "oracle": "deferred gate内abort后放行→拒绝 name='AbortError'（下一帧throwIfAborted承接）"
+    },
+    {
+      "id": "K4-3",
+      "anchor": "script-continuation.ts:20-148",
+      "condition": "只读性：成功下钻后输入逐字节不变",
+      "fullName": "K4 a successful nested validation leaves executable, cursor and resume byte-identical",
+      "oracle": "JSON.stringify({executable,cursor,value}) 前后逐字节相等"
+    },
+    {
+      "id": "K4-4",
+      "anchor": "script-continuation.ts:91-95",
+      "condition": "对外location隔离（control/self双向）",
+      "fullName": "K4 mutating the returned location never reaches back into the resume or the inherited self",
+      "oracle": "改写 location.control.iteration/phase 与 location.self 后, 输入 frames[0].control 与 inherited self 保持原值"
+    },
+    {
+      "id": "K5-1",
+      "anchor": "author-flow-stages.ts:52-58",
+      "condition": "stay轴stage无next键（精确形状）",
+      "fullName": "K5 a stay state organizes to a stage with no next key while an advance state keeps its target id",
+      "oracle": "toStrictEqual 全形: advance→next:'talk'; stay→stage对象无next键（旧toEqual-undefined matcher无法区分）"
+    },
+    {
+      "id": "K6-1",
+      "anchor": "author-flow-stages.ts:29-40,52-58",
+      "condition": "多态restart环可达序+不可达尾部插入序保稳定ID/映射",
+      "fullName": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+      "oracle": "toStrictEqual: stages=[a,b,c,ghost]; c.next='a'(restart→initial id); ghost无next键且label/body保持；反控针 unreachable-tail"
+    },
+    {
+      "id": "K6-2",
+      "anchor": "author-flow-stages.ts:47-51",
+      "condition": "深拷贝 source→organized 方向",
+      "fullName": "K6 editing the source machine after organizing never leaks into the organized stages",
+      "oracle": "organize后改原machine body/entry.prepare/branch.then→organized toStrictEqual 等于快照"
+    },
+    {
+      "id": "K6-3",
+      "anchor": "author-flow-stages.ts:47-51",
+      "condition": "深拷贝 organized→source 新位点：第二stage body与branch嵌套臂",
+      "fullName": "K6 editing an organized second stage nested branch arm never leaks back into the source machine",
+      "oracle": "改organized stages[1].body[0].branch.then嵌套臂与body尾→原flow toStrictEqual 等于快照; fixture与organized产物均过公开checkBaseScriptFlow(allowSceneEntry)合法校验（旧证仅stage[0] body/entry/onNo, 不覆盖第二态branch臂; r1修: 原b.entry子轴经公开校验真实拒收'只允许 onEnter initial state', 去entry保留合法nested-arm方向）"
+    }
+  ],
+  "existingProof": [
+    {
+      "condition": "digest不匹配拒收",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight refuses corrupt %s without executing anything",
+      "matchers": [
+        ":651 resume.digest='a'.repeat(64)",
+        ":661 rejects.toThrow(/auto resume/)",
+        ":662-663 world不变/effect次数"
+      ]
+    },
+    {
+      "condition": "帧index越界拒收",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight refuses corrupt %s without executing anything",
+      "matchers": [":652 frames[0].index=2", ":661 rejects.toThrow(/auto resume/)"]
+    },
+    {
+      "condition": "控制类型不匹配拒收",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight refuses corrupt %s without executing anything",
+      "matchers": [":653 control={kind:'branch'} 于leaf命令", ":661"]
+    },
+    {
+      "condition": "confirm结果四态(缺已执行/缺选中/不一致/未来结果)",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight refuses a %s confirm result before effects",
+      "matchers": [":476-478 outcomes删改", ":482 rejects.toThrow(/auto resume/)"]
+    },
+    {
+      "condition": "confirm结果不存在拒收",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight refuses corrupt %s without executing anything",
+      "matchers": [":655 outcomes.missing", ":661"]
+    },
+    {
+      "condition": "叶命令子帧拒收(default)",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight refuses corrupt %s without executing anything",
+      "matchers": [":654 frames.push({index:0})", ":661"]
+    },
+    {
+      "condition": "leaf控制帧命令/相位不匹配",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight refuses corrupt %s without executing anything",
+      "matchers": [":656-657 stepEntity/done于moveEntity", ":661"]
+    },
+    {
+      "condition": "branch-then/loop-body/callScript四层嵌套合法resume",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "nested branch/loop/shared resume can be saved again at restore gate %i without losing child frames or replaying rewards",
+      "matchers": [
+        ":365-370 resume.frames toEqual 四帧",
+        ":373/:388/:402 validateAutomaticContinuations 通过"
+      ]
+    },
+    {
+      "condition": "shared 128调用深度拒收",
+      "blob": "af8325abeb3229d1b979cfa4a9274fc7de1de7d1",
+      "file": "packages/reforge/src/runtime-auto-checkpoint.test.ts",
+      "fullName": "restore preflight rejects excessive shared depth and a mismatched scene before effects",
+      "matchers": [":707 130帧", ":729-731 rejects.toThrow('调用深度越界')"]
+    },
+    {
+      "condition": "resume形状守卫17变体(digest/frames/control/outcomes/未知字段)",
+      "blob": "740e32f6f9caece036c16724d45d686e3f4025fc",
+      "file": "packages/content/src/auto-script-continuation.test.ts",
+      "fullName": "rejects malformed runtime-only state %#",
+      "matchers": [":52-79 test.each 17变体", ":80 toThrow(/resume/)"]
+    },
+    {
+      "condition": "completed/interaction槽禁挂continuation",
+      "blob": "740e32f6f9caece036c16724d45d686e3f4025fc",
+      "file": "packages/content/src/auto-script-continuation.test.ts",
+      "fullName": "rejects continuations on interaction slots and completed flows",
+      "matchers": [":82-85 toThrow(/未知字段|completed/)"]
+    },
+    {
+      "condition": "cadence拒收",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "refuses transition cadence, dangling targets and ordinary steps",
+      "matchers": [":269-270 cadence='transition'→undefined"]
+    },
+    {
+      "condition": "缺initial拒收",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "refuses transition cadence, dangling targets and ordinary steps",
+      "matchers": [":272-274"]
+    },
+    {
+      "condition": "悬空advance拒收",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "refuses transition cadence, dangling targets and ordinary steps",
+      "matchers": [":271"]
+    },
+    {
+      "condition": "stages输入保持undefined",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "refuses transition cadence, dangling targets and ordinary steps",
+      "matchers": [":275-277"]
+    },
+    {
+      "condition": "continue/to/branch/commandOutcome排程拒收",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "refuses $kind scheduling instead of silently changing it",
+      "matchers": [":245-265 test.each 5迁移形→undefined"]
+    },
+    {
+      "condition": "restart/complete边保持",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "%s is preserved as an actual next-activation or completion edge",
+      "matchers": [":220 organized.stages[0].next toEqual 'first'/{kind:'complete'}"]
+    },
+    {
+      "condition": "advance映射+可达序(真实PAL三态)",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "PAL repeat steps use reachable order instead of former object property order",
+      "matchers": [":46-47 ids/nexts toEqual"]
+    },
+    {
+      "condition": "首次/复读三调用等价(auto+interactive)",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "first/repeat %s activations retain commands, cadence and one save point",
+      "matchers": [":153 after.calls toEqual before.calls", ":155-156 committed游标"]
+    },
+    {
+      "condition": "命名strip",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "step renaming is stripped from executable flow without changing commands or scheduling",
+      "matchers": [
+        ":174/:179 compile(renamed/unnamed) toEqual original",
+        ":181 every(!hasOwn label)"
+      ]
+    },
+    {
+      "condition": "organized→source隔离旧位点:stage[0] body/entry/onNo",
+      "blob": "c74563a993cf4ed2776651486d1a3bf72ef51548",
+      "file": "packages/reforge/src/author-flow-stages.test.ts",
+      "fullName": "entry, nested confirmation and stable command IDs survive an explicit organization",
+      "matchers": [":206-210 三处push后 :211 expect(old).toEqual(original)"]
+    },
+    {
+      "condition": "编辑器显式组织集成(undo/redo/canonical)",
+      "blob": "a00004a2925ba12c8ce9715356de38a6e3b57f77",
+      "file": "packages/editor/src/core/script-editor.test.ts",
+      "fullName": "explicit step organization is one validated edit with undo, redo and canonical reopening",
+      "matchers": [":98-104 flow toEqual/undo/redo"]
+    }
+  ],
+  "unreachable": [
+    {
+      "id": "K1-U1",
+      "anchor": "script-continuation.ts:44-45",
+      "condition": "缺少根执行帧(frames:[])",
+      "reason": "不可构造合法输入: checkAutoScriptContinuation(author-script-core.ts:1250)先要求frames 1..256; :28守卫必经, 故:45永不可达"
+    }
+  ],
+  "deferredBudget": [
+    {
+      "anchor": "script-continuation.ts:38",
+      "condition": "machine可执行体+stage游标(同一throw的||左支)",
+      "note": "与K1-3同throw行, 让位预算"
+    },
+    {
+      "anchor": "script-continuation.ts:40-41",
+      "condition": "state游标命名不存在state('state不存在')",
+      "note": "与K1-2同族, 让位预算"
+    },
+    {
+      "anchor": "script-continuation.ts:82",
+      "condition": "leaf控制帧带子帧('单步相位不能有子帧')",
+      "note": "让位预算"
+    },
+    {
+      "anchor": "script-continuation.ts:98",
+      "condition": "已结束帧带子帧('已结束帧不能有子帧')",
+      "note": "让位预算"
+    },
+    {
+      "anchor": "script-continuation.ts:118,123",
+      "condition": "startBattle/teleportOut缺省臂的?? []空落点",
+      "note": "让位预算"
+    },
+    {
+      "anchor": "script-continuation.ts:134",
+      "condition": "resolver返回异id('shared内容不匹配'另一支)",
+      "note": "K3-2已锁digest支, 让位预算"
+    },
+    {
+      "anchor": "script-continuation.ts:136-140",
+      "condition": "none→required二级shared继承链",
+      "note": "K3-4/K3-7单级已锁, 让位预算"
+    },
+    {
+      "anchor": "author-flow-stages.ts:31",
+      "condition": "advance单态自环",
+      "note": "K6-1多态环同while行, 让位预算"
+    },
+    {
+      "anchor": "author-flow-stages.ts:50",
+      "condition": "不可达尾部stage的entry克隆",
+      "note": "K6-3改锁可达第二态entry+branch臂; K6-1已锁尾部stage全形, 让位预算"
+    }
+  ],
+  "blocked": [],
+  "summary": {
+    "new": 32,
+    "existingProof": 22,
+    "unreachable": 1,
+    "deferredBudget": 9,
+    "blocked": 0,
+    "capacity": "24-32目标, 硬上限36; 实交32新例"
+  }
+}

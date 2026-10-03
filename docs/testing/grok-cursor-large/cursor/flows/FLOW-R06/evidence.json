@@ -1,0 +1,110 @@
+{
+  "id": "FLOW-R06",
+  "category": "resource",
+  "title": "音效缺失警告与组合框恢复",
+  "contract": "missing-asset-warning-oracle",
+  "host": "http://127.0.0.1:6013/",
+  "viewport": {
+    "wide": {
+      "width": 1280,
+      "height": 820
+    },
+    "narrow": {
+      "width": 820,
+      "height": 700
+    }
+  },
+  "expect": "ghost 深链缺失 → 点击合法音效后 showsMissing=false",
+  "before": {
+    "flowId": "FLOW-R06",
+    "phase": "ready",
+    "label": "音效：缺失资产警告与恢复（资源）",
+    "oracle": {
+      "focusAsset": "sound.ghost.missing",
+      "validSoundId": "sound.flow.valid",
+      "soundCatalogIds": ["sound.flow.valid"],
+      "showsMissing": true,
+      "visibleSoundIds": ["sound.flow.valid"]
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-R06",
+    "phase": "ready",
+    "label": "音效：缺失资产警告与恢复（资源）",
+    "oracle": {
+      "focusAsset": "sound.flow.valid",
+      "validSoundId": "sound.flow.valid",
+      "soundCatalogIds": ["sound.flow.valid"],
+      "showsMissing": false,
+      "visibleSoundIds": ["sound.flow.valid"]
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["capture missing ghost focus", "click valid sound row"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R06/wide-missing.png",
+      "sha256": "946356865342743f2ed09a014f8ef0c07ebf19481ea50157b6e649190c084226",
+      "width": 1280,
+      "height": 820
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R06/narrow-recovered.png",
+      "sha256": "940bdea5669e55c7aeb09af89462cca668dec166012bbc7f9516ed92d267e90b",
+      "width": 820,
+      "height": 700
+    }
+  ],
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T23:57:55.018Z"
+}

@@ -1,0 +1,11 @@
+--- a/packages/game/src/assets/tileset-blob.ts
++++ b/packages/game/src/assets/tileset-blob.ts
+@@ -128,7 +128,7 @@
+   const out = new Uint8Array(total)
+   let offset = 0
+   for (const c of chunks) {
+-    out.set(c, offset)
++    out.set(c, 0)
+     offset += c.byteLength
+   }
+   return out

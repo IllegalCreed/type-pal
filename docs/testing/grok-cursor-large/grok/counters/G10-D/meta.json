@@ -1,0 +1,33 @@
+{
+  "id": "G10-D",
+  "batch": "G10",
+  "axis": "省略跳过键时默认吃掉 Space",
+  "source": "packages/game/src/shell/ending-player.ts",
+  "testFile": "src/shell/ending-avi-host.grok-r1.test.ts",
+  "target": "G10-D01",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "f3eeccf75b87494ddeb02c9278d785942f3826060cbf4412ce0ac009a6cf70c4",
+    "mutant": "9d7f5bc627241d33b6d319aad76ab0c69078e0ebb578a43930ccdef29daa0cb2",
+    "restored": "f3eeccf75b87494ddeb02c9278d785942f3826060cbf4412ce0ac009a6cf70c4"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 6,
+    "mutantFailed": 1,
+    "restored": 6
+  },
+  "assertionError": "AssertionError: expected 50 to be 60 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G10-D-fLAvQG/packages/game/src/shell/ending-avi-host.grok-r1.test.ts:85:27\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "fullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
+  "names": 6
+}

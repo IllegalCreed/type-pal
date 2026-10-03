@@ -1,0 +1,11 @@
+--- a/packages/game/src/present/menu/draw-inventory.ts
++++ b/packages/game/src/present/menu/draw-inventory.ts
+@@ -93,7 +93,7 @@
+         const fbY = dstY + y
+         if (fbX < 0 || fbX >= fb.width || fbY < 0 || fbY >= fb.height) continue
+         const cur = fb.indices[fbY * fb.width + fbX]!
+-        fb.writePixel(fbX, fbY, (cur & 0xf0) | ((cur & 0x0f) >> 1))
++        fb.writePixel(fbX, fbY, (cur & 0xf0) | ((cur & 0x0f) >> 2))
+       }
+     }
+   }

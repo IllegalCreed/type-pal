@@ -1,0 +1,152 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 10,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790870167467,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+          "status": "passed",
+          "title": "G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+          "duration": 3.7373340000001463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+          "status": "passed",
+          "title": "G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+          "duration": 0.47033399999986614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+          "status": "passed",
+          "title": "G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+          "duration": 0.2082500000001346,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+          "status": "passed",
+          "title": "G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+          "duration": 0.2640419999997903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+          "status": "failed",
+          "title": "G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+          "duration": 4.027249999999867,
+          "failureMessages": [
+            "AssertionError: expected +0 to be 26 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G05-A-E9fPVb/packages/game/src/present/dialog-box-pixels.grok-r1.test.ts:101:29\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+          "status": "passed",
+          "title": "G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+          "duration": 0.6790829999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+          "status": "passed",
+          "title": "G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+          "duration": 0.26299999999991996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+          "status": "passed",
+          "title": "G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+          "duration": 0.5110839999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+          "status": "passed",
+          "title": "G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+          "duration": 0.48762499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+          "status": "passed",
+          "title": "G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+          "duration": 0.19354199999997945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+          "status": "passed",
+          "title": "G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+          "duration": 178.1229159999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790870168562,
+      "endTime": 1790870168751.1228,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G05-A-E9fPVb/packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+    }
+  ]
+}

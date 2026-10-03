@@ -1,0 +1,45 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-04-H1n0JV/packages/editor
+
+ ❯ src/core/audio-preview-session.c09-g02.cursor-r1.test.ts (10 tests | 1 failed) 6ms
+     ✓ C09-G02-01 首次 claim 不调用 stop 1ms
+     × C09-G02-02 重复 claim 同一 owner 幂等 2ms
+     ✓ C09-G02-03 新 owner 停止旧 owner 0ms
+     ✓ C09-G02-04 release 活动 owner 后 isOwner 为 false 0ms
+     ✓ C09-G02-05 release 非活动 owner 不影响当前 owner 0ms
+     ✓ C09-G02-06 stop 在无 owner 时安全 0ms
+     ✓ C09-G02-07 stop 后新 claim 可立即生效 0ms
+     ✓ C09-G02-08 三连 claim 只停止上一个 0ms
+     ✓ C09-G02-09 release 后 stop 不再调用已释放 owner 0ms
+     ✓ C09-G02-10 stop 对活动 owner 只 stop 一次 0ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":9,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790867634616,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-01 首次 claim 不调用 stop","status":"passed","title":"C09-G02-01 首次 claim 不调用 stop","duration":1.162791999999996,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等","status":"failed","title":"C09-G02-02 重复 claim 同一 owner 幂等","duration":2.3011670000000066,"failureMessages":["AssertionError: expected \"vi.fn()\" to not be called at all, but actually been called 1 times\n\nReceived:\n\n  1st vi.fn() call:\n\n    Array []\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-04-H1n0JV/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:24:28\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-03 新 owner 停止旧 owner","status":"passed","title":"C09-G02-03 新 owner 停止旧 owner","duration":0.2871250000000032,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-04 release 活动 owner 后 isOwner 为 false","status":"passed","title":"C09-G02-04 release 活动 owner 后 isOwner 为 false","duration":0.17566700000000424,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-05 release 非活动 owner 不影响当前 owner","status":"passed","title":"C09-G02-05 release 非活动 owner 不影响当前 owner","duration":0.08533300000000565,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-06 stop 在无 owner 时安全","status":"passed","title":"C09-G02-06 stop 在无 owner 时安全","duration":0.04041700000000503,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-07 stop 后新 claim 可立即生效","status":"passed","title":"C09-G02-07 stop 后新 claim 可立即生效","duration":0.2080829999999878,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-08 三连 claim 只停止上一个","status":"passed","title":"C09-G02-08 三连 claim 只停止上一个","duration":0.3287920000000071,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-09 release 后 stop 不再调用已释放 owner","status":"passed","title":"C09-G02-09 release 后 stop 不再调用已释放 owner","duration":0.33516700000001265,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-10 stop 对活动 owner 只 stop 一次","status":"passed","title":"C09-G02-10 stop 对活动 owner 只 stop 一次","duration":0.09116600000000119,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790867634754,"endTime":1790867634759.091,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-04-H1n0JV/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  00:13:54
+   Duration  138ms (transform 21ms, setup 0ms, import 30ms, tests 6ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/audio-preview-session.c09-g02.cursor-r1.test.ts > C09-G02 编辑器试听 owner > C09-G02-02 重复 claim 同一 owner 幂等
+AssertionError: expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array []
+
+
+Number of calls: 1
+
+ ❯ src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:24:28
+     22|     claimEditorAudioPreview(owner)
+     23|     claimEditorAudioPreview(owner)
+     24|     expect(owner.stop).not.toHaveBeenCalled()
+       |                            ^
+     25|     stopEditorAudioPreview()
+     26|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

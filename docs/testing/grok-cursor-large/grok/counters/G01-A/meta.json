@@ -1,0 +1,33 @@
+{
+  "id": "G01-A",
+  "batch": "G01",
+  "axis": "战斗精灵键归属从 kind-id 被改成 kind:id",
+  "source": "packages/game/src/assets/loader.ts",
+  "testFile": "src/assets/load-all-assemble.grok-r1.test.ts",
+  "target": "G01-A07",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+    "mutant": "980c800913ac8caf3cfe469d0d3ba2d1f99bb5ae88b5240696b4b4df1ea8ede0",
+    "restored": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 10,
+    "mutantFailed": 1,
+    "restored": 10
+  },
+  "assertionError": "AssertionError: expected [ 'enemy:4', 'player:2' ] to deeply equal [ 'enemy-4', 'player-2' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-A-jItrbf/packages/game/src/assets/load-all-assemble.grok-r1.test.ts:123:53\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+  "names": 10
+}

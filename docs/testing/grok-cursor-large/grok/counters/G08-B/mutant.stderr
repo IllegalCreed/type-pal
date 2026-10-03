@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/battle/battle-ui-pixels.grok-r1.test.ts > G08-B 战斗界面像素 > G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰
+AssertionError: expected 18 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 18
+
+ ❯ src/present/battle/battle-ui-pixels.grok-r1.test.ts:255:32
+    253|     const { players, roles } = duo(40, 200)
+    254|     const fb = paint({ state: mkState(players), roles, frames: uiFrame…
+    255|     expect(pixel(fb, 54, 155)).toBe(0x02)
+       |                                ^
+    256|     expect(pixel(fb, 27, 140)).toBe(0x06)
+    257|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

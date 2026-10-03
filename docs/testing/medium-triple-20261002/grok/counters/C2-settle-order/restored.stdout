@@ -1,0 +1,22 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game
+
+ ✓ src/shell/bootstrap-resources.test.ts > bootstrap resource lifecycle > starts soundfont first and all resource loaders before awaiting any result 2ms
+ ✓ src/shell/bootstrap-resources.test.ts > bootstrap resource lifecycle > degrades a glyph failure without blocking the other initial resources 1ms
+ ✓ src/shell/bootstrap-resources.test.ts > bootstrap resource lifecycle > keeps the original soundfont rejection while its settle barrier still resolves 1ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立 4ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑 0ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用 0ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > dialog 未兑现时 resourcesReady 保持未就绪 0ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > assets 未兑现时 resourcesReady 保持未就绪 0ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > glyph 失败后 resourcesReady 仍等待 assets 与 dialog 1ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求 2ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪 1ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts > grok-mid-1 bootstrap barriers > 两轮 boot 的拒绝与成功资产互不穿越 1ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  16:20:36
+   Duration  781ms (transform 302ms, setup 65ms, import 338ms, tests 16ms, environment 949ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/restored.json

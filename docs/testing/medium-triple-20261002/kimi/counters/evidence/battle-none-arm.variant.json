@@ -1,0 +1,730 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 67,
+  "numPassedTests": 66,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790934188064,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "K5 a stay state organizes to a stage with no next key while an advance state keeps its target id",
+          "status": "passed",
+          "title": "K5 a stay state organizes to a stage with no next key while an advance state keeps its target id",
+          "duration": 2.091791999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+          "status": "passed",
+          "title": "K6 a multi-state restart cycle stays in reachable order and the unreachable tail keeps its own id and stay mapping",
+          "duration": 0.3849999999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K6 editing the source machine after organizing never leaks into the organized stages",
+          "status": "passed",
+          "title": "K6 editing the source machine after organizing never leaks into the organized stages",
+          "duration": 0.4365829999999846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K6 editing an organized second stage nested branch arm never leaks back into the source machine",
+          "status": "passed",
+          "title": "K6 editing an organized second stage nested branch arm never leaks back into the source machine",
+          "duration": 0.4822910000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790934188726,
+      "endTime": 1790934188729.4822,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-ThAUy2/packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight accepts a contact claim at chase or later wait index 0 without executing gameplay",
+          "status": "passed",
+          "title": "restore preflight accepts a contact claim at chase or later wait index 0 without executing gameplay",
+          "duration": 3.9804579999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight accepts a contact claim at chase or later wait index 1 without executing gameplay",
+          "status": "passed",
+          "title": "restore preflight accepts a contact claim at chase or later wait index 1 without executing gameplay",
+          "duration": 0.3983339999999771,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a committed chase cannot be restored without its contact ownership",
+          "status": "passed",
+          "title": "a committed chase cannot be restored without its contact ownership",
+          "duration": 0.7995829999999842,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cancelled offstage chase {\"phase\":\"despawned\",\"remainingTicks\":1000} can retain a continuation without a live claim",
+          "status": "passed",
+          "title": "cancelled offstage chase {\"phase\":\"despawned\",\"remainingTicks\":1000} can retain a continuation without a live claim",
+          "duration": 0.28816699999993034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cancelled offstage chase {\"phase\":\"awaitingExit\"} can retain a continuation without a live claim",
+          "status": "passed",
+          "title": "cancelled offstage chase {\"phase\":\"awaitingExit\"} can retain a continuation without a live claim",
+          "duration": 0.6382909999999811,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cancelled offstage chase {\"phase\":\"removed\"} can retain a continuation without a live claim",
+          "status": "passed",
+          "title": "cancelled offstage chase {\"phase\":\"removed\"} can retain a continuation without a live claim",
+          "duration": 0.42870799999991505,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "suspension retains activation and still requires a committed chase claim",
+          "status": "passed",
+          "title": "suspension retains activation and still requires a committed chase claim",
+          "duration": 0.4462909999999738,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a retained cross-leaf chase claim with invalid scene rejects before effects",
+          "status": "passed",
+          "title": "a retained cross-leaf chase claim with invalid scene rejects before effects",
+          "duration": 0.23324999999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a retained cross-leaf chase claim with invalid owner rejects before effects",
+          "status": "passed",
+          "title": "a retained cross-leaf chase claim with invalid owner rejects before effects",
+          "duration": 0.8337500000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a retained cross-leaf chase claim with invalid target rejects before effects",
+          "status": "passed",
+          "title": "a retained cross-leaf chase claim with invalid target rejects before effects",
+          "duration": 0.2939159999999674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a retained cross-leaf chase claim with invalid behavior rejects before effects",
+          "status": "passed",
+          "title": "a retained cross-leaf chase claim with invalid behavior rejects before effects",
+          "duration": 0.23370900000008987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an unfinished auto move is snapshot-ready and resumes without repeating earlier rewards",
+          "status": "passed",
+          "title": "an unfinished auto move is snapshot-ready and resumes without repeating earlier rewards",
+          "duration": 2.9781249999999773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an automatic activation suspended before its first command does not block saving",
+          "status": "passed",
+          "title": "an automatic activation suspended before its first command does not block saving",
+          "duration": 0.98924999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a save requested between an async gate check and command dispatch cannot begin a new effect",
+          "status": "passed",
+          "title": "a save requested between an async gate check and command dispatch cannot begin a new effect",
+          "duration": 0.7422080000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a random until-loop exit is settled before snapshot rather than redrawn on restore",
+          "status": "passed",
+          "title": "a random until-loop exit is settled before snapshot rather than redrawn on restore",
+          "duration": 1.697499999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a random while-loop exit is settled before snapshot rather than redrawn on restore",
+          "status": "passed",
+          "title": "a random while-loop exit is settled before snapshot rather than redrawn on restore",
+          "duration": 1.2456250000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "nested branch/loop/shared resume can be saved again at restore gate 2 without losing child frames or replaying rewards",
+          "status": "passed",
+          "title": "nested branch/loop/shared resume can be saved again at restore gate 2 without losing child frames or replaying rewards",
+          "duration": 6.793292000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "nested branch/loop/shared resume can be saved again at restore gate 3 without losing child frames or replaying rewards",
+          "status": "passed",
+          "title": "nested branch/loop/shared resume can be saved again at restore gate 3 without losing child frames or replaying rewards",
+          "duration": 5.211957999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "nested branch/loop/shared resume can be saved again at restore gate 4 without losing child frames or replaying rewards",
+          "status": "passed",
+          "title": "nested branch/loop/shared resume can be saved again at restore gate 4 without losing child frames or replaying rewards",
+          "duration": 5.8005829999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses a missing-completed confirm result before effects",
+          "status": "passed",
+          "title": "restore preflight refuses a missing-completed confirm result before effects",
+          "duration": 1.3318330000000742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses a missing-selected confirm result before effects",
+          "status": "passed",
+          "title": "restore preflight refuses a missing-selected confirm result before effects",
+          "duration": 0.7694159999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses a mismatched-selected confirm result before effects",
+          "status": "passed",
+          "title": "restore preflight refuses a mismatched-selected confirm result before effects",
+          "duration": 1.0004579999999805,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses a future-result confirm result before effects",
+          "status": "passed",
+          "title": "restore preflight refuses a future-result confirm result before effects",
+          "duration": 0.5404999999999518,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "multiple permanent auto waits are immediately saveable and an aborted save does not stop their live work",
+          "status": "passed",
+          "title": "multiple permanent auto waits are immediately saveable and an aborted save does not stop their live work",
+          "duration": 1.024958999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a non-reentrant reward effect is settled before checkpoint capture, not replayed from its commit gap",
+          "status": "passed",
+          "title": "a non-reentrant reward effect is settled before checkpoint capture, not replayed from its commit gap",
+          "duration": 1.01075000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a permanently cycling auto state machine snapshots at its tick without finishing the patrol",
+          "status": "passed",
+          "title": "a permanently cycling auto state machine snapshots at its tick without finishing the patrol",
+          "duration": 0.9575419999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses corrupt digest without executing anything",
+          "status": "passed",
+          "title": "restore preflight refuses corrupt digest without executing anything",
+          "duration": 0.8985830000000306,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses corrupt index without executing anything",
+          "status": "passed",
+          "title": "restore preflight refuses corrupt index without executing anything",
+          "duration": 0.3165830000000369,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses corrupt control without executing anything",
+          "status": "passed",
+          "title": "restore preflight refuses corrupt control without executing anything",
+          "duration": 0.27862500000003365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses corrupt child without executing anything",
+          "status": "passed",
+          "title": "restore preflight refuses corrupt child without executing anything",
+          "duration": 0.3843330000000833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses corrupt outcome without executing anything",
+          "status": "passed",
+          "title": "restore preflight refuses corrupt outcome without executing anything",
+          "duration": 0.32904099999996106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight refuses corrupt motion-phase without executing anything",
+          "status": "passed",
+          "title": "restore preflight refuses corrupt motion-phase without executing anything",
+          "duration": 0.29966699999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "normal stopScript returns do not turn a later activation into a saved continuation",
+          "status": "passed",
+          "title": "normal stopScript returns do not turn a later activation into a saved continuation",
+          "duration": 0.3712920000000395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore preflight rejects excessive shared depth and a mismatched scene before effects",
+          "status": "passed",
+          "title": "restore preflight rejects excessive shared depth and a mismatched scene before effects",
+          "duration": 0.3547090000000708,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an already selected random state transition is committed before snapshot readiness",
+          "status": "passed",
+          "title": "an already selected random state transition is committed before snapshot readiness",
+          "duration": 0.5502500000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790934188618,
+      "endTime": 1790934188662.5503,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-ThAUy2/packages/reforge/src/runtime-auto-checkpoint.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 stages executable refuses a state-machine cursor before walking frames",
+          "status": "passed",
+          "title": "K1 stages executable refuses a state-machine cursor before walking frames",
+          "duration": 1.9346249999999827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 stages executable refuses a cursor naming an absent stage",
+          "status": "passed",
+          "title": "K1 stages executable refuses a cursor naming an absent stage",
+          "duration": 0.15837500000003502,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 machine executable refuses a cursor from a foreign machine id",
+          "status": "passed",
+          "title": "K1 machine executable refuses a cursor from a foreign machine id",
+          "duration": 0.3656670000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 a legally ended resume at the exact body end yields an empty location and no shared read",
+          "status": "passed",
+          "title": "K1 a legally ended resume at the exact body end yields an empty location and no shared read",
+          "duration": 0.7526249999999663,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 branch else descent returns the real compiled leaf inside the else arm",
+          "status": "passed",
+          "title": "K2 branch else descent returns the real compiled leaf inside the else arm",
+          "duration": 0.45787500000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 confirm onNo descent returns the real compiled leaf inside onNo",
+          "status": "passed",
+          "title": "K2 confirm onNo descent returns the real compiled leaf inside onNo",
+          "duration": 0.6268749999999841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop settled at test phase reports its control frame as a detached clone",
+          "status": "passed",
+          "title": "K2 a loop settled at test phase reports its control frame as a detached clone",
+          "duration": 0.42574999999999363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 startBattle onLose descent returns the real compiled leaf of that outcome arm",
+          "status": "passed",
+          "title": "K2 startBattle onLose descent returns the real compiled leaf of that outcome arm",
+          "duration": 0.16791599999999107,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 startBattle onFlee descent returns the real compiled leaf of that outcome arm",
+          "status": "passed",
+          "title": "K2 startBattle onFlee descent returns the real compiled leaf of that outcome arm",
+          "duration": 0.47837499999997135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 teleportOut failure descent returns the real compiled leaf inside onFail",
+          "status": "passed",
+          "title": "K2 teleportOut failure descent returns the real compiled leaf inside onFail",
+          "duration": 0.1960409999999797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop frame past maxIterations rejects before descending",
+          "status": "passed",
+          "title": "K2 a loop frame past maxIterations rejects before descending",
+          "duration": 0.2051670000000172,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop child under a non-body phase rejects",
+          "status": "passed",
+          "title": "K2 a loop child under a non-body phase rejects",
+          "duration": 0.09745800000001736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop child without its control frame rejects",
+          "status": "passed",
+          "title": "K2 a loop child without its control frame rejects",
+          "duration": 0.0875000000000341,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a branch child without its selection rejects",
+          "status": "passed",
+          "title": "K2 a branch child without its selection rejects",
+          "duration": 0.0947500000000332,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a confirm child settled as yes rejects",
+          "status": "passed",
+          "title": "K2 a confirm child settled as yes rejects",
+          "duration": 0.08583299999997962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a startBattle child without an outcome arm rejects",
+          "status": "failed",
+          "title": "K2 a startBattle child without an outcome arm rejects",
+          "duration": 3.9167079999999714,
+          "failureMessages": [
+            "AssertionError: expected the continuation walk to reject: expected null not to be null\n    at expectReject (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-ThAUy2/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:96:66)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-ThAUy2/packages/reforge/src/script-continuation.kimi-mid-1.test.ts:319:3\n    at file:///Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a teleportOut child settled as succeeded rejects",
+          "status": "passed",
+          "title": "K2 a teleportOut child settled as succeeded rejects",
+          "duration": 0.200917000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a shared child without any resolver rejects",
+          "status": "passed",
+          "title": "K3 a shared child without any resolver rejects",
+          "duration": 0.16004200000003266,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a resolver pinned to another content digest rejects",
+          "status": "passed",
+          "title": "K3 a resolver pinned to another content digest rejects",
+          "duration": 0.2243750000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a none-self shared script refuses an explicit command self",
+          "status": "passed",
+          "title": "K3 a none-self shared script refuses an explicit command self",
+          "duration": 0.11941699999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a required-self shared script without any inherited self rejects",
+          "status": "passed",
+          "title": "K3 a required-self shared script without any inherited self rejects",
+          "duration": 0.08458400000000665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a required-self shared script inherits the caller self as a detached clone with caller timing",
+          "status": "passed",
+          "title": "K3 a required-self shared script inherits the caller self as a detached clone with caller timing",
+          "duration": 0.20266699999996263,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 an optional-self shared script prefers the explicit command self over the inherited one",
+          "status": "passed",
+          "title": "K3 an optional-self shared script prefers the explicit command self over the inherited one",
+          "duration": 0.15262500000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a none-self shared script drops the inherited self from its resolved location",
+          "status": "passed",
+          "title": "K3 a none-self shared script drops the inherited self from its resolved location",
+          "duration": 0.09037500000005139,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 a pre-aborted signal rejects before any shared resolution",
+          "status": "passed",
+          "title": "K4 a pre-aborted signal rejects before any shared resolution",
+          "duration": 0.5575000000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 aborting while the resolver is pending rejects the walk without a resolved location",
+          "status": "passed",
+          "title": "K4 aborting while the resolver is pending rejects the walk without a resolved location",
+          "duration": 0.4577499999999759,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 a successful nested validation leaves executable, cursor and resume byte-identical",
+          "status": "passed",
+          "title": "K4 a successful nested validation leaves executable, cursor and resume byte-identical",
+          "duration": 0.1802500000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 mutating the returned location never reaches back into the resume or the inherited self",
+          "status": "passed",
+          "title": "K4 mutating the returned location never reaches back into the resume or the inherited self",
+          "duration": 0.6832089999999766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790934188518,
+      "endTime": 1790934188531.683,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-kimi-mid-1-copy-ThAUy2/packages/reforge/src/script-continuation.kimi-mid-1.test.ts"
+    }
+  ]
+}

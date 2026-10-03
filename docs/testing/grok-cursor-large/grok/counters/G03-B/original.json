@@ -1,0 +1,120 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790866842313,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+          "status": "passed",
+          "title": "G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+          "duration": 0.7781249999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+          "status": "passed",
+          "title": "G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+          "duration": 0.17337499999996453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+          "status": "passed",
+          "title": "G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+          "duration": 0.07712500000002365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+          "status": "passed",
+          "title": "G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+          "duration": 0.18012499999997544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+          "status": "passed",
+          "title": "G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+          "duration": 0.07762500000001182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+          "status": "passed",
+          "title": "G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+          "duration": 0.054957999999999174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
+          "status": "passed",
+          "title": "G03-B07 3×1 按行序写入 11、12、13",
+          "duration": 0.11091700000002902,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素",
+          "status": "passed",
+          "title": "G03-B08 中间透明孔不挡住右侧不透明像素",
+          "duration": 0.10508300000003601,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790866842703,
+      "endTime": 1790866842704.1802,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G03-B-leYA5h/packages/game/src/present/draw-sprite-clip.grok-r1.test.ts"
+    }
+  ]
+}

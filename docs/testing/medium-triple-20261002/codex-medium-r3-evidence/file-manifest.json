@@ -1,0 +1,39 @@
+{
+  "rawSha256": "87347f4fd26e497188d66be5e1571f0e27c3d47cca0433bbd0444158c6ef3e19",
+  "viewSha256": "5c70ad0044bf5d2c3b10402eba8325b4383576d90d213d9c813c60f589496ed9",
+  "objectValuesEqual": true,
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "05891459d48533e7cb103422820411293cb05dbae1c4d5133556136fa08210b3"
+    },
+    {
+      "path": "cursor-lint.complete.json",
+      "sha256": "eaad0e0782ebb08c4cd6c598d5d10b875a427d0b817b248760c1739864baf06e"
+    },
+    {
+      "path": "cursor-real-composite.json",
+      "sha256": "5c70ad0044bf5d2c3b10402eba8325b4383576d90d213d9c813c60f589496ed9"
+    },
+    {
+      "path": "cursor-real-composite.json.raw.txt",
+      "sha256": "87347f4fd26e497188d66be5e1571f0e27c3d47cca0433bbd0444158c6ef3e19"
+    },
+    {
+      "path": "cursor-rejudged-generated.json",
+      "sha256": "c46a0902c38e29bbb271a96c0a155c288e1135507767bfab28291fe0ff297bc3"
+    },
+    {
+      "path": "kimi-lint.complete.json",
+      "sha256": "55f03adb5c281827c9d5cdd12b4a2c098e77f8005e8d09449061ee23f8beb855"
+    },
+    {
+      "path": "probes.json",
+      "sha256": "9c71f3a6c93b16c3360a69c219c200b937eb6d7a2f10412a16a8e8a7de583729"
+    },
+    {
+      "path": "runs.json",
+      "sha256": "acd4c6d0dddd2a16d49d966680aca952a26c4467a09ff14dfcc67051525f8a40"
+    }
+  ]
+}

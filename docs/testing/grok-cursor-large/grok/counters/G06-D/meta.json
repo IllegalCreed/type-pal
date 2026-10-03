@@ -1,0 +1,33 @@
+{
+  "id": "G06-D",
+  "batch": "G06",
+  "axis": "毒等级等于 3 时不再显示",
+  "source": "packages/game/src/present/menu/draw-player-status.ts",
+  "testFile": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+  "target": "G06-D10",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "0318fcf76daa1ade0e7556cb946714603df5459f2e78300af3937ea0788278d0",
+    "mutant": "64bd6d4e0db9488693e60106ea4c3b07d3c8808382c253d11572709dbf7c27c3",
+    "restored": "0318fcf76daa1ade0e7556cb946714603df5459f2e78300af3937ea0788278d0"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 15,
+    "mutantFailed": 1,
+    "restored": 15
+  },
+  "assertionError": "AssertionError: expected 90 to be 25 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G06-D-JOwl1t/packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts:255:32\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+  "names": 15
+}

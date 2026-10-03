@@ -1,0 +1,90 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 5,
+  "numPassedTests": 5,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790878623531,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+          "status": "passed",
+          "title": "G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+          "duration": 0.9332089999999766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+          "status": "passed",
+          "title": "G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+          "duration": 1.4225420000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+          "status": "passed",
+          "title": "G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+          "duration": 0.90300000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+          "status": "passed",
+          "title": "G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+          "duration": 0.2928749999999809,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+          "status": "passed",
+          "title": "G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+          "duration": 0.188666000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790878623935,
+      "endTime": 1790878623939.293,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-C-rUQaVj/packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts"
+    }
+  ]
+}

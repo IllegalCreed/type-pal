@@ -1,0 +1,250 @@
+{
+  "at": "2026-10-02T12:16:12.036Z",
+  "maxConcurrency": 1,
+  "maxLiveTrees": 1,
+  "ownedAfter": [],
+  "prefixTemps": [],
+  "orphansReportOnly": [],
+  "registry": {
+    "updatedAt": "2026-10-02T12:16:04.232Z",
+    "prefix": "cursor-mid-counter-",
+    "maxLiveTrees": 1,
+    "maxConcurrency": 1,
+    "maxOwnerTempGiB": 2,
+    "ownedExactPaths": [],
+    "ownedIdentities": []
+  },
+  "results": [
+    {
+      "label": "success-cleanup",
+      "ok": true,
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-WucbKw",
+      "exists": false,
+      "stillListed": false,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-ok-WucbKw",
+        "owned": true,
+        "legalPath": true,
+        "identityOk": true,
+        "gitRemoveOk": true,
+        "dirRemoved": true,
+        "pathExistsAfter": false,
+        "listedInGitWorktreeAfter": false,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166800682,
+          "gitWorktree": true
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166800682
+        },
+        "error": null
+      }
+    },
+    {
+      "label": "failure-cleanup",
+      "ok": true,
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-v14hAr",
+      "exists": false,
+      "stillListed": false,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-fail-v14hAr",
+        "owned": true,
+        "legalPath": true,
+        "identityOk": true,
+        "gitRemoveOk": true,
+        "dirRemoved": true,
+        "pathExistsAfter": false,
+        "listedInGitWorktreeAfter": false,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166807042,
+          "gitWorktree": true
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166807042
+        },
+        "error": null
+      }
+    },
+    {
+      "label": "cap-refuse-then-cleanup",
+      "ok": true,
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-680ak0",
+      "exists": false,
+      "stillListed": false,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-cap-a-680ak0",
+        "owned": true,
+        "legalPath": true,
+        "identityOk": true,
+        "gitRemoveOk": true,
+        "dirRemoved": true,
+        "pathExistsAfter": false,
+        "listedInGitWorktreeAfter": false,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166813165,
+          "gitWorktree": true
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166813165
+        },
+        "error": null
+      }
+    },
+    {
+      "label": "max-live-trees",
+      "ok": true,
+      "refused": true,
+      "MAX_LIVE_TREES": 1
+    },
+    {
+      "label": "refuse-unregistered-same-prefix",
+      "ok": true,
+      "sentinel": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-84fBJN",
+      "before": true,
+      "after": true,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-unreg-84fBJN",
+        "owned": false,
+        "legalPath": true,
+        "identityOk": false,
+        "gitRemoveOk": false,
+        "dirRemoved": false,
+        "pathExistsAfter": true,
+        "listedInGitWorktreeAfter": false,
+        "registeredIdentity": null,
+        "currentIdentity": null,
+        "error": "refuse-cleanup-unregistered"
+      }
+    },
+    {
+      "label": "refuse-ancestor-prefix-path",
+      "ok": true,
+      "nested": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-jsEgLs/cursor-mid-counter-nested-leaf",
+      "legal": false,
+      "after": true,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-r2-nest-jsEgLs/cursor-mid-counter-nested-leaf",
+        "owned": false,
+        "legalPath": false,
+        "identityOk": false,
+        "gitRemoveOk": false,
+        "dirRemoved": false,
+        "pathExistsAfter": true,
+        "listedInGitWorktreeAfter": false,
+        "registeredIdentity": null,
+        "currentIdentity": null,
+        "error": "refuse-cleanup-unregistered"
+      }
+    },
+    {
+      "label": "refuse-same-path-inode-replacement",
+      "ok": true,
+      "registeredIno": 166819416,
+      "replacementIno": 166819419,
+      "replacementExists": true,
+      "originalPreserved": true,
+      "report": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-patch-r3-replace-i3zSR2",
+        "owned": true,
+        "legalPath": true,
+        "identityOk": false,
+        "gitRemoveOk": false,
+        "dirRemoved": false,
+        "pathExistsAfter": true,
+        "listedInGitWorktreeAfter": false,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166819416,
+          "gitWorktree": false
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166819419
+        },
+        "error": "refuse-cleanup-identity-mismatch"
+      }
+    },
+    {
+      "label": "refuse-create-rollback-inode-replacement",
+      "ok": true,
+      "targetPath": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-r4-create-STpL3N",
+      "replacementExists": true,
+      "originalPreserved": true,
+      "rollback": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-r4-create-STpL3N",
+        "action": "refuse-rollback",
+        "dirRemoved": false,
+        "identityOk": false,
+        "inGit": null,
+        "error": "refuse-rollback-identity-mismatch",
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166819422
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166819423
+        }
+      },
+      "message": "createCounterWorktree failed for /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-r4-create-STpL3N: injected-git-add-failure; rollback=refuse-rollback:refuse-rollback-identity-mismatch"
+    },
+    {
+      "label": "create-rollback-unentered-empty-ok",
+      "ok": true,
+      "targetPath": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-r4-clean-XFPwlX",
+      "rollback": {
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-r4-clean-XFPwlX",
+        "action": "rm-unentered-create",
+        "dirRemoved": true,
+        "identityOk": true,
+        "inGit": false,
+        "error": null,
+        "registeredIdentity": {
+          "dev": 16777233,
+          "ino": 166819425
+        },
+        "currentIdentity": {
+          "dev": 16777233,
+          "ino": 166819425
+        }
+      }
+    },
+    {
+      "label": "interrupt-sigterm",
+      "ok": true,
+      "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-fhjlXr",
+      "after": {
+        "reason": "signal",
+        "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-fhjlXr",
+        "report": {
+          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-selftest-int-fhjlXr",
+          "owned": true,
+          "legalPath": true,
+          "identityOk": true,
+          "gitRemoveOk": true,
+          "dirRemoved": true,
+          "pathExistsAfter": false,
+          "listedInGitWorktreeAfter": false,
+          "registeredIdentity": {
+            "dev": 16777233,
+            "ino": 166819427,
+            "gitWorktree": true
+          },
+          "currentIdentity": {
+            "dev": 16777233,
+            "ino": 166819427
+          },
+          "error": null
+        },
+        "existsAfter": false
+      }
+    }
+  ],
+  "allOk": true
+}

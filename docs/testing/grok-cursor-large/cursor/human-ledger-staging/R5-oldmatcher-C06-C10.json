@@ -1,0 +1,249 @@
+{
+  "task": "CURSOR-R5-02",
+  "batches": ["C06", "C07", "C08", "C09", "C10"],
+  "note": "Same business sub-axis oldMatcher promotions only; humanVerified stays false; verification staging-draft unless separately human-checked.",
+  "overlays": {
+    "C06-G01-12": {
+      "oldAssertion": {
+        "oldTestSha": "12d83ac72063e9736b8fb87d2dcdb23a493ca55e",
+        "oldFile": "packages/editor/src/ui/PreviewCanvas.test.tsx",
+        "oldFullName": "预览控制使用单行共享工具栏并保持播放、单步与倍速行为",
+        "oldMatcher": "querySelector('[role=\"toolbar\"][aria-label=\"演出预览控制\"]') not.toBeNull() @ :91-92",
+        "note": "same toolbar presence axis; old also asserts play/step/speed — new adds canvas interact class only"
+      },
+      "notes": "CURSOR-R5-02 promoted; mixed: old couples playback controls, new case is toolbar+canvas shell only",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C06-G05-05": {
+      "oldAssertion": {
+        "oldTestSha": "bfd1ee2670f083bae629866ea7b73cac3fc8e9f1",
+        "oldFile": "packages/editor/src/ui/PortraitEditor.test.tsx",
+        "oldFullName": "没有立绘组时从标题动作选择主立绘，不再静默采用目录第一项",
+        "oldMatcher": "expect(host.textContent).toContain('暂无对话立绘') @ :171",
+        "note": "empty portraits group copy axis; old continues into picker flow, new stops at empty-state text"
+      },
+      "notes": "CURSOR-R5-02 promoted; same empty-state sub-axis",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C06-G06-02": {
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "从实体页启用复合动作并编辑循环、相位与反跳",
+        "oldMatcher": "combobox pick '后动作' → expect(changes.at(-1)).toEqual({ sprite, action: 'late', loop: false }) @ :93-99",
+        "note": "action switch updates binding axis; loop default differs (old late loop false, new run loop true from loopFrom)"
+      },
+      "notes": "CURSOR-R5-02 promoted; mixed loop semantics on pose switch",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C06-G06-06": {
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "悬空复合引用不猜测替换并明确提示",
+        "oldMatcher": "text contains 'wrong/missing（引用失效）'; open action button disabled @ :141-146",
+        "note": "dangling binding placeholder + disabled open; new omits old '不匹配' line assert"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C06-G06-07": {
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "从实体页启用复合动作并编辑循环、相位与反跳",
+        "oldMatcher": "second checkbox click → toMatchObject({ action: 'late', loop: true }) @ :104-106",
+        "note": "loop toggle writes binding.loop on same pose"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C06-G06-08": {
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "从实体页启用复合动作并编辑循环、相位与反跳",
+        "oldMatcher": "phase blur → toMatchObject({ startAtMs: 240 }) @ :117-120",
+        "note": "startAtMs commit on blur axis; new case uses 0 to clear"
+      },
+      "notes": "CURSOR-R5-02 promoted; same startAtMs blur commit sub-axis, different numeric value",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C06-G06-09": {
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "无可解析精灵时开关与说明仍归入统一属性值列",
+        "oldMatcher": "preset checkbox .ds-check-control disabled true @ :154-159",
+        "note": "no resolvable sprite disables preset toggle"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C06-G06-11": {
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "从实体页启用复合动作并编辑循环、相位与反跳",
+        "oldMatcher": "click '打开动作' → expect(open).toHaveBeenCalledWith('sprite-77', 'late') @ :122-127",
+        "note": "open action enabled after valid binding"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C07-G06-04": {
+      "oldAssertion": {
+        "oldTestSha": "b49b768879f75c85859b9026f470f35bb505b82e",
+        "oldFile": "packages/editor/src/ui/ImageTab.test.tsx",
+        "oldFullName": "preserves filtered count semantics and switches the image scope through shared tabs",
+        "oldMatcher": "item-icon tab → count '0 项' + text '此项目还没有物品图标。' @ :87-92",
+        "note": "kind tab switch empty-state + list count axis"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C07-G07-01": {
+      "oldAssertion": {
+        "oldTestSha": "b49b768879f75c85859b9026f470f35bb505b82e",
+        "oldFile": "packages/editor/src/ui/ImageTab.test.tsx",
+        "oldFullName": "preserves filtered count semantics and switches the image scope through shared tabs",
+        "oldMatcher": "setCatalogSearch(search,'次要') → .image-asset-list .ds-catalog-row length 1 @ :59-62",
+        "note": "catalog search filters portrait rows"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C07-G07-02": {
+      "oldAssertion": {
+        "oldTestSha": "b49b768879f75c85859b9026f470f35bb505b82e",
+        "oldFile": "packages/editor/src/ui/ImageTab.test.tsx",
+        "oldFullName": "preserves filtered count semantics and switches the image scope through shared tabs",
+        "oldMatcher": "face tab click → unnamed face row title '未命名战斗头像' @ :79-85",
+        "note": "kind tab switch selects face scope row"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C08-G03-02": {
+      "oldAssertion": {
+        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
+        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
+        "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "setCatalogSearch(search,'待删'/'不存在'/'') filters .tileset-library-row counts @ :226-236",
+        "note": "tileset library search filter + clear restore row count"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C08-G03-03": {
+      "oldAssertion": {
+        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
+        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
+        "oldFullName": "搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "chooseSelectOption('筛选瓦片集分类','production') → rows().toHaveLength(1) @ :221-223",
+        "note": "category combobox filters library rows"
+      },
+      "notes": "CURSOR-R5-02 promoted; new uses outdoor filter + real decode fixture",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C08-G03-07": {
+      "oldAssertion": {
+        "oldTestSha": "81dafbbfa6f2ce37b1a420ab1cbba663b340d1d9",
+        "oldFile": "packages/editor/src/ui/TilesetTab.test.tsx",
+        "oldFullName": "名称与分类失焦提交到会话并只使用全局保存",
+        "oldMatcher": "name blur → session tilesets find tiles-a name '重命名瓦片集'; isDirty true @ :259-274",
+        "note": "tileset name blur commits to EditSession"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C08-G07-01": {
+      "oldAssertion": {
+        "oldTestSha": "53b5beb9dfb6d34a9a2430f98823bce614b366f0",
+        "oldFile": "packages/editor/src/ui/StampLibraryTab.test.tsx",
+        "oldFullName": "搜索、标签和来源覆盖各值、组合、空结果和清空恢复，且不偷换选择",
+        "oldMatcher": "setCatalogSearch(search,'tree'/'不存在'/'') filters .stamp-library-row @ :404-416",
+        "note": "stamp template search narrows library rows"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C09-G05-01": {
+      "oldAssertion": {
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "renders a fractional short sound at the exact visual and slider endpoint",
+        "oldMatcher": ".audio-player__time text contains '0:00.53 / 0:00.53' @ :211",
+        "note": "fractional subsecond clock formatting axis (old duration 0.534, new 0.312)"
+      },
+      "notes": "CURSOR-R5-02 promoted; mixed duration fixture, same formatAudioClock sub-axis",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C09-G05-04": {
+      "oldAssertion": {
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "recovers when A→B→A reuses an inflight A that is then canceled",
+        "oldMatcher": "expect(workspace.getAttribute('aria-label')).toBe('音乐工作区') @ :106-107",
+        "note": "workspace aria-label from strategy.title; new sound strategy uses '音效工作区'"
+      },
+      "notes": "CURSOR-R5-02 promoted; mixed kind (music vs sound), same workspace aria-label sub-axis",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C09-G05-05": {
+      "oldAssertion": {
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "renders a fractional short sound at the exact visual and slider endpoint",
+        "oldMatcher": "soundRows.every(row => row.dataset.leading === 'none'); .ds-catalog-row__leading null @ :196-199",
+        "note": "catalog rows omit leading glyph"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C09-G05-09": {
+      "oldAssertion": {
+        "oldTestSha": "ba46f5d2990fb6911d7c54c8935bbf625ea72f01",
+        "oldFile": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+        "oldFullName": "renders a fractional short sound at the exact visual and slider endpoint",
+        "oldMatcher": "range.max '1'; range.valueAsNumber 1 @ :208-210",
+        "note": "timeline slider normalized to 0–1 endpoint"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C10-G03-07": {
+      "oldAssertion": {
+        "oldTestSha": "8e15939f4251ca1877c8bb09498dbb166cd5d199",
+        "oldFile": "packages/editor/src/ui/design-system/virtual-list.test.tsx",
+        "oldFullName": "keeps navigation on an external search focus owner without copying the state machine",
+        "oldMatcher": "search focus + ArrowDown → owner aria-activedescendant points at '项目 2' @ :173-179",
+        "note": "keyboardOwnerRef ArrowDown updates activedescendant on external input"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C10-G07-05": {
+      "oldAssertion": {
+        "oldTestSha": "30fab9ae3bb501f83e1a493d3d738f7e1b9d801f",
+        "oldFile": "packages/editor/src/ui/design-system/control-utils.test.ts",
+        "oldFullName": "joins truthy class tokens and drops empty describedBy ids",
+        "oldMatcher": "expect(describedBy(undefined,'field-1-description','')).toBe('field-1-description') @ :9",
+        "note": "describedBy merges non-empty ids; contract also asserts classes() on :6-7 same file"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    },
+    "C10-G07-14": {
+      "oldAssertion": {
+        "oldTestSha": "71fe958e22bda182d19fcbefdfd2348d28580ce1",
+        "oldFile": "packages/editor/src/ui/design-system/buttons.test.tsx",
+        "oldFullName": "keeps pressable, button and action-link identity with busy and default chrome",
+        "oldMatcher": "renderToStaticMarkup(<DsPressable>) → '<button type=\"button\" class=\"ds-pressable tile\">…' @ :16-22",
+        "note": "DsPressable default type=button static markup"
+      },
+      "notes": "CURSOR-R5-02 promoted",
+      "ledgerStatus": "old-matcher-promoted"
+    }
+  }
+}

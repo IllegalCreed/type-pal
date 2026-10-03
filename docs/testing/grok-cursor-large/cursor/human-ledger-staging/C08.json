@@ -1,0 +1,1335 @@
+{
+  "batch": "C08",
+  "overlays": {
+    "C08-G04-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:47 | production: packages/editor/src/core/stamp-commands.ts:142; packages/editor/src/ui/StampLibraryTab.tsx:307; packages/editor/src/ui/StampTemplateDialog.tsx:200",
+      "legalInput": "fixture: template=c08StampTemplate('c08-a', C08_TILESET); command=new AddStampTemplateCommand(template)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+      "oracle": "expect(command.mapReferenceStampIds).toEqual(['c08-a'])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-01"
+    },
+    "C08-G04-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:53 | production: packages/editor/src/ui/StampLibraryTab.tsx:308; packages/editor/src/ui/StampTemplateDialog.tsx:203",
+      "legalInput": "fixture: command=new ReplaceStampTemplateCommand(c08StampTemplate('c08-b', C08_TILESET))",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+      "oracle": "expect(command.mapReferenceStampIds).toEqual(['c08-b'])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-02"
+    },
+    "C08-G04-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:58 | production: packages/editor/src/ui/StampLibraryTab.tsx:319",
+      "legalInput": "fixture: command=new DuplicateStampTemplateCommand('src', 'copy-id')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+      "oracle": "expect(command.mapReferenceStampIds).toEqual(['copy-id'])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-03"
+    },
+    "C08-G04-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:63 | production: packages/editor/src/core/stamp-commands.ts:142; packages/editor/src/ui/StampLibraryTab.tsx:307; packages/editor/src/ui/StampTemplateDialog.tsx:200; packages/editor/src/ui/StampLibraryTab.tsx:332",
+      "legalInput": "fixture: openC08Session; AddStampTemplateCommand(c08-del); StampDeletionProof.fromBatch; DeleteStampTemplateCommand",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+      "oracle": "expect(command.mapReferenceStampIds).toEqual(['c08-del'])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-04"
+    },
+    "C08-G04-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:74 | production: packages/editor/src/core/stamp-commands.ts:142; packages/editor/src/ui/StampLibraryTab.tsx:307; packages/editor/src/ui/StampTemplateDialog.tsx:200",
+      "legalInput": "fixture: see c08-g04 cursor-r1 test setup",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Add 后 manifest.stamps 已存在时不重复改写路径",
+      "oracle": "expect(session.getState().manifest.content.stamps).toBe('content/custom-stamps.json')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-05"
+    },
+    "C08-G04-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:81 | production: packages/editor/src/main.tsx:141; packages/editor/src/main.tsx:185; packages/editor/src/ui/App.tsx:5; packages/editor/src/ui/use-editor-project-session.ts:359",
+      "legalInput": "fixture: c08StampTemplate('c08-same', C08_TILESET)])) const before = session.getState().stamps const command = new ReplaceStampTemplateCommand(structuredClone(before[0]!)) const next = comm; new ReplaceStampTemplateCommand(structuredClone(before[0]!)) const next = command.appl…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+      "oracle": "expect(next.stamps).toEqual(before)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-06"
+    },
+    "C08-G04-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:89 | production: packages/editor/src/main.tsx:141; packages/editor/src/main.tsx:185; packages/editor/src/ui/App.tsx:5; packages/editor/src/ui/use-editor-project-session.ts:359",
+      "legalInput": "fixture: see c08-g04 cursor-r1 test setup",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Duplicate 缺省 targetName 时使用「来源名 副本」",
+      "oracle": "expect(session.getState().stamps[1]?.name).toBe('原型组合 副本')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-07"
+    },
+    "C08-G04-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:97 | production: packages/editor/src/main.tsx:141; packages/editor/src/main.tsx:185; packages/editor/src/ui/App.tsx:5; packages/editor/src/ui/use-editor-project-session.ts:359",
+      "legalInput": "fixture: see c08-g04 cursor-r1 test setup",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Duplicate targetId 空白 trim 后仍走 Add 守卫",
+      "oracle": "expect(() => new DuplicateStampTemplateCommand('c08-src', ' ').apply(session.getState()), ).toThrow()",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-08"
+    },
+    "C08-G04-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:104 | production: packages/editor/src/ui/StampLibraryTab.tsx:332; packages/editor/src/core/tileset-references.ts:233",
+      "legalInput": "fixture: openC08Session('c08-g04-09') await session.ensureMapReferencesIndexed() const proof = StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'missing') const changed = sessio; proof=StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'missing'); changed…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Delete 缺模板 apply 为 no-op（false dispatch）",
+      "oracle": "expect(changed).toBe(false)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-09"
+    },
+    "C08-G04-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-commands.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-commands.ts — Add/Replace/Duplicate/Delete StampTemplateCommand mapReferenceStampIds getters + manifest.stamps first-add path",
+      "caller": "test: packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts:116 | production: packages/editor/src/main.tsx:141; packages/editor/src/main.tsx:185; packages/editor/src/ui/App.tsx:5; packages/editor/src/ui/use-editor-project-session.ts:359",
+      "legalInput": "fixture: see c08-g04 cursor-r1 test setup",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds Add invert 后 stamps 为空且 manifest 不含 stamps 键",
+      "oracle": "expect(session.getState().stamps).toEqual([]) | expect(session.getState().manifest.content).not",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G04-10"
+    },
+    "C08-G05-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:22 | production: packages/editor/src/ui/StampLibraryTab.tsx:288; packages/editor/src/ui/StampContentEditor.tsx:459",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) expect(nextStampLayerSlotId(draft, 'roof')).toBe('roof') }); draft=createBlankStampDraft('d', '草稿', TS)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot nextStampLayerSlotId 基名可用时返回 base",
+      "oracle": "expect(nextStampLayerSlotId(draft, 'roof')).toBe('roof')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-01"
+    },
+    "C08-G05-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:27 | production: packages/editor/src/ui/StampLibraryTab.tsx:288; packages/editor/src/ui/StampContentEditor.tsx:459",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) draft = { ...draft, layers: [ ...draft.layers, { id: 'roof', name: 'Roof', tiles: draft.layers[0]!.tiles, sources: draft.layers[0]!.s",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+      "oracle": "expect(nextStampLayerSlotId(draft, 'roof')).toBe('roof-3')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-02"
+    },
+    "C08-G05-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:50 | production: packages/editor/src/ui/StampLibraryTab.tsx:288",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) const bounds = stampDraftBounds(draft) expect(bounds.minCol).toBe(-2) expect(bounds.maxCol).toBe(draft.width - 1 + 2) expect(bounds.minRow).toB; draft=createBlankStampDraft('d', '草稿', TS); bounds=stampDraftBounds(draft)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+      "oracle": "expect(bounds.minCol).toBe(-2) | expect(bounds.maxCol).toBe(draft.width - 1 + 2) | expect(bounds.minRow).toBe(-2) | expect(bounds.maxRow).toBe(draft.height * 2 - 1 + 2)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-03"
+    },
+    "C08-G05-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:59 | production: packages/editor/src/core/stamp-draft.ts:350; packages/editor/src/core/stamp-draft.ts:364",
+      "legalInput": "fixture: stampDraftPointKey({ row: 8, col: 7 })).toBe('8:7') })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot stampDraftPointKey 稳定 row:col 文本",
+      "oracle": "expect(stampDraftPointKey({ row: 8, col: 7 })).toBe('8:7')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-04"
+    },
+    "C08-G05-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:63 | production: packages/editor/src/ui/StampLibraryTab.tsx:288; packages/editor/src/ui/StampContentEditor.tsx:315",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) draft = { ...draft, layers: [ draft.layers[0]!, { id: 'roof', name: 'Roof', tiles: draft.layers[0]!.tiles, sources: draft.layers[0]!.; moved=moveStampDraftLayer(draft, 'roof', -1)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftLayer 上移一层交换顺序",
+      "oracle": "expect(moved.layers.map((layer) => layer.id)).toEqual(['roof', 'base'])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-05"
+    },
+    "C08-G05-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:83 | production: packages/editor/src/core/stamp-draft.ts:343; packages/editor/src/ui/map-transform-session.ts:116; packages/editor/src/ui/StampLibraryTab.tsx:288; packages/editor/src/ui/StampContentEditor.tsx:315",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', source, 3, TS, 0) const moved = moveStampDraftSelection( draft, { kind: 'visual', layerSlotId: 'base; source={ row: 8, col: 7 }; target=nudgeIsometricLattice(source, 'right'); moved=moveSt…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+      "oracle": "expect(moved.layers[0]?.tiles[source.row]?.[source.col]).toBeNull() | expect(moved.layers[0]?.tiles[target.row]?.[target.col]).toBe(3) | expect(moved.layers[0]?.sources[target.row]?.[target.col]).toBe(0)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-06"
+    },
+    "C08-G05-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:99 | production: packages/editor/src/core/stamp-draft.ts:343; packages/editor/src/ui/map-transform-session.ts:116; packages/editor/src/ui/StampLibraryTab.tsx:288; packages/editor/src/ui/StampContentEditor.tsx:306",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', source, 1, TS, 0) draft = setStampDraftCollision(draft, source, 2) const moved = moveStampDraftSelec; source={ row: 8, col: 7 }; target=nudgeIsometricLattice(source, 'down'); moved=moveSta…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftSelection 碰撞层 down 迁移保留数值",
+      "oracle": "expect(moved.collision[source.row]?.[source.col]).toBeNull() | expect(moved.collision[target.row]?.[target.col]).toBe(2)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-07"
+    },
+    "C08-G05-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:110 | production: packages/editor/src/ui/StampLibraryTab.tsx:288",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) expect(moveStampDraftSelection(draft, { kind: 'collision' }, [], 'up')).toBe(draft) }); draft=createBlankStampDraft('d', '草稿', TS)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftSelection 空 points 返回原 draft 引用",
+      "oracle": "expect(moveStampDraftSelection(draft, { kind: 'collision' }, [], 'up')).toBe(draft)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-08"
+    },
+    "C08-G05-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:115 | production: packages/editor/src/core/stamp-draft.ts:343; packages/editor/src/ui/map-transform-session.ts:116; packages/editor/src/ui/StampLibraryTab.tsx:288; packages/editor/src/ui/StampContentEditor.tsx:315",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', source, 1, TS, 0) draft = setStampDraftVisual(draft, 'base', target, 2, TS, 0) const snapshot = stru; source={ row: 8, col: 7 }; target=nudgeIsometricLattice(source, 'right'); snapshot=str…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftSelection 视觉目标占用抛错且状态不变",
+      "oracle": "expect(() => moveStampDraftSelection(draft, { kind: 'visual', layerSlotId: 'base' }, [source], 'right'), ).toThrow(/已有成员/) | expect(draft).toEqual(snapshot)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-09"
+    },
+    "C08-G05-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-draft.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-draft.ts — nextStampLayerSlotId, stampDraftBounds, moveStampDraftLayer/Selection collision+visual lattice nudge",
+      "caller": "test: packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts:128 | production: packages/editor/src/ui/StampLibraryTab.tsx:288; packages/editor/src/ui/StampContentEditor.tsx:315",
+      "legalInput": "fixture: createBlankStampDraft('d', '草稿', TS) draft = setStampDraftVisual(draft, 'base', { row: 0, col: 0 }, 1, TS, 0) expect(() => moveStampDraftSelection( draft, { kind: 'visual', layerSl",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G05 stamp-draft 选择移动与层 slot moveStampDraftSelection 越界方向抛错",
+      "oracle": "expect(() => moveStampDraftSelection( draft, { kind: 'visual', layerSlotId: 'base' }, [{ row: 0, col: 0 }], 'up', ), ).toThrow('移动目标超出组合边界。')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G05-10"
+    },
+    "C08-G06-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:30 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: defaultStampTemplateAnchor(selection)).toEqual({ row: 0, col: 2 }) })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+      "oracle": "expect(defaultStampTemplateAnchor(selection)).toEqual({ row: 0, col: 2 })",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-01"
+    },
+    "C08-G06-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:43 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: defaultStampTemplateAnchor(selection)).toBeUndefined() })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 defaultStampTemplateAnchor 空选区返回 undefined",
+      "oracle": "expect(defaultStampTemplateAnchor(selection)).toBeUndefined()",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-02"
+    },
+    "C08-G06-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:53 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 99, col: 0 }, includeCollision: false, }), ).toThrow('组合锚点必须位于当前地图内。') }); map=mapWithObjects()",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "oracle": "expect(() => buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 99, col: 0 }, includeCollision: false, }), ).toThrow('组合锚点必须位于当前地图内。')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-03"
+    },
+    "C08-G06-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:73 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 0, col: 0 }, includeCollision: false, }), ).toThrow('引用的图层 \"ghost\" 不存在') }); map=mapWithObjects()",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+      "oracle": "expect(() => buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 0, col: 0 }, includeCollision: false, }), ).toThrow('引用的图层 \"ghost\" 不存在')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-04"
+    },
+    "C08-G06-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:93 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 1, col: 1 }, includeCollision: false, }), ).toThrow('缺少瓦片集来源') }); map=mapWithObjects()",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+      "oracle": "expect(() => buildStampTemplateFromSelection({ map, selection, id: 'x', name: 'x', anchor: { row: 1, col: 1 }, includeCollision: false, }), ).toThrow('缺少瓦片集来源')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-05"
+    },
+    "C08-G06-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:114 | production: packages/editor/src/core/stamp-template.ts:50; packages/editor/src/ui/StampLibraryTab.tsx:255; packages/editor/src/ui/StampLibraryTab.tsx:315; packages/editor/src/ui/StampTemplateDialog.tsx:64",
+      "legalInput": "fixture: nextStampTemplateId('屋角 01', [])).toBe('屋角-01') })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 nextStampTemplateId 中文 preferred 归一后可用",
+      "oracle": "expect(nextStampTemplateId('屋角 01', [])).toBe('屋角-01')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-06"
+    },
+    "C08-G06-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:118 | production: packages/editor/src/core/stamp-template.ts:50; packages/editor/src/ui/StampLibraryTab.tsx:255; packages/editor/src/ui/StampLibraryTab.tsx:315; packages/editor/src/ui/StampTemplateDialog.tsx:64",
+      "legalInput": "fixture: nextStampTemplateId('gate', ['gate'])).toBe('gate-2') })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 nextStampTemplateId stem 占用时返回 stem-2",
+      "oracle": "expect(nextStampTemplateId('gate', ['gate'])).toBe('gate-2')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-07"
+    },
+    "C08-G06-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:122 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: buildStampTemplateFromSelection({ map, selection, id: 'c08-pack', name: '打包', anchor: { row: 1, col: 1 }, includeCollision: false, }) expect(template.origin).toBe('authored') }); map=mapWithObjects(); template=buildStampTemplateFromSelection({",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 build 输出 origin 恒为 authored",
+      "oracle": "expect(template.origin).toBe('authored')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-08"
+    },
+    "C08-G06-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:141 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: buildStampTemplateFromSelection({ map, selection, id: 'c08-height', name: '高', anchor: { row: 0, col: 2 }, includeCollision: false, }); map=mapWithObjects(); template=buildStampTemplateFromSelection({; objects=template.layers.find((layer) => layer.id === 'objects')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 build 保留 height 矩阵于 objects 层",
+      "oracle": "expect(objects?.heights?.some((row) => row.some((value) => value === 4))).toBe(true)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-09"
+    },
+    "C08-G06-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/stamp-template.ts",
+      "sourceCondition": "packages/editor/src/core/stamp-template.ts — defaultStampTemplateAnchor min row/col; buildStampTemplateFromSelection anchor/layer/tileset validation",
+      "caller": "test: packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:161 | production: packages/editor/src/core/map-selection.ts:43; packages/editor/src/core/map-transform.ts:121; packages/editor/src/core/stamp-group-transform.ts:69; packages/editor/src/core/stamp-group-transform.ts:169",
+      "legalInput": "fixture: buildStampTemplateFromSelection({ map, selection, id: 'c08-no-col', name: '无碰撞', anchor: { row: 1, col: 1 }, includeCollision: false, }) expect(template.collision.flat().every((cel; map=mapWithObjects(); template=buildStampTemplateFromSelection({",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G06 stamp-template 锚点与拒绝路径 build includeCollision=false 时 collision 全 null",
+      "oracle": "expect(template.collision.flat().every((cell) => cell === null)).toBe(true)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G06-10"
+    },
+    "C08-G01-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:35 | production: packages/editor/src/ui/TilesetTab.tsx:277",
+      "legalInput": "fixture: openC08Session('c08-g01-01') const before = starter(session.getState()) session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { category: 'interior' })) const after = star; new UpdateTilesetMetadataCommand(C08_TILESET, { category: 'interior' })) const after =…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 UpdateTilesetMetadata 只改分类：name 与 asset 不变",
+      "oracle": "expect(after).toEqual({ ...before, category: 'interior' }) | expect(after.asset).toBe(C08_TILESET_ASSET)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-01"
+    },
+    "C08-G01-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:44 | production: packages/editor/src/ui/TilesetTab.tsx:277",
+      "legalInput": "fixture: openC08Session('c08-g01-02') const category = starter(session.getState()).category session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { name: '重命名地形' })) expect(starter; new UpdateTilesetMetadataCommand(C08_TILESET, { name: '重命名地形' })) expect(starter(sessi…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 UpdateTilesetMetadata 只改名称：category 保留",
+      "oracle": "expect(starter(session.getState()).name).toBe('重命名地形') | expect(starter(session.getState()).category).toBe(category)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-02"
+    },
+    "C08-G01-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:52 | production: packages/editor/src/ui/TilesetTab.tsx:277",
+      "legalInput": "fixture: openC08Session('c08-g01-03') const snapshot = structuredClone(starter(session.getState())) session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { name: 'A', category: 'z'; new UpdateTilesetMetadataCommand(C08_TILESET, { name: 'A', category: 'z' })) expect(se…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 UpdateTilesetMetadata undo 精确还原 name+category",
+      "oracle": "expect(session.undo()).toBe(true) | expect(starter(session.getState())).toEqual(snapshot)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-03"
+    },
+    "C08-G01-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:60 | production: n/a (unit/UI harness)",
+      "legalInput": "fixture: openC08Session('c08-g01-04') const def: TilesetDef = { id: 'c08-forest', name: '森林', category: 'outdoor', asset: 'tileset.authored.c08forest', } const packed = await appendAuthored; packed=await appendAuthoredTileset(session, def, 2); state=session.getState()",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 AddTileset 新路径入库后 catalog 与 assetBlobs 同步登记",
+      "oracle": "expect(state.tilesets?.some((entry) => entry.id === 'c08-forest')).toBe(true) | expect(state.assetCatalog.assets[def.asset]?.path).toBe(packed.path) | expect(state.assetBlobs[packed.path]?.byteLength).toBe(packed.bytes.byteLength) | expect(new Uint8Array(state.assetBlobs[packed.path]!)).toEqual(new Uint8Array(packed.bytes))",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-04"
+    },
+    "C08-G01-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:76 | production: packages/editor/src/ui/TilesetTab.tsx:482",
+      "legalInput": "fixture: new AddTilesetCommand(def, record, bytes).apply(state)).toThrow(/资源路径已由/) }); legal=await openC08Legal('c08-g01-05'); state=legal.state; starterDef=state.tilesets?.[0]!",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 AddTileset 路径已被其它 AssetId 占用时整串拒绝",
+      "oracle": "expect(() => new AddTilesetCommand(def, record, bytes).apply(state)).toThrow(/资源路径已由/)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-05"
+    },
+    "C08-G01-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:91 | production: packages/editor/src/ui/TilesetTab.tsx:482",
+      "legalInput": "fixture: new AddTilesetCommand(def, packed.record, packed.bytes).apply(legal.state), ).toThrow('瓦片集定义缺 AssetId') }); legal=await openC08Legal('c08-g01-06'); packed=await tilesetRecordFromFrames('assets/authored/tilesets/x.rle', [])",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 AddTileset 缺 AssetId 字段精确报错",
+      "oracle": "expect(() => new AddTilesetCommand(def, packed.record, packed.bytes).apply(legal.state), ).toThrow('瓦片集定义缺 AssetId')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-06"
+    },
+    "C08-G01-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:105 | production: packages/editor/src/ui/TilesetTab.tsx:482; packages/editor/src/ui/TilesetTab.tsx:529; packages/editor/src/core/tileset-references.ts:133",
+      "legalInput": "fixture: openC08Session('c08-g01-07') const starterDef = starter(session.getState()) const alias: TilesetDef = { id: 'c08-alias', name: '别名', category: starterDef.category, asset: starterDe; new AddTilesetCommand( alias, structuredClone(session.getState().assetCatalog.assets[s…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 共享 AssetId 追加定义后 Remove 单定义：catalog 仍保留共享资源",
+      "oracle": "expect(after.tilesets?.some((entry) => entry.id === 'c08-alias')).toBe(false) | expect(after.assetCatalog.assets[starterDef.asset]).toBeDefined()",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-07"
+    },
+    "C08-G01-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:139 | production: packages/editor/src/core/seed-assets.ts:123; packages/editor/src/core/seed.ts:78; packages/editor/src/ui/TilesetTab.tsx:459; packages/editor/src/core/tileset-references.ts:214",
+      "legalInput": "fixture: openC08Session('c08-g01-08') const extra: TilesetDef = { id: 'c08-replace-me', name: '可替换', category: 'outdoor', asset: 'tileset.authored.c08replace', } const packed = await append; new ReplaceTilesetAssetCommand( 'c08-replace-me', extra.asset, nextPacked.record, next…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 ReplaceTilesetAsset 追加独立 tileset 后替换 bytes：undo 恢复 sha",
+      "oracle": "expect(session.getState().assetCatalog.assets[extra.asset]?.sha256).toBe(nextPacked.sha256) | expect(session.getState().assetCatalog.assets[extra.asset]?.sha256).toBe(oldRecord.sha256)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-08"
+    },
+    "C08-G01-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:182 | production: packages/editor/src/ui/TilesetTab.tsx:277",
+      "legalInput": "fixture: openC08Session('c08-g01-09') const snapshot = structuredClone(starter(session.getState())) session.dispatch(new UpdateTilesetMetadataCommand(C08_TILESET, { name: '第一次' })) session.; new UpdateTilesetMetadataCommand(C08_TILESET, { name: '第一次' })) session.dispatch(new U…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 UpdateTilesetMetadata 连续 dispatch：undo 逐步还原",
+      "oracle": "expect(starter(session.getState()).name).toBe('第二次') | expect(session.undo()).toBe(true) | expect(starter(session.getState()).name).toBe('第一次') | expect(session.undo()).toBe(true) | expect(starter(session.getState())).toEqual(snapshot)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-09"
+    },
+    "C08-G01-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-commands.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-commands.ts — UpdateTilesetMetadata/AddTileset/RemoveTileset/ReplaceTilesetAsset apply patches with proof gates",
+      "caller": "test: packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts:194 | production: packages/editor/src/ui/TilesetTab.tsx:529; packages/editor/src/core/tileset-references.ts:133",
+      "legalInput": "fixture: openC08Session('c08-g01-10') await appendAuthoredTileset(session, { id: 'c08-unused', name: '未引用', category: 'outdoor', asset: 'tileset.authored.c08unused', }) const before = sessi; new RemoveTilesetCommand('missing-tileset', proof, (current) => session.getCurrentMapR…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G01 tileset-commands 会话补丁与资源身份 RemoveTileset 缺席 id apply 为同一引用",
+      "oracle": "expect(next).toBe(before)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G01-10"
+    },
+    "C08-G02-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:104 | production: packages/editor/src/core/tileset-references.ts:130; packages/editor/src/core/tileset-references.ts:263; packages/editor/src/ui/TilesetTab.tsx:310; packages/editor/src/ui/TilesetTab.tsx:331",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, TILESET_A)",
+      "oldAssertion": {
+        "oldTestSha": "ae0d5904507d1a02a5c338e73859a4d68cc5f442",
+        "oldFile": "packages/editor/src/core/tileset-references.test.ts",
+        "oldFullName": "tileset delete permits confirmed snapshot refs but redo rejects a changed placement set",
+        "oldMatcher": "tilesetUsageReferences / referencesTo tileset — partial overlap; new case adds relation.kind===tileset-use filter + owner.kind set",
+        "note": "header dedup; kind filter axis net-new"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 tilesetUsageReferences 只保留 tileset-use 关系",
+      "oracle": "expect(edges.every((edge) => edge.relation.kind === 'tileset-use')).toBe(true) | expect(edges.map((edge) => edge.source.owner.kind).sort()).toEqual(['map', 'stamp'])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-01"
+    },
+    "C08-G02-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:89 export stampPlacementReferences — referencesTo({kind:stamp,id}).filter(relation.kind===stamp-placement-source)",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:115 | production: packages/editor/src/ui/StampLibraryTab.tsx:243; tileset-references StampDeletionProof",
+      "legalInput": "fixture: buildBlankProjectMap + authoring.stampPlacements[{id:place-tree,sourceStampId:c08-tree}]; stampTemplate(TILESET_A); indexedBatch via openC08RefSession",
+      "oldAssertion": {
+        "oldTestSha": "ae0d5904507d1a02a5c338e73859a4d68cc5f442",
+        "oldFile": "packages/editor/src/core/tileset-references.test.ts",
+        "oldFullName": "stamp delete permits confirmed snapshot refs but redo rejects a changed placement set",
+        "oldMatcher": "old :387 toHaveLength(1) — length axis only; kind/target exact set net-new (CTR-C08-34)",
+        "note": "diagnostic existing-proof per contract-human-overrides C08-G02-02"
+      },
+      "axis": "stampPlacementReferences 精确保留 stamp-placement-source + stamp target（旧测仅 length）",
+      "oracle": "expect(edges.map((edge) => edge.relation.kind)).toEqual([\"stamp-placement-source\"]) | expect(edges.map((edge) => edge.target)).toEqual([{ kind: \"stamp\", id: \"c08-tree\" }]) | expect(edges.length).toBe(1) | expect(stampPlacementReferences(batch, \"missing-stamp\")).toEqual([])",
+      "notes": "Diagnostic: kind→tileset-use mutant keeps old length green, fails kind assert (CTR-C08-34)"
+    },
+    "C08-G02-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:145 | production: packages/editor/src/core/tileset-references.ts:133",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() expect(() => TilesetRemovalProof.; maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMap…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 TilesetRemovalProof 有引用时构造期拒绝",
+      "oracle": "expect(() => TilesetRemovalProof.fromBatch(batch, session.getState(), TILESET_A)).toThrow( /不能移除/, )",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-03"
+    },
+    "C08-G02-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:154 | production: packages/editor/src/core/tileset-references.ts:214",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const record = session.getState(); maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMap…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 TilesetReplacementProof frameCount 非正整数拒绝",
+      "oracle": "expect(() => TilesetReplacementProof.fromBatch(batch, TILESET_A, 0, { asset: TILESET_ASSET, previousRecord: record, definitions: [{ id: TILESET_A, asset: TILESET_ASSET }], }), ).toThrow('替换瓦片集必须含帧')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-04"
+    },
+    "C08-G02-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:168 | production: packages/editor/src/core/tileset-references.ts:214",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const record = session.getState(); maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMap…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+      "oracle": "expect(() => TilesetReplacementProof.fromBatch(batch, TILESET_A, 4, { asset: TILESET_ASSET, previousRecord: record, definitions: [{ id: 'other', asset: TILESET_ASSET }], }), ).toThrow('共享瓦片集影响范围不含当前定义')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-05"
+    },
+    "C08-G02-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:182 | production: packages/editor/src/core/tileset-commands.ts:100",
+      "legalInput": "fixture: openC08RefSession({}) expect(() => assertTilesetRemovalAllowed(state, TILESET_A, undefined, unreachableBatch), ).toThrow('移除瓦片集前必须完成全项目引用扫描') })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+      "oracle": "expect(() => assertTilesetRemovalAllowed(state, TILESET_A, undefined, unreachableBatch), ).toThrow('移除瓦片集前必须完成全项目引用扫描')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-06"
+    },
+    "C08-G02-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:189 | production: packages/editor/src/core/tileset-commands.ts:213; packages/editor/src/core/tileset-references.ts:214",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const record = session.getState(); maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMap…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+      "oracle": "expect(() => assertTilesetReplacementAllowed( session.getState(), 'other-id', TILESET_ASSET, proof, (current) => session.getCurrentMapReferenceBatch(current), ), ).toThrow('替换瓦片集前必须完成全项目引用扫描')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-07"
+    },
+    "C08-G02-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:210 | production: packages/editor/src/core/tileset-references.ts:233; packages/editor/src/core/tileset-references.ts:226; packages/editor/src/core/tileset-references.ts:308; packages/editor/src/ui/StampLibraryTab.tsx:243",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, 'tiles-b'), } const batch = await indexedBatch(maps, [stampTemplate(TILESET_A)]) const proof = StampDeletionProof.fromBatch(batch, 'c08-tree') expect(pro; batch=await indexedBatch(maps, [stampTemplate(TILESET_A)]); proof=StampDeletionProof.f…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 StampDeletionProof 无 placement 时 referenceCount 为 0",
+      "oracle": "expect(proof.referenceCount).toBe(0) | expect(stampPlacementReferences(batch, 'c08-tree')).toEqual([])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-08"
+    },
+    "C08-G02-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:220 | production: packages/editor/src/core/stamp-commands.ts:177; packages/editor/src/core/tileset-references.ts:233",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, TILESET_A) } const { session } = await openC08RefSession(maps, [stampTemplate(TILESET_A)]) const batch = await session.ensureMapReferencesIndexed() const; maps={ 'map-a': buildBlankProjectMap(1, 1, TILESET_A) }; batch=await session.ensureMap…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+      "oracle": "expect(() => assertStampDeletionAllowed(session.getState(), 'other-stamp', proof, (current) => session.getCurrentMapReferenceBatch(current), ), ).toThrow('删除组合前必须完成全项目引用扫描。')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-09"
+    },
+    "C08-G02-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/core/tileset-references.ts",
+      "sourceCondition": "packages/editor/src/core/tileset-references.ts:80 tilesetUsageReferences filter relation.kind===tileset-use; :89 stampPlacementReferences filter stamp-placement-source",
+      "caller": "test: packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:232 | production: packages/editor/src/core/tileset-references.ts:133",
+      "legalInput": "fixture: buildBlankProjectMap(1, 1, 'tiles-b') } const { session } = await openC08RefSession(maps) const batch = await session.ensureMapReferencesIndexed() const proof = TilesetRemovalProof; maps={ 'map-a': buildBlankProjectMap(1, 1, 'tiles-b') }; batch=await session.ensureMap…",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G02 tileset-references 边与证明门 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
+      "oracle": "expect(proof.generation).toBe(batch.generation) | expect(proof.tilesetId).toBe(TILESET_A) | expect(proof.definitionIds).toEqual([TILESET_A])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G02-10"
+    },
+    "C08-G07-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:41 | production: packages/editor/src/ui/DataMode.tsx:479",
+      "legalInput": "fixture: mountStampLibrary('c08-g07-01', ['c08-alpha', 'c08-beta'])",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampLibraryTab 搜索过滤模板行",
+      "oracle": "expect(rows.some((text) => text.includes('c08-alpha'))).toBe(true) | expect(rows.some((text) => text.includes('c08-beta'))).toBe(false)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-01"
+    },
+    "C08-G07-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:53 | production: packages/editor/src/ui/DataMode.tsx:479",
+      "legalInput": "fixture: mountStampLibrary('c08-g07-02', ['c08-one', 'c08-two'])",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampLibraryTab 选中第二模板 who 同步",
+      "oracle": "expect(mounted.host.querySelector('.who')?.textContent).toContain('c08-two')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-02"
+    },
+    "C08-G07-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:63 | production: packages/editor/src/ui/StampLibraryTab.tsx:587",
+      "legalInput": "fixture: c08StampTemplate('c08-edit', C08_TILESET); mountStampContentEditor(template, onChange); vi.fn() spies",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampContentEditor 改组合名称 blur 触发 onChange",
+      "oracle": "expect(onChange).toHaveBeenCalled() | expect(onChange.mock.calls.at(-1)?.[0]?.name).toBe('新组合名')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-03"
+    },
+    "C08-G07-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:77 | production: packages/editor/src/ui/StampLibraryTab.tsx:587",
+      "legalInput": "fixture: c08StampTemplate('c08-mig', C08_TILESET, 0, { origin: 'migrated' }); mountStampContentEditor(template, () => undefined)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampContentEditor migrated 名称输入初始 disabled",
+      "oracle": "expect(name.disabled).toBe(true)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-04"
+    },
+    "C08-G07-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:87 | production: packages/editor/src/ui/MapMode.tsx:3641",
+      "legalInput": "fixture: buildBlankProjectMap(2, 2, C08_TILESET); mountStampTemplateDialog({ map, selection })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampTemplateDialog create 空名称阻止保存",
+      "oracle": "expect(mounted.session.getState().stamps.length).toBe(0)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-05"
+    },
+    "C08-G07-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:107 | production: packages/editor/src/ui/MapMode.tsx:3641",
+      "legalInput": "fixture: buildBlankProjectMap(3, 2, C08_TILESET); mountStampTemplateDialog({ map, selection })",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampTemplateDialog create 合法保存登记模板",
+      "oracle": "expect(mounted.session.getState().stamps.length).toBe(1) | expect(mounted.saved[0]?.mode).toBe('create')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-06"
+    },
+    "C08-G07-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:132 | production: n/a (unit/UI harness)",
+      "legalInput": "fixture: c08StampTemplate('c08-prev', C08_TILESET); mountStampPreview(template)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampPreviewCanvas 渲染 canvas 元素",
+      "oracle": "expect(mounted.canvas().width).toBeGreaterThan(0)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-07"
+    },
+    "C08-G07-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:141 | production: packages/editor/src/ui/StampContentEditor.tsx:178",
+      "legalInput": "calls: loadStampPreviewAssets(",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 loadStampPreviewAssets 返回 palette 与 tilesets 注册表",
+      "oracle": "expect(assets.palette.colors.length).toBe(256) | expect(assets.tilesets.has(tileset.id)).toBe(true)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-08"
+    },
+    "C08-G07-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:154 | production: n/a (unit/UI harness)",
+      "legalInput": "fixture: c08StampTemplate('c08-broken', C08_TILESET); mountStampPreview(broken)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampPreviewCanvas 缺帧模板显示 fail-visible 文案",
+      "oracle": "expect(mounted.host.textContent).toMatch(/资源缺失 | #99/)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-09"
+    },
+    "C08-G07-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampLibraryTab.tsx / StampContentEditor / StampTemplateDialog / StampPreviewCanvas — library search, blur onChange, create guard, preview canvas",
+      "caller": "test: packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx:173 | production: packages/editor/src/ui/DataMode.tsx:479",
+      "legalInput": "fixture: mountStampLibrary('c08-g07-10', ['c08-a', 'c08-b'], 'c08-b')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G07 Stamp 叶组件合同 StampLibraryTab focusObjectId 初始选中指定模板",
+      "oracle": "expect(mounted.host.querySelector('.stamp-library-row.selected')?.textContent).toContain( 'c08-b', )",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G07-10"
+    },
+    "C08-G03-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:40 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-01')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 初始选中 starter 且 h1 含「起始地形」",
+      "oracle": "expect(mounted.host.querySelector('h1')?.textContent).toContain('起始地形') | expect(mounted.host.querySelector('.tileset-readonly')?.textContent).toBe(C08_TILESET)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-01"
+    },
+    "C08-G03-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:47 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-02')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 搜索瓦片集过滤列表且清空恢复",
+      "oracle": "expect(mounted.host.querySelectorAll('.tileset-library-row').length).toBe(1) | expect(mounted.host.querySelectorAll('.tileset-library-row').length).toBeGreaterThan(1)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-02"
+    },
+    "C08-G03-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:63 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-03')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 分类筛选 outdoor 后只剩 starter 行",
+      "oracle": "expect(ids).toEqual([C08_TILESET])",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-03"
+    },
+    "C08-G03-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:82 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-04')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 点击第二行切换检查器标题到新名称",
+      "oracle": "expect(mounted.host.querySelector('h1')?.textContent).toContain('第二套')",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-04"
+    },
+    "C08-G03-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:98 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-05')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 瓦片帧预览网格含 1–4 / 4 块范围文案",
+      "oracle": "expect(mounted.host.textContent).toMatch(/1–4 \\/ 4 块/)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-05"
+    },
+    "C08-G03-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:104 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-06')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 瓦片预览 panel aria-label 可达",
+      "oracle": "expect(mounted.host.querySelector('section[aria-label=\"瓦片预览\"]')).not",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-06"
+    },
+    "C08-G03-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:110 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-07')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 名称失焦提交进入 session 历史",
+      "oracle": "expect(mounted.session.getState().tilesets?.[0]?.name).toBe('C08 改名') | expect(mounted.session.isDirty()).toBe(true)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-07"
+    },
+    "C08-G03-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:119 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-08')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 undo 还原瓦片集名称",
+      "oracle": "expect(mounted!.session.undo()).toBe(true) | expect(mounted.session.getState().tilesets?.[0]?.name).toBe(before)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-08"
+    },
+    "C08-G03-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:131 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-09')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 瓦片集列表 fieldset aria-label 可达",
+      "oracle": "expect(mounted.host.querySelector('fieldset[aria-label=\"瓦片集列表\"]')).not",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-09"
+    },
+    "C08-G03-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "classification": "new-contract",
+      "primarySource": "packages/editor/src/ui/TilesetTab.tsx",
+      "sourceCondition": "packages/editor/src/ui/TilesetTab.tsx — library search/category filter, selection drives inspector h1, frame preview aria-label",
+      "caller": "test: packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx:136 | production: packages/editor/src/ui/DataMode.tsx:463",
+      "legalInput": "fixture: mountTilesetTab('c08-g03-10')",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none",
+        "oldMatcher": "none — no same-axis old expect on human read",
+        "note": "R4 human ledger"
+      },
+      "axis": "C08-G03 TilesetTab 库视图与预览 onObjectFocus 未深链时不写入 focusLog",
+      "oracle": "expect(mounted.focusLog.length).toBe(0)",
+      "notes": "TEST-CURSOR-ASSET-UI-LARGE-1 R4 human-ledger C08-G03-10"
+    }
+  }
+}

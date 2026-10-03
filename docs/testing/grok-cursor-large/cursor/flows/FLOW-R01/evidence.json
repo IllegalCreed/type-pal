@@ -1,0 +1,112 @@
+{
+  "id": "FLOW-R01",
+  "category": "resource",
+  "title": "世界精灵库搜索过滤",
+  "contract": "dom-filter-oracle",
+  "host": "http://127.0.0.1:6013/",
+  "viewport": {
+    "wide": {
+      "width": 1280,
+      "height": 800
+    },
+    "narrow": {
+      "width": 720,
+      "height": 640
+    }
+  },
+  "expect": "Beta/Alpha 过滤后 visibleAssetIds 精确匹配单资产行",
+  "before": {
+    "flowId": "FLOW-R01",
+    "phase": "ready",
+    "label": "世界精灵库：搜索过滤（资源）",
+    "oracle": {
+      "definitionCount": 3,
+      "filterText": "",
+      "visibleAssetIds": ["sprite.flow.alpha", "sprite.flow.beta", "sprite.generated.starter"]
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-R01",
+    "phase": "ready",
+    "label": "世界精灵库：搜索过滤（资源）",
+    "oracle": {
+      "definitionCount": 3,
+      "filterText": "Alpha",
+      "visibleAssetIds": ["sprite.flow.alpha"]
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["wide: fill Beta", "narrow: fill Alpha"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R01/wide-filtered.png",
+      "sha256": "b9986e2cf8ad02493092993a341cbbbc91b1a0d18b1df056f655b6ab0a76de3d",
+      "width": 1280,
+      "height": 800
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R01/narrow-filtered.png",
+      "sha256": "a7e3ec71f9d04a59922d7bfdf1c7e16e51154c7d8411a7b86f9b030d6f84172e",
+      "width": 720,
+      "height": 640
+    }
+  ],
+  "actual": {
+    "betaValue": "Beta",
+    "alphaValue": "Alpha",
+    "betaRows": ["sprite.flow.beta"],
+    "alphaRows": ["sprite.flow.alpha"]
+  },
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T23:57:44.995Z"
+}

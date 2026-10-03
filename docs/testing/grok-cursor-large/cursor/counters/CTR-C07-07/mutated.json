@@ -1,0 +1,142 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868187801,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index",
+          "status": "passed",
+          "title": "C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index",
+          "duration": 20.984916999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-02 colorTreatment project-standard 写入 index",
+          "status": "failed",
+          "title": "C07-G03-02 colorTreatment project-standard 写入 index",
+          "duration": 4.145958999999948,
+          "failureMessages": [
+            "AssertionError: expected 'preserve' to be 'project-standard' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-07-qL9ku5/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:59:62\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-03 单帧最小合成：TPFS 魔数与宽高",
+          "status": "passed",
+          "title": "C07-G03-03 单帧最小合成：TPFS 魔数与宽高",
+          "duration": 0.866207999999915,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）",
+          "status": "passed",
+          "title": "C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）",
+          "duration": 0.8637910000001057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-05 越界 sourceFrame 带小数索引拒绝",
+          "status": "passed",
+          "title": "C07-G03-05 越界 sourceFrame 带小数索引拒绝",
+          "duration": 2.4947919999999613,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原",
+          "status": "passed",
+          "title": "C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原",
+          "duration": 4.986792000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致",
+          "status": "passed",
+          "title": "C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致",
+          "duration": 1.5372080000000778,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写",
+          "status": "passed",
+          "title": "C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写",
+          "duration": 1.1245000000000118,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-09 quantize 输出改色不影响下一帧结果",
+          "status": "passed",
+          "title": "C07-G03-09 quantize 输出改色不影响下一帧结果",
+          "duration": 0.4715840000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G03 合成 rgba 编码"],
+          "fullName": "C07-G03 合成 rgba 编码 C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO",
+          "status": "passed",
+          "title": "C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO",
+          "duration": 1.4874579999999469,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868188332,
+      "endTime": 1790868188371.4875,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-07-qL9ku5/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts"
+    }
+  ]
+}

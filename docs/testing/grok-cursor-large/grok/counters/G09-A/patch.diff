@@ -1,0 +1,10 @@
+--- a/packages/game/src/shell/input.ts
++++ b/packages/game/src/shell/input.ts
+@@ -141,6 +141,6 @@
+   nextSnapshot(frameNum: number): InputSnapshot {
+     const snap = this.snapshots[this.cursor]
+-    this.cursor++
++    this.cursor += 0
+     if (!snap) {
+       return { held: new Set(), pressed: new Set(), frameNum }
+     }

@@ -1,0 +1,25 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C01 object-players 404 时结果为空数组，敌人表仍在
+AssertionError: expected [ { id: -1 } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "id": -1,
++   },
++ ]
+
+ ❯ src/assets/load-all-recover.grok-r1.test.ts:35:34
+     33|     const assets = await loadAll(7)
+     34|     expect(callsEnding(calls, '/data/object-players.json')).toHaveLeng…
+     35|     expect(assets.objectPlayers).toEqual([])
+       |                                  ^
+     36|     expect(assets.enemies.map((enemy) => enemy.id)).toEqual([41])
+     37|     expect(warn.mock.calls.some((args) => String(args[0]).includes('ob…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,20 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G03-C-7s2rLh/packages/game
+
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2] 1ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标 0ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts > G03-C computeFollowerWorldPos 方向与冻结 > G03-C10 静止摆位不调用 isWalkable 0ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  00:00:44
+   Duration  383ms (transform 20ms, setup 16ms, import 13ms, tests 3ms, environment 286ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G03-C-7s2rLh/original.json

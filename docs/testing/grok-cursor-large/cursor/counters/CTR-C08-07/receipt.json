@@ -1,0 +1,122 @@
+{
+  "id": "CTR-C08-07",
+  "productFile": "packages/editor/src/core/stamp-commands.ts",
+  "findText": "export class AddStampTemplateCommand implements Command {\n  readonly label = '新增图章模板'\n  private readonly template: StampTemplate\n  private added = false\n  private previousManifestPath: string | undefined\n  private manifestPathCaptured = false\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [this.template.id]\n  }",
+  "replaceText": "export class AddStampTemplateCommand implements Command {\n  readonly label = '新增图章模板'\n  private readonly template: StampTemplate\n  private added = false\n  private previousManifestPath: string | undefined\n  private manifestPathCaptured = false\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [`${this.template.id}-mut`]\n  }",
+  "testSpec": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+  "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "fd767a3bff909108916dee6ff19a99e69e02de29d52972d6a646d00e937a4b0f",
+  "patch": "--- a/packages/editor/src/core/stamp-commands.ts\n+++ b/packages/editor/src/core/stamp-commands.ts\n@@ -29,7 +29,7 @@\n   private manifestPathCaptured = false\n \n   get mapReferenceStampIds(): readonly string[] {\n-    return [this.template.id]\n+    return [`${this.template.id}-mut`]\n   }\n \n   constructor(template: StampTemplate) {\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "1187956d5ca84c2ecb0d9dc970e0a28f750c1f13c8502381ebd0ad70cbdf3241",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键"
+    ],
+    "failed": [
+      {
+        "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+        "message": "AssertionError: expected [ 'c08-a-mut' ] to deeply equal [ 'c08-a' ]",
+        "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键"
+      ]
+    },
+    "target": {
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+      "message": "AssertionError: expected [ 'c08-a-mut' ] to deeply equal [ 'c08-a' ]",
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+      "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+        "src/core/stamp-commands.c08-g04.cursor-r1.test.ts×C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键"
+      ]
+    }
+  }
+}

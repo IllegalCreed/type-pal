@@ -1,0 +1,1714 @@
+{
+  "kind": "private-v8",
+  "officialRatchet": false,
+  "provider": "v8",
+  "vitest": "4.1.7",
+  "owner": "grok",
+  "denominator": "targets.json 中 grok 的 46 个源。语句、分支、行的 total 与注册测量逐文件相同。",
+  "command": "pnpm --filter @type-pal/game exec vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json --coverage.reportsDirectory=/tmp/g10-cov --coverage.reportOnFailure --coverage.include=src/**/*.ts",
+  "exitCode": 1,
+  "reportOnFailure": true,
+  "suiteFailure": "src/dev/dev-panel.test.ts ENOENT data/extracted/data/enemy-teams.json",
+  "tests": {
+    "passed": 3145,
+    "skipped": 13,
+    "failedFiles": 1,
+    "passedFiles": 278,
+    "skippedFiles": 4
+  },
+  "sourceCount": 46,
+  "missingFromRun": [],
+  "instrumentationTotalsMatch": 46,
+  "historical": {
+    "statements": {
+      "covered": 3187,
+      "total": 3501
+    },
+    "branches": {
+      "covered": 1660,
+      "total": 2055
+    },
+    "lines": {
+      "covered": 2821,
+      "total": 3031
+    }
+  },
+  "measured": {
+    "statements": {
+      "covered": 3351,
+      "total": 3501
+    },
+    "branches": {
+      "covered": 1786,
+      "total": 2055
+    },
+    "lines": {
+      "covered": 2952,
+      "total": 3031
+    }
+  },
+  "deltaCovered": {
+    "statements": 164,
+    "branches": 126,
+    "lines": 131
+  },
+  "lineRule": "一行上任一 statement 的命中次数大于 0，则该行记为 covered。",
+  "files": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "historical": {
+        "statements": {
+          "covered": 203,
+          "total": 243
+        },
+        "branches": {
+          "covered": 160,
+          "total": 215
+        },
+        "lines": {
+          "covered": 186,
+          "total": 213
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 209,
+          "total": 243
+        },
+        "branches": {
+          "covered": 168,
+          "total": 215
+        },
+        "lines": {
+          "covered": 190,
+          "total": 213
+        }
+      },
+      "deltaCovered": {
+        "statements": 6,
+        "branches": 8,
+        "lines": 4
+      }
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "historical": {
+        "statements": {
+          "covered": 281,
+          "total": 294
+        },
+        "branches": {
+          "covered": 215,
+          "total": 258
+        },
+        "lines": {
+          "covered": 264,
+          "total": 271
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 284,
+          "total": 294
+        },
+        "branches": {
+          "covered": 225,
+          "total": 258
+        },
+        "lines": {
+          "covered": 267,
+          "total": 271
+        }
+      },
+      "deltaCovered": {
+        "statements": 3,
+        "branches": 10,
+        "lines": 3
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "historical": {
+        "statements": {
+          "covered": 318,
+          "total": 334
+        },
+        "branches": {
+          "covered": 185,
+          "total": 220
+        },
+        "lines": {
+          "covered": 275,
+          "total": 276
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 318,
+          "total": 334
+        },
+        "branches": {
+          "covered": 186,
+          "total": 220
+        },
+        "lines": {
+          "covered": 275,
+          "total": 276
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 1,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "historical": {
+        "statements": {
+          "covered": 127,
+          "total": 134
+        },
+        "branches": {
+          "covered": 125,
+          "total": 150
+        },
+        "lines": {
+          "covered": 103,
+          "total": 103
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 129,
+          "total": 134
+        },
+        "branches": {
+          "covered": 132,
+          "total": 150
+        },
+        "lines": {
+          "covered": 103,
+          "total": 103
+        }
+      },
+      "deltaCovered": {
+        "statements": 2,
+        "branches": 7,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "historical": {
+        "statements": {
+          "covered": 153,
+          "total": 156
+        },
+        "branches": {
+          "covered": 63,
+          "total": 82
+        },
+        "lines": {
+          "covered": 135,
+          "total": 135
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 154,
+          "total": 156
+        },
+        "branches": {
+          "covered": 68,
+          "total": 82
+        },
+        "lines": {
+          "covered": 135,
+          "total": 135
+        }
+      },
+      "deltaCovered": {
+        "statements": 1,
+        "branches": 5,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "historical": {
+        "statements": {
+          "covered": 77,
+          "total": 92
+        },
+        "branches": {
+          "covered": 24,
+          "total": 42
+        },
+        "lines": {
+          "covered": 68,
+          "total": 77
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 89,
+          "total": 92
+        },
+        "branches": {
+          "covered": 38,
+          "total": 42
+        },
+        "lines": {
+          "covered": 76,
+          "total": 77
+        }
+      },
+      "deltaCovered": {
+        "statements": 12,
+        "branches": 14,
+        "lines": 8
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "historical": {
+        "statements": {
+          "covered": 142,
+          "total": 145
+        },
+        "branches": {
+          "covered": 55,
+          "total": 72
+        },
+        "lines": {
+          "covered": 122,
+          "total": 122
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 143,
+          "total": 145
+        },
+        "branches": {
+          "covered": 61,
+          "total": 72
+        },
+        "lines": {
+          "covered": 122,
+          "total": 122
+        }
+      },
+      "deltaCovered": {
+        "statements": 1,
+        "branches": 6,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "historical": {
+        "statements": {
+          "covered": 119,
+          "total": 126
+        },
+        "branches": {
+          "covered": 114,
+          "total": 130
+        },
+        "lines": {
+          "covered": 106,
+          "total": 109
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 119,
+          "total": 126
+        },
+        "branches": {
+          "covered": 114,
+          "total": 130
+        },
+        "lines": {
+          "covered": 106,
+          "total": 109
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "historical": {
+        "statements": {
+          "covered": 31,
+          "total": 116
+        },
+        "branches": {
+          "covered": 8,
+          "total": 22
+        },
+        "lines": {
+          "covered": 30,
+          "total": 108
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 112,
+          "total": 116
+        },
+        "branches": {
+          "covered": 21,
+          "total": 22
+        },
+        "lines": {
+          "covered": 105,
+          "total": 108
+        }
+      },
+      "deltaCovered": {
+        "statements": 81,
+        "branches": 13,
+        "lines": 75
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "historical": {
+        "statements": {
+          "covered": 73,
+          "total": 76
+        },
+        "branches": {
+          "covered": 31,
+          "total": 44
+        },
+        "lines": {
+          "covered": 61,
+          "total": 61
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 76,
+          "total": 76
+        },
+        "branches": {
+          "covered": 36,
+          "total": 44
+        },
+        "lines": {
+          "covered": 61,
+          "total": 61
+        }
+      },
+      "deltaCovered": {
+        "statements": 3,
+        "branches": 5,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "historical": {
+        "statements": {
+          "covered": 153,
+          "total": 161
+        },
+        "branches": {
+          "covered": 100,
+          "total": 112
+        },
+        "lines": {
+          "covered": 125,
+          "total": 126
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 157,
+          "total": 161
+        },
+        "branches": {
+          "covered": 103,
+          "total": 112
+        },
+        "lines": {
+          "covered": 126,
+          "total": 126
+        }
+      },
+      "deltaCovered": {
+        "statements": 4,
+        "branches": 3,
+        "lines": 1
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "historical": {
+        "statements": {
+          "covered": 118,
+          "total": 120
+        },
+        "branches": {
+          "covered": 50,
+          "total": 62
+        },
+        "lines": {
+          "covered": 107,
+          "total": 108
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 118,
+          "total": 120
+        },
+        "branches": {
+          "covered": 51,
+          "total": 62
+        },
+        "lines": {
+          "covered": 107,
+          "total": 108
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 1,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "historical": {
+        "statements": {
+          "covered": 83,
+          "total": 102
+        },
+        "branches": {
+          "covered": 45,
+          "total": 56
+        },
+        "lines": {
+          "covered": 75,
+          "total": 90
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 90,
+          "total": 102
+        },
+        "branches": {
+          "covered": 48,
+          "total": 56
+        },
+        "lines": {
+          "covered": 80,
+          "total": 90
+        }
+      },
+      "deltaCovered": {
+        "statements": 7,
+        "branches": 3,
+        "lines": 5
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "historical": {
+        "statements": {
+          "covered": 101,
+          "total": 106
+        },
+        "branches": {
+          "covered": 38,
+          "total": 48
+        },
+        "lines": {
+          "covered": 96,
+          "total": 101
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 101,
+          "total": 106
+        },
+        "branches": {
+          "covered": 38,
+          "total": 48
+        },
+        "lines": {
+          "covered": 96,
+          "total": 101
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "historical": {
+        "statements": {
+          "covered": 100,
+          "total": 112
+        },
+        "branches": {
+          "covered": 25,
+          "total": 35
+        },
+        "lines": {
+          "covered": 90,
+          "total": 98
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 101,
+          "total": 112
+        },
+        "branches": {
+          "covered": 29,
+          "total": 35
+        },
+        "lines": {
+          "covered": 90,
+          "total": 98
+        }
+      },
+      "deltaCovered": {
+        "statements": 1,
+        "branches": 4,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "historical": {
+        "statements": {
+          "covered": 73,
+          "total": 77
+        },
+        "branches": {
+          "covered": 32,
+          "total": 41
+        },
+        "lines": {
+          "covered": 62,
+          "total": 65
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 76,
+          "total": 77
+        },
+        "branches": {
+          "covered": 38,
+          "total": 41
+        },
+        "lines": {
+          "covered": 65,
+          "total": 65
+        }
+      },
+      "deltaCovered": {
+        "statements": 3,
+        "branches": 6,
+        "lines": 3
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.ts",
+      "historical": {
+        "statements": {
+          "covered": 68,
+          "total": 78
+        },
+        "branches": {
+          "covered": 29,
+          "total": 38
+        },
+        "lines": {
+          "covered": 61,
+          "total": 69
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 71,
+          "total": 78
+        },
+        "branches": {
+          "covered": 33,
+          "total": 38
+        },
+        "lines": {
+          "covered": 63,
+          "total": 69
+        }
+      },
+      "deltaCovered": {
+        "statements": 3,
+        "branches": 4,
+        "lines": 2
+      }
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "historical": {
+        "statements": {
+          "covered": 38,
+          "total": 53
+        },
+        "branches": {
+          "covered": 23,
+          "total": 32
+        },
+        "lines": {
+          "covered": 34,
+          "total": 45
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 48,
+          "total": 53
+        },
+        "branches": {
+          "covered": 28,
+          "total": 32
+        },
+        "lines": {
+          "covered": 41,
+          "total": 45
+        }
+      },
+      "deltaCovered": {
+        "statements": 10,
+        "branches": 5,
+        "lines": 7
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "historical": {
+        "statements": {
+          "covered": 100,
+          "total": 100
+        },
+        "branches": {
+          "covered": 13,
+          "total": 20
+        },
+        "lines": {
+          "covered": 87,
+          "total": 87
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 100,
+          "total": 100
+        },
+        "branches": {
+          "covered": 19,
+          "total": 20
+        },
+        "lines": {
+          "covered": 87,
+          "total": 87
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 6,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "historical": {
+        "statements": {
+          "covered": 22,
+          "total": 24
+        },
+        "branches": {
+          "covered": 21,
+          "total": 28
+        },
+        "lines": {
+          "covered": 19,
+          "total": 21
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 24,
+          "total": 24
+        },
+        "branches": {
+          "covered": 27,
+          "total": 28
+        },
+        "lines": {
+          "covered": 21,
+          "total": 21
+        }
+      },
+      "deltaCovered": {
+        "statements": 2,
+        "branches": 6,
+        "lines": 2
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "historical": {
+        "statements": {
+          "covered": 81,
+          "total": 83
+        },
+        "branches": {
+          "covered": 29,
+          "total": 36
+        },
+        "lines": {
+          "covered": 70,
+          "total": 70
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 81,
+          "total": 83
+        },
+        "branches": {
+          "covered": 32,
+          "total": 36
+        },
+        "lines": {
+          "covered": 70,
+          "total": 70
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 3,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "historical": {
+        "statements": {
+          "covered": 79,
+          "total": 80
+        },
+        "branches": {
+          "covered": 26,
+          "total": 33
+        },
+        "lines": {
+          "covered": 72,
+          "total": 72
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 80,
+          "total": 80
+        },
+        "branches": {
+          "covered": 29,
+          "total": 33
+        },
+        "lines": {
+          "covered": 72,
+          "total": 72
+        }
+      },
+      "deltaCovered": {
+        "statements": 1,
+        "branches": 3,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.ts",
+      "historical": {
+        "statements": {
+          "covered": 27,
+          "total": 32
+        },
+        "branches": {
+          "covered": 9,
+          "total": 16
+        },
+        "lines": {
+          "covered": 25,
+          "total": 28
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 27,
+          "total": 32
+        },
+        "branches": {
+          "covered": 9,
+          "total": 16
+        },
+        "lines": {
+          "covered": 25,
+          "total": 28
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "historical": {
+        "statements": {
+          "covered": 79,
+          "total": 82
+        },
+        "branches": {
+          "covered": 24,
+          "total": 29
+        },
+        "lines": {
+          "covered": 75,
+          "total": 75
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 79,
+          "total": 82
+        },
+        "branches": {
+          "covered": 24,
+          "total": 29
+        },
+        "lines": {
+          "covered": 75,
+          "total": 75
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "historical": {
+        "statements": {
+          "covered": 58,
+          "total": 70
+        },
+        "branches": {
+          "covered": 21,
+          "total": 24
+        },
+        "lines": {
+          "covered": 54,
+          "total": 65
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 69,
+          "total": 70
+        },
+        "branches": {
+          "covered": 24,
+          "total": 24
+        },
+        "lines": {
+          "covered": 64,
+          "total": 65
+        }
+      },
+      "deltaCovered": {
+        "statements": 11,
+        "branches": 3,
+        "lines": 10
+      }
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "historical": {
+        "statements": {
+          "covered": 16,
+          "total": 19
+        },
+        "branches": {
+          "covered": 5,
+          "total": 8
+        },
+        "lines": {
+          "covered": 13,
+          "total": 16
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 19,
+          "total": 19
+        },
+        "branches": {
+          "covered": 7,
+          "total": 8
+        },
+        "lines": {
+          "covered": 16,
+          "total": 16
+        }
+      },
+      "deltaCovered": {
+        "statements": 3,
+        "branches": 2,
+        "lines": 3
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "historical": {
+        "statements": {
+          "covered": 8,
+          "total": 13
+        },
+        "branches": {
+          "covered": 1,
+          "total": 3
+        },
+        "lines": {
+          "covered": 8,
+          "total": 12
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 8,
+          "total": 13
+        },
+        "branches": {
+          "covered": 1,
+          "total": 3
+        },
+        "lines": {
+          "covered": 8,
+          "total": 12
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "historical": {
+        "statements": {
+          "covered": 47,
+          "total": 48
+        },
+        "branches": {
+          "covered": 16,
+          "total": 18
+        },
+        "lines": {
+          "covered": 43,
+          "total": 43
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 48,
+          "total": 48
+        },
+        "branches": {
+          "covered": 18,
+          "total": 18
+        },
+        "lines": {
+          "covered": 43,
+          "total": 43
+        }
+      },
+      "deltaCovered": {
+        "statements": 1,
+        "branches": 2,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "historical": {
+        "statements": {
+          "covered": 25,
+          "total": 34
+        },
+        "branches": {
+          "covered": 5,
+          "total": 6
+        },
+        "lines": {
+          "covered": 22,
+          "total": 31
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 32,
+          "total": 34
+        },
+        "branches": {
+          "covered": 6,
+          "total": 6
+        },
+        "lines": {
+          "covered": 29,
+          "total": 31
+        }
+      },
+      "deltaCovered": {
+        "statements": 7,
+        "branches": 1,
+        "lines": 7
+      }
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "historical": {
+        "statements": {
+          "covered": 19,
+          "total": 20
+        },
+        "branches": {
+          "covered": 3,
+          "total": 4
+        },
+        "lines": {
+          "covered": 18,
+          "total": 18
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 20,
+          "total": 20
+        },
+        "branches": {
+          "covered": 4,
+          "total": 4
+        },
+        "lines": {
+          "covered": 18,
+          "total": 18
+        }
+      },
+      "deltaCovered": {
+        "statements": 1,
+        "branches": 1,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "historical": {
+        "statements": {
+          "covered": 42,
+          "total": 43
+        },
+        "branches": {
+          "covered": 16,
+          "total": 17
+        },
+        "lines": {
+          "covered": 39,
+          "total": 40
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 43,
+          "total": 43
+        },
+        "branches": {
+          "covered": 17,
+          "total": 17
+        },
+        "lines": {
+          "covered": 40,
+          "total": 40
+        }
+      },
+      "deltaCovered": {
+        "statements": 1,
+        "branches": 1,
+        "lines": 1
+      }
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "historical": {
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "branches": {
+          "covered": 7,
+          "total": 8
+        },
+        "lines": {
+          "covered": 11,
+          "total": 11
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "branches": {
+          "covered": 8,
+          "total": 8
+        },
+        "lines": {
+          "covered": 11,
+          "total": 11
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 1,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "historical": {
+        "statements": {
+          "covered": 77,
+          "total": 78
+        },
+        "branches": {
+          "covered": 34,
+          "total": 35
+        },
+        "lines": {
+          "covered": 64,
+          "total": 64
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 77,
+          "total": 78
+        },
+        "branches": {
+          "covered": 34,
+          "total": 35
+        },
+        "lines": {
+          "covered": 64,
+          "total": 64
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "historical": {
+        "statements": {
+          "covered": 17,
+          "total": 18
+        },
+        "branches": {
+          "covered": 7,
+          "total": 8
+        },
+        "lines": {
+          "covered": 17,
+          "total": 17
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 17,
+          "total": 18
+        },
+        "branches": {
+          "covered": 7,
+          "total": 8
+        },
+        "lines": {
+          "covered": 17,
+          "total": 17
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.ts",
+      "historical": {
+        "statements": {
+          "covered": 33,
+          "total": 33
+        },
+        "branches": {
+          "covered": 14,
+          "total": 15
+        },
+        "lines": {
+          "covered": 29,
+          "total": 29
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 33,
+          "total": 33
+        },
+        "branches": {
+          "covered": 15,
+          "total": 15
+        },
+        "lines": {
+          "covered": 29,
+          "total": 29
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 1,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "historical": {
+        "statements": {
+          "covered": 26,
+          "total": 26
+        },
+        "branches": {
+          "covered": 25,
+          "total": 26
+        },
+        "lines": {
+          "covered": 23,
+          "total": 23
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 26,
+          "total": 26
+        },
+        "branches": {
+          "covered": 26,
+          "total": 26
+        },
+        "lines": {
+          "covered": 23,
+          "total": 23
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 1,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "historical": {
+        "statements": {
+          "covered": 4,
+          "total": 4
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 4,
+          "total": 4
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-bg.ts",
+      "historical": {
+        "statements": {
+          "covered": 15,
+          "total": 15
+        },
+        "branches": {
+          "covered": 7,
+          "total": 7
+        },
+        "lines": {
+          "covered": 12,
+          "total": 12
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 15,
+          "total": 15
+        },
+        "branches": {
+          "covered": 7,
+          "total": 7
+        },
+        "lines": {
+          "covered": 12,
+          "total": 12
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-effect.ts",
+      "historical": {
+        "statements": {
+          "covered": 20,
+          "total": 20
+        },
+        "branches": {
+          "covered": 8,
+          "total": 8
+        },
+        "lines": {
+          "covered": 14,
+          "total": 14
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 20,
+          "total": 20
+        },
+        "branches": {
+          "covered": 8,
+          "total": 8
+        },
+        "lines": {
+          "covered": 14,
+          "total": 14
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-num.ts",
+      "historical": {
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 11,
+          "total": 11
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 11,
+          "total": 11
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.ts",
+      "historical": {
+        "statements": {
+          "covered": 18,
+          "total": 18
+        },
+        "branches": {
+          "covered": 6,
+          "total": 6
+        },
+        "lines": {
+          "covered": 14,
+          "total": 14
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 18,
+          "total": 18
+        },
+        "branches": {
+          "covered": 6,
+          "total": 6
+        },
+        "lines": {
+          "covered": 14,
+          "total": 14
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "historical": {
+        "statements": {
+          "covered": 37,
+          "total": 37
+        },
+        "branches": {
+          "covered": 11,
+          "total": 11
+        },
+        "lines": {
+          "covered": 33,
+          "total": 33
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 37,
+          "total": 37
+        },
+        "branches": {
+          "covered": 11,
+          "total": 11
+        },
+        "lines": {
+          "covered": 33,
+          "total": 33
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "historical": {
+        "statements": {
+          "covered": 12,
+          "total": 12
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 8,
+          "total": 8
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 12,
+          "total": 12
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 8,
+          "total": 8
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "historical": {
+        "statements": {
+          "covered": 18,
+          "total": 18
+        },
+        "branches": {
+          "covered": 10,
+          "total": 10
+        },
+        "lines": {
+          "covered": 16,
+          "total": 16
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 18,
+          "total": 18
+        },
+        "branches": {
+          "covered": 10,
+          "total": 10
+        },
+        "lines": {
+          "covered": 16,
+          "total": 16
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "historical": {
+        "statements": {
+          "covered": 10,
+          "total": 10
+        },
+        "branches": {
+          "covered": 5,
+          "total": 5
+        },
+        "lines": {
+          "covered": 10,
+          "total": 10
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 10,
+          "total": 10
+        },
+        "branches": {
+          "covered": 5,
+          "total": 5
+        },
+        "lines": {
+          "covered": 10,
+          "total": 10
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.ts",
+      "historical": {
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "branches": {
+          "covered": 9,
+          "total": 9
+        },
+        "lines": {
+          "covered": 12,
+          "total": 12
+        }
+      },
+      "measured": {
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "branches": {
+          "covered": 9,
+          "total": 9
+        },
+        "lines": {
+          "covered": 12,
+          "total": 12
+        }
+      },
+      "deltaCovered": {
+        "statements": 0,
+        "branches": 0,
+        "lines": 0
+      }
+    }
+  ]
+}

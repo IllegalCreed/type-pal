@@ -1,0 +1,96 @@
+{
+  "id": "C2-settle-order",
+  "batch": "G1",
+  "axis": "soundfontSettled waits for resourcesReady on the success path",
+  "source": "packages/game/src/shell/bootstrap-resources.ts",
+  "testFile": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+  "oldFile": "packages/game/src/shell/bootstrap-resources.test.ts",
+  "target": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+  "testNamePattern": null,
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "product": {
+      "original": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e",
+      "mutant": "08b3abd6944d3b30720877022e7b85474ba49b7756ee5ce4b62733d77d2a2225",
+      "restored": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e"
+    },
+    "test": {
+      "original": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+      "mutant": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+      "restored": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b"
+    }
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "spawn": {
+    "original": {
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/shell/bootstrap-resources.test.ts",
+        "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/original.json"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game"
+    },
+    "mutant": {
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/shell/bootstrap-resources.test.ts",
+        "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/mutant.json"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game"
+    },
+    "restored": {
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/shell/bootstrap-resources.test.ts",
+        "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/restored.json"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game"
+    }
+  },
+  "counts": {
+    "original": 12,
+    "mutantFailed": 1,
+    "restored": 12
+  },
+  "assertionError": "AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C2-settle-order-XXYrEO/packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts:136:21\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+  "names": [
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts\tgrok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+    "packages/game/src/shell/bootstrap-resources.test.ts\tbootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+    "packages/game/src/shell/bootstrap-resources.test.ts\tbootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+    "packages/game/src/shell/bootstrap-resources.test.ts\tbootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result"
+  ]
+}

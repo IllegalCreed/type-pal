@@ -1,0 +1,57 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-08-Mo80nY/packages/editor
+
+ ❯ src/core/sprite-actions.c05-g01.cursor-r1.test.ts (10 tests | 1 failed) 23ms
+     × C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关 10ms
+     ✓ C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后 1ms
+     ✓ C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写） 0ms
+     ✓ C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序 8ms
+     ✓ C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列 0ms
+     ✓ C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位 0ms
+     ✓ C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4 0ms
+     ✓ C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵 0ms
+     ✓ C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined 1ms
+     ✓ C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作 0ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":9,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790905726583,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关","status":"failed","title":"C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关","duration":10.414166000000023,"failureMessages":["AssertionError: expected [ [ 'near', 5 ], [ 'mid', 40 ], …(1) ] to deeply equal [ [ 'near', +0 ], [ 'mid', 1 ], …(1) ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-08-Mo80nY/packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:52:56\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后","status":"passed","title":"C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后","duration":0.9834999999999923,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）","status":"passed","title":"C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）","duration":0.2901249999999891,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序","status":"passed","title":"C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序","duration":7.6297910000000115,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列","status":"passed","title":"C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列","duration":0.1662499999999909,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位","status":"passed","title":"C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位","duration":0.2624169999999708,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4","status":"passed","title":"C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4","duration":0.14850000000001273,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵","status":"passed","title":"C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵","duration":0.22091599999998834,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined","status":"passed","title":"C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined","duration":0.555499999999995,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C05-G01 sprite-actions 排序与默认目标"],"fullName":"C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作","status":"passed","title":"C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作","duration":0.42845800000003464,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790905727109,"endTime":1790905727130.4285,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-08-Mo80nY/packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  10:48:46
+   Duration  539ms (transform 339ms, setup 0ms, import 406ms, tests 23ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/sprite-actions.c05-g01.cursor-r1.test.ts > C05-G01 sprite-actions 排序与默认目标 > C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关
+AssertionError: expected [ [ 'near', 5 ], [ 'mid', 40 ], …(1) ] to deeply equal [ [ 'near', +0 ], [ 'mid', 1 ], …(1) ]
+
+- Expected
++ Received
+
+  [
+    [
+      "near",
+-     0,
++     5,
+    ],
+    [
+      "mid",
+-     1,
++     40,
+    ],
+    [
+      "far",
+-     2,
++     90,
+    ],
+  ]
+
+ ❯ src/core/sprite-actions.c05-g01.cursor-r1.test.ts:52:56
+     50|     })
+     51|     const sorted = sortedSpriteActions(input)
+     52|     expect(sorted.map(({ id, index }) => [id, index])).toEqual([
+       |                                                        ^
+     53|       ['near', 0],
+     54|       ['mid', 1],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

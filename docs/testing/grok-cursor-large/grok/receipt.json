@@ -1,0 +1,193 @@
+{
+  "taskId": "TEST-GROK-RENDER-HOST-LARGE-1",
+  "owner": "grok",
+  "authorDelivery": "pending",
+  "accept": "not-claimed",
+  "done": false,
+  "mergedToMain": false,
+  "officialRatchet": false,
+  "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "candidateHead": "985c615cc8a157a8cecf0750a696be86fdf0e1c8",
+  "candidateObject": "commit",
+  "previousCandidateHead": "b0d8dbd3f202251e82ce8761645c4ac408d84f11",
+  "previousDocsCommit": "4c86186076215d8f019436dbcce3d1599878e03d",
+  "functionalRework": "fedacf2ec73452222ebafd38f37e824a19eb5cdf",
+  "docsPin": {
+    "role": "docs-only",
+    "candidateHead": "985c615cc8a157a8cecf0750a696be86fdf0e1c8",
+    "paths": [
+      "docs/testing/grok-cursor-large/grok/receipt.json",
+      "docs/testing/grok-cursor-large/grok/README.md"
+    ],
+    "note": "这一提交只更新回执和入口里的候选 SHA。candidateHead 是 GROK-R2-01 报告格式提交，不是本 docs 提交自身。上一候选是 b0d8dbd3f202251e82ce8761645c4ac408d84f11，上一 docs pin 是 4c86186076215d8f019436dbcce3d1599878e03d。更早的测试提交是 16db4d1ed9d394a2506293e7b4448f8a0c19ceef，更早的 docs pin 是 919fc291a6e2b5b8710bac756e6a7d28d99dbae7。"
+  },
+  "counts": {
+    "newContracts": 400,
+    "groups": 40,
+    "acceptedCounters": 40,
+    "existingProof": 326,
+    "unreachable": 4,
+    "blocked": 1,
+    "g10NewContracts": 25,
+    "g10ExistingProof": 64,
+    "g10Unreachable": 1
+  },
+  "directed": {
+    "newPassed": 25,
+    "adjacentPassed": 68,
+    "pending": 0,
+    "files": 18
+  },
+  "typecheck": {
+    "command": "pnpm --filter @type-pal/game run typecheck",
+    "exitCode": 0,
+    "r2Rerun": false
+  },
+  "fullTest": {
+    "command": "pnpm --filter @type-pal/game exec vitest run",
+    "exitCode": 1,
+    "passedFiles": 278,
+    "failedFiles": 1,
+    "skippedFiles": 4,
+    "passedTests": 3145,
+    "skippedTests": 13,
+    "failure": "packages/game/src/dev/dev-panel.test.ts readFileSync ENOENT data/extracted/data/enemy-teams.json",
+    "countedGreen": false,
+    "dataCopied": false,
+    "reworkRerun": true,
+    "reviewerIsolatedAssetGreen": "3173/3173",
+    "reviewerIsolatedAssetNote": "审核在只读资产副本上的结果。本工作树没有复制 data/extracted 与 data/raw，退出码仍是上面的 1。",
+    "r2Rerun": false,
+    "r2Cite": "GROK-R2 未改测试、产品或配置字节，不重跑全包。沿用 r2 审核记录的隔离资产 3173/3173。作者工作树上一轮退出码仍是 1。"
+  },
+  "lint": {
+    "command": "pnpm lint",
+    "files": 2988,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "previousCandidateFiles": 2967,
+    "remeasuredAfterConsecutiveSelftest": true
+  },
+  "docsCheck": {
+    "command": "node scripts/docs/check.mjs",
+    "result": "PASS",
+    "issues": 0
+  },
+  "diffCheck": {
+    "command": "git diff --check 0704d3de6d3d2a2099475a42f601b654bba08579...985c615cc8a157a8cecf0750a696be86fdf0e1c8",
+    "exitCode": 0
+  },
+  "verifier": {
+    "command": "node docs/testing/grok-cursor-large/verify-targets.mjs --owner grok --base 0704d3de6d3d2a2099475a42f601b654bba08579",
+    "exitCodeWithLocalNodeModulesSymlinks": 1,
+    "symlinkPaths": [
+      "node_modules",
+      "packages/content/node_modules",
+      "packages/editor/node_modules",
+      "packages/game/node_modules",
+      "packages/migrate/node_modules",
+      "packages/pal-extract/node_modules",
+      "packages/reforge/node_modules",
+      "packages/shared/node_modules"
+    ],
+    "exitCodeWithSymlinksMovedAside": 0,
+    "globalFrozenSources": 716,
+    "allocatedSources": 120,
+    "ownerOverlap": 0,
+    "frozenHashesValid": true,
+    "changedPathsBeforeDocsPin": 530
+  },
+  "counters": {
+    "accepted": [
+      "G01-A",
+      "G01-B",
+      "G01-C",
+      "G01-D",
+      "G02-A",
+      "G02-B",
+      "G02-C",
+      "G02-D",
+      "G03-A",
+      "G03-B",
+      "G03-C",
+      "G03-D",
+      "G04-A",
+      "G04-B",
+      "G04-C",
+      "G04-D",
+      "G05-A",
+      "G05-B",
+      "G05-C",
+      "G05-D",
+      "G06-A",
+      "G06-B",
+      "G06-C",
+      "G06-D",
+      "G07-A",
+      "G07-B",
+      "G07-C",
+      "G07-D",
+      "G08-A",
+      "G08-B",
+      "G08-C",
+      "G08-D",
+      "G09-A",
+      "G09-B",
+      "G09-C",
+      "G09-D",
+      "G10-A",
+      "G10-B",
+      "G10-C",
+      "G10-D"
+    ],
+    "patchSha256Matched": 40,
+    "historicalReporterJson": "G02–G09 的 original/mutant/restored JSON 经 Biome 排版。排版前后 json 解析值的规范哈希相同。"
+  },
+  "pixels": ["G04-D08", "G05-A11", "G06-A12", "G07-B13", "G08-D07", "G10-B01", "G10-B02"],
+  "coverageDelta": "docs/testing/grok-cursor-large/grok/coverage-delta.json",
+  "rework": {
+    "id": "GROK-R1",
+    "judgeShared": true,
+    "falseAcceptsRejected": 4,
+    "legacyWouldAcceptThoseFour": true,
+    "archivesRejudged": 40,
+    "archivesRejected": 0,
+    "realVitestProbe": {
+      "id": "real-vitest-single-red-plus-unhandled",
+      "rejected": true,
+      "exitCode": 1,
+      "signal": null
+    },
+    "historicalProbeRejectPreserved": true,
+    "patchesRegenerated": ["G02-C", "G04-A"],
+    "mutantShaUnchanged": true,
+    "logsRecollected": false,
+    "pixelDumps": 14,
+    "newItAdded": 0,
+    "executionSetUnchanged": true
+  },
+  "r2": {
+    "id": "GROK-R2-01",
+    "selftestCommand": "node docs/testing/grok-cursor-large/grok/judge.selftest.mjs",
+    "consecutiveRuns": 2,
+    "eachRun": {
+      "falseAcceptsRejected": 4,
+      "rejudged": 40,
+      "probeRejected": true,
+      "probeExit": 1
+    },
+    "reportPath": "docs/testing/grok-cursor-large/grok/judge-selftest.json",
+    "reportBytesChanged": false,
+    "lintImmediatelyAfter": {
+      "files": 2988,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "fullPackageRerun": false,
+    "typecheckRerun": false,
+    "citedIsolatedFullPackage": "3173/3173",
+    "hostPngCategory": "dom-data-encoding"
+  }
+}

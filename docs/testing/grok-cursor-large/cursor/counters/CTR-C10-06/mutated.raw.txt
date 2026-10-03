@@ -1,0 +1,46 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-06-Rveqr1/packages/editor
+
+ ❯ src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx (10 tests | 1 failed) 130ms
+     × C10-G01-01 insert：from=0 to=1 交换相邻两项 15ms
+     ✓ C10-G01-02 swap 同索引保持原引用 3ms
+     ✓ C10-G01-03 sameDsSerializableValue 数组顺序敏感 2ms
+     ✓ C10-G01-04 forward 按钮下移中间项 40ms
+     ✓ C10-G01-05 first 按钮把末项移到最前 26ms
+     ✓ C10-G01-06 首项 backward 按钮 disabled 8ms
+     ✓ C10-G01-07 水平取向 forward 使用 chevron-right 文案轴 7ms
+     ✓ C10-G01-08 collection disabled 时 move 按钮全 disabled 8ms
+     ✓ C10-G01-09 onReorder 返回 false 时顺序不变 17ms
+     ✓ C10-G01-10 duplicate item key 抛错 3ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":9,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790867694292,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项","status":"failed","title":"C10-G01-01 insert：from=0 to=1 交换相邻两项","duration":14.563957999999957,"failureMessages":["AssertionError: expected [ 'b', 'a', 'a', 'c' ] to deeply equal [ 'b', 'a', 'c' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-06-Rveqr1/packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:76:75\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-02 swap 同索引保持原引用","status":"passed","title":"C10-G01-02 swap 同索引保持原引用","duration":2.5268749999999045,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感","status":"passed","title":"C10-G01-03 sameDsSerializableValue 数组顺序敏感","duration":1.7929589999999962,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-04 forward 按钮下移中间项","status":"passed","title":"C10-G01-04 forward 按钮下移中间项","duration":39.891624999999976,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-05 first 按钮把末项移到最前","status":"passed","title":"C10-G01-05 first 按钮把末项移到最前","duration":26.011540999999966,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-06 首项 backward 按钮 disabled","status":"passed","title":"C10-G01-06 首项 backward 按钮 disabled","duration":8.235333000000082,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-07 水平取向 forward 使用 chevron-right 文案轴","status":"passed","title":"C10-G01-07 水平取向 forward 使用 chevron-right 文案轴","duration":7.238583000000062,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-08 collection disabled 时 move 按钮全 disabled","status":"passed","title":"C10-G01-08 collection disabled 时 move 按钮全 disabled","duration":8.136874999999918,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-09 onReorder 返回 false 时顺序不变","status":"passed","title":"C10-G01-09 onReorder 返回 false 时顺序不变","duration":16.671249999999873,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C10-G01 reorder 剩余合同"],"fullName":"C10-G01 reorder 剩余合同 C10-G01-10 duplicate item key 抛错","status":"passed","title":"C10-G01-10 duplicate item key 抛错","duration":3.4500840000000608,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790867695274,"endTime":1790867695402.4502,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-06-Rveqr1/packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx"}]}
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  00:14:54
+   Duration  1.10s (transform 212ms, setup 0ms, import 317ms, tests 130ms, environment 525ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx > C10-G01 reorder 剩余合同 > C10-G01-01 insert：from=0 to=1 交换相邻两项
+AssertionError: expected [ 'b', 'a', 'a', 'c' ] to deeply equal [ 'b', 'a', 'c' ]
+
+- Expected
++ Received
+
+  [
+    "b",
+    "a",
++   "a",
+    "c",
+  ]
+
+ ❯ src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx:76:75
+     74| describe('C10-G01 reorder 剩余合同', () => {
+     75|   test('C10-G01-01 insert：from=0 to=1 交换相邻两项', () => {
+     76|     expect(reorderDsItems(['a', 'b', 'c'], { fromIndex: 0, toIndex: 1 …
+       |                                                                           ^
+     77|   })
+     78|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

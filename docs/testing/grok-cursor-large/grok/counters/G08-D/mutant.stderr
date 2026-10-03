@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入
+AssertionError: expected 90 to be 45 // Object.is equality
+
+- Expected
++ Received
+
+- 45
++ 90
+
+ ❯ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts:61:32
+     59|     fillSentinel(fb)
+     60|     drawBattleEffectOverlay(fb, overlayAt(160, 90), solid(3, 1, 0x2d))
+     61|     expect(pixel(fb, 159, 89)).toBe(0x2d)
+       |                                ^
+     62|     expect(pixel(fb, 161, 89)).toBe(0x2d)
+     63|     expect(pixel(fb, 162, 89)).toBe(SENTINEL)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

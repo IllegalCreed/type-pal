@@ -1,0 +1,449 @@
+#!/usr/bin/env node
+/**
+ * 拒收自测：唯一 judge 必须拒收假绿（含真实 afterEach 复合 / pending↔todo 错配），
+ * 并忠实接受单红正样本与合法范围外 skip。
+ */
+import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import {
+  judgeClean,
+  judgeMutant,
+  legacyFocusJsonDroppingCollectionErrors,
+} from './counter-judge.mjs'
+
+const here = dirname(fileURLToPath(import.meta.url))
+const targetFullName = 'C1 cursor-mid-1 demo C1-01 previewCursorKey null'
+const targetFile = 'src/core/script-flow-preview.cursor-mid-1.test.ts'
+const outsideFullName = 'outside sibling assertion'
+
+const leaf = (fullName, status, message = '', extraMessages = []) => ({
+  fullName,
+  status,
+  failureMessages: message ? [message, ...extraMessages] : [...extraMessages],
+})
+
+const fileResult = (file, assertionResults, status = 'passed', message) => ({
+  name: `/tmp/pkg/packages/editor/${file}`,
+  status,
+  ...(message ? { message } : {}),
+  assertionResults,
+})
+
+const report = {
+  rejects: {},
+  accepts: {},
+}
+
+// --- 1) two passed same file×fullName, expectedExecuted 1 ---
+{
+  const json = {
+    numTotalTests: 2,
+    numPassedTests: 2,
+    numFailedTests: 0,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: true,
+    testResults: [
+      fileResult(targetFile, [leaf(targetFullName, 'passed'), leaf(targetFullName, 'passed')]),
+    ],
+  }
+  const r = judgeClean({
+    exitCode: 0,
+    json,
+    expectedExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+  })
+  report.rejects.twoPassedExpectedOne = !r.valid
+  report.rejects.twoPassedReasons = r.reasons
+}
+
+// --- 2) declared red + same-identity pending ---
+{
+  const json = {
+    numTotalTests: 2,
+    numPassedTests: 0,
+    numFailedTests: 1,
+    numPendingTests: 1,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: false,
+    testResults: [
+      fileResult(
+        targetFile,
+        [
+          leaf(targetFullName, 'failed', 'AssertionError: expected undefined to be null'),
+          leaf(targetFullName, 'pending'),
+        ],
+        'failed',
+      ),
+    ],
+  }
+  const r = judgeMutant({
+    exitCode: 1,
+    json,
+    targetFile,
+    targetFullName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+    rawOutput: 'AssertionError: expected undefined to be null\n',
+  })
+  report.rejects.redPlusPendingSameIdentity = !r.valid
+  report.rejects.redPlusPendingReasons = r.reasons
+}
+
+// --- 3) two declared reds (same identity) ---
+{
+  const json = {
+    numTotalTests: 2,
+    numPassedTests: 0,
+    numFailedTests: 2,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: false,
+    testResults: [
+      fileResult(
+        targetFile,
+        [
+          leaf(targetFullName, 'failed', 'AssertionError: a'),
+          leaf(targetFullName, 'failed', 'AssertionError: b'),
+        ],
+        'failed',
+      ),
+    ],
+  }
+  const r = judgeMutant({
+    exitCode: 1,
+    json,
+    targetFile,
+    targetFullName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+    rawOutput: 'AssertionError: a\n',
+  })
+  report.rejects.twoDeclaredReds = !r.valid
+  report.rejects.twoDeclaredRedsReasons = r.reasons
+}
+
+// --- 4) target red + undeclared extra AssertionError ---
+{
+  const json = {
+    numTotalTests: 2,
+    numPassedTests: 0,
+    numFailedTests: 2,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: false,
+    testResults: [
+      fileResult(
+        targetFile,
+        [leaf(targetFullName, 'failed', 'AssertionError: expected undefined to be null')],
+        'failed',
+      ),
+      fileResult(
+        'src/core/other.test.ts',
+        [leaf(outsideFullName, 'failed', 'AssertionError: boom')],
+        'failed',
+      ),
+    ],
+  }
+  const r = judgeMutant({
+    exitCode: 1,
+    json,
+    targetFile,
+    targetFullName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+    rawOutput: 'AssertionError: expected undefined to be null\n',
+  })
+  report.rejects.targetPlusExtraRed = !r.valid
+  report.rejects.targetPlusExtraRedReasons = r.reasons
+}
+
+// --- 5) clean numTotalTests 99 but actual 1 leaf ---
+{
+  const json = {
+    numTotalTests: 99,
+    numPassedTests: 1,
+    numFailedTests: 0,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: true,
+    testResults: [fileResult(targetFile, [leaf(targetFullName, 'passed')])],
+  }
+  const r = judgeClean({
+    exitCode: 0,
+    json,
+    expectedExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+  })
+  report.rejects.numTotal99Actual1 = !r.valid
+  report.rejects.numTotal99Reasons = r.reasons
+}
+
+// --- positive: single AssertionError mutant still accepted ---
+{
+  const json = {
+    numTotalTests: 1,
+    numPassedTests: 0,
+    numFailedTests: 1,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: false,
+    testResults: [
+      fileResult(
+        targetFile,
+        [leaf(targetFullName, 'failed', "AssertionError: expected undefined to be 'null'")],
+        'failed',
+      ),
+    ],
+  }
+  const r = judgeMutant({
+    exitCode: 1,
+    json,
+    targetFile,
+    targetFullName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+    rawOutput: "AssertionError: expected undefined to be 'null'\n",
+  })
+  report.accepts.singleAssertion = r.valid
+  report.accepts.singleAssertionReasons = r.reasons
+}
+
+// --- positive: outside skip ignored (Vitest often buckets skip as pending) ---
+{
+  const json = {
+    numTotalTests: 2,
+    numPassedTests: 1,
+    numFailedTests: 0,
+    numPendingTests: 1,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: true,
+    testResults: [
+      fileResult(targetFile, [leaf(targetFullName, 'passed'), leaf(outsideFullName, 'skipped')]),
+    ],
+  }
+  const r = judgeClean({
+    exitCode: 0,
+    json,
+    expectedExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+  })
+  report.accepts.outsideSkipOk = r.valid
+  report.accepts.outsideSkipReasons = r.reasons
+}
+
+// --- legacy composite collection still rejected by current / accepted by legacy focus ---
+const compositeRed = {
+  numTotalTestSuites: 2,
+  numTotalTests: 1,
+  numPassedTests: 0,
+  numFailedTests: 1,
+  numPendingTests: 0,
+  numTodoTests: 0,
+  numRuntimeErrorTestSuites: 1,
+  success: false,
+  testResults: [
+    fileResult(
+      targetFile,
+      [leaf(targetFullName, 'failed', "AssertionError: expected undefined to be 'null'")],
+      'failed',
+    ),
+    {
+      name: '/tmp/pkg/packages/editor/src/core/broken-sibling.test.ts',
+      status: 'failed',
+      message: 'SyntaxError: Unexpected token',
+      assertionResults: [],
+    },
+  ],
+}
+const current = judgeMutant({
+  exitCode: 1,
+  json: compositeRed,
+  targetFile,
+  targetFullName,
+  positiveExecuted: 1,
+  expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+  declaredFullNames: [targetFullName],
+  rawOutput: "AssertionError: expected undefined to be 'null'\n",
+})
+const legacy = judgeMutant({
+  exitCode: 1,
+  json: legacyFocusJsonDroppingCollectionErrors(compositeRed),
+  targetFile,
+  targetFullName,
+  positiveExecuted: 1,
+  expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+  declaredFullNames: [targetFullName],
+  rawOutput: "AssertionError: expected undefined to be 'null'\n",
+})
+report.rejects.compositeCollection = !current.valid
+report.accepts.legacyWouldAcceptComposite = legacy.valid
+
+// --- R3-01: real Vitest AssertionError + afterEach Error (Codex fixture) ---
+{
+  const real = JSON.parse(
+    readFileSync(join(here, 'fixtures/real-composite-aftereach.json'), 'utf8'),
+  )
+  const realRaw = readFileSync(join(here, 'fixtures/real-composite-aftereach.raw.txt'), 'utf8')
+  const realFile = 'src/core/codex-composite-review.test.ts'
+  const realName = 'CODEX business assertion plus hook error'
+  const r = judgeMutant({
+    exitCode: 1,
+    json: real,
+    targetFile: realFile,
+    targetFullName: realName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${realFile}×${realName}`],
+    declaredFullNames: [realName],
+    rawOutput: realRaw,
+  })
+  report.rejects.realAfterEachComposite = !r.valid
+  report.rejects.realAfterEachReasons = r.reasons
+}
+
+// --- R3-01: pending3→todo3 mismatch on CTR-C1-01-shaped positive (leaves stay skipped) ---
+{
+  const positive = JSON.parse(readFileSync(join(here, 'counters/CTR-C1-01/positive.json'), 'utf8'))
+  const forged = {
+    ...positive,
+    numPendingTests: 0,
+    numTodoTests: 3,
+  }
+  const c1Name =
+    'C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价'
+  const c1File = 'src/core/script-flow-preview.cursor-mid-1.test.ts'
+  const r = judgeClean({
+    exitCode: 0,
+    json: forged,
+    expectedExecuted: 1,
+    expectedIdentitySet: [`${c1File}×${c1Name}`],
+    declaredFullNames: [c1Name],
+  })
+  report.rejects.pendingTodoMismatch = !r.valid
+  report.rejects.pendingTodoReasons = r.reasons
+}
+
+const fail = (msg) => {
+  console.error(msg)
+  console.error(JSON.stringify(report, null, 2))
+  process.exit(1)
+}
+
+if (!report.rejects.twoPassedExpectedOne) fail('FAIL: must reject two passed / expected 1')
+if (!report.rejects.redPlusPendingSameIdentity) fail('FAIL: must reject red+pending same identity')
+if (!report.rejects.twoDeclaredReds) fail('FAIL: must reject two declared reds')
+if (!report.rejects.targetPlusExtraRed) fail('FAIL: must reject target + extra undeclared red')
+if (!report.rejects.numTotal99Actual1) fail('FAIL: must reject numTotalTests 99 vs 1 leaf')
+if (!report.accepts.singleAssertion) fail('FAIL: single AssertionError must still be accepted')
+if (!report.accepts.outsideSkipOk) fail('FAIL: outside skip must still be accepted')
+if (!report.rejects.compositeCollection) fail('FAIL: composite collection must be rejected')
+if (!report.accepts.legacyWouldAcceptComposite)
+  fail('FAIL: legacy focus repro no longer demonstrates the bug')
+if (!report.rejects.realAfterEachComposite)
+  fail('FAIL: real AssertionError+afterEach composite must be rejected')
+if (!report.rejects.pendingTodoMismatch) fail('FAIL: pending↔todo count mismatch must be rejected')
+
+// --- R4-01: ReferenceError/TypeError/Error that only mention AssertionError must reject ---
+{
+  const cases = [
+    [
+      'ReferenceError: AssertionError is not defined',
+      'ReferenceError: AssertionError is not defined\n    at eval (eval at <anonymous> (probe.mjs:11:5), <anonymous>:3:1)',
+    ],
+    [
+      'TypeError: AssertionError is not a constructor',
+      'TypeError: AssertionError is not a constructor\n    at Object.<anonymous> (probe.mjs:1:1)',
+    ],
+    [
+      'Error: wrapped AssertionError text',
+      'Error: wrapped AssertionError text\n    at Object.<anonymous> (probe.mjs:1:1)',
+    ],
+  ]
+  const rejectFlags = []
+  const reasons = []
+  for (const [head, full] of cases) {
+    const json = {
+      numTotalTests: 1,
+      numPassedTests: 0,
+      numFailedTests: 1,
+      numPendingTests: 0,
+      numTodoTests: 0,
+      numRuntimeErrorTestSuites: 0,
+      success: false,
+      testResults: [fileResult(targetFile, [leaf(targetFullName, 'failed', full)], 'failed')],
+    }
+    const r = judgeMutant({
+      exitCode: 1,
+      json,
+      targetFile,
+      targetFullName,
+      positiveExecuted: 1,
+      expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+      declaredFullNames: [targetFullName],
+      rawOutput: `${head}\n`,
+    })
+    rejectFlags.push(!r.valid)
+    reasons.push({ head, reasons: r.reasons })
+  }
+  report.rejects.substringAssertionErrorNames = rejectFlags.every(Boolean)
+  report.rejects.substringAssertionErrorReasons = reasons
+}
+
+{
+  const json = {
+    numTotalTests: 1,
+    numPassedTests: 0,
+    numFailedTests: 1,
+    numPendingTests: 0,
+    numTodoTests: 0,
+    numRuntimeErrorTestSuites: 0,
+    success: false,
+    testResults: [
+      fileResult(
+        targetFile,
+        [
+          leaf(
+            targetFullName,
+            'failed',
+            "AssertionError: expected undefined to be 'null' // Object.is equality",
+          ),
+        ],
+        'failed',
+      ),
+    ],
+  }
+  const r = judgeMutant({
+    exitCode: 1,
+    json,
+    targetFile,
+    targetFullName,
+    positiveExecuted: 1,
+    expectedIdentitySet: [`${targetFile}×${targetFullName}`],
+    declaredFullNames: [targetFullName],
+    rawOutput: "AssertionError: expected undefined to be 'null'\n",
+  })
+  report.accepts.strictAssertionHead = r.valid
+  report.accepts.strictAssertionHeadReasons = r.reasons
+}
+
+if (!report.rejects.substringAssertionErrorNames)
+  fail('FAIL: ReferenceError/TypeError/Error mentioning AssertionError must be rejected')
+if (!report.accepts.strictAssertionHead)
+  fail('FAIL: real AssertionError head must still be accepted')
+
+console.log(JSON.stringify({ ok: true, ...report }, null, 2))

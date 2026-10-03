@@ -1,0 +1,107 @@
+{
+  "id": "FLOW-R05",
+  "category": "resource",
+  "title": "瓦片集选择",
+  "contract": "tileset-selection-oracle",
+  "host": "http://127.0.0.1:6013/",
+  "viewport": {
+    "wide": {
+      "width": 1200,
+      "height": 800
+    },
+    "narrow": {
+      "width": 760,
+      "height": 680
+    }
+  },
+  "expect": "初始未选 flow-tileset；点击后 selectedTileset=flow-tileset",
+  "before": {
+    "flowId": "FLOW-R05",
+    "phase": "ready",
+    "label": "瓦片集：选择切换（资源）",
+    "oracle": {
+      "tilesetIds": ["starter", "flow-tileset"],
+      "selectedTileset": null
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-R05",
+    "phase": "ready",
+    "label": "瓦片集：选择切换（资源）",
+    "oracle": {
+      "tilesetIds": ["starter", "flow-tileset"],
+      "selectedTileset": "flow-tileset"
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["wide before select", "click flow-tileset row", "narrow viewport"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R05/wide-tileset.png",
+      "sha256": "f5b9fc873a25e82e9101befc24ece05af46741f75f5cd2cb74c54647c6086f84",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R05/narrow-tileset.png",
+      "sha256": "c16f65709c1f690d1bad6e6dd992f23bab1ee7e4d19c121909a434466f904f9e",
+      "width": 760,
+      "height": 680
+    }
+  ],
+  "actual": {
+    "afterSelect": "flow-tileset"
+  },
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T23:57:52.677Z"
+}

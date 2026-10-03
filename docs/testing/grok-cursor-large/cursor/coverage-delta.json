@@ -1,0 +1,2148 @@
+{
+  "owner": "cursor",
+  "taskId": "TEST-CURSOR-ASSET-UI-LARGE-1",
+  "measuredWith": "vitest --coverage cursor-r1 only",
+  "sources": [
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "freezeSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "historical": {
+        "branches": {
+          "covered": 402,
+          "total": 538
+        },
+        "statements": {
+          "covered": 435,
+          "total": 539
+        },
+        "lines": {
+          "covered": 406,
+          "total": 489
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 427,
+          "total": 539
+        },
+        "branches": {
+          "covered": 397,
+          "total": 538
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "freezeSha256": "629ddc28793e7ddb733f53df950a59e8d6731a6a86a3c388a78639443f001d32",
+      "historical": {
+        "branches": {
+          "covered": 113,
+          "total": 248
+        },
+        "statements": {
+          "covered": 116,
+          "total": 254
+        },
+        "lines": {
+          "covered": 104,
+          "total": 212
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 90,
+          "total": 254
+        },
+        "branches": {
+          "covered": 58,
+          "total": 248
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "freezeSha256": "f1630b1843c2e871407be32ade8796c2af9e78b5d1cc0053d64fd5367e7e7aa1",
+      "historical": {
+        "branches": {
+          "covered": 393,
+          "total": 496
+        },
+        "statements": {
+          "covered": 359,
+          "total": 448
+        },
+        "lines": {
+          "covered": 333,
+          "total": 403
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 286,
+          "total": 448
+        },
+        "branches": {
+          "covered": 293,
+          "total": 496
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/reorder.tsx",
+      "freezeSha256": "524576947ee10977af9364f711856d4130e88ac76467828054b8dc696d3b2290",
+      "historical": {
+        "branches": {
+          "covered": 448,
+          "total": 535
+        },
+        "statements": {
+          "covered": 601,
+          "total": 651
+        },
+        "lines": {
+          "covered": 552,
+          "total": 578
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 301,
+          "total": 651
+        },
+        "branches": {
+          "covered": 199,
+          "total": 535
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/stamp-commands.ts",
+      "freezeSha256": "fd767a3bff909108916dee6ff19a99e69e02de29d52972d6a646d00e937a4b0f",
+      "historical": {
+        "branches": {
+          "covered": 50,
+          "total": 57
+        },
+        "statements": {
+          "covered": 89,
+          "total": 94
+        },
+        "lines": {
+          "covered": 76,
+          "total": 77
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 61,
+          "total": 94
+        },
+        "branches": {
+          "covered": 29,
+          "total": 57
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/TilesetTab.tsx",
+      "freezeSha256": "baa88b364641772b5ce02c23af599d0edf84d0a4732e69f987a919707a51cb2c",
+      "historical": {
+        "branches": {
+          "covered": 248,
+          "total": 318
+        },
+        "statements": {
+          "covered": 293,
+          "total": 333
+        },
+        "lines": {
+          "covered": 272,
+          "total": 294
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 155,
+          "total": 333
+        },
+        "branches": {
+          "covered": 106,
+          "total": 318
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/FrameAnimationEditor.tsx",
+      "freezeSha256": "26d7110945f9a2d20d8f12bbd0dd491b2398eed410d8b976c0974562b6719e16",
+      "historical": {
+        "branches": {
+          "covered": 267,
+          "total": 324
+        },
+        "statements": {
+          "covered": 485,
+          "total": 525
+        },
+        "lines": {
+          "covered": 432,
+          "total": 445
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 343,
+          "total": 525
+        },
+        "branches": {
+          "covered": 164,
+          "total": 324
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/select.tsx",
+      "freezeSha256": "47d56c4e197776f37057dc1b3542c70821c12a62eaedd6800a9bf5ffcdebbdf5",
+      "historical": {
+        "branches": {
+          "covered": 222,
+          "total": 273
+        },
+        "statements": {
+          "covered": 209,
+          "total": 250
+        },
+        "lines": {
+          "covered": 182,
+          "total": 206
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 105,
+          "total": 250
+        },
+        "branches": {
+          "covered": 108,
+          "total": 273
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+      "freezeSha256": "a7580ebfebd8f5b4bb26f924f1003577100817a48470dc42a656be9e804b7465",
+      "historical": {
+        "branches": {
+          "covered": 195,
+          "total": 242
+        },
+        "statements": {
+          "covered": 250,
+          "total": 271
+        },
+        "lines": {
+          "covered": 229,
+          "total": 243
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 216,
+          "total": 271
+        },
+        "branches": {
+          "covered": 173,
+          "total": 242
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/StampContentEditor.tsx",
+      "freezeSha256": "d7ac46cb8a2cea10f7ed86ba4a5be0a20c2fcd2baa0ff5e8a6c0c616a4f01bfd",
+      "historical": {
+        "branches": {
+          "covered": 173,
+          "total": 219
+        },
+        "statements": {
+          "covered": 241,
+          "total": 276
+        },
+        "lines": {
+          "covered": 218,
+          "total": 242
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 110,
+          "total": 276
+        },
+        "branches": {
+          "covered": 71,
+          "total": 219
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/StampLibraryTab.tsx",
+      "freezeSha256": "43683fae03fc05c2de145deead19a668ffdc4eaa8aa9e26a2b1eb5eccfe361d1",
+      "historical": {
+        "branches": {
+          "covered": 157,
+          "total": 200
+        },
+        "statements": {
+          "covered": 206,
+          "total": 252
+        },
+        "lines": {
+          "covered": 184,
+          "total": 226
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 117,
+          "total": 252
+        },
+        "branches": {
+          "covered": 69,
+          "total": 200
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteActionEditor.tsx",
+      "freezeSha256": "2263c9d4a990e0c91848958884b1a829e68c77cbe6dce7c8ae4581006c593cfb",
+      "historical": {
+        "branches": {
+          "covered": 208,
+          "total": 246
+        },
+        "statements": {
+          "covered": 255,
+          "total": 285
+        },
+        "lines": {
+          "covered": 220,
+          "total": 234
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 141,
+          "total": 285
+        },
+        "branches": {
+          "covered": 121,
+          "total": 246
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/ImageTab.tsx",
+      "freezeSha256": "63b2da78db627505c3a56d661f1c5d21985ec3f5f8238f82d39e4c1deafdcb00",
+      "historical": {
+        "branches": {
+          "covered": 240,
+          "total": 277
+        },
+        "statements": {
+          "covered": 266,
+          "total": 284
+        },
+        "lines": {
+          "covered": 243,
+          "total": 257
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 142,
+          "total": 284
+        },
+        "branches": {
+          "covered": 138,
+          "total": 277
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "freezeSha256": "9cc41f77237631ad1ca31ee0221ac5b368d8908d5f89207018ce6f793b660e2f",
+      "historical": {
+        "branches": {
+          "covered": 84,
+          "total": 118
+        },
+        "statements": {
+          "covered": 92,
+          "total": 126
+        },
+        "lines": {
+          "covered": 84,
+          "total": 113
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 97,
+          "total": 126
+        },
+        "branches": {
+          "covered": 82,
+          "total": 118
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "freezeSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+      "historical": {
+        "branches": {
+          "covered": 142,
+          "total": 175
+        },
+        "statements": {
+          "covered": 124,
+          "total": 140
+        },
+        "lines": {
+          "covered": 115,
+          "total": 123
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 108,
+          "total": 140
+        },
+        "branches": {
+          "covered": 129,
+          "total": 175
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/tileset-references.ts",
+      "freezeSha256": "0e8f1a6ca89ee3569ecb07b4c59564507ea033b4e5b408ccb14121b10a798d28",
+      "historical": {
+        "branches": {
+          "covered": 91,
+          "total": 122
+        },
+        "statements": {
+          "covered": 113,
+          "total": 131
+        },
+        "lines": {
+          "covered": 105,
+          "total": 118
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 106,
+          "total": 131
+        },
+        "branches": {
+          "covered": 83,
+          "total": 122
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "freezeSha256": "b5f61c37d489cba38f44c60fd38f4bbb99d2adb4eb7ae3d025b0930a696eb148",
+      "historical": {
+        "branches": {
+          "covered": 114,
+          "total": 142
+        },
+        "statements": {
+          "covered": 153,
+          "total": 167
+        },
+        "lines": {
+          "covered": 140,
+          "total": 152
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 162,
+          "total": 167
+        },
+        "branches": {
+          "covered": 120,
+          "total": 142
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "freezeSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "historical": {
+        "branches": {
+          "covered": 106,
+          "total": 133
+        },
+        "statements": {
+          "covered": 181,
+          "total": 198
+        },
+        "lines": {
+          "covered": 171,
+          "total": 178
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 67,
+          "total": 198
+        },
+        "branches": {
+          "covered": 25,
+          "total": 133
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "freezeSha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427",
+      "historical": {
+        "branches": {
+          "covered": 96,
+          "total": 122
+        },
+        "statements": {
+          "covered": 102,
+          "total": 120
+        },
+        "lines": {
+          "covered": 87,
+          "total": 98
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 108,
+          "total": 120
+        },
+        "branches": {
+          "covered": 90,
+          "total": 122
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.tsx",
+      "freezeSha256": "ce5b38093cef05cf89397d337393356d2ed3f019ba19e9f2109f4c8812c31af9",
+      "historical": {
+        "branches": {
+          "covered": 96,
+          "total": 122
+        },
+        "statements": {
+          "covered": 85,
+          "total": 109
+        },
+        "lines": {
+          "covered": 71,
+          "total": 85
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 33,
+          "total": 109
+        },
+        "branches": {
+          "covered": 53,
+          "total": 122
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/audio-preview.ts",
+      "freezeSha256": "a107171577b9fe12367709c83b497a547c70a25f071b24526262a404ba0c63c1",
+      "historical": {
+        "branches": {
+          "covered": 75,
+          "total": 97
+        },
+        "statements": {
+          "covered": 191,
+          "total": 202
+        },
+        "lines": {
+          "covered": 174,
+          "total": 176
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 177,
+          "total": 202
+        },
+        "branches": {
+          "covered": 70,
+          "total": 97
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/frame-animation-draft.ts",
+      "freezeSha256": "df551929357629660e260f32e2d021592b483842b1f60deaae1f3d688045667b",
+      "historical": {
+        "branches": {
+          "covered": 126,
+          "total": 148
+        },
+        "statements": {
+          "covered": 168,
+          "total": 179
+        },
+        "lines": {
+          "covered": 142,
+          "total": 143
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 142,
+          "total": 179
+        },
+        "branches": {
+          "covered": 99,
+          "total": 148
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/virtual-list.tsx",
+      "freezeSha256": "adedc4baa6ff1c365d6c8f37a1277e3594990eb2348feeca1dfb3d81e890b241",
+      "historical": {
+        "branches": {
+          "covered": 169,
+          "total": 191
+        },
+        "statements": {
+          "covered": 224,
+          "total": 238
+        },
+        "lines": {
+          "covered": 183,
+          "total": 191
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 173,
+          "total": 238
+        },
+        "branches": {
+          "covered": 130,
+          "total": 191
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+      "freezeSha256": "8d358a507c155cbace226361f07c013683afe6bf7ccf546ffb14c9b0b75d9236",
+      "historical": {
+        "branches": {
+          "covered": 113,
+          "total": 135
+        },
+        "statements": {
+          "covered": 139,
+          "total": 155
+        },
+        "lines": {
+          "covered": 130,
+          "total": 142
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 113,
+          "total": 155
+        },
+        "branches": {
+          "covered": 85,
+          "total": 135
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/StampTemplateDialog.tsx",
+      "freezeSha256": "7de587fe897af3ab8ffccf032507b531ff8f4845221037f66d95c15ce78428dc",
+      "historical": {
+        "branches": {
+          "covered": 102,
+          "total": 124
+        },
+        "statements": {
+          "covered": 129,
+          "total": 158
+        },
+        "lines": {
+          "covered": 115,
+          "total": 136
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 76,
+          "total": 158
+        },
+        "branches": {
+          "covered": 53,
+          "total": 124
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/PortraitEditor.tsx",
+      "freezeSha256": "9b9515364c9cc5ae5db0b6b22e28ff6887a074c722daf1525de17da5309d2ca1",
+      "historical": {
+        "branches": {
+          "covered": 36,
+          "total": 56
+        },
+        "statements": {
+          "covered": 62,
+          "total": 76
+        },
+        "lines": {
+          "covered": 58,
+          "total": 64
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 46,
+          "total": 76
+        },
+        "branches": {
+          "covered": 28,
+          "total": 56
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/battle-sprite-commands.ts",
+      "freezeSha256": "16041546eef69003ec20515cd91110b910b266df64c3cfbc84f47e9fda89b890",
+      "historical": {
+        "branches": {
+          "covered": 146,
+          "total": 164
+        },
+        "statements": {
+          "covered": 198,
+          "total": 209
+        },
+        "lines": {
+          "covered": 176,
+          "total": 181
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 170,
+          "total": 209
+        },
+        "branches": {
+          "covered": 113,
+          "total": 164
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/stamp-draft.ts",
+      "freezeSha256": "6f2c03c4d4453735565c8cc43ca16a02245ced23dd86eb399e6a58feb2cca671",
+      "historical": {
+        "branches": {
+          "covered": 152,
+          "total": 169
+        },
+        "statements": {
+          "covered": 226,
+          "total": 237
+        },
+        "lines": {
+          "covered": 165,
+          "total": 169
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 112,
+          "total": 237
+        },
+        "branches": {
+          "covered": 56,
+          "total": 169
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "freezeSha256": "6bbc63231f2cef26c975024fb8c6aef45ad5fc015625aa66e32dff93c9620f3d",
+      "historical": {
+        "branches": {
+          "covered": 35,
+          "total": 51
+        },
+        "statements": {
+          "covered": 62,
+          "total": 70
+        },
+        "lines": {
+          "covered": 57,
+          "total": 62
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 66,
+          "total": 70
+        },
+        "branches": {
+          "covered": 40,
+          "total": 51
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/number-inputs.tsx",
+      "freezeSha256": "e63a5f3ff972146b6b21b2f709e79c18bd0ac60d09658108ee522fd5e1c361fc",
+      "historical": {
+        "branches": {
+          "covered": 157,
+          "total": 173
+        },
+        "statements": {
+          "covered": 143,
+          "total": 155
+        },
+        "lines": {
+          "covered": 122,
+          "total": 129
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 112,
+          "total": 155
+        },
+        "branches": {
+          "covered": 107,
+          "total": 173
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "freezeSha256": "89caa8d04785803cb3679ba46177d1b1d43f70670c11c5824b62aa8ec18c087b",
+      "historical": {
+        "branches": {
+          "covered": 56,
+          "total": 72
+        },
+        "statements": {
+          "covered": 98,
+          "total": 108
+        },
+        "lines": {
+          "covered": 92,
+          "total": 99
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 96,
+          "total": 108
+        },
+        "branches": {
+          "covered": 52,
+          "total": 72
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/recipes.tsx",
+      "freezeSha256": "5a55da87223a1680178e06af1e799e8395d57c1c61536fe6849f8713d9e72b5f",
+      "historical": {
+        "branches": {
+          "covered": 295,
+          "total": 310
+        },
+        "statements": {
+          "covered": 135,
+          "total": 135
+        },
+        "lines": {
+          "covered": 123,
+          "total": 123
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 115,
+          "total": 135
+        },
+        "branches": {
+          "covered": 223,
+          "total": 310
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "freezeSha256": "8bd3235ea5b31d9b53cfcd71bae85eed1c9c15ae920cfbbb1b800fda54fe9f6e",
+      "historical": {
+        "branches": {
+          "covered": 80,
+          "total": 95
+        },
+        "statements": {
+          "covered": 179,
+          "total": 184
+        },
+        "lines": {
+          "covered": 152,
+          "total": 153
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 154,
+          "total": 184
+        },
+        "branches": {
+          "covered": 63,
+          "total": 95
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-commands.ts",
+      "freezeSha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+      "historical": {
+        "branches": {
+          "covered": 188,
+          "total": 202
+        },
+        "statements": {
+          "covered": 238,
+          "total": 245
+        },
+        "lines": {
+          "covered": 210,
+          "total": 211
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 213,
+          "total": 245
+        },
+        "branches": {
+          "covered": 166,
+          "total": 202
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "freezeSha256": "5422e8a89725e7cf987bd29c7034c2bdeaab0e4fc6798723b0d9663785b528cd",
+      "historical": {
+        "branches": {
+          "covered": 43,
+          "total": 56
+        },
+        "statements": {
+          "covered": 24,
+          "total": 28
+        },
+        "lines": {
+          "covered": 22,
+          "total": 22
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 23,
+          "total": 28
+        },
+        "branches": {
+          "covered": 45,
+          "total": 56
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/tileset-commands.ts",
+      "freezeSha256": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+      "historical": {
+        "branches": {
+          "covered": 94,
+          "total": 106
+        },
+        "statements": {
+          "covered": 125,
+          "total": 126
+        },
+        "lines": {
+          "covered": 105,
+          "total": 105
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 86,
+          "total": 126
+        },
+        "branches": {
+          "covered": 52,
+          "total": 106
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/overlays.tsx",
+      "freezeSha256": "a5284499bfe2311a30333f3b163f01da05ca77a2fbd3243447cb952d92a063b7",
+      "historical": {
+        "branches": {
+          "covered": 98,
+          "total": 110
+        },
+        "statements": {
+          "covered": 125,
+          "total": 136
+        },
+        "lines": {
+          "covered": 113,
+          "total": 115
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 109,
+          "total": 136
+        },
+        "branches": {
+          "covered": 85,
+          "total": 110
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/multi-select.tsx",
+      "freezeSha256": "9d143ad34bed199e92ff15005d5d72beb812dc073bbabf2e5c08e90d41c3b1e1",
+      "historical": {
+        "branches": {
+          "covered": 38,
+          "total": 45
+        },
+        "statements": {
+          "covered": 58,
+          "total": 64
+        },
+        "lines": {
+          "covered": 45,
+          "total": 48
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 42,
+          "total": 64
+        },
+        "branches": {
+          "covered": 20,
+          "total": 45
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/stamp-template.ts",
+      "freezeSha256": "6a1da2f3ae5633b245cf9d855d0b234d75016bb0af03bbeead2ae3eed0e1640f",
+      "historical": {
+        "branches": {
+          "covered": 39,
+          "total": 45
+        },
+        "statements": {
+          "covered": 101,
+          "total": 107
+        },
+        "lines": {
+          "covered": 78,
+          "total": 78
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 92,
+          "total": 107
+        },
+        "branches": {
+          "covered": 30,
+          "total": 45
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/add-picker.tsx",
+      "freezeSha256": "591951ef9cd0389ec52150abc375ab9101f5122826d6107219039ed71e8f1c83",
+      "historical": {
+        "branches": {
+          "covered": 106,
+          "total": 112
+        },
+        "statements": {
+          "covered": 110,
+          "total": 115
+        },
+        "lines": {
+          "covered": 96,
+          "total": 99
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 61,
+          "total": 115
+        },
+        "branches": {
+          "covered": 55,
+          "total": 112
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/draft-text-inputs.tsx",
+      "freezeSha256": "e555166b438646389b7fdabe6b04afb4adf44d73d9ef4cda249673d000a40935",
+      "historical": {
+        "branches": {
+          "covered": 9,
+          "total": 15
+        },
+        "statements": {
+          "covered": 9,
+          "total": 13
+        },
+        "lines": {
+          "covered": 9,
+          "total": 12
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 4,
+          "total": 13
+        },
+        "branches": {
+          "covered": 5,
+          "total": 15
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/floating-layer.tsx",
+      "freezeSha256": "bee1820ec6ed2e2a06af5f2ac850ca7554acde2064d22f3e4c4ec7969f0a73ff",
+      "historical": {
+        "branches": {
+          "covered": 68,
+          "total": 74
+        },
+        "statements": {
+          "covered": 72,
+          "total": 77
+        },
+        "lines": {
+          "covered": 64,
+          "total": 66
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 63,
+          "total": 77
+        },
+        "branches": {
+          "covered": 54,
+          "total": 74
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/frame-animation-worker-client.ts",
+      "freezeSha256": "4691a1a556c4df58fd46ed8f11d84ae5c2808401e68b14442ea3471b0d5c4c04",
+      "historical": {
+        "branches": {
+          "covered": 21,
+          "total": 26
+        },
+        "statements": {
+          "covered": 47,
+          "total": 50
+        },
+        "lines": {
+          "covered": 36,
+          "total": 38
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 44,
+          "total": 50
+        },
+        "branches": {
+          "covered": 19,
+          "total": 26
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/image-import.ts",
+      "freezeSha256": "28114b866998ad6e5e98e921d397c257dc2abdb413c62a0cf7db9743acec8274",
+      "historical": {
+        "branches": {
+          "covered": 37,
+          "total": 42
+        },
+        "statements": {
+          "covered": 94,
+          "total": 95
+        },
+        "lines": {
+          "covered": 82,
+          "total": 82
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 31,
+          "total": 95
+        },
+        "branches": {
+          "covered": 16,
+          "total": 42
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/draft-input-state.ts",
+      "freezeSha256": "659a41a4dbbf3d90c203c7bd24c9bfbb90fb5f48d5d9d6eadfc554b2b05f058f",
+      "historical": {
+        "branches": {
+          "covered": 30,
+          "total": 35
+        },
+        "statements": {
+          "covered": 74,
+          "total": 82
+        },
+        "lines": {
+          "covered": 70,
+          "total": 76
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 57,
+          "total": 82
+        },
+        "branches": {
+          "covered": 24,
+          "total": 35
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/frame-animation-codec.ts",
+      "freezeSha256": "f4f0dd01c593de2ab15b4b56a68000f9dc42e25a9b1aebb290a0020cb68cca0b",
+      "historical": {
+        "branches": {
+          "covered": 23,
+          "total": 27
+        },
+        "statements": {
+          "covered": 38,
+          "total": 41
+        },
+        "lines": {
+          "covered": 35,
+          "total": 35
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 36,
+          "total": 41
+        },
+        "branches": {
+          "covered": 21,
+          "total": 27
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/list-header.tsx",
+      "freezeSha256": "f91ec8407248daba9acec46d7e7b346adc27f238c096a3cfd2870419c4af5982",
+      "historical": {
+        "branches": {
+          "covered": 26,
+          "total": 30
+        },
+        "statements": {
+          "covered": 38,
+          "total": 40
+        },
+        "lines": {
+          "covered": 35,
+          "total": 36
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 16,
+          "total": 40
+        },
+        "branches": {
+          "covered": 14,
+          "total": 30
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/card.tsx",
+      "freezeSha256": "24ee16e386749688df142c703985287ef219bf9f1ad6ac870b18f1346895eb5e",
+      "historical": {
+        "branches": {
+          "covered": 3,
+          "total": 6
+        },
+        "statements": {
+          "covered": 1,
+          "total": 1
+        },
+        "lines": {
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 3,
+          "total": 6
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/choice-controls.tsx",
+      "freezeSha256": "12831dd16e6c7649deab2a3a2cb1091980090c981f3c969fdd44ca7cdb915f44",
+      "historical": {
+        "branches": {
+          "covered": 10,
+          "total": 13
+        },
+        "statements": {
+          "covered": 11,
+          "total": 11
+        },
+        "lines": {
+          "covered": 10,
+          "total": 10
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 11,
+          "total": 11
+        },
+        "branches": {
+          "covered": 12,
+          "total": 13
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/help-tips.tsx",
+      "freezeSha256": "6d5eff19ea94fd55804c5bd2644b13326c489a61f051d602e4c2609aeef9680a",
+      "historical": {
+        "branches": {
+          "covered": 19,
+          "total": 22
+        },
+        "statements": {
+          "covered": 58,
+          "total": 62
+        },
+        "lines": {
+          "covered": 53,
+          "total": 55
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 32,
+          "total": 62
+        },
+        "branches": {
+          "covered": 13,
+          "total": 22
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/overflow-text.tsx",
+      "freezeSha256": "32af1ddfa349930766b71a140ae27afa0a0c2464c07d2260dbc22173baa057e4",
+      "historical": {
+        "branches": {
+          "covered": 27,
+          "total": 30
+        },
+        "statements": {
+          "covered": 59,
+          "total": 63
+        },
+        "lines": {
+          "covered": 52,
+          "total": 54
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 42,
+          "total": 63
+        },
+        "branches": {
+          "covered": 14,
+          "total": 30
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/tabs.tsx",
+      "freezeSha256": "3a392b22cf1cf5c0f92ab0c1eb56e2e61e28ecd1c2f3ba6cedc9066177da9c6a",
+      "historical": {
+        "branches": {
+          "covered": 31,
+          "total": 34
+        },
+        "statements": {
+          "covered": 27,
+          "total": 30
+        },
+        "lines": {
+          "covered": 20,
+          "total": 21
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 24,
+          "total": 30
+        },
+        "branches": {
+          "covered": 26,
+          "total": 34
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/frame-animation-codec.worker.ts",
+      "freezeSha256": "ddd549fe643e1f1cbb211606bdbaafca0e02cc346097303c14b4dd6ac9a8aeb2",
+      "historical": {
+        "branches": {
+          "covered": 4,
+          "total": 6
+        },
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "lines": {
+          "covered": 13,
+          "total": 13
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 13,
+          "total": 13
+        },
+        "branches": {
+          "covered": 4,
+          "total": 6
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/media.tsx",
+      "freezeSha256": "b5bc2f9ad3837fbb52db130307d02f355dcea7eb90307583ff42fbaaca3b75cf",
+      "historical": {
+        "branches": {
+          "covered": 20,
+          "total": 22
+        },
+        "statements": {
+          "covered": 23,
+          "total": 23
+        },
+        "lines": {
+          "covered": 22,
+          "total": 22
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 3,
+          "total": 23
+        },
+        "branches": {
+          "covered": 5,
+          "total": 22
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/frame-animation-images.ts",
+      "freezeSha256": "0c472b735f0218c0920b2b1abdaba5e46dadab71817956089c4bb708021ee08e",
+      "historical": {
+        "branches": {
+          "covered": 18,
+          "total": 19
+        },
+        "statements": {
+          "covered": 32,
+          "total": 33
+        },
+        "lines": {
+          "covered": 28,
+          "total": 28
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 31,
+          "total": 33
+        },
+        "branches": {
+          "covered": 17,
+          "total": 19
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/native-inputs.tsx",
+      "freezeSha256": "0cb270ed55f0b88cb85a3ab8b3899ed9e260c7706c66cb50d12852777d0d773d",
+      "historical": {
+        "branches": {
+          "covered": 3,
+          "total": 4
+        },
+        "statements": {
+          "covered": 8,
+          "total": 8
+        },
+        "lines": {
+          "covered": 8,
+          "total": 8
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 7,
+          "total": 8
+        },
+        "branches": {
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/audio-preview-session.ts",
+      "freezeSha256": "8a483b710677210035ad155d23df4132a7df37eb35d5bce1ac05a959cff9ead5",
+      "historical": {
+        "branches": {
+          "covered": 4,
+          "total": 4
+        },
+        "statements": {
+          "covered": 12,
+          "total": 12
+        },
+        "lines": {
+          "covered": 10,
+          "total": 10
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 12,
+          "total": 12
+        },
+        "branches": {
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/battle-sprite-import.ts",
+      "freezeSha256": "1555462c48741ebc6ee975d8dc3071c11caeda8b27324e776b9543580aac2db9",
+      "historical": {
+        "branches": {
+          "covered": 33,
+          "total": 33
+        },
+        "statements": {
+          "covered": 33,
+          "total": 33
+        },
+        "lines": {
+          "covered": 27,
+          "total": 27
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 30,
+          "total": 33
+        },
+        "branches": {
+          "covered": 29,
+          "total": 33
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-actions.ts",
+      "freezeSha256": "3fe799e151654de3e34ad2182d0ad49fe335bd2766c594ac6dcd22d2a1a14463",
+      "historical": {
+        "branches": {
+          "covered": 17,
+          "total": 17
+        },
+        "statements": {
+          "covered": 18,
+          "total": 18
+        },
+        "lines": {
+          "covered": 13,
+          "total": 13
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 17,
+          "total": 18
+        },
+        "branches": {
+          "covered": 16,
+          "total": 17
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-assets.ts",
+      "freezeSha256": "9ecff5971e0046e71fd7271608255b4117acdc9e80c7f06ad4203d66f1d3d05f",
+      "historical": {
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "statements": {
+          "covered": 7,
+          "total": 10
+        },
+        "lines": {
+          "covered": 7,
+          "total": 10
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 7,
+          "total": 10
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/core/static-image.ts",
+      "freezeSha256": "7c7754b8de643a6b1e711afe92089c3a476eaa27a241b82daead1784b73da865",
+      "historical": {
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "statements": {
+          "covered": 1,
+          "total": 1
+        },
+        "lines": {
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/buttons.tsx",
+      "freezeSha256": "bcf226c54591582f3e5121374a2c153630025d008018e102465b1e9a938acef4",
+      "historical": {
+        "branches": {
+          "covered": 20,
+          "total": 20
+        },
+        "statements": {
+          "covered": 7,
+          "total": 7
+        },
+        "lines": {
+          "covered": 7,
+          "total": 7
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 5,
+          "total": 7
+        },
+        "branches": {
+          "covered": 14,
+          "total": 20
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/collection-search.ts",
+      "freezeSha256": "601983ce62c8cc35234d526b7373811b2d21f5a84bbb4fa417465f88c8a8f8a0",
+      "historical": {
+        "branches": {
+          "covered": 4,
+          "total": 4
+        },
+        "statements": {
+          "covered": 7,
+          "total": 7
+        },
+        "lines": {
+          "covered": 6,
+          "total": 6
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 7,
+          "total": 7
+        },
+        "branches": {
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/control-types.ts",
+      "freezeSha256": "103068c0100e917a7854f3e5e2e752955164c0d84fbe426719b173590f6996ce",
+      "historical": {
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "privateCursorR1": null,
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/control-utils.ts",
+      "freezeSha256": "3e0d9a0a07e6804fce5f4ef0ad4a4d70f4596a1489b71df5d02e13c976bc22b5",
+      "historical": {
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "statements": {
+          "covered": 3,
+          "total": 3
+        },
+        "lines": {
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 3,
+          "total": 3
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/controls.tsx",
+      "freezeSha256": "939d8aa2041c9defa3a6102cb24c0982bce4c5e7713a4313b695640b4afde0c5",
+      "historical": {
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/feedback.tsx",
+      "freezeSha256": "e8ed75ac61087fbabc7136f9dc6193f1235ebf72242112f748cc1ae83bf070fa",
+      "historical": {
+        "branches": {
+          "covered": 12,
+          "total": 12
+        },
+        "statements": {
+          "covered": 4,
+          "total": 4
+        },
+        "lines": {
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 4,
+          "total": 4
+        },
+        "branches": {
+          "covered": 11,
+          "total": 12
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/field-controls.tsx",
+      "freezeSha256": "2bb4d7c1495ae95d7e16bde61d202dc217b92c887d36d7301cfc653d7fea10ae",
+      "historical": {
+        "branches": {
+          "covered": 8,
+          "total": 8
+        },
+        "statements": {
+          "covered": 12,
+          "total": 12
+        },
+        "lines": {
+          "covered": 12,
+          "total": 12
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 6,
+          "total": 12
+        },
+        "branches": {
+          "covered": 4,
+          "total": 8
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/field-layout.tsx",
+      "freezeSha256": "e8f3a51dd8af02120d337fc74b169f3698e32279b1ab67006468bf011ed93b43",
+      "historical": {
+        "branches": {
+          "covered": 36,
+          "total": 36
+        },
+        "statements": {
+          "covered": 9,
+          "total": 9
+        },
+        "lines": {
+          "covered": 9,
+          "total": 9
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 9,
+          "total": 9
+        },
+        "branches": {
+          "covered": 34,
+          "total": 36
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/icon-button.tsx",
+      "freezeSha256": "ae2feb56206466e7f92bc9d79c0eaa5778381c9e6226a7f1e8344bf5e4c025f5",
+      "historical": {
+        "branches": {
+          "covered": 4,
+          "total": 4
+        },
+        "statements": {
+          "covered": 3,
+          "total": 3
+        },
+        "lines": {
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 3,
+          "total": 3
+        },
+        "branches": {
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/icons.tsx",
+      "freezeSha256": "8f01fb17d611a15fb45677462d18dd3a6f312b5aad577a2db1379ff8db17901a",
+      "historical": {
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "statements": {
+          "covered": 3,
+          "total": 3
+        },
+        "lines": {
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 3,
+          "total": 3
+        },
+        "branches": {
+          "covered": 1,
+          "total": 2
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/index.ts",
+      "freezeSha256": "8771f59f80f47c269803b33b6a314cf3f4aa27d7caa2cee318ca578573b68bc8",
+      "historical": {
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "statements": {
+          "covered": 1,
+          "total": 1
+        },
+        "lines": {
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/status-values.tsx",
+      "freezeSha256": "fef08ab290a004613eed62cb23b0cbdf91e38485af8f72dcfef36724dac72104",
+      "historical": {
+        "branches": {
+          "covered": 8,
+          "total": 8
+        },
+        "statements": {
+          "covered": 5,
+          "total": 5
+        },
+        "lines": {
+          "covered": 5,
+          "total": 5
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 5,
+          "total": 5
+        },
+        "branches": {
+          "covered": 7,
+          "total": 8
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/text-inputs.tsx",
+      "freezeSha256": "aa055a23393b35b472560d4d828c2f31958f185045a79019eef01ea398ad3cc7",
+      "historical": {
+        "branches": {
+          "covered": 18,
+          "total": 18
+        },
+        "statements": {
+          "covered": 6,
+          "total": 6
+        },
+        "lines": {
+          "covered": 6,
+          "total": 6
+        }
+      },
+      "privateCursorR1": {
+        "statements": {
+          "covered": 4,
+          "total": 6
+        },
+        "branches": {
+          "covered": 9,
+          "total": 18
+        }
+      },
+      "note": "private isolation coverage; not official ratchet; Codex must remeasure on main union"
+    }
+  ],
+  "totals": {
+    "sources": 74,
+    "withPrivateHits": 72
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "CTR-C08-34",
+  "productFile": "packages/editor/src/core/tileset-references.ts",
+  "findText": ".filter((reference) => reference.relation.kind === 'stamp-placement-source')",
+  "replaceText": ".filter((reference) => reference.relation.kind === 'stamp-placement-source').map((reference) => ({ ...reference, relation: { kind: 'tileset-use' as const } }))",
+  "testSpec": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+  "expectFullname": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+  "candidateHead": "35c977f8407f0e79fa75421df4771fae67b51f27",
+  "productSha256Candidate": "0e8f1a6ca89ee3569ecb07b4c59564507ea033b4e5b408ccb14121b10a798d28",
+  "patch": "--- a/packages/editor/src/core/tileset-references.ts\n+++ b/packages/editor/src/core/tileset-references.ts\n@@ -92,7 +92,7 @@\n ): ProjectReferenceEdge[] {\n   return referenceIndexForBatch(batch)\n     .referencesTo({ kind: 'stamp', id: stampId })\n-    .filter((reference) => reference.relation.kind === 'stamp-placement-source')\n+    .filter((reference) => reference.relation.kind === 'stamp-placement-source').map((reference) => ({ ...reference, relation: { kind: 'tileset-use' as const } }))\n }\n \n export class TilesetRemovalProof {\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+      "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+      "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+      "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "8f2bb77f09f48119055b816ad6fb2caeaf122819574704cf5099b6d2680729ba",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+      "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+      "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+      "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch"
+    ],
+    "failed": [
+      {
+        "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+        "message": "AssertionError: expected [ 'tileset-use' ] to deeply equal [ 'stamp-placement-source' ]",
+        "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch"
+      ]
+    },
+    "target": {
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+      "message": "AssertionError: expected [ 'tileset-use' ] to deeply equal [ 'stamp-placement-source' ]",
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+      "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+      "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+      "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+      "C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+        "src/core/tileset-references.c08-g02.cursor-r1.test.ts×C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch"
+      ]
+    }
+  },
+  "classification": "net-new-target",
+  "countsTowardNetNewTargets": true,
+  "sensitivityNote": "kind/target exact oracle; mutant rewrites relation.kind to tileset-use while keeping length — old tileset-references.test:387 toHaveLength(1) still green"
+}

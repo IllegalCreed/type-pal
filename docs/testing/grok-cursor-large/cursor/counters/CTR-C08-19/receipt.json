@@ -1,0 +1,122 @@
+{
+  "id": "CTR-C08-19",
+  "productFile": "packages/editor/src/core/stamp-draft.ts",
+  "findText": "while (used.has(`${base}-${suffix}`)) suffix++",
+  "replaceText": "while (used.has(`${base}-${suffix}`)) suffix+=2",
+  "testSpec": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+  "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "6f2c03c4d4453735565c8cc43ca16a02245ced23dd86eb399e6a58feb2cca671",
+  "patch": "--- a/packages/editor/src/core/stamp-draft.ts\n+++ b/packages/editor/src/core/stamp-draft.ts\n@@ -93,7 +93,7 @@\n   const used = new Set(draft.layers.map(({ id }) => id))\n   if (!used.has(base)) return base\n   let suffix = 2\n-  while (used.has(`${base}-${suffix}`)) suffix++\n+  while (used.has(`${base}-${suffix}`)) suffix+=2\n   return `${base}-${suffix}`\n }\n \n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "6423530412b27c47e1533128b5bfc287e9cae70c60a2abc5e65db01a01d477d4",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错"
+    ],
+    "failed": [
+      {
+        "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+        "message": "AssertionError: expected 'roof-4' to be 'roof-3' // Object.is equality",
+        "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错"
+      ]
+    },
+    "target": {
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+      "message": "AssertionError: expected 'roof-4' to be 'roof-3' // Object.is equality",
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+      "C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+        "src/core/stamp-draft.c08-g05.cursor-r1.test.ts×C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错"
+      ]
+    }
+  }
+}

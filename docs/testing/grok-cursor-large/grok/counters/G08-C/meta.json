@@ -1,0 +1,33 @@
+{
+  "id": "G08-C",
+  "batch": "G08",
+  "axis": "二字名的隐藏涨点框不再钳到 3",
+  "source": "packages/game/src/present/battle/draw-battle-settlement.ts",
+  "testFile": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+  "target": "G08-C04",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4",
+    "mutant": "0d6765a71b3539890f091cc9dbd71fb03114ee93cad847543e3f4c0b208711d9",
+    "restored": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 5,
+    "mutantFailed": 1,
+    "restored": 5
+  },
+  "assertionError": "AssertionError: expected 90 to be 70 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-C-rUQaVj/packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts:115:33\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+  "names": 5
+}

@@ -1,0 +1,33 @@
+{
+  "id": "G05-B",
+  "batch": "G05",
+  "axis": "字形清单失败的错误文本不再带 HTTP 状态码",
+  "source": "packages/game/src/present/font.ts",
+  "testFile": "src/present/font-width.grok-r1.test.ts",
+  "target": "G05-B08",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539",
+    "mutant": "c69e7928d8c5a8a1be1626b71883da73548ba42539d302321e5c1e7129ee94f1",
+    "restored": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 14,
+    "mutantFailed": 1,
+    "restored": 14
+  },
+  "assertionError": "AssertionError: expected 'font: fetch glyphs.json failed' to be 'font: fetch glyphs.json failed (404)' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G05-B-VDQen3/packages/game/src/present/font-width.grok-r1.test.ts:105:21\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "fullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+  "names": 14
+}

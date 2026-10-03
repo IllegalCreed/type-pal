@@ -1,0 +1,170 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 13,
+  "numPassedTests": 13,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790870178166,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+          "status": "passed",
+          "title": "G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+          "duration": 1.2978339999999662,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+          "status": "passed",
+          "title": "G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+          "duration": 0.275792000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+          "status": "passed",
+          "title": "G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+          "duration": 0.2908750000000282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+          "status": "passed",
+          "title": "G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+          "duration": 0.2975420000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+          "status": "passed",
+          "title": "G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+          "duration": 0.2702920000000404,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+          "status": "passed",
+          "title": "G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+          "duration": 0.6172080000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+          "status": "passed",
+          "title": "G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+          "duration": 0.5334590000001072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+          "status": "passed",
+          "title": "G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+          "duration": 0.14895799999999326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+          "status": "passed",
+          "title": "G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+          "duration": 1.1447500000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+          "status": "passed",
+          "title": "G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+          "duration": 0.14029200000004494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+          "status": "passed",
+          "title": "G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+          "duration": 0.36629199999993034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)",
+          "status": "passed",
+          "title": "G05-D12 物品框姓名坐标也是占位 (160,30)",
+          "duration": 0.07775000000003729,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
+          "status": "passed",
+          "title": "G05-D13 物品框占位矩形是 (8,80,304,48)",
+          "duration": 0.1163330000000542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790870178726,
+      "endTime": 1790870178732.1162,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G05-D-crWxFH/packages/game/src/present/dialog-box-chrome.grok-r1.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "G08-B",
+  "batch": "G08",
+  "axis": "体力正好等于门槛时合击被判成不健康",
+  "source": "packages/game/src/present/battle/draw-battle-ui.ts",
+  "testFile": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+  "target": "G08-B01",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "fee830027b4d8428e4f4bff98a2f4f4a905c3b98d163642ab088710962aa868f",
+    "mutant": "d95a8ed2d9bd550d01a368371bb391dfe4363e14ff0eb626401ba72368a77c2c",
+    "restored": "fee830027b4d8428e4f4bff98a2f4f4a905c3b98d163642ab088710962aa868f"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 17,
+    "mutantFailed": 1,
+    "restored": 17
+  },
+  "assertionError": "AssertionError: expected 18 to be 2 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-B-xcq8tZ/packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts:255:32\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "fullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+  "names": 17
+}

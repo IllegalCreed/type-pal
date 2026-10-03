@@ -1,0 +1,115 @@
+{
+  "port": 6013,
+  "baseUrl": "http://127.0.0.1:6013/",
+  "flows": [
+    {
+      "id": "FLOW-R01",
+      "category": "resource",
+      "contract": "dom-filter-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R01"
+    },
+    {
+      "id": "FLOW-R02",
+      "category": "resource",
+      "contract": "select-purpose-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R02"
+    },
+    {
+      "id": "FLOW-R03",
+      "category": "resource",
+      "contract": "focus-object-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R03"
+    },
+    {
+      "id": "FLOW-R04",
+      "category": "resource",
+      "contract": "canvas2d-pixel-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R04"
+    },
+    {
+      "id": "FLOW-R05",
+      "category": "resource",
+      "contract": "tileset-selection-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R05"
+    },
+    {
+      "id": "FLOW-R06",
+      "category": "resource",
+      "contract": "missing-asset-warning-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R06"
+    },
+    {
+      "id": "FLOW-DS01",
+      "category": "design-system",
+      "contract": "reorder-order-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS01"
+    },
+    {
+      "id": "FLOW-DS02",
+      "category": "design-system",
+      "contract": "select-value-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS02"
+    },
+    {
+      "id": "FLOW-DS03",
+      "category": "design-system",
+      "contract": "number-escape-draft-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS03"
+    },
+    {
+      "id": "FLOW-DS04",
+      "category": "design-system",
+      "contract": "virtual-scroll-oracle",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS04"
+    },
+    {
+      "id": "FLOW-AR01",
+      "category": "async-fail-recover",
+      "contract": "upload-invalid-then-recover",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-AR01"
+    },
+    {
+      "id": "FLOW-AR02",
+      "category": "async-fail-recover",
+      "contract": "decode-fail-then-switch-asset",
+      "pass": true,
+      "status": "passed",
+      "consoleAttested": true,
+      "dir": "file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-AR02"
+    }
+  ],
+  "note": "index rebuilt from per-flow evidence after CURSOR_FLOW_ONLY DS01/DS02 re-run"
+}

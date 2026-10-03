@@ -1,0 +1,1334 @@
+{
+  "date": "2026-10-03",
+  "status": "review; formal gates and CI pending",
+  "actualTargetMain": "8efe048610fab7aa4a257a716b91ece30194eba8",
+  "versions": {
+    "content": 22,
+    "save": 11
+  },
+  "scope": "finite existing deliveries, not a renewed net-new quota",
+  "packageSourcesOnlyTestsAndFixtures": true,
+  "authors": [
+    {
+      "id": "grok-large",
+      "root": "/Users/zhangxu/.codex/worktrees/grok-render-host-large/type-pal",
+      "branch": "codex/grok-render-host-large-r1",
+      "head": "f4665f7ac51b80cae5620e4c08bd62f607881f73"
+    },
+    {
+      "id": "cursor-large",
+      "root": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal",
+      "branch": "codex/cursor-asset-ui-large-r1",
+      "head": "fefab931c4174f0755e0d7766a8757490194a067"
+    },
+    {
+      "id": "grok-medium",
+      "root": "/Users/zhangxu/.codex/worktrees/grok-boot-medium/type-pal",
+      "branch": "codex/grok-boot-medium-r1",
+      "head": "d03cba2c23c858526bc514a5389347177794861c"
+    },
+    {
+      "id": "cursor-medium",
+      "root": "/Users/zhangxu/.codex/worktrees/cursor-script-preview-medium/type-pal",
+      "branch": "codex/cursor-script-preview-medium-r1",
+      "head": "ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685"
+    },
+    {
+      "id": "kimi-medium-1",
+      "root": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal",
+      "branch": "codex/kimi-current-continuation-medium-r1",
+      "head": "43a3849bae2cbe02c43a28287fb0945e5d03ac4f"
+    },
+    {
+      "id": "kimi-medium-2",
+      "root": "/Users/zhangxu/.codex/worktrees/kimi-script-lifecycle-medium/type-pal",
+      "branch": "codex/kimi-script-lifecycle-medium-r1",
+      "head": "42b3d303de3f2178e249b4ccbabf967e0affd194"
+    },
+    {
+      "id": "grok-audit",
+      "root": "/Users/zhangxu/.codex/worktrees/grok-write-plan-audit-small/type-pal",
+      "branch": "codex/grok-write-plan-audit-small-r1",
+      "head": "3d5fbce3301d4f8576ca3c85c6027928a9a4159d"
+    },
+    {
+      "id": "kimi-audit",
+      "root": "/Users/zhangxu/.codex/worktrees/kimi-opening-load-audit-small/type-pal",
+      "branch": "codex/kimi-opening-load-audit-small-r1",
+      "head": "7faa9e7b2df4a15c3d863063b5a53a9fe1ce319d"
+    },
+    {
+      "id": "lmn-review",
+      "root": "/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal",
+      "branch": "codex/glm-lmn-acceptance-r1",
+      "head": "9ae1116ec01308ef29f0b08c98f29ab1898ad034"
+    },
+    {
+      "id": "medium-review",
+      "root": "/Users/zhangxu/.codex/worktrees/medium-test-dispatch/type-pal",
+      "branch": "codex/test-medium-triple-r1",
+      "head": "26bac60025703a955456356904ef2f3a513d4324"
+    },
+    {
+      "id": "kimi-review",
+      "root": "/Users/zhangxu/.codex/worktrees/kimi-lifecycle-review/type-pal",
+      "branch": "codex/kimi-lifecycle-review-r1",
+      "head": "5db1f52f73df48f40b4210cdb6692cbb19dacd5b"
+    }
+  ],
+  "kgcFiles": [
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "bace57ede593f73b6d8f1ce0fd7dd6343d597481fd690a1453b7081e9b4f5c91",
+      "currentSha256": "bace57ede593f73b6d8f1ce0fd7dd6343d597481fd690a1453b7081e9b4f5c91",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "d3985df5421e4c96c7fab8ef416cfec9ba02ed9f898a29f69925ea0854bc0b2f",
+      "currentSha256": "d3985df5421e4c96c7fab8ef416cfec9ba02ed9f898a29f69925ea0854bc0b2f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "d629d646370479db986f9359e6e9352654c04c17ba604c7c2eb012ac4c91d623",
+      "currentSha256": "d629d646370479db986f9359e6e9352654c04c17ba604c7c2eb012ac4c91d623",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "sha256": "fdb1d21b8ad299fe467687b80e1ea0ac62dd15691e0483d14334224908044c5c",
+      "currentSha256": "fdb1d21b8ad299fe467687b80e1ea0ac62dd15691e0483d14334224908044c5c",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "sha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "currentSha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "sha256": "027f7e05abe6b2a55ee599a7538e679f8f2b7685500e803f81352e23f2764f12",
+      "currentSha256": "027f7e05abe6b2a55ee599a7538e679f8f2b7685500e803f81352e23f2764f12",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "sha256": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+      "currentSha256": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "sha256": "ab7d56fcf5fd750022f90c8a1d340699a32f5478badbade72b5f86e9f225a4cd",
+      "currentSha256": "ab7d56fcf5fd750022f90c8a1d340699a32f5478badbade72b5f86e9f225a4cd",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "sha256": "ced4c8d869c1cc1ebf50f4d53dff06d0de95210915db002e663de7b26242f9af",
+      "currentSha256": "ced4c8d869c1cc1ebf50f4d53dff06d0de95210915db002e663de7b26242f9af",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "sha256": "b19eef15c1b3e7e764867fdf9c514fbfa7e640f86dd7468a2454f3dd477e4cdf",
+      "currentSha256": "b19eef15c1b3e7e764867fdf9c514fbfa7e640f86dd7468a2454f3dd477e4cdf",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "sha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "currentSha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "sha256": "0191a2b06f9f36c50d4cf2cb673a8a83ea84d19e021dea35d2d0f188c0347a44",
+      "currentSha256": "0191a2b06f9f36c50d4cf2cb673a8a83ea84d19e021dea35d2d0f188c0347a44",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "63a6c093cbdbb80126fe87416e9ee6027d1ded34dc6e9ef1d3f0d964e68b332d",
+      "currentSha256": "63a6c093cbdbb80126fe87416e9ee6027d1ded34dc6e9ef1d3f0d964e68b332d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "a8e802add1a27864eca63125edf70f8fedc7753a5855a3fca2032a9586b663b8",
+      "currentSha256": "a8e802add1a27864eca63125edf70f8fedc7753a5855a3fca2032a9586b663b8",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "sha256": "1e8ba16a1415cb2f69b6ff5c656a11b8fa30b39a1d2f1bde3e795d9d0318bb8b",
+      "currentSha256": "1e8ba16a1415cb2f69b6ff5c656a11b8fa30b39a1d2f1bde3e795d9d0318bb8b",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "sha256": "0213a141284d181434071af50b2e62952f72fb12a53b876bad2dbd7cfdeb15c6",
+      "currentSha256": "0213a141284d181434071af50b2e62952f72fb12a53b876bad2dbd7cfdeb15c6",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "d7537ef3bfe821968b9687b785f12c3389087652866a178412168fbdf669d06d",
+      "currentSha256": "d7537ef3bfe821968b9687b785f12c3389087652866a178412168fbdf669d06d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "25303de1be6aa2319cc6bd3cbd7843153bf9ab12ca97a5c974f08c0b95e1df49",
+      "currentSha256": "25303de1be6aa2319cc6bd3cbd7843153bf9ab12ca97a5c974f08c0b95e1df49",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "sha256": "67c5cbf6ba690d284dfb463b6f110a704d88ca8a915fb661c99c74432185315f",
+      "currentSha256": "67c5cbf6ba690d284dfb463b6f110a704d88ca8a915fb661c99c74432185315f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882",
+      "currentSha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "currentSha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "sha256": "7e9733473feee765342a7e0d637db2f42d2a6d9168019ccaf92bc3d94171b6de",
+      "currentSha256": "7e9733473feee765342a7e0d637db2f42d2a6d9168019ccaf92bc3d94171b6de",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "sha256": "b977880298083a0b2e4a77c21c4e77af683f2b56a6799ceb23b98176fcd29b4f",
+      "currentSha256": "b977880298083a0b2e4a77c21c4e77af683f2b56a6799ceb23b98176fcd29b4f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "97f87093a1e7f513759ab02ba5e2dcb7eb829b6dca1f061f8755d0692c3d86f3",
+      "currentSha256": "97f87093a1e7f513759ab02ba5e2dcb7eb829b6dca1f061f8755d0692c3d86f3",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "03b46c33d1868763a634c8ad4607049f8f493c1ece65325db570e02853c5fa36",
+      "currentSha256": "03b46c33d1868763a634c8ad4607049f8f493c1ece65325db570e02853c5fa36",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "sha256": "8dc479efefc2d143cf70cdfe4a59d271140bbb0c9272d84006eb7f4e8a6905b4",
+      "currentSha256": "8dc479efefc2d143cf70cdfe4a59d271140bbb0c9272d84006eb7f4e8a6905b4",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "0815a6faf1eb47463692ee25ce81a4e758f6c034f4223e03c38aa5227675a268",
+      "currentSha256": "0815a6faf1eb47463692ee25ce81a4e758f6c034f4223e03c38aa5227675a268",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "sha256": "53f62ba005536b9017a6fe0f81e688827b42516ad0fcba542d57a665aa34adcc",
+      "currentSha256": "53f62ba005536b9017a6fe0f81e688827b42516ad0fcba542d57a665aa34adcc",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1f8640fe2c9d56359fb3161eb6a427061915b1bbd8366192d5b135d1e6c4ef4e",
+      "currentSha256": "1f8640fe2c9d56359fb3161eb6a427061915b1bbd8366192d5b135d1e6c4ef4e",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e0ee06cde04cd4ed675ab60a923ee78e9f5d1d56aa3d70c138036d6bf30f390d",
+      "currentSha256": "e0ee06cde04cd4ed675ab60a923ee78e9f5d1d56aa3d70c138036d6bf30f390d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "45fca59caf1da412bdf310da984721d8e94f4da5e7bfcd20f7e5350b8e1890e1",
+      "currentSha256": "45fca59caf1da412bdf310da984721d8e94f4da5e7bfcd20f7e5350b8e1890e1",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "sha256": "7a66896feeafa7c18cf80de459dbc464a7b60f7b94dd589cab97e643da891587",
+      "currentSha256": "7a66896feeafa7c18cf80de459dbc464a7b60f7b94dd589cab97e643da891587",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "13aa503486dd427bc29a692b442d504903eaf7e2f3f7c20e57401ec8c08ff16d",
+      "currentSha256": "13aa503486dd427bc29a692b442d504903eaf7e2f3f7c20e57401ec8c08ff16d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "5b746c7a8aaab328604e38401a3448170ca59d0e6e31137030346bf14e93efca",
+      "currentSha256": "5b746c7a8aaab328604e38401a3448170ca59d0e6e31137030346bf14e93efca",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "sha256": "c17eee20181a2aa348aaafd5812e4dd9d3185cc568e62f06a0c2068c6886791e",
+      "currentSha256": "c17eee20181a2aa348aaafd5812e4dd9d3185cc568e62f06a0c2068c6886791e",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "sha256": "06be431b333ea02d4bbd3033efd7f2381bf44135dd6ea8913caeb1a6542e8c6d",
+      "currentSha256": "06be431b333ea02d4bbd3033efd7f2381bf44135dd6ea8913caeb1a6542e8c6d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "sha256": "9437d966916ac756adf74241ae0034f87bbb83081a436e309781160f2f664e33",
+      "currentSha256": "9437d966916ac756adf74241ae0034f87bbb83081a436e309781160f2f664e33",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+      "currentSha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65",
+      "currentSha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "sha256": "26f675c30e5756de55797b9da3ea57d64aa913fd411401bd616a95673b2fdb3f",
+      "currentSha256": "26f675c30e5756de55797b9da3ea57d64aa913fd411401bd616a95673b2fdb3f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "sha256": "f17a87fbedf5c6e3261266376a3e9aa6cb003a0c6c5e240abfd48b7742eb1f10",
+      "currentSha256": "f17a87fbedf5c6e3261266376a3e9aa6cb003a0c6c5e240abfd48b7742eb1f10",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokLarge",
+      "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "7599c2960f8d799b5acfd13550ede6d96934f1dcac8ec9853a25fba5d0bc09c0",
+      "currentSha256": "7599c2960f8d799b5acfd13550ede6d96934f1dcac8ec9853a25fba5d0bc09c0",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx",
+      "sha256": "9a33383e0c12434800e16f3371c41669948f25f018436382d444580e73cbbdf5",
+      "currentSha256": "9a33383e0c12434800e16f3371c41669948f25f018436382d444580e73cbbdf5",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts",
+      "sha256": "184ac62a7c7e14886cd45391e20741d7ec04a0c2efdd6f3bad435f94c9cb693a",
+      "currentSha256": "184ac62a7c7e14886cd45391e20741d7ec04a0c2efdd6f3bad435f94c9cb693a",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts",
+      "sha256": "5d9fe768b3825cbb1cca4c848ea8ca3fa18b6bcc89de749b4414407ae2929391",
+      "currentSha256": "5d9fe768b3825cbb1cca4c848ea8ca3fa18b6bcc89de749b4414407ae2929391",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx",
+      "sha256": "15bb284dc8eaadc00d9d522709ccaa7e7f5cb99ad536b6b5090057e2fe5ac8a5",
+      "currentSha256": "15bb284dc8eaadc00d9d522709ccaa7e7f5cb99ad536b6b5090057e2fe5ac8a5",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "sha256": "0d613ac81ae53b438ff58ba144dbc86ddd367a484629ea6ab90ed69cdbbf49c6",
+      "currentSha256": "0d613ac81ae53b438ff58ba144dbc86ddd367a484629ea6ab90ed69cdbbf49c6",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts",
+      "sha256": "6543df8351a91dabe1e508e459c76488260a993c46abc044b6431e3b2c8180f9",
+      "currentSha256": "6543df8351a91dabe1e508e459c76488260a993c46abc044b6431e3b2c8180f9",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c05-action-harness.tsx",
+      "sha256": "703b4f489bedff71460d9df37eaf5115bb06b01e216b08276eff07665d0f5b1d",
+      "currentSha256": "703b4f489bedff71460d9df37eaf5115bb06b01e216b08276eff07665d0f5b1d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts",
+      "sha256": "9a000344ba9b975f2222aebba3566656f5f1d2b074c42b4e003433c69d368001",
+      "currentSha256": "9a000344ba9b975f2222aebba3566656f5f1d2b074c42b4e003433c69d368001",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c06-fire-fixtures.ts",
+      "sha256": "52dde228fe08c3eb4c69c4090abafcd22aecae4a2a6d299bba0bcd53a684cfe0",
+      "currentSha256": "beceb97715ed8cb39af7cdf77e9ff5610d86bef3d15a8f67bbc1d283d1c66182",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts",
+      "sha256": "177843b3723804eee81eb6d770507043f1c97cbcbe11301d6d75d51557558dcb",
+      "currentSha256": "177843b3723804eee81eb6d770507043f1c97cbcbe11301d6d75d51557558dcb",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx",
+      "sha256": "9ffd106e46d30d1d71071ac72d63cd5b7d57963f601a43d73c590c8599e9e065",
+      "currentSha256": "9ffd106e46d30d1d71071ac72d63cd5b7d57963f601a43d73c590c8599e9e065",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c08-tileset-harness.tsx",
+      "sha256": "9109cc3922e4bbfa26e0bcfba893b72ab880ba60f0bbbc2fdbabb4ecc45e815f",
+      "currentSha256": "9109cc3922e4bbfa26e0bcfba893b72ab880ba60f0bbbc2fdbabb4ecc45e815f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c09-audio-harness.tsx",
+      "sha256": "0c7c6cc7dcd24f7f3713a87d3325dfa16a2e83ffda17ff45a8888924104b6b34",
+      "currentSha256": "0c7c6cc7dcd24f7f3713a87d3325dfa16a2e83ffda17ff45a8888924104b6b34",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c09-fixtures.ts",
+      "sha256": "cb60b189a8e1e77fd719523b8e7b1b1d8e289c86d81aacb96a4eb654e2ea077c",
+      "currentSha256": "cb60b189a8e1e77fd719523b8e7b1b1d8e289c86d81aacb96a4eb654e2ea077c",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/canvas-pixels.ts",
+      "sha256": "8eff315b1af6ae07b13e22cc80cd82c39b6c06862fd7e2b19f8aa60be1c052bb",
+      "currentSha256": "8eff315b1af6ae07b13e22cc80cd82c39b6c06862fd7e2b19f8aa60be1c052bb",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/design-system-harness.tsx",
+      "sha256": "4a26b155029247f0dfbb5cbd528c3a0c65d20907450901ce2177ce386680cbdf",
+      "currentSha256": "4a26b155029247f0dfbb5cbd528c3a0c65d20907450901ce2177ce386680cbdf",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx",
+      "sha256": "f130be9cd3ad81e7a68118da2bf36c3190a87e91511aa80cd362e84294d6c004",
+      "currentSha256": "f130be9cd3ad81e7a68118da2bf36c3190a87e91511aa80cd362e84294d6c004",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/entity-page-animation-harness.tsx",
+      "sha256": "d447361532fe7b5896dfebd75e816da760aba6f9a41b211f3bbb6377a530457b",
+      "currentSha256": "d447361532fe7b5896dfebd75e816da760aba6f9a41b211f3bbb6377a530457b",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/frame-editor-harness.tsx",
+      "sha256": "447b3c24a8c3732cd173260a67f4b961e55954166955c59c96522e9ba8865489",
+      "currentSha256": "447b3c24a8c3732cd173260a67f4b961e55954166955c59c96522e9ba8865489",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/frame-editor-ports.ts",
+      "sha256": "415ffa20164eaf6329b0d2973eb4e2b9c576eb2c2b870b24405fc3ac56000d90",
+      "currentSha256": "415ffa20164eaf6329b0d2973eb4e2b9c576eb2c2b870b24405fc3ac56000d90",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/image-ports.ts",
+      "sha256": "104eef848b3a1e082e224bfe48ae97c585893af0805eef5c1ca045d1e3fa761f",
+      "currentSha256": "104eef848b3a1e082e224bfe48ae97c585893af0805eef5c1ca045d1e3fa761f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/image-tab-harness.tsx",
+      "sha256": "d83235cf5261c2ff9f4edd4dac5ac17a0d3a37459746d913e11d4cff6977b74a",
+      "currentSha256": "d83235cf5261c2ff9f4edd4dac5ac17a0d3a37459746d913e11d4cff6977b74a",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "sha256": "bf9a160a7e043393f9c0c9ab7f615e35905366e0f4849303c474857531f161e2",
+      "currentSha256": "bf9a160a7e043393f9c0c9ab7f615e35905366e0f4849303c474857531f161e2",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx",
+      "sha256": "1895c6a43012147233477b368e4416bbebbacb4704c7d2786431b43f3a3798bd",
+      "currentSha256": "1895c6a43012147233477b368e4416bbebbacb4704c7d2786431b43f3a3798bd",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx",
+      "sha256": "66afc2727f3175631e10a5b766df72553b5bb17d19bdc0bea90d77f4eef5c1cc",
+      "currentSha256": "66afc2727f3175631e10a5b766df72553b5bb17d19bdc0bea90d77f4eef5c1cc",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts",
+      "sha256": "e7d1580d84771445a3d230f40a0a6c598ff847adcbbae33d13cc133d23c22aa2",
+      "currentSha256": "e7d1580d84771445a3d230f40a0a6c598ff847adcbbae33d13cc133d23c22aa2",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/stage-ports.ts",
+      "sha256": "e110c2e118dccf17cb5f728e81d15e1c3c3b31eef7fed544ed6d0d51f97c7702",
+      "currentSha256": "e110c2e118dccf17cb5f728e81d15e1c3c3b31eef7fed544ed6d0d51f97c7702",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/timing.ts",
+      "sha256": "6f639c439118bfae4d01c487283ad2b2d928ba361375262a770f44a4f9ca3daa",
+      "currentSha256": "6f639c439118bfae4d01c487283ad2b2d928ba361375262a770f44a4f9ca3daa",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+      "sha256": "a4884616e7a50fa76ad96141c15de517517a75facde6a356bdcac70e3ab90f08",
+      "currentSha256": "a4884616e7a50fa76ad96141c15de517517a75facde6a356bdcac70e3ab90f08",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts",
+      "sha256": "87e93524c185cd18ae45ee1b33afaa569a48be3a0f9066828d618d0ddbda7aa9",
+      "currentSha256": "87e93524c185cd18ae45ee1b33afaa569a48be3a0f9066828d618d0ddbda7aa9",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts",
+      "sha256": "639ac15f013f63b0a8b2c4031b7d501fb3668b15b28b62480e97cb2d9dbe87b5",
+      "currentSha256": "639ac15f013f63b0a8b2c4031b7d501fb3668b15b28b62480e97cb2d9dbe87b5",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "sha256": "9189c196022cfebc80be3fa75860e8f0c3976e72e71c1f6d5c890843b96a1f69",
+      "currentSha256": "9189c196022cfebc80be3fa75860e8f0c3976e72e71c1f6d5c890843b96a1f69",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "sha256": "a804d1006a441cc4a6c98edddf29949383fe71d9f1e6396047d9b21548bf1b54",
+      "currentSha256": "a804d1006a441cc4a6c98edddf29949383fe71d9f1e6396047d9b21548bf1b54",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "sha256": "991abc5c6d1fc0a5de4ceb527a3b786b92c00a06d75bcdf5751286236c4a11a4",
+      "currentSha256": "991abc5c6d1fc0a5de4ceb527a3b786b92c00a06d75bcdf5751286236c4a11a4",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "sha256": "010faed23d4553414506192f0efa5ffa9d9f0671a95f34ee25e1bf47918b59ba",
+      "currentSha256": "010faed23d4553414506192f0efa5ffa9d9f0671a95f34ee25e1bf47918b59ba",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "sha256": "670da8d40be3a26e001614fdaf3d2c4c7509d463ce7285172581ff531f5aa116",
+      "currentSha256": "670da8d40be3a26e001614fdaf3d2c4c7509d463ce7285172581ff531f5aa116",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "sha256": "612e46b9d529e56a5e429b5c4b3a8d435e9e7450b28403a0f94d1a71f89e402d",
+      "currentSha256": "612e46b9d529e56a5e429b5c4b3a8d435e9e7450b28403a0f94d1a71f89e402d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "sha256": "27368c0422c5c49574d0b692a6c28948666295e9d64e0a5edade232aa5071666",
+      "currentSha256": "27368c0422c5c49574d0b692a6c28948666295e9d64e0a5edade232aa5071666",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "sha256": "9bb591110f102d5f19f342884b96f387e3797bff5895c6e124c2f37f066af2bc",
+      "currentSha256": "9bb591110f102d5f19f342884b96f387e3797bff5895c6e124c2f37f066af2bc",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "sha256": "3a443648e65192962030b1dc51b8711ace6490ac3ddf142c45edbc52a2cbc0c7",
+      "currentSha256": "3a443648e65192962030b1dc51b8711ace6490ac3ddf142c45edbc52a2cbc0c7",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "sha256": "eb63fbeb12d2ed0a6641389a565fc2ffc9dd65bb49330cfb74a96f9adcb3884f",
+      "currentSha256": "eb63fbeb12d2ed0a6641389a565fc2ffc9dd65bb49330cfb74a96f9adcb3884f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "sha256": "372fb003d089ada733d88b2a36cfa1be5e36bd2b43abff414ae297160542200d",
+      "currentSha256": "372fb003d089ada733d88b2a36cfa1be5e36bd2b43abff414ae297160542200d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "sha256": "f5343f7adea1cb64880fa738cc79d9383bbe1ca4136a7c5443482b7b2b3f6e85",
+      "currentSha256": "f5343f7adea1cb64880fa738cc79d9383bbe1ca4136a7c5443482b7b2b3f6e85",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "sha256": "a8a3e50948972202e35d0af77e2e9e4765b03b0ff111a2cadef409325cee470f",
+      "currentSha256": "a8a3e50948972202e35d0af77e2e9e4765b03b0ff111a2cadef409325cee470f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "sha256": "a2fe675b2523bac2c5b4d53c129e393e68b86f04765241a3aeee30c9ade45cec",
+      "currentSha256": "a2fe675b2523bac2c5b4d53c129e393e68b86f04765241a3aeee30c9ade45cec",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "sha256": "7dafdc7b662605403e5bb85f00be0a21048153ee9ece20fb6d31f4b39bd88f40",
+      "currentSha256": "7dafdc7b662605403e5bb85f00be0a21048153ee9ece20fb6d31f4b39bd88f40",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "sha256": "b9053476a718caa672548d4ac30cd7ead23d2340b25e87b5fddb129127693f14",
+      "currentSha256": "b9053476a718caa672548d4ac30cd7ead23d2340b25e87b5fddb129127693f14",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "sha256": "ef1cf7c9b4f8f86a3080278cef4362c56fffbbef8a3ef8d0aec286cfaf241eb4",
+      "currentSha256": "ef1cf7c9b4f8f86a3080278cef4362c56fffbbef8a3ef8d0aec286cfaf241eb4",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "sha256": "ab40a7520172c4592e5f1d8ffb1273691bd0c6d80ea1c256fbbe783b6ed09fbd",
+      "currentSha256": "ab40a7520172c4592e5f1d8ffb1273691bd0c6d80ea1c256fbbe783b6ed09fbd",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "sha256": "1c2dcee1963b43cc2418ffd2b80bf2303dc6299cb1f6839f97a7df9d5c4ce54a",
+      "currentSha256": "1c2dcee1963b43cc2418ffd2b80bf2303dc6299cb1f6839f97a7df9d5c4ce54a",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "sha256": "c473318d8f1fd8febb7e54616d36768d011ee9676190452012b473172b71943f",
+      "currentSha256": "c473318d8f1fd8febb7e54616d36768d011ee9676190452012b473172b71943f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "sha256": "20c35421fb84ce9924fd20e0b3b60a8b05b0cb8d9f9a6482734a579a497c0ff4",
+      "currentSha256": "20c35421fb84ce9924fd20e0b3b60a8b05b0cb8d9f9a6482734a579a497c0ff4",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "sha256": "04a0a538c82763f26646ef97122a78742c8784a9a7acc8b780af09c5ab42892d",
+      "currentSha256": "04a0a538c82763f26646ef97122a78742c8784a9a7acc8b780af09c5ab42892d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "sha256": "bc210cbddb218b027dd01c9473db139eab3d46d07ddcac1832d90fed4614009f",
+      "currentSha256": "bc210cbddb218b027dd01c9473db139eab3d46d07ddcac1832d90fed4614009f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "sha256": "7860434cbecaf7837afb2e23e7fbf96a6f0f6421c455f9e7db4f4de17de5ac21",
+      "currentSha256": "7860434cbecaf7837afb2e23e7fbf96a6f0f6421c455f9e7db4f4de17de5ac21",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "sha256": "3f223e453af72bfa260953f74dc8dbc4dfce1042ab1abaa0032782121cc77a05",
+      "currentSha256": "3f223e453af72bfa260953f74dc8dbc4dfce1042ab1abaa0032782121cc77a05",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "sha256": "bf255fe5ab13c1d2b3cc5bd06130190f2260f063ece71ecad5f1217678fff708",
+      "currentSha256": "bf255fe5ab13c1d2b3cc5bd06130190f2260f063ece71ecad5f1217678fff708",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "sha256": "6e4fbdf15f891ad7d389442236ed933d549d168a14de3cb7123fd731d70402cc",
+      "currentSha256": "6e4fbdf15f891ad7d389442236ed933d549d168a14de3cb7123fd731d70402cc",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "sha256": "e784719c4d73f37127870bebe442e312b0141e39297bd5e538735f11b741134a",
+      "currentSha256": "e784719c4d73f37127870bebe442e312b0141e39297bd5e538735f11b741134a",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "sha256": "2f1e7b025ce13d966ed8c09020c63c073b8998440a9e4e4dde04bc988e78f839",
+      "currentSha256": "2f1e7b025ce13d966ed8c09020c63c073b8998440a9e4e4dde04bc988e78f839",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "sha256": "a097720c0963087e2e21dd21e633907e732cd5e8f1a2454cd802de0ec93b7820",
+      "currentSha256": "a097720c0963087e2e21dd21e633907e732cd5e8f1a2454cd802de0ec93b7820",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "sha256": "822fd4e14d7be06fd39a88e20cbb5a8a5d882d3523167dc243c1fa549cb7194e",
+      "currentSha256": "822fd4e14d7be06fd39a88e20cbb5a8a5d882d3523167dc243c1fa549cb7194e",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "sha256": "00f2f4acc53349cc5f0d9a71254ecfd3777c37e41325da8877d2d81bdb80bad5",
+      "currentSha256": "00f2f4acc53349cc5f0d9a71254ecfd3777c37e41325da8877d2d81bdb80bad5",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "sha256": "28521e58d1fba22dd7a613711be98a9121e97a24c9cba728da4f0dca84480a7c",
+      "currentSha256": "28521e58d1fba22dd7a613711be98a9121e97a24c9cba728da4f0dca84480a7c",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "sha256": "981f4057ab88f5b107fbf004d42040279b1afda3cdfa99d001b2df2eb2231d1d",
+      "currentSha256": "981f4057ab88f5b107fbf004d42040279b1afda3cdfa99d001b2df2eb2231d1d",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "sha256": "c23bca53b7c572780db9f95ff8aa0f89818a9f1faf94c2de1f86869743e974ed",
+      "currentSha256": "c23bca53b7c572780db9f95ff8aa0f89818a9f1faf94c2de1f86869743e974ed",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "sha256": "8250e115011fc60ccf976af2510305147a8dd982c97868ed4a5181020c15b1e1",
+      "currentSha256": "8250e115011fc60ccf976af2510305147a8dd982c97868ed4a5181020c15b1e1",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "sha256": "4aab9febee440858c8f123b6dfe747e6282a03b3b256d6a56de2cdf56f993a6f",
+      "currentSha256": "4aab9febee440858c8f123b6dfe747e6282a03b3b256d6a56de2cdf56f993a6f",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "sha256": "7694f71f19591d0954796d9be4a955ae6f901026702ff3a437da93864410c4fa",
+      "currentSha256": "7694f71f19591d0954796d9be4a955ae6f901026702ff3a437da93864410c4fa",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "sha256": "68ec420c0f5d0bd748f4de11652cc160388d3ffe339396323f56aab4bdd265f5",
+      "currentSha256": "68ec420c0f5d0bd748f4de11652cc160388d3ffe339396323f56aab4bdd265f5",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "sha256": "353685e0795f56d7695dd1c4b6dc29b76cf97021a5103629b8bea8b64d21a01a",
+      "currentSha256": "353685e0795f56d7695dd1c4b6dc29b76cf97021a5103629b8bea8b64d21a01a",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "sha256": "d2f5efba7cea8f3b74b13b218e8f2947550d9aeadca04dc48cd7e9cedf6894ca",
+      "currentSha256": "d2f5efba7cea8f3b74b13b218e8f2947550d9aeadca04dc48cd7e9cedf6894ca",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "sha256": "d17b8b461bdb21f4f22c41133395b96f4d044170a3887ab1515d971cd7fef114",
+      "currentSha256": "d17b8b461bdb21f4f22c41133395b96f4d044170a3887ab1515d971cd7fef114",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "sha256": "fd8df1167f39da0f8090ec1ccc35e613c0efbfaa19991c5be8287808c551cc9a",
+      "currentSha256": "fd8df1167f39da0f8090ec1ccc35e613c0efbfaa19991c5be8287808c551cc9a",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "sha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e",
+      "currentSha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "sha256": "f7eefb50e2404a82120551eb99a81d7f1ec7df939bc6d9eab0ee24e5207354e2",
+      "currentSha256": "f7eefb50e2404a82120551eb99a81d7f1ec7df939bc6d9eab0ee24e5207354e2",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "sha256": "92ccbf0bfe1e28a2a8ac13065ed694ce861655fc77633f113b7dc65117088608",
+      "currentSha256": "92ccbf0bfe1e28a2a8ac13065ed694ce861655fc77633f113b7dc65117088608",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "sha256": "0339619a2ad3aaa7854d14e68dc3591f1d6d45523a7d692d0299c694b1c77549",
+      "currentSha256": "0339619a2ad3aaa7854d14e68dc3591f1d6d45523a7d692d0299c694b1c77549",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "sha256": "90de1bf5759864150f345c2f1ff7d437236d42650007ce380eff74c030ccca99",
+      "currentSha256": "90de1bf5759864150f345c2f1ff7d437236d42650007ce380eff74c030ccca99",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "sha256": "ab503def3c429f6ea8afc47baf5f167f52dd8dcd8b607a2e1b69930c304fbe99",
+      "currentSha256": "ab503def3c429f6ea8afc47baf5f167f52dd8dcd8b607a2e1b69930c304fbe99",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "sha256": "3035671cc22f4605e4af67843e4871c15a97f33feb31f446de044eca4fb2a143",
+      "currentSha256": "3035671cc22f4605e4af67843e4871c15a97f33feb31f446de044eca4fb2a143",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "sha256": "0173b5e9f845a7187c7ff33660a256927379c16b7b7c6ea123da2a6245c59593",
+      "currentSha256": "0173b5e9f845a7187c7ff33660a256927379c16b7b7c6ea123da2a6245c59593",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "sha256": "620d8de7c8f41bec9fb6d0fd70a39d3a42381e91c9167b3a489a1b9abd16bba1",
+      "currentSha256": "620d8de7c8f41bec9fb6d0fd70a39d3a42381e91c9167b3a489a1b9abd16bba1",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "sha256": "0d671ec7997ae03c4a118e9cbe5ac3f4a3d0ee2e369adf93097c81949ae80359",
+      "currentSha256": "0d671ec7997ae03c4a118e9cbe5ac3f4a3d0ee2e369adf93097c81949ae80359",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "sha256": "51e9822df711b24bedc4b9152488059eae05b0596bc891e9a53bc54cc1ccd9de",
+      "currentSha256": "51e9822df711b24bedc4b9152488059eae05b0596bc891e9a53bc54cc1ccd9de",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "sha256": "5564cb598d477fec19dfedfb60a86a4143aab929616db0eb16f36e98c9a2061e",
+      "currentSha256": "5564cb598d477fec19dfedfb60a86a4143aab929616db0eb16f36e98c9a2061e",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "sha256": "b26b5613dfa43da6fa2797eb93a7ed89ac9ed37ba00e271c098a2cacdd7eb1b7",
+      "currentSha256": "b26b5613dfa43da6fa2797eb93a7ed89ac9ed37ba00e271c098a2cacdd7eb1b7",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "sha256": "0ee5c97146837f1c9da8bebbe2ba31dd41b881c7046616e1d77635dce8701208",
+      "currentSha256": "0ee5c97146837f1c9da8bebbe2ba31dd41b881c7046616e1d77635dce8701208",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "sha256": "756d96b39f3b530d4f139c50428d6c39303b99258672c5fe6532591b83649857",
+      "currentSha256": "756d96b39f3b530d4f139c50428d6c39303b99258672c5fe6532591b83649857",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "sha256": "e9914507ea386bf1a90582a0c3f0c7657712ba5b972fd6ed52c4d3dfcce3cb95",
+      "currentSha256": "e9914507ea386bf1a90582a0c3f0c7657712ba5b972fd6ed52c4d3dfcce3cb95",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorLarge",
+      "sha": "fefab931c4174f0755e0d7766a8757490194a067",
+      "path": "packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "sha256": "1e9aeea0772f0a4bd751544850a0dca5471f03e4538b27fbb34f5b5d0f9bb6a0",
+      "currentSha256": "1e9aeea0772f0a4bd751544850a0dca5471f03e4538b27fbb34f5b5d0f9bb6a0",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokMedium",
+      "sha": "d03cba2c23c858526bc514a5389347177794861c",
+      "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "sha256": "1840d053d5b1daf5c9c00ff9f5a9ba0c52d0aa239025df2e31f364ee6ba42441",
+      "currentSha256": "1840d053d5b1daf5c9c00ff9f5a9ba0c52d0aa239025df2e31f364ee6ba42441",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokMedium",
+      "sha": "d03cba2c23c858526bc514a5389347177794861c",
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78",
+      "currentSha256": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokMedium",
+      "sha": "d03cba2c23c858526bc514a5389347177794861c",
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+      "currentSha256": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "grokMedium",
+      "sha": "d03cba2c23c858526bc514a5389347177794861c",
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+      "currentSha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "kimiMedium",
+      "sha": "43a3849bae2cbe02c43a28287fb0945e5d03ac4f",
+      "path": "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts",
+      "sha256": "0ca4d2f1beff66c9394d1d6142b240bb4aaa49292b0525038309557afa4c645b",
+      "currentSha256": null,
+      "disposition": "retired-removed-api"
+    },
+    {
+      "id": "kimiMedium",
+      "sha": "43a3849bae2cbe02c43a28287fb0945e5d03ac4f",
+      "path": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+      "sha256": "def846925fc94cf960ef8144454f20a14718acadec6b37e503e5c97c30d63003",
+      "currentSha256": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorMedium",
+      "sha": "ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685",
+      "path": "packages/editor/src/core/__tests__/cursor-preview-mid-1/fixtures.ts",
+      "sha256": "909d1977ac2d46334577931310a1fb32446345245887bf5d3711a810768bf7bf",
+      "currentSha256": "909d1977ac2d46334577931310a1fb32446345245887bf5d3711a810768bf7bf",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorMedium",
+      "sha": "ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685",
+      "path": "packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts",
+      "sha256": "bd87969f6dc973901723850c3f6ad2333063448f606190bbefad04c50c271250",
+      "currentSha256": "c0ed053f5cb1e64b07383c61a23c21aaf956e869c477bf0c0dfc7ff03ac7a5f8",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorMedium",
+      "sha": "ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685",
+      "path": "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
+      "sha256": "8bb9beefdb2dc56e800ef5812f8435025943d6596bcc37ca866efdef6cf570ff",
+      "currentSha256": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+      "disposition": "admitted-current-regression"
+    },
+    {
+      "id": "cursorMedium",
+      "sha": "ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685",
+      "path": "packages/editor/src/core/script-preview-integration.cursor-mid-1.test.ts",
+      "sha256": "253b3fc7b258ece42ce6d9c6f278d2398cafaac2d6a22b501b463da8c73c0f8b",
+      "currentSha256": "8e5cb508698780f31eadc3b413dd2cf2a0a3fdf49120561c68c2d3c5eebfd657",
+      "disposition": "admitted-current-regression"
+    }
+  ],
+  "retiredCases": [
+    {
+      "path": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+      "retired": [
+        "K2 a confirm child settled as yes rejects",
+        "K2 a loop frame past maxIterations rejects before descending",
+        "K1 machine executable refuses a cursor from a foreign machine id",
+        "K1 stages executable refuses a state-machine cursor before walking frames"
+      ]
+    },
+    {
+      "path": "packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts",
+      "retired": ["C1-06 种类不匹配时标题为已完成，不回退伪造 stage 文案"]
+    },
+    {
+      "path": "packages/editor/src/core/script-preview-integration.cursor-mid-1.test.ts",
+      "retired": ["C8-03 stateMachine 游标标题与轨迹同一次组合读出"]
+    }
+  ],
+  "additionalWholeFileRetirement": {
+    "path": "packages/reforge/src/author-stage-organization.kimi-mid-1.test.ts",
+    "cases": 4,
+    "reason": "organizeFlowAsStages and stateMachine author API removed by current main"
+  },
+  "adapterChanges": [
+    {
+      "from": "whileLoop(5, ",
+      "to": "whileLoop(",
+      "count": 4
+    },
+    {
+      "from": "{ kind: 'confirm', onNo: [giveMoney(3)] }",
+      "to": "{ kind: 'confirm', onYes: [], onNo: [giveMoney(3)] }",
+      "count": 1
+    },
+    {
+      "from": "{ kind: 'confirm', no: true }",
+      "to": "{ kind: 'confirm', arm: 'onNo' }",
+      "count": 1
+    },
+    {
+      "from": "kind: 'loop', iteration: 2, phase: 'test'",
+      "to": "kind: 'loop', phase: 'test'",
+      "count": 4
+    },
+    {
+      "from": "kind: 'loop', iteration: 1, phase: 'test'",
+      "to": "kind: 'loop', phase: 'test'",
+      "count": 1
+    },
+    {
+      "from": "resolve: (id, timing, boundaryPolicy, passed) => {",
+      "to": "resolve: (id, timing, passed) => {",
+      "count": 1
+    },
+    {
+      "from": "seen.push([id, timing, boundaryPolicy, passed])",
+      "to": "seen.push([id, timing, passed])",
+      "count": 1
+    },
+    {
+      "from": "real.resolve(id, timing, boundaryPolicy)",
+      "to": "real.resolve(id, timing)",
+      "count": 2
+    },
+    {
+      "from": "[['shared', 'auto', 'perCommand', signal]]",
+      "to": "[['shared', 'auto', signal]]",
+      "count": 1
+    },
+    {
+      "from": "real.resolve('shared', 'auto', 'perCommand')",
+      "to": "real.resolve('shared', 'auto')",
+      "count": 1
+    },
+    {
+      "from": "resolve: async (id, timing, boundaryPolicy) => {",
+      "to": "resolve: async (id, timing) => {",
+      "count": 1
+    },
+    {
+      "from": "  control.iteration = 99\n",
+      "to": "",
+      "count": 1
+    },
+    {
+      "from": "control.phase = 'next'",
+      "to": "control.phase = 'body'",
+      "count": 1
+    }
+  ],
+  "currentDirected": {
+    "grokLarge": 400,
+    "grokMedium": 19,
+    "cursorLarge": 717,
+    "cursorMedium": 32,
+    "kimiMedium1": 24,
+    "kimiMedium2": 16
+  },
+  "semanticNetNew": {
+    "cursorLarge": null,
+    "reason": "author702 structural estimate and565 oldMatcher gaps not accepted as semantic net-new credit"
+  },
+  "backups": {
+    "OPQ": "/Users/zhangxu/illegal/type-pal/.git/opq-retirement-20261003.Dg4tLy",
+    "LMN": "/Users/zhangxu/illegal/type-pal/.git/lmn-retirement-20261003.0g85EN",
+    "KGC": "/Users/zhangxu/illegal/type-pal/.git/test-retirement-20261003.blVfQG"
+  },
+  "notDone": true
+}

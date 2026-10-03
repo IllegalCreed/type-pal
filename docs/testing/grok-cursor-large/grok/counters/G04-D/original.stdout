@@ -1,0 +1,19 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-D-zLy0C6/packages/game
+
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉 2ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression 0ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime 1ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵 1ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵 0ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D06 center 等键在 step 1 仍返回同一调色板引用 1ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9 1ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9 125ms
+ ✓ src/present/present-hold.grok-r1.test.ts > G04-D present 冻屏归属与调色板 > G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色 1ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  00:28:20
+   Duration  1.35s (transform 546ms, setup 27ms, import 624ms, tests 133ms, environment 460ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G04-D-zLy0C6/original.json

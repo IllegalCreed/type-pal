@@ -1,0 +1,26 @@
+{
+  "id": "G09-C04",
+  "kind": "host",
+  "png": "docs/testing/grok-cursor-large/grok/pixels/G09-C04.png",
+  "sha256": "44a165aef4de64d3c40a4ce1f23011b4ed9ce2f11ea3c46c14040f028439ab48",
+  "bytes": 154,
+  "width": 201,
+  "height": 1,
+  "dom": [
+    {
+      "label": "fill-only",
+      "text": "",
+      "width": "25%",
+      "flags": []
+    }
+  ],
+  "readback": [
+    {
+      "label": "fill-only",
+      "text": "",
+      "width": "25%",
+      "flags": [],
+      "widthPercent": 25
+    }
+  ]
+}

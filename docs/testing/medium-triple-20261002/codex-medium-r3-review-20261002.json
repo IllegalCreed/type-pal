@@ -1,0 +1,632 @@
+{
+  "kimi": [
+    {
+      "id": "machine-id-cursor",
+      "issues": [],
+      "phases": {
+        "control": {
+          "executed": 67,
+          "passed": 67,
+          "failed": 0,
+          "jsonSha256": "3a77d4d6407088e6fafc4eb8e40c68b8c430f9a1cb0ff3550596d6ad6b2041a2",
+          "rawSha256": "05f63192382d3e061e11a41173f4af5daa10822183cae0b67e89807f85390a99",
+          "oldPassed": 35
+        },
+        "variant": {
+          "executed": 67,
+          "passed": 66,
+          "failed": 1,
+          "jsonSha256": "792a70b0f966152930ada3de6e08e33962cb492ca07d8991cd2141e0db6cac77",
+          "rawSha256": "dea6eedc64b2c1c8da6336e0fc43bf699972763f69a9f060c8f05160b14d19d5",
+          "oldPassed": 35
+        },
+        "restored": {
+          "executed": 67,
+          "passed": 67,
+          "failed": 0,
+          "jsonSha256": "f10ed14512171a64a212c4d6ffed7983aaa262631e7df366868c1b3790e67653",
+          "rawSha256": "77d4e2eeeb2fef5bda6efa2715426eedead5f400b55503274db53c58f94e21be",
+          "oldPassed": 35
+        }
+      }
+    },
+    {
+      "id": "battle-none-arm",
+      "issues": [],
+      "phases": {
+        "control": {
+          "executed": 67,
+          "passed": 67,
+          "failed": 0,
+          "jsonSha256": "b2b9abbd9b321f971395ed8cfa2649107dd1fb21e978fcfba83f57beeebb465b",
+          "rawSha256": "76ab498a64278d4552f5531f758d7ee067b7c1c7a66859ab1614c0cce881127d",
+          "oldPassed": 35
+        },
+        "variant": {
+          "executed": 67,
+          "passed": 66,
+          "failed": 1,
+          "jsonSha256": "5bcd7343b6ba01d8f6ddd1139cca9208381b460b98cc04ef0f2f83db40917ca5",
+          "rawSha256": "d94cac3f737c2fac1d40a320bbe213f8214f6f84ea7fab9c5215c9d6d3c7d135",
+          "oldPassed": 35
+        },
+        "restored": {
+          "executed": 67,
+          "passed": 67,
+          "failed": 0,
+          "jsonSha256": "440a931f58e96e6ba2c0cc10ffa176673c7c03f086829959460d36e93af6766c",
+          "rawSha256": "ae405046477fd880f40af44fb94c969d712ef1ecbbc777d651189a6aa99fde02",
+          "oldPassed": 35
+        }
+      }
+    },
+    {
+      "id": "none-explicit-self",
+      "issues": [],
+      "phases": {
+        "control": {
+          "executed": 67,
+          "passed": 67,
+          "failed": 0,
+          "jsonSha256": "7658b0ad3e22c2f26a4b542bb482d6d84ce36a3f16d33b30cd058ed39dd56a87",
+          "rawSha256": "27112d267b820d5fe9540611560ebb4cd02a451027f0dc6bf5b3ecc94a806eff",
+          "oldPassed": null
+        },
+        "variant": {
+          "executed": 67,
+          "passed": 66,
+          "failed": 1,
+          "jsonSha256": "dfe3e3bfc189839963b7609f67408a7401afc03f39c543758bb23f03aa0b0c90",
+          "rawSha256": "1c7adad5c18efad6a6aab7da270877489ab7268248e58fc1ba3ed3b1b3d94452",
+          "oldPassed": null
+        },
+        "restored": {
+          "executed": 67,
+          "passed": 67,
+          "failed": 0,
+          "jsonSha256": "04676ac8a2fa7ab3d7e8cd48b8c2fed743cba2ac754b2898a51748b546fb50bb",
+          "rawSha256": "0b98bb538d6fe1f1c7777cae58747c5028352a68e827fcd25a76b3323824dbc0",
+          "oldPassed": null
+        }
+      }
+    },
+    {
+      "id": "unreachable-tail",
+      "issues": [],
+      "phases": {
+        "control": {
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "jsonSha256": "45e6a4cac3dbe32db984b3592db83fd922973703be2aa2a3d1f55859932b544f",
+          "rawSha256": "cf4727689124ccc9b41944c27e93735d9540c74f3dd7d80a8a00a6e1fdd6fffb",
+          "oldPassed": 18
+        },
+        "variant": {
+          "executed": 50,
+          "passed": 49,
+          "failed": 1,
+          "jsonSha256": "c0e7fc4f851c463bc0a359b17383163f752e82ba70217d314b6ba920072405d3",
+          "rawSha256": "448192de4f719323c0c7aac8955fe5bf98983c2039662bf38ca87c402676dafe",
+          "oldPassed": 18
+        },
+        "restored": {
+          "executed": 50,
+          "passed": 50,
+          "failed": 0,
+          "jsonSha256": "1b6ec7196ec36722f7ee36b27c29f6d9606be7861f5229644383554d71aad649",
+          "rawSha256": "91749ddb184853858e62a7467198635afed990ab7e76fb7790eb8ae14bd3ebf8",
+          "oldPassed": 18
+        }
+      }
+    }
+  ],
+  "cursor": [
+    {
+      "id": "CTR-C1-01",
+      "issues": [],
+      "phases": {
+        "positive": {
+          "total": 4,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 3,
+          "jsonSha256": "574fd2180fee311c23eb46cee601e8155fb40bc79c11133391be689cb80d9303",
+          "rawSha256": "de0519d52a4df7deb66ee5ade2827c2dcd38363436d5d6b3d04a9518878130d5"
+        },
+        "mutated": {
+          "total": 4,
+          "selected": 1,
+          "passed": 0,
+          "failed": 1,
+          "pendingOutsideScope": 3,
+          "jsonSha256": "ab609dc43f07a89db30dc48d7cb5daa727f7c6e84c4e47c8333a9e8efc5d5220",
+          "rawSha256": "8e6eba73713aca4c71158bc29c76bc9a09eefd0cd6398f211d0de9eab89e9a73"
+        },
+        "restored": {
+          "total": 4,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 3,
+          "jsonSha256": "ac2d809c73bb6573f35f25ce740f61ba1e613be9307d8615cdcd72f5d13ad7ef",
+          "rawSha256": "66357947966b4b1d841d39cd56494632cf379d39986a92e4b89168b7c517aaa4"
+        }
+      },
+      "old": {
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "pending": 0,
+        "errors": []
+      }
+    },
+    {
+      "id": "CTR-C3-01",
+      "issues": [],
+      "phases": {
+        "positive": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "633c9594fc1de44663d55f7ee71d79ce23e21e7590abf1bafd392ae3294e2257",
+          "rawSha256": "ba479668bc2e21a6144e5cb22e4f94858d63fbb4419388bcaa0e89fb76bf9ea1"
+        },
+        "mutated": {
+          "total": 26,
+          "selected": 1,
+          "passed": 0,
+          "failed": 1,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "94121a7d657be4bcd2ea50f32f1e185cd0562baa78920d8fe44d47daf2fe0b69",
+          "rawSha256": "f2d72e7f1cc03a78a992008250ccef18b85f278a39ddce1bbc76a5581cd7ac7b"
+        },
+        "restored": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "f2041ecb7f873cfe2bbf4e089508857572ab7632741de04dcb4542b167f1ddfc",
+          "rawSha256": "e4cdf27f3a37174f9d9124535b8e6cb77fd1c85bb1275d4dfbe96b2df786cae9"
+        }
+      },
+      "old": null
+    },
+    {
+      "id": "CTR-C4-01",
+      "issues": [],
+      "phases": {
+        "positive": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "ec675c70bf8af3cdbfd97313ca87a9301c652ab60bcbe0bfeb49043389ea6d9b",
+          "rawSha256": "6d3389d846c428c6643c2c2ecd1add27350a21849e3e057b727cd74f19c3e55d"
+        },
+        "mutated": {
+          "total": 26,
+          "selected": 1,
+          "passed": 0,
+          "failed": 1,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "62884b8ebaec4d3f2743ac8e35eb2b843249cadccdf5dc55ba3108dd78d10a30",
+          "rawSha256": "4c1366b8979582e9f523b881b53500c62d1c59f56f22b42ea6aac59c37489f18"
+        },
+        "restored": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "7d900abf9fbcd659ed823fe197d69a79a8a5c995fb3d77a8d9de5f13a82d1bc2",
+          "rawSha256": "f359800805efde1d773be320351529ab9973f1b1aafcb30a04d20488b148c2a6"
+        }
+      },
+      "old": {
+        "executed": 12,
+        "passed": 12,
+        "failed": 0,
+        "pending": 0,
+        "errors": []
+      }
+    },
+    {
+      "id": "CTR-C4-04",
+      "issues": [],
+      "phases": {
+        "positive": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "f0d0410216e627f8076594798d67a11f50c30913339b65d3b49e1ff69661b356",
+          "rawSha256": "96561690f7a82d35a2b433a4b384accd9587257a09b78840e2b391c955d1b50c"
+        },
+        "mutated": {
+          "total": 26,
+          "selected": 1,
+          "passed": 0,
+          "failed": 1,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "86e6dd7632389d5cd54db26292246b3251a241c2c15aac7ea0dc7dc2b135e731",
+          "rawSha256": "822782037a76283a253e1cc06db3df854be72567a1115b67cc87a3e9b4edfd46"
+        },
+        "restored": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "28afd685c9c3979ed67769f20e18ded1f5ae68ad005a6ed35212d2f6d888378d",
+          "rawSha256": "67a0c9bee39f566e2f0ec208b1fc9bf86db06c697fa94f17d62ec6d4a6ed630c"
+        }
+      },
+      "old": null
+    },
+    {
+      "id": "CTR-C6-01",
+      "issues": [],
+      "phases": {
+        "positive": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "aced67a0254f7b80aac84d7ba794a27054568e235e8d76f4181e53d7c92ad647",
+          "rawSha256": "eef4754b1bc00615c94ee95a62d310ec50e43a7c915742bc84ee9dbe07202005"
+        },
+        "mutated": {
+          "total": 26,
+          "selected": 1,
+          "passed": 0,
+          "failed": 1,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "bf99c436cf74c2f16cad036536e6993b801269f03741622b32964c7a521d6eab",
+          "rawSha256": "e3fcaef1031e8f5faaa625d56ab712d1958f95cdf7e98b7e1e642261885e67dd"
+        },
+        "restored": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "33af6da624dff8642a78f48cacc18aa180c8a3523823b8be9b7be7d89b3ca07d",
+          "rawSha256": "85f1cb9d17e301e0f3265eb29dc61186c6ee2699b0a76e8694e403777f918c8a"
+        }
+      },
+      "old": {
+        "executed": 12,
+        "passed": 12,
+        "failed": 0,
+        "pending": 0,
+        "errors": []
+      }
+    },
+    {
+      "id": "CTR-C7-01",
+      "issues": [],
+      "phases": {
+        "positive": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "633586a5c0847c2139f61b11ff352c5b3472516ba5c3658c4dbda5f1d2ed276c",
+          "rawSha256": "500b6fdcf5039f8c3a4f2830a32267244410c64c7490f5bac9cc3ea98e94a991"
+        },
+        "mutated": {
+          "total": 26,
+          "selected": 1,
+          "passed": 0,
+          "failed": 1,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "740f696cddca8a614c0d576045d10ee0aca48d3b9e39495e3af6d4262edb53b6",
+          "rawSha256": "741bbbd01a53e3865e13c080c60c920e51687d13f7eb6df45e6b3b9cb982b70b"
+        },
+        "restored": {
+          "total": 26,
+          "selected": 1,
+          "passed": 1,
+          "failed": 0,
+          "pendingOutsideScope": 25,
+          "jsonSha256": "3b27759278e5d1b805432cf0d40bd05879f880ec5563196b1908af701ac01271",
+          "rawSha256": "59b3c6a789b78eb90cbe84cd1ae1195cefa80b678c1da676d2cf13fe6da6d7b5"
+        }
+      },
+      "old": null
+    }
+  ],
+  "probes": {
+    "cursor": {
+      "realComposite": {
+        "exitCode": 1,
+        "reportCounts": {
+          "total": 1,
+          "failed": 1
+        },
+        "failureMessages": [
+          "AssertionError: expected 1 to be 2 // Object.is equality\n    at /private/tmp/codex-medium-r3-review.uIA36H/cursor/packages/editor/src/core/codex-composite-review.test.ts:8:13\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+          "Error: CODEX owned afterEach hook failure\n    at /private/tmp/codex-medium-r3-review.uIA36H/cursor/packages/editor/src/core/codex-composite-review.test.ts:4:9\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at wrapper (file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:750:10)\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2621:52\n    at run (file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1150:20)\n    at limiterFn (file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1162:59)\n    at runHook (file:///private/tmp/codex-medium-r3-review.uIA36H/cursor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2620:10)"
+        ],
+        "verdict": {
+          "valid": true,
+          "reasons": [],
+          "target": {
+            "fullName": "CODEX business assertion plus hook error",
+            "message": "AssertionError: expected 1 to be 2 // Object.is equality",
+            "file": "src/core/codex-composite-review.test.ts"
+          },
+          "failed": [
+            {
+              "fullName": "CODEX business assertion plus hook error",
+              "status": "failed",
+              "message": "AssertionError: expected 1 to be 2 // Object.is equality",
+              "file": "src/core/codex-composite-review.test.ts"
+            }
+          ],
+          "executed": 1,
+          "identitySet": [
+            "src/core/codex-composite-review.test.ts×CODEX business assertion plus hook error"
+          ]
+        }
+      },
+      "stalePath": {
+        "before": {
+          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-patch-codex-stale-eokE1o",
+          "registeredInode": 166409981,
+          "replacementInode": 166409983,
+          "replaced": true,
+          "sentinelExists": true
+        },
+        "cleanup": {
+          "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-patch-codex-stale-eokE1o",
+          "owned": true,
+          "legalPath": true,
+          "gitRemoveOk": true,
+          "dirRemoved": true,
+          "pathExistsAfter": false,
+          "listedInGitWorktreeAfter": false,
+          "error": null
+        },
+        "after": {
+          "replacementExists": false,
+          "sentinelExists": false,
+          "originalPreserved": true
+        },
+        "onlyCodexSyntheticSentinelsTouched": true
+      },
+      "pendingTodoSwap": {
+        "inputIsSyntheticCorruptionOfActualPositive": true,
+        "originalCounts": {
+          "pending": 3,
+          "todo": 0
+        },
+        "forgedCounts": {
+          "pending": 0,
+          "todo": 3
+        },
+        "verdict": {
+          "valid": true,
+          "reasons": [],
+          "executed": 1,
+          "identitySet": [
+            "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+          ]
+        }
+      }
+    },
+    "kimi": {
+      "sameRealCompositeAccepted": false,
+      "embeddedSelftest": {
+        "accepted": 2,
+        "rejected": 23
+      }
+    }
+  },
+  "reuse": {
+    "kimi": {
+      "previous": "bced8883a1d60a980e6e442707bed6ced6618fa6",
+      "current": "43a3849bae2cbe02c43a28287fb0945e5d03ac4f",
+      "changedBusinessOrConfig": "",
+      "newlyExecutedFullPackages": false,
+      "priorDirectedAdjacent": 114,
+      "priorFull": {
+        "reforge": 2257,
+        "content": 1255
+      },
+      "originalBusinessEvidenceChanges": []
+    },
+    "cursor": {
+      "previous": "36e409420018f9c9cea4d70d70186e3c466f3a0b",
+      "current": "6808d3ab1d920102603e801ab4dd0c68aa0a82bf",
+      "changedBusinessOrConfig": "",
+      "newlyExecutedFullPackages": false,
+      "priorDirectedAdjacent": 53,
+      "priorFull": {
+        "editor": 3801
+      },
+      "originalBusinessEvidenceChanges": []
+    }
+  },
+  "candidateHeads": {
+    "kimi": "43a3849bae2cbe02c43a28287fb0945e5d03ac4f",
+    "cursor": "6808d3ab1d920102603e801ab4dd0c68aa0a82bf"
+  },
+  "date": "2026-10-02",
+  "authorTreesWritten": false,
+  "officialCoverageMeasured": false,
+  "mainMergedOrPushed": false,
+  "executionRecords": [
+    {
+      "name": "kimi-recompute",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/kimi",
+      "command": [
+        "node",
+        "docs/testing/medium-triple-20261002/kimi/counters/mutants.mjs",
+        "--recompute"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "machine-id-cursor: original three-state bytes re-judged clean (67 leaves)\nbattle-none-arm: original three-state bytes re-judged clean (67 leaves)\nnone-explicit-self: original three-state bytes re-judged clean (67 leaves)\nunreachable-tail: original three-state bytes re-judged clean (50 leaves)\nRecompute receipt: /private/tmp/codex-medium-r3-review.uIA36H/kimi/docs/testing/medium-triple-20261002/kimi/counters/evidence/recompute-r2.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-judge-selftest",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/cursor",
+      "command": ["node", "docs/testing/medium-triple-20261002/cursor/counter-judge.selftest.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"ok\": true,\n  \"rejects\": {\n    \"twoPassedExpectedOne\": true,\n    \"twoPassedReasons\": [\n      \"clean:executed-2!==1\",\n      \"clean:identity-set-mismatch\"\n    ],\n    \"redPlusPendingSameIdentity\": true,\n    \"redPlusPendingReasons\": [\n      \"mutated:declared-non-passfail:pending\",\n      \"executed-set-changed:2!==1\",\n      \"mutated:identity-set-mismatch\"\n    ],\n    \"twoDeclaredReds\": true,\n    \"twoDeclaredRedsReasons\": [\n      \"multi-failed:2\",\n      \"executed-set-changed:2!==1\",\n      \"mutated:identity-set-mismatch\"\n    ],\n    \"targetPlusExtraRed\": true,\n    \"targetPlusExtraRedReasons\": [\n      \"mutated:extra-failed-outside-scope:src/core/other.test.ts×outside sibling assertion\"\n    ],\n    \"numTotal99Actual1\": true,\n    \"numTotal99Reasons\": [\n      \"clean:numTotalTests-99!==leaves-1\",\n      \"clean:top-count-parts-1!==numTotalTests-99\"\n    ],\n    \"compositeCollection\": true\n  },\n  \"accepts\": {\n    \"singleAssertion\": true,\n    \"singleAssertionReasons\": [],\n    \"outsideSkipOk\": true,\n    \"outsideSkipReasons\": [],\n    \"legacyWouldAcceptComposite\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-rejudge",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/cursor",
+      "command": ["node", "docs/testing/medium-triple-20261002/cursor/rejudge-counters-r2.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"ok\": true,\n  \"count\": 6\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-real-composite",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/cursor",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/codex-composite-review.test.ts",
+        "--reporter=json",
+        "--outputFile=/private/tmp/codex-medium-r3-review.uIA36H/cursor-real-composite.json"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "JSON report written to /private/tmp/codex-medium-r3-review.uIA36H/cursor-real-composite.json\nundefined\n/private/tmp/codex-medium-r3-review.uIA36H/cursor/packages/editor:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/codex-composite-review.test.ts --reporter=json --outputFile=/private/tmp/codex-medium-r3-review.uIA36H/cursor-real-composite.json\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-cleanup-selftest",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/cursor",
+      "command": [
+        "node",
+        "docs/testing/medium-triple-20261002/cursor/counter-cleanup.selftest.mjs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"ok\": true,\n  \"cases\": [\n    \"success-cleanup\",\n    \"failure-cleanup\",\n    \"cap-refuse-then-cleanup\",\n    \"max-live-trees\",\n    \"refuse-unregistered-same-prefix\",\n    \"refuse-ancestor-prefix-path\",\n    \"refuse-stale-or-illegal-register\",\n    \"interrupt-sigterm\"\n  ]\n}\n",
+      "stderr": "Preparing worktree (detached HEAD 6808d3ab1)\nUpdating files:  90% (5018/5547)\rUpdating files:  91% (5048/5547)\rUpdating files:  92% (5104/5547)\rUpdating files:  93% (5159/5547)\rUpdating files:  94% (5215/5547)\rUpdating files:  95% (5270/5547)\rUpdating files:  96% (5326/5547)\rUpdating files:  97% (5381/5547)\rUpdating files:  98% (5437/5547)\rUpdating files:  99% (5492/5547)\rUpdating files: 100% (5547/5547)\rUpdating files: 100% (5547/5547), done.\nPreparing worktree (detached HEAD 6808d3ab1)\nPreparing worktree (detached HEAD 6808d3ab1)\n"
+    },
+    {
+      "name": "kimi-lint",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/kimi",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> type-pal@ lint /private/tmp/codex-medium-r3-review.uIA36H/kimi\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 2784 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    {
+      "name": "kimi-docs",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/kimi",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "docs: 822 Markdown / 4339 local links / 259 tasks / content21 SAVE10\ndocs: FAIL (1 issues)\n",
+      "stderr": "docs/testing/medium-triple-20261002/README.md:1: 子目录未进入导航：docs/testing/medium-triple-20261002/kimi\n"
+    },
+    {
+      "name": "kimi-diff",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/kimi",
+      "command": ["git", "diff", "--check", "f5c7f904a3f623e3ca5b413ab43f78029d99fe11...HEAD"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-lint",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/cursor",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> type-pal@ lint /private/tmp/codex-medium-r3-review.uIA36H/cursor\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 2853 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-docs",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/cursor",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "docs: 823 Markdown / 4340 local links / 259 tasks / content21 SAVE10\ndocs: FAIL (1 issues)\n",
+      "stderr": "docs/testing/medium-triple-20261002/README.md:1: 子目录未进入导航：docs/testing/medium-triple-20261002/cursor\n"
+    },
+    {
+      "name": "cursor-diff",
+      "cwd": "/private/tmp/codex-medium-r3-review.uIA36H/cursor",
+      "command": ["git", "diff", "--check", "f5c7f904a3f623e3ca5b413ab43f78029d99fe11...HEAD"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "kimi-verifier-readonly",
+      "cwd": "/Users/zhangxu/.codex/worktrees/kimi-current-continuation-medium/type-pal",
+      "command": [
+        "node",
+        "docs/testing/medium-triple-20261002/verify.mjs",
+        "--owner",
+        "kimi",
+        "--base",
+        "f5c7f904a3f623e3ca5b413ab43f78029d99fe11"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"owner\": \"kimi\",\n  \"base\": \"f5c7f904a3f623e3ca5b413ab43f78029d99fe11\",\n  \"sourceBase\": \"554b8a0552db30294a9050b4466659c4a14549f8\",\n  \"branch\": \"codex/kimi-current-continuation-medium-r1\",\n  \"registration\": false,\n  \"frozenFiles\": 12,\n  \"frozenHashesValid\": true,\n  \"changedPaths\": 37,\n  \"scopeValid\": true\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-verifier-readonly",
+      "cwd": "/Users/zhangxu/.codex/worktrees/cursor-script-preview-medium/type-pal",
+      "command": [
+        "node",
+        "docs/testing/medium-triple-20261002/verify.mjs",
+        "--owner",
+        "cursor",
+        "--base",
+        "f5c7f904a3f623e3ca5b413ab43f78029d99fe11"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"owner\": \"cursor\",\n  \"base\": \"f5c7f904a3f623e3ca5b413ab43f78029d99fe11\",\n  \"sourceBase\": \"554b8a0552db30294a9050b4466659c4a14549f8\",\n  \"branch\": \"codex/cursor-script-preview-medium-r1\",\n  \"registration\": false,\n  \"frozenFiles\": 12,\n  \"frozenHashesValid\": true,\n  \"changedPaths\": 137,\n  \"scopeValid\": true\n}\n",
+      "stderr": ""
+    }
+  ],
+  "evidenceRoot": "/private/tmp/codex-medium-r3-review.uIA36H"
+}

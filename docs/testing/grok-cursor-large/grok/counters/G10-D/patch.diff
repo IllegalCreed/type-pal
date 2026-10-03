@@ -1,0 +1,7 @@
+--- a/packages/game/src/shell/ending-player.ts
++++ b/packages/game/src/shell/ending-player.ts
+@@ -164,3 +164,3 @@
+   let skipped = false
+-  const skipKeys = new Set(o.skipKeys ?? [])
++  const skipKeys = new Set(o.skipKeys ?? ['Space'])
+   const onKey = (e: KeyboardEvent): void => {

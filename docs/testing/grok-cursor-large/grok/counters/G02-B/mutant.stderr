@@ -1,0 +1,26 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/tileset-gzip.grok-r1.test.ts > G02-B gzip 魔数与帧锚点 > G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]
+AssertionError: expected [ 7, 8, +0 ] to deeply equal [ 9, 8, 7 ]
+
+- Expected
++ Received
+
+  [
+-   9,
+-   8,
+    7,
++   8,
++   0,
+  ]
+
+ ❯ src/assets/tileset-gzip.grok-r1.test.ts:73:31
+     71|     try {
+     72|       const out = await decompressGzip(new Blob([gzipSync(Uint8Array.o…
+     73|       expect(Array.from(out)).toEqual([9, 8, 7])
+       |                               ^
+     74|     } finally {
+     75|       globalThis.DecompressionStream = saved
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

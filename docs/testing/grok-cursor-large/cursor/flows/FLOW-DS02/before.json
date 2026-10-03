@@ -1,0 +1,13 @@
+{
+  "flowId": "FLOW-DS02",
+  "phase": "ready",
+  "label": "DsSelect：键盘改值（设计控件）",
+  "oracle": {
+    "value": "b"
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

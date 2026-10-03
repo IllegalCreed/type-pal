@@ -1,0 +1,99 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-13-64M6aN/packages/editor
+
+ ❯ src/core/audio-preview-session.c09-g02.cursor-r1.test.ts (10 tests | 4 failed) 7ms
+     ✓ C09-G02-01 首次 claim 不调用 stop 1ms
+     ✓ C09-G02-02 重复 claim 同一 owner 幂等 0ms
+     × C09-G02-03 新 owner 停止旧 owner 3ms
+     × C09-G02-04 release 活动 owner 后 isOwner 为 false 1ms
+     × C09-G02-05 release 非活动 owner 不影响当前 owner 0ms
+     ✓ C09-G02-06 stop 在无 owner 时安全 0ms
+     × C09-G02-07 stop 后新 claim 可立即生效 1ms
+     ✓ C09-G02-08 三连 claim 只停止上一个 0ms
+     ✓ C09-G02-09 release 后 stop 不再调用已释放 owner 0ms
+     ✓ C09-G02-10 stop 对活动 owner 只 stop 一次 0ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":6,"numFailedTests":4,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869122243,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-01 首次 claim 不调用 stop","status":"passed","title":"C09-G02-01 首次 claim 不调用 stop","duration":1.0657499999999942,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等","status":"passed","title":"C09-G02-02 重复 claim 同一 owner 幂等","duration":0.1355830000000111,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-03 新 owner 停止旧 owner","status":"failed","title":"C09-G02-03 新 owner 停止旧 owner","duration":2.66087499999999,"failureMessages":["AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-13-64M6aN/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:34:47\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-04 release 活动 owner 后 isOwner 为 false","status":"failed","title":"C09-G02-04 release 活动 owner 后 isOwner 为 false","duration":0.5012499999999989,"failureMessages":["AssertionError: expected true to be false // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-13-64M6aN/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:42:46\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-05 release 非活动 owner 不影响当前 owner","status":"failed","title":"C09-G02-05 release 非活动 owner 不影响当前 owner","duration":0.25916700000000503,"failureMessages":["AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-13-64M6aN/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:51:47\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-06 stop 在无 owner 时安全","status":"passed","title":"C09-G02-06 stop 在无 owner 时安全","duration":0.10412499999999625,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-07 stop 后新 claim 可立即生效","status":"failed","title":"C09-G02-07 stop 后新 claim 可立即生效","duration":0.6682090000000045,"failureMessages":["AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-13-64M6aN/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:66:47\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-08 三连 claim 只停止上一个","status":"passed","title":"C09-G02-08 三连 claim 只停止上一个","duration":0.26787500000000364,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-09 release 后 stop 不再调用已释放 owner","status":"passed","title":"C09-G02-09 release 后 stop 不再调用已释放 owner","duration":0.3543340000000086,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G02 编辑器试听 owner"],"fullName":"C09-G02 编辑器试听 owner C09-G02-10 stop 对活动 owner 只 stop 一次","status":"passed","title":"C09-G02-10 stop 对活动 owner 只 stop 一次","duration":0.08974999999999511,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869122365,"endTime":1790869122371.0898,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-13-64M6aN/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 6 passed (10)
+   Start at  00:38:42
+   Duration  123ms (transform 18ms, setup 0ms, import 24ms, tests 7ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/audio-preview-session.c09-g02.cursor-r1.test.ts > C09-G02 编辑器试听 owner > C09-G02-03 新 owner 停止旧 owner
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:34:47
+     32|     claimEditorAudioPreview(second)
+     33|     expect(first.stop).toHaveBeenCalledOnce()
+     34|     expect(isEditorAudioPreviewOwner(second)).toBe(true)
+       |                                               ^
+     35|     stopEditorAudioPreview()
+     36|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/core/audio-preview-session.c09-g02.cursor-r1.test.ts > C09-G02 编辑器试听 owner > C09-G02-04 release 活动 owner 后 isOwner 为 false
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:42:46
+     40|     claimEditorAudioPreview(owner)
+     41|     releaseEditorAudioPreview(owner)
+     42|     expect(isEditorAudioPreviewOwner(owner)).toBe(false)
+       |                                              ^
+     43|     stopEditorAudioPreview()
+     44|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/core/audio-preview-session.c09-g02.cursor-r1.test.ts > C09-G02 编辑器试听 owner > C09-G02-05 release 非活动 owner 不影响当前 owner
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:51:47
+     49|     claimEditorAudioPreview(active)
+     50|     releaseEditorAudioPreview(other)
+     51|     expect(isEditorAudioPreviewOwner(active)).toBe(true)
+       |                                               ^
+     52|     stopEditorAudioPreview()
+     53|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/core/audio-preview-session.c09-g02.cursor-r1.test.ts > C09-G02 编辑器试听 owner > C09-G02-07 stop 后新 claim 可立即生效
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:66:47
+     64|     stopEditorAudioPreview()
+     65|     claimEditorAudioPreview(second)
+     66|     expect(isEditorAudioPreviewOwner(second)).toBe(true)
+       |                                               ^
+     67|     stopEditorAudioPreview()
+     68|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯

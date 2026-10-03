@@ -1,0 +1,122 @@
+{
+  "id": "CTR-C04-11",
+  "productFile": "packages/editor/src/core/frame-animation-draft.ts",
+  "findText": "return insertDraftFrames(draft, frameIndex + 1, [{ ...frame, id }])",
+  "replaceText": "return insertDraftFrames(draft, frameIndex, [{ ...frame, id }])",
+  "testSpec": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+  "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "df551929357629660e260f32e2d021592b483842b1f60deaae1f3d688045667b",
+  "patch": "--- a/packages/editor/src/core/frame-animation-draft.ts\n+++ b/packages/editor/src/core/frame-animation-draft.ts\n@@ -193,7 +193,7 @@\n ): FrameAnimationDraft {\n   const frame = draft.frames[frameIndex]\n   if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`)\n-  return insertDraftFrames(draft, frameIndex + 1, [{ ...frame, id }])\n+  return insertDraftFrames(draft, frameIndex, [{ ...frame, id }])\n }\n \n export function deleteDraftFrames(\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+      "C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
+      "C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
+      "C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
+      "C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
+      "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+      "C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+      "C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
+      "C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
+      "C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "df345f9c4ce08a62ba0ad2f5423caef14af05d5f0bd4645b5008c111287e7a6b",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+      "C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
+      "C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
+      "C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
+      "C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
+      "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+      "C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+      "C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
+      "C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
+      "C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override"
+    ],
+    "failed": [
+      {
+        "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+        "message": "AssertionError: expected [ 'a', 'b-copy', 'b', 'c' ] to deeply equal [ 'a', 'b', 'b-copy', 'c' ]",
+        "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override"
+      ]
+    },
+    "target": {
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+      "message": "AssertionError: expected [ 'a', 'b-copy', 'b', 'c' ] to deeply equal [ 'a', 'b', 'b-copy', 'c' ]",
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+      "C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
+      "C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
+      "C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
+      "C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
+      "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+      "C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+      "C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
+      "C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
+      "C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
+        "src/core/frame-animation-draft.c04.cursor-r1.test.ts×C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override"
+      ]
+    }
+  }
+}

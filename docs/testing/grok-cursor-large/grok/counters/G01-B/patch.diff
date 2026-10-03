@@ -1,0 +1,11 @@
+--- a/packages/game/src/assets/loader.ts
++++ b/packages/game/src/assets/loader.ts
+@@ -383,7 +383,7 @@
+     objectPoisons,
+     objectPlayers,
+     stores,
+-    words: wordsRaw.flat ?? [],
++    words: wordsRaw.flat ?? ['MUT'],
+     uiSpriteFrames,
+     itemIcons,
+     levelUpExp,

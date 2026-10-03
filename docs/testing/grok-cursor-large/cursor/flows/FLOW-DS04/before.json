@@ -1,0 +1,11 @@
+{
+  "flowId": "FLOW-DS04",
+  "phase": "ready",
+  "label": "DsVirtualList：滚动窗口（设计控件）",
+  "oracle": {},
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

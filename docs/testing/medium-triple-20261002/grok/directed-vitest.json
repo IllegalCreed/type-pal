@@ -1,0 +1,145 @@
+{
+  "task": "TEST-GROK-BOOT-RESOURCES-MEDIUM-1",
+  "owner": "grok",
+  "rework": "GROK-R1-01",
+  "command": [
+    "node",
+    "../../node_modules/vitest/vitest.mjs",
+    "run",
+    "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+    "src/shell/bootstrap-resources.test.ts",
+    "src/assets/dialog-resources.grok-mid-1.test.ts",
+    "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+    "src/assets/scene-cache.grok-mid-1.test.ts",
+    "src/assets/loader.test.ts",
+    "--reporter=json",
+    "--outputFile=/tmp/grok-mid-1-r1-adjacent.json"
+  ],
+  "note": "leaves 是这次相邻命令里三个 .grok-mid-1 文件的 19 条，全部 passed。旧文件 12 条也 passed，写在 receipt.adjacent。",
+  "cwd": "packages/game",
+  "exitCode": 0,
+  "signal": null,
+  "startTime": 1790931942226,
+  "success": true,
+  "numTotalTests": 19,
+  "numPassedTests": 19,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "leaves": [
+    {
+      "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation 头像清单与图标清单在任一响应前都已发出",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation 重复 chunk 的第二次失败不删第一次精灵",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 dialog parallel degradation portraits.json 的 count 不决定 PNG 请求次数",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction protect 切换后原先受保护的场景成为下一次淘汰对象",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction maxEntries 为 0 时仍淘汰未受保护场景",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction fetcher 拒绝后兄弟场景仍命中且不触发 onEvict",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 scene cache eviction onEvict 重入重新获取受害者后继续淘汰下一个最旧场景",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+      "status": "passed",
+      "failureMessages": []
+    }
+  ]
+}

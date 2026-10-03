@@ -1,0 +1,109 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 6,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790931808864,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 loadDialogAssets 全链路（fetch 全隔离）"],
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "status": "passed",
+          "title": "manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "duration": 208.23516700000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 loadDialogAssets 全链路（fetch 全隔离）"],
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "status": "passed",
+          "title": "portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "duration": 2.04362500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790931810209,
+      "endTime": 1790931810419.0437,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C5-count-bound-KCwnaU/packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["grok-mid-1 dialog parallel degradation"],
+          "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧",
+          "status": "passed",
+          "title": "单张头像失败仍保留成功头像与图标第 0 帧",
+          "duration": 209.18775000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 dialog parallel degradation"],
+          "fullName": "grok-mid-1 dialog parallel degradation 头像清单与图标清单在任一响应前都已发出",
+          "status": "passed",
+          "title": "头像清单与图标清单在任一响应前都已发出",
+          "duration": 3.5917910000000575,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 dialog parallel degradation"],
+          "fullName": "grok-mid-1 dialog parallel degradation 重复 chunk 的第二次失败不删第一次精灵",
+          "status": "passed",
+          "title": "重复 chunk 的第二次失败不删第一次精灵",
+          "duration": 3.3241250000000946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 dialog parallel degradation"],
+          "fullName": "grok-mid-1 dialog parallel degradation portraits.json 的 count 不决定 PNG 请求次数",
+          "status": "passed",
+          "title": "portraits.json 的 count 不决定 PNG 请求次数",
+          "duration": 2.0431670000000395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790931810208,
+      "endTime": 1790931810426.0432,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C5-count-bound-KCwnaU/packages/game/src/assets/dialog-resources.grok-mid-1.test.ts"
+    }
+  ]
+}

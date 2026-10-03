@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/menu/inventory-desc-filter.grok-r1.test.ts > G06-B 物品描述与过滤 > G06-B01 第二条描述在 y=167，第一条仍在 y=151
+AssertionError: expected 90 to be 60 // Object.is equality
+
+- Expected
++ Received
+
+- 60
++ 90
+
+ ❯ src/present/menu/inventory-desc-filter.grok-r1.test.ts:71:43
+     69|     const first = textDot('甲', 0, 71, 151)
+     70|     const second = textDot('乙', 0, 71, 167)
+     71|     expect(pixel(fb, second.x, second.y)).toBe(DESC)
+       |                                           ^
+     72|     expect(pixel(fb, first.x, first.y)).toBe(DESC)
+     73|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

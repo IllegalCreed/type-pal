@@ -1,0 +1,142 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790864235037,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+          "status": "passed",
+          "title": "G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+          "duration": 16.50641600000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+          "status": "passed",
+          "title": "G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+          "duration": 2.9517920000000686,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+          "status": "passed",
+          "title": "G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+          "duration": 3.599124999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+          "status": "passed",
+          "title": "G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+          "duration": 2.5858749999999873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+          "status": "passed",
+          "title": "G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+          "duration": 2.5014589999999544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+          "status": "passed",
+          "title": "G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+          "duration": 3.5960829999999078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+          "status": "failed",
+          "title": "G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+          "duration": 6.445833999999991,
+          "failureMessages": [
+            "AssertionError: expected [ 'enemy:4', 'player:2' ] to deeply equal [ 'enemy-4', 'player-2' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-A-jItrbf/packages/game/src/assets/load-all-assemble.grok-r1.test.ts:123:53\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+          "status": "passed",
+          "title": "G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+          "duration": 3.9542920000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+          "status": "passed",
+          "title": "G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+          "duration": 2.7545840000000226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-A loadAll 合法装配"],
+          "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+          "status": "passed",
+          "title": "G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+          "duration": 3.7648329999999532,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790864235720,
+      "endTime": 1790864235768.765,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-A-jItrbf/packages/game/src/assets/load-all-assemble.grok-r1.test.ts"
+    }
+  ]
+}

@@ -8,6 +8,9 @@
 
 ## 文档与附件
 
+- [本轮全部已交付测试有限收口](finite-test-intake-20261003/README.md)：GLM六波、Kimi/Grok/Cursor；现行合同、历史退役、正式门/CI/恢复备份分列。
+- [Grok/Cursor大包历史交付与审核](grok-cursor-large/README.md)：作者隔离报告不等main接入，最终口径见本轮收口。
+- [Kimi/Grok/Cursor中包历史交付与审核](medium-triple-20261002/README.md)：当前版本适配与退役另记，不回填历史执行数。
 - [Kimi生命周期中包二独立复核](kimi-script-lifecycle-review-20261003/README.md)：固定16例/四新业务反控，代码accept，正式接入另证。
 - [O/P/Q冻结交付收口](glm-tenfold-triple/README.md)（83文件/759保留回归，固定终点，不再追700/视觉配额；Codex负责正式门与可恢复退休）。
 

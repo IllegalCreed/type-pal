@@ -1,0 +1,402 @@
+[
+  {
+    "id": "CTR-C07-01",
+    "file": "packages/editor/src/core/static-image.ts",
+    "find": "'battle-background',",
+    "replace": "'battle-bg',",
+    "test": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+    "expectFullname": "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind"
+  },
+  {
+    "id": "CTR-C05-01",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": ".map(([id, action], index) => ({ id, action, index }))",
+    "replace": ".map(([id, action], index) => ({ id, action, index: index + 1 }))",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关"
+  },
+  {
+    "id": "CTR-C05-02",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "(left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER)",
+    "replace": "(right.order ?? Number.MAX_SAFE_INTEGER) - (left.order ?? Number.MAX_SAFE_INTEGER)",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关"
+  },
+  {
+    "id": "CTR-C05-03",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "if (!ids.has('action')) return 'action'",
+    "replace": "if (!ids.has('action')) return 'action-0'",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位"
+  },
+  {
+    "id": "CTR-C05-04",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "for (let suffix = 2; ; suffix += 1) {",
+    "replace": "for (let suffix = 3; ; suffix += 1) {",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4"
+  },
+  {
+    "id": "CTR-C05-05",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "const action = sortedSpriteActions(sprite)[0]",
+    "replace": "const action = sortedSpriteActions(sprite).at(-1)",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵"
+  },
+  {
+    "id": "CTR-C05-06",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "left.label.localeCompare(right.label)",
+    "replace": "right.label.localeCompare(left.label)",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序"
+  },
+  {
+    "id": "CTR-C08-01",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "return points.sort((left, right) => left.row - right.row || latticeU(left) - latticeU(right))[0]",
+    "replace": "return points.sort((left, right) => left.col - right.col)[0]",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU"
+  },
+  {
+    "id": "CTR-C08-02",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
+    "replace": "if (false && !isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝"
+  },
+  {
+    "id": "CTR-C08-03",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "if (!layer) throw new Error(`选区引用的图层 \"${ref.layerId}\" 不存在。`)",
+    "replace": "if (!layer) throw new Error(`选区引用的图层 \"${ref.layerId}\" 不存在!!!`)",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝"
+  },
+  {
+    "id": "CTR-C08-04",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "const stem = normalizedTemplateId(preferred) || 'stamp'",
+    "replace": "const stem = normalizedTemplateId(preferred) || 'stamp-x'",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2"
+  },
+  {
+    "id": "CTR-C08-05",
+    "file": "packages/editor/src/core/stamp-draft.ts",
+    "find": "if (!used.has(base)) return base",
+    "replace": "if (!used.has(base)) return `${base}-x`",
+    "test": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+    "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base"
+  },
+  {
+    "id": "CTR-C08-06",
+    "file": "packages/editor/src/core/stamp-draft.ts",
+    "find": "let suffix = 2",
+    "replace": "let suffix = 3",
+    "test": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+    "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀"
+  },
+  {
+    "id": "CTR-C08-07",
+    "file": "packages/editor/src/core/stamp-commands.ts",
+    "find": "export class AddStampTemplateCommand implements Command {\n  readonly label = '新增图章模板'\n  private readonly template: StampTemplate\n  private added = false\n  private previousManifestPath: string | undefined\n  private manifestPathCaptured = false\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [this.template.id]\n  }",
+    "replace": "export class AddStampTemplateCommand implements Command {\n  readonly label = '新增图章模板'\n  private readonly template: StampTemplate\n  private added = false\n  private previousManifestPath: string | undefined\n  private manifestPathCaptured = false\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [`${this.template.id}-mut`]\n  }",
+    "test": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+    "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致"
+  },
+  {
+    "id": "CTR-C08-08",
+    "file": "packages/editor/src/core/tileset-references.ts",
+    "find": ".filter((reference) => reference.relation.kind === 'tileset-use')",
+    "replace": ".filter((reference) => reference.relation.kind === 'stamp-placement-source')",
+    "test": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+    "expectFullname": "C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系"
+  },
+  {
+    "id": "CTR-C08-09",
+    "file": "packages/editor/src/core/tileset-references.ts",
+    "find": ".filter((reference) => reference.relation.kind === 'stamp-placement-source')",
+    "replace": ".filter((reference) => reference.relation.kind === 'tileset-use')",
+    "test": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+    "expectFullname": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source"
+  },
+  {
+    "id": "CTR-C04-01",
+    "file": "packages/editor/src/core/frame-animation-draft.ts",
+    "find": "return frame.durationMs ?? draft.defaultFrameMs",
+    "replace": "return (frame.durationMs ?? draft.defaultFrameMs) + 1",
+    "test": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+    "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150"
+  },
+  {
+    "id": "CTR-C04-02",
+    "file": "packages/editor/src/core/frame-animation-draft.ts",
+    "find": "frames: [...draft.frames.slice(0, at), ...frames, ...draft.frames.slice(at)],",
+    "replace": "frames: [...draft.frames, ...frames],",
+    "test": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+    "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新"
+  },
+  {
+    "id": "CTR-C04-03",
+    "file": "packages/editor/src/core/frame-animation-draft.ts",
+    "find": "if (frames.length === 0) return draft",
+    "replace": "if (frames.length === 0) return { ...draft, defaultFrameMs: draft.defaultFrameMs + 1 }",
+    "test": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+    "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs"
+  },
+  {
+    "id": "CTR-C09-01",
+    "file": "packages/editor/src/core/audio-preview.ts",
+    "find": "const minimums = Array.from({ length: count }, () => 0)",
+    "replace": "const minimums = Array.from({ length: count }, () => 1)",
+    "test": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+    "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket"
+  },
+  {
+    "id": "CTR-C09-02",
+    "file": "packages/editor/src/core/audio-preview.ts",
+    "find": "const count = Math.max(1, Math.floor(bucketCount))",
+    "replace": "const count = Math.max(2, Math.floor(bucketCount))",
+    "test": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+    "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket"
+  },
+  {
+    "id": "CTR-C10-01",
+    "file": "packages/editor/src/ui/design-system/collection-search.ts",
+    "find": "export const DS_OPTION_VIRTUALIZE_ABOVE = 80",
+    "replace": "export const DS_OPTION_VIRTUALIZE_ABOVE = 79",
+    "test": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+    "expectFullname": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80"
+  },
+  {
+    "id": "CTR-C10-02",
+    "file": "packages/editor/src/ui/design-system/collection-search.ts",
+    "find": "if (!needle) return items",
+    "replace": "if (!needle) return []",
+    "test": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+    "expectFullname": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用"
+  },
+  {
+    "id": "CTR-C10-03",
+    "file": "packages/editor/src/ui/design-system/collection-search.ts",
+    "find": "const needle = query.trim().toLocaleLowerCase()",
+    "replace": "const needle = query.trim().toUpperCase()",
+    "test": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+    "expectFullname": "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串"
+  },
+  {
+    "id": "CTR-C10-04",
+    "file": "packages/editor/src/ui/design-system/control-utils.ts",
+    "find": "return value || undefined",
+    "replace": "return value || 'fallback'",
+    "test": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+    "expectFullname": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id"
+  },
+  {
+    "id": "CTR-C10-05",
+    "file": "packages/editor/src/ui/design-system/control-utils.ts",
+    "find": "return values.filter(Boolean).join(' ')",
+    "replace": "return values.filter(Boolean).join(',')",
+    "test": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+    "expectFullname": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id"
+  },
+  {
+    "id": "CTR-C03-01",
+    "file": "packages/editor/src/core/image-import.ts",
+    "find": "const base = `${kind}.authored.${hash.slice(0, 16)}`",
+    "replace": "const base = `${kind}.authored.${hash.slice(0, 15)}`",
+    "test": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+    "expectFullname": "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16"
+  },
+  {
+    "id": "CTR-C03-02",
+    "file": "packages/editor/src/core/image-import.ts",
+    "find": "for (let suffix = 2; ; suffix++) {",
+    "replace": "for (let suffix = 3; ; suffix++) {",
+    "test": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+    "expectFullname": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀"
+  },
+  {
+    "id": "CTR-C05-07",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "leftId.localeCompare(rightId),",
+    "replace": "rightId.localeCompare(leftId),",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序"
+  },
+  {
+    "id": "CTR-C08-10",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "if (!used.has(stem)) return stem",
+    "replace": "if (!used.has(stem)) return `${stem}-0`",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用"
+  },
+  {
+    "id": "CTR-C09-03",
+    "file": "packages/editor/src/core/audio-preview-session.ts",
+    "find": "  previous?.stop()\n  activeOwner = owner",
+    "replace": "  activeOwner = owner",
+    "test": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+    "expectFullname": "C09-G02 编辑器试听 owner C09-G02-03 新 owner 停止旧 owner"
+  },
+  {
+    "id": "CTR-C09-04",
+    "file": "packages/editor/src/core/audio-preview-session.ts",
+    "find": "if (activeOwner === owner) return",
+    "replace": "if (false && activeOwner === owner) return",
+    "test": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+    "expectFullname": "C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等"
+  },
+  {
+    "id": "CTR-C09-05",
+    "file": "packages/editor/src/core/audio-preview-session.ts",
+    "find": "if (activeOwner === owner) activeOwner = undefined",
+    "replace": "if (activeOwner === owner) activeOwner = owner",
+    "test": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+    "expectFullname": "C09-G02 编辑器试听 owner C09-G02-04 release 活动 owner 后 isOwner 为 false"
+  },
+  {
+    "id": "CTR-C07-04",
+    "file": "packages/editor/src/core/frame-animation-images.ts",
+    "find": "return [...files].sort((left, right) => natural.compare(left.name, right.name))",
+    "replace": "return [...files].sort((left, right) => right.name.localeCompare(left.name))",
+    "test": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+    "expectFullname": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-03 decodeFrameImages 自然排序后批量解码"
+  },
+  {
+    "id": "CTR-C07-05",
+    "file": "packages/editor/src/core/frame-animation-images.ts",
+    "find": "if (ordered.length === 0) throw new Error('至少选择一张图片')",
+    "replace": "if (ordered.length === 0) return []",
+    "test": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+    "expectFullname": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-05 空列表拒绝"
+  },
+  {
+    "id": "CTR-C10-06",
+    "file": "packages/editor/src/ui/design-system/reorder.tsx",
+    "find": "  const [moved] = next.splice(intent.fromIndex, 1)\n  if (moved === undefined) return items\n  next.splice(intent.toIndex, 0, moved)",
+    "replace": "  const [moved] = next.splice(intent.fromIndex, 1)\n  if (moved === undefined) return items\n  next.splice(intent.toIndex, 0, moved, moved)",
+    "test": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+    "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项"
+  },
+  {
+    "id": "CTR-C10-07",
+    "file": "packages/editor/src/ui/design-system/reorder.tsx",
+    "find": "return JSON.stringify(left) === JSON.stringify(right)",
+    "replace": "return left === right",
+    "test": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+    "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感"
+  },
+  {
+    "id": "CTR-C08-12",
+    "file": "packages/editor/src/core/stamp-commands.ts",
+    "find": "export class ReplaceStampTemplateCommand implements Command {\n  readonly label = '更新图章模板'\n  private readonly template: StampTemplate\n  private readonly takeOwnership: boolean\n  private previous: StampTemplate | undefined\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [this.template.id]\n  }",
+    "replace": "export class ReplaceStampTemplateCommand implements Command {\n  readonly label = '更新图章模板'\n  private readonly template: StampTemplate\n  private readonly takeOwnership: boolean\n  private previous: StampTemplate | undefined\n\n  get mapReferenceStampIds(): readonly string[] {\n    return ['wrong-id']\n  }",
+    "test": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+    "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id"
+  },
+  {
+    "id": "CTR-C08-13",
+    "file": "packages/editor/src/core/tileset-references.ts",
+    "find": "throw new Error('地图引用扫描不完整，不能生成许可。')",
+    "replace": "throw new Error('地图引用扫描不完整，不能生成许可!!!')",
+    "test": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+    "expectFullname": "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝"
+  },
+  {
+    "id": "CTR-C08-14",
+    "file": "packages/editor/src/core/stamp-draft.ts",
+    "find": "return `${point.row}:${point.col}`",
+    "replace": "return `${point.col}:${point.row}`",
+    "test": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+    "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本"
+  },
+  {
+    "id": "CTR-C04-04",
+    "file": "packages/editor/src/core/frame-animation-draft.ts",
+    "find": "const frames = draft.frames.filter((_frame, index) => !remove.has(index))",
+    "replace": "const frames = draft.frames.filter((_frame, index) => remove.has(index))",
+    "test": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+    "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐"
+  },
+  {
+    "id": "CTR-C05-09",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "return sprite && action ? { sprite, action } : undefined",
+    "replace": "return sprite && action ? { sprite, action: sortedSpriteActions(sprite)[1]! } : undefined",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后"
+  },
+  {
+    "id": "CTR-C05-10",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "const sprite = sprites.find((entry) => entry.id === spriteId)",
+    "replace": "const sprite = sprites.find((entry) => entry.id !== spriteId)",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作"
+  },
+  {
+    "id": "CTR-C08-15",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "throw new Error('组合锚点必须位于当前地图内。')",
+    "replace": "throw new Error('组合锚点必须位于当前地图外。')",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝"
+  },
+  {
+    "id": "CTR-C09-06",
+    "file": "packages/editor/src/core/audio-preview.ts",
+    "find": "return { kind: 'pcm-peaks', duration: Math.max(0, duration), minimums, maximums }",
+    "replace": "return { kind: 'pcm-peaks', duration: Math.max(0, duration + 1), minimums, maximums }",
+    "test": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+    "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket"
+  },
+  {
+    "id": "CTR-C10-08",
+    "file": "packages/editor/src/ui/design-system/reorder.tsx",
+    "find": "    ;[next[intent.fromIndex], next[intent.toIndex]] = [",
+    "replace": "    ;[next[intent.fromIndex], next[intent.toIndex]] = [next[intent.fromIndex]!, next[intent.fromIndex]!,",
+    "test": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+    "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-02 swap 同索引保持原引用"
+  },
+  {
+    "id": "CTR-C03-03",
+    "file": "packages/editor/src/core/image-import.ts",
+    "find": "if (!catalog.assets[base]) return base",
+    "replace": "if (!catalog.assets[base]) return `${base}-0`",
+    "test": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+    "expectFullname": "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16"
+  },
+  {
+    "id": "CTR-C08-16",
+    "file": "packages/editor/src/core/stamp-commands.ts",
+    "find": "export class DuplicateStampTemplateCommand implements Command {\n  readonly label = '复制图章模板'\n  private readonly sourceId: string\n  private readonly targetId: string\n  private readonly targetName: string | undefined\n  private delegate: AddStampTemplateCommand | undefined\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [this.targetId]\n  }",
+    "replace": "export class DuplicateStampTemplateCommand implements Command {\n  readonly label = '复制图章模板'\n  private readonly sourceId: string\n  private readonly targetId: string\n  private readonly targetName: string | undefined\n  private delegate: AddStampTemplateCommand | undefined\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [this.sourceId]\n  }",
+    "test": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+    "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id"
+  },
+  {
+    "id": "CTR-C08-17",
+    "file": "packages/editor/src/core/stamp-commands.ts",
+    "find": "export class DeleteStampTemplateCommand implements Command {\n  readonly label = '删除图章模板'\n  private readonly templateId: string\n  private readonly proof: StampDeletionProof\n  private removed: StampTemplate | undefined\n\n  get mapReferenceStampIds(): readonly string[] {\n    return [this.templateId]\n  }",
+    "replace": "export class DeleteStampTemplateCommand implements Command {\n  readonly label = '删除图章模板'\n  private readonly templateId: string\n  private readonly proof: StampDeletionProof\n  private removed: StampTemplate | undefined\n\n  get mapReferenceStampIds(): readonly string[] {\n    return []\n  }",
+    "test": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+    "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id"
+  },
+  {
+    "id": "CTR-C04-05",
+    "file": "packages/editor/src/core/frame-animation-draft.ts",
+    "find": "export function moveDraftFrame(\n  draft: FrameAnimationDraft,\n  from: number,\n  to: number,\n): FrameAnimationDraft {",
+    "replace": "export function moveDraftFrame(\n  draft: FrameAnimationDraft,\n  from: number,\n  to: number,\n): FrameAnimationDraft {\n  if (from === to) return draft",
+    "test": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+    "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段"
+  }
+]

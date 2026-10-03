@@ -1,0 +1,4309 @@
+{
+  "total": 717,
+  "passed": 717,
+  "failed": 0,
+  "tests": [
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-01 首次 claim 不调用 stop",
+      "status": "passed",
+      "duration": 1.3062500000000057
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等",
+      "status": "passed",
+      "duration": 0.17591699999999832
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-03 新 owner 停止旧 owner",
+      "status": "passed",
+      "duration": 0.20245799999999292
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-04 release 活动 owner 后 isOwner 为 false",
+      "status": "passed",
+      "duration": 0.13058400000001313
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-05 release 非活动 owner 不影响当前 owner",
+      "status": "passed",
+      "duration": 0.07954200000000355
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-06 stop 在无 owner 时安全",
+      "status": "passed",
+      "duration": 0.03987500000000921
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-07 stop 后新 claim 可立即生效",
+      "status": "passed",
+      "duration": 0.20516700000000299
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-08 三连 claim 只停止上一个",
+      "status": "passed",
+      "duration": 0.24075000000000557
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-09 release 后 stop 不再调用已释放 owner",
+      "status": "passed",
+      "duration": 0.31929200000000435
+    },
+    {
+      "file": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+      "fullName": "C09-G02 编辑器试听 owner C09-G02-10 stop 对活动 owner 只 stop 一次",
+      "status": "passed",
+      "duration": 0.08495800000000031
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
+      "status": "passed",
+      "duration": 1.412791999999996
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket",
+      "status": "passed",
+      "duration": 0.2434159999999963
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-03 AudioPreviewCache 拒绝 loader 时不写入条目",
+      "status": "passed",
+      "duration": 0.7261249999999961
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-04 AudioPreviewCache.get 刷新 LRU 顺序",
+      "status": "passed",
+      "duration": 0.18741599999999892
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-05 transport.play 未 load 抛错",
+      "status": "passed",
+      "duration": 0.5978750000000019
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-06 readBytes 使用 sound kind",
+      "status": "passed",
+      "duration": 0.8591250000000059
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-07 不同 cacheKey 触发第二次 readBytes",
+      "status": "passed",
+      "duration": 0.4121669999999966
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-08 dispose 后 load 以 AbortError 拒绝",
+      "status": "passed",
+      "duration": 0.448875000000001
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-09 seek 到时长末端不再 start 源",
+      "status": "passed",
+      "duration": 0.5820830000000115
+    },
+    {
+      "file": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+      "fullName": "C09-G01 audio-preview IO 与峰值 C09-G01-10 snapshot 在未 load 时 duration 为 0",
+      "status": "passed",
+      "duration": 0.13795799999999758
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index",
+      "status": "passed",
+      "duration": 20.07404200000002
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-02 colorTreatment project-standard 写入 index",
+      "status": "passed",
+      "duration": 0.9971659999999929
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-03 单帧最小合成：TPFS 魔数与宽高",
+      "status": "passed",
+      "duration": 0.6674580000000105
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）",
+      "status": "passed",
+      "duration": 0.725875000000002
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-05 越界 sourceFrame 带小数索引拒绝",
+      "status": "passed",
+      "duration": 1.1398750000000177
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原",
+      "status": "passed",
+      "duration": 4.839416999999997
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致",
+      "status": "passed",
+      "duration": 1.2223749999999995
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写",
+      "status": "passed",
+      "duration": 0.4639580000000194
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-09 quantize 输出改色不影响下一帧结果",
+      "status": "passed",
+      "duration": 0.38341700000000856
+    },
+    {
+      "file": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+      "fullName": "C07-G03 合成 rgba 编码 C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO",
+      "status": "passed",
+      "duration": 1.6116670000000113
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-01 quantize 单帧：id 回显且 transfer detach 原缓冲",
+      "status": "passed",
+      "duration": 1.6197919999999613
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-02 quantize 双帧：transfer 两条",
+      "status": "passed",
+      "duration": 0.33904199999994944
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-03 quantize 空色彩表：error 无 transfer",
+      "status": "passed",
+      "duration": 0.7685000000000173
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-04 encode 异步回 TPFS：bytes transfer detach",
+      "status": "passed",
+      "duration": 52.78433400000006
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-05 encode 缺源 sourceFrame：error 字符串",
+      "status": "passed",
+      "duration": 51.86279200000001
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-06 encode 两 rgba 帧：durationMs 写入 index",
+      "status": "passed",
+      "duration": 51.98479199999997
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-07 encode 回帖 bytes 可解码首帧像素",
+      "status": "passed",
+      "duration": 54.22254099999998
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-08 连续 quantize 消息 id 各自回显",
+      "status": "passed",
+      "duration": 0.6668329999999969
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-09 quantize floyd-steinberg 单像素吸附",
+      "status": "passed",
+      "duration": 2.1559159999999338
+    },
+    {
+      "file": "src/core/frame-animation-codec.worker.c07-g05.cursor-r1.test.ts",
+      "fullName": "C07-G05 worker handler C07-G05-10 encode 失败回帖不含 bytes 字段",
+      "status": "passed",
+      "duration": 51.84133300000008
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150",
+      "status": "passed",
+      "duration": 1.055458999999999
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新",
+      "status": "passed",
+      "duration": 0.6214579999999899
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs",
+      "status": "passed",
+      "duration": 0.09991700000000492
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐",
+      "status": "passed",
+      "duration": 0.4140419999999949
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段",
+      "status": "passed",
+      "duration": 0.3107080000000053
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+      "status": "passed",
+      "duration": 0.14737500000001091
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长",
+      "status": "passed",
+      "duration": 0.14749999999999375
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}",
+      "status": "passed",
+      "duration": 0.10216599999999687
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确",
+      "status": "passed",
+      "duration": 0.4176249999999868
+    },
+    {
+      "file": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+      "fullName": "C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override",
+      "status": "passed",
+      "duration": 0.1309580000000068
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-01 decodeFrameImage 真实像素与尺寸来自合成 PNG",
+      "status": "passed",
+      "duration": 222.02712500000007
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-02 rgba 为独立副本：改返回值不改画布源",
+      "status": "passed",
+      "duration": 0.9588750000000346
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-03 decodeFrameImages 自然排序后批量解码",
+      "status": "passed",
+      "duration": 2.3654160000000957
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-04 preserveOrder 保持输入顺序不排序",
+      "status": "passed",
+      "duration": 0.7282920000000104
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-05 空列表拒绝",
+      "status": "passed",
+      "duration": 0.7992500000000291
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-06 尺寸不一致：第二帧拒绝且首帧已 close",
+      "status": "passed",
+      "duration": 0.9265410000000429
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-07 assertFrameImageFile：扩展名 .PNG 无 MIME 仍过门",
+      "status": "passed",
+      "duration": 0.21929099999988466
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-08 assertFrameImageFile：gif 拒绝且不解码",
+      "status": "passed",
+      "duration": 0.5797919999999976
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-09 sortFrameImageFiles 不 mutate 原数组",
+      "status": "passed",
+      "duration": 0.4622910000000502
+    },
+    {
+      "file": "src/core/frame-animation-images.c07-g02.cursor-r1.test.ts",
+      "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-10 损坏 PNG：解码失败且 live bitmap 归零",
+      "status": "passed",
+      "duration": 0.26612500000010186
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-01 连续两次 encode 分配递增 id",
+      "status": "passed",
+      "duration": 1.2886249999999961
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-02 仅 sourceFrame 时 transfer 不含 rgba",
+      "status": "passed",
+      "duration": 0.5312920000000076
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-03 postMessage 后调用者 source/rgba 仍可读",
+      "status": "passed",
+      "duration": 0.5163750000000107
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-04 成功应答 terminate 恰一次",
+      "status": "passed",
+      "duration": 0.35491700000000037
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-05 错误 id 应答被忽略",
+      "status": "passed",
+      "duration": 0.30808300000001054
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-06 error 字符串拒绝并 terminate",
+      "status": "passed",
+      "duration": 0.9424590000000137
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-07 onerror 透传并 terminate",
+      "status": "passed",
+      "duration": 0.19645900000000438
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 encodeFrameAnimationInWorker C07-G04-08 无 Worker 降级 encode 产出可解析 TPFS",
+      "status": "passed",
+      "duration": 19.11987499999998
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 quantizeFrameAnimationInWorker C07-G04-09 两帧 transfer 长度为 2",
+      "status": "passed",
+      "duration": 0.7610420000000033
+    },
+    {
+      "file": "src/core/frame-animation-worker-client.c07-g04.cursor-r1.test.ts",
+      "fullName": "C07-G04 quantizeFrameAnimationInWorker C07-G04-10 无 Worker 降级 quantize 返回 Uint8Array 副本",
+      "status": "passed",
+      "duration": 0.31366700000000947
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+      "status": "passed",
+      "duration": 5.167750000000069
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+      "status": "passed",
+      "duration": 0.6784999999999854
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+      "status": "passed",
+      "duration": 0.48558300000001964
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+      "status": "passed",
+      "duration": 0.7036250000001019
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+      "status": "passed",
+      "duration": 0.18725000000006276
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+      "status": "passed",
+      "duration": 0.16849999999999454
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+      "status": "passed",
+      "duration": 0.1534159999999929
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+      "status": "passed",
+      "duration": 0.1498340000000553
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+      "status": "passed",
+      "duration": 1.044416999999953
+    },
+    {
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分",
+      "status": "passed",
+      "duration": 0.5227090000000771
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+      "status": "passed",
+      "duration": 1.3154169999999965
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+      "status": "passed",
+      "duration": 0.2410419999999931
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+      "status": "passed",
+      "duration": 0.16745800000001054
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "status": "passed",
+      "duration": 7.146375000000006
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+      "status": "passed",
+      "duration": 0.19379200000000196
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+      "status": "passed",
+      "duration": 0.17900000000000205
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+      "status": "passed",
+      "duration": 0.1451669999999865
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+      "status": "passed",
+      "duration": 0.20191699999998036
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+      "status": "passed",
+      "duration": 0.4038749999999993
+    },
+    {
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
+      "status": "passed",
+      "duration": 0.3025000000000091
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-01 layout+poses+label 联合补丁一次落地，invert 同时还原三个字段",
+      "status": "passed",
+      "duration": 63.856874999999945
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-02 directional 布局：framesPerDir×4 恰等于实际帧数放行，多 1 帧抛出确切越界帧列表",
+      "status": "passed",
+      "duration": 18.84258299999965
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-03 非法布局：loop 与 framesPerDir 为 0/负/小数/NaN 全部以同一布局非法文案拒绝且状态原样",
+      "status": "passed",
+      "duration": 8.752250000000004
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-04 非法动作：空白名称与空步骤各自以“预制动作 <id> 非法”拒绝，错误指名具体 ActionId",
+      "status": "passed",
+      "duration": 10.144458000000213
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-05 非法数值：帧号负数/小数/NaN 与停留小数/负数/NaN 均拒绝",
+      "status": "passed",
+      "duration": 12.844666999999845
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-06 非法序/循环点/音效：order 负数与小数、loopFrom 负/等于步数/小数、cue 空 asset 均拒绝",
+      "status": "passed",
+      "duration": 15.249749999999949
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-07 新增帧边界：帧号=实际帧数-1 放行，=实际帧数 抛出确切文案",
+      "status": "passed",
+      "duration": 9.582292000000052
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-08 proof.asset 与精灵资产不一致或 proof 缺省均拒绝；仅 label 补丁不受 proof 约束",
+      "status": "passed",
+      "duration": 9.865917000000081
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-09 删除被实体页引用的动作：SpriteInUseError 携带目标文案与真实引用边；撤销引用后同命令放行",
+      "status": "passed",
+      "duration": 10.211749999999938
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-10 一次删除多个动作时错误文案按 poses 键序列出全部被删 ActionId，仅被引用者计入引用数",
+      "status": "passed",
+      "duration": 7.9152500000000146
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-11 引用 provider 只在“删除动作”时被咨询；仅新增或改写既有动作不咨询",
+      "status": "passed",
+      "duration": 5.780750000000353
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
+      "fullName": "C05-G02 UpdateSpriteCommand 联合补丁与非法形状 C05-G02-12 首次 apply 捕获的旧值不被后续 apply 覆盖：对另一状态再 apply 后 invert 仍还原首次旧值",
+      "status": "passed",
+      "duration": 6.47504200000003
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-01 增帧替换：catalog 与 blob 切到新路径，旧路径 blob 不残留；invert 写回旧字节与旧 catalog",
+      "status": "passed",
+      "duration": 49.68299999999999
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-02 缩帧修复事务成功：全部消费者按显式 repairs 重写，资产与布局同一事务；invert 还原消费者",
+      "status": "passed",
+      "duration": 15.384375000000091
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-03 缩帧缺 repairs 或缺 snapshots 任一都以“不得减少有效帧”拒绝，状态不被触碰",
+      "status": "passed",
+      "duration": 11.008332999999766
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-04 缩帧时共享资源的第二个消费者未被修复：整笔拒绝，且未修复者保持原布局",
+      "status": "passed",
+      "duration": 11.307749999999942
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-05 缩帧快照与当前消费者布局/姿势不一致：指名漂移消费者并要求重新确认",
+      "status": "passed",
+      "duration": 12.761708999999883
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-06 缩帧修复后仍超出新帧数，或修复本身是非法布局：各自以确切文案拒绝",
+      "status": "passed",
+      "duration": 20.284707999999682
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-07 替换记录的路径已被其它资产占用：指名占用者并拒绝",
+      "status": "passed",
+      "duration": 13.676124999999956
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-08 无用途资源可用 spriteId=undefined 替换（消费者仍须为空）；自定义 label 原样暴露",
+      "status": "passed",
+      "duration": 13.117749999999887
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-09 AddSprite 的 record/blob 完整性守卫：kind、mediaType、bytes 长度、sha256、gzip 魔数各有确切文案",
+      "status": "passed",
+      "duration": 18.09287499999982
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-10 AddSpriteDefinition：帧需求恰等于实际帧数放行，姿势帧越界与 loop 布局分别被拒",
+      "status": "passed",
+      "duration": 6.163749999999709
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-11 AddSpriteDefinition 拒绝 proof 帧数为 0 与 proof 指向别的资产",
+      "status": "passed",
+      "duration": 6.46545900000001
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-12 RemoveSpriteDefinition：21 个实体引用时文案头部报 21 处而正文只列前 20 行；资产保持不动",
+      "status": "passed",
+      "duration": 11.682291999999961
+    },
+    {
+      "file": "src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
+      "fullName": "C05-G03 精灵资产生命周期命令 C05-G03-13 DeleteUnusedSpriteAsset：invert 还原 apply 前的 blob 表；磁盘已持久资产仅在给出 persistedBytes 时写回字节副本",
+      "status": "passed",
+      "duration": 13.99599999999964
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+      "status": "passed",
+      "duration": 1.3360409999999092
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+      "status": "passed",
+      "duration": 0.26091699999994944
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+      "status": "passed",
+      "duration": 0.09441700000002129
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+      "status": "passed",
+      "duration": 39.98233300000004
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+      "status": "passed",
+      "duration": 6.520083
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+      "status": "passed",
+      "duration": 0.21737500000006094
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+      "status": "passed",
+      "duration": 0.3015419999999267
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+      "status": "passed",
+      "duration": 0.3901250000000118
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+      "status": "passed",
+      "duration": 9.12358400000005
+    },
+    {
+      "file": "src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
+      "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键",
+      "status": "passed",
+      "duration": 0.7312500000000455
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+      "status": "passed",
+      "duration": 0.7709580000000074
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+      "status": "passed",
+      "duration": 0.20158299999997098
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-03 stampDraftBounds 默认 padding=2 扩展错排 U 范围",
+      "status": "passed",
+      "duration": 0.15333399999997255
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+      "status": "passed",
+      "duration": 0.11425000000002683
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+      "status": "passed",
+      "duration": 0.5606660000000261
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-06 moveStampDraftSelection 视觉层 right 一步：tile 与 source 同步迁移",
+      "status": "passed",
+      "duration": 0.45104199999997263
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-07 moveStampDraftSelection 碰撞层 down 迁移保留数值",
+      "status": "passed",
+      "duration": 0.3190000000000168
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-08 moveStampDraftSelection 空 points 返回原 draft 引用",
+      "status": "passed",
+      "duration": 0.2903329999999755
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-09 moveStampDraftSelection 视觉目标占用抛错且状态不变",
+      "status": "passed",
+      "duration": 1.4590409999999565
+    },
+    {
+      "file": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+      "fullName": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-10 moveStampDraftSelection 越界方向抛错",
+      "status": "passed",
+      "duration": 0.1685420000000022
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+      "status": "passed",
+      "duration": 0.9407909999999902
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
+      "status": "passed",
+      "duration": 0.18695800000000418
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "status": "passed",
+      "duration": 0.8033750000000168
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+      "status": "passed",
+      "duration": 0.225750000000005
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+      "status": "passed",
+      "duration": 0.28891699999996945
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+      "status": "passed",
+      "duration": 1.0830829999999878
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+      "status": "passed",
+      "duration": 0.2317920000000413
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+      "status": "passed",
+      "duration": 1.1287919999999758
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+      "status": "passed",
+      "duration": 0.8007499999999936
+    },
+    {
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null",
+      "status": "passed",
+      "duration": 0.193333999999993
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+      "status": "passed",
+      "duration": 1.027417000000014
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind",
+      "status": "passed",
+      "duration": 0.26883400000002666
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-03 imageAssets(portrait) 只保留 portrait 记录",
+      "status": "passed",
+      "duration": 0.14999999999997726
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-04 imageAssets 按 AssetId 字典序排序",
+      "status": "passed",
+      "duration": 7.077124999999967
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-05 空 catalog 返回空列表",
+      "status": "passed",
+      "duration": 0.16445800000002464
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-06 imageAssetLabel 有 label 时带括号 id",
+      "status": "passed",
+      "duration": 0.09504199999997809
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-07 imageAssetLabel 无 label 时仅 id",
+      "status": "passed",
+      "duration": 0.11029200000001538
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-08 battle-background 过滤不含其它 kind",
+      "status": "passed",
+      "duration": 1.0264999999999986
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-09 item-icon 与 face 互不串 kind",
+      "status": "passed",
+      "duration": 2.121332999999993
+    },
+    {
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-10 STATIC_IMAGE_KINDS 不含 frame-animation / video",
+      "status": "passed",
+      "duration": 0.40187499999996135
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-01 UpdateTilesetMetadata 只改分类：name 与 asset 不变",
+      "status": "passed",
+      "duration": 41.547000000000025
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-02 UpdateTilesetMetadata 只改名称：category 保留",
+      "status": "passed",
+      "duration": 7.275125000000116
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-03 UpdateTilesetMetadata undo 精确还原 name+category",
+      "status": "passed",
+      "duration": 9.457499999999982
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-04 AddTileset 新路径入库后 catalog 与 assetBlobs 同步登记",
+      "status": "passed",
+      "duration": 8.7322079999999
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-05 AddTileset 路径已被其它 AssetId 占用时整串拒绝",
+      "status": "passed",
+      "duration": 5.221667000000025
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-06 AddTileset 缺 AssetId 字段精确报错",
+      "status": "passed",
+      "duration": 4.724333999999999
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-07 共享 AssetId 追加定义后 Remove 单定义：catalog 仍保留共享资源",
+      "status": "passed",
+      "duration": 5.687208999999939
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-08 ReplaceTilesetAsset 追加独立 tileset 后替换 bytes：undo 恢复 sha",
+      "status": "passed",
+      "duration": 13.08570799999984
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-09 UpdateTilesetMetadata 连续 dispatch：undo 逐步还原",
+      "status": "passed",
+      "duration": 5.755374999999958
+    },
+    {
+      "file": "src/core/tileset-commands.c08-g01.cursor-r1.test.ts",
+      "fullName": "C08-G01 tileset-commands 会话补丁与资源身份 C08-G01-10 RemoveTileset 缺席 id apply 为同一引用",
+      "status": "passed",
+      "duration": 9.681709000000183
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+      "status": "passed",
+      "duration": 38.55770799999982
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+      "status": "passed",
+      "duration": 6.429375000000164
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+      "status": "passed",
+      "duration": 9.05925000000002
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+      "status": "passed",
+      "duration": 8.096292000000176
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+      "status": "passed",
+      "duration": 5.510417000000189
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+      "status": "passed",
+      "duration": 5.115665999999919
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+      "status": "passed",
+      "duration": 4.982500000000073
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+      "status": "passed",
+      "duration": 4.561332999999877
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+      "status": "passed",
+      "duration": 5.139374999999973
+    },
+    {
+      "file": "src/core/tileset-references.c08-g02.cursor-r1.test.ts",
+      "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
+      "status": "passed",
+      "duration": 9.416124999999965
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-01 0.312s 显示 0:00.31 亚秒端点",
+      "status": "passed",
+      "duration": 90.76854200000002
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-02 整秒长音不显示百分秒",
+      "status": "passed",
+      "duration": 29.187999999999874
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-03 搜索过滤目录行",
+      "status": "passed",
+      "duration": 73.55870899999991
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-04 工作区 aria-label 含策略标题",
+      "status": "passed",
+      "duration": 23.831624999999804
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-05 目录行无 leading glyph",
+      "status": "passed",
+      "duration": 52.86650000000009
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-06 播放后暂停调用 transport.pause",
+      "status": "passed",
+      "duration": 31.477375000000166
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-07 无匹配搜索显示「没有匹配的资源」",
+      "status": "passed",
+      "duration": 33.64095800000018
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-08 切换目录行更新 hero 标题",
+      "status": "passed",
+      "duration": 46.1323339999999
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-09 时间轴滑杆 max 为 1",
+      "status": "passed",
+      "duration": 49.15166599999998
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
+      "fullName": "C09-G05 AudioAssetWorkbench 时间轴与目录 C09-G05-10 读取中状态文案",
+      "status": "passed",
+      "duration": 48.08133399999997
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-01 删除确认 readBytes 带 sound kind 与 asset id",
+      "status": "passed",
+      "duration": 224.99395800000002
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-02 无引用时异步 read 完成后删除成功",
+      "status": "passed",
+      "duration": 122.96395800000005
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-03 read 完成时 getCurrentReferenceIndex 有引用则阻断",
+      "status": "passed",
+      "duration": 74.7889580000001
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-04 有引用时删除按钮在对话框被禁用",
+      "status": "passed",
+      "duration": 59.86387500000001
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-05 referenceStatus stale 显示刷新提示",
+      "status": "passed",
+      "duration": 24.892916999999898
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-06 referenceStatus failed 阻断对话框确认删除",
+      "status": "passed",
+      "duration": 35.944582999999966
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-07 真实 WAV transport load 调用 reader sound kind",
+      "status": "passed",
+      "duration": 43.61929200000009
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-08 删除成功后选择移到下一行",
+      "status": "passed",
+      "duration": 127.13804200000004
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-09 删除失败保留 hero 标题",
+      "status": "passed",
+      "duration": 73.81062500000007
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
+      "fullName": "C09-G06 AudioAssetWorkbench IO 与引用核验 C09-G06-10 目录 trailing 显示引用计数",
+      "status": "passed",
+      "duration": 23.970708000000286
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-01 SoundTab 空项目显示音效空态文案",
+      "status": "passed",
+      "duration": 103.22720800000002
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-02 MusicTab 导入入口 accept 含 mid",
+      "status": "passed",
+      "duration": 74.04512499999987
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-03 真实 WAV 导入后 catalog 含 sound.authored id",
+      "status": "passed",
+      "duration": 101.29287499999987
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-04 WAV 导入后时间轴显示 PCM 波形标签",
+      "status": "passed",
+      "duration": 76.28379199999995
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-05 同字节 WAV 再导入覆盖稳定 sound.authored id",
+      "status": "passed",
+      "duration": 64.43654199999992
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-06 播放按钮触发 AudioContext resume",
+      "status": "passed",
+      "duration": 70.21804199999997
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-07 非法 WAV 导入零提交且显示错误",
+      "status": "passed",
+      "duration": 13.201082999999926
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-08 MusicTab 导入真实 MIDI 增加 music 资源",
+      "status": "passed",
+      "duration": 95.1647919999998
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-09 替换 WAV 走 Upsert 且保留同一 id",
+      "status": "passed",
+      "duration": 197.63762500000007
+    },
+    {
+      "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+      "fullName": "C09-G07 真实 wrapper 导入与试听 C09-G07-10 导入两条音效后切选写入 onObjectFocus",
+      "status": "passed",
+      "duration": 82.59029199999986
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-01 首帧：主画布出现第 0 帧调色板色",
+      "status": "passed",
+      "duration": 481.897958
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-02 多帧轮转：40ms 后切换到第 1 帧色",
+      "status": "passed",
+      "duration": 49.473916000000145
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-03 选择缩略图帧：onFrameSelect 收到索引 3",
+      "status": "passed",
+      "duration": 36.19150000000013
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-04 sequenceKey 变化：从序列首帧重画",
+      "status": "passed",
+      "duration": 46.05604100000005
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-05 资源闸门：加载期间主画布空白，放行后绘制",
+      "status": "passed",
+      "duration": 26.46487500000012
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-06 读取失败：错误可见且画布保持空白",
+      "status": "passed",
+      "duration": 20.807166999999936
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-07 缩略图 canvas 逐帧着色且互异",
+      "status": "passed",
+      "duration": 48.006832999999915
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-08 换定义 asset：清除旧像素且呈现新色",
+      "status": "passed",
+      "duration": 43.34458300000006
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-09 interval 清理：卸载后定时器归零",
+      "status": "passed",
+      "duration": 29.2048749999999
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-10 activeFrames 高亮：对应缩略图 aria-pressed 为 true",
+      "status": "passed",
+      "duration": 25.612666999999874
+    },
+    {
+      "file": "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+      "fullName": "C06-G04-11 仅 asset 预览：无 definition 时仍绘制第 0 帧",
+      "status": "passed",
+      "duration": 37.4725420000002
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交",
+      "status": "passed",
+      "duration": 665.452875
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-02 外部缩帧替换改写消费者对象：未提交的改名草稿回落到规范值且不可应用",
+      "status": "passed",
+      "duration": 253.24474999999984
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+      "status": "passed",
+      "duration": 278.2157500000003
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-04 外部新增共享消费者使替换面板关闭且零提交；重开后确认文案按最新 3 个用途重算",
+      "status": "passed",
+      "duration": 330.021667
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-05 删帧确认窗口内外部新增共享消费者：缩帧事务拒绝，字节与 catalog 不变",
+      "status": "passed",
+      "duration": 158.53962499999943
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-06 删帧确认窗口内外部改了消费者 profile：快照不符拒绝且保留外部改动",
+      "status": "passed",
+      "duration": 150.4527080000007
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-07 会话层：外部替换后沿用旧证明的 ABI 更新被拒且零污染，新证明可提交",
+      "status": "passed",
+      "duration": 61.19133299999976
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿保留并可正常应用",
+      "status": "passed",
+      "duration": 318.95837500000016
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-09 删除玩家共享帧 #3：两个用途在同一事务内重排槽位，撤销整体还原",
+      "status": "passed",
+      "duration": 223.8159170000008
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "fullName": "C02-G01-10 召唤用途删帧无需槽位重排：全帧语义随实际帧数收缩，undo 回到 5 帧",
+      "status": "passed",
+      "duration": 196.7282920000007
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-01 取消导入：面板关闭、选择与历史不变，重开后上传器回到空态",
+      "status": "passed",
+      "duration": 525.0955410000001
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-02 玩家 9 帧图集导入失败：面板保留、零提交，换 10 帧后同面板恢复并选中新用途",
+      "status": "passed",
+      "duration": 257.0842499999999
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-03 损坏的图片文件：上传器报错且无应用入口，换合法图后恢复到可应用",
+      "status": "passed",
+      "duration": 104.72158300000001
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-04 单帧图导入为敌人：待机 1 帧、施法/攻击 0 帧，过保存门",
+      "status": "passed",
+      "duration": 151.83558399999993
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-05 同字节再导入为召唤：复用同一 AssetId，撤销链只回退定义，最后才移除资产",
+      "status": "passed",
+      "duration": 393.69079200000033
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-06 相同前缀与用途、不同图的两次导入：定义 id 依次为 boss-enemy 与 boss-enemy-2",
+      "status": "passed",
+      "duration": 263.92812499999945
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-07 纯中文 ID 前缀回退 authored；显示名留空时定义名回退为前缀词干",
+      "status": "passed",
+      "duration": 133.03416599999946
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-08 导入后 undo：选择回落到目录首项；redo 恢复资产但不抢回选择",
+      "status": "passed",
+      "duration": 115.33920800000033
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-09 用途下拉只提供三种导入类型，选召唤后写入 {kind: summon} 且全帧语义",
+      "status": "passed",
+      "duration": 125.19191600000067
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "fullName": "C02-G02-10 取消后重开保留已填 ID 与显示名；随后导入按保留值落名",
+      "status": "passed",
+      "duration": 204.9370829999998
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-01 无深链初始归属 definitions[0]：starter 被选中，目录行/检查器同名且不向宿主上报",
+      "status": "passed",
+      "duration": 459.67083300000013
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-02 asset 视图深链未配置资产：默认落源文件页签，提供删除而非替换",
+      "status": "passed",
+      "duration": 132.297458
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-03 点击目录行向宿主上报：有用途资产报首个用途，未配置资产报 asset",
+      "status": "passed",
+      "duration": 177.67766699999993
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-04 宿主受控深链改焦点：打开中的导入面板被收起，选择跳到目标用途",
+      "status": "passed",
+      "duration": 182.17270800000006
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-05 搜索过滤不偷换选择：选中项被滤出目录后检查器仍属原对象，清空后高亮回来",
+      "status": "passed",
+      "duration": 189.49450000000024
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-06 未配置筛选下点行：向宿主报 asset，经深链回流落到源文件页签",
+      "status": "passed",
+      "duration": 87.83383299999969
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-07 共享资源内切换用途不被记忆：离开再回到该资源总落首个用途",
+      "status": "passed",
+      "duration": 269.0552910000006
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-08 逐个删光共享用途：先落兄弟，最后落 asset 视图并切到源文件页签",
+      "status": "passed",
+      "duration": 122.73329199999989
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-09 新增用途草稿属于当前资源：切到别的资源行即丢弃，回来不复活",
+      "status": "passed",
+      "duration": 157.5331669999996
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-10 外部删除当前选中的未配置资产：选择回落目录首项并向宿主上报",
+      "status": "passed",
+      "duration": 83.77966699999979
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "fullName": "C02-G03-11 引用页签只属于当前行：切行后回到动作页签",
+      "status": "passed",
+      "duration": 63.24250000000029
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-01 入口互斥：有用途的帧源只给替换，无用途的帧源只给删除",
+      "status": "passed",
+      "duration": 639.0864590000001
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-02 确认框选取消：零提交，目录与历史不变",
+      "status": "passed",
+      "duration": 101.40770900000007
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择落到首个其他资产并上报宿主",
+      "status": "passed",
+      "duration": 141.83279100000027
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-04 删除后 undo：磁盘字节写回 blob，行回到目录且可再次真实解码",
+      "status": "passed",
+      "duration": 185.2677920000001
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-05 undo/redo 两个方向都过保存门，redo 重新移除 catalog 与 blob",
+      "status": "passed",
+      "duration": 177.19262499999968
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-06 引用索引未就绪：删除源文件禁用并给出原因，就绪后恢复可点",
+      "status": "passed",
+      "duration": 94.05341700000008
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-07 磁盘字节与登记不符：删除前校验拒绝，资产与历史保持",
+      "status": "passed",
+      "duration": 19.737834000000475
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-08 连续删除两个闲置资产：每次都落首个其他资产，两次 undo 还原目录顺序",
+      "status": "passed",
+      "duration": 277.34825
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-09 先删最后一个用途再删源文件：两步各自可撤销，整体撤回后与初始完全一致",
+      "status": "passed",
+      "duration": 163.89887499999986
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "fullName": "C02-G04-10 被角色引用的 starter 用途不可删：按钮禁用并写明引用数，引用页签计数一致",
+      "status": "passed",
+      "duration": 34.10625000000073
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-01 改名提交→undo→redo：输入框与切换用途列表随规范值回流，应用按钮始终回到禁用",
+      "status": "passed",
+      "duration": 656.929333
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-02 玩家施法特效基帧：草稿不动规范值，提交后 undo/redo 在 0↔4 间回流到数字框",
+      "status": "passed",
+      "duration": 218.21479099999988
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-03 新增用途→undo 回落首个用途并上报宿主；redo 恢复第三个用途",
+      "status": "passed",
+      "duration": 189.89558399999987
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-04 删除用途→undo：回到原索引顺序，切换用途列表恢复，redo 再次移除",
+      "status": "passed",
+      "duration": 191.61837500000001
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-05 草稿进行中遇外部 undo：规范值回流并覆盖草稿，不残留可应用的陈旧改动",
+      "status": "passed",
+      "duration": 225.69170899999972
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-06 UI 替换源文件增帧后 undo/redo：预览证明随字节重绑到 12↔13 帧",
+      "status": "passed",
+      "duration": 311.9641670000001
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-07 三步历史（改名→特效基帧→删用途）逐级 undo 再逐级 redo，快照逐一对齐",
+      "status": "passed",
+      "duration": 184.01925000000028
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-08 undo 后新的 UI 提交清空 redo 栈，且最终规范值是新提交",
+      "status": "passed",
+      "duration": 227.05179099999987
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-09 追加两帧后选中新末帧再 undo：源帧选择收紧到新末帧，不留越界索引",
+      "status": "passed",
+      "duration": 422.9101249999994
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "fullName": "C02-G05-10 撤销新增用途后再次新增：id 复用 c02-enemy 而非递增，且 redo 栈随之清空",
+      "status": "passed",
+      "duration": 225.93091699999968
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-01 roving tabindex：仅选中行进入 Tab 序列，其余行为 -1",
+      "status": "passed",
+      "duration": 400.5140419999998
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-02 方向键只移动 active，不改变选择、不上报宿主、不产生历史，并拦截默认滚动",
+      "status": "passed",
+      "duration": 52.176750000000084
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-03 ArrowUp 后 Enter 才选中：召唤资产成为选择并向宿主上报其用途",
+      "status": "passed",
+      "duration": 201.6044589999999
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-04 空格与 Enter 等价：两次上移后空格选中未配置资产并上报 asset 视图",
+      "status": "passed",
+      "duration": 88.5657920000001
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-05 Home/End 跳到首尾项，Enter 分别选中首个资产的用途与末项 starter",
+      "status": "passed",
+      "duration": 147.9242919999997
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-06 首尾钳制：在首项继续上移、在末项继续下移都不越界也不回绕",
+      "status": "passed",
+      "duration": 141.80383299999994
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-07 过滤后键盘范围收缩：只剩一行时 ArrowDown+Enter 选中该行，setsize 同步为 1",
+      "status": "passed",
+      "duration": 67.37637499999983
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-08 ARIA：列表具名，列表项位置/总数正确，按下态与未配置标签可读",
+      "status": "passed",
+      "duration": 53.93458299999975
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-09 只拦截导航键：字母、Tab、Escape 保持默认行为且不改 active",
+      "status": "passed",
+      "duration": 231.41775000000007
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "fullName": "C02-G06-10 源帧工具条键盘：方向键/Home/End 选帧并钳制，roving tabindex 跟随选中帧",
+      "status": "passed",
+      "duration": 207.01070900000013
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-01 攻击特效基帧：草稿不动规范值，放弃零提交，应用只改该字段",
+      "status": "passed",
+      "duration": 651.3864169999997
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-02 可选偷窃槽：用已选第 11 帧写入，清除后键缺席，过保存门且逐级可撤销",
+      "status": "passed",
+      "duration": 312.94875
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-03 受伤槽用已选 #5 真实提交：选中按钮标签反映帧号，兄弟用途保持原值",
+      "status": "passed",
+      "duration": 222.2496670000005
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-04 敌人待机结束滑块：待机段扩到 3 帧，施法段被挤空，提交后规范分段一致",
+      "status": "passed",
+      "duration": 190.6118749999996
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-05 敌人施法结束滑块：施法段扩到 3 帧，攻击段收缩为 1 帧",
+      "status": "passed",
+      "duration": 151.88616700000057
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-06 毫秒/帧换算取整：待机 20ms 夹到 1 tick、行动 100ms 取整为 3 tick，单次提交",
+      "status": "passed",
+      "duration": 97.99562499999956
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-07 放弃修改让滑块与分段时间线回到规范值，应用恢复禁用且零提交",
+      "status": "passed",
+      "duration": 110.39470799999981
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-08 召唤用途无 ABI 字段：仅提示文案，改名可提交且 profile 保持 {kind: summon}",
+      "status": "passed",
+      "duration": 93.12683300000026
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-09 4 帧资产新增玩家用途被帧数门拒绝且不留草稿、类型菜单保持打开；改选敌人得到 2/0/2 默认分段",
+      "status": "passed",
+      "duration": 123.65050000000065
+    },
+    {
+      "file": "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "fullName": "C02-G07-10 待机结束越过施法段：施法被推空、攻击从新边界起，施法结束滑块下限随之抬高",
+      "status": "passed",
+      "duration": 121.50316699999985
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-01 横排 3 帧：缺省帧尺寸猜测、预览数与应用 gzip 帧带",
+      "status": "passed",
+      "duration": 455.0964999999999
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-02 2×2 网格图：16×16 帧切 4 帧",
+      "status": "passed",
+      "duration": 32.38804200000004
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-03 整除破坏：精确文案、预览消失且应用禁用",
+      "status": "passed",
+      "duration": 26.820791999999983
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-04 取消零提交；有预览时也不触发 onApply",
+      "status": "passed",
+      "duration": 12.906791999999996
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-05 色盘迟到：预览空白，放行后出现缩略图并可应用",
+      "status": "passed",
+      "duration": 70.42962499999999
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-06 色盘失败回显 err；换合法 assetBase 并重选后可应用",
+      "status": "passed",
+      "duration": 72.17916600000012
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-07 应用在途：compress 扣留期间按钮禁用且最终只 apply 一次",
+      "status": "passed",
+      "duration": 69.91783399999986
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-08 坏文件字节：err 回显且无预览网格",
+      "status": "passed",
+      "duration": 14.466917000000194
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-09 合法预览后重选坏文件：err 回显且仍可取消零提交",
+      "status": "passed",
+      "duration": 27.02658399999973
+    },
+    {
+      "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "fullName": "C03-G05 战斗精灵上传叶 C03-G05-10 onApply 拒绝：err 回显且提交门复位可再点",
+      "status": "passed",
+      "duration": 74.50808299999971
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-01 待机首帧：画布 16×16 整面不透明且色值等于夹具第 0 帧的调色板色",
+      "status": "passed",
+      "duration": 366.95395800000006
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-02 待机轮转：每 200ms 换到下一帧色并在序列末回到第 0 帧",
+      "status": "passed",
+      "duration": 65.67050000000017
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-03 攻击模式序列含上一段末帧：2→3→4 逐 40ms 换色后回绕到 2",
+      "status": "passed",
+      "duration": 82.14804200000003
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-04 单帧施法序列：时钟推进后仍恒定显示第 2 帧色",
+      "status": "passed",
+      "duration": 64.03570799999989
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-05 无施法帧时施法模式退回最后一个待机帧色并提示",
+      "status": "passed",
+      "duration": 57.02604199999996
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-06 行动速度 0：攻击模式冻结在最后一个攻击帧色且不再轮转",
+      "status": "passed",
+      "duration": 62.85383300000012
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-07 异尺寸帧：画布取最大帧×2，小帧底部居中，不透明外接盒精确",
+      "status": "passed",
+      "duration": 45.11962500000027
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-08 大帧换回小帧：先清除再绘制，不残留大帧像素",
+      "status": "passed",
+      "duration": 126.59929199999988
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-09 资源读取未放行：数值字段禁用、无帧数标签、画布无任何像素；放行后全部就绪",
+      "status": "passed",
+      "duration": 60.64658299999974
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-10 字节读取失败：错误可见、字段保持禁用、画布保持空白",
+      "status": "passed",
+      "duration": 34.10491600000023
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-11 切换绑定定义：所选动作模式保持，画布改画新定义攻击序列中的色",
+      "status": "passed",
+      "duration": 105.00637499999993
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-12 撤销待机帧数：改小后画布停轮转，undo 后恢复双帧轮转",
+      "status": "passed",
+      "duration": 123.77379199999996
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-13 interval 清理：模式反复切换不泄漏定时器，卸载后归零",
+      "status": "passed",
+      "duration": 63.21912499999962
+    },
+    {
+      "file": "src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
+      "fullName": "C06-G02-14 Y 偏移提交不重载精灵：画布像素与已选攻击模式原样保留，undo 后字段回到 0",
+      "status": "passed",
+      "duration": 76.531833
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-01 启用后默认选中 walk 且 loop=false",
+      "status": "passed",
+      "duration": 53.11933299999987
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-02 切换动作到 run：loop 跟随为 true",
+      "status": "passed",
+      "duration": 30.33445800000004
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-03 换 sprite 后重新启用：binding 指向新精灵首动作",
+      "status": "passed",
+      "duration": 14.621332999999822
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-04 换 pageIndex：新页相位字段回到 0",
+      "status": "passed",
+      "duration": 23.625
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-05 关闭预制动作：binding 清空",
+      "status": "passed",
+      "duration": 10.485124999999925
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-06 悬空 binding：显示失效占位且禁用打开动作",
+      "status": "passed",
+      "duration": 8.08204099999989
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-07 循环 checkbox 切换写入 binding",
+      "status": "passed",
+      "duration": 12.332458999999972
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-08 startAtMs 提交：0 清空字段",
+      "status": "passed",
+      "duration": 13.142082999999957
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-09 无 sprite：开关禁用",
+      "status": "passed",
+      "duration": 5.964416999999912
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-10 无动作 pose：开关禁用",
+      "status": "passed",
+      "duration": 5.059957999999824
+    },
+    {
+      "file": "src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx",
+      "fullName": "C06-G06-11 切换动作后打开按钮可用",
+      "status": "passed",
+      "duration": 13.566125000000056
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-01 首帧：画布中心附近出现与 palette 对齐的不透明像素",
+      "status": "passed",
+      "duration": 287.852625
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-02 播放前进：步进后像素色切换到下一帧",
+      "status": "passed",
+      "duration": 30.322625000000016
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-03 暂停后像素冻结且 interval 清理",
+      "status": "passed",
+      "duration": 27.009833999999955
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-04 换 effectSprite：重载后只呈现新 chunk 的单色帧",
+      "status": "passed",
+      "duration": 42.6920419999999
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-05 fireDelay 循环：序列末回到 delay 帧色",
+      "status": "passed",
+      "duration": 23.22720800000002
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-06 加载态无 canvas；失败 chunk 显示无法加载且无不透明像素",
+      "status": "passed",
+      "duration": 13.61541699999998
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-07 非播放 idle 仍绘制首帧（画布非空白）",
+      "status": "passed",
+      "duration": 29.487750000000005
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-08 改 speed 参数重启：步进间隔随 anim.speed 变化",
+      "status": "passed",
+      "duration": 22.436374999999998
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-09 卸载后 interval 归零",
+      "status": "passed",
+      "duration": 21.177958000000217
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-10 帧 caption 显示真实帧数",
+      "status": "passed",
+      "duration": 18.771749999999884
+    },
+    {
+      "file": "src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
+      "fullName": "C06-G03-11 clearRect 清理：换帧后 census 仍单一 opaque 色",
+      "status": "passed",
+      "duration": 25.80354099999977
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-01 初始三帧总时长 150ms 且 defaultFrameMs=40",
+      "status": "passed",
+      "duration": 355.97458300000017
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-02 改当前帧 override 后 metadata 总时长即时更新",
+      "status": "passed",
+      "duration": 66.93620800000008
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-03 全局帧率 blur 后只抬默认帧时长，override 帧不变",
+      "status": "passed",
+      "duration": 72.66570899999988
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-04 清空 override 后该帧回到 default 计入总时长",
+      "status": "passed",
+      "duration": 45.02866700000004
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-05 仅改时长 frameCount 保持 3",
+      "status": "passed",
+      "duration": 90.19799999999987
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-06 两帧 override 后总时长为逐项相加",
+      "status": "passed",
+      "duration": 79.61795799999982
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-07 保存重开后 index.frames 保留 override 槽",
+      "status": "passed",
+      "duration": 86.12708299999986
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-08 撤销时长编辑 metadata 回到 150",
+      "status": "passed",
+      "duration": 57.77949999999964
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-09 重做时长编辑 metadata 回到 310",
+      "status": "passed",
+      "duration": 112.14666700000043
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G01 总时长 metadata C04-G01-10 非法全局帧率 blur 不改变 default 与总时长",
+      "status": "passed",
+      "duration": 36.13829200000009
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-01 选中 override 帧时字段值为 70",
+      "status": "passed",
+      "duration": 90.26141700000016
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-02 选中默认帧时字段为空且 placeholder 含 40",
+      "status": "passed",
+      "duration": 35.475499999999556
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-03 输入合法正数立即 commit 且 dirty",
+      "status": "passed",
+      "duration": 29.786082999999962
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-04 输入非正数不改动总时长",
+      "status": "passed",
+      "duration": 30.286583000000064
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-05 切换选中帧字段跟随当前 override",
+      "status": "passed",
+      "duration": 107.42983300000014
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-06 改时长后 counter 仍显示当前序号",
+      "status": "passed",
+      "duration": 49.51920799999971
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-07 全局 default 变更后无 override 帧 placeholder 更新",
+      "status": "passed",
+      "duration": 43.877292000000125
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-08 连续两次改同一帧 override 以最后一次为准",
+      "status": "passed",
+      "duration": 60.56133300000056
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-09 撤销单帧 override 字段回到空",
+      "status": "passed",
+      "duration": 72.91075000000001
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G02 当前帧时长字段 C04-G02-10 全局帧率 input 未 blur 时不 commit defaultFrameMs",
+      "status": "passed",
+      "duration": 24.719374999999673
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-01 PNG 插入后 frameCount+1 且选中新帧",
+      "status": "passed",
+      "duration": 40.4808750000002
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-02 插入后总时长增加 default 一帧",
+      "status": "passed",
+      "duration": 100.03979100000015
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-03 复制 override 帧保留 durationMs",
+      "status": "passed",
+      "duration": 39.21270900000036
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-04 复制后选区仅新 id 且 counter 指向复制帧",
+      "status": "passed",
+      "duration": 83.96674999999959
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-05 多选复制插入到最大索引之后",
+      "status": "passed",
+      "duration": 29.6001669999996
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-06 末帧插入 PNG 追加到尾部",
+      "status": "passed",
+      "duration": 42.960666999999376
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-07 插入后撤销恢复 frameCount 与总时长",
+      "status": "passed",
+      "duration": 53.20049999999992
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-08 复制默认帧不携带 override",
+      "status": "passed",
+      "duration": 32.828207999999904
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-09 插入两文件一次增加两帧",
+      "status": "passed",
+      "duration": 50.99108299999989
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G03 插入与复制 C04-G03-10 插入后 stable 旧帧 id 不变",
+      "status": "passed",
+      "duration": 35.04570799999965
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-01 删单帧后选区落到同索引位置的下一帧 id",
+      "status": "passed",
+      "duration": 78.93166699999983
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-02 删 override 帧后总时长减少 70",
+      "status": "passed",
+      "duration": 44.38349999999991
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-03 多选删除后 counter 显示剩余帧数",
+      "status": "passed",
+      "duration": 36.26841599999989
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-04 全选时删除按钮 disabled",
+      "status": "passed",
+      "duration": 38.12537499999962
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-05 删除首帧后 currentIndex 为 0",
+      "status": "passed",
+      "duration": 72.71799999999985
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-06 删除后撤销恢复像素顺序与 frameCount",
+      "status": "passed",
+      "duration": 78.63337500000034
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-07 删除末帧后仍选中新的末帧",
+      "status": "passed",
+      "duration": 82.47904199999994
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-08 删除中间帧 metadata 立即更新",
+      "status": "passed",
+      "duration": 49.002959000000374
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-09 单选删除后 selectedIds 长度为 1",
+      "status": "passed",
+      "duration": 33.442417000000205
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G04 删除与选区 C04-G04-10 删除后 redo 栈清空",
+      "status": "passed",
+      "duration": 70.05199999999968
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-01 拖拽来源不在选区时折叠为仅来源 id",
+      "status": "passed",
+      "duration": 88.37729099999979
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-02 拖拽来源在 multi 选区内保留全集",
+      "status": "passed",
+      "duration": 27.760958000000755
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-03 重排后像素顺序随 cards 变化",
+      "status": "passed",
+      "duration": 19.863415999999233
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-04 重排 override 帧总时长不变",
+      "status": "passed",
+      "duration": 27.898707999999715
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-05 重排后 anchor 与 current 对齐来源索引",
+      "status": "passed",
+      "duration": 31.7119160000002
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-06 重排 undo 恢复 id 顺序",
+      "status": "passed",
+      "duration": 62.160791999999674
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-07 重排 redo 再次应用顺序",
+      "status": "passed",
+      "duration": 43.29504199999974
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-08 同位 drop 不改变 ids",
+      "status": "passed",
+      "duration": 31.504249999999956
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-09 重排后选中 id 仍存在于 cards",
+      "status": "passed",
+      "duration": 24.20716700000048
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G05 重排与选择归属 C04-G05-10 重排后 metadata frameCount 不变",
+      "status": "passed",
+      "duration": 34.38887500000055
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-01 撤销 PNG 插入后 frameCount 恢复且原 catalog id 仍在时间轴",
+      "status": "passed",
+      "duration": 54.87370800000008
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-02 重做 PNG 插入恢复像素与帧数且选中新 uuid",
+      "status": "passed",
+      "duration": 68.91683299999931
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-03 撤销删除恢复被删 id 且 active id 仍指向原存活帧",
+      "status": "passed",
+      "duration": 78.02779199999986
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-04 撤销重排后 current 跟随原 active id",
+      "status": "passed",
+      "duration": 63.911040999999386
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-05 多选 anchor 在 undo 后仍指向存在 id",
+      "status": "passed",
+      "duration": 47.335666999999376
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-06 时长编辑 undo 不改变当前选中 id",
+      "status": "passed",
+      "duration": 42.98741700000028
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-07 新编辑清空 redo 后 undo 仍可用",
+      "status": "passed",
+      "duration": 88.55770800000028
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-08 撤销末帧复制后 active id 仍指向来源 catalog 帧",
+      "status": "passed",
+      "duration": 67.96816599999966
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-09 redo 链恢复最后一次结构编辑选区",
+      "status": "passed",
+      "duration": 96.53099999999995
+    },
+    {
+      "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "fullName": "C04-G06 undo/redo 选择 id 归属 C04-G06-10 撤销到 baseline 后 dirty 为 false",
+      "status": "passed",
+      "duration": 88.68387499999972
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-01 focusObjectId=face 时自动切到战斗头像 Tab 并选中",
+      "status": "passed",
+      "duration": 388.5743749999999
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-02 item-icon 导入：catalog 写入 sha256 与 path",
+      "status": "passed",
+      "duration": 43.58729099999982
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-03 资源检查器显示 sha256 前缀与字节摘要",
+      "status": "passed",
+      "duration": 50.22774999999979
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-04 切换 kind Tab 后列表计数与空态文案",
+      "status": "passed",
+      "duration": 37.940250000000106
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-05 诊断 Tab 只显示当前选中资源的 issue",
+      "status": "passed",
+      "duration": 52.57920799999988
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-06 引用 Tab 展示引用计数文案",
+      "status": "passed",
+      "duration": 47.86916599999995
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-07 卸载后 decode close 计数与 live bitmap 归零",
+      "status": "passed",
+      "duration": 31.643374999999878
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-08 卸载 ImageTab 后 object URL 全部 revoke",
+      "status": "passed",
+      "duration": 57.9469160000001
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-09 预览 readBytes：切换选中后 decode 进入次数递增",
+      "status": "passed",
+      "duration": 103.63262500000019
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
+      "fullName": "C07-G06 ImageTab 合成字节与 IO C07-G06-10 face 资源 hero 标题来自 label",
+      "status": "passed",
+      "duration": 33.676082999999835
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-01 搜索 AssetId 过滤列表",
+      "status": "passed",
+      "duration": 547.7532919999999
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-02 切换 kind Tab 清空选择并展示该 kind 首项",
+      "status": "passed",
+      "duration": 91.93112500000007
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-03 非 PNG 扩展名：错误面且 catalog 无新增",
+      "status": "passed",
+      "duration": 36.922874999999976
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-04 face Tab 导入写入 face kind",
+      "status": "passed",
+      "duration": 47.29904199999987
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-05 导入成功触发 onObjectFocus",
+      "status": "passed",
+      "duration": 41.57099999999991
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-06 hero 行展示 AssetId",
+      "status": "passed",
+      "duration": 30.792458000000124
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-07 引用扫描失败：删除按钮禁用文案",
+      "status": "passed",
+      "duration": 32.9621659999998
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-08 资源 origin authored 标签",
+      "status": "passed",
+      "duration": 27.647917000000007
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-09 空 portrait 列表：工作区提示导入",
+      "status": "passed",
+      "duration": 14.480999999999995
+    },
+    {
+      "file": "src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
+      "fullName": "C07-G07 ImageTab 边界与失败恢复 C07-G07-10 双 portrait 切换选择：hero 标题跟随",
+      "status": "passed",
+      "duration": 42.52054199999998
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-01 assertMidi 接受 .MID 扩展名",
+      "status": "passed",
+      "duration": 0.9730829999999742
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名",
+      "status": "passed",
+      "duration": 0.1785419999999931
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-03 assertMidi 拒绝错误魔数",
+      "status": "passed",
+      "duration": 0.09341699999998809
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-04 nextMusicId 首次分配稳定前缀",
+      "status": "passed",
+      "duration": 0.11216699999999946
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2",
+      "status": "passed",
+      "duration": 0.07258300000000872
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3",
+      "status": "passed",
+      "duration": 0.06604200000003857
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+      "status": "passed",
+      "duration": 1.4495840000000157
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先",
+      "status": "passed",
+      "duration": 0.23116600000003018
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致",
+      "status": "passed",
+      "duration": 0.5391250000000127
+    },
+    {
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi",
+      "status": "passed",
+      "duration": 0.16791699999998855
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-01 默认立绘：reader 解码 PNG 主色为红",
+      "status": "passed",
+      "duration": 470.32512500000007
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-02 切换默认立绘：session 指向蓝且解码为蓝",
+      "status": "passed",
+      "duration": 58.82795800000008
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-03 双表情资源：解码互异 RGB",
+      "status": "passed",
+      "duration": 37.630584
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-04 undo 默认立绘切换：回到 red 资源 id",
+      "status": "passed",
+      "duration": 39.23320899999999
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-05 无立绘组：空状态文案",
+      "status": "passed",
+      "duration": 15.931916999999885
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-06 删除 blob 后缩略图进入 error 态",
+      "status": "passed",
+      "duration": 34.83850000000007
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-07 删除表情：expressions 清空",
+      "status": "passed",
+      "duration": 17.355540999999903
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-08 重命名表情：键名更新且资源 id 不变",
+      "status": "passed",
+      "duration": 24.101374999999962
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-09 表情换图：解码新 asset 颜色变化",
+      "status": "passed",
+      "duration": 32.929290999999694
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-10 切换默认立绘增加 history",
+      "status": "passed",
+      "duration": 20.588291000000027
+    },
+    {
+      "file": "src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
+      "fullName": "C06-G05-11 删除整组立绘：portraits 清空",
+      "status": "passed",
+      "duration": 17.85587499999974
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-01 资产就绪后主画布出现不透明像素且尺寸≥100",
+      "status": "passed",
+      "duration": 438.2193749999997
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-02 加载期间画布保持空白且提示加载资产",
+      "status": "passed",
+      "duration": 142.86466599999994
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-03 rAF 推进后像素 census 稳定（无随机闪烁清空）",
+      "status": "passed",
+      "duration": 297.29366700000037
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-04 无脚本源时 hint 文案可见且仍绘制地图",
+      "status": "passed",
+      "duration": 132.97720800000025
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-05 瓦片集读取失败：错误回显且画布保持空白",
+      "status": "passed",
+      "duration": 21.811166000000412
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-06 切换 sceneFraming 不重载资产且画布仍有像素",
+      "status": "passed",
+      "duration": 243.6553329999997
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-07 卸载后不再 pump rAF（组件已 detach）",
+      "status": "passed",
+      "duration": 155.00529199999983
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-08 空白初始 canvas 在就绪前无不透明像素",
+      "status": "passed",
+      "duration": 128.79125000000022
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-09 就绪 tag 与加载提示互斥",
+      "status": "passed",
+      "duration": 140.95666699999947
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-10 真实延迟下 rAF 仍能绘制（非假时钟）",
+      "status": "passed",
+      "duration": 179.47908300000017
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-12 工具栏含演出预览控制且 canvas 可交互类名",
+      "status": "passed",
+      "duration": 132.2457089999998
+    },
+    {
+      "file": "src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
+      "fullName": "C06-G01-11 切换 sourceKey 重挂载后画布重新出现像素",
+      "status": "passed",
+      "duration": 248.95537500000046
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-01 assertWave 接受合法 RIFF/WAVE",
+      "status": "passed",
+      "duration": 0.9822089999999548
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-02 assertWave 拒绝 RIFF 无 WAVE",
+      "status": "passed",
+      "duration": 0.1839170000000081
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-03 assertWave 拒绝过短文件",
+      "status": "passed",
+      "duration": 0.09199999999998454
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-04 authoredSoundId 只取 hash 前 16 hex",
+      "status": "passed",
+      "duration": 0.10020900000000665
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-05 同 hash 两次 authoredSoundId 相等",
+      "status": "passed",
+      "duration": 0.05795800000004192
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-06 authoredWaveRecord kind 为 sound",
+      "status": "passed",
+      "duration": 1.5166249999999764
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-07 authoredWaveRecord path 含 sha256",
+      "status": "passed",
+      "duration": 0.22512499999999136
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-08 authoredWaveRecord 空 label 时用文件名",
+      "status": "passed",
+      "duration": 0.12158399999998437
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-09 authoredWaveRecord origin.ref 保留源文件名",
+      "status": "passed",
+      "duration": 0.6732499999999959
+    },
+    {
+      "file": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+      "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-10 authoredWaveRecord bytes 字段等于 buffer 长度",
+      "status": "passed",
+      "duration": 0.21966700000001538
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-01 搜索 ActionId 子串：只保留匹配项且详情仍指向命中动作",
+      "status": "passed",
+      "duration": 362.6770839999999
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-02 搜索标签大小写不敏感：大写查询仍命中中文标签",
+      "status": "passed",
+      "duration": 27.07091700000001
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-03 无匹配时显示「没有匹配的预制动作」且保留原 poses",
+      "status": "passed",
+      "duration": 35.18212500000004
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-04 Escape 清空搜索框并恢复完整目录",
+      "status": "passed",
+      "duration": 47.855999999999995
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-05 onCommitPoses 返回 false：mutations 记录失败且不写 session",
+      "status": "passed",
+      "duration": 46.68991699999992
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-06 onCommitPoses 抛错：notices 带 message 且 ok=false",
+      "status": "passed",
+      "duration": 59.43895900000007
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-07 onBeforeContextChange 返回 false：切换动作不触发 selection 变化",
+      "status": "passed",
+      "duration": 67.13479200000006
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-08 onBeforeContextChange 阻断新建：点击新建零 history",
+      "status": "passed",
+      "duration": 18.673500000000104
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
+      "fullName": "C05-G04 目录搜索与宿主回调 C05-G04-09 restrictActionId 只展示单一动作目录项",
+      "status": "passed",
+      "duration": 35.02841699999999
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-01 proof=null：名称与新建按钮禁用且横幅说明源帧未就绪",
+      "status": "passed",
+      "duration": 316.19316700000013
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-02 referenceStatus=checking：删除禁用且文案含「正在检查」",
+      "status": "passed",
+      "duration": 33.26066700000001
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-03 referenceStatus=stale：横幅待刷新且删除仍禁用",
+      "status": "passed",
+      "duration": 31.120042000000012
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-04 referenceStatus=failed：横幅要求恢复后才能删除",
+      "status": "passed",
+      "duration": 28.61875000000009
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-05 空名称 blur：aria-invalid 且零 history",
+      "status": "passed",
+      "duration": 38.86779199999978
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-06 拖拽非法 JSON：error notice 且 steps 不变",
+      "status": "passed",
+      "duration": 24.5300000000002
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-07 拖拽其它 asset：拒绝且零 steps 变化",
+      "status": "passed",
+      "duration": 17.451708000000053
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-08 合法拖拽 payload：在首步前插入帧 1",
+      "status": "passed",
+      "duration": 36.10591599999998
+    },
+    {
+      "file": "src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
+      "fullName": "C05-G05 proof、引用态与拖拽边界 C05-G05-09 步停留小于 1ms：字段 invalid 且 session steps 保持 250",
+      "status": "passed",
+      "duration": 29.44662500000004
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-01 create 模式：目录只展示待创建的单条动作",
+      "status": "passed",
+      "duration": 408.835333
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-02 确认创建：session 写入新 action 且通知 info",
+      "status": "passed",
+      "duration": 80.05700000000002
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-03 create 改名后点取消：弹出放弃对话框且 session 仍无 poses",
+      "status": "passed",
+      "duration": 86.78562499999998
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-04 放弃对话框选继续编辑：alert 关闭且仍可点创建",
+      "status": "passed",
+      "duration": 109.18333400000006
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-05 create 模式 liveProof 漂移：scopeConflict 文案且不自动 onClose",
+      "status": "passed",
+      "duration": 57.76629200000002
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-06 edit 模式 Ctrl+S：flush 后触发 onRequestSave",
+      "status": "passed",
+      "duration": 43.25654200000031
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-07 创建前 session 已被写入同 id：confirm 报错且 history 不再增加",
+      "status": "passed",
+      "duration": 57.92670799999996
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-08 edit 模式点完成：onClose 一次且无 create 按钮",
+      "status": "passed",
+      "duration": 53.073249999999916
+    },
+    {
+      "file": "src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
+      "fullName": "C05-G06 动作弹窗创建与完成 C05-G06-09 源帧选择器点击：上报 onSelectedSourceFrameChange",
+      "status": "passed",
+      "duration": 82.36175000000003
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-01 inspect：缺 MIME 返回 absent",
+      "status": "passed",
+      "duration": 8.170166999999992
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-02 inspect：非法 JSON 返回 invalid",
+      "status": "passed",
+      "duration": 1.8805419999998776
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-03 inspect：frame 非整数返回 invalid",
+      "status": "passed",
+      "duration": 2.36854100000005
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-04 readSpriteFrameDragPayload：合法 payload 可读回",
+      "status": "passed",
+      "duration": 1.7543749999999818
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-05 readSpriteFrameDragPayload：invalid 时 undefined",
+      "status": "passed",
+      "duration": 3.1378339999998843
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-06 选中帧超出范围：安全钳到末帧且 status 播报末索引",
+      "status": "passed",
+      "duration": 291.61024999999995
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-07 ArrowRight 从帧 0 选中帧 1 并回调 onSelect",
+      "status": "passed",
+      "duration": 42.73845899999992
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-08 Home/End 键跳到首尾帧",
+      "status": "passed",
+      "duration": 22.346457999999984
+    },
+    {
+      "file": "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 像素（互异 RGB 至少 2）",
+      "status": "passed",
+      "duration": 22.228583999999955
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-01 真实解码：帧数/用途元数据、onLoaded proof 与 onFramesLoaded 长度一致",
+      "status": "passed",
+      "duration": 361.6622500000001
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-02 工具栏「下一帧」循环读数与 canvas aria-label 同步",
+      "status": "passed",
+      "duration": 95.73624999999993
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-03 源帧网格点选：selectedLog 记录且大图切到对应帧",
+      "status": "passed",
+      "duration": 75.96820900000012
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-04 受控 selectedFrame：外部 setFrame 驱动 viewer 与回调",
+      "status": "passed",
+      "duration": 79.05050000000006
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-05 切到第二资源：标题/帧数/用途计数整体换为 beta",
+      "status": "passed",
+      "duration": 138.791833
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-06 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）",
+      "status": "passed",
+      "duration": 150.99166700000023
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-07 语义 shelf 展示两用途默认定格行与默认 #0 提示",
+      "status": "passed",
+      "duration": 65.25083300000006
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-08 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变",
+      "status": "passed",
+      "duration": 129.59237500000017
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-09 「下一帧」从 #0 进入 #1",
+      "status": "passed",
+      "duration": 76.22112500000003
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "fullName": "C03-G03 真实解码与切帧 C03-G03-10 catalog 无记录时 harness 显示占位且不触发 proof",
+      "status": "passed",
+      "duration": 11.373583999999937
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-01 磁盘 readBytes 迟到：先切走资源，旧读完成不覆盖新资源帧数",
+      "status": "passed",
+      "duration": 330.023584
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-02 损坏字节真实解码失败：role=alert 且 onLoaded 末次为 undefined",
+      "status": "passed",
+      "duration": 72.66774999999984
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-03 失败后切到合法资源：清 alert 并给出 proof",
+      "status": "passed",
+      "duration": 123.43287499999997
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-04 增帧 Replace 后会话 revision 更新且 viewer 读到 3 帧",
+      "status": "passed",
+      "duration": 117.3670840000002
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-05 解码在途卸载：不抛错且末次 proof 为 undefined",
+      "status": "passed",
+      "duration": 63.022791999999754
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-06 色盘 I/O 迟到：放行后才出现帧网格与 proof",
+      "status": "passed",
+      "duration": 68.55570800000032
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-07 连续快速切换 A→B→A：最终 proof 仍指向 A 且帧数 3",
+      "status": "passed",
+      "duration": 140.6070420000001
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-08 失败后再切仍失败：alert 更新为第二次错误文案",
+      "status": "passed",
+      "duration": 67.90233399999988
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-09 追加帧选非 PNG 字节：editor message 报错且零历史",
+      "status": "passed",
+      "duration": 74.5428750000001
+    },
+    {
+      "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "fullName": "C03-G04 迟到、失败与恢复 C03-G04-10 合法资源加载后 framesLog 与网格 aria 数一致",
+      "status": "passed",
+      "duration": 67.74979200000007
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+      "status": "passed",
+      "duration": 528.6828329999998
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+      "status": "passed",
+      "duration": 33.08437499999991
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+      "status": "passed",
+      "duration": 87.38204199999996
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+      "status": "passed",
+      "duration": 93.67462499999988
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+      "status": "passed",
+      "duration": 86.6897919999999
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+      "status": "passed",
+      "duration": 35.196500000000015
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+      "status": "passed",
+      "duration": 84.63941599999998
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+      "status": "passed",
+      "duration": 84.50933299999997
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+      "status": "passed",
+      "duration": 85.83958400000029
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+      "status": "passed",
+      "duration": 36.454791000000114
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+      "status": "passed",
+      "duration": 41.290459000000055
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+      "status": "passed",
+      "duration": 83.46220800000015
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+      "status": "passed",
+      "duration": 68.13091699999995
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+      "status": "passed",
+      "duration": 413.08287500000006
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+      "status": "passed",
+      "duration": 110.49008299999991
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+      "status": "passed",
+      "duration": 119.35133399999995
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+      "status": "passed",
+      "duration": 82.10620800000015
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+      "status": "passed",
+      "duration": 99.9380000000001
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+      "status": "passed",
+      "duration": 89.91758299999992
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+      "status": "passed",
+      "duration": 195.20141699999976
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+      "status": "passed",
+      "duration": 391.53854200000023
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+      "status": "passed",
+      "duration": 101.97308299999986
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-03 compress 在途：取消与 kind 均禁用，放行后恰好一次 onDone",
+      "status": "passed",
+      "duration": 101.55879199999981
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+      "status": "passed",
+      "duration": 144.34320800000023
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-05 重选前改的 id/label 在首次合法入库后落到定义",
+      "status": "passed",
+      "duration": 85.455375
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+      "status": "passed",
+      "duration": 162.25487500000008
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+      "status": "passed",
+      "duration": 72.31808399999954
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+      "status": "passed",
+      "duration": 93.83787500000017
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-09 改 id 后第二次可成功且 onDone 两次",
+      "status": "passed",
+      "duration": 140.26579199999924
+    },
+    {
+      "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "fullName": "C03-G07 入库锁与上传后重选 C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）",
+      "status": "passed",
+      "duration": 74.78387500000008
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-01 StampLibraryTab 搜索过滤模板行",
+      "status": "passed",
+      "duration": 145.8850829999999
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-02 StampLibraryTab 选中第二模板 who 同步",
+      "status": "passed",
+      "duration": 115.09787499999993
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-03 StampContentEditor 改组合名称 blur 触发 onChange",
+      "status": "passed",
+      "duration": 53.05987499999992
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-04 StampContentEditor migrated 名称输入初始 disabled",
+      "status": "passed",
+      "duration": 23.481459000000086
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-05 StampTemplateDialog create 空名称阻止保存",
+      "status": "passed",
+      "duration": 25.41729199999986
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-06 StampTemplateDialog create 合法保存登记模板",
+      "status": "passed",
+      "duration": 21.702792000000045
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-07 StampPreviewCanvas 渲染 canvas 元素",
+      "status": "passed",
+      "duration": 305.9944170000001
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-08 loadStampPreviewAssets 返回 palette 与 tilesets 注册表",
+      "status": "passed",
+      "duration": 8.179499999999734
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-09 StampPreviewCanvas 缺帧模板显示 fail-visible 文案",
+      "status": "passed",
+      "duration": 61.25062500000013
+    },
+    {
+      "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+      "fullName": "C08-G07 Stamp 叶组件合同 C08-G07-10 StampLibraryTab focusObjectId 初始选中指定模板",
+      "status": "passed",
+      "duration": 41.14454100000012
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-01 合法模板载入后主画布出现不透明像素",
+      "status": "passed",
+      "duration": 385.7375830000001
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-02 碰撞叠层默认 pressed；点击后 aria-pressed=false",
+      "status": "passed",
+      "duration": 40.156165999999985
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-03 隐藏唯一图层后可见成员归零",
+      "status": "passed",
+      "duration": 28.320290999999997
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-04 aria-label 报告层数与视觉成员数",
+      "status": "passed",
+      "duration": 21.890625
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-05 loadStampPreviewAssets 同 revision 二次调用复用同一 frames Map",
+      "status": "passed",
+      "duration": 11.21545900000001
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-06 loadStampPreviewAssets 不同 revision 返回不同 frames Promise 结果对象",
+      "status": "passed",
+      "duration": 29.124708000000055
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-07 StampMiniPreview 34×34 缩略图出现不透明像素",
+      "status": "passed",
+      "duration": 21.209334000000126
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-08 模板引用不存在的 tileset 时展示错误文案",
+      "status": "passed",
+      "duration": 16.050792
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-09 双层模板 aria-label 层数=2 且像素非空",
+      "status": "passed",
+      "duration": 102.48804200000018
+    },
+    {
+      "file": "src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx",
+      "fullName": "C06-G07 StampPreviewCanvas 像素与预览控件 C06-G07-10 载入中展示「正在载入瓦片预览」且尚无 canvas",
+      "status": "passed",
+      "duration": 22.123749999999973
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-01 初始选中 starter 且 h1 含「起始地形」",
+      "status": "passed",
+      "duration": 443.253958
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-02 搜索瓦片集过滤列表且清空恢复",
+      "status": "passed",
+      "duration": 84.31275000000005
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-03 分类筛选 outdoor 后只剩 starter 行",
+      "status": "passed",
+      "duration": 120.14608399999997
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-04 点击第二行切换检查器标题到新名称",
+      "status": "passed",
+      "duration": 47.58708299999989
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-05 瓦片帧预览网格含 1–4 / 4 块范围文案",
+      "status": "passed",
+      "duration": 87.11374999999998
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-06 瓦片预览 panel aria-label 可达",
+      "status": "passed",
+      "duration": 85.93970900000022
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-07 名称失焦提交进入 session 历史",
+      "status": "passed",
+      "duration": 45.725000000000364
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-08 undo 还原瓦片集名称",
+      "status": "passed",
+      "duration": 50.3119999999999
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-09 瓦片集列表 fieldset aria-label 可达",
+      "status": "passed",
+      "duration": 35.51133299999992
+    },
+    {
+      "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+      "fullName": "C08-G03 TilesetTab 库视图与预览 C08-G03-10 onObjectFocus 未深链时不写入 focusLog",
+      "status": "passed",
+      "duration": 27.776499999999942
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-01 初始 definition 聚焦：检查器 who 显示用途标签且 meta 含实际帧数",
+      "status": "passed",
+      "duration": 466.84829100000024
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-02 点击待定义资产行：view 切到 asset 且检查器标题变为资源",
+      "status": "passed",
+      "duration": 190.06429200000002
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-03 用途选择列表切换 sibling：selected 行与 who 同步到 BetaStatic",
+      "status": "passed",
+      "duration": 199.42116699999997
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-04 目录行 aria-label 对无用途资产追加「待定义」标记",
+      "status": "passed",
+      "duration": 165.76829099999986
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-05 有用途资产目录行不带待定义 tag",
+      "status": "passed",
+      "duration": 107.22166599999946
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-06 战斗域页签点击触发 onBattleDomain 恰一次且不改当前用途选择",
+      "status": "passed",
+      "duration": 97.97345899999982
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-07 资源域页签大世界保持 active，点击自身不触发战斗域回调",
+      "status": "passed",
+      "duration": 91.5761250000005
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-08 导入源帧资源按钮打开上传叶：中心区出现 SpriteUploadWizard 取消入口",
+      "status": "passed",
+      "duration": 129.41662499999984
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-09 上传叶取消后恢复原资源 viewer meta",
+      "status": "passed",
+      "duration": 150.14191699999992
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G01 目录选择与视图归属 C01-G01-10 检查器引用页签可切换且 panel-references 可见",
+      "status": "passed",
+      "duration": 100.17366700000002
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-01 按 asset id 片段过滤只保留 c01alpha",
+      "status": "passed",
+      "duration": 77.88125000000036
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-02 按用途 label 过滤命中 AlphaIdle 所属资产",
+      "status": "passed",
+      "duration": 79.83870800000022
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-03 按 catalog label 过滤命中 C01Beta",
+      "status": "passed",
+      "duration": 101.63212499999918
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-04 无匹配查询显示 insp-empty「没有匹配的精灵。」",
+      "status": "passed",
+      "duration": 80.68079099999977
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-05 清空过滤文本恢复全部 authored 三资产行",
+      "status": "passed",
+      "duration": 118.58525000000009
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-06 过滤命中后点击仅有行会聚焦该资产",
+      "status": "passed",
+      "duration": 184.36116599999968
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-07 用途 id 片段过滤可命中 c01-beta-static 资产",
+      "status": "passed",
+      "duration": 138.93737499999952
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-08 过滤大小写不敏感：ALPHAWALK 命中 alpha 资产",
+      "status": "passed",
+      "duration": 98.61354200000005
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-09 过滤占位提示保持「名称 / id」",
+      "status": "passed",
+      "duration": 40.611917000000176
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G02 文本过滤与空结果恢复 C01-G02-10 过滤不改变 session 精灵定义数量",
+      "status": "passed",
+      "duration": 110.49741699999959
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-01 无用途过滤只保留 gamma",
+      "status": "passed",
+      "duration": 88.59570900000017
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-02 含四向过滤保留 alpha 排除 beta/gamma",
+      "status": "passed",
+      "duration": 119.74479200000042
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-03 含默认定格过滤保留 alpha 与 beta",
+      "status": "passed",
+      "duration": 87.43516699999964
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-04 含预制动作过滤只保留有 poses 的 alpha",
+      "status": "passed",
+      "duration": 93.45629100000042
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-05 含循环动作过滤命中 loopFrom 姿态所在资产",
+      "status": "passed",
+      "duration": 101.52587499999936
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-06 全部过滤恢复 authored 三资产",
+      "status": "passed",
+      "duration": 148.6880000000001
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-07 kind=无用途 再叠加文本过滤无匹配时 empty",
+      "status": "passed",
+      "duration": 161.19791700000042
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-08 kind=含四向 与文本 c01alpha 交集仍为 alpha",
+      "status": "passed",
+      "duration": 127.5055829999992
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-09 无 poses 的 beta 在含预制动作下被排除",
+      "status": "passed",
+      "duration": 92.54262500000004
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G03 用途/行为 kind 过滤（不含自动脚本轴） C01-G03-10 含循环动作不把仅有 static 无 loopFrom 的 beta 纳入",
+      "status": "passed",
+      "duration": 76.30895799999962
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-01 新增用途菜单在 proof 就绪后对 8 帧资产启用四向按钮",
+      "status": "passed",
+      "duration": 79.72554199999922
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-02 3 帧无用途资产禁用四向新增按钮",
+      "status": "passed",
+      "duration": 75.68124999999964
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-03 选择默认定格开始创建：草稿区出现且应用前 sprites 数不变",
+      "status": "passed",
+      "duration": 79.93654199999946
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-04 创建草稿取消：表单消失且零命令写入",
+      "status": "passed",
+      "duration": 96.84833299999991
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-05 应用新增 static 用途：session 含新 id 且 meta 消费者+1",
+      "status": "passed",
+      "duration": 168.37420800000018
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-06 空名称时应用按钮 disabled",
+      "status": "passed",
+      "duration": 97.64866600000005
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-07 空 ID 时应用按钮 disabled",
+      "status": "passed",
+      "duration": 110.46366699999999
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-08 默认草稿 id 从资源 label stem 派生且含 static 后缀",
+      "status": "passed",
+      "duration": 102.60858299999927
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-09 新增用途后 undo 还原 sprites 列表",
+      "status": "passed",
+      "duration": 104.0107909999997
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-10 新增用途 undo 后再 redo 恢复该定义",
+      "status": "passed",
+      "duration": 154.442583
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-01 四向用途每向帧数草稿提交写回 layout.framesPerDir=1",
+      "status": "passed",
+      "duration": 77.99766700000055
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-02 布局改动后 undo 恢复 framesPerDir=2",
+      "status": "passed",
+      "duration": 95.88225000000057
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-03 static→directional 布局切换写入四向且 framesPerDir 受帧数约束",
+      "status": "passed",
+      "duration": 93.0292500000005
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-04 directional→static 切换清除 framesPerDir 字段",
+      "status": "passed",
+      "duration": 108.48808300000019
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-05 布局切换成功后 notices 末项为 undefined 清除错误",
+      "status": "passed",
+      "duration": 102.94491600000038
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-06 同源两用途布局互不影响：改 walk 不改 idle",
+      "status": "passed",
+      "duration": 92.57137500000135
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-07 布局 undo 栈可连续两次撤回独立提交",
+      "status": "passed",
+      "duration": 115.74575000000004
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-08 用途页空白文案：有消费者未选时提示选择上方用途",
+      "status": "passed",
+      "duration": 85.33979200000067
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-09 无用途资源空白文案提示尚未创建用途定义",
+      "status": "passed",
+      "duration": 72.86849999999868
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-10 布局类型 select 在 proof 未就绪前保持 disabled 然后启用",
+      "status": "passed",
+      "duration": 68.5578340000011
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-01 confirm 拒绝时不删除用途且零 notice 成功文案",
+      "status": "passed",
+      "duration": 74.63908300000003
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-02 confirm 接受删除唯一用途后 meta 消费者归零并保留资源",
+      "status": "passed",
+      "duration": 68.55854200000067
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-03 删除 alpha 多用途中的 walk 后仍保留 idle",
+      "status": "passed",
+      "duration": 80.42566599999918
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-04 删除用途后 undo 恢复被删定义",
+      "status": "passed",
+      "duration": 88.60358300000007
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-05 无用途资源显示删除源资源按钮且用途删除按钮缺席",
+      "status": "passed",
+      "duration": 74.01204200000029
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-06 删除未使用源资源后 catalog 不再含 gamma",
+      "status": "passed",
+      "duration": 108.32854099999895
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-07 删除源资源 confirm 拒绝时 catalog 不变",
+      "status": "passed",
+      "duration": 90.44166600000062
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-08 有用途时不显示删除源资源按钮",
+      "status": "passed",
+      "duration": 79.84520799999882
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-09 删除源资源后 undo 恢复 catalog 记录与 sha",
+      "status": "passed",
+      "duration": 116.54195900000013
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G06 删除用途确认取消/成功与引用门控 C01-G06-10 confirm 文案对删除用途包含用途 label 与 id",
+      "status": "passed",
+      "duration": 90.46170800000073
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-01 源资源页签切换后仍保持当前资产选择",
+      "status": "passed",
+      "duration": 93.93591600000036
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-02 有 poses 的用途显示编辑预制动作按钮含数量",
+      "status": "passed",
+      "duration": 75.86291699999856
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-03 无 poses 的用途不显示编辑预制动作按钮但显示新建",
+      "status": "passed",
+      "duration": 73.50587499999892
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-04 用途列表 trailing 显示布局 kind 短标签「四向」",
+      "status": "passed",
+      "duration": 73.47162500000013
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-05 用途列表 trailing 对 static 显示「默认定格」",
+      "status": "passed",
+      "duration": 70.54066600000078
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-06 引用页签选中后 panel-references 非 hidden",
+      "status": "passed",
+      "duration": 92.47787499999868
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-07 精灵库计数单位为「项」且 count≥authored+starter",
+      "status": "passed",
+      "duration": 81.18612500000017
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-08 从 gamma 切回 alpha 后 who 恢复 AlphaWalk",
+      "status": "passed",
+      "duration": 201.30108400000063
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-09 新建预制动作按钮在 proof 就绪后 enabled",
+      "status": "passed",
+      "duration": 69.92491700000028
+    },
+    {
+      "file": "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-10 检查器 heading 在 definition 视图为「大世界精灵用途」",
+      "status": "passed",
+      "duration": 83.94670899999983
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 静态 chrome C10-G06-01 DsCard 渲染 title 与 actions 槽",
+      "status": "passed",
+      "duration": 11.980707999999936
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 静态 chrome C10-G06-02 DsListHeader help 与 count 同排",
+      "status": "passed",
+      "duration": 3.276542000000063
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 静态 chrome C10-G06-03 DsCheckbox indeterminate 设 aria-checked=mixed",
+      "status": "passed",
+      "duration": 11.321332999999981
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 静态 chrome C10-G06-04 DsSwitch 切换 onChange",
+      "status": "passed",
+      "duration": 8.341041999999902
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 tabs 与 overflow C10-G06-05 DsTabs End 跳到末个 enabled tab",
+      "status": "passed",
+      "duration": 10.847958999999946
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 tabs 与 overflow C10-G06-06 DsTabs inspector variant class",
+      "status": "passed",
+      "duration": 2.78774999999996
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 tabs 与 overflow C10-G06-07 DsRadioGroup 选中值随 onChange",
+      "status": "passed",
+      "duration": 10.711374999999975
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 tabs 与 overflow C10-G06-08 DsOverflowText 未裁剪时不带 tabIndex",
+      "status": "passed",
+      "duration": 2.659208000000035
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 tabs 与 overflow C10-G06-09 DsHelpTip 子控件获得 aria-describedby",
+      "status": "passed",
+      "duration": 2.950375000000008
+    },
+    {
+      "file": "src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
+      "fullName": "C10-G06 tabs 与 overflow C10-G06-10 DsListHeader overflow 菜单打开可见 menuitem",
+      "status": "passed",
+      "duration": 20.339833999999996
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 draft-input-state C10-G05-01 draftSource 拼接 draftKey syncToken value",
+      "status": "passed",
+      "duration": 7.086500000000001
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 draft-input-state C10-G05-02 syncToken 变更重置草稿到 canonical",
+      "status": "passed",
+      "duration": 33.319582999999966
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 draft-input-state C10-G05-03 onCommit 返回 false 时 blur 回滚 canonical",
+      "status": "passed",
+      "duration": 9.64970900000003
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 DsMultiSelect C10-G05-04 disabled 时 trigger disabled 且无法展开",
+      "status": "passed",
+      "duration": 16.648167000000058
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 DsMultiSelect C10-G05-05 打开后 Escape 关闭并回到 trigger",
+      "status": "passed",
+      "duration": 27.344416999999908
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 DsMultiSelect C10-G05-06 勾选一项 onChange 收到新数组",
+      "status": "passed",
+      "duration": 10.511833000000024
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 DsAddPickerDialog C10-G05-07 readOnly 时触发器 disabled",
+      "status": "passed",
+      "duration": 12.757749999999987
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 DsAddPickerDialog C10-G05-08 搜索过滤缩小候选列表",
+      "status": "passed",
+      "duration": 19.192334000000074
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 DsAddPickerDialog C10-G05-09 disabledReason 行不可确认",
+      "status": "passed",
+      "duration": 13.596541000000002
+    },
+    {
+      "file": "src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
+      "fullName": "C10-G05 DsAddPickerDialog C10-G05-10 scopeKey 变更关闭已开对话框",
+      "status": "passed",
+      "duration": 30.712083000000007
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 number inputs C10-G04-01 DsNumberField 步进增按钮提升值",
+      "status": "passed",
+      "duration": 37.71550000000002
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 number inputs C10-G04-02 达 max 时 increment disabled",
+      "status": "passed",
+      "duration": 6.628415999999902
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 number inputs C10-G04-03 DsDraftNumberField blur 提交合法整数",
+      "status": "passed",
+      "duration": 11.18541700000003
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 number inputs C10-G04-04 validate 失败阻止 commit 并保留草稿",
+      "status": "passed",
+      "duration": 5.5020829999999705
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 number inputs C10-G04-05 Escape 还原 canonical 数值",
+      "status": "passed",
+      "duration": 8.68420900000001
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 overlays C10-G04-06 打开 overlay 时 body overflow hidden",
+      "status": "passed",
+      "duration": 22.104458999999906
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 overlays C10-G04-07 关闭 overlay 恢复 body overflow",
+      "status": "passed",
+      "duration": 6.3776659999999765
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 overlays C10-G04-08 overlay 带 description 时 aria-describedby 存在",
+      "status": "passed",
+      "duration": 15.203208000000018
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 overlays C10-G04-09 dismissible=false 时不渲染关闭按钮",
+      "status": "passed",
+      "duration": 3.407416000000012
+    },
+    {
+      "file": "src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
+      "fullName": "C10-G04 overlays C10-G04-10 aria-busy 传递到 dialog",
+      "status": "passed",
+      "duration": 7.914667000000009
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+      "status": "passed",
+      "duration": 7.105874999999969
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+      "status": "passed",
+      "duration": 1.2296670000000631
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+      "status": "passed",
+      "duration": 0.8448750000000018
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+      "status": "passed",
+      "duration": 1.0912080000000515
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+      "status": "passed",
+      "duration": 1.7958750000000236
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+      "status": "passed",
+      "duration": 5.636082999999985
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+      "status": "passed",
+      "duration": 1.261624999999981
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+      "status": "passed",
+      "duration": 7.822041000000013
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+      "status": "passed",
+      "duration": 7.859499999999912
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
+      "status": "passed",
+      "duration": 1.2857910000000174
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+      "status": "passed",
+      "duration": 1.7483339999999998
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+      "status": "passed",
+      "duration": 6.542542000000026
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+      "status": "passed",
+      "duration": 1.748166000000083
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+      "status": "passed",
+      "duration": 0.5767919999999549
+    },
+    {
+      "file": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+      "fullName": "C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
+      "status": "passed",
+      "duration": 5.439374999999927
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项",
+      "status": "passed",
+      "duration": 7.21550000000002
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-02 swap 同索引保持原引用",
+      "status": "passed",
+      "duration": 0.9932080000000951
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感",
+      "status": "passed",
+      "duration": 1.7280000000000655
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-04 forward 按钮下移中间项",
+      "status": "passed",
+      "duration": 48.789540999999986
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-05 first 按钮把末项移到最前",
+      "status": "passed",
+      "duration": 22.379542000000015
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-06 首项 backward 按钮 disabled",
+      "status": "passed",
+      "duration": 8.048832999999945
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-07 水平取向 forward 使用 chevron-right 文案轴",
+      "status": "passed",
+      "duration": 9.877292000000011
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-08 collection disabled 时 move 按钮全 disabled",
+      "status": "passed",
+      "duration": 9.144624999999905
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-09 onReorder 返回 false 时顺序不变",
+      "status": "passed",
+      "duration": 9.635208000000034
+    },
+    {
+      "file": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+      "fullName": "C10-G01 reorder 剩余合同 C10-G01-10 duplicate item key 抛错",
+      "status": "passed",
+      "duration": 4.069584000000077
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-01 DsSelectField 渲染 label 与 required 标记",
+      "status": "passed",
+      "duration": 17.65700000000004
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-02 error 传递到 invalid 与 aria-invalid",
+      "status": "passed",
+      "duration": 1.8317080000000487
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-03 help 与 control 共享 describedby",
+      "status": "passed",
+      "duration": 2.700582999999938
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-04 选项 description 渲染在 popover 行内",
+      "status": "passed",
+      "duration": 37.465374999999995
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-05 compact 尺寸 class 挂在 trigger",
+      "status": "passed",
+      "duration": 4.227583999999979
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-06 invalid prop 无 error 时也标记 aria-invalid",
+      "status": "passed",
+      "duration": 4.744749999999954
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-07 Tab 离开 closed trigger 不自动展开",
+      "status": "passed",
+      "duration": 5.040082999999981
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-08 外部 value 变更时 trigger 文案同步",
+      "status": "passed",
+      "duration": 6.569834000000014
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-09 layout=inline 时 field 带 inline class",
+      "status": "passed",
+      "duration": 3.8367920000000595
+    },
+    {
+      "file": "src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
+      "fullName": "C10-G02 select Field 与展示合同 C10-G02-10 空 options 仍渲染 placeholder 触发器",
+      "status": "passed",
+      "duration": 2.2518330000000333
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 navigation 纯函数 C10-G03-01 handleMenuCharacterSearch 匹配首字母索引",
+      "status": "passed",
+      "duration": 5.822125000000028
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 navigation 纯函数 C10-G03-02 handleMenuCharacterSearch 修饰键返回 undefined",
+      "status": "passed",
+      "duration": 1.2097500000000991
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 navigation 纯函数 C10-G03-03 handleMenuCharacterSearch 无匹配返回 undefined",
+      "status": "passed",
+      "duration": 1.0622079999999414
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 DsToolbar C10-G03-04 toolbar 按钮 aria-busy 随 busy 传递",
+      "status": "passed",
+      "duration": 13.339666999999963
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 DsToolbar C10-G03-05 disabled 命令不可点击",
+      "status": "passed",
+      "duration": 7.57629200000008
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 DsToolbar C10-G03-06 showLabel 时按钮带 ds-button class",
+      "status": "passed",
+      "duration": 5.810499999999934
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-07 keyboardOwner 聚焦时 ArrowDown 更新 activedescendant",
+      "status": "passed",
+      "duration": 15.954500000000053
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-08 keyboardOwner Enter 触发 onSelect",
+      "status": "passed",
+      "duration": 8.218834000000015
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-09 12 项低于 virtualizeAbove 时可见窗口含首末索引",
+      "status": "passed",
+      "duration": 3.767832999999996
+    },
+    {
+      "file": "src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
+      "fullName": "C10-G03 DsVirtualListbox keyboardOwner C10-G03-10 listbox role 与 label 可达",
+      "status": "passed",
+      "duration": 6.1242919999999685
+    }
+  ]
+}

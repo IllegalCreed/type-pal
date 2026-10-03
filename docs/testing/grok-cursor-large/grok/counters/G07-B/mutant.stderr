@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B01 列表价读 rightText 15，不读目录价 99
+AssertionError: expected 185 to be 181 // Object.is equality
+
+- Expected
++ Received
+
+- 181
++ 185
+
+ ❯ src/present/menu/shop-preview-pixels.grok-r1.test.ts:68:51
+     66|     }
+     67|     const name = textDot('甲', 0, 150, 21)
+     68|     expect(pixel(fb, rightDigitX(238, 6, 0), 26)).toBe(yellowDigit(5))
+       |                                                   ^
+     69|     expect(pixel(fb, rightDigitX(238, 6, 1), 26)).toBe(yellowDigit(1))
+     70|     expect(pixel(fb, rightDigitX(238, 6, 0), 26)).not.toBe(yellowDigit…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

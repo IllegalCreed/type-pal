@@ -12,6 +12,11 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-FROZEN-CLOSE-1 | [六波冻结测试统一收口](tasks/TEST-FROZEN-CLOSE-1.md) | build | Codex / 新main正式门 | 用户要求L/M/N补完合并退休；不扩配额/产品/兼容 |
+| TEST-GROK-RENDER-HOST-LARGE-1 | [呈现/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | review | Codex / 本轮统一接入 | 400定向绿、46产品源不变，已交付冻结 |
+| TEST-CURSOR-ASSET-UI-LARGE-1 | [资源叶组件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | Codex / 本轮有限收口 | 717回归现行绿；净新702估算不作为验收事实，不续配额 |
+| TEST-GROK-BOOT-RESOURCES-MEDIUM-1 | [启动资源中包](tasks/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | review | Codex / 本轮统一接入 | 19现行合同绿，三产品源不变 |
+| TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 | [恢复地址中包](tasks/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | review | Codex / 本轮统一接入 | 24现行回归绿，8旧模型合同退役不恢复兼容 |
+| TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 | [脚本预览中包](tasks/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | review | Codex / 本轮统一接入 | 32现行回归绿，2状态机合同退役 |
 | QUALITY-TEST-INPUTS-1 | [两旧测试输入窄维护](tasks/QUALITY-TEST-INPUTS-1.md) | build | Codex / 用户已批准 | 固定I06随机输入、PAL图像IO在干净CI可重建；产品/断言/门不变 |
 | TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 | [确认队列/活动权限生命周期中包](tasks/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | review | Codex / 独立接入 | 16代码accept，四针旧绿新单红/恢复绿；不作者返工、不夹O/P/Q |
 | QUALITY-OPQ-RETIREMENT-1 | [历史测试退役保护账](tasks/QUALITY-OPQ-RETIREMENT-1.md) | blocked | Codex / 两旧输入待准入 | 原16 counter闭合；新增game随机少1臂/CI头像5红，不降门 |

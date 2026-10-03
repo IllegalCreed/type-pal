@@ -1,0 +1,16 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C5-count-bound-KCwnaU/packages/game
+
+ ✓ src/assets/dialog-assets.glm-phase1-leaves.test.ts > L23 loadDialogAssets 全链路（fetch 全隔离） > manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛 179ms
+ ✓ src/assets/dialog-assets.glm-phase1-leaves.test.ts > L23 loadDialogAssets 全链路（fetch 全隔离） > portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻 1ms
+ ✓ src/assets/dialog-resources.grok-mid-1.test.ts > grok-mid-1 dialog parallel degradation > 单张头像失败仍保留成功头像与图标第 0 帧 178ms
+ ✓ src/assets/dialog-resources.grok-mid-1.test.ts > grok-mid-1 dialog parallel degradation > 头像清单与图标清单在任一响应前都已发出 5ms
+ ✓ src/assets/dialog-resources.grok-mid-1.test.ts > grok-mid-1 dialog parallel degradation > 重复 chunk 的第二次失败不删第一次精灵 3ms
+ ✓ src/assets/dialog-resources.grok-mid-1.test.ts > grok-mid-1 dialog parallel degradation > portraits.json 的 count 不决定 PNG 请求次数 1ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  18:03:32
+   Duration  1.30s (transform 234ms, setup 82ms, import 234ms, tests 369ms, environment 1.55s)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C5-count-bound-KCwnaU/restored.json

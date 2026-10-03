@@ -1,0 +1,23 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/dialog-resources.grok-mid-1.test.ts > grok-mid-1 dialog parallel degradation > 单张头像失败仍保留成功头像与图标第 0 帧
+AssertionError: expected [] to deeply equal [ 49 ]
+
+- Expected
++ Received
+
+- [
+-   49,
+- ]
++ []
+
+ ❯ src/assets/dialog-resources.grok-mid-1.test.ts:57:65
+     55|
+     56|     const assets = await loadDialogAssets()
+     57|     expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqua…
+       |                                                                 ^
+     58|     expect(assets.iconFrames.get(0)?.width).toBe(1)
+     59|     expect(assets.iconFrames.get(0)?.opaque[0]).toBe(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

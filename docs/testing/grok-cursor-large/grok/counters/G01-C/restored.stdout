@@ -1,0 +1,20 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-C-zaaSEb/packages/game
+
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C01 object-players 404 时结果为空数组，敌人表仍在 17ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C02 words.json 500 时词表为空，商店表仍透传 3ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码 2ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在 2ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在 3ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22 3ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留 2ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在 2ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载 4ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts > G01-C loadAll 失败恢复 > G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留 2ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  23:17:21
+   Duration  654ms (transform 64ms, setup 19ms, import 69ms, tests 153ms, environment 337ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-C-zaaSEb/restored.json

@@ -1,0 +1,57 @@
+{
+  "taskId": "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
+  "owner": "Cursor",
+  "rework": "CURSOR-R4-01～02",
+  "branch": "codex/cursor-script-preview-medium-r1",
+  "dispatchBase": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+  "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+  "priorCandidate": "ceeed04610247e60c463f2786cd533552050e563",
+  "status": "rework-delivered-awaiting-codex",
+  "executed": 34,
+  "netNew": 33,
+  "crossCheck": ["C4-03"],
+  "existingProofWithdrawn": ["C1-04", "C1-05"],
+  "unreachable": ["C1-07"],
+  "countersValid": 6,
+  "oldGreenNewRed": 3,
+  "oldGreenNewRedIds": ["CTR-C1-01", "CTR-C4-01", "CTR-C6-01"],
+  "oldExecuted": {
+    "CTR-C1-01": 3,
+    "CTR-C4-01": 12,
+    "CTR-C6-01": 12
+  },
+  "r4": {
+    "judgeSelftest": "strict AssertionError head; reject ReferenceError/TypeError/Error substring; prior R3 rejects retained",
+    "rejudge": "cleanup-evidence/rejudge-r4.json allValid=true; original JSON/raw bytes unchanged",
+    "cleanupSelftest": "prior cases + refuse-create-rollback-inode-replacement + create-rollback-unentered-empty-ok"
+  },
+  "gates": {
+    "judgeSelftest": "passed",
+    "cleanupSelftest": "passed",
+    "rejudgeSixNeedles": "6/6 valid",
+    "rootLint": "lint: PASS — 2856 files; 0 errors / 0 warnings / 0 infos; complete report",
+    "docs": "FAIL 1 issue: shared medium-triple README missing cursor/ nav (DOC-PARENT-NAV, Codex-owned)",
+    "diffCheck": "PASS",
+    "verify": {
+      "owner": "cursor",
+      "base": "f5c7f904a3f623e3ca5b413ab43f78029d99fe11",
+      "sourceBase": "554b8a0552db30294a9050b4466659c4a14549f8",
+      "branch": "codex/cursor-script-preview-medium-r1",
+      "registration": false,
+      "frozenFiles": 12,
+      "frozenHashesValid": true,
+      "changedPaths": 141,
+      "scopeValid": true
+    }
+  },
+  "unfinished": [
+    {
+      "id": "DOC-PARENT-NAV",
+      "opportunity": "共享 README 未链 cursor/；贡献者只读，父导航由 Codex。"
+    }
+  ],
+  "productMutations": false,
+  "mainMerge": false,
+  "officialGate": false,
+  "candidateSha": "d31f12430fb1fcdb6941d813171bfe9bd6a3f2be"
+}

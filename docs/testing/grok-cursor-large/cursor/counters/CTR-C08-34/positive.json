@@ -1,0 +1,140 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790908989426,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+          "status": "passed",
+          "title": "C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系",
+          "duration": 27.67316699999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+          "status": "passed",
+          "title": "C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source",
+          "duration": 12.163457999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+          "status": "passed",
+          "title": "C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝",
+          "duration": 5.0269170000001395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+          "status": "passed",
+          "title": "C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝",
+          "duration": 4.965875000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+          "status": "passed",
+          "title": "C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝",
+          "duration": 7.018249999999853,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+          "status": "passed",
+          "title": "C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝",
+          "duration": 2.1274160000000393,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+          "status": "passed",
+          "title": "C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝",
+          "duration": 2.3556659999999283,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+          "status": "passed",
+          "title": "C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0",
+          "duration": 4.897500000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+          "status": "passed",
+          "title": "C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+          "duration": 3.7068329999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G02 tileset-references 边与证明门"],
+          "fullName": "C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
+          "status": "passed",
+          "title": "C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch",
+          "duration": 2.4936659999998483,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790908991034,
+      "endTime": 1790908991107.4937,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts"
+    }
+  ]
+}

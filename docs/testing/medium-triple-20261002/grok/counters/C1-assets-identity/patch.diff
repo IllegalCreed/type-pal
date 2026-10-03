@@ -1,0 +1,11 @@
+--- /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/packages/game/src/shell/bootstrap-resources.ts	2026-10-02 15:32:16
++++ /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-mid-1-C1-assets-identity-yJ51gk/mutant-source.txt	2026-10-02 16:20:30
+@@ -52,7 +52,7 @@
+   )
+
+   const resourcesReady = Promise.all([
+-    ports.loadAssets(sceneId),
++    ports.loadAssets(sceneId).catch((error: unknown) => Promise.reject(new Error('masked:' + String(error)))),
+     ports.loadGlyphs().catch((error: unknown) => {
+       ports.warn('[bootstrap] loadGlyphs failed, text will render as tofu:', error)
+       return undefined

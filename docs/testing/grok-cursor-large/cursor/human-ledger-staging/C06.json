@@ -1,0 +1,1288 @@
+{
+  "batch": "C06",
+  "overlays": {
+    "C06-G04-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — :250 setInterval tick; initial draw uses frame index 0 palette",
+      "legalInput": "fixture: const m = await mountExtra({ playAllFrames: true, showAllFrames: true, frameMs: 40 }) await waitDrawn(m)",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:108 expectedBattleRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — :250 setInterval frameMs advance frame index",
+      "legalInput": "fixture: const m = await mountExtra({ playAllFrames: true, frameMs: 40 }) await waitDrawn(m) await advance(40)",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:114 advance(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:115 expectedBattleRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — :285 props.onFrameSelect?.(index) on thumbnail pick",
+      "legalInput": "fixture: mountExtra({ playAllFrames: true, showAllFrames: true, frameMs: 40, onFrameSelect: (index) => picked.push(index), })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:118 test invoke | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — :234 if (props.frameSequence) return [...props.frameSequence] — reset on key change",
+      "legalInput": "fixture: mountExtra({ frameSequence: [2, 3], frameMs: 40, sequenceKey: 'first', })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:139 advance(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:140 expectedBattleRgb(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:146 <BattleSpriteInlinePreview; packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:157 expectedBattleRgb(…) | production: packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production); packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/timing.ts:33 advance(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — asset gate: blank canvas until reader resolves",
+      "legalInput": "fixture: const path = project.seeded.get(ASSET)!.path const gated = gatedFileSource(project.source) const hold = gated.gate(path) mounted = await mountExtra({ source: gated.source })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:162 seeded.get(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:163 gatedFileSource(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:166 isBlank(…) | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — load error sets error state; canvas stays blank",
+      "legalInput": "fixture: mountExtra({ source: failing })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:172 seeded.get(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:184 pollUntil(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:188 isBlank(…) | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — thumbnail grid canvases colored per frame index",
+      "legalInput": "fixture: mountExtra({ playAllFrames: true, showAllFrames: true })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:194 pollUntil(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:196 isBlank(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:197 opaqueBounds(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:200 pixelAt(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:203 expectedBattleRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — definition/asset change clears prior pixels before redraw",
+      "legalInput": "fixture: const altAsset = 'battle-sprite.authored.c06-inline-alt' mounted = await mountExtra({ playAllFrames: true }) await waitDrawn(mounted) const altDef = project.state.battleSprites.find((entry) => entry.id === 'c06-inline-alt-def')! await act(async () => { mounted!.root.render( <BattleSpriteInlinePreview definition={altDef} assetBase={project.assetBase} assetReader={createEditorAssetReader(project.source, () => project.state)} playAllFrames />, )",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:213 <BattleSpriteInlinePreview; packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:216 createEditorAssetReader(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:222 expectedBattleRgb(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:223 colorCensus(…) | production: packages/editor/src/ui/App.tsx:380 createEditorAssetReader(…) (production); packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:39 createEditorAssetReader(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — useEffect cleanup clears setInterval on unmount",
+      "legalInput": "fixture: const m = await mountExtra({ playAllFrames: true, frameMs: 40 }) await waitDrawn(m)",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:230 unmountBattleInline(…) | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:74 unmountBattleInline(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — activeFrames highlights aria-pressed on matching thumbs",
+      "legalInput": "fixture: mountExtra({ playAllFrames: true, showAllFrames: true, activeFrames: [2], frameMs: 40, })",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:235 test invoke | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G04-11": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx — preview without definition still draws asset frame 0",
+      "legalInput": "fixture: mounted = await mountBattleInline(project, { asset: ASSET }) await waitDrawn(mounted)",
+      "caller": "test: packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:248 mountBattleInline(…); packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx:250 expectedBattleRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1437 <BattleSpriteInlinePreview (production); packages/editor/src/ui/BattleSpriteLibrary.tsx:1323 <BattleSpriteInlinePreview (production); packages/editor/src/ui/SummonPreview.tsx:13 <BattleSpriteInlinePreview (production); packages/editor/src/ui/TrancePreview.tsx:12 <BattleSpriteInlinePreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/battle-inline-harness.tsx:42 <BattleSpriteInlinePreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — EnemyAnimPreview.tsx frameSequence idle; draw palette frame 0",
+      "legalInput": "fixture: const m = await mountFor('c06-main') await waitDrawn(m)",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:167 opaqueBounds(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:168 uniformOpaque(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:169 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — :196 setInterval sequence.ms tick advances idle colors",
+      "legalInput": "fixture: const m = await mountFor('c06-main') await waitDrawn(m) await advance(200)",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:178 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:179 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:180 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:181 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:182 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:183 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — frameSequence attack mode includes prior segment last frame",
+      "legalInput": "fixture: const m = await mountFor('c06-main') await waitDrawn(m) await chooseMode(m, '攻击')",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:195 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:197 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — single-frame magic sequence holds frame color",
+      "legalInput": "fixture: mountFor('c06-main')",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:205 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:206 advance(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — missing magic frames fallback to last idle + hint",
+      "legalInput": "fixture: const m = await mountFor('c06-nomagic') await waitDrawn(m) await chooseMode(m, '施法')",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:215 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:216 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:217 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — actionSpeed 0 freezes attack frame index",
+      "legalInput": "fixture: const m = await mountFor('c06-zeroact') await waitDrawn(m) await chooseMode(m, '攻击')",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:225 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:226 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:227 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — canvas sized to max frame×2; smaller frame bottom-centered",
+      "legalInput": "fixture: const m = await mountFor('c06-sized') await waitDrawn(m)",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:235 opaqueBounds(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:236 pixelAt(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:237 pixelAt(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:238 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — large→small frame clears canvas before blit",
+      "legalInput": "fixture: const m = await mountFor('c06-sized') await waitDrawn(m) await advance(200)",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:244 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:245 opaqueBounds(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:246 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:247 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:248 opaqueBounds(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:249 colorCensus(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — gated source disables controls until resolve",
+      "legalInput": "fixture: const gated = gatedFileSource(project.source) const path = project.seeded.get(MAIN)!.path const hold = gated.gate(path) const m = await mountFor('c06-main', gated.source) await pollUntil(() => gated.calls.includes(path), '战斗精灵字节读取进入闸门')",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:253 gatedFileSource(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:254 seeded.get(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:257 pollUntil(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:258 isBlank(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:260 controlByLabel; packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:261 controlByLabel; packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:264 controlByLabel | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 controlByLabel(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — read failure shows error; canvas blank",
+      "legalInput": "fixture: mountFor('c06-main', failing)",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:269 seeded.get(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:281 pollUntil(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:283 isBlank(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:284 controlByLabel | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 controlByLabel(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-11": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — binding definition switch redraws attack colors",
+      "legalInput": "fixture: const m = await mountFor('c06-main') await waitDrawn(m) await chooseMode(m, '攻击') await advance(40) const trigger = m.host.querySelector<HTMLButtonElement>('[aria-label=\"敌人战斗精灵\"]')! await pickCombobox(trigger, '敌副') await pollUntil(() => m.host.textContent?.includes('3 帧') === true, '新定义帧数标签') await pollUntil(() => opaqueBounds(m.canvas()) !== undefined, '新定义首次绘制')",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:291 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:293 pickCombobox(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:294 pollUntil(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:295 opaqueBounds(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:295 pollUntil(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:298 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:301 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-12": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — undo frame count restores idle rotation",
+      "legalInput": "fixture: const m = await mountFor('c06-main') await waitDrawn(m) await fillAndBlur(controlByLabel<HTMLInputElement>(m.host, '待机帧'), '1') await pollUntil( () => m.session.getState().battleSprites.find((d) => d.id === 'c06-main')?.profile.kind === 'enemy' && ( m.session.getState().battleSprites.find((d) => d.id === 'c06-main')!.profile as { idle: { count: number }",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:307 controlByLabel; packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:307 fillAndBlur(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:308 pollUntil(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:319 opaqueBounds(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:319 pollUntil(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:321 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:322 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:327 opaqueBounds(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:327 pollUntil(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:329 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:333 expectedBattleRgb(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-13": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — mode switches clear prior interval timers",
+      "legalInput": "fixture: const m = await mountFor('c06-main') await waitDrawn(m) const baseline = vi.getTimerCount()",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:346 unmountEnemyAnim(…) | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:123 unmountEnemyAnim(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G02-14": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/EnemyAnimPreview.tsx — Y offset submit does not reload sprite bytes",
+      "legalInput": "fixture: const m = await mountFor('c06-main') await waitDrawn(m) await chooseMode(m, '攻击') await advance(40) const before = canvasRgb(m)",
+      "caller": "test: packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:355 advance(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:357 expectedBattleRgb(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:358 controlByLabel; packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:359 fillAndBlur(…); packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx:368 controlByLabel | production: packages/editor/src/ui/EnemyTab.tsx:956 <EnemyAnimPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/enemy-anim-harness.tsx:69 <EnemyAnimPreview (harness); packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts:39 expectedBattleRgb(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — EntityPageAnimationEditor default walk selection loop=false",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await enablePreset(mounted)",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:94 mountEntityPageAnimation(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — action change copies loop from pose metadata",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await enablePreset(mounted) const select = mounted.host.querySelector<HTMLButtonElement>('[aria-label=\"页面默认动作\"]')! await pickComboboxByLabelFragment(select, '跑')",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:100 mountEntityPageAnimation(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — sprite change rebinds to first sorted action",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await enablePreset(mounted) await mounted.setSprite(spriteB) await enablePreset(mounted)",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:108 mountEntityPageAnimation(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — pageIndex change resets phase fields",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA, 0) await enablePreset(mounted) const phase = mounted.host.querySelector<HTMLInputElement>('[aria-label=\"动作起始相位（毫秒）\"]')! await fillAndBlur(phase, '120') await mounted.setPageIndex(1) await enablePreset(mounted) const phase2 = mounted.host.querySelector<HTMLInputElement>( '[aria-label=\"动作起始相位（毫秒）\"]', )!",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:116 mountEntityPageAnimation(…); packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:119 fillAndBlur(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 fillAndBlur(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — disable clears animation binding",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await enablePreset(mounted) await act(async () => mounted!.host.querySelector<HTMLInputElement>('input[type=\"checkbox\"]')!.click(), )",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:129 mountEntityPageAnimation(…); packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:132 type | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — invalid binding shows 引用失效 placeholder; open disabled",
+      "legalInput": "fixture: const changes: Array<SpriteActionBinding | undefined> = [] invalidHost = document.createElement('div') document.body.append(invalidHost) invalidRoot = createRoot(invalidHost) await act(async () => { invalidRoot!.render(<InvalidHarness changes={changes} />)",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:141 createRoot(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "悬空复合引用不猜测替换并明确提示",
+        "oldMatcher": "none",
+        "note": "axis differs from toolOldAssertionCandidate (expect(host.textContent).toContain('wrong/missing（引用失效）') expect(host.textContent).toContain('不匹配') )"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — loop checkbox writes binding.loop",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await enablePreset(mounted) const loop = mounted.host.querySelectorAll<HTMLInputElement>('input[type=\"checkbox\"]')[1]! await act(async () => loop.click())",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:153 mountEntityPageAnimation(…); packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:155 type | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — startAtMs 0 clears stored offset",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await enablePreset(mounted) const phase = mounted.host.querySelector<HTMLInputElement>('[aria-label=\"动作起始相位（毫秒）\"]')! await fillAndBlur(phase, '0')",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:161 mountEntityPageAnimation(…); packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:164 fillAndBlur(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts:112 fillAndBlur(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — no sprite disables enable switch",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await mounted.setSprite(undefined)",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:169 mountEntityPageAnimation(…); packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:171 type | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "从实体页启用复合动作并编辑循环、相位与反跳",
+        "oldMatcher": "none",
+        "note": "axis differs from toolOldAssertionCandidate (expect(presetRow.querySelector('.ds-check-label')).not.toBeNull() const enabled = host.querySelector)"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — sprite without poses disables switch",
+      "legalInput": "fixture: mountEntityPageAnimation({ ...spriteA, id: 'sprite.c06.empty', poses: {}, })",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:177 mountEntityPageAnimation(…); packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:182 type | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts:74 type(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "6fe71492c53c6b8a087fa11252dee1f204617a58",
+        "oldFile": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+        "oldFullName": "从实体页启用复合动作并编辑循环、相位与反跳",
+        "oldMatcher": "none",
+        "note": "axis differs from toolOldAssertionCandidate (expect(presetRow.querySelector('.ds-check-label')).not.toBeNull() const enabled = host.querySelector)"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G06-11": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/EntityPageAnimationEditor.tsx — valid action selection enables open button",
+      "legalInput": "fixture: mounted = await mountEntityPageAnimation(spriteA) await enablePreset(mounted) const select = mounted.host.querySelector<HTMLButtonElement>('[aria-label=\"页面默认动作\"]')! await pickComboboxByLabelFragment(select, '跑') const open = [...mounted.host.querySelectorAll('button')].find((b) => b.textContent?.includes('打开动作'), )!",
+      "caller": "test: packages/editor/src/ui/EntityPageAnimationEditor.c06-g06.cursor-r1.test.tsx:188 mountEntityPageAnimation(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — FireEffectPreview.tsx draw first chunk frame opaque pixels",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk }) await waitLoaded()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:81 isBlank(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:82 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:83 expectedFireRgb(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — :137 setInterval tick advances palette color",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk, speed: 0, fireDelay: 0 }) await waitLoaded() await act(async () => { host.querySelector<HTMLButtonElement>('button[aria-label=\"播放 FIRE 特效预览\"]')!.click()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:92 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:93 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:94 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:95 expectedFireRgb(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:96 expectedFireRgb(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/timing.ts:33 advance(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — pause clears interval; pixel frozen",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk }) await waitLoaded() const play = host.querySelector<HTMLButtonElement>('button[aria-label=\"播放 FIRE 特效预览\"]')! await act(async () => play.click()) await advance(50) const frozen = pixelAt(canvas(), 100, 85).slice(0, 3) await act(async () => play.click()) await advance(200)",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:104 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:105 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:107 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:108 pixelAt(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/timing.ts:33 advance(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — effectSprite prop change reloads chunk frames",
+      "legalInput": "fixture: mountFire({ effectSprite: fixture.chunk }); mountFire({ effectSprite: 10 }); calls: loadC06FireFixture(",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:115 loadC06FireFixture(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:122 expectedFireRgb(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:122 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:123 colorCensus(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — fireDelay sequence wraps to delay frame color",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk, speed: 0, fireDelay: 1 }) await waitLoaded() await act(async () => { host.querySelector<HTMLButtonElement>('button[aria-label=\"播放 FIRE 特效预览\"]')!.click()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:132 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:133 expectedFireRgb(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:133 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:134 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:135 expectedFireRgb(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:135 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:136 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:137 expectedFireRgb(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:137 pixelAt(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/timing.ts:33 advance(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — loading: no canvas; failed chunk shows error text",
+      "legalInput": "fixture: await mountFire({ effectSprite: 9999 }) await pollUntil(() => host.textContent?.includes('无法加载') === true, '无效 chunk 失败')",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:142 pollUntil(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — idle non-playing still draws first frame",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk }) await waitLoaded()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:149 opaqueBounds(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — anim.speed changes setInterval stepMs",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk, speed: 5, fireDelay: 0 }) await waitLoaded() await act(async () => { host.querySelector<HTMLButtonElement>('button[aria-label=\"播放 FIRE 特效预览\"]')!.click()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:158 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:159 expectedFireRgb(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:159 pixelAt(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:160 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:161 expectedFireRgb(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:161 pixelAt(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/timing.ts:33 advance(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — unmount clears interval handle",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk }) await waitLoaded() await act(async () => { host.querySelector<HTMLButtonElement>('button[aria-label=\"播放 FIRE 特效预览\"]')!.click()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:164 test invoke | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — caption shows decoded frame count",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk }) await waitLoaded()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:175 test invoke | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production) | harness: none (not a production caller)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G03-11": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/FireEffectPreview.tsx",
+      "sourceCondition": "packages/editor/src/ui/FireEffectPreview.tsx — clearRect between frames keeps single opaque census",
+      "legalInput": "fixture: await mountFire({ effectSprite: fixture.chunk }) await waitLoaded() await act(async () => { host.querySelector<HTMLButtonElement>('button[aria-label=\"播放 FIRE 特效预览\"]')!.click()",
+      "caller": "test: packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:187 advance(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:188 colorCensus(…); packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx:189 colorCensus(…) | production: packages/editor/src/ui/SkillAnimationEditor.tsx:274 <FireEffectPreview (production); packages/editor/src/core/project-io.ts:609 advance(…) (production); packages/editor/src/core/project-io.ts:621 advance(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/timing.ts:33 advance(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — PortraitEditor default portrait PNG decode color",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [{ id: 'portrait.c06.red', label: '红', ...red }], actorPatch: { portraits: { default: 'portrait.c06.red' } }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:60 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:64 decodePortraitCenterRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — switch default portrait updates session asset id",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [ { id: 'portrait.c06.red', label: '红', ...red }, { id: 'portrait.c06.blue', label: '蓝', ...blue }, ], actorPatch: { portraits: { default: 'portrait.c06.red' } }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:72 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:79 controlByAriaLabel; packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:80 pickCombobox(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:82 decodePortraitCenterRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/kit.ts:121 pickCombobox(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — two expression assets decode distinct RGB",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [ { id: 'portrait.c06.red', label: '红', ...red }, { id: 'portrait.c06.blue', label: '蓝', ...blue }, ], actorPatch: { portraits: { default: 'portrait.c06.red', expressions: { A",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:89 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:101 decodePortraitCenterRgb(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:102 decodePortraitCenterRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — undo default portrait restores prior asset",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [ { id: 'portrait.c06.red', label: '红', ...red }, { id: 'portrait.c06.blue', label: '蓝', ...blue }, ], actorPatch: { portraits: { default: 'portrait.c06.red' } }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:109 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:116 controlByAriaLabel; packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:117 pickCombobox(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/kit.ts:121 pickCombobox(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — empty portrait group shows empty copy",
+      "legalInput": "fixture: mounted = await mountPortraitEditor(legal)",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:123 mountPortraitEditor(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — missing blob → thumbnail error state",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [{ id: 'portrait.c06.red', label: '红', ...red }], actorPatch: { portraits: { default: 'portrait.c06.red' } }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:129 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:138 <PortraitEditor; packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:146 pollUntil(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — delete expression clears expressions map",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [{ id: 'portrait.c06.red', label: '红', ...red }], actorPatch: { portraits: { default: 'portrait.c06.red', expressions: { 临时: 'portrait.c06.red' } }, }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:154 mountPortraitEditor(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — rename expression key preserves asset id",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [{ id: 'portrait.c06.red', label: '红', ...red }], actorPatch: { portraits: { default: 'portrait.c06.red', expressions: { 旧名: 'portrait.c06.red' } }, }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:168 mountPortraitEditor(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — expression asset swap changes decode color",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [ { id: 'portrait.c06.red', label: '红', ...red }, { id: 'portrait.c06.blue', label: '蓝', ...blue }, ], actorPatch: { portraits: { default: 'portrait.c06.red', expressions: { E",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:191 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:200 controlByAriaLabel; packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:201 pickCombobox(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:202 decodePortraitCenterRgb(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/kit.ts:121 pickCombobox(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — default portrait switch increments history",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [ { id: 'portrait.c06.red', label: '红', ...red }, { id: 'portrait.c06.blue', label: '蓝', ...blue }, ], actorPatch: { portraits: { default: 'portrait.c06.red' } }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:209 mountPortraitEditor(…); packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:217 controlByAriaLabel; packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:218 pickCombobox(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness); packages/editor/src/__tests__/cursor-asset-r1/kit.ts:121 pickCombobox(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G05-11": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PortraitEditor.tsx",
+      "sourceCondition": "packages/editor/src/ui/PortraitEditor.tsx — delete portrait group clears portraits",
+      "legalInput": "fixture: mountPortraitEditor(legal, { portraitAssets: [{ id: 'portrait.c06.red', label: '红', ...red }], actorPatch: { portraits: { default: 'portrait.c06.red' } }, })",
+      "caller": "test: packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx:224 mountPortraitEditor(…) | production: packages/editor/src/ui/ActorMode.tsx:1039 <PortraitEditor (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/portrait-harness.tsx:32 <PortraitEditor (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — PreviewCanvas draw when assets ready; opaque pixel census",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal) await waitReady(mounted) const canvas = mounted.canvas()",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:57 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:61 opaqueBounds(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — loading gate keeps canvas blank + loading hint",
+      "legalInput": "fixture: const tilePath = legal.state.assetCatalog.assets['tileset.generated.starter']?.path",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:67 gatedFileSource(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:69 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:71 isBlank(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:74 isBlank(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — rAF pump stable pixel census across ticks",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal) await waitReady(mounted) const before = opaqueBounds(mounted.canvas())?.count ?? 0 await pumpPreviewRaf(8) const after = opaqueBounds(mounted.canvas())?.count ?? 0",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:78 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:80 opaqueBounds(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:81 pumpPreviewRaf(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:82 opaqueBounds(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:126 pumpPreviewRaf(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — missing script source shows hint; map still drawn",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal, { hint: 'c06 无活动脚本', stages: [] }) await waitReady(mounted)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:87 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:90 opaqueBounds(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — tileset read failure: error visible, canvas blank",
+      "legalInput": "fixture: fixtures: mountPreviewCanvas(legal, { source: failing }); new Error('c06 瓦片读取失败'); tilePath=legal.state.assetCatalog.assets['tileset.generated.starter']!.path; failing={",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:105 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:106 pollUntil(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:110 isBlank(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — sceneFraming change no asset reload; pixels remain",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal, { sceneFraming: true }) await waitReady(mounted) const count = opaqueBounds(mounted.canvas())?.count ?? 0 await unmountPreviewCanvas(mounted) mounted = await mountPreviewCanvas(legal, { sceneFraming: false }) await waitReady(mounted)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:114 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:116 opaqueBounds(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:117 unmountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:118 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:120 opaqueBounds(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:121 unmountPreviewCanvas(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — unmount stops rAF pump",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal) await waitReady(mounted) const canvas = mounted.canvas() await unmountPreviewCanvas(mounted) mounted = undefined await pumpPreviewRaf(2)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:124 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:127 unmountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:129 pumpPreviewRaf(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:130 isBlank(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:126 pumpPreviewRaf(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — pre-ready canvas has zero opaque pixels",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:134 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:135 isBlank(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — ready tag mutually exclusive with loading hint",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:140 mountPreviewCanvas(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — real-time rAF still paints after wall delay",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal) await waitReady(mounted) await realDelay(30) await pumpPreviewRaf(2)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:148 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:150 realDelay(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:151 pumpPreviewRaf(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:152 opaqueBounds(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:126 pumpPreviewRaf(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-12": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — toolbar performance controls present; canvas interactive class",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal) await waitReady(mounted)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:156 mountPreviewCanvas(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G01-11": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/PreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/PreviewCanvas.tsx — sourceKey remount reloads draw pipeline",
+      "legalInput": "fixture: mounted = await mountPreviewCanvas(legal, { sourceKey: 'c06:first' }) await waitReady(mounted) await unmountPreviewCanvas(mounted) mounted = await mountPreviewCanvas(legal, { sourceKey: 'c06:second' }) await waitReady(mounted)",
+      "caller": "test: packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:163 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:165 unmountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:166 mountPreviewCanvas(…); packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx:168 opaqueBounds(…) | production: packages/editor/src/ui/SceneScriptWorkspace.tsx:221 <PreviewCanvas (production); packages/editor/src/ui/scene-stage.ts:4 PreviewCanvas(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:43 <PreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/preview-canvas-harness.tsx:121 unmountPreviewCanvas(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G07-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — StampPreviewCanvas drawPreview opaque pixels when assets loaded",
+      "legalInput": "fixture: const template = c08StampTemplate('c06-g07-01', C08_TILESET) const mounted = await mountStampPreview(template) await waitPreviewReady(mounted.host) const canvas = mounted.canvas()",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:62 C08_TILESET; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:62 c08StampTemplate(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:63 mountStampPreview(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:67 isBlank(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:68 opaqueBounds(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G07-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — :275 showCollision default true; :377-378 aria-pressed toggle",
+      "legalInput": "fixture: c08StampTemplate('c06-g07-02', C08_TILESET, 0, { collision: [[0, null], [null, null]] }); mountStampPreview(template)",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx mountStampPreview(…)  | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx mountStampPreview (test harness; not production caller)",
+      "oldAssertion": {
+        "oldTestSha": "e5caa7fc4227b356c4b8010ab999385a58336bc0",
+        "oldFile": "packages/editor/src/ui/StampPreviewCanvas.test.tsx",
+        "oldFullName": "缺 tileId fail-visible，canvas 有文本等价且图层/碰撞可独立切换",
+        "oldMatcher": "collision aria-pressed true→click→false @ :107-109",
+        "dedupHeader": "排重：StampPreviewCanvas.test mock reforge 与 as never；C08-G07-07/08/09 仅证 canvas 宽、",
+        "note": "旧 combined 碰撞叠层 aria-pressed 切换段"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification existing-proof"
+    },
+    "C06-G07-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — :274 hiddenLayerIds toggle filters visibleMembers count",
+      "legalInput": "fixture: const template = c08StampTemplate('c06-g07-03', C08_TILESET) const mounted = await mountStampPreview(template) await waitPreviewReady(mounted.host)",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx mountStampPreview(…)  | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx mountStampPreview (test harness; not production caller)",
+      "oldAssertion": {
+        "oldTestSha": "e5caa7fc4227b356c4b8010ab999385a58336bc0",
+        "oldFile": "packages/editor/src/ui/StampPreviewCanvas.test.tsx",
+        "oldFullName": "缺 tileId fail-visible，canvas 有文本等价且图层/碰撞可独立切换",
+        "oldMatcher": "layer click → aria-pressed false + text 0 个可见成员 @ :110-115",
+        "dedupHeader": "排重：StampPreviewCanvas.test mock reforge 与 as never；C08-G07-07/08/09 仅证 canvas 宽、",
+        "note": "旧 combined 图层隐藏后可见成员归零段"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification existing-proof"
+    },
+    "C06-G07-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — :338 canvas aria-label layers + visualCount",
+      "legalInput": "fixture: const template = c08StampTemplate('c06-g07-04', C08_TILESET) const mounted = await mountStampPreview(template) await waitPreviewReady(mounted.host)",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx mountStampPreview(…)  | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx mountStampPreview (test harness; not production caller)",
+      "oldAssertion": {
+        "oldTestSha": "e5caa7fc4227b356c4b8010ab999385a58336bc0",
+        "oldFile": "packages/editor/src/ui/StampPreviewCanvas.test.tsx",
+        "oldFullName": "缺 tileId fail-visible，canvas 有文本等价且图层/碰撞可独立切换",
+        "oldMatcher": "canvas aria-label contains '1 层、1 个视觉成员' @ :101-103",
+        "dedupHeader": "排重：StampPreviewCanvas.test mock reforge 与 as never；C08-G07-07/08/09 仅证 canvas 宽、",
+        "note": "旧 combined canvas aria-label 层数/视觉成员段"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification existing-proof"
+    },
+    "C06-G07-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — loadStampPreviewAssets :57 cache reuse same revision frames Map",
+      "legalInput": "fixture: const { legal, session, reader } = await openC08Session('c06-g07-05') const tileset = session.getState().tilesets![0]! const revision = session.getState().assetCatalog.assets[tileset.asset]!.sha256 const first = await loadStampPreviewAssets(legal.assetBase, reader, tileset, revision) const second = await loadStampPreviewAssets(legal.assetBase, reader, tileset, revision)",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:111 loadStampPreviewAssets; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:112 openC08Session(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:115 loadStampPreviewAssets(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:116 loadStampPreviewAssets(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:118 tilesets.get(…) | production: packages/editor/src/ui/StampContentEditor.tsx:178 loadStampPreviewAssets(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:75 openC08Session(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G07-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — loadStampPreviewAssets different revision → distinct cache entry",
+      "legalInput": "fixture: const { legal, session, reader } = await openC08Session('c06-g07-06') const tileset = session.getState().tilesets![0]! const revision = session.getState().assetCatalog.assets[tileset.asset]!.sha256 const first = await loadStampPreviewAssets(legal.assetBase, reader, tileset, revision) const second = await loadStampPreviewAssets(legal.assetBase, reader, tileset, `${revision}-b`)",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:121 loadStampPreviewAssets; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:122 openC08Session(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:125 loadStampPreviewAssets(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:126 loadStampPreviewAssets(…) | production: packages/editor/src/ui/StampContentEditor.tsx:178 loadStampPreviewAssets(…) (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:75 openC08Session(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G07-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — StampMiniPreview 34×34 canvas opaque pixels",
+      "legalInput": "fixture: const { legal, session, reader } = await openC08Session('c06-g07-07') const template = c08StampTemplate('c06-mini', C08_TILESET) const state = session.getState() await act(async () => { root.render( <StampMiniPreview template={template} tilesets={state.tilesets ?? []} assetCatalog={state.assetCatalog} assetReader={reader} assetBase={legal.assetBase} />, ) await Promise.resolve()",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:131 StampMiniPreview; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:132 openC08Session(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:133 C08_TILESET; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:133 c08StampTemplate(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:137 <StampMiniPreview; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:147 pollUntil(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:147 StampMiniPreview; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:148 isBlank(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:148 pollUntil(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:152 opaqueBounds(…) | production: packages/editor/src/ui/MapStampPalette.tsx:113 <StampMiniPreview (production); packages/editor/src/ui/StampLibraryTab.tsx:514 <StampMiniPreview (production) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G07-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — missing tileset shows load error copy",
+      "legalInput": "fixture: const { legal, session, reader } = await openC08Session('c06-g07-08') const template = c08StampTemplate('c06-missing-ts', 'tiles-ghost') const state = session.getState() await act(async () => { root.render( <StampPreviewCanvas template={template} tilesets={state.tilesets ?? []} assetCatalog={state.assetCatalog} assetReader={reader} assetBase={legal.assetBase} />, ) await Promise.resolve()",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:156 openC08Session(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:157 c08StampTemplate(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:161 <StampPreviewCanvas; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:171 pollUntil(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:75 openC08Session(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G07-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — two-layer template aria-label 2 层 + non-empty pixels",
+      "legalInput": "fixture: c08StampTemplate('c06-g07-09', C08_TILESET); mountStampPreview(template)",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:177 C08_TILESET; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:177 c08StampTemplate(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:196 mountStampPreview(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:199 opaqueBounds(…) | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-stamp-harness.tsx:148 <StampPreviewCanvas (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    },
+    "C06-G07-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/StampPreviewCanvas.tsx",
+      "sourceCondition": "packages/editor/src/ui/StampPreviewCanvas.tsx — loading state 正在载入瓦片预览 without canvas",
+      "legalInput": "fixture: const { legal, session, reader } = await openC08Session('c06-g07-10') const template = c08StampTemplate('c06-loading', C08_TILESET) const state = session.getState() let resolveHold!: () => void const hold = new Promise<void>((resolve) => { resolveHold = resolve",
+      "caller": "test: packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:204 openC08Session(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:205 C08_TILESET; packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:205 c08StampTemplate(…); packages/editor/src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx:223 <StampPreviewCanvas | production: none found in packages/editor/src (excl. *.test.* / harness) | harness: packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:118 c08StampTemplate(…) (harness); packages/editor/src/__tests__/cursor-asset-r1/c08-fixtures.ts:75 openC08Session(…) (harness)",
+      "oldAssertion": {
+        "oldTestSha": "none",
+        "oldFile": "none",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none",
+        "note": "header 排重 cites prior suites; per-case old matcher not auto-resolved"
+      },
+      "notes": "CURSOR-R4 human-ledger staging; classification new-contract"
+    }
+  }
+}

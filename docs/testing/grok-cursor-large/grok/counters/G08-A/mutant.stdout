@@ -1,0 +1,26 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-A-5fU0FP/packages/game
+
+ × src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节 4ms
+   → expected 33 to be 20 // Object.is equality
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A05 负的隐身计时是待激活标记，队员照常画出 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A07 覆盖号 0 不是空值，仍查 player-0 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A11 只有逃跑动画时也读 currentFrame 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A12 角色资料缺失时跳过该队员，敌方像素保留 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A13 排序更靠前的法术回调盖住未染色敌方像素 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下 0ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts > G08-A 战斗精灵像素 > G08-A15 绘制不改角色体力，也不改精灵帧里的索引 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  03:16:59
+   Duration  388ms (transform 37ms, setup 16ms, import 33ms, tests 7ms, environment 270ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-A-5fU0FP/mutant.json

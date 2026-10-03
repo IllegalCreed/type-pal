@@ -1,0 +1,23 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/load-all-bounds.grok-r1.test.ts > G01-B loadAll 边界守卫 > G01-B06 words.json 没有 flat 字段时词表为空数组
+AssertionError: expected [ 'MUT' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "MUT",
++ ]
+
+ ❯ src/assets/load-all-bounds.grok-r1.test.ts:112:26
+    110|     const assets = await loadAll(7)
+    111|     expect(callsEnding(calls, '/lookup/words.json')).toHaveLength(1)
+    112|     expect(assets.words).toEqual([])
+       |                          ^
+    113|   })
+    114|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

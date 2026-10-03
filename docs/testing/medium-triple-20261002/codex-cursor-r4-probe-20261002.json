@@ -1,0 +1,52 @@
+{
+  "realCompositeRejected": true,
+  "realCompositeReasons": [
+    "mutated:multi-failure-messages:2:CODEX business assertion plus hook error",
+    "mutated:stacked-non-assertion-failure:Error: CODEX owned afterEach hook failure",
+    "mutated:failure-message-count-2"
+  ],
+  "runtimeSubstring": {
+    "realErrorName": "ReferenceError",
+    "realErrorMessage": "AssertionError is not defined",
+    "derivedReport": true,
+    "verdict": {
+      "valid": true,
+      "reasons": [],
+      "target": {
+        "fullName": "CODEX business assertion plus hook error",
+        "message": "ReferenceError: AssertionError is not defined",
+        "failureMessages": [
+          "ReferenceError: AssertionError is not defined\n    at eval (eval at <anonymous> (file:///private/tmp/codex-cursor-medium-r4-review.hve6e3/probe.mjs:11:5), <anonymous>:3:1)\n    at file:///private/tmp/codex-cursor-medium-r4-review.hve6e3/probe.mjs:11:42\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)"
+        ],
+        "file": "src/core/codex-composite-review.test.ts"
+      },
+      "failed": [
+        {
+          "fullName": "CODEX business assertion plus hook error",
+          "status": "failed",
+          "failureMessages": [
+            "ReferenceError: AssertionError is not defined\n    at eval (eval at <anonymous> (file:///private/tmp/codex-cursor-medium-r4-review.hve6e3/probe.mjs:11:5), <anonymous>:3:1)\n    at file:///private/tmp/codex-cursor-medium-r4-review.hve6e3/probe.mjs:11:42\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)"
+          ],
+          "messageHeads": ["ReferenceError: AssertionError is not defined"],
+          "message": "ReferenceError: AssertionError is not defined",
+          "failureText": "ReferenceError: AssertionError is not defined\n    at eval (eval at <anonymous> (file:///private/tmp/codex-cursor-medium-r4-review.hve6e3/probe.mjs:11:5), <anonymous>:3:1)\n    at file:///private/tmp/codex-cursor-medium-r4-review.hve6e3/probe.mjs:11:42\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)",
+          "file": "src/core/codex-composite-review.test.ts"
+        }
+      ],
+      "executed": 1,
+      "identitySet": [
+        "src/core/codex-composite-review.test.ts×CODEX business assertion plus hook error"
+      ]
+    }
+  },
+  "creationRollback": {
+    "exitCode": 0,
+    "stdout": "expected git failure\n",
+    "stderr": "",
+    "target": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-codex-r4-create-zoeKue",
+    "replacementStillExists": false,
+    "originalPreserved": true,
+    "onlyCodexSentinelsTouched": true
+  },
+  "ownerHead": "ceeed04610247e60c463f2786cd533552050e563"
+}

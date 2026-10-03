@@ -1,0 +1,23 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-B-d6l7JU/packages/game
+
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B01 列表价读 rightText 15，不读目录价 99 7ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8) 1ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B05 列表阶段不画确认框，选中名仍在 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B07 不传图标表时图标位保持底色，物品框照画 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B08 现有数只加选中物品，另一件的库存 9 不加进去 3ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色 1ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B11 售价 1 向下取整成黄 0，十位保持底色 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B12 库存为 0 时两个装备槽仍把现有数画成黄 2 0ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts > G07-B 商店预览像素 > G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E 108ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  02:18:59
+   Duration  743ms (transform 239ms, setup 15ms, import 273ms, tests 123ms, environment 269ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-B-d6l7JU/original.json

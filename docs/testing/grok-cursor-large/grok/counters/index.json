@@ -1,0 +1,210 @@
+[
+  {
+    "id": "G10-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G10-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G10-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G10-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G09-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G09-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G09-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G09-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G08-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G08-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G08-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G08-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G07-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G07-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G07-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G07-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G06-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G06-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G06-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G06-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G05-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G05-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G05-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G05-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G04-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G04-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G04-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G04-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G03-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G03-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G03-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G03-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G02-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G02-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G02-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G02-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G01-A",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G01-B",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G01-C",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "G01-D",
+    "accepted": true,
+    "reasons": []
+  },
+  {
+    "id": "probe-reject",
+    "purpose": "真实 Vitest：单断言失败叠未处理异常必须被 judge 拒收",
+    "rejected": true,
+    "reasons": ["unhandled error stacked on assertion"],
+    "exitCode": 1,
+    "signal": null
+  }
+]

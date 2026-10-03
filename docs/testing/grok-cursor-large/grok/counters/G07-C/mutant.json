@@ -1,0 +1,162 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 12,
+  "numPassedTests": 11,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790875142584,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+          "status": "failed",
+          "title": "G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+          "duration": 3.424959000000001,
+          "failureMessages": [
+            "AssertionError: expected +0 to be 90 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-C-7DTn22/packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts:65:29\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+          "status": "passed",
+          "title": "G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+          "duration": 0.28770799999995234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+          "status": "passed",
+          "title": "G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+          "duration": 0.21779199999997445,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+          "status": "passed",
+          "title": "G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+          "duration": 0.3210409999999797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+          "status": "passed",
+          "title": "G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+          "duration": 0.16095799999999372,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+          "status": "passed",
+          "title": "G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+          "duration": 0.30649999999997135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+          "status": "passed",
+          "title": "G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+          "duration": 0.18279200000000628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+          "status": "passed",
+          "title": "G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+          "duration": 0.11958299999997735,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+          "status": "passed",
+          "title": "G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+          "duration": 0.33112500000004275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+          "status": "passed",
+          "title": "G07-C10 不透明且索引为 0 的块仍覆盖底色",
+          "duration": 0.12658399999997982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+          "status": "passed",
+          "title": "G07-C11 列数取最长的一项，短项不把列数抬高",
+          "duration": 0.10695800000002009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+          "status": "passed",
+          "title": "G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+          "duration": 0.06675000000001319,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790875142970,
+      "endTime": 1790875142976.1265,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-C-7DTn22/packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts"
+    }
+  ]
+}

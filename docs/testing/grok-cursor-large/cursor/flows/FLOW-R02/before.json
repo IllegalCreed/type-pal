@@ -1,0 +1,19 @@
+{
+  "flowId": "FLOW-R02",
+  "phase": "ready",
+  "label": "战斗精灵库：用途筛选（资源）",
+  "oracle": {
+    "battleSpriteCount": 3,
+    "purposeFilter": "all",
+    "visibleAssetIds": [
+      "battle-sprite.flow.enemy-pack",
+      "battle-sprite.flow.player-pack",
+      "battle-sprite.generated.starter"
+    ]
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

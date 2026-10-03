@@ -1,4 +1,4 @@
-# TEST-FROZEN-CLOSE-1 — 六波冻结测试与Kimi中包有限收口
+# TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口
 
 Status: build
 Owner: Codex
@@ -9,7 +9,7 @@ Visual Verification Timing: N/A（历史功能视觉按未变条件复用）
 
 ## 用户授权与边界
 
-用户冻结O/P/Q并要求通过后推送/关卡/清分支，明确批准16历史保护账与两旧输入窄修；2026-10-03又要求图中L/M/N未完则补完、完成后合并删分支。Codex build allowed，唯一Owner在隔离 `codex/opq-frozen-integration-r1`；main/作者树只读直到正式合入。保留并行8efe048610fab7aa4a257a716b91ece30194eba8/content22/SAVE11。
+用户冻结O/P/Q并要求通过后推送/关卡/清分支，明确批准16历史保护账与两旧输入窄修；2026-10-03又要求图中L/M/N未完则补完、完成后合并删分支，并追加完成所有已交付测试（明确含GLM、Kimi、Grok、Cursor）的审核、合并推送、分支清理和CI核验目标。Codex build allowed，唯一Owner在隔离 `codex/opq-frozen-integration-r1`；main/作者树只读直到正式合入。保留并行8efe048610fab7aa4a257a716b91ece30194eba8/content22/SAVE11。
 不增加合同、配额、旧兼容、产品改动、ignore、规则放宽或timeout。只接收现行合法的新测/专属fixture，失效合同保留Git历史，不要求作者无限改写。
 
 ## 固定交付
@@ -25,5 +25,5 @@ Kimi42b3d303de3f2178e249b4ccbabf967e0affd194两文件16例，当前新main50/50�
 
 ## 收口与退休条件
 
-全部门通过才main合入/推送、关闭实际完成卡。L/M/N/O/P/Q退休前verify精确tip的可恢复bundle、所有非依赖ignored、无改动/在途PR；远端完整SHA lease原子删除，本地比较SHA删除。Kimi其它独立队列/其它作者不自动退休。
+全部门通过才main合入/推送、关闭实际完成卡。GLM六波及Kimi/Grok/Cursor本轮已交付测试分支退休前verify精确tip的可恢复bundle、所有非依赖ignored、无改动/在途PR；远端完整SHA lease原子删除，本地比较SHA删除。独立产品draft和其它产品Owner不在测试退休授权内；关联只读审查分支须先保存其全部证据并确认不含未接收产品实现。
 无下一位贡献者提示词，Codex连续完成；当前不是done，未删除任何作者目录。

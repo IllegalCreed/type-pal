@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/assets/tileset-load.grok-r1.test.ts:45:28
+     43|     const sprite = await loadCharacterSpriteBlob('/extracted/data/spri…
+     44|     expect(sprite.anchorX).toBe(0)
+     45|     expect(sprite.anchorY).toBe(1)
+       |                            ^
+     46|     expect(Array.from(sprite.frames[1]?.indices ?? [])).toEqual([0xbb])
+     47|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

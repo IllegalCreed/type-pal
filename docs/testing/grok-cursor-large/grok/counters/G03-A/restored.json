@@ -1,0 +1,150 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 11,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790866841585,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+          "status": "passed",
+          "title": "G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+          "duration": 1.2549999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+          "status": "passed",
+          "title": "G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+          "duration": 0.5412499999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+          "status": "passed",
+          "title": "G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+          "duration": 0.10770899999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+          "status": "passed",
+          "title": "G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+          "duration": 0.17179199999998218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+          "status": "passed",
+          "title": "G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+          "duration": 0.530666999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+          "status": "passed",
+          "title": "G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+          "duration": 0.11662499999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id",
+          "status": "passed",
+          "title": "G03-A07 整行落在屏幕下方时不取该行的 tile id",
+          "duration": 0.218166999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+          "status": "passed",
+          "title": "G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+          "duration": 0.22149999999999181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+          "status": "passed",
+          "title": "G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+          "duration": 0.39324999999996635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+          "status": "passed",
+          "title": "G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+          "duration": 0.3422499999999786,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+          "status": "passed",
+          "title": "G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+          "duration": 0.1269580000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790866841977,
+      "endTime": 1790866841981.127,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G03-A-ufm9v3/packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,1126 @@
+{
+  "batch": "C01",
+  "overlays": {
+    "C01-G01-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:153-160 definition focus + .who label",
+      "legalInput": "fixture: C01-G01-01; const project = await multiAssetProject('c01-g01-01'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:448-459 focusResource → onViewChange('asset')",
+      "legalInput": "fixture: C01-G01-02; const project = await multiAssetProject('c01-g01-02'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:914 选择用途定义 list click → selectedId",
+      "legalInput": "fixture: C01-G01-03; const project = await multiAssetProject('c01-g01-03'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:749-760 entries.length===0 → 待定义 tag/aria-label",
+      "legalInput": "fixture: C01-G01-04; const project = await multiAssetProject('c01-g01-04'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "按源文件只列一项…",
+        "oldMatcher": "none",
+        "note": "legacy list text 待定义 ≠ aria-label+tag axis"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:749-760 entries.length===0 → 待定义 tag/aria-label",
+      "legalInput": "fixture: C01-G01-05; const project = await multiAssetProject('c01-g01-05'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:706-708 domain==='battle' → onBattleDomain()",
+      "legalInput": "fixture: C01-G01-06; const project = await multiAssetProject('c01-g01-06'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-idle' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:705 activeId world; no onBattleDomain on self-click",
+      "legalInput": "fixture: C01-G01-07; const project = await multiAssetProject('c01-g01-07'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:694 setUploading(true); SpriteUploadWizard leaf",
+      "legalInput": "fixture: C01-G01-08; const project = await multiAssetProject('c01-g01-08'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:694 setUploading(true); SpriteUploadWizard leaf",
+      "legalInput": "fixture: C01-G01-09; const project = await multiAssetProject('c01-g01-09'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G01-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: references inspector tab panel-references",
+      "legalInput": "fixture: C01-G01-10; const project = await multiAssetProject('c01-g01-10'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:140-145 spine",
+      "legalInput": "fixture: C01-G02-01; const project = await multiAssetProject('c01-g02-01'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-02; const project = await multiAssetProject('c01-g02-02'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-03; const project = await multiAssetProject('c01-g02-03'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-04; const project = await multiAssetProject('c01-g02-04'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索…",
+        "oldMatcher": "setCatalogSearch '不存在' → rows 0 @ :630-631",
+        "note": "same empty-filter axis"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-05; const project = await multiAssetProject('c01-g02-05'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "领域深链、搜索…",
+        "oldMatcher": "setCatalogSearch '' → rows 2 @ :632-634",
+        "note": "same clear-filter axis"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-06; const project = await multiAssetProject('c01-g02-06'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:140-145 spine",
+      "legalInput": "fixture: C01-G02-07; const project = await multiAssetProject('c01-g02-07'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-08; const project = await multiAssetProject('c01-g02-08'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-09; const project = await multiAssetProject('c01-g02-09'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G02-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G02-10; const project = await multiAssetProject('c01-g02-10'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-01; const project = await multiAssetProject('c01-g03-01'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-02; const project = await multiAssetProject('c01-g03-02'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-03; const project = await multiAssetProject('c01-g03-03'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-04; const project = await multiAssetProject('c01-g03-04'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:414-439 filter; :767 insp-empty",
+      "legalInput": "fixture: C01-G03-05; const project = await multiAssetProject('c01-g03-05'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:140-145 spine",
+      "legalInput": "fixture: C01-G03-06; const project = await multiAssetProject('c01-g03-06'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-07; const project = await multiAssetProject('c01-g03-07'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-08; const project = await multiAssetProject('c01-g03-08'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-09; const project = await multiAssetProject('c01-g03-09'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G03-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:416-428 matchesKind branches",
+      "legalInput": "fixture: C01-G03-10; const project = await multiAssetProject('c01-g03-10'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-01; const project = await multiAssetProject('c01-g04-01'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-02; const project = await multiAssetProject('c01-g04-02'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-03; const project = await multiAssetProject('c01-g04-03'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-04; const project = await multiAssetProject('c01-g04-04'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-05; const project = await multiAssetProject('c01-g04-05'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-06; const project = await multiAssetProject('c01-g04-06'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-07; const project = await multiAssetProject('c01-g04-07'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-08; const project = await multiAssetProject('c01-g04-08'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-09; const project = await multiAssetProject('c01-g04-09'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G04-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G04-10; const project = await multiAssetProject('c01-g04-10'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-01; const project = await multiAssetProject('c01-g05-01'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-02; const project = await multiAssetProject('c01-g05-02'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-03; const project = await multiAssetProject('c01-g05-03'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-04; const project = await multiAssetProject('c01-g05-04'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-05; const project = await multiAssetProject('c01-g05-05'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-06; const project = await multiAssetProject('c01-g05-06'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-07; const project = await multiAssetProject('c01-g05-07'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-08; const project = await multiAssetProject('c01-g05-08'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-09; const project = await multiAssetProject('c01-g05-09'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G05-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G05-10; const project = await multiAssetProject('c01-g05-10'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-01; const project = await multiAssetProject('c01-g06-01'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-02; const project = await multiAssetProject('c01-g06-02'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-03; const project = await multiAssetProject('c01-g06-03'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G06-04; const project = await multiAssetProject('c01-g06-04'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-05; const project = await multiAssetProject('c01-g06-05'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-06; const project = await multiAssetProject('c01-g06-06'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-07; const project = await multiAssetProject('c01-g06-07'); mounted = await mountWorldSpriteLibrary(project, {; confirm mocked",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-08; const project = await multiAssetProject('c01-g06-08'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:940 directional create disabled; :997 create apply disabled",
+      "legalInput": "fixture: C01-G06-09; const project = await multiAssetProject('c01-g06-09'); mounted = await mountWorldSpriteLibrary(project, {",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G06-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G06-10; const project = await multiAssetProject('c01-g06-10'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' }); confirm mocked",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-01": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:596/:630 confirm deletes; reference blockers",
+      "legalInput": "fixture: C01-G07-01; const project = await multiAssetProject('c01-g07-01'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-idle' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-02": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: inspector poses/actions + trailing layout labels",
+      "legalInput": "fixture: C01-G07-02; const project = await multiAssetProject('c01-g07-02'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-idle' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-03": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: inspector poses/actions + trailing layout labels",
+      "legalInput": "fixture: C01-G07-03; const project = await multiAssetProject('c01-g07-03'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-04": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:1026-1064 #world-sprite-layout-kind select; directional framesPerDir; layout commit commands",
+      "legalInput": "fixture: C01-G07-04; const project = await multiAssetProject('c01-g07-04'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-05": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: inspector poses/actions + trailing layout labels",
+      "legalInput": "fixture: C01-G07-05; const project = await multiAssetProject('c01-g07-05'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-idle' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-06": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: references inspector tab panel-references",
+      "legalInput": "fixture: C01-G07-06; const project = await multiAssetProject('c01-g07-06'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-07": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: inspector poses/actions + trailing layout labels",
+      "legalInput": "fixture: C01-G07-07; const project = await multiAssetProject('c01-g07-07'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-08": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: inspector poses/actions + trailing layout labels",
+      "legalInput": "fixture: C01-G07-08; const project = await multiAssetProject('c01-g07-08'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-09": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx: inspector poses/actions + trailing layout labels",
+      "legalInput": "fixture: C01-G07-09; const project = await multiAssetProject('c01-g07-09'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    },
+    "C01-G07-10": {
+      "humanVerified": true,
+      "verification": "human-ledger",
+      "primarySource": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sourceCondition": "packages/editor/src/ui/WorldSpriteLibrary.tsx:153-160 definition focus + .who label",
+      "legalInput": "fixture: C01-G07-10; const project = await multiAssetProject('c01-g07-10'); mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })",
+      "caller": "test: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx mountWorldSpriteLibrary(…) | production: packages/editor/src/ui/DataMode.tsx:721 <WorldSpriteLibrary />",
+      "oldAssertion": {
+        "oldTestSha": "275de013bbbdf69c1a2b274f00725ef4ebcc41bf",
+        "oldFile": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+        "oldFullName": "none — header names prior suite only",
+        "oldMatcher": "none — no line-level old expect on same business axis",
+        "note": "Header dedup; per-case old axis not proven"
+      },
+      "notes": "human R4: vitest case + product branch verified"
+    }
+  },
+  "count": 70
+}

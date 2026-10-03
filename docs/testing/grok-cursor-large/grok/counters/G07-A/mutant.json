@@ -1,0 +1,192 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 15,
+  "numPassedTests": 14,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790875137429,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+          "status": "failed",
+          "title": "G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+          "duration": 5.926207999999974,
+          "failureMessages": [
+            "AssertionError: expected 90 to be 17 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-A-WskJD9/packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts:162:31\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+          "status": "passed",
+          "title": "G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+          "duration": 1.3358329999999796,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+          "status": "passed",
+          "title": "G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+          "duration": 0.46175000000005184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+          "status": "passed",
+          "title": "G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+          "duration": 0.557540999999901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+          "status": "passed",
+          "title": "G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+          "duration": 0.44700000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+          "status": "passed",
+          "title": "G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+          "duration": 0.30929200000002766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+          "status": "passed",
+          "title": "G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+          "duration": 0.3272079999999278,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
+          "status": "passed",
+          "title": "G07-A08 第三列仙术在 x=209，颜色是未选中色",
+          "duration": 0.3101250000000846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
+          "status": "passed",
+          "title": "G07-A09 第二行仙术在 y=72，颜色是未选中色",
+          "duration": 0.6112909999999374,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+          "status": "passed",
+          "title": "G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+          "duration": 3.8000829999999723,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+          "status": "passed",
+          "title": "G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+          "duration": 0.31712500000003274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+          "status": "passed",
+          "title": "G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+          "duration": 0.22020799999995688,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+          "status": "passed",
+          "title": "G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+          "duration": 0.16308300000002873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+          "status": "passed",
+          "title": "G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+          "duration": 0.1387089999999489,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+          "status": "passed",
+          "title": "G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+          "duration": 0.16737499999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790875138011,
+      "endTime": 1790875138026.1675,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-A-WskJD9/packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts"
+    }
+  ]
+}

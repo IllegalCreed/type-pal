@@ -15,13 +15,18 @@
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-GOV-1 剧本共性问题族治理](SCRIPT-GOV-1-script-family-governance.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-FROZEN-CLOSE-1 — 六波冻结测试与Kimi中包有限收口](TEST-FROZEN-CLOSE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CURSOR-ASSET-UI-LARGE-1 — Editor资源编辑/叶组件/设计控件大包补测](TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 选中步骤与静态移动预览中包](TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](TEST-FROZEN-CLOSE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-O-1 — 供应/内容守卫冻结交付收口](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-P-1 — Editor冻结交付收口](TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口](TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GROK-BOOT-RESOURCES-MEDIUM-1 — 启动资源并发、降级与缓存边界中包](TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GROK-RENDER-HOST-LARGE-1 — 一阶段渲染/资源/有限宿主大包补测](TEST-GROK-RENDER-HOST-LARGE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 — 当前脚本恢复地址与作者步骤组织中包](TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 — 确认队列与脚本活动权限生命周期中包](TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）

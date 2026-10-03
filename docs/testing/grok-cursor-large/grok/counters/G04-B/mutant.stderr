@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/screen-shake-bounds.grok-r1.test.ts > G04-B screen-shake 边界与补帧 > G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1
+AssertionError: expected +0 to be 10 // Object.is equality
+
+- Expected
++ Received
+
+- 10
++ 0
+
+ ❯ src/present/screen-shake-bounds.grok-r1.test.ts:27:30
+     25|     const gs = { shakeTime: 5, shakeLevel: 200 }
+     26|     applyScreenShake(indices, gs, true)
+     27|     expect(row(indices, 10)).toBe(10)
+       |                              ^
+     28|     expect(row(indices, 199)).toBe(199)
+     29|     expect(gs.shakeTime).toBe(4)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

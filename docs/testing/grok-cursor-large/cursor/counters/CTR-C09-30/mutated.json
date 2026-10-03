@@ -1,0 +1,142 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869189347,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-01 首次 claim 不调用 stop",
+          "status": "passed",
+          "title": "C09-G02-01 首次 claim 不调用 stop",
+          "duration": 2.1320419999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等",
+          "status": "passed",
+          "title": "C09-G02-02 重复 claim 同一 owner 幂等",
+          "duration": 0.38854200000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-03 新 owner 停止旧 owner",
+          "status": "passed",
+          "title": "C09-G02-03 新 owner 停止旧 owner",
+          "duration": 0.4922499999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-04 release 活动 owner 后 isOwner 为 false",
+          "status": "passed",
+          "title": "C09-G02-04 release 活动 owner 后 isOwner 为 false",
+          "duration": 0.33233299999999133,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-05 release 非活动 owner 不影响当前 owner",
+          "status": "passed",
+          "title": "C09-G02-05 release 非活动 owner 不影响当前 owner",
+          "duration": 0.3846249999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-06 stop 在无 owner 时安全",
+          "status": "passed",
+          "title": "C09-G02-06 stop 在无 owner 时安全",
+          "duration": 0.48766700000000185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-07 stop 后新 claim 可立即生效",
+          "status": "passed",
+          "title": "C09-G02-07 stop 后新 claim 可立即生效",
+          "duration": 0.9904160000000104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-08 三连 claim 只停止上一个",
+          "status": "passed",
+          "title": "C09-G02-08 三连 claim 只停止上一个",
+          "duration": 0.5782920000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-09 release 后 stop 不再调用已释放 owner",
+          "status": "passed",
+          "title": "C09-G02-09 release 后 stop 不再调用已释放 owner",
+          "duration": 0.4514170000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G02 编辑器试听 owner"],
+          "fullName": "C09-G02 编辑器试听 owner C09-G02-10 stop 对活动 owner 只 stop 一次",
+          "status": "failed",
+          "title": "C09-G02-10 stop 对活动 owner 只 stop 一次",
+          "duration": 1.7064579999999978,
+          "failureMessages": [
+            "AssertionError: expected \"vi.fn()\" to be called once, but got 2 times\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-30-m5WwUj/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts:96:24\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869189490,
+      "endTime": 1790869189498.7065,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-30-m5WwUj/packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "candidate": "ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685",
+  "contentCandidate": "d31f12430fb1fcdb6941d813171bfe9bd6a3f2be",
+  "verdict": "code-and-evidence-accept; review pending Codex main integration gates",
+  "unchanged": [
+    {
+      "path": "packages",
+      "previous": "b4c222dd522279f46b8288c2937951f1a7edf33d",
+      "candidate": "b4c222dd522279f46b8288c2937951f1a7edf33d"
+    },
+    {
+      "path": "scripts",
+      "previous": "6a3027c87d563e4bca996197cb9c1a446681fa71",
+      "candidate": "6a3027c87d563e4bca996197cb9c1a446681fa71"
+    },
+    {
+      "path": "patches",
+      "previous": "f5f09a95f6dc56295df9667058a0e3fe60822f81",
+      "candidate": "f5f09a95f6dc56295df9667058a0e3fe60822f81"
+    },
+    {
+      "path": "package.json",
+      "previous": "10678e6843ee824738ef93ba6eea375ce1a21fc4",
+      "candidate": "10678e6843ee824738ef93ba6eea375ce1a21fc4"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "previous": "381986b81661d8a69d77deeb308ea098e6b768ae",
+      "candidate": "381986b81661d8a69d77deeb308ea098e6b768ae"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "previous": "18ec407efca710b5d0d1e19dd3e34a27ac6716a1",
+      "candidate": "18ec407efca710b5d0d1e19dd3e34a27ac6716a1"
+    },
+    {
+      "path": "biome.json",
+      "previous": "347f429933764c8ae9b581bd9abcd774fdb60ca4",
+      "candidate": "347f429933764c8ae9b581bd9abcd774fdb60ca4"
+    }
+  ],
+  "reusedGates": {
+    "directedAdjacent": 53,
+    "editorFullPassed": 3801,
+    "typecheckZero": true,
+    "reason": "exact unchanged packages/scripts/dependency/config objects from prior independent review, not newly rerun"
+  },
+  "newGates": [
+    {
+      "name": "cursor-selftest",
+      "command": ["node", "docs/testing/medium-triple-20261002/cursor/counter-judge.selftest.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"ok\": true,\n  \"rejects\": {\n    \"twoPassedExpectedOne\": true,\n    \"twoPassedReasons\": [\n      \"clean:executed-2!==1\",\n      \"clean:identity-set-mismatch\"\n    ],\n    \"redPlusPendingSameIdentity\": true,\n    \"redPlusPendingReasons\": [\n      \"mutated:declared-non-passfail:pending\",\n      \"executed-set-changed:2!==1\",\n      \"mutated:identity-set-mismatch\"\n    ],\n    \"twoDeclaredReds\": true,\n    \"twoDeclaredRedsReasons\": [\n      \"multi-failed:2\",\n      \"executed-set-changed:2!==1\",\n      \"mutated:identity-set-mismatch\"\n    ],\n    \"targetPlusExtraRed\": true,\n    \"targetPlusExtraRedReasons\": [\n      \"mutated:extra-failed-outside-scope:src/core/other.test.ts×outside sibling assertion\"\n    ],\n    \"numTotal99Actual1\": true,\n    \"numTotal99Reasons\": [\n      \"clean:numTotalTests-99!==leaves-1\",\n      \"clean:top-count-parts-1!==numTotalTests-99\"\n    ],\n    \"compositeCollection\": true,\n    \"realAfterEachComposite\": true,\n    \"realAfterEachReasons\": [\n      \"mutated:multi-failure-messages:2:CODEX business assertion plus hook error\",\n      \"mutated:stacked-non-assertion-failure:Error: CODEX owned afterEach hook failure\",\n      \"mutated:failure-message-count-2\"\n    ],\n    \"pendingTodoMismatch\": true,\n    \"pendingTodoReasons\": [\n      \"clean:numPendingTests-0!==3\",\n      \"clean:numTodoTests-3!==0\"\n    ],\n    \"substringAssertionErrorNames\": true,\n    \"substringAssertionErrorReasons\": [\n      {\n        \"head\": \"ReferenceError: AssertionError is not defined\",\n        \"reasons\": [\n          \"not-assertion-red\"\n        ]\n      },\n      {\n        \"head\": \"TypeError: AssertionError is not a constructor\",\n        \"reasons\": [\n          \"not-assertion-red\"\n        ]\n      },\n      {\n        \"head\": \"Error: wrapped AssertionError text\",\n        \"reasons\": [\n          \"not-assertion-red\"\n        ]\n      }\n    ]\n  },\n  \"accepts\": {\n    \"singleAssertion\": true,\n    \"singleAssertionReasons\": [],\n    \"outsideSkipOk\": true,\n    \"outsideSkipReasons\": [],\n    \"legacyWouldAcceptComposite\": true,\n    \"strictAssertionHead\": true,\n    \"strictAssertionHeadReasons\": []\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-rejudge",
+      "command": ["node", "docs/testing/medium-triple-20261002/cursor/rejudge-counters-r2.mjs"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"ok\": true,\n  \"count\": 6\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-cleanup",
+      "command": [
+        "node",
+        "docs/testing/medium-triple-20261002/cursor/counter-cleanup.selftest.mjs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "{\n  \"ok\": true,\n  \"cases\": [\n    \"success-cleanup\",\n    \"failure-cleanup\",\n    \"cap-refuse-then-cleanup\",\n    \"max-live-trees\",\n    \"refuse-unregistered-same-prefix\",\n    \"refuse-ancestor-prefix-path\",\n    \"refuse-same-path-inode-replacement\",\n    \"refuse-create-rollback-inode-replacement\",\n    \"create-rollback-unentered-empty-ok\",\n    \"interrupt-sigterm\"\n  ]\n}\n",
+      "stderr": "Preparing worktree (detached HEAD ad10eaf88)\nUpdating files:  83% (4620/5551)\rUpdating files:  84% (4663/5551)\rUpdating files:  85% (4719/5551)\rUpdating files:  86% (4774/5551)\rUpdating files:  87% (4830/5551)\rUpdating files:  88% (4885/5551)\rUpdating files:  89% (4941/5551)\rUpdating files:  90% (4996/5551)\rUpdating files:  91% (5052/5551)\rUpdating files:  92% (5107/5551)\rUpdating files:  93% (5163/5551)\rUpdating files:  94% (5218/5551)\rUpdating files:  95% (5274/5551)\rUpdating files:  96% (5329/5551)\rUpdating files:  97% (5385/5551)\rUpdating files:  98% (5440/5551)\rUpdating files:  99% (5496/5551)\rUpdating files: 100% (5551/5551)\rUpdating files: 100% (5551/5551), done.\nPreparing worktree (detached HEAD ad10eaf88)\nPreparing worktree (detached HEAD ad10eaf88)\n"
+    },
+    {
+      "name": "cursor-lint",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "\n> type-pal@ lint /private/tmp/codex-oq-next2-review.ydLzy0/Cursor\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 2856 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    {
+      "name": "cursor-docs",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "docs: 823 Markdown / 4339 local links / 259 tasks / content21 SAVE10\ndocs: FAIL (1 issues)\n",
+      "stderr": "docs/testing/medium-triple-20261002/README.md:1: 子目录未进入导航：docs/testing/medium-triple-20261002/cursor\n"
+    }
+  ],
+  "freezeScope": {
+    "frozenFiles": 12,
+    "changedPaths": 141,
+    "valid": true,
+    "command": "node docs/testing/medium-triple-20261002/verify.mjs --owner cursor --base f5c7f904a3f623e3ca5b413ab43f78029d99fe11"
+  },
+  "businessCounters": {
+    "archiveBytesUnchanged": true,
+    "rejudge": 6,
+    "oldGreenNewRed": 3
+  },
+  "counts": {
+    "executed": 34,
+    "netNew": 33
+  },
+  "probe": "codex-cursor-r5-probe-20261002.json",
+  "notDone": true,
+  "noOfficialCoverageMeasured": true,
+  "logParent": "/private/tmp/codex-oq-next2-review.ydLzy0"
+}

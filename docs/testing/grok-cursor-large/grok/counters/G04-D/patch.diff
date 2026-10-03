@@ -1,0 +1,10 @@
+--- a/packages/game/src/present/present.ts
++++ b/packages/game/src/present/present.ts
+@@ -192,6 +192,6 @@
+ ): void {
+   // M5.6 T18:全屏 modal 播放期间(AVI / RNG / splash)暂停 canvas render,
+   // DOM <video> overlay 或自管渲染层接管视觉。
+-  if (gs.suspendRaf) {
++  if (gs.suspendRaf && !gs.blackScreenHold) {
+     return
+   }

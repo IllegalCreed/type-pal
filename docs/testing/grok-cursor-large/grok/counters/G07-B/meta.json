@@ -1,0 +1,33 @@
+{
+  "id": "G07-B",
+  "batch": "G07",
+  "axis": "列表价改读目录 price，不再读菜单快照 rightText",
+  "source": "packages/game/src/present/menu/draw-shop.ts",
+  "testFile": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+  "target": "G07-B01",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19",
+    "mutant": "63c57169e8766f4eadbeeb8a03bd51db551446acdd936a75515f86d2f74abe55",
+    "restored": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 13,
+    "mutantFailed": 1,
+    "restored": 13
+  },
+  "assertionError": "AssertionError: expected 185 to be 181 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-B-d6l7JU/packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts:68:51\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "fullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
+  "names": 13
+}

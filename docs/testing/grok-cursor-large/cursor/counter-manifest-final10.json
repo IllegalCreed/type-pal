@@ -1,0 +1,82 @@
+[
+  {
+    "id": "CTR-C08-24",
+    "file": "packages/editor/src/core/stamp-draft.ts",
+    "find": "return moveStampDraftLayerTo(draft, layerId, index + direction)",
+    "replace": "return moveStampDraftLayerTo(draft, layerId, index - direction)",
+    "test": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+    "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序"
+  },
+  {
+    "id": "CTR-C09-29",
+    "file": "packages/editor/src/core/audio-preview-session.ts",
+    "find": "export function releaseEditorAudioPreview(owner: EditorAudioPreviewOwner): void {\n  if (activeOwner === owner) activeOwner = undefined\n}",
+    "replace": "export function releaseEditorAudioPreview(owner: EditorAudioPreviewOwner): void {\n  activeOwner = undefined\n}",
+    "test": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+    "expectFullname": "C09-G02 编辑器试听 owner C09-G02-05 release 非活动 owner 不影响当前 owner"
+  },
+  {
+    "id": "CTR-C09-30",
+    "file": "packages/editor/src/core/audio-preview-session.ts",
+    "find": "export function stopEditorAudioPreview(): void {\n  const previous = activeOwner\n  activeOwner = undefined\n  previous?.stop()\n}",
+    "replace": "export function stopEditorAudioPreview(): void {\n  const previous = activeOwner\n  activeOwner = previous\n  previous?.stop()\n}",
+    "test": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+    "expectFullname": "C09-G02 编辑器试听 owner C09-G02-07 stop 后新 claim 可立即生效"
+  },
+  {
+    "id": "CTR-C09-31",
+    "file": "packages/editor/src/core/audio-preview-session.ts",
+    "find": "  previous?.stop()\n  activeOwner = owner",
+    "replace": "  activeOwner = owner",
+    "test": "src/core/audio-preview-session.c09-g02.cursor-r1.test.ts",
+    "expectFullname": "C09-G02 编辑器试听 owner C09-G02-03 新 owner 停止旧 owner"
+  },
+  {
+    "id": "CTR-C09-32",
+    "file": "packages/editor/src/ui/MusicTab.tsx",
+    "find": "throw new Error('只允许导入 .mid 文件')",
+    "replace": "throw new Error('只允许导入 .midi 文件')",
+    "test": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+    "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名"
+  },
+  {
+    "id": "CTR-C09-33",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "throw new Error('只允许导入 .wav 文件')",
+    "replace": "throw new Error('只允许导入 .wave 文件')",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-02 assertWave 拒绝 RIFF 无 WAVE"
+  },
+  {
+    "id": "CTR-C07-12",
+    "file": "packages/editor/src/core/static-image.ts",
+    "find": "'face',",
+    "replace": "'faces',",
+    "test": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+    "expectFullname": "C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind"
+  },
+  {
+    "id": "CTR-C08-25",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "for (let index = 2; ; index++) {",
+    "replace": "for (let index = 3; ; index++) {",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2"
+  },
+  {
+    "id": "CTR-C10-13",
+    "file": "packages/editor/src/ui/design-system/reorder.tsx",
+    "find": "    return next.every((item, index) => equal(item, items[index]!)) ? items : next\n  }\n  const [moved] = next.splice(intent.fromIndex, 1)",
+    "replace": "    return items\n  }\n  const [moved] = next.splice(intent.fromIndex, 1)",
+    "test": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+    "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-04 forward 按钮下移中间项"
+  },
+  {
+    "id": "CTR-C04-10",
+    "file": "packages/editor/src/core/frame-animation-draft.ts",
+    "find": "throw new Error('删除帧索引越界')",
+    "replace": "throw new Error('删除帧索引越界!!!')",
+    "test": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+    "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐"
+  }
+]

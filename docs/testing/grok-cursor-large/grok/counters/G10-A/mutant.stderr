@@ -1,0 +1,25 @@
+stderr | src/shell/rng-window.grok-r1.test.ts > G10-A RNG 默认跳过与帧窗 > G10-A07 默认块地址是 rng-07.rle
+[rng-player] frame 0 fetch fail, skip: Error: rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)
+    at fetchAndDecodeRngChunk (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G10-A-nEP3FJ/packages/game/src/shell/rng-player.ts:100:22)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/rng-window.grok-r1.test.ts > G10-A RNG 默认跳过与帧窗 > G10-A02 endFrame -2 播到 frameCount-1
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/shell/rng-window.grok-r1.test.ts:78:27
+     76|       fetchFrame: async (_chunk, frameIdx) => full(frameIdx + 1),
+     77|     })
+     78|     expect(fb.indices[0]).toBe(2)
+       |                           ^
+     79|   })
+     80|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

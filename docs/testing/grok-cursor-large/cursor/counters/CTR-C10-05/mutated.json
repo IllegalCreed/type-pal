@@ -1,0 +1,192 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 15,
+  "numPassedTests": 14,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790867556608,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+          "status": "passed",
+          "title": "C10-G07-01 filterDsCollection 空 query 返回原引用",
+          "duration": 7.375625000000127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+          "status": "passed",
+          "title": "C10-G07-02 filterDsCollection 大小写不敏感子串",
+          "duration": 1.6891660000001139,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+          "status": "passed",
+          "title": "C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+          "duration": 1.3365409999998974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+          "status": "passed",
+          "title": "C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+          "duration": 1.6350840000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+          "status": "failed",
+          "title": "C10-G07-05 control-utils describedBy 合并多 id",
+          "duration": 6.970916999999872,
+          "failureMessages": [
+            "AssertionError: expected 'a,b' to be 'a b' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-05-oemWqP/packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx:61:38\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+          "status": "passed",
+          "title": "C10-G07-06 DsTag tone 渲染 modifier class",
+          "duration": 5.18079200000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+          "status": "passed",
+          "title": "C10-G07-07 DsReadonlyValue monospace class",
+          "duration": 0.8759589999999662,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+          "status": "passed",
+          "title": "C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+          "duration": 7.371916000000056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+          "status": "passed",
+          "title": "C10-G07-09 DsButton busy 禁用并显示处理中",
+          "duration": 6.105290999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
+          "status": "passed",
+          "title": "C10-G07-10 DsFilePicker disabled 加 is-disabled",
+          "duration": 2.9238329999998314,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+          "status": "passed",
+          "title": "C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+          "duration": 1.342792000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+          "status": "passed",
+          "title": "C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+          "duration": 9.38191599999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+          "status": "passed",
+          "title": "C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+          "duration": 1.8795830000001388,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+          "status": "passed",
+          "title": "C10-G07-14 DsPressable 默认 type=button",
+          "duration": 1.6609169999999267,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
+          "status": "passed",
+          "title": "C10-G07-15 DsIconButton 点击触发 onClick",
+          "duration": 5.072208000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790867557745,
+      "endTime": 1790867557806.0723,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-05-oemWqP/packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
+    }
+  ]
+}
