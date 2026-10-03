@@ -471,8 +471,22 @@ async function main() {
   await rm(outputRoot, { recursive: true, force: true })
 
   const packages = {}
-  for (const packageConfig of coveragePackages) {
-    packages[packageConfig.id] = await collectPackage(packageConfig, outputRoot)
+  const parallelEditor =
+    profile === 'fast' && process.env.TYPE_PAL_COVERAGE_PARALLEL_EDITOR === '1'
+  if (parallelEditor) {
+    const editor = coveragePackages.find((packageConfig) => packageConfig.id === 'editor')
+    if (!editor) throw new Error('fast coverage parallel editor 配置缺失')
+    let editorResult
+    for (const packageConfig of coveragePackages) {
+      if (packageConfig.id === 'editor') continue
+      if (packageConfig.id === 'game') editorResult = collectPackage(editor, outputRoot)
+      packages[packageConfig.id] = await collectPackage(packageConfig, outputRoot)
+    }
+    packages[editor.id] = await editorResult
+  } else {
+    for (const packageConfig of coveragePackages) {
+      packages[packageConfig.id] = await collectPackage(packageConfig, outputRoot)
+    }
   }
   const total = aggregateMetrics(Object.values(packages).map((item) => item.metrics))
   const generatedAt = new Date().toISOString()

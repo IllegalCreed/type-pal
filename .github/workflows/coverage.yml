@@ -16,7 +16,9 @@ concurrency:
 jobs:
   fast-coverage:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
+    env:
+      TYPE_PAL_COVERAGE_PARALLEL_EDITOR: '1'
     steps:
       - uses: actions/checkout@v4
         with:

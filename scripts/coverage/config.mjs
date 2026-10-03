@@ -173,10 +173,9 @@ export const coveragePackages = Object.freeze([
     name: '@type-pal/editor',
     directory: 'packages/editor',
     ...standardSource,
-    // Editor fast coverage is a read-only contract census; four workers keep the
-    // protected CI job inside its fixed 20-minute budget without excluding tests
-    // or changing the package's normal maxWorkers=1 check.
-    testArgs: ['--passWithNoTests', '--maxWorkers', '4'],
+    // Editor fast coverage runs beside the game package in CI; keep its worker
+    // count at the stable local setting so React contracts remain deterministic.
+    testArgs: ['--passWithNoTests', '--maxWorkers', '2'],
     coverageTestExcludes: [
       'src/ui/design-system/*-adoption.test.ts',
       'src/ui/design-system/adoption.test.ts',
