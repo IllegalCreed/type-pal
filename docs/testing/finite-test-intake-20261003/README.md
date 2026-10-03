@@ -10,7 +10,7 @@ main目标固定 `8efe048610fab7aa4a257a716b91ece30194eba8`，content22/SAVE11�
 - Grok大包400+中包19，43文件419/419，新旧产品46+3源hash不变。
 - Cursor大包717+中包32，62文件749/749；中包2状态机合同退出，C1默认游标只保留stage子轴，confirm合法完整onYes空臂；大包仅火效manifest的非oracle版本常量适配。产品PreviewCanvas/WorldSpriteLibrary随main有变，以新实跑为准。
 - Kimi前一中包32中，已删除的组织API4、状态游标2、旧loop迭代上限1、旧confirm yes拒绝1，共8退出；保留24现行回归全绿。resume删除已不存在的outcomes空metadata、loop删迭代metadata、resolver删已不存在的boundaryPolicy参数，仍断言业务leaf/self/信号/只读/返回克隆。
-- 七包typecheck已绿，首次当前版本失败原JSON/raw保留，不追溯改写。全仓最终check → 官方ratchet → 原目标受保护strict-fast → main推送/CI，尚未宣称完成。
+- 冻结树最终全包 check 已通过：content 1472、shared 113、game 3224、pal-extract 377、reforge 8017、editor 4758、migrate 670，共 18631 例；七包 typecheck、lint 3081 文件 0/0/0、docs/diff 均通过。官方 ratchet 与受保护 strict-fast 已通过并生成新 fast 基线（statements 87.77%、branches 81.08%、functions 87.84%、lines 89.80%）；仍待 main 推送、GitHub CI 与退休清理。
 
 ## 接收口径与未达承诺
 
@@ -22,7 +22,7 @@ Grok400的历史独立语义接受保持；Kimi/Cursor中量软预算不补齐�
 
 作者完整SHA与原始证据保留。L/M/N、O/P/Q及Kimi/Grok/Cursor各有Git common directory私有恢复bundle与ignored档案，退休前逐tip/状态/hash/无PR复核；仅可再生node_modules不打包，外部symlink不解引用。质量门和GitHub必需CI成功后，远端精确旧SHA lease删除、本地比较SHA删除并移除精确退休树。独立产品draft保留在main文档，相关审核快照只在证据保存后退休，不等于产品done。
 
-机器证据/最终门/CI与清理回执将在本目录补齐。无下一位贡献者提示词，Codex继续收口。
+机器证据/本地最终门已补齐；main/GitHub CI/清理回执将在本目录补齐。无下一位贡献者提示词，Codex继续收口。
 
 [当前版本受影响反控新三态原件](current-counters/README.md)已落盘；[精确接入/退出与备份机账](intake.json)不把未核净新估算标成达标。
 

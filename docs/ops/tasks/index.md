@@ -18,7 +18,7 @@
 | [SCRIPT-GOV-1 剧本共性问题族治理](SCRIPT-GOV-1-script-family-governance.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-ASSET-UI-LARGE-1 — 已交付测试有限收口](TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 已交付测试有限收口](TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](TEST-FROZEN-CLOSE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](TEST-FROZEN-CLOSE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | 以任务卡当前准入与看板分工为准。 |

@@ -12,7 +12,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | AUDIT-TEST-QUALITY-1 | [全仓测试/fixture/反控质量审计](tasks/AUDIT-TEST-QUALITY-1.md) | review | Codex / 审计结论已落卡，待最终门 | 用户要求查低效、重复与垃圾；候选检测不自动删业务轴 |
-| TEST-FROZEN-CLOSE-1 | [六波冻结测试统一收口](tasks/TEST-FROZEN-CLOSE-1.md) | build | Codex / 新main正式门 | 用户要求L/M/N补完合并退休；不扩配额/产品/兼容 |
+| TEST-FROZEN-CLOSE-1 | [六波冻结测试统一收口](tasks/TEST-FROZEN-CLOSE-1.md) | review | Codex / main与CI | 本地全仓门、ratchet、strict-fast已过；待main推送/CI/退休 |
 | TEST-GROK-RENDER-HOST-LARGE-1 | [呈现/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | review | Codex / 本轮统一接入 | 400定向绿、46产品源不变，已交付冻结 |
 | TEST-CURSOR-ASSET-UI-LARGE-1 | [资源叶组件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | Codex / 本轮有限收口 | 717回归现行绿；净新702估算不作为验收事实，不续配额 |
 | TEST-GROK-BOOT-RESOURCES-MEDIUM-1 | [启动资源中包](tasks/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | review | Codex / 本轮统一接入 | 19现行合同绿，三产品源不变 |

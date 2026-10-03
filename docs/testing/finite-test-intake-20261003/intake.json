@@ -1,6 +1,6 @@
 {
   "date": "2026-10-03",
-  "status": "review; formal gates and CI pending",
+  "status": "audit complete; local gates passed; main integration and CI pending",
   "actualTargetMain": "8efe048610fab7aa4a257a716b91ece30194eba8",
   "versions": {
     "content": 22,
@@ -82,7 +82,7 @@
       "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
       "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
       "sha256": "bace57ede593f73b6d8f1ce0fd7dd6343d597481fd690a1453b7081e9b4f5c91",
-      "currentSha256": "bace57ede593f73b6d8f1ce0fd7dd6343d597481fd690a1453b7081e9b4f5c91",
+      "currentSha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4",
       "disposition": "admitted-current-regression"
     },
     {
@@ -154,7 +154,7 @@
       "sha": "f4665f7ac51b80cae5620e4c08bd62f607881f73",
       "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
       "sha256": "b19eef15c1b3e7e764867fdf9c514fbfa7e640f86dd7468a2454f3dd477e4cdf",
-      "currentSha256": "b19eef15c1b3e7e764867fdf9c514fbfa7e640f86dd7468a2454f3dd477e4cdf",
+      "currentSha256": "819feeba628a7010d3ec015e43a32e3e05ac56a4801b55c63458cd9c57e75efc",
       "disposition": "admitted-current-regression"
     },
     {
@@ -930,7 +930,7 @@
       "sha": "fefab931c4174f0755e0d7766a8757490194a067",
       "path": "packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
       "sha256": "981f4057ab88f5b107fbf004d42040279b1afda3cdfa99d001b2df2eb2231d1d",
-      "currentSha256": "981f4057ab88f5b107fbf004d42040279b1afda3cdfa99d001b2df2eb2231d1d",
+      "currentSha256": "51d7796034203216a49ec86821d01cb46714e241a7442571564194490f5daa22",
       "disposition": "admitted-current-regression"
     },
     {

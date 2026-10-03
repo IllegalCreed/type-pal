@@ -1,6 +1,6 @@
 {
   "date": "2026-10-03",
-  "status": "machine-census-and-confirmed-semantic-fixes-complete; final-gates-pending",
+  "status": "audit-complete; local-gates-passed; main-and-ci-pending",
   "policy": "few-high-signal-atomic-contracts; no coverage-padding",
   "staticInventory": {
     "files": 1701,
@@ -27,7 +27,20 @@
     "pending": 0,
     "todo": 0
   },
-  "finalAuditSet": { "status": "pending-final-frozen-tree-full-run" },
+  "finalAuditSet": {
+    "status": "frozen-tree-full-run-passed",
+    "content": 1472,
+    "shared": 113,
+    "game": 3224,
+    "palExtract": 377,
+    "reforge": 8017,
+    "editor": 4758,
+    "migrate": 670,
+    "total": 18631,
+    "failed": 0,
+    "pending": 0,
+    "todo": 0
+  },
   "confirmedChanges": [
     {
       "path": "packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
@@ -104,5 +117,5 @@
     "CLI field/alias contracts with distinct output axes",
     "cross-package parser tests with distinct callers"
   ],
-  "next": "rerun full check, ratchet to a newly generated baseline, protected strict-fast, then main/CI"
+  "next": "selective main integration, GitHub required CI, then exact backup and retired branch/worktree cleanup"
 }

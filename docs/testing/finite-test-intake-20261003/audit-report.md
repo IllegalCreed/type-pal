@@ -1,6 +1,6 @@
 # 全仓测试质量审计（2026-10-03）
 
-任务卡：[AUDIT-TEST-QUALITY-1](../../ops/tasks/AUDIT-TEST-QUALITY-1.md)。本审计以当前候选 `8efe048610fab7aa4a257a716b91ece30194eba8` + 有限测试接入为对象；不以测试数量或覆盖率增长作为保留理由。
+任务卡：[AUDIT-TEST-QUALITY-1](../../ops/tasks/AUDIT-TEST-QUALITY-1.md)。本审计以保护基线 `8efe048610fab7aa4a257a716b91ece30194eba8` 与有限测试接入后的冻结候选为对象；不以测试数量或覆盖率增长作为保留理由。
 
 ## 机器清点
 
@@ -8,7 +8,7 @@ AST 清点覆盖 1,701 个测试/fixture 文件、11,873 个 test/it 定义；�
 
 分域细看：reforge 326 文件/2,035 定义、content 160/1,059、migrate 94/577；其中 migrate 的 22 个 IO 标记均需结合临时根 finally/真实 caller 审查，不能按“有 IO”判垃圾。promise/double/never/suppression 静态标签均未单独证明错误 oracle。
 
-审计前全包 JSON 实跑无失败/待办：content 1,472、shared 154、game 3,231、pal-extract 381、reforge 8,017、editor 4,760、migrate 669，共 18,684 例；审计后总数以最终冻结树重新实跑为准。性能复核中，Editor 静态采用门约 62.9 秒、真实 PAL corpus 的不同 caller 最慢约 90.6 秒，均有独立 oracle，未因耗时直接删除。CLI 的共享 setup 可另作性能优化，不能以牺牲合同原子性换取合并数字。
+审计前全包 JSON 实跑无失败/待办：content 1,472、shared 154、game 3,231、pal-extract 381、reforge 8,017、editor 4,760、migrate 669，共 18,684 例。最终冻结树全包复跑通过：content 1,472、shared 113、game 3,224、pal-extract 377、reforge 8,017、editor 4,758、migrate 670，共 18,631 例，失败/待办/todo 均为 0。性能复核中，Editor 静态采用门约 62.9 秒、真实 PAL corpus 的不同 caller 最慢约 90.6 秒，均有独立 oracle，未因耗时直接删除。CLI 的共享 setup 可另作性能优化，不能以牺牲合同原子性换取合并数字。
 
 ## 已核语义裁决
 
@@ -51,4 +51,4 @@ Game 域复核未发现 Grok 像素/宿主测试可直接删除；PNG/readback �
 
 审计后基准必须从最终保留测试集合重新实测生成，包含测试身份 digest、source/test scope、包级 statements/branches/functions/lines、测试总数与排除清单；只允许由正式 ratchet 工具更新，不能手工回填或为了数字回退门槛。删除重复测试后若某包比例变化，先补同一真实合同的高判别力原子测试或登记 existing-proof/unreachable，再决定是否接受新基准；绝不以弱断言、强转、ignore、扩大 timeout 或堆重复用例补齐。
 
-Editor、Game、Reforge/Migrate 三域已完成机器清点与代表性语义复核；弱 matcher、真实 IO、跨域相似 caller 和 fixture typed bridge 的未裁决项仍明确保留，不能把静态标记当成全量垃圾判定。最终门禁与 CI 成功前不标 done、不删作者分支。
+Editor、Game、Reforge/Migrate 三域已完成机器清点与代表性语义复核；弱 matcher、真实 IO、跨域相似 caller 和 fixture typed bridge 的未裁决项仍明确保留，不能把静态标记当成全量垃圾判定。冻结树的完整 check、官方 ratchet、受保护 strict-fast 均已通过；main 合并、CI 与退休清理仍待完成。

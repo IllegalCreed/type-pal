@@ -1,6 +1,6 @@
 # TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（历史独立审核与当前实跑，不冒称外部复签）
 Phase: mixed / ops
@@ -22,12 +22,12 @@ Kimi42b3d303de3f2178e249b4ccbabf967e0affd194两文件16例，当前新main50/50�
 
 ## 两旧输入与必要门
 
-2026-10-03最终18683全仓check/静态3892文件零已过；第一次官方ratchet拒收migrate.functions 360/410<364/414（比例87.80<87.92），未更新基线。现行模型退役4个已覆盖函数，比例仍不得降低。Codex必要门窄维护：`pal-assets.test.ts:451-465/:548-569`已证两公共formatter，但重资源整文件不进fast；新增一个无IO fast伴随合同复用同输入/全部字段顺序断言，保留旧测试，不称语义净新。公共纯格式API的生产caller目前N/A（实际只见旧整合测试引用），不伪造CLI调用、不改变覆盖范围/规则或引入PAL数据依赖。先定向/类型/受影响migrate全包，再官方ratchet/strict；原失败保留。
+2026-10-03最终冻结树 `88859fa2d` 的全仓 check 已通过：content 1472、shared 113、game 3224、pal-extract 377、reforge 8017、editor 4758、migrate 670，共 18631 例；lint 3081 文件 0/0/0，七包 typecheck、docs/diff 均通过。官方 ratchet 与受保护 strict-fast 已通过并生成新基线：statements 87.77%、branches 81.08%、functions 87.84%、lines 89.80%。Grok 像素/readback 见证已改为每进程独立临时目录，普通测试不再生成仓库垃圾。原 ratchet worker 启动超时保留在私有 raw 记录，不作为业务结论。
 
 [QUALITY-TEST-INPUTS-1](QUALITY-TEST-INPUTS-1.md)：I06随机输入固定，透明像素臂两次同45命中；PAL六旧例业务断言不改，完整PNG/256色表/按精灵声明与实际两地图tile IDs派生的canonical gzip RLE，catalog来源/路径/bytes/hash一致。自有migrated目录暂移、6/6测试、finally恢复；不动真实PAL，空白外部IO非视觉oracle，真实AssetResolver/hash/gzip/RLE照跑。
 七包typecheck及静态error/warning/info全零；定向/相邻与全仓check→官方ratchet→原目标main完整SHA受保护strict-fast，source/每包/总比例/其它测试保护不变，不回调新基线、不相加私有百分比，不追85%新包。
 
 ## 收口与退休条件
 
-全部门通过才main合入/推送、关闭实际完成卡。GLM六波及Kimi/Grok/Cursor本轮已交付测试分支退休前verify精确tip的可恢复bundle、所有非依赖ignored、无改动/在途PR；远端完整SHA lease原子删除，本地比较SHA删除。独立产品draft和其它产品Owner不在测试退休授权内；关联只读审查分支须先保存其全部证据并确认不含未接收产品实现。
+全部门通过后才 main 合入/推送、关闭实际完成卡。当前本地门已通过，待 main 快进、GitHub 必需 CI 成功后，GLM六波及Kimi/Grok/Cursor本轮已交付测试分支退休前 verify 精确 tip 的可恢复 bundle、所有非依赖 ignored、无改动/在途 PR；远端完整 SHA lease 原子删除，本地比较 SHA 删除。集成候选自身另做精确 backup 后再退休。独立产品 draft 和其它产品 Owner 不在测试退休授权内；关联只读审查分支须先保存其全部证据并确认不含未接收产品实现。
 无下一位贡献者提示词，Codex连续完成；当前不是done，未删除任何作者目录。
