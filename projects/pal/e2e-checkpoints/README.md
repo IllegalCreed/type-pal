@@ -125,4 +125,4 @@
 - **本段修正**：删除 e36 对 s003/e59 与 s004/e83 的无关003回置，避免离房后重播003；修复张四绑定但不可见的状态缺口。
 
 006任务卡与作者证据见[滚动流程攻略](../../../docs/lore/timeline.md#006-回客栈求药与出海上仙灵岛)和
-[`E2E-006-1`](../../../docs/ops/archive/tasks/done/E2E-006-1-inn-doctor-and-boat-to-island.md)。
+[`E2E-006-1`](../../../docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)。

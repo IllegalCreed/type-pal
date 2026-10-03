@@ -124,7 +124,7 @@
 听完“走吧～上船”，再以正常移动走到船只触发区；船只脚本负责载入仙灵岛。
 
 本段停止在 `s014` 仙灵岛场景已经载入、首段落地对白开始（当前实跑为 `dlg.1886`），不继续水月宫、破阵或岛上后续。
-实跑证据：`build/e2e/reforge-006-2026-10-03T16-08-05-182Z`、[006任务卡](../ops/archive/tasks/done/E2E-006-1-inn-doctor-and-boat-to-island.md)。
+实跑证据：`build/e2e/reforge-006-2026-10-03T16-08-05-182Z`、[006任务卡](../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)。
 脚本证据：[客栈 e35/e36](../../projects/pal/content/scenes/s002.json)、[张四与船只](../../projects/pal/content/scenes/s005.json)。
 
 第一阶段对照：原始 `L_1509` 的队伍走位、0x15 朝向、0x3F 骑乘和 scene15 切换，当前 Reforge 分别由 `moveParty`、`setPartyFacing`、`ride(e116)` 和 `loadScene(s014)` 表达。
