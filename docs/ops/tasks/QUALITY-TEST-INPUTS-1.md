@@ -1,7 +1,7 @@
 # QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性
 
-Status: draft
-Owner: Codex（尚未获得本卡实现授权）
+Status: build
+Owner: Codex（用户2026-10-03“修吧”明确授权）
 Reviewer: Codex
 Phase: ops / mixed
 Capability: test-quality
@@ -28,4 +28,6 @@ Visual Verification Timing: N/A
 
 ## 下一位 Agent 提示词
 
-无下一位贡献者提示词；用户尚未批准本卡build，不得开始两旧测试实现或标done。
+2026-10-03 Codex build allowed：用户批准两旧输入窄修，并按最新main有限筛选收口；唯一Owner在隔离 `codex/opq-frozen-integration-r1`，同步8efe0486，不写作者树/真实main。产品/业务断言/规则/排除/timeout不改；新main失效测试保留历史，不新增配额或旧兼容。
+
+无下一位贡献者提示词；由Codex完成验证和收口，不转作者反复返工。

@@ -11,13 +11,14 @@
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-OPQ-RETIREMENT-1 - 历史测试退役保护账窄维护](QUALITY-OPQ-RETIREMENT-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性](QUALITY-TEST-INPUTS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性](QUALITY-TEST-INPUTS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-GOV-1 剧本共性问题族治理](SCRIPT-GOV-1-script-family-governance.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-FROZEN-CLOSE-1 — 六波冻结测试与Kimi中包有限收口](TEST-FROZEN-CLOSE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-O-1 — 供应/内容守卫冻结交付收口](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-P-1 — Editor冻结交付收口](TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口](TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |

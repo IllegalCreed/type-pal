@@ -44,6 +44,8 @@ afterEach(() => {
 describe('playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行)', () => {
   it('未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)', async () => {
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] })
+    // Keep transparent cranes on-screen so their opacity path is deterministic.
+    vi.spyOn(Math, 'random').mockReturnValue(0)
     const fb = createFramebuffer()
     const p = playSplashFallback({
       fb,

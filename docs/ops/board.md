@@ -11,7 +11,8 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| QUALITY-TEST-INPUTS-1 | [两旧测试输入窄维护](tasks/QUALITY-TEST-INPUTS-1.md) | draft | User / 待范围批准 | 仅固定I06随机输入、使PAL图像IO夹具在干净CI可重建；不得build |
+| TEST-FROZEN-CLOSE-1 | [六波冻结测试统一收口](tasks/TEST-FROZEN-CLOSE-1.md) | build | Codex / 新main正式门 | 用户要求L/M/N补完合并退休；不扩配额/产品/兼容 |
+| QUALITY-TEST-INPUTS-1 | [两旧测试输入窄维护](tasks/QUALITY-TEST-INPUTS-1.md) | build | Codex / 用户已批准 | 固定I06随机输入、PAL图像IO在干净CI可重建；产品/断言/门不变 |
 | TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 | [确认队列/活动权限生命周期中包](tasks/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | review | Codex / 独立接入 | 16代码accept，四针旧绿新单红/恢复绿；不作者返工、不夹O/P/Q |
 | QUALITY-OPQ-RETIREMENT-1 | [历史测试退役保护账](tasks/QUALITY-OPQ-RETIREMENT-1.md) | blocked | Codex / 两旧输入待准入 | 原16 counter闭合；新增game随机少1臂/CI头像5红，不降门 |
 | TEST-GLM-WAVE-O-1 | [供应/内容守卫冻结收口](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 470保留；原16已闭合，新strict少1随机臂/CI头像红；不作者续派 |
@@ -19,7 +20,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 | TEST-GLM-WAVE-Q-1 | [runtime/解码冻结收口](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 175保留；原16闭合，新增门阻塞；产品draft独立，不续派 |
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
-| TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 窄返工 | r2 尚有3双强转、非法短色板、旧JSON及RC1哈希不符 |
+| TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / 统一收口 | r4历史accept已核，新main53绿，旧r2台账已更正 |
 
 **当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 

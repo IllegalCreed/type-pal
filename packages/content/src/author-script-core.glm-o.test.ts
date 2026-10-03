@@ -58,41 +58,6 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
     )
   })
 
-  test('loop：mode/cond/body/yield/maxIterations 全键与越界值', () => {
-    ok(() =>
-      checkBaseAuthorCommands(
-        [
-          {
-            kind: 'loop',
-            mode: 'while',
-            cond: { kind: 'hasMoney', atLeast: 1 },
-            body: [],
-            yield: 'worldTick',
-            maxIterations: 5,
-          },
-        ],
-        'p',
-      ),
-    )
-    fails(
-      () =>
-        checkBaseAuthorCommands(
-          [
-            {
-              kind: 'loop',
-              mode: 'while',
-              cond: { kind: 'allFullHp' },
-              body: [],
-              yield: 'macroTask',
-              maxIterations: 1,
-            },
-          ],
-          'p',
-        ),
-      'p[0].yield: canonical loop 必须 worldTick',
-    )
-  })
-
   test('startBattle：onLose/onFlee 子树递归校验（未知 kind 在子树内报错）', () => {
     fails(
       () =>
@@ -109,19 +74,6 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
       /未知或已退役的 author 命令 jumpScript/,
     )
     ok(() => checkBaseAuthorCommands([{ kind: 'startBattle', enemyTeamId: 't1' }], 'p'))
-  })
-
-  test('confirm：onNo 必填且递归；teleportOut onFail 递归', () => {
-    fails(() => checkBaseAuthorCommands([{ kind: 'confirm' }], 'p'), /onNo/)
-    ok(() =>
-      checkBaseAuthorCommands(
-        [
-          { kind: 'confirm', onNo: [{ kind: 'fade', dir: 'out' }] },
-          { kind: 'teleportOut', onFail: [] },
-        ],
-        'p',
-      ),
-    )
   })
 
   test('selectEntityBehavior：channel/selection 三态与未知 kind', () => {
@@ -229,50 +181,6 @@ describe('O07 checkBaseScriptFlow：stages 与 stateMachine', () => {
             kind: 'stages',
             initial: 'ghost',
             stages: [{ id: 'main', body: [], next: 'main' }],
-          },
-          'p',
-        ),
-      /initial/,
-    )
-  })
-
-  test('stateMachine：initial/states/next 结构与 branch transition 递归', () => {
-    ok(() =>
-      checkBaseScriptFlow(
-        {
-          kind: 'stateMachine',
-          machine: {
-            id: 'm',
-            label: 'l',
-            initial: 'a',
-            states: {
-              a: {
-                label: 'a',
-                body: [],
-                next: {
-                  kind: 'branch',
-                  cond: { kind: 'flag', flag: 'f', is: true },
-                  then: { kind: 'stay' },
-                  else: { kind: 'restart' },
-                },
-              },
-            },
-          },
-        },
-        'p',
-      ),
-    )
-    fails(
-      () =>
-        checkBaseScriptFlow(
-          {
-            kind: 'stateMachine',
-            machine: {
-              id: 'm',
-              label: 'l',
-              initial: 'ghost',
-              states: { a: { label: 'a', body: [], next: { kind: 'stay' } } },
-            },
           },
           'p',
         ),

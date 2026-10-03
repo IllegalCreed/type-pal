@@ -71,57 +71,13 @@ const stagesFlow = (): BaseScriptFlow => ({
   stages: [{ id: 'one', body: [{ kind: 'clearDialog' }] }],
 })
 
-const machineFlow = (): BaseScriptFlow => ({
-  kind: 'stateMachine',
-  machine: {
-    id: 'machine',
-    label: '状态机',
-    initial: 's0',
-    states: { s0: { label: 's0', body: [{ kind: 'clearDialog' }], next: { kind: 'stay' } } },
-  },
-})
-
 describe('Q04 非法光标组合', () => {
-  test('machine id 不匹配的 state cursor 精确拒绝', async () => {
-    const runner = new ScriptRunnerCore(fakeHost(), new AbortController().signal)
-    const cursor: FlowCursor = { kind: 'state', machine: 'other', state: 's0' }
-    await expect(
-      runner.runFlow(compile(machineFlow()), { cursor, cursorController: controller() }),
-    ).rejects.toThrow('ScriptRunnerCore: machine cursor other 不匹配 machine')
-  })
-
-  test('stage cursor 不能运行 stateMachine flow；state cursor 不能运行 stages flow', async () => {
-    const runner = new ScriptRunnerCore(fakeHost(), new AbortController().signal)
-    const stageCursor: FlowCursor = { kind: 'stage', stage: 'one' }
-    await expect(
-      runner.runFlow(compile(machineFlow()), {
-        cursor: stageCursor,
-        cursorController: controller(),
-      }),
-    ).rejects.toThrow('ScriptRunnerCore: stage cursor 不能运行 stateMachine flow')
-    const stateCursor: FlowCursor = { kind: 'state', machine: 'machine', state: 's0' }
-    await expect(
-      runner.runFlow(compile(stagesFlow()), {
-        cursor: stateCursor,
-        cursorController: controller(),
-      }),
-    ).rejects.toThrow('ScriptRunnerCore: state cursor 不能运行 stages flow')
-  })
-
   test('stage cursor 指向不存在 stage 时精确报错', async () => {
     const runner = new ScriptRunnerCore(fakeHost(), new AbortController().signal)
     const cursor: FlowCursor = { kind: 'stage', stage: 'ghost' }
     await expect(
       runner.runFlow(compile(stagesFlow()), { cursor, cursorController: controller() }),
     ).rejects.toThrow('ScriptRunnerCore: stage cursor 不存在 ghost')
-  })
-
-  test('state cursor 指向不存在 state 时按 machine.path 精确报错', async () => {
-    const runner = new ScriptRunnerCore(fakeHost(), new AbortController().signal)
-    const cursor: FlowCursor = { kind: 'state', machine: 'machine', state: 'ghost' }
-    await expect(
-      runner.runFlow(compile(machineFlow()), { cursor, cursorController: controller() }),
-    ).rejects.toThrow('machine machine: state 不存在 ghost')
   })
 })
 
@@ -175,15 +131,10 @@ describe('Q04 commandOutcome 与 callScript 门', () => {
     }
     const resolver = new BaseSharedScriptResolver(library, digest)
     const crooked = {
-      resolve: (
-        id: string,
-        timing: 'auto' | 'interactive',
-        boundaryPolicy: 'perCommand' | 'transition',
-        signal: AbortSignal,
-      ) => {
+      resolve: (id: string, timing: 'auto' | 'interactive', signal: AbortSignal) => {
         void id
         void signal
-        return resolver.resolve('other', timing, boundaryPolicy)
+        return resolver.resolve('other', timing)
       },
     }
     const runner = new ScriptRunnerCore(host, new AbortController().signal, crooked)
@@ -291,7 +242,7 @@ describe('Q04 其它公开守卫', () => {
         runSceneEntry: true,
         allowSceneEntry: true,
       }),
-    ).rejects.toThrow('ScriptRunnerCore: host 未实现 revealSceneEntry')
+    ).rejects.toThrow('ScriptRunnerCore: scene entry 不允许或缺少 host')
   })
 
   test('while 循环先判条件再执行体：条件即假时体零执行', async () => {
@@ -310,8 +261,6 @@ describe('Q04 其它公开守卫', () => {
                 kind: 'loop',
                 mode: 'while',
                 cond: { kind: 'flag', flag: 'go', is: true },
-                maxIterations: 3,
-                yield: 'worldTick',
                 body: [{ kind: 'clearDialog' }],
               },
             ],

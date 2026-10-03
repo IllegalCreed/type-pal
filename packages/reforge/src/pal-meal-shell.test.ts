@@ -1,18 +1,31 @@
 // @vitest-environment jsdom
 import {
+  spriteDefinitionFrameDemand,
+  validateAssetCatalog,
   validateAuthorScenes,
   validateCurrentManifestStartup,
+  validateProjectMap,
   validateSceneIndex,
+  validateSprites,
+  validateTilesets,
 } from '@type-pal/content'
+import { encodeSpriteChunk } from '@type-pal/shared'
 import { afterEach, expect, test, vi } from 'vitest'
+import assetsJson from '../../../projects/pal/assets/index.json' with { type: 'json' }
+import innMapJson from '../../../projects/pal/content/maps/map-010.json' with { type: 'json' }
+import roomsMapJson from '../../../projects/pal/content/maps/map-012.json' with { type: 'json' }
 import sceneIndexJson from '../../../projects/pal/content/scenes/index.json' with { type: 'json' }
 import roomsJson from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
 import innJson from '../../../projects/pal/content/scenes/s003.json' with { type: 'json' }
+import spritesJson from '../../../projects/pal/content/sprites.json' with { type: 'json' }
+import tilesetsJson from '../../../projects/pal/content/tilesets.json' with { type: 'json' }
 import manifestJson from '../../../projects/pal/manifest.json' with { type: 'json' }
-import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
+import { chromePng, installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
 import { advance, state } from './__tests__/runtime-shell/scenarios.js'
+import { compressGzip } from './assets.js'
 import type { FileSource } from './file-source.js'
+import { sha256Bytes } from './hash.js'
 import { loadAllScenes, loadCurrentProjectFrom, loadScene } from './project-loader.js'
 import type { CurrentSavePayload } from './save/types.js'
 
@@ -33,6 +46,99 @@ const { readFile } = await vi.importActual<{
 type Case = 'wine' | 'wrong-position' | 'kitchen' | 'serve'
 
 async function project(caseId: Case, wineCount = 1) {
+  // These external image bytes are not a pixel oracle. Preserve stable IDs/kinds
+  // while supplying complete PNG input and matching metadata without ignored PAL assets.
+  const imageBytes = chromePng()
+  const imageHash = await sha256Bytes(imageBytes)
+  const catalog = validateAssetCatalog(structuredClone(assetsJson))
+  const binaryInputs = new Map<string, Uint8Array<ArrayBuffer>>()
+  const spriteDemands = new Map<string, number>()
+  for (const sprite of validateSprites(structuredClone(spritesJson)))
+    spriteDemands.set(
+      sprite.asset,
+      Math.max(spriteDemands.get(sprite.asset) ?? 0, spriteDefinitionFrameDemand(sprite)),
+    )
+  for (const [asset, demand] of spriteDemands) {
+    const record = catalog.assets[asset]
+    if (!record || record.kind !== 'sprite') throw new Error('sprite IO record missing')
+    const bytes = await compressGzip(
+      encodeSpriteChunk(
+        Array.from({ length: demand }, () => ({
+          width: 1,
+          height: 1,
+          pixels: new Uint8Array([2]),
+          opaque: new Uint8Array([1]),
+        })),
+      ),
+    )
+    record.path = `assets/authored/runtime-shell/sprites/${binaryInputs.size}.rle`
+    record.bytes = bytes.byteLength
+    record.sha256 = await sha256Bytes(bytes)
+    record.origin = {
+      kind: 'authored',
+      ref: 'canonical sprite IO fixture matching declared frame demand',
+    }
+    binaryInputs.set(record.path, Uint8Array.from(bytes))
+  }
+  const tileDemands = new Map<string, number>()
+  for (const map of [validateProjectMap(innMapJson), validateProjectMap(roomsMapJson)])
+    for (const layer of map.layers)
+      for (const [rowIndex, row] of layer.tiles.entries())
+        for (const [col, tile] of row.entries()) {
+          if (tile === null || tile < 0) continue
+          const id = map.tilesetRefs[layer.sources[rowIndex]?.[col] ?? 0]
+          if (!id) throw new Error('map tileset IO reference missing')
+          tileDemands.set(id, Math.max(tileDemands.get(id) ?? 0, tile + 1))
+        }
+  for (const tileset of validateTilesets(tilesetsJson)) {
+    const demand = tileDemands.get(tileset.id)
+    if (!demand) continue
+    const record = catalog.assets[tileset.asset]
+    if (!record || record.kind !== 'tileset') throw new Error('tileset IO record missing')
+    const bytes = await compressGzip(
+      encodeSpriteChunk(
+        Array.from({ length: demand }, () => ({
+          width: 32,
+          height: 16,
+          pixels: new Uint8Array(512),
+          opaque: new Uint8Array(512),
+        })),
+      ),
+    )
+    record.path = `assets/authored/runtime-shell/tiles/${binaryInputs.size}.rle`
+    record.bytes = bytes.byteLength
+    record.sha256 = await sha256Bytes(bytes)
+    record.origin = {
+      kind: 'authored',
+      ref: 'canonical tile IO fixture covering real map frame IDs',
+    }
+    binaryInputs.set(record.path, Uint8Array.from(bytes))
+  }
+  const colorTable = {
+    colors: Array.from({ length: 256 }, (_, value) => [value, value, value]),
+    cycles: [],
+  }
+  const colorBytes = new TextEncoder().encode(JSON.stringify(colorTable))
+  const colorAsset = catalog.assets[manifestJson.assets.roles['visual.standardColorTable']]
+  if (!colorAsset || colorAsset.kind !== 'color-table')
+    throw new Error('standard color role missing')
+  colorAsset.path = 'assets/authored/runtime-shell/colors.json'
+  colorAsset.bytes = colorBytes.byteLength
+  colorAsset.sha256 = await sha256Bytes(colorBytes)
+  colorAsset.origin = { kind: 'authored', ref: 'complete grayscale IO fixture' }
+  const imagePaths = new Set<string>()
+  for (const record of Object.values(catalog.assets)) {
+    if (
+      record.mediaType !== 'image/png' ||
+      !['face', 'portrait', 'item-icon', 'battle-background'].includes(record.kind)
+    )
+      continue
+    record.bytes = imageBytes.byteLength
+    record.sha256 = imageHash
+    record.path = `assets/authored/runtime-shell/${imagePaths.size}.png`
+    record.origin = { kind: 'authored', ref: 'runtime-shell chromePng IO fixture' }
+    imagePaths.add(record.path)
+  }
   const scenes = validateAuthorScenes(structuredClone([roomsJson, innJson]))
   // Only these two complete scene definitions belong to this isolated integration case.
   // Keep real paths/IDs and all other resource catalogs; the production loader still validates
@@ -110,6 +216,8 @@ async function project(caseId: Case, wineCount = 1) {
       },
     }
   const documents = new Map<string, unknown>([
+    ['assets/index.json', catalog],
+    [colorAsset.path, colorTable],
     ['manifest.json', manifest],
     ['content/scenes/index.json', sceneIndex],
     ...scenes.map((scene) => [`content/scenes/${scene.id}.json`, scene] as const),
@@ -132,6 +240,10 @@ async function project(caseId: Case, wineCount = 1) {
       return actual
     },
     async readBytes(path) {
+      const binary = binaryInputs.get(path)
+      if (binary) return binary.slice().buffer
+      if (imagePaths.has(path)) return imageBytes.slice().buffer
+      if (path === colorAsset.path) return colorBytes.slice().buffer
       return Uint8Array.from(await readFile(new URL(path, root))).buffer
     },
     async urlFor(path) {

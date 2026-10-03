@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: runtime-host / test-coverage
 Coding Owner: GLM N（仅新增测试、专属 fixture/证据）
