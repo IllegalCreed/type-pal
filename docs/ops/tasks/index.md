@@ -191,6 +191,7 @@
 | [QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧](../archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R2 - 事件脚本单一模型与 unmigrated 退役](../archive/tasks/done/R2-script-single-model.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-BATTLE-EQUIP-1 — 装备常驻状态与临时状态分层](../archive/tasks/done/REFORGE-BATTLE-EQUIP-1-permanent-granted-status.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存](../archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复](../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |

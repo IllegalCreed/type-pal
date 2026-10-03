@@ -104,7 +104,10 @@ export interface BattlePlayerState {
   regenHp?: number
   /** 每回合回蓝(regenMp 词条)。 */
   regenMp?: number
+  /** 战斗内临时状态的剩余回合；装备常驻状态不写入这里。 */
   status: BattleStatus
+  /** 装备实时派生的常驻状态；卸装/重建战斗态即失效，不参与回合衰减或复活清理。 */
+  grantedStatuses: readonly (keyof BattleStatus)[]
   defending: boolean
   /**
    * B7c 隐藏经验行为计数(fight.c 考证:物攻→attack+1/maxHP+R(2,3);防御→defense+2;
@@ -276,13 +279,15 @@ export type BattleAction =
   | { kind: 'flee' }
 
 /** 队员建态输入:引擎态字段(status/defending/hiddenCounts)自动补;poisons 大世界带入;
- *  grantedStatuses 装备常驻状态(连击等,建态置 9999 不烙持久);carriedStatuses 大世界护体符定时状态。 */
+ * grantedStatuses 是装备实时派生的常驻状态；carriedStatuses 是大世界护体符等临时状态。 */
 export type CreatePlayerInput = Omit<
   BattlePlayerState,
-  'status' | 'defending' | 'hiddenCounts' | 'poisons' | 'prevHp'
+  'status' | 'grantedStatuses' | 'defending' | 'hiddenCounts' | 'poisons' | 'prevHp'
 > & {
   poisons?: ActivePoison[]
-  grantedStatuses?: (keyof BattleStatus)[]
+  grantedStatuses?: readonly (keyof BattleStatus)[]
+  /** 仅测试/试打注入的战斗临时状态；正式世界状态走 carriedStatuses。 */
+  initialStatuses?: Partial<Record<keyof BattleStatus, number>>
   carriedStatuses?: CarriedStatus[]
   /** 入战前 HP 快照(伤亡 sweep 基线;缺省 = hp,建态时填充)。 */
   prevHp?: number
@@ -349,13 +354,14 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     turn: 0,
     players: input.players.map((p) => {
       const status = emptyBattleStatus()
-      // 装备常驻状态(连击等):建态时置大值(PERMANENT,不在战内衰减到 0;红线 —— 每战重派生)
-      for (const k of p.grantedStatuses ?? []) status[k] = 9999
+      for (const [key, turns] of Object.entries(p.initialStatuses ?? {}))
+        if (turns !== undefined) status[key as keyof BattleStatus] = turns
       // 大世界护体符/金刚符定时状态:注入实际回合数(随战内衰减;战后 world 侧三件套清 extraStatuses)
       for (const cs of p.carriedStatuses ?? [])
         status[cs.status] = Math.max(status[cs.status], cs.turns)
       return {
         ...p,
+        grantedStatuses: [...new Set(p.grantedStatuses ?? [])],
         prevHp: p.prevHp ?? p.hp,
         ...(p.persistentProgress ? { persistentProgress: { ...p.persistentProgress } } : {}),
         status,
@@ -598,8 +604,8 @@ export function curePoisons(
 /**
  * 复活(script.c 0x22 全语义,还魂咒/还魂香共用):**仅死者**;HP = floor(max×pct/100)
  * (一阶段 OP_REVIVE_PLAYER 真值:无保底 1,极端小 max 复活到 0 = 依旧倒地,忠实)
- * + 解重毒(PAL_CurePoisonByLevel(3) ≙ 'severe')+ 清全部定时状态(0x22 遍历 RemovePlayerStatus;
- * 一阶段哨兵语义:装备常驻(建态 9999,如仙女剑连击)保留)。活人 → false(0x22 脚本失败位)。
+ * + 解重毒(PAL_CurePoisonByLevel(3) ≙ 'severe')+ 清全部临时状态；装备常驻状态独立派生，天然保留。
+ * 活人 → false(0x22 脚本失败位)。
  */
 export function reviveBattlePlayer(
   s: BattleState,
@@ -609,9 +615,13 @@ export function reviveBattlePlayer(
   if (t.hp > 0) return false
   t.hp = Math.trunc((t.maxHp * hpPercent) / 100)
   curePoisons(t, s.poisonDefs, 'severe')
-  for (const k of Object.keys(t.status) as (keyof BattleStatus)[])
-    if (t.status[k] < 9000) t.status[k] = 0
+  for (const k of Object.keys(t.status) as (keyof BattleStatus)[]) t.status[k] = 0
   return true
+}
+
+/** 战斗内状态是否有效：临时回合状态或装备实时派生的常驻状态。 */
+function hasPlayerStatus(player: BattlePlayerState, status: keyof BattleStatus): boolean {
+  return player.status[status] > 0 || player.grantedStatuses.includes(status)
 }
 
 /**
@@ -1093,7 +1103,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       const players = s.players.map((p, i) => {
         // 死者 dex 0 排尾(除傀儡:死傀儡照常出手,取正常 dex);活者被眠/定压制也 dex 0
         if ((p.hp <= 0 && !puppetActs(p)) || !canAct(p.status)) return { idx: i, dex: 0 }
-        let dex = getPlayerActualDexterity(p.baseDexterity, p.status.haste > 0)
+        let dex = getPlayerActualDexterity(p.baseDexterity, hasPlayerStatus(p, 'haste'))
         dex = Math.trunc(dex * actionDexMult(s.pendingActions.get(i), s.skills))
         if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
         return { idx: i, dex: Math.trunc(dex * (0.9 + rng() * 0.2)) }
@@ -2141,8 +2151,8 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     if (s.lastAction) s.lastAction.crit = hit1.crit
     e.hp = Math.max(0, e.hp - hit1.dmg)
     s.log.push(`${p.roleId} ${hit1.crit ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${hit1.dmg}`)
-    // 连击(装备授 dualAttack;仙女剑170):敌未死则第二击(独立 rng 掷,同 fight.c 双击)
-    if (p.status.dualAttack > 0 && e.hp > 0) {
+    // 连击(装备授 dualAttack;仙女剑170):敌未死则第二击(独立 rng 掷)
+    if (hasPlayerStatus(p, 'dualAttack') && e.hp > 0) {
       const hit2 = resolvePlayerAttackHit(p, e, _rng)
       if (s.lastAction) s.lastAction.secondDamage = hit2.dmg
       e.hp = Math.max(0, e.hp - hit2.dmg)
@@ -2338,7 +2348,7 @@ function performThrow(
  */
 function performAttackAll(s: BattleState, p: BattlePlayerState, rng: () => number): void {
   const ORDER = [2, 1, 0, 4, 3] // 中心向外(原版 index[])
-  const crit = Math.floor(rng() * 6) === 0 || p.status.bravery > 0
+  const crit = Math.floor(rng() * 6) === 0 || hasPlayerStatus(p, 'bravery')
   let division = 1
   const hits: { idx: number; value: number }[] = []
   for (const i of ORDER) {
@@ -2368,7 +2378,7 @@ function resolvePlayerAttackHit(
   rng: () => number,
 ): { dmg: number; crit: boolean } {
   const def = e.def.stats.defense + (e.def.stats.level + 6) * 4
-  const crit = Math.floor(rng() * 6) === 0 || p.status.bravery > 0
+  const crit = Math.floor(rng() * 6) === 0 || hasPlayerStatus(p, 'bravery')
   let dmg = resolveAttack(p.attackStrength, def, e.def.stats.physicalResistance, e.defending)
   dmg += 1 + Math.floor(rng() * 2)
   if (crit) dmg *= 3
@@ -2391,7 +2401,7 @@ function attackMate(s: BattleState, idx: number, mateIdx: number): number {
   const m = expectDefined(s.players[mateIdx])
   const def = m.defense * (m.defending ? 2 : 1)
   let dmg = calcPhysicalAttackDamage(p.attackStrength, def, 2)
-  if (m.status.protect > 0) dmg = Math.trunc(dmg / 2)
+  if (hasPlayerStatus(m, 'protect')) dmg = Math.trunc(dmg / 2)
   if (dmg <= 0) dmg = 1
   if (dmg > m.hp) dmg = m.hp
   m.hp -= dmg
@@ -2515,7 +2525,8 @@ function applyEnemySkill(
               poisonRes: p.poisonRes ?? 0,
               resistMult: 20, // 玩家侧抗性除数 20(fight.c:4798/4833;敌侧是 1)
               fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244,双向同表)
-            }) / magicDefenseDivisor(p.defending, p.status.protect > 0, autoDefend.has(ti)),
+            }) /
+              magicDefenseDivisor(p.defending, hasPlayerStatus(p, 'protect'), autoDefend.has(ti)),
           )
           // 钳到余血、**无最小 1**(fight.c:4805/4840;玩家打敌才 inline 钳 1)
           if (dmg > p.hp) dmg = p.hp
@@ -2692,7 +2703,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   const def = p.defense * (p.defending ? 2 : 1)
   // 伤害 = calc(str+R(0,2), def, 物抗恒 2) + R(0,1) → 护体/2 → 钳现有 HP → 保底 1
   let dmg = calcPhysicalAttackDamage(str + Math.floor(rng() * 3), def, 2) + Math.floor(rng() * 2)
-  if (p.status.protect > 0) dmg = Math.trunc(dmg / 2) // 护体(fight.c:5059)
+  if (hasPlayerStatus(p, 'protect')) dmg = Math.trunc(dmg / 2) // 护体(fight.c:5059)
   if (dmg > p.hp) dmg = p.hp
   if (dmg <= 0) dmg = 1
   p.hp = Math.max(0, p.hp - dmg)

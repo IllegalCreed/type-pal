@@ -726,7 +726,7 @@ describe('A7-1 战斗回合 SFX readiness 屏障', () => {
     const gate = deferred<void>()
     const snapshots: BattleTurnReadinessSnapshot[] = []
     const session = makePlayersSession(
-      [{ ...player('sleepy', { baseDexterity: 1 }), grantedStatuses: ['sleep'] }],
+      [{ ...player('sleepy', { baseDexterity: 1 }), initialStatuses: { sleep: 1 } }],
       mkEnemy('fast-enemy', {
         health: 999,
         defense: 999,
