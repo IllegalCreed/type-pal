@@ -2,7 +2,7 @@
 
 本工具为共性治理提供完整的原始安装指令分母和保守的当前方案映射，帮助审查后继丢失、重复奖励、错误复读。
 它不是退役转换器的恢复版，不生成剧情，不修改作者工程，也不把候选命中数当缺陷数。
-任务范围与产品准入见[治理任务卡](../../ops/tasks/SCRIPT-GOV-1-script-family-governance.md)。
+任务范围与产品准入见[治理任务卡](../../ops/archive/tasks/done/SCRIPT-GOV-1-script-family-governance.md)。
 
 ## 重跑与输出
 

@@ -55,5 +55,5 @@
 一手锚点为[运行器](../../../packages/reforge/src/script-runner-core.ts)、
 [编译器](../../../packages/reforge/src/script-compiler-core.ts)、
 [作者模型](../../../packages/content/src/author-script-core.ts)及[完整机器分类](machine-census.json)。
-整体治理记录在[母任务卡](../../ops/tasks/SCRIPT-GOV-1-script-family-governance.md)，
+整体治理记录在[母任务卡](../../ops/archive/tasks/done/SCRIPT-GOV-1-script-family-governance.md)，
 本批实现和独立验收记录在[SCRIPT-GOV-2](../../ops/archive/tasks/done/SCRIPT-GOV-2-unified-author-steps.md)。

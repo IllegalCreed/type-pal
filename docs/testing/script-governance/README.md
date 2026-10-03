@@ -20,7 +20,7 @@
 - [上一批SAVE10检查点](save10-checkpoints-20261002.md)：2026-10-02批次的历史回执，不作当前前驱。
 - [Codex独立验收回执](independent-review.json)：逐项核查、质量原始结果、四段报告及已保全失败，不混淆首批与全治理完成。
 
-当前准入与分包见[治理任务卡](../../ops/tasks/SCRIPT-GOV-1-script-family-governance.md)。
+当前准入与分包见[治理任务卡](../../ops/archive/tasks/done/SCRIPT-GOV-1-script-family-governance.md)。
 
 以下为2026-10-02首批回执；“剩147套”和SAVE10是该批范围，当前统一格式及验收以SCRIPT-GOV-2为准。
 

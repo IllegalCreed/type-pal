@@ -11,7 +11,7 @@ Branch: main
 
 ## 用户目标和范围
 
-用户要求继续治理。承接[SCRIPT-GOV-1](../../../tasks/SCRIPT-GOV-1-script-family-governance.md)首批，
+用户要求继续治理。承接[SCRIPT-GOV-1](SCRIPT-GOV-1-script-family-governance.md)首批，
 作者模型统一为方案、步骤、指令，剩余147套机器不是长期保留项。本卡优先处理所需公共表达，
 同时逐类证明当前内容可以清楚表达；不能只把state改名为step，不能继续暴露逐拍调度状态。
 

@@ -1,6 +1,6 @@
 # SCRIPT-GOV-3 剩余问题族治理与开场回归
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7 / P3 / Q1
 Coding Owner: 下文分域独占
@@ -12,7 +12,7 @@ Branch: codex/script-governance-closeout
 ## 持续目标与完成标准
 
 用户2026-10-03要求持续完成脚本共性治理，然后回归001–005，具备开始006的条件后交付；遇到需要用户决定的取舍即停止。
-本卡承接[SCRIPT-GOV-1](SCRIPT-GOV-1-script-family-governance.md)，统一步骤模型已由[SCRIPT-GOV-2](../archive/tasks/done/SCRIPT-GOV-2-unified-author-steps.md)完成，基线8efe04861。
+本卡承接[SCRIPT-GOV-1](SCRIPT-GOV-1-script-family-governance.md)，统一步骤模型已由[SCRIPT-GOV-2](SCRIPT-GOV-2-unified-author-steps.md)完成，基线8efe04861。
 不开始006，不把所有未来剧情的逐段验收伪装为本轮已完成。收口范围是已登记的七类共性问题及本轮同族全量核查，
 每个待核项必须有已修、已核无问题或明确后期视觉入口的证据；无法核定且影响当前修复的关键前提不能留给猜测。
 
@@ -188,9 +188,9 @@ commit/clean 状态，再将本卡与母卡收口。未开始 006。
 
 ## 上下文
 
-- [二阶段铁律](../../phase2/READ-FIRST.md)、[协作工作流](../agent-workflow.md)、[一阶段知识](../../phase2/reference/phase1-knowledge-harvest.md)。
-- [七类共性回顾](../../testing/e2e-001-005-common-issues.md)、[治理证据目录](../../testing/script-governance/README.md)。
-- [安装边口径](../../testing/script-governance/install-census.md)、[当前检查点](../../testing/script-governance/current-checkpoints.md)。
+- [二阶段铁律](../../../../phase2/READ-FIRST.md)、[协作工作流](../../../agent-workflow.md)、[一阶段知识](../../../../phase2/reference/phase1-knowledge-harvest.md)。
+- [七类共性回顾](../../../../testing/e2e-001-005-common-issues.md)、[治理证据目录](../../../../testing/script-governance/README.md)。
+- [安装边口径](../../../../testing/script-governance/install-census.md)、[当前检查点](../../../../testing/script-governance/current-checkpoints.md)。
 
 ## 下一位Agent提示词
 
