@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-03T14:52:39.008Z",
+  "generatedAt": "2026-10-03T16:35:50.648Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -9863,7 +9863,7 @@
         ],
         "identityDigest": "bbcb703c765710678569decb2823dbd770790bbefa51e46fa0e39d6f6030f67f",
         "duplicateIdentityCount": 8,
-        "executionDigest": "b81acf14ee40cf8253ec3114ea8926782d7af7bab1437d56d93540050741f4fb"
+        "executionDigest": "95478f0eb730ecff0f894fd307080a436b0c0b6ff094081845cfe0489bbeeeb8"
       },
       "metrics": {
         "statements": {
@@ -9871,7 +9871,7 @@
           "total": 33513
         },
         "branches": {
-          "covered": 23865,
+          "covered": 23866,
           "total": 29058
         },
         "functions": {
@@ -9891,7 +9891,7 @@
       "total": 77311
     },
     "branches": {
-      "covered": 48773,
+      "covered": 48774,
       "total": 60114
     },
     "functions": {
