@@ -122,7 +122,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；先治理机械拆分/后继/时基，浏览器启动失败自动清理待补 |
 | E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 六份同版case及真实终档已核；包门与最终工具零诊断，不录视频，6012保持 |
-| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 独立复核后再收口 | 最新 main 已提交剧情链；phase1 对照与视觉收口仍待核，不标 done |
+| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 006剧情链可达但视觉与关键NPC日志未验收；截图显示船体锚点/张四动作/人物落船异常 |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
 
 2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：
