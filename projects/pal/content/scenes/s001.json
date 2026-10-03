@@ -736,6 +736,11 @@
                       }
                     },
                     {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
+                    },
+                    {
                       "kind": "repeat",
                       "count": 4,
                       "body": [
@@ -998,6 +1003,11 @@
                         "kind": "use",
                         "value": "legacy-002"
                       }
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "repeat",
@@ -4202,6 +4212,11 @@
                         "scene": "s001",
                         "entity": "e28"
                       }
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "clearDialog"

@@ -13358,6 +13358,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-radius: 5px;
   background: var(--panel);
 }
+.canonical-address-open {
+  grid-column: 1 / -1;
+}
 .canonical-condition-nested {
   display: grid;
   gap: 6px;

@@ -784,7 +784,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "dx": -8,
@@ -793,7 +793,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "dx": -8,
@@ -802,7 +802,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "cue": {
@@ -1912,7 +1912,8 @@
           "animation": {
             "sprite": "sprite-9",
             "action": "pal-auto-v1-47e35d5d733ff36b",
-            "loop": true
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ],

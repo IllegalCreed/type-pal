@@ -270,6 +270,11 @@
                       }
                     },
                     {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
@@ -580,6 +585,11 @@
                         "scene": "s109",
                         "entity": "e2040"
                       }
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "clearDialog"

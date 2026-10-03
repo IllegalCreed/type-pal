@@ -6,6 +6,7 @@ import type {
   BattleSpriteDef,
   EnemyDef,
   EnemyTeamDef,
+  EntityAddress,
   Locale,
   SceneDef,
   SkillDataMap,
@@ -103,6 +104,7 @@ export function DataMode(props: {
   actors: import('@type-pal/content').ActorDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
+  onOpenEntity?: (address: EntityAddress) => void
   /** N6:从场景调用行跳入指定共享/内部脚本。 */
   focusScriptId?: string
   focusScriptRevision?: number
@@ -196,6 +198,7 @@ export function DataMode(props: {
     onOpenBattleSprite,
     onOpenBattleField,
     onOpenScript,
+    onOpenEntity,
     onOpenWorldVariable,
     onOpenItem,
     onOpenItemAlchemy,
@@ -665,6 +668,7 @@ export function DataMode(props: {
             references,
             worldVariables: state.worldVariables,
             onOpenScript,
+            onOpenEntity,
             onOpenWorldVariable,
             onOpenSound,
             onOpenImage,

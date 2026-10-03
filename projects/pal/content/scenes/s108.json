@@ -707,7 +707,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -800,7 +800,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -2281,7 +2281,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "moveParty",
@@ -2294,7 +2294,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "kind": "setEntityState",
@@ -2322,7 +2322,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "kind": "moveParty",
@@ -2335,7 +2335,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -2348,7 +2348,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -2714,7 +2714,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "facing": "down",
@@ -2734,7 +2734,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -2796,7 +2796,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -2816,7 +2816,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "up",
@@ -2836,7 +2836,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 560
+                      "ms": 1400
                     },
                     {
                       "cue": {
@@ -2894,7 +2894,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 1200
+                      "ms": 3000
                     },
                     {
                       "facing": "right",
@@ -2914,7 +2914,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -2930,7 +2930,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 1600
                     },
                     {
                       "cue": {

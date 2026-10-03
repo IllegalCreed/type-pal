@@ -1,0 +1,365 @@
+{
+  "scope": "11 exact persistent door entities; original visible/state/collision/activation contracts preserved",
+  "source": "35644 shared opener and 9662 stone animation; 9666/9668 waits2 use200ms",
+  "runtimeEvidence": {
+    "test": "pal-gov3-content-door-shell.test.ts",
+    "checks": [
+      "real Main interaction executes s047/e757 frame1→2→3 and selects open",
+      "real F5/F9 restores SAVE11 entityState=1, open page and rendered frame3",
+      "project data remains unchanged by runtime projection"
+    ]
+  },
+  "receipts": [
+    {
+      "scene": "s003",
+      "beforeHash": "ca832b311652e25c05981c28a24edf74b12babade0f14210ccefa5e0a956579f",
+      "afterHash": "ce7ac367e26b29a0bcea0835cb80321d8fe82c3fcd86415c4fda8cb2d7e41b92",
+      "evidence": [
+        {
+          "entity": "e70",
+          "source": 3736,
+          "sprite": "sprite-54",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-54",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e71",
+          "source": 3736,
+          "sprite": "sprite-53",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-53",
+              "action": "open",
+              "loop": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s093",
+      "beforeHash": "b4d96be418845620897c842461c8045cd0d42b23751166f2997d4cf393290c1f",
+      "afterHash": "3d43539e5f4b8c4274b193ab8966ad3f050a20f00ee26d70aa9237201908500b",
+      "evidence": [
+        {
+          "entity": "e1749",
+          "source": 13356,
+          "sprite": "sprite-275",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-275",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e1750",
+          "source": 13356,
+          "sprite": "sprite-274",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-274",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e1751",
+          "source": 13359,
+          "sprite": "sprite-275",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-275",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e1752",
+          "source": 13359,
+          "sprite": "sprite-274",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-274",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e1753",
+          "source": 13362,
+          "sprite": "sprite-275",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-275",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e1754",
+          "source": 13362,
+          "sprite": "sprite-274",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-274",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e1755",
+          "source": 13365,
+          "sprite": "sprite-275",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-275",
+              "action": "open",
+              "loop": false
+            }
+          }
+        },
+        {
+          "entity": "e1756",
+          "source": 13365,
+          "sprite": "sprite-274",
+          "frame": 1,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-274",
+              "action": "open",
+              "loop": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s047",
+      "beforeHash": "8c9af056c2038bd07cc800219303399f70a8e41b9e99b7655151b71fbcec0ea2",
+      "afterHash": "197188e3d813787fb917e5588c6ca2f96a60d8af20c63ca868bccd407aca1228",
+      "evidence": [
+        {
+          "entity": "e757",
+          "source": 9662,
+          "sprite": "sprite-255",
+          "frame": 3,
+          "initialPage": "default",
+          "initial": {
+            "id": "default",
+            "label": "默认模式",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            }
+          },
+          "open": {
+            "id": "open",
+            "label": "已打开",
+            "trigger": "default",
+            "triggerActivation": {
+              "on": "interact",
+              "range": 1
+            },
+            "animation": {
+              "sprite": "sprite-255",
+              "action": "open",
+              "loop": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

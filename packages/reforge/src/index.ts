@@ -26,6 +26,7 @@ export {
   resolveSpriteActionPosition,
   type SpriteActionPosition,
 } from './entity-action-player.js'
+export { areEntityPositionsNear } from './entity-proximity.js'
 export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw, TilesetFrameRegistry }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 

@@ -28,6 +28,7 @@ function recordingExecutor(overrides: Record<string, unknown> = {}): {
   const base: Record<string, unknown> = {
     dialog: record('dialog'),
     clearDialog: record('clearDialog'),
+    clearFrameAnimation: record('clearFrameAnimation'),
     fade: record('fade'),
     cameraPan: record('cameraPan'),
     cameraSnap: record('cameraSnap'),

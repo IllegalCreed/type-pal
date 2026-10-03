@@ -658,59 +658,7 @@
       },
       "sprite": "sprite-244",
       "hidden": true,
-      "behaviors": {
-        "auto": {
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s020",
-                        "entity": "e343"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 3,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s020",
-                        "entity": "e343"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "label": "赵灵儿（落泪演出）"
     },
     {
       "id": "e344",
@@ -2822,23 +2770,123 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
-                      "kind": "selectEntityBehavior",
+                      "kind": "setEntityFacing",
                       "target": {
                         "scene": "s020",
                         "entity": "e343"
                       },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 3
                     },
                     {
                       "kind": "wait",
-                      "ms": 960
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 4
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 5
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 6
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 7
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 8
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 9
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 10
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 400
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e343"
+                      },
+                      "frame": 11
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 600
                     },
                     {
                       "cue": {
@@ -3399,6 +3447,11 @@
                     {
                       "facing": "up",
                       "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "clearDialog"
@@ -4603,7 +4656,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 40
+                          "ms": 100
                         }
                       ]
                     },
@@ -5700,7 +5753,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -5745,7 +5798,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -5768,7 +5821,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -5813,7 +5866,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -5836,7 +5889,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -5881,7 +5934,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -5948,7 +6001,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -5971,7 +6024,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -5994,7 +6047,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -6039,7 +6092,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -6062,7 +6115,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -6107,7 +6160,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -6152,7 +6205,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -6175,7 +6228,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -6198,7 +6251,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -6243,7 +6296,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -6266,7 +6319,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],

@@ -215,7 +215,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "借五十文翻本",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -223,7 +223,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "初次交互",
+                  "label": "询问是否借钱翻本",
                   "body": [
                     {
                       "kind": "dialog",
@@ -242,6 +242,24 @@
                     {
                       "kind": "confirm",
                       "onYes": [
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "hasMoney",
+                              "atLeast": 50
+                            }
+                          },
+                          "then": [
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stay"
+                              }
+                            }
+                          ]
+                        },
                         {
                           "kind": "giveMoney",
                           "delta": -50
@@ -330,7 +348,7 @@
                 },
                 {
                   "id": "after-checkpoint",
-                  "label": "交互后续 1",
+                  "label": "借钱之后的回应",
                   "body": [
                     {
                       "kind": "dialog",
@@ -360,7 +378,7 @@
                 },
                 {
                   "id": "after-checkpoint-002",
-                  "label": "交互后续 2",
+                  "label": "借钱之后的回应",
                   "body": [
                     {
                       "kind": "dialog",
@@ -386,7 +404,7 @@
                 },
                 {
                   "id": "phase-002",
-                  "label": "交互后续 3",
+                  "label": "询问是否借钱翻本",
                   "body": [
                     {
                       "kind": "dialog",
@@ -409,6 +427,24 @@
                     {
                       "kind": "confirm",
                       "onYes": [
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "hasMoney",
+                              "atLeast": 50
+                            }
+                          },
+                          "then": [
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stay"
+                              }
+                            }
+                          ]
+                        },
                         {
                           "kind": "giveMoney",
                           "delta": -50
@@ -501,7 +537,7 @@
                 },
                 {
                   "id": "continuation-004",
-                  "label": "交互后续 4",
+                  "label": "借钱之后的回应",
                   "body": [
                     {
                       "kind": "dialog",
@@ -622,7 +658,8 @@
             }
           }
         }
-      }
+      },
+      "label": "赌鬼"
     },
     {
       "id": "e537",

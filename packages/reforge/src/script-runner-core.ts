@@ -35,6 +35,13 @@ export interface ScriptRuntimeContext {
   self?: EntityAddress
   timing?: ScriptTiming
   autoMotionCheckpoint?: AutomaticMotionCheckpoint
+  autoCommandCheckpoint?: AutomaticCommandCheckpoint
+}
+
+/** A re-enterable automatic leaf may wait without making the save barrier wait for its owner. */
+export interface AutomaticCommandCheckpoint {
+  ready(): void
+  beginMutation(): Promise<void>
 }
 
 /** Engine-only one-shot commit handshake; never an authored step or persistent function. */
@@ -394,6 +401,10 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
               beginMutation: () => this.beginCheckpointMutation(),
             }
           : undefined
+        const autoCommandCheckpoint: AutomaticCommandCheckpoint | undefined = this
+          .checkpointController
+          ? { ready: publish, beginMutation: () => this.beginCheckpointMutation() }
+          : undefined
         // Absolute target movement can re-enter from the captured live position. A wait may
         // restart its duration; neither repeats a committed reward or relative displacement.
         if (
@@ -412,6 +423,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
             self: this.self,
             timing: this.runningTiming,
             ...(autoMotionCheckpoint ? { autoMotionCheckpoint } : {}),
+            ...(autoCommandCheckpoint ? { autoCommandCheckpoint } : {}),
           },
           this.signal,
         )

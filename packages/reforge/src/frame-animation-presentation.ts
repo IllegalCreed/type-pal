@@ -1,6 +1,7 @@
+import { AsyncIntentController } from './async-intent.js'
 import type { FrameAnimationFrameSnapshot } from './frame-animation-player.js'
 
-export type FrameAnimationPresentationMode = 'idle' | 'playing' | 'buffered' | 'dialogue'
+export type FrameAnimationPresentationMode = 'idle' | 'playing' | 'buffered' | 'held' | 'dialogue'
 
 /**
  * 帧动画在引擎呈现栈中的状态机：世界层在下、Cinematic Layer 居中、对话/UI 层在上。
@@ -9,22 +10,41 @@ export class FrameAnimationPresentationState {
   #frame: FrameAnimationFrameSnapshot | undefined
   #mode: FrameAnimationPresentationMode = 'idle'
   #receivedCurrentFrame = false
+  readonly #intent = new AsyncIntentController()
+  #owner: number | undefined
+  #playing = false
 
-  beginPlayback(fallback?: FrameAnimationFrameSnapshot): void {
+  beginPlayback(fallback?: FrameAnimationFrameSnapshot): number {
+    const owner = this.#intent.begin()
+    this.#owner = owner
+    this.#playing = true
     if (fallback) this.#frame = fallback
     this.#receivedCurrentFrame = false
     this.#mode = 'playing'
+    return owner
   }
 
-  present(frame: FrameAnimationFrameSnapshot): void {
+  isCurrent(owner: number): boolean {
+    return this.#owner === owner && this.#intent.isCurrent(owner)
+  }
+
+  present(frame: FrameAnimationFrameSnapshot, owner: number): boolean {
+    if (!this.isCurrent(owner) || !this.#playing) return false
     this.#frame = frame
     this.#receivedCurrentFrame = true
+    return true
   }
 
-  finishPlayback(): void {
-    if (this.#mode !== 'playing') return
+  finishPlayback(owner: number, options: { succeeded: boolean; holdLastFrame?: boolean }): void {
+    if (!this.isCurrent(owner) || !this.#playing) return
+    this.#playing = false
+    if (!options.succeeded) {
+      this.reset()
+      return
+    }
     if (!this.#receivedCurrentFrame) this.#frame = undefined
-    this.#mode = 'buffered'
+    if (this.#mode !== 'dialogue')
+      this.#mode = options.holdLastFrame && this.#receivedCurrentFrame ? 'held' : 'buffered'
   }
 
   enterDialogue(): void {
@@ -32,6 +52,9 @@ export class FrameAnimationPresentationState {
   }
 
   reset(): void {
+    this.#intent.invalidate()
+    this.#owner = undefined
+    this.#playing = false
     this.#frame = undefined
     this.#receivedCurrentFrame = false
     this.#mode = 'idle'
@@ -46,6 +69,8 @@ export class FrameAnimationPresentationState {
   }
 
   get visibleFrame(): FrameAnimationFrameSnapshot | undefined {
-    return this.#mode === 'playing' || this.#mode === 'dialogue' ? this.#frame : undefined
+    return this.#mode === 'playing' || this.#mode === 'dialogue' || this.#mode === 'held'
+      ? this.#frame
+      : undefined
   }
 }

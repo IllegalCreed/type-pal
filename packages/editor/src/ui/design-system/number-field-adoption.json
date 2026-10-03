@@ -2,9 +2,9 @@
   "version": 1,
   "baseline": {
     "files": 40,
-    "leafCalls": 119,
+    "leafCalls": 120,
     "controls": {
-      "DsNumberInput": 55,
+      "DsNumberInput": 56,
       "DsDraftNumberInput": 27,
       "DsNumberField": 5,
       "DsDraftNumberField": 32
@@ -597,7 +597,7 @@
       "source": "ScriptEditor.tsx",
       "component": "ConditionEditor",
       "match": { "context": "none", "fieldClass": "" },
-      "count": 5,
+      "count": 6,
       "mode": "compact-repeat-row",
       "control": "DsNumberInput",
       "measure": "compact-parent",

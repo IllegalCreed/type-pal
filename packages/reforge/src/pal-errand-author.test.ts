@@ -384,6 +384,7 @@ test('actual village hook awaits the approach, commits the NPC cursor, and relea
       money: () => world.money,
       inParty: () => false,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => true,
     },
     wait: async () => {},

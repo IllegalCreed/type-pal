@@ -2098,6 +2098,11 @@
                     "kind": "playSound"
                   },
                   {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {

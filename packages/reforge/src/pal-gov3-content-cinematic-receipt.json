@@ -1,0 +1,48 @@
+{
+  "source": [
+    2235, 2238, 2239, 2240, 2241, 2242, 2243, 2244, 2245, 2246, 2247, 2248, 2249, 2250, 2260
+  ],
+  "beforeHash": "706093e5c0c6dcafc325b2b6cbaf567546cb478a841711fafce9aec82299e6f0",
+  "afterHash": "a1e4d0e9bfab77b8165607b2d684f9c311c3f24ccb5a62b558eb172a06194547",
+  "ranges": [
+    {
+      "startFrame": 0,
+      "endFrame": 112,
+      "frameRate": 16,
+      "holdLastFrame": true,
+      "initialFadeInMs": 600
+    },
+    {
+      "startFrame": 113,
+      "endFrame": 162,
+      "frameRate": 16,
+      "holdLastFrame": true
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 186,
+      "frameRate": 16,
+      "holdLastFrame": true
+    },
+    {
+      "startFrame": 187,
+      "endFrame": 195,
+      "frameRate": 16,
+      "holdLastFrame": true
+    },
+    {
+      "startFrame": 196,
+      "endFrame": 266,
+      "frameRate": 16,
+      "holdLastFrame": true
+    },
+    {
+      "startFrame": 267,
+      "frameRate": 16,
+      "holdLastFrame": true
+    }
+  ],
+  "clearAfterIndex": 24,
+  "contract": "first complete0..112 initialFadeIn600 before first normal frame duration; hold everysegment/sound gap; explicit clear after finalout before world setup/in",
+  "supersededProposal": "split0..0 rejected because it consumed62.5ms before fade; teleport does not clear cinematic"
+}

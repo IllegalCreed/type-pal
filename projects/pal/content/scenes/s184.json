@@ -252,7 +252,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -260,7 +260,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "up",
@@ -268,7 +268,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "facing": "left",
@@ -276,7 +276,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "facing": "up",
@@ -284,7 +284,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "kind": "moveParty",
@@ -297,7 +297,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -324,7 +324,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "cue": {

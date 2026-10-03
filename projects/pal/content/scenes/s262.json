@@ -181,7 +181,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 40
+                          "ms": 100
                         }
                       ]
                     }
@@ -191,7 +191,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "指引天蛇杖所在",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -425,6 +425,72 @@
                       },
                       "kind": "dialog"
                     }
+                  ],
+                  "label": "指引天蛇杖所在",
+                  "next": "royal-marriage-memory"
+                },
+                {
+                  "id": "royal-marriage-memory",
+                  "label": "追忆两族婚姻",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.11792"
+                          },
+                          {
+                            "text": "dlg.11793"
+                          },
+                          {
+                            "text": "dlg.11794"
+                          },
+                          {
+                            "text": "dlg.11795"
+                          },
+                          {
+                            "text": "dlg.11796"
+                          },
+                          {
+                            "text": "dlg.11797"
+                          },
+                          {
+                            "text": "dlg.11798"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "deliver-staff-reminder"
+                },
+                {
+                  "id": "deliver-staff-reminder",
+                  "label": "催促交回天蛇杖",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.11800"
+                          },
+                          {
+                            "text": "dlg.11801"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
                   ]
                 }
               ]
@@ -499,7 +565,8 @@
             }
           }
         }
-      }
+      },
+      "label": "石长老"
     },
     {
       "id": "e4569",

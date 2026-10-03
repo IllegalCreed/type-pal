@@ -188,6 +188,7 @@ function projectFixture(flow: RuntimeScriptFlow, override: Partial<ProjectScript
       money: () => world.money,
       inParty: () => false,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => true,
     },
     confirm: async () => true,

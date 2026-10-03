@@ -15,6 +15,7 @@ export const AUTHOR_CUSTOM_COMMAND_KINDS = [
   'increaseHpMp',
   'loadLastSave',
   'playFrameAnimation',
+  'clearFrameAnimation',
   'playVideo',
   'quitToTitle',
   'revivePartyAll',

@@ -185,6 +185,7 @@ export async function debugHarness(
       money: () => world.money,
       inParty: (id) => world.party.some((c) => c.template === id),
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => false,
     },
     confirm: async () => true,

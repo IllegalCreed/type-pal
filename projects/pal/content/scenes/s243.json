@@ -2465,7 +2465,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 480
+                    "ms": 1200
                   },
                   {
                     "kind": "setSceneMapOverride",
@@ -2477,7 +2477,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1000
+                    "ms": 2500
                   },
                   {
                     "asset": "sound.pal.256",
@@ -2517,7 +2517,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "kind": "setEntityState",
@@ -2553,7 +2553,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 240
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityState",
@@ -2577,7 +2577,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1200
+                    "ms": 3000
                   },
                   {
                     "asset": "sound.pal.256",

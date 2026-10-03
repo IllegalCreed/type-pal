@@ -1,0 +1,915 @@
+{
+  "sourceCandidate": "build/gov3-motion-candidates/receipt.json",
+  "s005": "deferred pending Root protected-binding decision",
+  "files": [
+    {
+      "scene": "s014",
+      "beforeHash": "475d76cff28821e2f368979471e48551dfa9fe6deb1beb5c7a4f0110d9f3dc07",
+      "afterHash": "fe01cfa2d280d07fdce5b9d27faac740eb019c2bfef719d6c72a01cc54424a86",
+      "bindings": [
+        {
+          "key": "s014/e203/default",
+          "sourceEntry": "L_36140",
+          "before": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
+          },
+          "after": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s100",
+      "beforeHash": "851497d71b1289ef06810bf7d72e9ee82075bdf7d1f532d1e34310c224554b8e",
+      "afterHash": "4e0c76ea57228db70329f07042c5cd11151fd6ee4833833fc1f0a9b3ebaede7e",
+      "bindings": [
+        {
+          "key": "s100/e1802/default",
+          "sourceEntry": "L_36140",
+          "before": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
+          },
+          "after": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true
+          }
+        },
+        {
+          "key": "s100/e1803/default",
+          "sourceEntry": "L_36140",
+          "before": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
+          },
+          "after": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true
+          }
+        },
+        {
+          "key": "s100/e1804/default",
+          "sourceEntry": "L_36140",
+          "before": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
+          },
+          "after": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true
+          }
+        },
+        {
+          "key": "s100/e1832/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s111",
+      "beforeHash": "5df7bd688692cfc5456fd1351c483cd47cf5c9845abfdf08f3e70af1239d9ad9",
+      "afterHash": "933fdc2137aaf5b1f845aff20199fb3d01b1ea80bfe85a4eed389f4b3c06c8c6",
+      "bindings": [
+        {
+          "key": "s111/e2072/default",
+          "sourceEntry": "L_36140",
+          "before": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
+          },
+          "after": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s058",
+      "beforeHash": "fd98c8ec73322750eb36fa24edab080e7ebb5756cad5798d8fde1acb739a2762",
+      "afterHash": "38dc426c92ade532760626050ac3436f92028cb80105aee36ea01cb8b7cb430a",
+      "bindings": [
+        {
+          "key": "s058/e946/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s058/e948/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        },
+        {
+          "key": "s058/e950/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s058/e951/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        },
+        {
+          "key": "s058/e952/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s159",
+      "beforeHash": "6fa73358aec88d9618910f7ad0533561dd6a52f10de76e801a9d71aa0be02856",
+      "afterHash": "7ef3c1487da2e743c77e1f17143f4334ddbf3ee0ae4df7ef27ae6ea7d9b3ba04",
+      "bindings": [
+        {
+          "key": "s159/e2656/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        },
+        {
+          "key": "s159/e2657/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s159/e2659/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s159/e2660/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        },
+        {
+          "key": "s159/e2663/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s159/e2665/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        },
+        {
+          "key": "s159/e2667/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s159/e2668/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        },
+        {
+          "key": "s159/e2669/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s159/e2670/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 100
+          }
+        },
+        {
+          "key": "s159/e2672/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s022",
+      "beforeHash": "436a49432ff764af50bd45c615a5d03c761e25d3824cb2cd8acacc1f6805bc3a",
+      "afterHash": "1dddb8d0fabc3a761d62b06d57396721eed3d461e63da289572228609ae16f28",
+      "bindings": [
+        {
+          "key": "s022/e407/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-76",
+            "action": "pal-auto-v1-81995fd3c098696d",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-76",
+            "action": "pal-auto-v1-81995fd3c098696d",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s027",
+      "beforeHash": "7d0c88316d12606fa4518a405c524367c76c158d0650e1ffa0e173ecfdd87ae9",
+      "afterHash": "068a75f6ff57194ffd99b49b5b6c299bc9e9d4ab016ce1d9ac42faa5526298db",
+      "bindings": [
+        {
+          "key": "s027/e517/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s102",
+      "beforeHash": "8a8be44757b16f4fad895b8ea90f333111f346fb2f271932f273d3ca70480ede",
+      "afterHash": "9dcf69f43ad6c03bfd7c2ea8ff7100a6741b9d84a7491275ee4c67ae279968d1",
+      "bindings": [
+        {
+          "key": "s102/e1885/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s132",
+      "beforeHash": "c714b3dfc42f8e940c7eb9ba95d1f625ad049b26350807d39faebdb73d02c822",
+      "afterHash": "bb86f77c14fc1ea29a209375228deca7eaae4249c78bd52513a5b66f5996f5b4",
+      "bindings": [
+        {
+          "key": "s132/e2306/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true
+          }
+        },
+        {
+          "key": "s132/e2311/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s034",
+      "beforeHash": "732f1ea29e834e23f40e1936de43f25c754206e46fd01d0b82ffe6c6b3e2554a",
+      "afterHash": "8d3dd7527450e18552e0e94281a0f2a9ddf1614136f42b264debcf316ecf4464",
+      "bindings": [
+        {
+          "key": "s034/e579/default",
+          "sourceEntry": "L_35651",
+          "before": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 200
+          },
+          "after": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true
+          }
+        },
+        {
+          "key": "s034/e580/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 100
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s038",
+      "beforeHash": "6412827fa60189689e88e95c8ace9c327eaab099f94260c088b328f20a9b14eb",
+      "afterHash": "85b0f572e04f56971a4c20623776e497fe43c933fb8efe72cebb15143cfb2817",
+      "bindings": [
+        {
+          "key": "s038/e625/default",
+          "sourceEntry": "L_35650",
+          "before": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true
+          },
+          "after": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 200
+          }
+        },
+        {
+          "key": "s038/e626/default",
+          "sourceEntry": "L_35652",
+          "before": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 400
+          },
+          "after": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 100
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s089",
+      "beforeHash": "5ef510014ad652f89e2aa8c444ae857232735d0b1c1ceafdc813a548dfbd595c",
+      "afterHash": "46249627a1a14bbf79ae2f11abe61d8f3adc23dec51d6ad52d8eca0f404bcaa4",
+      "bindings": [
+        {
+          "key": "s089/e1661/default",
+          "sourceEntry": "L_35650",
+          "before": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true
+          },
+          "after": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 200
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s090",
+      "beforeHash": "5e2b222c332fadc20a942a3bc220a6ec30302655d3889139daa72152d54838fd",
+      "afterHash": "a185dabdfb3e14b45396c2dd9d6c60df5714d1e28c366988e064889ee876cac3",
+      "bindings": [
+        {
+          "key": "s090/e1664/default",
+          "sourceEntry": "L_35650",
+          "before": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true
+          },
+          "after": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 200
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s068",
+      "beforeHash": "b4bb6dcbdc6748bf8af501951e2da9d546e14d3baf7517b6a3841a8e35f25427",
+      "afterHash": "3c97edc28473336bdcbff474928b96503b68547a75eb5a8939efac8c967f8af1",
+      "bindings": [
+        {
+          "key": "s068/e1368/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true
+          }
+        },
+        {
+          "key": "s068/e1369/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s069",
+      "beforeHash": "a3a8665775109278617b89de572837957ec3818bf337e161e85a532529e612d8",
+      "afterHash": "05b20b74a82357c28313c5b25aebbc4605ddd54ce78f1d3307df276673d3fdc8",
+      "bindings": [
+        {
+          "key": "s069/e1373/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true
+          }
+        },
+        {
+          "key": "s069/e1374/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s096",
+      "beforeHash": "126f9cd4c64980386c99f969fd805f085c282e7c661dbd4226aac57eef5d6fea",
+      "afterHash": "f32919ad492945d5809aba4fd814e747a3b2af9b62d21f5ff9132d75dac6ac85",
+      "bindings": [
+        {
+          "key": "s096/e1771/default",
+          "sourceEntry": "L_36473",
+          "before": {
+            "sprite": "sprite-368",
+            "action": "pal-auto-v1-8f177ccaeb5ae162",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-368",
+            "action": "pal-auto-v1-8f177ccaeb5ae162",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s208",
+      "beforeHash": "b451ad6864b43849d58489d98b052e64b7a2aa5fe47529b54311775fa5f2601e",
+      "afterHash": "99e1237614749bae29f18d40a198388641555155c4854343b77b09bd880ccbfe",
+      "bindings": [
+        {
+          "key": "s208/e3554/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-78",
+            "action": "pal-auto-v1-7a51cc59d95d3a88",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-78",
+            "action": "pal-auto-v1-7a51cc59d95d3a88",
+            "loop": true
+          }
+        },
+        {
+          "key": "s208/e3555/default",
+          "sourceEntry": "L_35624",
+          "before": {
+            "sprite": "sprite-77",
+            "action": "pal-auto-v1-164f35fd7bd36b14",
+            "loop": true,
+            "startAtMs": 240
+          },
+          "after": {
+            "sprite": "sprite-77",
+            "action": "pal-auto-v1-164f35fd7bd36b14",
+            "loop": true
+          }
+        }
+      ]
+    },
+    {
+      "scene": "s231",
+      "beforeHash": "b9afaf89a52a6550c80ecd53db13948a9377f8506ebb3f659a726eacfcbb538a",
+      "afterHash": "e65a41fb11b36455ac5cb87a4035c57bc80b17adf2b5ed43220b865a201274f3",
+      "bindings": [
+        {
+          "key": "s231/e4145/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4148/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4150/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4151/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4153/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4155/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4146/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4147/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4149/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4152/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true
+          }
+        },
+        {
+          "key": "s231/e4154/default",
+          "sourceEntry": "L_36731",
+          "before": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
+          },
+          "after": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true
+          }
+        }
+      ]
+    }
+  ]
+}

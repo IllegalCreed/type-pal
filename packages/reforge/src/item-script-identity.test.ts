@@ -132,6 +132,7 @@ test('real item executor and script runtime distinguish shared/private flags and
           money: () => 0,
           inParty: () => false,
           entityInScene: () => false,
+          entitiesNear: () => false,
           facingEntity: () => false,
         },
         confirm: async () => true,

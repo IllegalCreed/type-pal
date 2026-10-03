@@ -152,7 +152,7 @@
           "animation": {
             "sprite": "sprite-242",
             "action": "pal-auto-v1-0cea4891241e76a8",
-            "loop": true
+            "loop": false
           }
         }
       ],
@@ -267,7 +267,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 360
+                    "ms": 900
                   },
                   {
                     "cue": {

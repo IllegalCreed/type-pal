@@ -239,7 +239,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "遭遇敌群与战后清场",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -258,6 +258,12 @@
                             "entity": "e728"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -300,6 +306,12 @@
                         },
                         {
                           "kind": "loadLastSave"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "enemyTeamId": "team-55"
@@ -316,8 +328,14 @@
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     }
-                  ]
+                  ],
+                  "label": "战斗及结果收尾"
                 }
               ]
             }
@@ -384,7 +402,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "遭遇敌群与战后清场",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -403,6 +421,12 @@
                             "entity": "e729"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -445,6 +469,12 @@
                         },
                         {
                           "kind": "loadLastSave"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "enemyTeamId": "team-234"
@@ -461,8 +491,14 @@
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     }
-                  ]
+                  ],
+                  "label": "战斗及结果收尾"
                 }
               ]
             }
@@ -529,7 +565,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "遭遇敌群与战后清场",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -548,6 +584,12 @@
                             "entity": "e730"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -590,6 +632,12 @@
                         },
                         {
                           "kind": "loadLastSave"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "enemyTeamId": "team-52"
@@ -606,8 +654,14 @@
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     }
-                  ]
+                  ],
+                  "label": "战斗及结果收尾"
                 }
               ]
             }
@@ -722,7 +776,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "遭遇敌群与战后清场",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -741,6 +795,12 @@
                             "entity": "e733"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -783,6 +843,12 @@
                         },
                         {
                           "kind": "loadLastSave"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "enemyTeamId": "team-50"
@@ -799,8 +865,14 @@
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     }
-                  ]
+                  ],
+                  "label": "战斗及结果收尾"
                 }
               ]
             }
@@ -867,7 +939,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "遭遇敌群与战后清场",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -886,6 +958,12 @@
                             "entity": "e734"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -928,6 +1006,12 @@
                         },
                         {
                           "kind": "loadLastSave"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "enemyTeamId": "team-301"
@@ -944,8 +1028,14 @@
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     }
-                  ]
+                  ],
+                  "label": "战斗及结果收尾"
                 }
               ]
             }
@@ -1134,7 +1224,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "遭遇敌群与战后清场",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1153,6 +1243,12 @@
                             "entity": "e740"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -1195,6 +1291,12 @@
                         },
                         {
                           "kind": "loadLastSave"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "enemyTeamId": "team-119"
@@ -1211,8 +1313,14 @@
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     }
-                  ]
+                  ],
+                  "label": "战斗及结果收尾"
                 }
               ]
             }

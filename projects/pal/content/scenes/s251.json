@@ -235,6 +235,11 @@
                     "sprite": "sprite-193"
                   },
                   {
+                    "kind": "setActorAppearance",
+                    "actor": "wu-hou",
+                    "spriteId": "wu-hou"
+                  },
+                  {
                     "kind": "setParty",
                     "members": [
                       "li-xiaoyao"
@@ -306,6 +311,11 @@
                     "actor": "li-xiaoyao",
                     "kind": "setActorSprite",
                     "sprite": "li-xiaoyao"
+                  },
+                  {
+                    "kind": "setActorAppearance",
+                    "actor": "li-xiaoyao",
+                    "spriteId": "li-xiaoyao"
                   },
                   {
                     "facing": "left",

@@ -179,6 +179,11 @@
                       }
                     },
                     {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
@@ -332,6 +337,11 @@
                     {
                       "kind": "fade",
                       "dir": "out",
+                      "ms": 600
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
                       "ms": 600
                     },
                     {
@@ -1419,7 +1429,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 500
                     },
                     {
                       "facing": "right",
@@ -1859,6 +1869,11 @@
                         "kind": "use",
                         "value": "legacy-001"
                       }
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "clearDialog"

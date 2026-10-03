@@ -130,7 +130,8 @@
           "animation": {
             "sprite": "sprite-9",
             "action": "pal-auto-v1-47e35d5d733ff36b",
-            "loop": true
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ],

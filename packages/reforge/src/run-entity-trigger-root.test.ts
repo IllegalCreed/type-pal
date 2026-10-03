@@ -74,6 +74,7 @@ function fixture(bodies: Record<string, RuntimeCommand[]>) {
       money: () => 0,
       inParty: () => false,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => true,
     },
     wait: async () => {},

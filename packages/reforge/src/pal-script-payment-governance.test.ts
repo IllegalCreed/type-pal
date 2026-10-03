@@ -103,6 +103,7 @@ function harness(entry: PaymentCase, world: WorldState) {
       money: () => world.money,
       inParty: () => false,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => true,
     },
     confirm: async () => {

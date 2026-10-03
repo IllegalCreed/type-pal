@@ -38,6 +38,7 @@ import type {
   StepEvent,
 } from '@type-pal/reforge'
 import {
+  areEntityPositionsNear,
   executeScriptHostEffect,
   type RuntimeScriptRunner,
   ScriptProjectRuntime,
@@ -418,6 +419,10 @@ export class Playback {
           inParty: (actorId) => this.host.query.inParty(actorId),
           entityInScene: (target) =>
             target.scene === runtimeScene.id && this.host.query.entityInScene(target.entity),
+          entitiesNear: (from, to, range) =>
+            from.scene === runtimeScene.id &&
+            to.scene === runtimeScene.id &&
+            this.host.query.entitiesNear(from.entity, to.entity, range),
           facingEntity: (target, range) =>
             target.scene === runtimeScene.id && this.host.query.facingEntity(target.entity, range),
         },
@@ -923,6 +928,7 @@ export class Playback {
             : '') +
           '(编辑器预览桩)',
       ),
+    clearFrameAnimation: () => this.log('🧹 清除帧动画画面'),
     openShop: async (shop, mode) => this.log(`🏪 商店 #${shop}(${mode === 'buy' ? '买' : '卖'})`),
     confirm: (signal) => this.requestConfirm(signal),
     query: {
@@ -933,6 +939,8 @@ export class Playback {
       allFullHp: () => true,
       itemEquipped: () => false,
       entityInScene: () => true,
+      entitiesNear: (from, to, range) =>
+        areEntityPositionsNear(this.entityPos(from), this.entityPos(to), range),
       facingEntity: () => false,
     },
     report: (msg) => this.log(`⚠ ${msg}`),

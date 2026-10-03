@@ -818,32 +818,46 @@ export function App(props: {
     })
     confirmReferenceLocation()
   }
-  const openProjectSceneReference = (sceneId: string, entityId?: string): boolean => {
-    const currentState = session.getState()
-    const targetScene = currentState.scenes.find((candidate) => candidate.id === sceneId)
-    if (!targetScene) {
-      setWorkspaceNotice({
-        kind: 'error',
-        message: `引用位置已变化：场景 ${sceneId} 不再存在。`,
-      })
-      return false
-    }
-    if (entityId && !targetScene.entities.some((entity) => entity.id === entityId)) {
-      setWorkspaceNotice({
-        kind: 'error',
-        message: `引用位置已变化：场景 ${sceneId} 中的实体 ${entityId} 不再存在。`,
-      })
-      return false
-    }
-    setWorkspaceNotice(undefined)
-    setCanonicalOwnerFocus(undefined)
-    setPlaceSceneId(sceneId)
-    setPlacingEntity(false)
-    setSelected(entityId ? { kind: 'entity', id: entityId } : SCENE_SELECTION)
-    setInspectorCollapsed(false)
-    applyEditorLocation(editorLinks.scene(sceneId))
-    return true
-  }
+  const [inspectorCollapsed, setInspectorCollapsed] = useStoredPanelBoolean(
+    'type-pal:editor:layout-v2:inspector-collapsed',
+    false,
+  )
+  const openProjectSceneReference = useCallback(
+    (sceneId: string, entityId?: string): boolean => {
+      const currentState = session.getState()
+      const targetScene = currentState.scenes.find((candidate) => candidate.id === sceneId)
+      if (!targetScene) {
+        setWorkspaceNotice({
+          kind: 'error',
+          message: `引用位置已变化：场景 ${sceneId} 不再存在。`,
+        })
+        return false
+      }
+      if (entityId && !targetScene.entities.some((entity) => entity.id === entityId)) {
+        setWorkspaceNotice({
+          kind: 'error',
+          message: `引用位置已变化：场景 ${sceneId} 中的实体 ${entityId} 不再存在。`,
+        })
+        return false
+      }
+      setWorkspaceNotice(undefined)
+      setCanonicalOwnerFocus(undefined)
+      setPlaceSceneId(sceneId)
+      setPlacingEntity(false)
+      setSelected(entityId ? { kind: 'entity', id: entityId } : SCENE_SELECTION)
+      setInspectorCollapsed(false)
+      applyEditorLocation(editorLinks.scene(sceneId))
+      return true
+    },
+    [
+      session,
+      setPlaceSceneId,
+      setPlacingEntity,
+      setSelected,
+      setInspectorCollapsed,
+      applyEditorLocation,
+    ],
+  )
   const rejectChangedProjectReference = (label: string, id: string): void =>
     setWorkspaceNotice({
       kind: 'error',
@@ -1352,6 +1366,9 @@ export function App(props: {
       }),
       worldVariables: state.worldVariables,
       onOpenScript: openSharedScript,
+      onOpenEntity: (target) => {
+        openProjectSceneReference(target.scene, target.entity)
+      },
       onOpenWorldVariable: (id) => applyEditorLocation(editorLinks.variable(id)),
       onOpenSound: (id) => applyEditorLocation(editorLinks.sound(id)),
       onOpenImage: (id) => applyEditorLocation(editorLinks.image(id)),
@@ -1385,6 +1402,7 @@ export function App(props: {
     state.worldVariables,
     applyEditorLocation,
     openSharedScript,
+    openProjectSceneReference,
   ])
   const leaderSpriteId = actorsById[defaultEntry?.startWorld.party[0] ?? '']?.spriteId
   const [bodyWidth, setBodyWidth] = useState(0)
@@ -1400,10 +1418,6 @@ export function App(props: {
   )
   const [outlinerCollapsed, setOutlinerCollapsed] = useStoredPanelBoolean(
     'type-pal:editor:layout-v2:outliner-collapsed',
-    false,
-  )
-  const [inspectorCollapsed, setInspectorCollapsed] = useStoredPanelBoolean(
-    'type-pal:editor:layout-v2:inspector-collapsed',
     false,
   )
   const scriptPanelAvailable = location.module === 'scene' && location.subpage === 'workspace'
@@ -2308,6 +2322,7 @@ export function App(props: {
             playIdentity={playIdentity}
             onBattleTrial={setTrialSubject}
             onJumpToEvent={jumpToEvent}
+            onOpenEntity={canonicalScriptEditorContext?.onOpenEntity}
             focusScriptId={activeSubpage.dataPage === 'scripts' ? location.objectId : undefined}
             focusScriptRevision={
               sharedScriptFocus && sharedScriptFocus.id === location.objectId

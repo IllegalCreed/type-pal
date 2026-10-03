@@ -345,16 +345,15 @@
                     {
                       "entryId": "pal-entry-ca44a0c9",
                       "kind": "loadScene",
-                      "scene": "s186"
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dir": "out",
-                      "kind": "fade",
-                      "ms": 600
+                      "scene": "s186",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-25955"
+                      },
+                      "facing": "right"
                     }
                   ]
                 }

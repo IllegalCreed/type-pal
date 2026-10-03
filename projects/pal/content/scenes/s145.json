@@ -182,7 +182,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -202,7 +202,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "dx": -8,
@@ -211,7 +211,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "dx": -8,
@@ -220,7 +220,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -290,7 +290,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -298,7 +298,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "cue": {
@@ -347,16 +347,18 @@
                     },
                     {
                       "kind": "loadScene",
-                      "scene": "s169"
+                      "scene": "s169",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 1200,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-23971"
+                      }
                     },
                     {
                       "asset": "music.pal.022",
                       "kind": "playMusic"
-                    },
-                    {
-                      "dir": "out",
-                      "kind": "fade",
-                      "ms": 1200
                     }
                   ]
                 }

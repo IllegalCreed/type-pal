@@ -65,6 +65,7 @@ export function wave2ProjectHarness(
       allFullHp: () => true,
       inParty: () => false,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => false,
     },
     confirm: async () => true,

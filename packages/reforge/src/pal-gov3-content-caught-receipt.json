@@ -1,0 +1,12 @@
+{
+  "scene": "s048",
+  "entity": "e796",
+  "source": [10427, 10428, 10429, 10430, 10431, 10432],
+  "oldFrame16Hash": "1ffc8370f8f93a588b90a5f544d5a396d1ba409606df3275d19513424035dce9",
+  "persistence": "caught page selected immediately after P1 frame16 and SFX14; trigger legacy-001 retains item gain, facing/frame0, and hide order; source plain-end is preserved and the post-reward e796 state=0 gate makes repeat manual interaction unavailable",
+  "afterSceneSha256": "7b17b509697092c9f052dd2ea7847304c184667c7269521eeb623944a090f8dd",
+  "correction": {
+    "previousAfterSceneSha256": "f4afa218eaad4bdbea71f8985aaa64d3745f69599ad9499bc751b6ffc8e01881",
+    "reason": "caught page trigger activation is explicitly interact/range1 so selecting the page does not silently restore the default touch/range3 activation"
+  }
+}

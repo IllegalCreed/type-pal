@@ -62,6 +62,8 @@ export function describeScriptCondition(
       return `${entityLabel(c.entity)} 状态 = ${c.is}`
     case 'entityInScene':
       return `${entityLabel(c.entity)} 在本场景`
+    case 'entitiesNear':
+      return `${entityLabel(c.from)} 与 ${entityLabel(c.to)} 距离小于 ${c.range} 格`
     case 'chance':
       return `${c.percent}% 概率`
     case 'hasItem':
@@ -176,8 +178,10 @@ export function describeScriptCommand(
       return {
         icon: '🎞',
         label: `播放帧动画 ${references.label('asset', cmd.asset)}`,
-        detail: `${cmd.startFrame ?? 0}..${cmd.endFrame ?? '末帧'}${cmd.frameRate ? ` · ${cmd.frameRate}fps` : ''}`,
+        detail: `${cmd.startFrame ?? 0}..${cmd.endFrame ?? '末帧'}${cmd.frameRate ? ` · ${cmd.frameRate}fps` : ''}${cmd.initialFadeInMs !== undefined ? ` · 首帧淡入 ${cmd.initialFadeInMs}ms` : ''}${cmd.holdLastFrame ? ' · 保留末帧' : ''}`,
       }
+    case 'clearFrameAnimation':
+      return { icon: '🧹', label: '清除帧动画画面', detail: '回到世界画面' }
     case 'wait':
       return { icon: '⏱', label: `等待 ${cmd.ms}ms` }
     case 'teleportParty':

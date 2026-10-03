@@ -681,7 +681,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "怡红院收费与谢绝",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -689,7 +689,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "初次交互",
+                  "label": "确认二千文入房",
                   "body": [
                     {
                       "kind": "dialog",
@@ -742,6 +742,12 @@
                                   "kind": "unbound",
                                   "speaker": "spk.老鸨"
                                 }
+                              }
+                            },
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stay"
                               }
                             }
                           ]
@@ -1114,7 +1120,8 @@
             }
           }
         }
-      }
+      },
+      "label": "老鸨"
     },
     {
       "id": "e2293",
@@ -1174,7 +1181,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "指引莺莺房间",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1211,7 +1218,33 @@
                         "value": "legacy-001"
                       }
                     }
-                  ]
+                  ],
+                  "label": "指引莺莺房间",
+                  "next": "room-warning"
+                },
+                {
+                  "id": "room-warning",
+                  "label": "提醒不要闯入其他房间",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.6170"
+                          },
+                          {
+                            "text": "dlg.6171"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "initial"
                 }
               ]
             }
@@ -1649,7 +1682,8 @@
             }
           }
         }
-      }
+      },
+      "label": "茶水小妹"
     },
     {
       "id": "e2294",

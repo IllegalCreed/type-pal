@@ -1,0 +1,614 @@
+{
+  "scope": "35 Content-owned world recovery sites; 4 Motion-owned sites delegated; cinematic entrance pending hold/clear",
+  "sourceAcceptance": "Root directly read all source out-to-first-presentation sequences and approved39 world rows",
+  "receipts": [
+    {
+      "scene": "s001",
+      "beforeHash": "a31f9999c6c91442491f28feb2f7a890940203db49809564f68bcaaf50b48899",
+      "afterHash": "f460df59b5debdfcf190c20c7809b2196ab34eff96cd34b97c27fdc0e26a2e25",
+      "rows": [
+        {
+          "key": "s001/e7/default/initial",
+          "sourceFadeIp": 166,
+          "sourceFirstPresentationIp": 172,
+          "beforePath": "body/20",
+          "recoveryBeforeIndex": 26,
+          "anchor": {
+            "kind": "repeat",
+            "count": 4,
+            "body": [
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "dx": -4,
+                "dy": -2,
+                "kind": "nudgeEntity",
+                "target": {
+                  "scene": "s001",
+                  "entity": "e8"
+                }
+              },
+              {
+                "kind": "animEntity",
+                "target": {
+                  "scene": "s001",
+                  "entity": "e8"
+                }
+              }
+            ]
+          },
+          "dependency": null
+        },
+        {
+          "key": "s001/e7/legacy-001/initial",
+          "sourceFadeIp": 166,
+          "sourceFirstPresentationIp": 172,
+          "beforePath": "body/20",
+          "recoveryBeforeIndex": 26,
+          "anchor": {
+            "kind": "repeat",
+            "count": 4,
+            "body": [
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "dx": -4,
+                "dy": -2,
+                "kind": "nudgeEntity",
+                "target": {
+                  "scene": "s001",
+                  "entity": "e8"
+                }
+              },
+              {
+                "kind": "animEntity",
+                "target": {
+                  "scene": "s001",
+                  "entity": "e8"
+                }
+              }
+            ]
+          },
+          "dependency": null
+        },
+        {
+          "key": "s001/e27/default/initial",
+          "sourceFadeIp": 2507,
+          "sourceFirstPresentationIp": 2513,
+          "beforePath": "body/6",
+          "recoveryBeforeIndex": 12,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s002",
+      "beforeHash": "008bdf4f603816b5cf74eb4fd1cb6286e0bfd66da5659b4c99e3d700d609977d",
+      "afterHash": "b84b0c4fec7495b41a1b4d41f412b036a75ee3c1908bdb7066a864ef11c4c3e3",
+      "rows": [
+        {
+          "key": "s002/e35/default/initial",
+          "sourceFadeIp": 1064,
+          "sourceFirstPresentationIp": 1067,
+          "beforePath": "body/14",
+          "recoveryBeforeIndex": 18,
+          "anchor": {
+            "kind": "wait",
+            "ms": 120
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s005",
+      "beforeHash": "5da875ebbf53fce51a71b17116d88f9787c5db645de310d458707c5c13351622",
+      "afterHash": "13c697bcbb343efa71e91edede690d08adad827166d2ca39c7d02246adcaa0c2",
+      "rows": [
+        {
+          "key": "s005/e125/legacy-001/initial",
+          "sourceFadeIp": 3500,
+          "sourceFirstPresentationIp": 3507,
+          "beforePath": "body/6",
+          "recoveryBeforeIndex": 13,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s008",
+      "beforeHash": "45389cc2c6a2eb28c5749d792faecd2db165e928964a90533dbe40d2a7826c1c",
+      "afterHash": "c124fca6ffae0441b2c2514e647208419ed0fe82851ec78f482696256f84d2a8",
+      "rows": [
+        {
+          "key": "s008/hook/legacy-001/initial",
+          "sourceFadeIp": 2134,
+          "sourceFirstPresentationIp": 2138,
+          "beforePath": "body/8",
+          "recoveryBeforeIndex": 13,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s019",
+      "beforeHash": "38f5ef87f6851a9c0bcbaa6c4ac1ea4bee29b61c4c23f9ac6fa46e1bd69f42e4",
+      "afterHash": "583babdb34e69e4ee7d4d4b66e7b5d05150aec32c0652ad27de1669c66459b76",
+      "rows": [
+        {
+          "key": "s019/hook/legacy-001/initial",
+          "sourceFadeIp": 4924,
+          "sourceFirstPresentationIp": 4930,
+          "beforePath": "body/9",
+          "recoveryBeforeIndex": 15,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s011",
+      "beforeHash": "566af5625ee00107077011ffc906919f23754079ba6b0e424d9ddc29f62a5f32",
+      "afterHash": "706093e5c0c6dcafc325b2b6cbaf567546cb478a841711fafce9aec82299e6f0",
+      "rows": [
+        {
+          "key": "s011/e195/default/initial",
+          "sourceFadeIp": 2249,
+          "sourceFirstPresentationIp": 2260,
+          "beforePath": "body/24",
+          "recoveryBeforeIndex": 35,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": "clearFrameAnimation before world setup still required"
+        }
+      ]
+    },
+    {
+      "scene": "s021",
+      "beforeHash": "87c7840bfa53b84c5709c9a85910bb10b5a521f4d20e69fadafe2f9627a728b4",
+      "afterHash": "e8984542167c367f5fe641475fe4e174d805b258fc5ef7fd4e611f75b367366b",
+      "rows": [
+        {
+          "key": "s021/e396/default/initial",
+          "sourceFadeIp": 6105,
+          "sourceFirstPresentationIp": 6107,
+          "beforePath": "body/109",
+          "recoveryBeforeIndex": 111,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s026",
+      "beforeHash": "597f75ea3c9779d08e8bd5006ffd1b23ff1ab5621645a5e1a5a68952110b292f",
+      "afterHash": "615eee0ed10cd9c21520892112232418fca12ffa31969ebb2d4d452909920acb",
+      "rows": [
+        {
+          "key": "s026/hook/legacy-001/initial",
+          "sourceFadeIp": 6811,
+          "sourceFirstPresentationIp": 6815,
+          "beforePath": "body/17",
+          "recoveryBeforeIndex": 21,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        },
+        {
+          "key": "s026/hook/legacy-001/initial",
+          "sourceFadeIp": 6821,
+          "sourceFirstPresentationIp": 6839,
+          "beforePath": "body/23",
+          "recoveryBeforeIndex": 41,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s034",
+      "beforeHash": "8d3dd7527450e18552e0e94281a0f2a9ddf1614136f42b264debcf316ecf4464",
+      "afterHash": "7b2d761a13e8a58c8792e472acdd7dd97ee0a792e0245d799608feccc262f1fa",
+      "rows": [
+        {
+          "key": "s034/e573/legacy-001/initial",
+          "sourceFadeIp": 8712,
+          "sourceFirstPresentationIp": 8718,
+          "beforePath": "body/43",
+          "recoveryBeforeIndex": 48,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s048",
+      "beforeHash": "4e4656eeb8cf92f9c1d262d2793874f6715f3bf52550625755aba60bfd15681f",
+          "afterHash": "7b17b509697092c9f052dd2ea7847304c184667c7269521eeb623944a090f8dd",
+      "rows": [
+        {
+          "key": "s048/e796/legacy-001/initial",
+          "sourceFadeIp": 10439,
+          "sourceFirstPresentationIp": 10442,
+          "beforePath": "body/2",
+          "recoveryBeforeIndex": 6,
+          "anchor": {
+            "kind": "wait",
+            "ms": 480
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s049",
+      "beforeHash": "f70a4411796d5b65935830c3fcf46541f674ddf9d20bf1c025098291119ba028",
+      "afterHash": "92ed5cb43f3d089c6183812e4edeaebb2e39cd79961a47d89ef1915263e5822a",
+      "rows": [
+        {
+          "key": "s049/e830/c8-399fa4daabe1/main",
+          "sourceFadeIp": 9951,
+          "sourceFirstPresentationIp": 9956,
+          "beforePath": "body/0",
+          "recoveryBeforeIndex": 5,
+          "anchor": {
+            "kind": "wait",
+            "ms": 320
+          },
+          "dependency": null
+        },
+        {
+          "key": "s049/e830/c8-399fa4daabe1/main",
+          "sourceFadeIp": 10024,
+          "sourceFirstPresentationIp": 10031,
+          "beforePath": "body/65",
+          "recoveryBeforeIndex": 72,
+          "anchor": null,
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s052",
+      "beforeHash": "19632202d52e98bd1ec375f0f57743729c1f79482416b6db1f0176c794249137",
+      "afterHash": "fb9ef1070c736058ba9abeef859615179a1d2c2963dbb465ef24a3043642cd78",
+      "rows": [
+        {
+          "key": "s052/e897/legacy-001/phase-002",
+          "sourceFadeIp": 10291,
+          "sourceFirstPresentationIp": 10292,
+          "beforePath": "body/2/else/0/else/0/else/1",
+          "recoveryBeforeIndex": 2,
+          "anchor": {
+            "kind": "wait",
+            "ms": 40
+          },
+          "dependency": null
+        },
+        {
+          "key": "s052/e897/legacy-001/phase-003",
+          "sourceFadeIp": 10291,
+          "sourceFirstPresentationIp": 10292,
+          "beforePath": "body/2/else/0/else/0/else/1",
+          "recoveryBeforeIndex": 2,
+          "anchor": {
+            "kind": "wait",
+            "ms": 40
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s053",
+      "beforeHash": "9a96c8967f174ae8213db0eca37143f537ab2ac4681ba6e6d8dc63f2987a7813",
+      "afterHash": "822167ae48a149be373a601ea14990d93f6ac7ae4da3cc155a3ac7427f3de875",
+      "rows": [
+        {
+          "key": "s053/e904/c8-a962aeca50ea/main",
+          "sourceFadeIp": 10461,
+          "sourceFirstPresentationIp": 10465,
+          "beforePath": "body/3",
+          "recoveryBeforeIndex": 8,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        },
+        {
+          "key": "s053/e904/c8-a962aeca50ea/main",
+          "sourceFadeIp": 10487,
+          "sourceFirstPresentationIp": 10488,
+          "beforePath": "body/25",
+          "recoveryBeforeIndex": 26,
+          "anchor": {
+            "kind": "wait",
+            "ms": 40
+          },
+          "dependency": null
+        },
+        {
+          "key": "s053/e906/default/initial",
+          "sourceFadeIp": 10760,
+          "sourceFirstPresentationIp": 10766,
+          "beforePath": "body/0",
+          "recoveryBeforeIndex": 6,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s077",
+      "beforeHash": "8edd13cc58079bfb580e2be2e0feb57872aa60b0519ae0d6fa5b6591a3b9a13a",
+      "afterHash": "ee4b4a7a8c753d155dcf195bbd8a7dc54ac857492230018e50748fca2292e809",
+      "rows": [
+        {
+          "key": "s077/hook/default/initial",
+          "sourceFadeIp": 12845,
+          "sourceFirstPresentationIp": 12854,
+          "beforePath": "body/19",
+          "recoveryBeforeIndex": 29,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        },
+        {
+          "key": "s077/hook/default/initial",
+          "sourceFadeIp": 12890,
+          "sourceFirstPresentationIp": 12907,
+          "beforePath": "body/47",
+          "recoveryBeforeIndex": 64,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s081",
+      "beforeHash": "501b6b0fc2999b907eb128d52ed409b57d2cd88798a248be298af7cbb9146cce",
+      "initialAppliedAfterHash": "d88f0258dcaf780bc3351d967e63d65dd1eac68f2ea4dac483b939387b0f4082",
+      "afterHash": "3f8cec83dc5f923500b91bf48d1f240a509a2a356d3c2fe0cf5119bb0e1beb1f",
+      "rows": [
+        {
+          "key": "s081/hook/legacy-001/initial",
+          "sourceFadeIp": 14869,
+          "sourceFirstPresentationIp": 14871,
+          "beforePath": "body/67",
+          "recoveryBeforeIndex": 69,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        },
+        {
+          "key": "s081/hook/legacy-001/initial",
+          "sourceFadeIp": 14935,
+          "sourceFirstPresentationIp": 14942,
+          "beforePath": "body/101",
+          "initialProposedRecoveryBeforeIndex": 109,
+          "applicationCorrection": "Source14941 state1 prep must precede source14942 first wait; initial index109 was one early, now110 before actual wait480.",
+          "recoveryBeforeIndex": 110,
+          "anchor": { "kind": "wait", "ms": 480 },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s097",
+      "beforeHash": "1ca9875e87fe65350f87d80a5ac2494840a79fd13797b2b9d375d5e3fa1d49a0",
+      "afterHash": "c848361808274e0734c9dab13dbf685bef518641b38613181e986b49c28b9387",
+      "rows": [
+        {
+          "key": "s097/e1785/default/initial",
+          "sourceFadeIp": 13679,
+          "sourceFirstPresentationIp": 13690,
+          "beforePath": "body/61",
+          "recoveryBeforeIndex": 72,
+          "anchor": {
+            "kind": "wait",
+            "ms": 500
+          },
+          "timingCorrection": { "previousMs": 200, "source09AfterMs": 500 },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s100",
+      "beforeHash": "4e0c76ea57228db70329f07042c5cd11151fd6ee4833833fc1f0a9b3ebaede7e",
+      "afterHash": "8294d6ba90be8aac814b39544154216d6374ea6f523efb09357db0204e963c8e",
+      "rows": [
+        {
+          "key": "s100/e1837/default/initial",
+          "sourceFadeIp": 20369,
+          "sourceFirstPresentationIp": 20379,
+          "beforePath": "body/4",
+          "recoveryBeforeIndex": 14,
+          "anchor": {
+            "kind": "wait",
+            "ms": 400
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s102",
+      "beforeHash": "b6091b6752d6e91a2666beb1d73b3cff6bac1cda360625f800d389fee6745972",
+      "afterHash": "94e84d504a55bdd263d1cebc148836907b8726a43aaf0b89ababfe4db1cb3d2a",
+      "rows": [
+        {
+          "key": "s102/e1883/default/initial",
+          "sourceFadeIp": 16503,
+          "sourceFirstPresentationIp": 16504,
+          "beforePath": "body/41/then/14",
+          "recoveryBeforeIndex": 15,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s109",
+      "beforeHash": "c2221509231175d72e6b9d539ea986570f94d9b5f9eb33254a3c1e217d5788fa",
+      "afterHash": "10ed861a53c5031b052a9b083312b536946526eed4fb56d9f7fcf13f92a7446d",
+      "rows": [
+        {
+          "key": "s109/e2039/default/initial",
+          "sourceFadeIp": 17020,
+          "sourceFirstPresentationIp": 17026,
+          "beforePath": "body/1",
+          "recoveryBeforeIndex": 7,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        },
+        {
+          "key": "s109/e2039/default/initial",
+          "sourceFadeIp": 17084,
+          "sourceFirstPresentationIp": 17086,
+          "beforePath": "body/28",
+          "recoveryBeforeIndex": 30,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s110",
+      "beforeHash": "96646b364c61956971dd5072ebd2e0e410251f4c121c2b0fa62de953ad0835b3",
+      "afterHash": "62050a2a84248560fa4c43a83102b5d2c8fa881faae3ccd44190185f22309c21",
+      "rows": [
+        {
+          "key": "s110/hook/legacy-001/initial",
+          "sourceFadeIp": 16985,
+          "sourceFirstPresentationIp": 16988,
+          "beforePath": "body/8",
+          "recoveryBeforeIndex": 11,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s124",
+      "beforeHash": "380865076a8956054e12c00323af573d3b5b946ab6a5bfdb697c82f51551fac3",
+      "afterHash": "3c7bb85df5187d3b0a353e8794e2d21dfbe1d4ae7fed2d321d6e953fcd76fb29",
+      "rows": [
+        {
+          "key": "s124/e2208/default/initial",
+          "sourceFadeIp": 17380,
+          "sourceFirstPresentationIp": 17381,
+          "beforePath": "body/15",
+          "recoveryBeforeIndex": 16,
+          "anchor": {
+            "kind": "wait",
+            "ms": 400
+          },
+          "timingCorrection": { "previousMs": 160, "source09AfterMs": 400 },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s148",
+      "beforeHash": "e229fda11fbb872a538bd37b29b505dde1d2dd0ae16329f3b8f9ec70f018c4cd",
+      "afterHash": "5f51686b046f3f7c463340e394d4abd7ffff9884310dcdd7b5ca6aa62cf3e3fa",
+      "rows": [
+        {
+          "key": "s148/e2433/default/initial",
+          "sourceFadeIp": 23519,
+          "sourceFirstPresentationIp": 23524,
+          "beforePath": "body/4",
+          "recoveryBeforeIndex": 10,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s215",
+      "beforeHash": "575e9d4a2e690480a65478aca60cdfbcb7d098926be65d17025866a393ef3701",
+      "afterHash": "7a2a1f4ae9adfdedc0628c2a462284a9defa786ad9d640e8c02c2348a3415e00",
+      "rows": [
+        {
+          "key": "s215/e3657/default/initial",
+          "sourceFadeIp": 31243,
+          "sourceFirstPresentationIp": 31244,
+          "beforePath": "body/42",
+          "recoveryBeforeIndex": 43,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    },
+    {
+      "scene": "s246",
+      "beforeHash": "997d9d8a7cbc37f523fb61e57cd6565bfb5ad6d5e7c1d566cdd1cd1d0e81e858",
+      "afterHash": "0f1bf9385ab5f5ceeccea5bb2de2bb8db4dafb5965b15ea70d8f54a1379a422a",
+      "rows": [
+        {
+          "key": "s246/e4350/default/initial",
+          "sourceFadeIp": 32662,
+          "sourceFirstPresentationIp": 32667,
+          "beforePath": "body/30",
+          "recoveryBeforeIndex": 35,
+          "anchor": {
+            "kind": "wait",
+            "ms": 1760
+          },
+          "dependency": null
+        },
+        {
+          "key": "s246/e4350/default/initial",
+          "sourceFadeIp": 32742,
+          "sourceFirstPresentationIp": 32749,
+          "beforePath": "body/88",
+          "recoveryBeforeIndex": 95,
+          "anchor": {
+            "kind": "clearDialog"
+          },
+          "dependency": null
+        }
+      ]
+    }
+  ]
+}

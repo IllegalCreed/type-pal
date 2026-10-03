@@ -95,7 +95,7 @@ describe('ED-3 PAL project reference index', () => {
 
     // SCRIPT-GOV-2 folds repeated author targets into structural loops. Pin the current census
     // while retaining every deletion blocker and independent collector/index parity gate below.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_734)
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_666)
     expect(
       diagnostics.entityAddressReferences.filter(
         (reference) =>
@@ -150,7 +150,7 @@ describe('ED-3 PAL project reference index', () => {
           reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
-    expect(actualEntityBlockers).toHaveLength(4_274)
+    expect(actualEntityBlockers).toHaveLength(4_356)
 
     expect(
       edges.filter(
@@ -266,7 +266,7 @@ describe('ED-3 PAL project reference index', () => {
       .sort()
     expect(unifiedBattleDataKeys).toEqual(oldBattleDataKeys)
     const actorEdges = edges.filter((edge) => edge.relation.kind === 'actor-use')
-    expect(actorEdges).toHaveLength(819)
+    expect(actorEdges).toHaveLength(829)
     const oldActorReferences = collectActorReferences(state)
     const oldActorKeys = oldActorReferences
       .map((reference) => `${reference.actorId}\0${reference.kind}`)
@@ -308,8 +308,8 @@ describe('ED-3 PAL project reference index', () => {
         .map((reference) => `${reference.actorId}\0${reference.kind}\0${reference.where}`)
         .sort(),
     )
-    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(815)
-    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(528)
+    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(825)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(538)
     expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(0)
     expect(
       actorEdges
@@ -331,7 +331,7 @@ describe('ED-3 PAL project reference index', () => {
           count + index.deletionImpact(target, index.deletionScopeFor([target])).blockers.length
         )
       }, 0),
-    ).toBe(815)
+    ).toBe(825)
     expect(
       Object.fromEntries(
         [
@@ -356,7 +356,7 @@ describe('ED-3 PAL project reference index', () => {
       'item-equipable-by': 261,
       'item-battle-sprite-by-actor': 7,
       'command-set-actor-sprite': 121,
-      'command-set-actor-appearance': 11,
+      'command-set-actor-appearance': 21,
       'command-set-party-member': 219,
       'enemy-apply-actor-growth': 1,
       'enemy-play-actor-cast-effect': 1,
@@ -439,7 +439,7 @@ describe('ED-3 PAL project reference index', () => {
     )
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
     const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
-    expect(worldSpriteEdges).toHaveLength(3_825)
+    expect(worldSpriteEdges).toHaveLength(3_835)
     expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-208' })).toMatchObject([
       {
         source: {
@@ -453,27 +453,36 @@ describe('ED-3 PAL project reference index', () => {
     ])
     // E2E-002 declares one persistent open-page action on each inn door. Keep exact census and
     // owner/locator identities, not just the +2 count; all collector/index parity gates below stay.
-    expect(worldSpriteActionEdges).toHaveLength(387)
+    expect(worldSpriteActionEdges).toHaveLength(399)
     expect(
       worldSpriteActionEdges
         .filter(
           (edge) => edge.target.kind === 'world-sprite-action' && edge.target.actionId === 'open',
         )
         .map((edge) => ({ target: edge.target, owner: edge.source.owner, locator: edge.locator })),
-    ).toEqual([
-      {
-        target: { kind: 'world-sprite-action', spriteId: 'sprite-54', actionId: 'open' },
-        owner: { kind: 'scene-page', sceneId: 's003', entityId: 'e73', pageId: 'open' },
-        locator: { kind: 'scene-page', sceneId: 's003', entityId: 'e73', pageId: 'open' },
-      },
-      {
-        target: { kind: 'world-sprite-action', spriteId: 'sprite-53', actionId: 'open' },
-        owner: { kind: 'scene-page', sceneId: 's003', entityId: 'e74', pageId: 'open' },
-        locator: { kind: 'scene-page', sceneId: 's003', entityId: 'e74', pageId: 'open' },
-      },
-    ])
+    ).toEqual(
+      [
+        ['s003', 'e70', 'sprite-54'],
+        ['s003', 'e71', 'sprite-53'],
+        ['s003', 'e73', 'sprite-54'],
+        ['s003', 'e74', 'sprite-53'],
+        ['s047', 'e757', 'sprite-255'],
+        ['s093', 'e1749', 'sprite-275'],
+        ['s093', 'e1750', 'sprite-274'],
+        ['s093', 'e1751', 'sprite-275'],
+        ['s093', 'e1752', 'sprite-274'],
+        ['s093', 'e1753', 'sprite-275'],
+        ['s093', 'e1754', 'sprite-274'],
+        ['s093', 'e1755', 'sprite-275'],
+        ['s093', 'e1756', 'sprite-274'],
+      ].map(([sceneId, entityId, spriteId]) => ({
+        target: { kind: 'world-sprite-action', spriteId, actionId: 'open' },
+        owner: { kind: 'scene-page', sceneId, entityId, pageId: 'open' },
+        locator: { kind: 'scene-page', sceneId, entityId, pageId: 'open' },
+      })),
+    )
     expect(battleSpriteEdges).toHaveLength(180)
-    expect(assetEdges).toHaveLength(5_966)
+    expect(assetEdges).toHaveLength(5_969)
     // The restored Xiulan/Ling'er follow-ups add one portrait each, and Anu's farewell
     // adds both speakers' portraits. Preserve exact canonical ownership and command paths.
     const restoredPortraitSteps = new Set([
@@ -702,7 +711,7 @@ describe('ED-3 PAL project reference index', () => {
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_212)
+    ).toBe(4_234)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
@@ -714,7 +723,7 @@ describe('ED-3 PAL project reference index', () => {
             : '',
         ),
       ).size,
-    ).toBe(33)
+    ).toBe(37)
     expect(
       index.referencesTo({
         kind: 'world-sprite-action',
@@ -817,7 +826,7 @@ describe('ED-3 PAL project reference index', () => {
         )
         .map((edge) => ({ target: edge.target, relation: edge.relation, locator: edge.locator })),
     ).toEqual(
-      ['e73', 'e74'].map((entityId) => ({
+      ['e70', 'e71', 'e73', 'e74'].map((entityId) => ({
         target: {
           kind: 'entity-behavior',
           sceneId: 's003',
@@ -876,8 +885,8 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_084)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(27_986)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_201)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_104)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

@@ -734,7 +734,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 1600
                     },
                     {
                       "cue": {
@@ -839,7 +839,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -859,7 +859,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "cue": {
@@ -890,7 +890,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "down",
@@ -910,7 +910,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "asset": "music.pal.026",
@@ -954,7 +954,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 1600
                     },
                     {
                       "cue": {
@@ -1049,7 +1049,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "up",
@@ -1079,7 +1079,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -1192,7 +1192,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "down",
@@ -1241,7 +1241,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -1295,7 +1295,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 560
+                      "ms": 1400
                     },
                     {
                       "dir": "out",

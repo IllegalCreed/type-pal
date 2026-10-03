@@ -1,0 +1,8 @@
+{
+  "path": "projects/pal/content/scenes/s048.json",
+  "beforeHash": "9342ccdc1247ac910f0bbdfaadf3798360389fb0a4850c9c28e3bb27762950f2",
+  "afterHash": "7b17b509697092c9f052dd2ea7847304c184667c7269521eeb623944a090f8dd",
+  "source": [10423, 10424, 10425, 10427, 10428, 10429, 10430, 10431, 10432],
+  "sequence": "while notnear wait100; success wait100; synchronous six-leaf capture once; wait100; hide and complete",
+  "versions": "new entitiesNear author capability included in Root current-only content23 switch; SAVE11 unchanged"
+}

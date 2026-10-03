@@ -1,0 +1,158 @@
+{
+  "sourceHash": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d",
+  "scope": "real P1 tickAutoScripts for zone/check -> synchronous capture call -> hide; t0 is first zone check",
+  "runs": [
+    {
+      "initialNear": true,
+      "nearAt": 0,
+      "trace": [
+        {
+          "at": 0,
+          "ip": 10424,
+          "trapState": 1,
+          "deerAuto": null,
+          "deerTrigger": "L_10358",
+          "deerActivation": 7,
+          "deerFrame": 0,
+          "sounds": []
+        },
+        {
+          "at": 100,
+          "ip": 10425,
+          "trapState": 1,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 200,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 300,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 400,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 500,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 600,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        }
+      ]
+    },
+    {
+      "initialNear": false,
+      "nearAt": 200,
+      "trace": [
+        {
+          "at": 0,
+          "ip": 10423,
+          "trapState": 1,
+          "deerAuto": null,
+          "deerTrigger": "L_10358",
+          "deerActivation": 7,
+          "deerFrame": 0,
+          "sounds": []
+        },
+        {
+          "at": 100,
+          "ip": 10423,
+          "trapState": 1,
+          "deerAuto": null,
+          "deerTrigger": "L_10358",
+          "deerActivation": 7,
+          "deerFrame": 0,
+          "sounds": []
+        },
+        {
+          "at": 200,
+          "ip": 10424,
+          "trapState": 1,
+          "deerAuto": null,
+          "deerTrigger": "L_10358",
+          "deerActivation": 7,
+          "deerFrame": 0,
+          "sounds": []
+        },
+        {
+          "at": 300,
+          "ip": 10425,
+          "trapState": 1,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 400,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 500,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        },
+        {
+          "at": 600,
+          "ip": 10426,
+          "trapState": 0,
+          "deerAuto": null,
+          "deerTrigger": "L_10433",
+          "deerActivation": 1,
+          "deerFrame": 16,
+          "sounds": [14]
+        }
+      ]
+    }
+  ]
+}

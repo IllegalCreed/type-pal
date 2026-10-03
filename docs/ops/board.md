@@ -124,6 +124,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 六份同版case及真实终档已核；包门与最终工具零诊断，不录视频，6012保持 |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
 | SCRIPT-GOV-1 | [剧本共性问题族治理](tasks/SCRIPT-GOV-1-script-family-governance.md) | build | Codex继续动态入口待核与剧情编排治理 | 统一步骤子卡已收口，147机器退役、SAVE11链刷新；后期视觉与未证映射继续 |
+| SCRIPT-GOV-3 | [剩余问题族治理与开场回归](tasks/SCRIPT-GOV-3-residual-families-and-regression.md) | review | Codex独立验收候选；等待合入main后收口 | 共性治理与001–005当前前驱链已通过，未开始006 |
 
 2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：
 正常出房至e56、20正文/500文/三人实际进房、真实002新上下文全量World与Canvas恢复均通过。

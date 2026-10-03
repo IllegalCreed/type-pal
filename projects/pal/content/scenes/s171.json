@@ -63,7 +63,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 560
+                    "ms": 1400
                   },
                   {
                     "facing": "down",
@@ -106,7 +106,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "kind": "loadScene",

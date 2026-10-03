@@ -182,7 +182,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "合八字与林家堡妖怪警报",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -630,6 +630,11 @@
                       }
                     },
                     {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
@@ -835,6 +840,29 @@
                     {
                       "asset": "music.pal.034",
                       "kind": "playMusic"
+                    }
+                  ],
+                  "label": "合八字与林家堡妖怪警报",
+                  "next": "servant-reaction"
+                },
+                {
+                  "id": "servant-reaction",
+                  "label": "侍从对妖怪的复读",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.林忠"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.3147"
+                          }
+                        ],
+                        "slot": "top"
+                      }
                     }
                   ]
                 }
@@ -1321,8 +1349,7 @@
           "animation": {
             "sprite": "sprite-9",
             "action": "pal-auto-v1-47e35d5d733ff36b",
-            "loop": true,
-            "startAtMs": 200
+            "loop": true
           }
         }
       ],
@@ -1344,7 +1371,7 @@
             "sprite": "sprite-9",
             "action": "pal-auto-v1-47e35d5d733ff36b",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 100
           }
         }
       ],
@@ -1833,7 +1860,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 800
+                    "ms": 2000
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -2017,7 +2044,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "right",
@@ -2242,7 +2269,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "right",
@@ -2250,7 +2277,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "cue": {
@@ -2272,7 +2299,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 800
+                    "ms": 2000
                   },
                   {
                     "kind": "setEntityState",
@@ -2284,7 +2311,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "up",
@@ -2450,7 +2477,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "facing": "right",

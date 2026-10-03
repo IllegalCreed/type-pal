@@ -123,6 +123,13 @@ function projectPreviewCondition(
       const { target, ...rest } = condition
       return { ...rest, entity: target.entity } as ScriptCondition
     }
+    case 'entitiesNear':
+      return {
+        kind: condition.kind,
+        from: condition.from.entity,
+        to: condition.to.entity,
+        range: condition.range,
+      }
     case 'all':
     case 'any':
       return {

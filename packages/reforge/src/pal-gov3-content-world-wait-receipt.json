@@ -1,0 +1,2999 @@
+{
+  "version": 1,
+  "scope": "source OP_WAIT_FRAMES (opcode 09) world waits with exact whole-stage preconditions; no Motion scenes, s011 hold-dependent paths, or s251 remapped paths",
+  "source": "build/gov3-world-wait-candidates.json",
+  "counts": {
+    "appliedSites": 389,
+    "appliedStages": 81,
+    "appliedScenes": 66,
+    "excludedMotionScenes": 8,
+    "excludedMotionSites": 22,
+    "excludedMovedScenes": ["s011", "s251"],
+    "excludedMovedSites": 10,
+    "candidateBodyChangedSites": 54
+  },
+  "stages": [
+    {
+      "scene": "s079",
+      "owner": "e1500/trigger/default/initial",
+      "beforeBodyHash": "450cc6736a782945087d4e5347c63c9b5bce918c184a34aa71264629d9c98266",
+      "afterBodyHash": "c6b933ad8ca15b612259ce8e104bc15fd9d68f689b6437fce44337309cbacee5",
+      "paths": [
+        {
+          "path": "s079/e1500/trigger/default/initial/body/2/body/2",
+          "source": [13236, 13238, 13240],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s079/e1500/trigger/default/initial/body/7",
+          "source": [13243],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s079/e1500/trigger/default/initial/body/10/body/1",
+          "source": [13247, 13249, 13251, 13253],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s079/e1500/trigger/default/initial/body/16/body/6",
+          "source": [13260, 13265],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s079/e1500/trigger/default/initial/body/17",
+          "source": [13267],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s079/e1500/trigger/default/initial/body/19",
+          "source": [13269],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s089",
+      "owner": "e1650/trigger/default/initial",
+      "beforeBodyHash": "9e96b78c54836b6746cfb2128d45a467c98fc851cd81ee8dde42b3b1d91cf813",
+      "afterBodyHash": "91fd486fc1fdf13b0ed01adb3671ea8a5e20e6e21b6f7053ecbb1578034dd5b5",
+      "paths": [
+        {
+          "path": "s089/e1650/trigger/default/initial/body/53",
+          "source": [14004],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s089/e1650/trigger/default/initial/body/55",
+          "source": [14006],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s089/e1650/trigger/default/initial/body/57",
+          "source": [14008],
+          "beforeMs": 320,
+          "afterMs": 800
+        }
+      ]
+    },
+    {
+      "scene": "s007",
+      "owner": "e171/trigger/default/initial",
+      "beforeBodyHash": "9a2064d724080012b723492cee9c30872ac1801ab6e10c52f8547e4c11122271",
+      "afterBodyHash": "577a378a3e0fec6518da9e1a69ea69d7b1b3f1f25e9a0f4196e0decaf6446893",
+      "paths": [
+        {
+          "path": "s007/e171/trigger/default/initial/body/8",
+          "source": [3946],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s007/e171/trigger/default/initial/body/10",
+          "source": [3948],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s007/e171/trigger/default/initial/body/21",
+          "source": [3967],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s093",
+      "owner": "e1738/trigger/default/initial",
+      "beforeBodyHash": "853a4db37ee7a84f3c2f8aebb9e7a38eb4e987f3428936dc5caca0a9164d2b17",
+      "afterBodyHash": "b78715fef79e48fdadf553b353a1aa369be70bff42df3e4e1bd891fcc1b95d7a",
+      "paths": [
+        {
+          "path": "s093/e1738/trigger/default/initial/body/16",
+          "source": [13565],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s093/e1738/trigger/default/initial/body/19",
+          "source": [13567],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s093/e1738/trigger/default/initial/body/26",
+          "source": [13574],
+          "beforeMs": 600,
+          "afterMs": 1500
+        }
+      ]
+    },
+    {
+      "scene": "s097",
+      "owner": "e1785/trigger/default/initial",
+      "beforeBodyHash": "2f14cf17c75c6cf53acdaf4fa359bedbc8eb4bc63f28ba5ee3d71320c004f6e0",
+      "afterBodyHash": "956fa6d24cef2df565ebfd5dc36137a9a22c5e3187f9dfbb04e6af14755c1913",
+      "paths": [
+        {
+          "path": "s097/e1785/trigger/default/initial/body/28",
+          "source": [13634],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/30",
+          "source": [13636],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/32",
+          "source": [13638],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/34",
+          "source": [13640],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/59",
+          "source": [13677],
+          "beforeMs": 600,
+          "afterMs": 1500
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/73",
+          "source": [13690],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/76",
+          "source": [13693],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/78",
+          "source": [13695],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/83",
+          "source": [13703],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/93",
+          "source": [13714],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/96",
+          "source": [13716],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/99",
+          "source": [13718],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/101",
+          "source": [13720],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s097/e1785/trigger/default/initial/body/103",
+          "source": [13722],
+          "beforeMs": 320,
+          "afterMs": 800
+        }
+      ]
+    },
+    {
+      "scene": "s100",
+      "owner": "e1829/trigger/default/initial",
+      "beforeBodyHash": "fe56443fb2a03e0485056345533deb42d61a5061468d4c9ba25adb22a1ed870c",
+      "afterBodyHash": "4ec999c840a2fdd0454b81840ef9f98114d09324dc8325e26441b56c3636ed12",
+      "paths": [
+        {
+          "path": "s100/e1829/trigger/default/initial/body/0",
+          "source": [20102],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s100",
+      "owner": "e1830/trigger/default/initial",
+      "beforeBodyHash": "1aeed39058bfb41d289f8e2b6851edc784abf6b6206ad420943553d5142db7cc",
+      "afterBodyHash": "4e5d4492d7ccc9df25be750095c4e9b17a887fb0b1be44c57f81de17e1fd6ab6",
+      "paths": [
+        {
+          "path": "s100/e1830/trigger/default/initial/body/0",
+          "source": [20126],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s101",
+      "owner": "e1846/trigger/default/initial",
+      "beforeBodyHash": "a2f7f59e41a4de0cdbe089380b316d04d20e1dc76851ff2f27e9b6b6b3076190",
+      "afterBodyHash": "db932d8c99def8cef9544eea825ddf0570f4cb7d8473e999d36772caf3df2fed",
+      "paths": [
+        {
+          "path": "s101/e1846/trigger/default/initial/body/12",
+          "source": [21315],
+          "beforeMs": 640,
+          "afterMs": 1600
+        },
+        {
+          "path": "s101/e1846/trigger/default/initial/body/14",
+          "source": [21317],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s101/e1846/trigger/default/initial/body/28",
+          "source": [21340],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s108",
+      "owner": "e2000/trigger/default/initial",
+      "beforeBodyHash": "ede7d27084d4cf04b6d7fd66bf4dc7277691f5929a72b6e9e02ac1a770751765",
+      "afterBodyHash": "8bc43a262668a40c1c7957c6792c7e274a26d6b5efb9c40262bc7320046143d2",
+      "paths": [
+        {
+          "path": "s108/e2000/trigger/default/initial/body/1",
+          "source": [18191],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2000/trigger/default/initial/body/9",
+          "source": [18209],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s108",
+      "owner": "e2005/trigger/default/initial",
+      "beforeBodyHash": "cb3bdc1c51e62f61026bb846605d3bb7b158ddbaef6880e6da26b834467ed497",
+      "afterBodyHash": "07571f21eccca3052a215790945bafd11eac2613534aaa789b359e3d37810745",
+      "paths": [
+        {
+          "path": "s108/e2005/trigger/default/initial/body/3",
+          "source": [19057],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/5",
+          "source": [19059],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/9",
+          "source": [19063],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/11",
+          "source": [19065],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/14",
+          "source": [19068],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/46",
+          "source": [19142],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/49",
+          "source": [19144],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/55",
+          "source": [19155],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/58",
+          "source": [19157],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/61",
+          "source": [19159],
+          "beforeMs": 560,
+          "afterMs": 1400
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/66",
+          "source": [19166],
+          "beforeMs": 1200,
+          "afterMs": 3000
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/69",
+          "source": [19168],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s108/e2005/trigger/default/initial/body/71",
+          "source": [19170],
+          "beforeMs": 640,
+          "afterMs": 1600
+        }
+      ]
+    },
+    {
+      "scene": "s124",
+      "owner": "e2208/trigger/default/initial",
+      "beforeBodyHash": "d7c6696f43f165f000d76a35e1ceb024d0f37090bd98f0e784a929e78f401b3b",
+      "afterBodyHash": "97dd9e22a2195535104b0cc287dec8f44899e9ef247167e9b8895694251f7364",
+      "paths": [
+        {
+          "path": "s124/e2208/trigger/default/initial/body/4",
+          "source": [17365],
+          "beforeMs": 1240,
+          "afterMs": 3100
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/6",
+          "source": [17371],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/17",
+          "source": [17381],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/20",
+          "source": [17383],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/23",
+          "source": [17385],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/26",
+          "source": [17387],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/29",
+          "source": [17389],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/32",
+          "source": [17391],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/58",
+          "source": [17444],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/61",
+          "source": [17446],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/76",
+          "source": [17471],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s124/e2208/trigger/default/initial/body/79",
+          "source": [17473],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s128",
+      "owner": "e2232/trigger/default/initial",
+      "beforeBodyHash": "b324154504c8a6ad51918f36bf144dbb576d89d445be5bf63a123244422b2641",
+      "afterBodyHash": "e04aaac3b8aa74dc1ae9772aec45a74dfb06a29db9dfe276e63f8024759eadc2",
+      "paths": [
+        {
+          "path": "s128/e2232/trigger/default/initial/body/0",
+          "source": [16236],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s128",
+      "owner": "e2237/trigger/default/initial",
+      "beforeBodyHash": "b324154504c8a6ad51918f36bf144dbb576d89d445be5bf63a123244422b2641",
+      "afterBodyHash": "e04aaac3b8aa74dc1ae9772aec45a74dfb06a29db9dfe276e63f8024759eadc2",
+      "paths": [
+        {
+          "path": "s128/e2237/trigger/default/initial/body/0",
+          "source": [16236],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s136",
+      "owner": "e2328/trigger/default/initial",
+      "beforeBodyHash": "fc7607ddfb8e47f24e2d340dd270200511079dd4fb904ba6dbb4c1991749bbfd",
+      "afterBodyHash": "f863c12e6d8db98c5640855fda4bfeb0350dcaa4a4cb671adc5fcf154deab850",
+      "paths": [
+        {
+          "path": "s136/e2328/trigger/default/initial/body/0",
+          "source": [16361],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s145",
+      "owner": "e2399/trigger/default/initial",
+      "beforeBodyHash": "0edce068593f54c0b7808f343833149d8a3fa55b5818f2202f729718e965a530",
+      "afterBodyHash": "2b0375f3f227bbe5e95c88e317c70c2277ba3183b0e37fbe935534c555568532",
+      "paths": [
+        {
+          "path": "s145/e2399/trigger/default/initial/body/11",
+          "source": [23945],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s145/e2399/trigger/default/initial/body/14",
+          "source": [23947],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s145/e2399/trigger/default/initial/body/16",
+          "source": [23949],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s145/e2399/trigger/default/initial/body/18",
+          "source": [23951],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s145/e2399/trigger/default/initial/body/23",
+          "source": [23964],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s145/e2399/trigger/default/initial/body/25",
+          "source": [23966],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s146",
+      "owner": "e2404/trigger/default/initial",
+      "beforeBodyHash": "3a894d04dd30f99ca634a7f16fab25800b6fa2391db4d83550ef619fd37043e7",
+      "afterBodyHash": "9c0cd8ef3f449158424b3550d5f55a3124aef515f9b3ed77709bba5440bd141b",
+      "paths": [
+        {
+          "path": "s146/e2404/trigger/default/initial/body/4",
+          "source": [23627],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s154",
+      "owner": "e2495/trigger/default/initial",
+      "beforeBodyHash": "da60338160f5724e6c02a8e02f480139bd2cb8c6932a4cbaae66e377d2b63a93",
+      "afterBodyHash": "c75912ceb7e51fb87ef969f8a3bf7ba96e37b098d3e718d1197cbf0179cb19eb",
+      "paths": [
+        {
+          "path": "s154/e2495/trigger/default/initial/body/28",
+          "source": [23760],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s154/e2495/trigger/default/initial/body/34",
+          "source": [23771],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s158",
+      "owner": "e2645/trigger/default/initial",
+      "beforeBodyHash": "0bbf45f1c8c0905308cc975a4915a8b4c21c0acb12eb1cee58724f3cf5be73c9",
+      "afterBodyHash": "3d9aa1656f3b42ae1e11251fb1be66dc8a22ba8c968c613e7baac36d506c2da6",
+      "paths": [
+        {
+          "path": "s158/e2645/trigger/default/initial/body/2/body/1",
+          "source": [22866, 22868],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s160",
+      "owner": "e2676/trigger/default/initial",
+      "beforeBodyHash": "e56ed674c088e62378bc6e914c42a8a9bb0394154f875265765b3bf1333c0da0",
+      "afterBodyHash": "3db92665e7b14f2dc066b780f871509c7e8ad31e68e3fb615c69ba11911587c0",
+      "paths": [
+        {
+          "path": "s160/e2676/trigger/default/initial/body/1",
+          "source": [22925],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s019",
+      "owner": "e270/trigger/default/initial",
+      "beforeBodyHash": "757b78f5a49c3f2b9ca5b57f80e4ca62c1de5d32d0a5ba9ac8fdcfa3875e65ef",
+      "afterBodyHash": "6a2a32d676a30a6d4eebd544fc5ea31f15c9d5549f7ee301fb467be662d936a5",
+      "paths": [
+        {
+          "path": "s019/e270/trigger/default/initial/body/17",
+          "source": [4327],
+          "beforeMs": 560,
+          "afterMs": 1400
+        }
+      ]
+    },
+    {
+      "scene": "s175",
+      "owner": "e2896/trigger/default/initial",
+      "beforeBodyHash": "a4458f0a4ae518095c4e537060851514ed4ab125549db011b9e6c0f85e897ce1",
+      "afterBodyHash": "c8121ec73472de7b22fdce8990de9ae4f81b769c6c7cffd75ea2317132a467d0",
+      "paths": [
+        {
+          "path": "s175/e2896/trigger/default/initial/body/5",
+          "source": [26802],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s175/e2896/trigger/default/initial/body/6/body/1",
+          "source": [26804, 26806],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s175/e2896/trigger/default/initial/body/8",
+          "source": [26808],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s175/e2896/trigger/default/initial/body/10",
+          "source": [26810],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s175",
+      "owner": "e2897/trigger/default/initial",
+      "beforeBodyHash": "7815d75cdeba559c8e638c66441f336a753c48f52e8ebfebe66afe1074c4c520",
+      "afterBodyHash": "2e33a1d81336167c4bd2ffe4c0cd10b5d9c01b2705b95738923c1c9018327b04",
+      "paths": [
+        {
+          "path": "s175/e2897/trigger/default/initial/body/2",
+          "source": [26828],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s175/e2897/trigger/default/initial/body/8",
+          "source": [26835],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s175/e2897/trigger/default/initial/body/11",
+          "source": [26837],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s175/e2897/trigger/default/initial/body/13",
+          "source": [26839],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s175/e2897/trigger/default/initial/body/16",
+          "source": [26842],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s175",
+      "owner": "e2898/trigger/default/initial",
+      "beforeBodyHash": "e9fdc8c3bb65336db95c12f7e0151d3a907ed78b43ffc934627c22db09fe7f29",
+      "afterBodyHash": "334ea68b4d01a70bf0730560853959220684b525d10159f5022498ba8931bdff",
+      "paths": [
+        {
+          "path": "s175/e2898/trigger/default/initial/body/2",
+          "source": [26828],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s175/e2898/trigger/default/initial/body/8",
+          "source": [26835],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s175/e2898/trigger/default/initial/body/11",
+          "source": [26837],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s175/e2898/trigger/default/initial/body/13",
+          "source": [26839],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s175/e2898/trigger/default/initial/body/16",
+          "source": [26842],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s175",
+      "owner": "e2908/trigger/default/initial",
+      "beforeBodyHash": "4f568612e549753b906fbab412754aa660fc01c3648c5fe879b496de14e3f62d",
+      "afterBodyHash": "99f86ac2b432de6f997559ea4d9f699d277342e08288a5f468532a99e52892f6",
+      "paths": [
+        {
+          "path": "s175/e2908/trigger/default/initial/body/1",
+          "source": [26861],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s175/e2908/trigger/default/initial/body/22",
+          "source": [26896],
+          "beforeMs": 960,
+          "afterMs": 2400
+        },
+        {
+          "path": "s175/e2908/trigger/default/initial/body/24",
+          "source": [26898],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s175/e2908/trigger/default/initial/body/27",
+          "source": [26900],
+          "beforeMs": 560,
+          "afterMs": 1400
+        },
+        {
+          "path": "s175/e2908/trigger/default/initial/body/29",
+          "source": [26902],
+          "beforeMs": 800,
+          "afterMs": 2000
+        }
+      ]
+    },
+    {
+      "scene": "s184",
+      "owner": "e3013/trigger/default/initial",
+      "beforeBodyHash": "1d9956b86f138acb68d60403cf70483269eba7b0b82358f7cb6160b049c3ef62",
+      "afterBodyHash": "4abf51cd3604c415406baa8935005b95bc077d31c9beba55f40708603b2ac2f3",
+      "paths": [
+        {
+          "path": "s184/e3013/trigger/default/initial/body/5",
+          "source": [26646],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s184/e3013/trigger/default/initial/body/7",
+          "source": [26648],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s184/e3013/trigger/default/initial/body/9",
+          "source": [26650],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s184/e3013/trigger/default/initial/body/11",
+          "source": [26652],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s184/e3013/trigger/default/initial/body/13",
+          "source": [26654],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s184/e3013/trigger/default/initial/body/15",
+          "source": [26656],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s184/e3013/trigger/default/initial/body/20",
+          "source": [26660],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s190",
+      "owner": "e3197/trigger/default/initial",
+      "beforeBodyHash": "36904884cf9aeced5f7855357db6148e84fdf603f39507a6f428f554e3f2e0b4",
+      "afterBodyHash": "b4cf757a31ae1ce4b0b5d06cf23d99f165b6c2b79aa096c707a7c36682f28791",
+      "paths": [
+        {
+          "path": "s190/e3197/trigger/default/initial/body/2",
+          "source": [27114],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s192",
+      "owner": "e3300/trigger/default/initial",
+      "beforeBodyHash": "2069046653fad4a5379a7030d764f8b7f48d2420c95aa204854e335142f383fe",
+      "afterBodyHash": "2b8f6e9ae9efef9d02d97f46f48511a7e1d9e190894ce8fd10d3d33ddc4b3c8a",
+      "paths": [
+        {
+          "path": "s192/e3300/trigger/default/initial/body/2/body/2",
+          "source": [25992, 25996, 26000],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s192/e3300/trigger/default/initial/body/2/body/5",
+          "source": [25994, 25998, 26002],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s206",
+      "owner": "e3484/trigger/default/initial",
+      "beforeBodyHash": "bfa1d2d5cd0d8e2fdd7110b98dc9838cdf101066dadb8b095917154fc169089c",
+      "afterBodyHash": "8b1143185017f854a38fc76e2f2134f1b1acf9578c507b700efe5520276d3a33",
+      "paths": [
+        {
+          "path": "s206/e3484/trigger/default/initial/body/0",
+          "source": [29352],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s206",
+      "owner": "e3485/trigger/default/initial",
+      "beforeBodyHash": "bfa1d2d5cd0d8e2fdd7110b98dc9838cdf101066dadb8b095917154fc169089c",
+      "afterBodyHash": "8b1143185017f854a38fc76e2f2134f1b1acf9578c507b700efe5520276d3a33",
+      "paths": [
+        {
+          "path": "s206/e3485/trigger/default/initial/body/0",
+          "source": [29352],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s207",
+      "owner": "e3505/trigger/default/initial",
+      "beforeBodyHash": "54e119b68db1f353bd6d0137bca6e83fce3c361fb0fe87d1c7e012c966eb7421",
+      "afterBodyHash": "a9cca1426b22d921c78c61b1c070e2bf60fe9181343138c850f3c07d5135c280",
+      "paths": [
+        {
+          "path": "s207/e3505/trigger/default/initial/body/0",
+          "source": [29825],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s207",
+      "owner": "e3506/trigger/default/initial",
+      "beforeBodyHash": "54e119b68db1f353bd6d0137bca6e83fce3c361fb0fe87d1c7e012c966eb7421",
+      "afterBodyHash": "a9cca1426b22d921c78c61b1c070e2bf60fe9181343138c850f3c07d5135c280",
+      "paths": [
+        {
+          "path": "s207/e3506/trigger/default/initial/body/0",
+          "source": [29825],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s207",
+      "owner": "e3510/trigger/default/initial",
+      "beforeBodyHash": "6a65ff532f393c84cf14d71806c2d7928273f0f8472934bd2e071d9cf87bab01",
+      "afterBodyHash": "be2ed79ff723abb63a291302c07d5d617e2308dce8bfded4abd197f04e8d4e6b",
+      "paths": [
+        {
+          "path": "s207/e3510/trigger/default/initial/body/0",
+          "source": [29846],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s208",
+      "owner": "e3553/trigger/default/initial",
+      "beforeBodyHash": "094ab3d3f577997c9cde061c5d5ab82b27e9e1a5e75eef1eded433edae16df63",
+      "afterBodyHash": "d0a856fcdc4807cde284bf840d06e1785cd5c71de1f5756f9fd1e8b46edabf5e",
+      "paths": [
+        {
+          "path": "s208/e3553/trigger/default/initial/body/0",
+          "source": [29410],
+          "beforeMs": 120,
+          "afterMs": 300
+        }
+      ]
+    },
+    {
+      "scene": "s209",
+      "owner": "e3573/trigger/default/initial",
+      "beforeBodyHash": "d8efc2bf40873636defea3df631f7589453b9d902c62a70e1a14191bd4e40fae",
+      "afterBodyHash": "a8e0cc17547eb2e1aef3981bc8f9a5e2738e33d2ab3557741abf34c8a00bf147",
+      "paths": [
+        {
+          "path": "s209/e3573/trigger/default/initial/body/0",
+          "source": [29884],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s209",
+      "owner": "e3574/trigger/default/initial",
+      "beforeBodyHash": "d8efc2bf40873636defea3df631f7589453b9d902c62a70e1a14191bd4e40fae",
+      "afterBodyHash": "a8e0cc17547eb2e1aef3981bc8f9a5e2738e33d2ab3557741abf34c8a00bf147",
+      "paths": [
+        {
+          "path": "s209/e3574/trigger/default/initial/body/0",
+          "source": [29884],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s214",
+      "owner": "e3647/trigger/default/initial",
+      "beforeBodyHash": "5ecfb70ffc9b99c654b5255f98a5f4887817cd23fd0a908dab5b78bcb48a551c",
+      "afterBodyHash": "0afeaedfc2ee0c186c07895f786a081e07f63c20d990eb9975c9dea483ecffe0",
+      "paths": [
+        {
+          "path": "s214/e3647/trigger/default/initial/body/5/body/1",
+          "source": [31142, 31144],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s214",
+      "owner": "e3648/trigger/default/initial",
+      "beforeBodyHash": "5ecfb70ffc9b99c654b5255f98a5f4887817cd23fd0a908dab5b78bcb48a551c",
+      "afterBodyHash": "0afeaedfc2ee0c186c07895f786a081e07f63c20d990eb9975c9dea483ecffe0",
+      "paths": [
+        {
+          "path": "s214/e3648/trigger/default/initial/body/5/body/1",
+          "source": [31142, 31144],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s021",
+      "owner": "e395/trigger/default/initial",
+      "beforeBodyHash": "2efa54c30f5ab906ec531b4cc983d077d8c9bcc0d5269a051a0444b5647e3bac",
+      "afterBodyHash": "e94ad4df900e57b909a0973bf1a9b180b6fc8aa8871652da3a05ae8d4c32c2be",
+      "paths": [
+        {
+          "path": "s021/e395/trigger/default/initial/body/0",
+          "source": [5628],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e395/trigger/default/initial/body/2",
+          "source": [5630],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s021/e395/trigger/default/initial/body/4",
+          "source": [5632],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s021",
+      "owner": "e396/trigger/default/initial",
+      "beforeBodyHash": "12f55817fe403fe99701e453bfb3eed37b6a0293b01eb33f94b39b5631a052d7",
+      "afterBodyHash": "20a5cd9eeadad29c2ba3626776cc8ddf9314ce66d4db36ba5cdcdfab0ab0f8fa",
+      "paths": [
+        {
+          "path": "s021/e396/trigger/default/initial/body/7",
+          "source": [5987],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/10",
+          "source": [5989],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/22",
+          "source": [6004],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/38",
+          "source": [6026],
+          "beforeMs": 640,
+          "afterMs": 1600
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/41",
+          "source": [6029],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/47",
+          "source": [6040],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/49",
+          "source": [6043],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/53",
+          "source": [6047],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/56",
+          "source": [6051],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/58",
+          "source": [6053],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/60",
+          "source": [6055],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/62",
+          "source": [6057],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/64",
+          "source": [6059],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/66",
+          "source": [6061],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/68",
+          "source": [6063],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/70",
+          "source": [6065],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/72",
+          "source": [6067],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/74",
+          "source": [6069],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/76",
+          "source": [6071],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/78",
+          "source": [6073],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/80",
+          "source": [6075],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/82",
+          "source": [6077],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/84",
+          "source": [6079],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/86",
+          "source": [6081],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/88",
+          "source": [6083],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/90",
+          "source": [6085],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/92",
+          "source": [6087],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/95",
+          "source": [6090],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/97",
+          "source": [6092],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/99",
+          "source": [6094],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/101",
+          "source": [6096],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/103",
+          "source": [6098],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/105",
+          "source": [6100],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/107",
+          "source": [6102],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s021/e396/trigger/default/initial/body/138",
+          "source": [6165],
+          "beforeMs": 240,
+          "afterMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s021",
+      "owner": "e404/trigger/default/initial",
+      "beforeBodyHash": "727038f8354ce709bcdf58ea4bf7bbd77a93644142a8eec0d6123b4b3fe5adcd",
+      "afterBodyHash": "71ff4244ca843fac7fd2ad8ed34b3ceec31657bf0316f32ef2631c7f15034a1c",
+      "paths": [
+        {
+          "path": "s021/e404/trigger/default/initial/body/8",
+          "source": [5854],
+          "beforeMs": 320,
+          "afterMs": 800
+        }
+      ]
+    },
+    {
+      "scene": "s234",
+      "owner": "e4222/trigger/default/initial",
+      "beforeBodyHash": "92aaa83fbb3554685051fb3ac27d1a7e96afa2a0d92e2633e20326003ae8ed64",
+      "afterBodyHash": "2e065dd3474a16238ac1b03e3297b93ce982ddae76286ea963d205fcfa87d419",
+      "paths": [
+        {
+          "path": "s234/e4222/trigger/default/initial/body/2",
+          "source": [31560],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s247",
+      "owner": "e4367/trigger/default/initial",
+      "beforeBodyHash": "8b2d7379c4ae7d3751959b4a94f092a72a9d511f8f273bded31c33f09f97dd29",
+      "afterBodyHash": "935df69125f83d3031726ac099561748b1f8c2ceb86a56a957dbb11b81c817d7",
+      "paths": [
+        {
+          "path": "s247/e4367/trigger/default/initial/body/6",
+          "source": [33238],
+          "beforeMs": 280,
+          "afterMs": 700
+        },
+        {
+          "path": "s247/e4367/trigger/default/initial/body/32",
+          "source": [33281],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s247/e4367/trigger/default/initial/body/34",
+          "source": [33283],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s247/e4367/trigger/default/initial/body/36",
+          "source": [33285],
+          "beforeMs": 1200,
+          "afterMs": 3000
+        }
+      ]
+    },
+    {
+      "scene": "s253",
+      "owner": "e4463/trigger/default/initial",
+      "beforeBodyHash": "fe83c43c7d57fc292987169faadcf875db793b2ce5b82b6b477fe3fd95b02127",
+      "afterBodyHash": "7649c491abfea5f8ff705001e9bcedbf264c86bad4a7787b6277f0c4b630f60a",
+      "paths": [
+        {
+          "path": "s253/e4463/trigger/default/initial/body/17",
+          "source": [33473],
+          "beforeMs": 640,
+          "afterMs": 1600
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/27",
+          "source": [33489],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/30",
+          "source": [33491],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/33",
+          "source": [33496],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/36",
+          "source": [33498],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/41",
+          "source": [33503],
+          "beforeMs": 640,
+          "afterMs": 1600
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/55",
+          "source": [33520],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/60",
+          "source": [33527],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/74",
+          "source": [33542],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/80",
+          "source": [33549],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s253/e4463/trigger/default/initial/body/86",
+          "source": [33555],
+          "beforeMs": 560,
+          "afterMs": 1400
+        }
+      ]
+    },
+    {
+      "scene": "s262",
+      "owner": "e4568/trigger/default/initial",
+      "beforeBodyHash": "94f03c193cc8c41df1e34f23814fd8706f720a57d3d8c188b0fe8db951dc725c",
+      "afterBodyHash": "b793d421c3e1174904953cc80527a5a193baffc7d2059d64ceeb6a5804919551",
+      "paths": [
+        {
+          "path": "s262/e4568/trigger/default/initial/body/2/body/1",
+          "source": [34093, 34095],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s268",
+      "owner": "e4675/trigger/default/initial",
+      "beforeBodyHash": "a6b0279519fb14bb40ac13ae3128be87b99b4457e817be4c05f89ec36e23ce5e",
+      "afterBodyHash": "099177fac7f33ecc100d319ce4faae311ed59dd335bdcef268e65425a4714730",
+      "paths": [
+        {
+          "path": "s268/e4675/trigger/default/initial/body/12",
+          "source": [34411],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s268/e4675/trigger/default/initial/body/14",
+          "source": [34413],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s268/e4675/trigger/default/initial/body/20",
+          "source": [34423],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s268/e4675/trigger/default/initial/body/21/body/1",
+          "source": [34425, 34427, 34429],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s268/e4675/trigger/default/initial/body/23",
+          "source": [34431],
+          "beforeMs": 520,
+          "afterMs": 1300
+        },
+        {
+          "path": "s268/e4675/trigger/default/initial/body/30",
+          "source": [34443],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s285",
+      "owner": "e4808/trigger/default/initial",
+      "beforeBodyHash": "4273be5a614c5452d16495915e0f19c0736c91a402ebdb87cdbcce3a4a4a289c",
+      "afterBodyHash": "47784358a3e4f61f524da8deec863c4eae71a0b4f6b2a248789665d5965f8044",
+      "paths": [
+        {
+          "path": "s285/e4808/trigger/default/initial/body/1",
+          "source": [35441],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s285/e4808/trigger/default/initial/body/3",
+          "source": [35443],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s285/e4808/trigger/default/initial/body/9",
+          "source": [35448],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s285/e4808/trigger/default/initial/body/12",
+          "source": [35451],
+          "beforeMs": 640,
+          "afterMs": 1600
+        }
+      ]
+    },
+    {
+      "scene": "s026",
+      "owner": "e507/trigger/default/initial",
+      "beforeBodyHash": "63620c6b1c915bbeece98691800a70c150484654cf8fce5de232590127b2ff2c",
+      "afterBodyHash": "8c39a2eb320c7c0af7274879ae160a88421fcf9a33481e8a4b583edaac6e8556",
+      "paths": [
+        {
+          "path": "s026/e507/trigger/default/initial/body/2",
+          "source": [6975],
+          "beforeMs": 320,
+          "afterMs": 800
+        }
+      ]
+    },
+    {
+      "scene": "s048",
+      "owner": "e795/trigger/default/initial",
+      "beforeBodyHash": "4d9a4e31d50dbaaf5ce4865aa5e82677e993094e9e6692ddef8f88a867fa2ce8",
+      "afterBodyHash": "7d1510d3d57fb4a9a03950e0701b2248f87e76f5c1842da1b5986a346f8c0c29",
+      "paths": [
+        {
+          "path": "s048/e795/trigger/default/initial/body/1",
+          "source": [10228],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s053",
+      "owner": "e905/trigger/default/initial",
+      "beforeBodyHash": "d6d5fd99588d15aaae060c0e2b211c224262995f1927b16813be96d1100c1352",
+      "afterBodyHash": "752446f56f790de9e5ba6636e911b53737ff60f6ef4f9fa3f1a3ffc1ae13af6f",
+      "paths": [
+        {
+          "path": "s053/e905/trigger/default/initial/body/29",
+          "source": [10138],
+          "beforeMs": 200,
+          "afterMs": 500
+        }
+      ]
+    },
+    {
+      "scene": "s056",
+      "owner": "e938/trigger/default/initial",
+      "beforeBodyHash": "2a4c72c1bea0d71ecbe0aa35a383ad6b3df317e4e5f9068e6b6f673efada6e4f",
+      "afterBodyHash": "1779bb130096a76343f464a7844b6944b5d10ab7e89db41f883659653026d37c",
+      "paths": [
+        {
+          "path": "s056/e938/trigger/default/initial/body/18",
+          "source": [11145],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/20",
+          "source": [11147],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/23",
+          "source": [11153],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/27",
+          "source": [11163],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/29",
+          "source": [11165],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/31",
+          "source": [11167],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/35",
+          "source": [11175],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/38",
+          "source": [11181],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/41",
+          "source": [11187],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/44",
+          "source": [11193],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s056/e938/trigger/default/initial/body/46",
+          "source": [11195],
+          "beforeMs": 80,
+          "afterMs": 200
+        }
+      ]
+    },
+    {
+      "scene": "s056",
+      "owner": "e941/trigger/default/initial",
+      "beforeBodyHash": "10df821fd05e1ef9399effed987494d0ec4d6361bbdd4c85271edec37006cea5",
+      "afterBodyHash": "ebc31ca32225e9832f4d0393a5d6e663330570ec4d128bce81b7e7cb7aa478d8",
+      "paths": [
+        {
+          "path": "s056/e941/trigger/default/initial/body/3",
+          "source": [11251],
+          "beforeMs": 480,
+          "afterMs": 1200
+        },
+        {
+          "path": "s056/e941/trigger/default/initial/body/7",
+          "source": [11256],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s056/e941/trigger/default/initial/body/12",
+          "source": [11261],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s056/e941/trigger/default/initial/body/47",
+          "source": [11347],
+          "beforeMs": 800,
+          "afterMs": 2000
+        },
+        {
+          "path": "s056/e941/trigger/default/initial/body/50",
+          "source": [11353],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s056/e941/trigger/default/initial/body/52",
+          "source": [11355],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s100",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "2b4d7c4a048f50318584326136f070365a3edc3d17bffdaac0758167dc529036",
+      "afterBodyHash": "bba4b4aa50987960f70390b8c4cf0603bf4f261f6773cd45c117667ca514b29e",
+      "paths": [
+        {
+          "path": "s100/onEnter/default/initial/body/6",
+          "source": [17834],
+          "beforeMs": 360,
+          "afterMs": 900
+        },
+        {
+          "path": "s100/onEnter/default/initial/body/9",
+          "source": [17840],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s100/onEnter/default/initial/body/11",
+          "source": [17842],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s100/onEnter/default/initial/body/13",
+          "source": [17844],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s100/onEnter/default/initial/body/15",
+          "source": [17846],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s100/onEnter/default/initial/body/17",
+          "source": [17848],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s100/onEnter/default/initial/body/29",
+          "source": [17884],
+          "beforeMs": 40,
+          "afterMs": 100
+        }
+      ]
+    },
+    {
+      "scene": "s125",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "83dde9e5580d6aebd0e3a5e3f8ddfce1600d86c5d85cdb005a8d240ea4529e70",
+      "afterBodyHash": "1a7f7164279334ef6adfbe398b69b7390cb030114c2181767abc06c8f88ae34d",
+      "paths": [
+        {
+          "path": "s125/onEnter/default/initial/body/19",
+          "source": [19016],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s125/onEnter/default/initial/body/25",
+          "source": [19023],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s125/onEnter/default/initial/body/27",
+          "source": [19025],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s125/onEnter/default/initial/body/29",
+          "source": [19027],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s125/onEnter/default/initial/body/31",
+          "source": [19029],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s125/onEnter/default/initial/body/33",
+          "source": [19031],
+          "beforeMs": 480,
+          "afterMs": 1200
+        },
+        {
+          "path": "s125/onEnter/default/initial/body/35",
+          "source": [19035],
+          "beforeMs": 800,
+          "afterMs": 2000
+        },
+        {
+          "path": "s125/onEnter/default/initial/body/37",
+          "source": [19037],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s133",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "4b4145efd591cadb79152787755004457abd47f2293071896d2fd80711430394",
+      "afterBodyHash": "5f25a08b978429f8e5cf95204378fcefbb276b6183d2d88f0800f59927863655",
+      "paths": [
+        {
+          "path": "s133/onEnter/default/initial/body/1",
+          "source": [16049],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/4",
+          "source": [16052],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/7",
+          "source": [16055],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/13",
+          "source": [16063],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/32",
+          "source": [16086],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/34",
+          "source": [16088],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/39",
+          "source": [16094],
+          "beforeMs": 560,
+          "afterMs": 1400
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/41",
+          "source": [16096],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/44",
+          "source": [16098],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/48",
+          "source": [16104],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/68",
+          "source": [16147],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s133/onEnter/default/initial/body/71",
+          "source": [16149],
+          "beforeMs": 240,
+          "afterMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s140",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "abd0bdfc0525c5645c7bd24bd621073169420dfad0e581d96fe568d70a82f54d",
+      "afterBodyHash": "5717f014634e2b43dc81119acd8857426a964b18d1dfd3a03332bac5027b05ff",
+      "paths": [
+        {
+          "path": "s140/onEnter/default/initial/body/16",
+          "source": [21930],
+          "beforeMs": 1680,
+          "afterMs": 4200
+        },
+        {
+          "path": "s140/onEnter/default/initial/body/18",
+          "source": [21935],
+          "beforeMs": 480,
+          "afterMs": 1200
+        },
+        {
+          "path": "s140/onEnter/default/initial/body/24",
+          "source": [21948],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s140/onEnter/default/initial/body/28",
+          "source": [21951],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s140/onEnter/default/initial/body/41",
+          "source": [21974],
+          "beforeMs": 1920,
+          "afterMs": 4800
+        },
+        {
+          "path": "s140/onEnter/default/initial/body/45",
+          "source": [21978],
+          "beforeMs": 2400,
+          "afterMs": 6000
+        }
+      ]
+    },
+    {
+      "scene": "s141",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "8e1d1000927ccc62d7963162b65267799d18559392593a4a86de46f1aca07ebf",
+      "afterBodyHash": "a5d28fe437a79261bd0c23aa18aa477d8391a713402a985dc905c272ce5ec1c7",
+      "paths": [
+        {
+          "path": "s141/onEnter/default/initial/body/2",
+          "source": [22225],
+          "beforeMs": 1440,
+          "afterMs": 3600
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/5",
+          "source": [22227],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/7",
+          "source": [22232],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/9",
+          "source": [22234],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/14",
+          "source": [22240],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/17",
+          "source": [22242],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/20",
+          "source": [22244],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/24",
+          "source": [22247],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/28",
+          "source": [22250],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/30",
+          "source": [22254],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/33",
+          "source": [22256],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/36",
+          "source": [22258],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s141/onEnter/default/initial/body/40",
+          "source": [22262],
+          "beforeMs": 1440,
+          "afterMs": 3600
+        }
+      ]
+    },
+    {
+      "scene": "s142",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "c4b3242d21ac80d75244230527f38e26b134ecddb0c07344249073b2d27fca7e",
+      "afterBodyHash": "36657850165cad3f6b5963d68b649e060e6ee51d13aefe186b1746ed7f253614",
+      "paths": [
+        {
+          "path": "s142/onEnter/default/initial/body/2",
+          "source": [22277],
+          "beforeMs": 1200,
+          "afterMs": 3000
+        },
+        {
+          "path": "s142/onEnter/default/initial/body/4",
+          "source": [22279],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s142/onEnter/default/initial/body/10",
+          "source": [22284],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s142/onEnter/default/initial/body/13",
+          "source": [22286],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s142/onEnter/default/initial/body/16",
+          "source": [22288],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s142/onEnter/default/initial/body/18",
+          "source": [22290],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s142/onEnter/default/initial/body/21",
+          "source": [22293],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s143",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "d761f19e7a05e1a686f6c8e674caa12c0bb9cf8def65b7c7447597f2a1e38e7e",
+      "afterBodyHash": "25c26b179b2c653f1e34b52bfcbfbe8c4eaca72ea4f0136ff565a95d7d783e43",
+      "paths": [
+        {
+          "path": "s143/onEnter/default/initial/body/3",
+          "source": [22302],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s143/onEnter/default/initial/body/6",
+          "source": [22304],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s143/onEnter/default/initial/body/11",
+          "source": [22307],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s143/onEnter/default/initial/body/16",
+          "source": [22310],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s143/onEnter/default/initial/body/21",
+          "source": [22317],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s143/onEnter/default/initial/body/24",
+          "source": [22319],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s143/onEnter/default/initial/body/26",
+          "source": [22325],
+          "beforeMs": 240,
+          "afterMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s150",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "eba2b798d982cbb609039ce1c6bc603e69a3a2d9c3ac1d0902c5b539bd49ed06",
+      "afterBodyHash": "3796b869c6c52adcbc30700f3f7ac6c1cadad46c7f17e77e973e8c33da0a5139",
+      "paths": [
+        {
+          "path": "s150/onEnter/default/initial/body/2",
+          "source": [25000],
+          "beforeMs": 600,
+          "afterMs": 1500
+        },
+        {
+          "path": "s150/onEnter/default/initial/body/4",
+          "source": [25002],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s150/onEnter/default/initial/body/9",
+          "source": [25008],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s150/onEnter/default/initial/body/18",
+          "source": [25019],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s150/onEnter/default/initial/body/21",
+          "source": [25022],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s150/onEnter/default/initial/body/24",
+          "source": [25024],
+          "beforeMs": 480,
+          "afterMs": 1200
+        }
+      ]
+    },
+    {
+      "scene": "s155",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "8517ccb68cefc1b934360242ae90597cf767a6be255a6229634bcd26700c6aea",
+      "afterBodyHash": "01b4250a2821bb0f0176131698eb9fc35b33d89894d007031470ec1b7cc45b42",
+      "paths": [
+        {
+          "path": "s155/onEnter/default/initial/body/3",
+          "source": [22448],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/5",
+          "source": [22452],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/8",
+          "source": [22454],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/10",
+          "source": [22456],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/13",
+          "source": [22458],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/15",
+          "source": [22460],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/19",
+          "source": [22463],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/22",
+          "source": [22465],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/24",
+          "source": [22467],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/32",
+          "source": [22487],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/35",
+          "source": [22489],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/38",
+          "source": [22491],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s155/onEnter/default/initial/body/44",
+          "source": [22502],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s159",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "2af7e4991dfd606fa389611f32f34716cc21e620ffb5c7fd4332e1511e1fce8d",
+      "afterBodyHash": "32549a67606463994d878f241db9a235e80c6d9af88254aa723aef2a3db6bd0e",
+      "paths": [
+        {
+          "path": "s159/onEnter/default/initial/body/4",
+          "source": [22685],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/6",
+          "source": [22687],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/10",
+          "source": [22693],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/13",
+          "source": [22695],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/16",
+          "source": [22697],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/20",
+          "source": [22706],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/53",
+          "source": [22768],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/55",
+          "source": [22770],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s159/onEnter/default/initial/body/57",
+          "source": [22772],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s170",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "e5140f98bf1c853283e9c176f19e7133d078d414d8f9d8617c5634070b2e0227",
+      "afterBodyHash": "043853171414bd49cd6c5eef27e34fcc2f4f5e6ee28710fad91bd0ebed20c7e8",
+      "paths": [
+        {
+          "path": "s170/onEnter/default/initial/body/6",
+          "source": [24739],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/9",
+          "source": [24741],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/11",
+          "source": [24744],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/13",
+          "source": [24746],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/15",
+          "source": [24748],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/17",
+          "source": [24750],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/21",
+          "source": [24753],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/25",
+          "source": [24756],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/29",
+          "source": [24759],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/32",
+          "source": [24761],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s170/onEnter/default/initial/body/35",
+          "source": [24763],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s171",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "094db2d36cab26e6b88d95b512bd0ca5dabf43e3ae2f62311fa02cb94982231f",
+      "afterBodyHash": "60f176107fbe0bfe889375afb2ea95f41f222ce8a91cb93e1ca987e3166febdc",
+      "paths": [
+        {
+          "path": "s171/onEnter/default/initial/body/5",
+          "source": [24698],
+          "beforeMs": 560,
+          "afterMs": 1400
+        },
+        {
+          "path": "s171/onEnter/default/initial/body/11",
+          "source": [24707],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s177",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "3c9de0f2d606a4a0fd18109ba3dba705f21db46a52a77b81d38175d5597cb73a",
+      "afterBodyHash": "89408254ca1ddf087efc6acf5c0c88f0f1c4967b92500bdff610fdaf9f72d58b",
+      "paths": [
+        {
+          "path": "s177/onEnter/default/initial/body/1",
+          "source": [27956],
+          "beforeMs": 1040,
+          "afterMs": 2600
+        },
+        {
+          "path": "s177/onEnter/default/initial/body/22",
+          "source": [27998],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s177/onEnter/default/initial/body/28",
+          "source": [28006],
+          "beforeMs": 480,
+          "afterMs": 1200
+        },
+        {
+          "path": "s177/onEnter/default/initial/body/31",
+          "source": [28008],
+          "beforeMs": 1200,
+          "afterMs": 3000
+        }
+      ]
+    },
+    {
+      "scene": "s183",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "8ed5e9fb86c4d901248e4671eeca4ff86c6cafe92998c75e04bbbbff3e992045",
+      "afterBodyHash": "92053afa5d79a1dfeafba97dda8a31ab28ae8baeacb64de00be1a7f4828da4a4",
+      "paths": [
+        {
+          "path": "s183/onEnter/default/initial/body/14",
+          "source": [27578],
+          "beforeMs": 720,
+          "afterMs": 1800
+        },
+        {
+          "path": "s183/onEnter/default/initial/body/16",
+          "source": [27580],
+          "beforeMs": 560,
+          "afterMs": 1400
+        },
+        {
+          "path": "s183/onEnter/default/initial/body/23",
+          "source": [27592],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s183/onEnter/default/initial/body/63",
+          "source": [27655],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s183/onEnter/default/initial/body/65",
+          "source": [27657],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s195",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "531aa4749aac27f99bae41ab0f7f027b13f8010c298efbf21c81f820642a652d",
+      "afterBodyHash": "38296f5061f63bc815e9f3f7c0c6f993ff08eb3cdddea687eac9295ccbf2fcf1",
+      "paths": [
+        {
+          "path": "s195/onEnter/default/initial/body/5",
+          "source": [28722],
+          "beforeMs": 240,
+          "afterMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s196",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "cc50b9b2363290b65144c7aae010d7850de1f515f5b4137f877128765d3525ab",
+      "afterBodyHash": "c1179a3d9623881af300be41e1c70eb2d3277f47f86deda6cafc23286ffcb46e",
+      "paths": [
+        {
+          "path": "s196/onEnter/default/initial/body/1",
+          "source": [28744],
+          "beforeMs": 280,
+          "afterMs": 700
+        },
+        {
+          "path": "s196/onEnter/default/initial/body/4",
+          "source": [28746],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s196/onEnter/default/initial/body/6",
+          "source": [28750],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s196/onEnter/default/initial/body/12",
+          "source": [28755],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s196/onEnter/default/initial/body/15",
+          "source": [28757],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s196/onEnter/default/initial/body/19",
+          "source": [28760],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s196/onEnter/default/initial/body/22",
+          "source": [28762],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s197",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "d256039082609036d3d5d17a2c78d4ee68d3be0cb8f84f7fd414af4b96142658",
+      "afterBodyHash": "4d88819d4a458a06175e61cfa0023861d5066efd89af3e53f7e9013c491f8436",
+      "paths": [
+        {
+          "path": "s197/onEnter/default/initial/body/0",
+          "source": [28767],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s197/onEnter/default/initial/body/3",
+          "source": [28769],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s198",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "5ec447f4c24c698b2b00ed01d66fce3b0535283fd4ff09b8a2aeccecdbbd77a1",
+      "afterBodyHash": "00ebb568e4de36035a92bbb3e74317f622d026506a4c59ed46785ecd47302090",
+      "paths": [
+        {
+          "path": "s198/onEnter/default/initial/body/13",
+          "source": [28804],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/16",
+          "source": [28806],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/19",
+          "source": [28808],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/22/body/2",
+          "source": [28811, 28813],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/28",
+          "source": [28820],
+          "beforeMs": 720,
+          "afterMs": 1800
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/32",
+          "source": [28825],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/35",
+          "source": [28827],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/40",
+          "source": [28830],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s198/onEnter/default/initial/body/43",
+          "source": [28832],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s227",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "1512d4e79312ccb95ec4145a3b78fc9273a5629740b6e4308b12e4b552f029b0",
+      "afterBodyHash": "283e965ce323200a32a50b2b38957726850b31cf2a669d217c532a5904bd5368",
+      "paths": [
+        {
+          "path": "s227/onEnter/default/initial/body/6",
+          "source": [32044],
+          "beforeMs": 320,
+          "afterMs": 800
+        }
+      ]
+    },
+    {
+      "scene": "s230",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "0bd2314226a3b48c2483f90fde04508ec206020a9e229282eabd8c6cc96253be",
+      "afterBodyHash": "877c04ea912f0b76b57a2f6ac5f7e6f353b6a9ffafc32d28e9bff21833605502",
+      "paths": [
+        {
+          "path": "s230/onEnter/default/initial/body/6",
+          "source": [31856],
+          "beforeMs": 1000,
+          "afterMs": 2500
+        },
+        {
+          "path": "s230/onEnter/default/initial/body/10",
+          "source": [31860],
+          "beforeMs": 640,
+          "afterMs": 1600
+        },
+        {
+          "path": "s230/onEnter/default/initial/body/15",
+          "source": [31865],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s230/onEnter/default/initial/body/20",
+          "source": [31870],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s230/onEnter/default/initial/body/26",
+          "source": [31876],
+          "beforeMs": 1200,
+          "afterMs": 3000
+        }
+      ]
+    },
+    {
+      "scene": "s233",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "6dff12356e89a5a22ced01a918396b92cd871a8b9f5f3ff359b901c9405e4362",
+      "afterBodyHash": "cf983f8b024cdce6b350ecaace3c68ef4836d2fda21b06e8bb446891840a05a5",
+      "paths": [
+        {
+          "path": "s233/onEnter/default/initial/body/25",
+          "source": [31602],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s233/onEnter/default/initial/body/29",
+          "source": [31606],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s233/onEnter/default/initial/body/32",
+          "source": [31608],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s233/onEnter/default/initial/body/35",
+          "source": [31610],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s233/onEnter/default/initial/body/38",
+          "source": [31612],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s233/onEnter/default/initial/body/42",
+          "source": [31615],
+          "beforeMs": 200,
+          "afterMs": 500
+        }
+      ]
+    },
+    {
+      "scene": "s243",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "57b6090b7fe8b581c38db6234212d343d63912eeddcd27897077603be78296ff",
+      "afterBodyHash": "9bcb552279e4ced8757fcd2cf96cff8eff7fb7bdd647745a319e1cb8f4e7e90e",
+      "paths": [
+        {
+          "path": "s243/onEnter/default/initial/body/2",
+          "source": [31881],
+          "beforeMs": 480,
+          "afterMs": 1200
+        },
+        {
+          "path": "s243/onEnter/default/initial/body/5",
+          "source": [31884],
+          "beforeMs": 1000,
+          "afterMs": 2500
+        },
+        {
+          "path": "s243/onEnter/default/initial/body/11",
+          "source": [31890],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s243/onEnter/default/initial/body/16",
+          "source": [31895],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s243/onEnter/default/initial/body/20",
+          "source": [31899],
+          "beforeMs": 1200,
+          "afterMs": 3000
+        }
+      ]
+    },
+    {
+      "scene": "s246",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "18e1b5f29a3707e08ef770121ad581c956fdf0f05460831b542c59a031f5072a",
+      "afterBodyHash": "63fdc24f7fc49abc78f56853f337790740e3b77ed238ae3711911fdf6bf9f727",
+      "paths": [
+        {
+          "path": "s246/onEnter/default/initial/body/6",
+          "source": [32461],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s246/onEnter/default/initial/body/8",
+          "source": [32463],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s266",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "d1788dfdc89b5baae97176ebb3c110bf814d247ca6d4184d0e49ec0aa80b2b49",
+      "afterBodyHash": "224b1162018ce0f61648f17e3740daa8353db0df797dcc092d314b43986bb734",
+      "paths": [
+        {
+          "path": "s266/onEnter/default/initial/body/4",
+          "source": [34341],
+          "beforeMs": 880,
+          "afterMs": 2200
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/7",
+          "source": [34343],
+          "beforeMs": 560,
+          "afterMs": 1400
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/11",
+          "source": [34347],
+          "beforeMs": 480,
+          "afterMs": 1200
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/13",
+          "source": [34349],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/15",
+          "source": [34351],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/17",
+          "source": [34353],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/21",
+          "source": [34360],
+          "beforeMs": 280,
+          "afterMs": 700
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/28",
+          "source": [34372],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s266/onEnter/default/initial/body/34",
+          "source": [34381],
+          "beforeMs": 480,
+          "afterMs": 1200
+        }
+      ]
+    },
+    {
+      "scene": "s270",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "4f23284b59108663efb8d3ea2eec16e8e21317281d359f3b51e596fb4f29c537",
+      "afterBodyHash": "579f19274f4aced7406c6f463a9ec5d9a05c5140f29c0a15d28349d0c8332427",
+      "paths": [
+        {
+          "path": "s270/onEnter/default/initial/body/1",
+          "source": [34490],
+          "beforeMs": 120,
+          "afterMs": 300
+        },
+        {
+          "path": "s270/onEnter/default/initial/body/7",
+          "source": [34496],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    },
+    {
+      "scene": "s034",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "57a80d3274a85a3894a88f43b638c046203cd3942055fdb3781a4f61100b56ac",
+      "afterBodyHash": "7f7d68c7038f2522f25cf48ab504d6c9a58d6e48f5d4925258dd95676f801005",
+      "paths": [
+        {
+          "path": "s034/onEnter/default/initial/body/23",
+          "source": [8272],
+          "beforeMs": 800,
+          "afterMs": 2000
+        },
+        {
+          "path": "s034/onEnter/default/initial/body/41",
+          "source": [8303],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s034/onEnter/default/initial/body/62",
+          "source": [8340],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s034/onEnter/default/initial/body/64",
+          "source": [8342],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s034/onEnter/default/initial/body/66",
+          "source": [8346],
+          "beforeMs": 800,
+          "afterMs": 2000
+        },
+        {
+          "path": "s034/onEnter/default/initial/body/68",
+          "source": [8348],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s034/onEnter/default/initial/body/84",
+          "source": [8378],
+          "beforeMs": 200,
+          "afterMs": 500
+        }
+      ]
+    },
+    {
+      "scene": "s038",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "827541f1e6c089f0488560343e1cfc91b26451ddfb4ee331e655ad89a8517b63",
+      "afterBodyHash": "f4449cf322139aeee3ff1ab1d848179a4a981d2c789a3ec3af92a6cd18466eff",
+      "paths": [
+        {
+          "path": "s038/onEnter/default/initial/body/5",
+          "source": [8467],
+          "beforeMs": 640,
+          "afterMs": 1600
+        },
+        {
+          "path": "s038/onEnter/default/initial/body/7",
+          "source": [8469],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s038/onEnter/default/initial/body/9",
+          "source": [8471],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s038/onEnter/default/initial/body/11",
+          "source": [8473],
+          "beforeMs": 40,
+          "afterMs": 100
+        },
+        {
+          "path": "s038/onEnter/default/initial/body/13",
+          "source": [8475],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s038/onEnter/default/initial/body/15",
+          "source": [8477],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s059",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "cc5bec5ac88cf49d6020d9b8d15040bf8d11fa2b35011a31956dc8ed721e5ebc",
+      "afterBodyHash": "4dcb51af0fb7ba657e1a8dc7d3ae9df6bf4c582177f6dca04d44480f18acaba1",
+      "paths": [
+        {
+          "path": "s059/onEnter/default/initial/body/7",
+          "source": [12190],
+          "beforeMs": 1200,
+          "afterMs": 3000
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/9",
+          "source": [12192],
+          "beforeMs": 400,
+          "afterMs": 1000
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/11",
+          "source": [12194],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/13",
+          "source": [12196],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/15",
+          "source": [12198],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/24",
+          "source": [12207],
+          "beforeMs": 320,
+          "afterMs": 800
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/27",
+          "source": [12209],
+          "beforeMs": 280,
+          "afterMs": 700
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/30",
+          "source": [12211],
+          "beforeMs": 160,
+          "afterMs": 400
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/32",
+          "source": [12215],
+          "beforeMs": 80,
+          "afterMs": 200
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/36",
+          "source": [12218],
+          "beforeMs": 200,
+          "afterMs": 500
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/39",
+          "source": [12220],
+          "beforeMs": 240,
+          "afterMs": 600
+        },
+        {
+          "path": "s059/onEnter/default/initial/body/42",
+          "source": [12222],
+          "beforeMs": 160,
+          "afterMs": 400
+        }
+      ]
+    },
+    {
+      "scene": "s066",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "1b105eeed60ecec0a5fcb970159d6d538338184d610c6c92ad5df7aab7c1ee29",
+      "afterBodyHash": "59f4123898834ffd0f51c669238dfb2fbc74c06122f96e1e7ce2d3890d8a6fe5",
+      "paths": [
+        {
+          "path": "s066/onEnter/default/initial/body/6",
+          "source": [12173],
+          "beforeMs": 1000,
+          "afterMs": 2500
+        }
+      ]
+    },
+    {
+      "scene": "s077",
+      "owner": "onEnter/default/initial",
+      "beforeBodyHash": "bedbc2151b62e862918b06585d154c408b36ea4090d8e861c78bc70970e6dc9c",
+      "afterBodyHash": "c960b0aead6045ed6ff22d2b617b999c30bc252da6233cac3847eb203789b0a1",
+      "paths": [
+        {
+          "path": "s077/onEnter/default/initial/body/4",
+          "source": [12824],
+          "beforeMs": 640,
+          "afterMs": 1600
+        },
+        {
+          "path": "s077/onEnter/default/initial/body/7",
+          "source": [12826],
+          "beforeMs": 800,
+          "afterMs": 2000
+        },
+        {
+          "path": "s077/onEnter/default/initial/body/16",
+          "source": [12838],
+          "beforeMs": 400,
+          "afterMs": 1000
+        }
+      ]
+    }
+  ]
+}

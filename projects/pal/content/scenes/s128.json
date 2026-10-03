@@ -126,7 +126,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -331,7 +331,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -776,7 +776,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -2306,15 +2306,17 @@
                             },
                             {
                               "kind": "loadScene",
-                              "scene": "s119"
+                              "scene": "s119",
+                              "transition": {
+                                "kind": "source",
+                                "outMs": 600,
+                                "inMs": 600,
+                                "color": "black",
+                                "evidenceId": "pal-load-scene-19359"
+                              }
                             },
                             {
                               "kind": "stopMusic"
-                            },
-                            {
-                              "kind": "fade",
-                              "dir": "out",
-                              "ms": 600
                             },
                             {
                               "kind": "playMusic",
@@ -2441,15 +2443,17 @@
                             },
                             {
                               "kind": "loadScene",
-                              "scene": "s119"
+                              "scene": "s119",
+                              "transition": {
+                                "kind": "source",
+                                "outMs": 600,
+                                "inMs": 600,
+                                "color": "black",
+                                "evidenceId": "pal-load-scene-19359"
+                              }
                             },
                             {
                               "kind": "stopMusic"
-                            },
-                            {
-                              "kind": "fade",
-                              "dir": "out",
-                              "ms": 600
                             },
                             {
                               "kind": "playMusic",

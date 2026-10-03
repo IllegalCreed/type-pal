@@ -2970,7 +2970,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1000
+                    "ms": 2500
                   },
                   {
                     "kind": "setSceneMapOverride",
@@ -2986,7 +2986,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 640
+                    "ms": 1600
                   },
                   {
                     "kind": "setEntityState",
@@ -3022,7 +3022,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 240
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityState",
@@ -3058,7 +3058,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "kind": "setEntityState",
@@ -3098,7 +3098,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1200
+                    "ms": 3000
                   },
                   {
                     "kind": "loadScene",

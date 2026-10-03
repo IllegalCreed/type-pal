@@ -50,6 +50,7 @@ import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
 import { collectSceneSoundAssets } from './audio/sfx-readiness.js'
+import { executeAutomaticTargetCommand } from './automatic-target-command.js'
 import { curePoisons } from './battle/battle-core.js'
 import { BattleHost } from './battle/battle-host.js'
 import { BattleLaunchPreparation } from './battle/battle-launch-preparation.js'
@@ -86,6 +87,7 @@ import {
   type MotionSource,
   motionActorKey,
 } from './entity-motion.js'
+import { areEntityPositionsNear } from './entity-proximity.js'
 import {
   consumeScheduledMoveRest,
   facingToward,
@@ -677,6 +679,8 @@ export async function bootGame(
   const sceneEntrySession = new SceneEntrySession<ImageData>()
   const frameSequenceReader = new FrameSequenceReader(project.assetResolver)
   const frameAnimationPresentation = new FrameAnimationPresentationState()
+  let frameAnimationPlaybackAbort: AbortController | null = null
+  let frameAnimationAbortCleanup: (() => void) | null = null
   let frameAnimationLayerCanvas: HTMLCanvasElement | null = null
   const writeFrameAnimationLayer = (frame: FrameAnimationFrameSnapshot): void => {
     if (!frameAnimationLayerCanvas) frameAnimationLayerCanvas = document.createElement('canvas')
@@ -689,12 +693,13 @@ export async function bootGame(
     layerCtx.putImageData(image, 0, 0)
   }
   /** 帧动画播放器只更新 Cinematic Layer，不直接操作主画布或 DOM 层级。 */
-  const presentFrameAnimationFrame = (frame: FrameAnimationFrameSnapshot): void => {
-    frameAnimationPresentation.present(frame)
+  const presentFrameAnimationFrame = (frame: FrameAnimationFrameSnapshot, owner: number): void => {
+    if (!frameAnimationPresentation.present(frame, owner))
+      throw asyncIntentAbortError('frame animation presentation owner changed')
     writeFrameAnimationLayer(frame)
   }
   /** 首段资源加载期间冻结当前完整输出；连续段已有上一张末帧，不再另取世界帧。 */
-  const beginFrameAnimationPlayback = (): void => {
+  const beginFrameAnimationPlayback = (): number => {
     let fallback: FrameAnimationFrameSnapshot | undefined
     if (!frameAnimationPresentation.hasBufferedFrame) {
       const current = ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -706,10 +711,16 @@ export async function bootGame(
       fallback = captured
       writeFrameAnimationLayer(captured)
     }
-    frameAnimationPresentation.beginPlayback(fallback)
+    return frameAnimationPresentation.beginPlayback(fallback)
   }
   const resetFrameAnimationPresentation = (): void => {
     frameAnimationPresentation.reset()
+    const controller = frameAnimationPlaybackAbort
+    frameAnimationPlaybackAbort = null
+    const cleanup = frameAnimationAbortCleanup
+    frameAnimationAbortCleanup = null
+    cleanup?.()
+    controller?.abort()
     frameAnimationLayerCanvas = null
   }
   /** Presentation Pass 2：在 World Layer 之上合成 Cinematic Layer。 */
@@ -1455,13 +1466,16 @@ export async function bootGame(
   const autoMotionSlots = motionRuntime.autoSlots
   const setAuthority = (id: string, value: MotionAuthority): void => {
     motionRuntime.setAuthority(id, value)
+    autoWakeGate.notify()
   }
   const releaseAuthority = (id: string): void => {
     motionRuntime.releaseAuthority(id)
+    autoWakeGate.notify()
   }
   const releaseAllAuthority = (): void => {
     if (authority.get('party')?.kind === 'mount') dismountParty()
     motionRuntime.releaseAllAuthority()
+    autoWakeGate.notify()
   }
   const takeByScript = (id: string): void => {
     if (id === 'party' && authority.get('party')?.kind === 'mount') dismountParty()
@@ -1933,22 +1947,80 @@ export async function bootGame(
     cameraSnap: (to) => cameraSession.snap(to),
     frameAnimation: async (opts, signal) => {
       assertRunnerActive(signal, `帧动画 ${opts.asset} 所属 runner 已取消`)
-      beginFrameAnimationPlayback()
+      frameAnimationAbortCleanup?.()
+      frameAnimationAbortCleanup = null
+      frameAnimationPlaybackAbort?.abort()
+      const controller = new AbortController()
+      frameAnimationPlaybackAbort = controller
+      const owner = beginFrameAnimationPlayback()
+      const fadeOwner = {}
+      const abort = (): void => {
+        controller.abort()
+        if (frameAnimationPresentation.isCurrent(owner)) resetFrameAnimationPresentation()
+      }
+      const detachAbort = (): void => {
+        signal.removeEventListener('abort', abort)
+        fadeDriver.cancelOwned(fadeOwner, 0)
+      }
+      frameAnimationAbortCleanup = detachAbort
+      signal.addEventListener('abort', abort, { once: true })
+      if (signal.aborted) abort()
+      const assertCurrent = (): void => {
+        assertRunnerActive(controller.signal, `帧动画 ${opts.asset} 所属请求已取消`)
+        if (!frameAnimationPresentation.isCurrent(owner))
+          throw asyncIntentAbortError('frame animation superseded')
+      }
+      let succeeded = false
+      const initialFadeInMs = opts.initialFadeInMs
       try {
-        await playFrameAnimationOverlay({
+        if (initialFadeInMs !== undefined) {
+          assertCurrent()
+          const black = hostFade('out', 0, 'black', controller.signal, fadeOwner)
+          // The explicit first-frame reveal owns black immediately, including slow decoding.
+          // Settle this zero-duration setup at the same gameplay time, without inventing a tick.
+          fadeDriver.advance(frames.now)
+          await black
+          assertCurrent()
+        }
+        const last = await playFrameAnimationOverlay({
           reader: frameSequenceReader,
           asset: opts.asset,
           frameRate: opts.frameRate,
           startFrame: opts.startFrame,
           endFrame: opts.endFrame,
-          onFrame: presentFrameAnimationFrame,
-          signal,
+          onFrame: (frame) => {
+            assertCurrent()
+            presentFrameAnimationFrame(frame, owner)
+          },
+          ...(initialFadeInMs !== undefined
+            ? {
+                onFirstFrameReady: async () => {
+                  assertCurrent()
+                  await hostFade('in', initialFadeInMs, 'black', controller.signal, fadeOwner)
+                  assertCurrent()
+                },
+              }
+            : {}),
+          signal: controller.signal,
         })
-        assertRunnerActive(signal, `帧动画 ${opts.asset} 所属 runner 已取消`)
+        assertCurrent()
+        if (!last && initialFadeInMs !== undefined) fadeDriver.cancelOwned(fadeOwner, 0)
+        succeeded = true
       } finally {
-        frameAnimationPresentation.finishPlayback()
+        frameAnimationPresentation.finishPlayback(owner, {
+          succeeded,
+          holdLastFrame: opts.holdLastFrame,
+        })
+        if (!succeeded) {
+          detachAbort()
+          if (frameAnimationPlaybackAbort === controller) {
+            frameAnimationPlaybackAbort = null
+            frameAnimationAbortCleanup = null
+          }
+        }
       }
     },
+    clearFrameAnimation: resetFrameAnimationPresentation,
     video: (asset, signal) => playVideoAsset(asset, signal),
     wait: (ms, signal) => frames.wait(ms, signal),
     resetPresentation: () => {
@@ -2293,7 +2365,12 @@ export async function bootGame(
       // 新动作接管外观时清掉显式定帧；移动中的走帧仍保留并以更高优先级暂停动作。
       worldPresentation.clearEntityFrame(id)
       motion.clearExplicitAnimation(id)
-      return entityActions.play(id, resolved, signal)
+      return entityActions.play(
+        id,
+        resolved,
+        signal,
+        signal && autoActivationBySignal.has(signal) ? 'automatic' : 'script',
+      )
     },
     stopEntityAction: (id, reset) => entityActions.stop(id, reset),
     giveItem: async (itemId, count, signal) => {
@@ -2662,10 +2739,15 @@ export async function bootGame(
             ...(opts?.frameRate !== undefined ? { frameRate: opts.frameRate } : {}),
             ...(opts?.startFrame !== undefined ? { startFrame: opts.startFrame } : {}),
             ...(opts?.endFrame !== undefined ? { endFrame: opts.endFrame } : {}),
+            ...(opts?.holdLastFrame !== undefined ? { holdLastFrame: opts.holdLastFrame } : {}),
+            ...(opts?.initialFadeInMs !== undefined
+              ? { initialFadeInMs: opts.initialFadeInMs }
+              : {}),
           },
         ],
         signal ?? new AbortController().signal,
       ),
+    clearFrameAnimation: resetFrameAnimationPresentation,
     confirm: async (signal) => {
       assertRunnerActive(signal, '确认框所属 runner 已取消')
       const heldFrame = ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -2687,6 +2769,12 @@ export async function bootGame(
           0,
         ) >= atLeast,
       entityInScene: (id) => activeScene.scene.entities.some((x) => x.id === id),
+      entitiesNear: (from, to, range) =>
+        areEntityPositionsNear(
+          activeScene.scene.entities.find((entity) => entity.id === from)?.pos,
+          activeScene.scene.entities.find((entity) => entity.id === to)?.pos,
+          range,
+        ),
       facingEntity: (id, range) => {
         const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
         if (!entity || !entityLifecycleGates(entity).visible) return false
@@ -3011,6 +3099,56 @@ export async function bootGame(
     signal: AbortSignal,
     commitControl?: ScriptEffectCommitControl,
   ): Promise<void> => {
+    const automaticPoseTarget =
+      context.timing === 'auto' &&
+      (command.kind === 'setEntityFacing' ||
+        command.kind === 'setEntityFrame' ||
+        command.kind === 'animEntity' ||
+        command.kind === 'playEntityAction' ||
+        command.kind === 'stopEntityAction') &&
+      command.target.scene === activeScene.scene.id
+        ? command.target.entity
+        : undefined
+    if (automaticPoseTarget) {
+      const activation = autoActivationBySignal.get(signal)
+      if (!activation) throw asyncIntentAbortError('automatic pose has no live activation')
+      const sceneSessionId = activation.sceneSessionId
+      const eligible = (): boolean => {
+        signal.throwIfAborted()
+        if (
+          currentMotionSceneSessionId() !== sceneSessionId ||
+          autoActivations.get(activation.entityId) !== activation
+        )
+          throw asyncIntentAbortError('automatic pose activation or scene session changed')
+        const target = activeScene.scene.entities.find(
+          (entity) => entity.id === automaticPoseTarget,
+        )
+        const owner = activeScene.scene.entities.find((entity) => entity.id === activation.entityId)
+        if (!target || !owner || entityMotionPermanentlyRemoved(automaticPoseTarget))
+          throw asyncIntentAbortError('automatic pose target or owner left scene')
+        return (
+          !scriptConfirmModal.active &&
+          !pendingTouchTrigger.blocksAutoSafePoint &&
+          entityLifecycleGates(target, { hasAuto: true }).autoAllowed &&
+          entityLifecycleGates(owner, { hasAuto: true }).autoAllowed &&
+          authority.get(automaticPoseTarget)?.kind !== 'script'
+        )
+      }
+      await executeAutomaticTargetCommand(
+        {
+          signal,
+          checkpoint: context.autoCommandCheckpoint,
+          eligible,
+          wait: (isEligible) => autoWakeGate.wait(signal, isEligible),
+        },
+        () =>
+          executeScriptHostEffect(autoHost, command, context, signal, {
+            currentSceneId: () => activeScene.scene.id,
+          }),
+        command.kind === 'playEntityAction',
+      )
+      return
+    }
     if (command.kind === 'moveEntity' && command.target.scene === activeScene.scene.id) {
       const source: EntityMoveSource = context.timing === 'auto' ? 'auto' : 'script'
       const continuationSceneToken = currentMotionSceneSessionId()
@@ -3145,6 +3283,10 @@ export async function bootGame(
         entityInScene: (target) =>
           target.scene === activeScene.scene.id &&
           activeScene.scene.entities.some((entity) => entity.id === target.entity),
+        entitiesNear: (from, to, range) =>
+          from.scene === activeScene.scene.id &&
+          to.scene === activeScene.scene.id &&
+          host.query.entitiesNear(from.entity, to.entity, range),
         facingEntity: (target, range) => {
           if (target.scene !== activeScene.scene.id) return false
           return host.query.facingEntity(target.entity, range)
@@ -5330,7 +5472,9 @@ export async function bootGame(
     /** dev:按稳定 AssetId 播过场视频。 */
     playVideo: (asset: string) => host.playVideo(asset),
     /** dev:按稳定 AssetId 播帧动画。 */
-    playFrameAnimation: (asset: string) => host.playFrameAnimation(asset),
+    playFrameAnimation: (asset: string, opts?: Parameters<ScriptHost['playFrameAnimation']>[1]) =>
+      host.playFrameAnimation(asset, opts),
+    clearFrameAnimation: () => host.clearFrameAnimation(),
     get battleLog() {
       return battleHost.active?.debugLog() ?? []
     },
@@ -5465,7 +5609,7 @@ export async function bootGame(
     deriveMounts,
     advanceLifecycle: advanceLifecycleWorldStepIfEligible,
     advanceEntityActions: (dt) => {
-      entityActions.advance(dt, (id) => {
+      entityActions.advance(dt, (id, source) => {
         const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
         return (
           !!battleHost.active ||
@@ -5473,7 +5617,8 @@ export async function bootGame(
           !entityLifecycleGates(entity).visible ||
           worldPresentation.hasEntityFrame(id) ||
           motion.hasGait(id) ||
-          motion.hasExplicitAnimation(id)
+          motion.hasExplicitAnimation(id) ||
+          (source === 'automatic' && authority.get(id)?.kind === 'script')
         )
       })
     },

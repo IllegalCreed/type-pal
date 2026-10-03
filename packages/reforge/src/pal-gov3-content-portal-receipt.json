@@ -1,0 +1,193 @@
+{
+  "count": {
+    "dynamic": 6,
+    "lateOut": 10
+  },
+  "semanticChange": "Explicit source scene transition; late pos/facing are atomic spawn; non-position music leaves retain relative order; no late blackout",
+  "receipts": [
+    {
+      "scene": "s025",
+      "beforeHash": "5b2a192c6ef97d5f70e97a0c74522c5ff6057c111a9848522fe03874c30c43ea",
+      "afterHash": "496c0c62cc46487d3276ec6058d071f01ef3e581246af78181ed4bde0324db0a",
+      "evidence": [
+        {
+          "entity": "e492",
+          "kind": "dynamic-profile",
+          "source": "pal-load-scene-6519"
+        }
+      ]
+    },
+    {
+      "scene": "s084",
+      "beforeHash": "209706306d65ca1acecc28b7c99f9c58cb05f2262f55714a7a37a453c0436dd4",
+      "afterHash": "9916017156aaf9e0e9c26cac95042edce510f815ac448e145ad39e5eb1f3985f",
+      "evidence": [
+        {
+          "entity": "e1577",
+          "kind": "dynamic-profile",
+          "source": "pal-load-scene-13021"
+        },
+        {
+          "entity": "e1609",
+          "kind": "tail-profile",
+          "source": 13410,
+          "outMs": 600,
+          "inMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s115",
+      "beforeHash": "2de0240a5beaff0f81d228848f47adbc0f69dc08723a9200419ce42211eeb4f9",
+      "afterHash": "bf6de93c5699e50bafef057a7a9ba2e9fec5fa86e3df4d9278bb245ff8307b46",
+      "evidence": [
+        {
+          "entity": "e2135",
+          "kind": "dynamic-profile",
+          "source": "pal-load-scene-15635"
+        }
+      ]
+    },
+    {
+      "scene": "s180",
+      "beforeHash": "1096856b3a6e51812b6acf37aeeb98460ffd955d09b4a32e8d74c4d76bfc4bc1",
+      "afterHash": "8b694907b6740810b97dfa75ee70008889a917b058e79c3a7ee5ae2bccd25ab2",
+      "evidence": [
+        {
+          "entity": "e2960",
+          "kind": "dynamic-profile",
+          "source": "pal-load-scene-25096"
+        }
+      ]
+    },
+    {
+      "scene": "s176",
+      "beforeHash": "e6d93f55f9f1d3254a72b39568307a9a1a9108337847c2779817d1486501ac42",
+      "afterHash": "ec3e32bd35943cfa0708f9afdcbc782cf976d4bc20445494567c6e83b64dbc7f",
+      "evidence": [
+        {
+          "entity": "e2916",
+          "kind": "dynamic-profile",
+          "source": "pal-load-scene-27729"
+        }
+      ]
+    },
+    {
+      "scene": "s206",
+      "beforeHash": "b7e11bb18752add0da353b8dca4fd231be0259697ab550c281f2c3424693d398",
+      "afterHash": "70155f287496ab187c587c95160052f39e963b52060f982cfea98918559a3d17",
+      "evidence": [
+        {
+          "entity": "e3458",
+          "kind": "dynamic-profile",
+          "source": "pal-load-scene-28871"
+        }
+      ]
+    },
+    {
+      "scene": "s145",
+      "beforeHash": "0bdfa911cd207cc27b6498611fd21a38a6cb4357d4377fd13719f8e36cc59ee7",
+      "afterHash": "9d9aba445b637341a1a432cc1432904347d0595d69caee0143ef7e577f7e4e9b",
+      "evidence": [
+        {
+          "entity": "e2399",
+          "kind": "tail-profile",
+          "source": 23971,
+          "outMs": 1200,
+          "inMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s179",
+      "beforeHash": "3a578082efa5f01c91b9e29b0f6ef161908d16c8b2807c2e9bc9cfb58a2742b4",
+      "afterHash": "49fc017a19f6fe0036570a1d5dfaf7d5f0cf6cbbd32bd7d9c3f013953133492b",
+      "evidence": [
+        {
+          "entity": "e2953",
+          "kind": "tail-profile",
+          "source": 25955,
+          "outMs": 600,
+          "inMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s186",
+      "beforeHash": "56a3ae4507d66c6f335cf0497bdfa616dc692a622c2e0afd59a113fdcf9303d2",
+      "afterHash": "a74714694e4dbdbf737c73b11a24d428e1edeec67047ac805affaefd24b1f7e6",
+      "evidence": [
+        {
+          "entity": "e3131",
+          "kind": "tail-profile",
+          "source": 25960,
+          "outMs": 600,
+          "inMs": 600
+        },
+        {
+          "entity": "e3132",
+          "kind": "tail-profile",
+          "source": 25965,
+          "outMs": 600,
+          "inMs": 600
+        },
+        {
+          "entity": "e3133",
+          "kind": "tail-profile",
+          "source": 25168,
+          "outMs": 600,
+          "inMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s192",
+      "beforeHash": "29ec5e97156a7175e8b05faefa4665855566cd1b54fb62095dfa57a96309b1f3",
+      "afterHash": "a98835ffc7cc77639e5f66a05af9241319dffd727ea213dc1ed4dc84a1190f9d",
+      "evidence": [
+        {
+          "entity": "e3244",
+          "kind": "tail-profile",
+          "source": 25970,
+          "outMs": 600,
+          "inMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s268",
+      "beforeHash": "2fbccc16cdf98c7d67abe34c38fbbc2f7896d6efe3874a44315583b2b2d79744",
+      "afterHash": "d12601cc9f1dfd8c5609e7261f3acc286902fbdc25a73ad63c9fbe4de476f389",
+      "evidence": [
+        {
+          "entity": "e4673",
+          "kind": "tail-profile",
+          "source": 34617,
+          "outMs": 600,
+          "inMs": 600
+        }
+      ]
+    },
+    {
+      "scene": "s128",
+      "beforeHash": "329841990b08fb8eb393c0f5dbd4f5fb6e24887ddd04b066d99c31238c99351c",
+      "afterHash": "b598336275d44ec30631b0f076b67a0b36303e4b4c7bb68c4edbb64e0a893a22",
+      "evidence": [
+        {
+          "entity": "e2245",
+          "kind": "tail-profile",
+          "source": 19359,
+          "outMs": 600,
+          "inMs": 600
+        },
+        {
+          "entity": "e2245",
+          "kind": "tail-profile",
+          "source": 19359,
+          "outMs": 600,
+          "inMs": 600
+        }
+      ]
+    }
+  ]
+}

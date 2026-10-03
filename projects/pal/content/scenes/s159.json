@@ -1527,7 +1527,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -1550,7 +1550,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -1595,7 +1595,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -1618,7 +1618,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -1685,7 +1685,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -1730,7 +1730,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -1775,7 +1775,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -1798,7 +1798,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -1821,7 +1821,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -1844,7 +1844,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 200
+            "startAtMs": 100
           }
         }
       ],
@@ -1889,7 +1889,7 @@
             "sprite": "sprite-8",
             "action": "pal-auto-v1-06f5a00e1f6d5d04",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 200
           }
         }
       ],
@@ -2004,7 +2004,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "facing": "up",
@@ -2012,7 +2012,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "up",
@@ -2042,7 +2042,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "left",
@@ -2062,7 +2062,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "down",
@@ -2082,7 +2082,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "cue": {
@@ -2130,7 +2130,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "left",
@@ -2455,7 +2455,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 240
+                    "ms": 600
                   },
                   {
                     "facing": "right",
@@ -2464,7 +2464,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "facing": "up",
@@ -2472,7 +2472,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "cue": {

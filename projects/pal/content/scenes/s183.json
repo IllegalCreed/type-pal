@@ -433,7 +433,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 720
+                    "ms": 1800
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -449,7 +449,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 560
+                    "ms": 1400
                   },
                   {
                     "cue": {
@@ -518,7 +518,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 240
+                    "ms": 600
                   },
                   {
                     "facing": "up",
@@ -881,7 +881,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "left",
@@ -889,7 +889,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "left",

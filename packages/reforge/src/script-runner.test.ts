@@ -80,6 +80,7 @@ function fakeHost(calls: string[]): ScriptHost {
     },
     playVideo: alog('playVideo'),
     playFrameAnimation: alog('playFrameAnimation'),
+    clearFrameAnimation: log('clearFrameAnimation'),
     teleportOut: async () => {
       calls.push('teleportOut()')
       return false
@@ -104,6 +105,7 @@ function fakeHost(calls: string[]): ScriptHost {
       allFullHp: () => true,
       itemEquipped: () => false,
       entityInScene: (id: string) => id === 'e100',
+      entitiesNear: () => false,
       facingEntity: (id: string, range: number) => id === 'e100' && range === 1,
     },
     report: log('report'),

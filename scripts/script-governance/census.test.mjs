@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises'
 import { test } from 'node:test'
 import { buildCensus } from './census.mjs'
 import { loadCanonicalScenes } from './run.mjs'
-import { indexSource } from './source.mjs'
+import { callerContexts, indexSource, sourceSegment } from './source.mjs'
 
 const raw = (opcode, ...operands) => ({
   op: 'raw',
@@ -43,6 +43,38 @@ const installation = (owner = 192, target = 3) =>
     dialogue(101),
     end(),
   ])
+
+test('confirmation refusal remains structurally reachable with its real caller owner', () => {
+  const input = fixture([
+    end(),
+    raw(0x0a, 4),
+    dialogue(101),
+    end(),
+    raw(0x25, 192, 6),
+    end(),
+    dialogue(100),
+    end(),
+  ])
+  const source = indexSource(input.events, input.sourceScenes)
+  assert.deepEqual(callerContexts(source).get(4), [
+    { root: 's010/e191/trigger', entry: 1, owner: 191 },
+  ])
+  assert.equal(
+    buildCensus(input).edges[0].rootReachability,
+    'structurally-reached-from-static-root',
+  )
+  assert.equal(sourceSegment(source.commands, 1, 191).terminal.kind, 'nonlinear')
+})
+
+test('current loadScene.scene contributes its actual canonical scene token', () => {
+  const input = fixture(
+    [end(), raw(0x25, 192, 3), end(), { op: 'loadScene', sceneId: 22 }, end()],
+    { current: behavior([{ kind: 'loadScene', scene: 's021' }]) },
+  )
+  const row = buildCensus(input).edges[0].bindings[0]
+  assert.equal(row.status, 'mapped')
+  assert.equal(row.behavior, 'current')
+})
 
 test('keeps every physical edge, including duplicates, no-op and clear', () => {
   const input = installation()

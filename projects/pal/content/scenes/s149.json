@@ -1149,6 +1149,21 @@
                     "kind": "setPartyFacing"
                   },
                   {
+                    "kind": "setActorAppearance",
+                    "actor": "li-xiaoyao",
+                    "spriteId": "li-xiaoyao"
+                  },
+                  {
+                    "kind": "setActorAppearance",
+                    "actor": "zhao-linger",
+                    "spriteId": "sprite-512"
+                  },
+                  {
+                    "kind": "setActorAppearance",
+                    "actor": "lin-yueru",
+                    "spriteId": "lin-yueru"
+                  },
+                  {
                     "kind": "setParty",
                     "members": [
                       "li-xiaoyao"

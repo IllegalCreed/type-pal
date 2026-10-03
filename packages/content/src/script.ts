@@ -37,7 +37,8 @@ export type ScriptCondition =
   /** 原版 0x95：当前场景是否为指定场景。 */
   | { kind: 'currentScene'; scene: string }
   | { kind: 'entityState'; entity: string; is: number }
-  | { kind: 'entityInScene'; entity: string } // 原版 0x83:对象是否属于当前场景(取代下标区间判定)
+  | { kind: 'entityInScene'; entity: string }
+  | { kind: 'entitiesNear'; from: string; to: string; range: number }
   /** 原版 0x81：目标实体在当前场景可见，且位于队伍朝向前方的指定格距内。 */
   | { kind: 'facingEntity'; entity: string; range?: number }
   | { kind: 'chance'; percent: number } // 原版 0x06 jumpByRate
@@ -91,7 +92,10 @@ export type Command =
       startFrame?: number
       endFrame?: number
       frameRate?: number
+      holdLastFrame?: boolean
+      initialFadeInMs?: number
     }
+  | { kind: 'clearFrameAnimation' }
   // ── B8 野外遇敌(原版 0x4C/0x4B/0x4E + GameOver 枢纽的干净表达)──
   /** 向玩家追一步(auto 脚本里即持续追逐——auto runner 天然循环)。range 格内才追(切比雪夫);floating 忽略地形与阻挡实体。 */
   | { kind: 'chasePlayer'; range?: number; speed?: number; floating?: boolean }
@@ -303,6 +307,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   playEntityAction: 'blocked',
   stopMusic: 'safe',
   playFrameAnimation: 'blocked',
+  clearFrameAnimation: 'safe',
   playSound: 'safe',
   playVideo: 'blocked',
   quitToTitle: 'blocked',
@@ -636,6 +641,8 @@ export function checkCommands(
         startFrame?: unknown
         endFrame?: unknown
         frameRate?: unknown
+        holdLastFrame?: unknown
+        initialFadeInMs?: unknown
       }
       for (const field of ['startFrame', 'endFrame'] as const) {
         const value = animation[field]
@@ -655,7 +662,16 @@ export function checkCommands(
           animation.frameRate <= 0)
       )
         throw new Error(`${path}[${i}].frameRate: 期望正有限数`)
+      if (animation.holdLastFrame !== undefined && typeof animation.holdLastFrame !== 'boolean')
+        throw new Error(`${path}[${i}].holdLastFrame: 期望 boolean`)
+      if (
+        animation.initialFadeInMs !== undefined &&
+        (!Number.isFinite(animation.initialFadeInMs) || Number(animation.initialFadeInMs) < 0)
+      )
+        throw new Error(`${path}[${i}].initialFadeInMs: 期望非负有限数`)
     }
+    if (k === 'clearFrameAnimation' && Object.keys(c as object).some((key) => key !== 'kind'))
+      throw new Error(`${path}[${i}]: clearFrameAnimation 不接受参数`)
     if (k === 'stopMusic' && Object.keys(c as object).some((key) => key !== 'kind'))
       throw new Error(`${path}[${i}]: stopMusic 不接受参数`)
     if (k === 'branch') {

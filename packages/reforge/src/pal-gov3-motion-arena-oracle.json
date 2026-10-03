@@ -1,0 +1,397 @@
+{
+  "version": 1,
+  "baseline": "8efe04861",
+  "sourceSha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d",
+  "source": {
+    "ownerEntry": 8148,
+    "opponentEntries": [8183, 8192, 8202],
+    "worldTickMs": 100,
+    "timeOrigin": "first real tickAutoScripts call is t0"
+  },
+  "cases": [
+    {
+      "name": "seed-1",
+      "seed": 1,
+      "values": [],
+      "milliseconds": 60000,
+      "sampleCount": 600,
+      "sampleHash": "c540adb6dd05c18960aae8d8ee5d3cdc83b812ad387e49d61c231957f2f73c24",
+      "drawCount": 80,
+      "drawHash": "f46c9b46339a3f9c684981547f40e9924ffe551712721ab226e5251324c96bf6",
+      "firstFrames": [
+        {
+          "at": 0,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 100,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 200,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 300,
+          "owner": {
+            "frame": 1,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 696
+          },
+          "sounds": []
+        },
+        {
+          "at": 400,
+          "owner": {
+            "frame": 2,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 696
+          },
+          "sounds": []
+        }
+      ],
+      "final": {
+        "at": 59900,
+        "owner": {
+          "frame": 0,
+          "x": 1088,
+          "y": 688
+        },
+        "opponent": {
+          "frame": 1,
+          "x": 1120,
+          "y": 704
+        },
+        "sounds": []
+      }
+    },
+    {
+      "name": "seed-73",
+      "seed": 73,
+      "values": [],
+      "milliseconds": 60000,
+      "sampleCount": 600,
+      "sampleHash": "dbf37a6218f5d53d0a2091af9db6e4c1b187deb936063aecc8a921e002588fe6",
+      "drawCount": 91,
+      "drawHash": "9e41748d8f4f6db643e22d36af5afe6f53db582a8f62ecb97fedc6e79a6d298e",
+      "firstFrames": [
+        {
+          "at": 0,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 100,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 200,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 300,
+          "owner": {
+            "frame": 1,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 696
+          },
+          "sounds": []
+        },
+        {
+          "at": 400,
+          "owner": {
+            "frame": 2,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 696
+          },
+          "sounds": []
+        }
+      ],
+      "final": {
+        "at": 59900,
+        "owner": {
+          "frame": 8,
+          "x": 1090,
+          "y": 689
+        },
+        "opponent": {
+          "frame": 1,
+          "x": 1120,
+          "y": 704
+        },
+        "sounds": []
+      }
+    },
+    {
+      "name": "seed-937",
+      "seed": 937,
+      "values": [],
+      "milliseconds": 60000,
+      "sampleCount": 600,
+      "sampleHash": "745f8486c681512256dc1fb38dca5a42efa862e9e8253e8709931071fb628274",
+      "drawCount": 88,
+      "drawHash": "e7a8542c70b5631bad9ec8e6dd50685d3125bb520f2e5e4ac3a253fa8df34833",
+      "firstFrames": [
+        {
+          "at": 0,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 100,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 200,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 300,
+          "owner": {
+            "frame": 1,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 696
+          },
+          "sounds": []
+        },
+        {
+          "at": 400,
+          "owner": {
+            "frame": 2,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 696
+          },
+          "sounds": []
+        }
+      ],
+      "final": {
+        "at": 59900,
+        "owner": {
+          "frame": 0,
+          "x": 1088,
+          "y": 688
+        },
+        "opponent": {
+          "frame": 0,
+          "x": 1120,
+          "y": 704
+        },
+        "sounds": []
+      }
+    },
+    {
+      "name": "rate-boundaries",
+      "seed": 0,
+      "values": [0.69, 0.68, 0.49, 0.68, 0.48, 0.39, 0.68, 0.48, 0.38],
+      "milliseconds": 60000,
+      "sampleCount": 600,
+      "sampleHash": "0e834133526529caf13ee1ef0ccc4962c1d427cfa1ef2db749385910796d91d9",
+      "drawCount": 81,
+      "drawHash": "b59bb7119a430c9ea80a2f19683a9853b77550f715fe294e65b0d4c41fe80a31",
+      "firstFrames": [
+        {
+          "at": 0,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 100,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 200,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 300,
+          "owner": {
+            "frame": 0,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 704
+          },
+          "sounds": []
+        },
+        {
+          "at": 400,
+          "owner": {
+            "frame": 1,
+            "x": 1088,
+            "y": 688
+          },
+          "opponent": {
+            "frame": 0,
+            "x": 1120,
+            "y": 696
+          },
+          "sounds": []
+        }
+      ],
+      "final": {
+        "at": 59900,
+        "owner": {
+          "frame": 10,
+          "x": 1088,
+          "y": 688
+        },
+        "opponent": {
+          "frame": 1,
+          "x": 1120,
+          "y": 704
+        },
+        "sounds": []
+      }
+    }
+  ]
+}

@@ -1315,7 +1315,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "up",
@@ -1323,7 +1323,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "facing": "left",
@@ -1332,7 +1332,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -1340,7 +1340,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -1585,7 +1585,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 600
+                      "ms": 1500
                     },
                     {
                       "kind": "stopMusic"
@@ -1653,8 +1653,13 @@
                       "kind": "setAmbience"
                     },
                     {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 500
                     },
                     {
                       "kind": "setEntityState",
@@ -1671,7 +1676,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "facing": "down",
@@ -1680,7 +1685,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "cue": {
@@ -1734,7 +1739,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 500
                     },
                     {
                       "cue": {
@@ -1826,7 +1831,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -1846,7 +1851,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 500
                     },
                     {
                       "facing": "down",
@@ -1866,7 +1871,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 500
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -1882,7 +1887,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 500
                     },
                     {
                       "facing": "down",
@@ -1891,7 +1896,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "cue": {

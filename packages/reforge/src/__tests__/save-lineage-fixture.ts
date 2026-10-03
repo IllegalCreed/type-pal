@@ -88,6 +88,7 @@ export function fixture(overrides: Partial<ProjectScriptHostOptions> = {}) {
       money: () => 0,
       inParty: () => false,
       entityInScene: () => false,
+      entitiesNear: () => false,
       facingEntity: () => false,
     },
     confirm: async () => true,

@@ -110,6 +110,7 @@ export type AuthorCondition =
   | { kind: 'currentScene'; scene: string }
   | { kind: 'entityState'; target: EntityAddress; is: number }
   | { kind: 'entityInScene'; target: EntityAddress }
+  | { kind: 'entitiesNear'; from: EntityAddress; to: EntityAddress; range: number }
   | { kind: 'facingEntity'; target: EntityAddress; range?: number }
   | { kind: 'chance'; percent: number }
   | { kind: 'hasItem'; itemId: string; atLeast?: number }
@@ -128,6 +129,7 @@ export const AUTHOR_CONDITION_KINDS = {
   currentScene: true,
   entityState: true,
   entityInScene: true,
+  entitiesNear: true,
   facingEntity: true,
   chance: true,
   hasItem: true,
@@ -488,6 +490,13 @@ function checkCondition(value: unknown, path: string): void {
       )
         throw new Error(`${path}.range: 期望非负有限数`)
       return
+    case 'entitiesNear':
+      exactKeys(condition, ['kind', 'from', 'to', 'range'], path)
+      checkEntityAddress(condition.from, `${path}.from`)
+      checkEntityAddress(condition.to, `${path}.to`)
+      if (!Number.isFinite(condition.range) || Number(condition.range) < 0)
+        throw new Error(`${path}.range: 期望非负有限数`)
+      return
     case 'chance':
       exactKeys(condition, ['kind', 'percent'], path)
       if (
@@ -651,6 +660,29 @@ export function checkBaseAuthorCommands(
       checkActorConditionCommandShape(command, commandPath)
     if (kind === 'loadScene' && options.forbidLoadScene)
       throw new Error(`${commandPath}: auto 行为禁止 loadScene`)
+    if (kind === 'playFrameAnimation') {
+      exactKeys(
+        command,
+        [
+          'kind',
+          'asset',
+          'startFrame',
+          'endFrame',
+          'frameRate',
+          'holdLastFrame',
+          'initialFadeInMs',
+        ],
+        commandPath,
+      )
+      if (command.holdLastFrame !== undefined && typeof command.holdLastFrame !== 'boolean')
+        throw new Error(`${commandPath}.holdLastFrame: 期望 boolean`)
+      if (
+        command.initialFadeInMs !== undefined &&
+        (!Number.isFinite(command.initialFadeInMs) || Number(command.initialFadeInMs) < 0)
+      )
+        throw new Error(`${commandPath}.initialFadeInMs: 期望非负有限数`)
+    }
+    if (kind === 'clearFrameAnimation') exactKeys(command, ['kind'], commandPath)
     if (kind === 'runEntityTrigger') {
       exactKeys(command, ['kind', 'target'], commandPath)
       checkEntityAddress(command.target, `${commandPath}.target`)

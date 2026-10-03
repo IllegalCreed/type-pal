@@ -135,8 +135,18 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
       ['asset', '真彩帧动画 AssetId'],
       ['startFrame/endFrame', '闭合帧区间(可选)'],
       ['frameRate', '覆盖容器逐帧速度(可选)'],
+      ['initialFadeInMs', '首帧先淡入再停留(可选毫秒)'],
+      ['holdLastFrame', '完成后继续显示最后帧(可选)'],
     ],
     desc: '播放项目内真彩帧动画；可截取帧区间并覆盖播放速度。',
+  },
+  {
+    kind: 'clearFrameAnimation',
+    icon: '🧹',
+    name: '清除帧动画画面',
+    group: '演出/对话',
+    params: [],
+    desc: '中止当前帧动画并清除保留画面，回到世界画面。',
   },
   {
     kind: 'wait',

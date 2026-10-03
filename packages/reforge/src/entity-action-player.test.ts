@@ -256,4 +256,52 @@ describe('EntityActionPlayer', () => {
     player.clearScene()
     await expect(two).resolves.toBeUndefined()
   })
+
+  it('前台覆盖收尾的剩余时间不能推进仍被接管的自动底轨', async () => {
+    const player = new EntityActionPlayer()
+    player.replaceScene([
+      {
+        entity: 'e',
+        ...resolved({
+          label: '页动作',
+          steps: [
+            { frame: 2, durationMs: 200 },
+            { frame: 3, durationMs: 200 },
+          ],
+        }),
+      },
+    ])
+    const front = player.play(
+      'e',
+      resolved(
+        { label: '前台', steps: [{ frame: 5, durationMs: 100 }] },
+        { action: 'front', loop: false },
+      ),
+    )
+    player.advance(150, (_entity, source) => source === 'automatic')
+    await front
+    expect(player.frame('e')).toBe(2)
+    player.advance(150)
+    expect(player.frame('e')).toBe(2)
+    player.advance(50)
+    expect(player.frame('e')).toBe(3)
+  })
+
+  it('相同动作的新automatic owner取得自己的abort归属，旧signal不反写新覆盖', async () => {
+    const player = new EntityActionPlayer()
+    const old = new AbortController()
+    const next = new AbortController()
+    const action = resolved(
+      { label: '单次', steps: [{ frame: 8, durationMs: 100 }] },
+      { action: 'once', loop: false },
+    )
+    const first = player.play('e', action, old.signal, 'automatic')
+    const second = player.play('e', action, next.signal, 'automatic')
+    await expect(first).resolves.toBeUndefined()
+    old.abort()
+    expect(player.hasOverride('e')).toBe(true)
+    player.advance(100)
+    await expect(second).resolves.toBeUndefined()
+    expect(player.hasOverride('e')).toBe(false)
+  })
 })

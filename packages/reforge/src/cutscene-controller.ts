@@ -24,10 +24,18 @@ export interface CutsceneExecutor {
   cameraPan(dx: number, dy: number, frames: number, signal: AbortSignal): Promise<void>
   cameraSnap(to: GridPos | undefined): void
   frameAnimation(
-    opts: { asset: AssetId; startFrame?: number; endFrame?: number; frameRate?: number },
+    opts: {
+      asset: AssetId
+      startFrame?: number
+      endFrame?: number
+      frameRate?: number
+      holdLastFrame?: boolean
+      initialFadeInMs?: number
+    },
     signal: AbortSignal,
   ): Promise<void>
   video(asset: AssetId, signal: AbortSignal): Promise<void>
+  clearFrameAnimation(): void
   wait(ms: number, signal: AbortSignal): Promise<void>
   /** K3:abortScript 呈现复位(fade→透明 / camera→(0,0) / dialog→close / 动画→reset)。 */
   resetPresentation(): void
@@ -102,9 +110,16 @@ export class CutsceneController {
             ...(intent.startFrame !== undefined ? { startFrame: intent.startFrame } : {}),
             ...(intent.endFrame !== undefined ? { endFrame: intent.endFrame } : {}),
             ...(intent.frameRate !== undefined ? { frameRate: intent.frameRate } : {}),
+            ...(intent.holdLastFrame !== undefined ? { holdLastFrame: intent.holdLastFrame } : {}),
+            ...(intent.initialFadeInMs !== undefined
+              ? { initialFadeInMs: intent.initialFadeInMs }
+              : {}),
           },
           signal,
         )
+      case 'clearFrameAnimation':
+        this.exec.clearFrameAnimation()
+        return Promise.resolve()
       case 'video':
         return this.exec.video(intent.asset, signal)
       case 'wait':

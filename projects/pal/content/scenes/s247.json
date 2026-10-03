@@ -97,7 +97,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "托取天蛇杖与交还",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -159,7 +159,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 280
+                      "ms": 700
                     },
                     {
                       "facing": "down",
@@ -407,7 +407,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "kind": "moveParty",
@@ -420,7 +420,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -428,7 +428,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 1200
+                      "ms": 3000
                     },
                     {
                       "cue": {
@@ -764,7 +764,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "托取天蛇杖"
                 },
                 {
                   "id": "legacy-002",
@@ -797,6 +798,12 @@
                             ]
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -827,13 +834,15 @@
                       "kind": "loadScene",
                       "scene": "s253"
                     }
-                  ]
+                  ],
+                  "label": "确认携杖并交还"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "巫后"
     },
     {
       "id": "e4368",

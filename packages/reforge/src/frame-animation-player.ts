@@ -151,6 +151,7 @@ export interface PlayFrameAnimationOptions {
   skipKeys?: readonly string[]
   eventTarget?: EventTarget
   onFrame(frame: FrameAnimationFrameSnapshot): void
+  onFirstFrameReady?(frame: FrameAnimationFrameSnapshot): Promise<void>
   wait?: (ms: number) => Promise<void>
   signal?: AbortSignal
 }
@@ -220,6 +221,7 @@ export async function playFrameAnimation(
       const frame = await awaitActive(options.reader.frame(options.asset, frameIndex))
       if (skipped) break
       options.onFrame(frame)
+      if (!last && options.onFirstFrameReady) await awaitActive(options.onFirstFrameReady(frame))
       last = frame
       if (frameIndex < range.endFrame) options.reader.prefetch(options.asset, frameIndex + 1)
       await awaitActive(

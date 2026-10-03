@@ -163,6 +163,7 @@ export function hostOptions(
       money: () => 10,
       inParty: () => true,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => false,
     },
     confirm: async () => true,
