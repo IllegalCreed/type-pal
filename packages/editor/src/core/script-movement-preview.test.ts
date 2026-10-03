@@ -281,6 +281,26 @@ describe('selected author movement preview', () => {
     expect(result.notes.join(' ')).toContain('分支后的未知位置')
   })
 
+  test('convergent branch arms preserve one shared stop boundary', () => {
+    const stop: AuthorCommand = { kind: 'finishStep', next: { kind: 'stay' } }
+    const result = preview([
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'choice', is: true },
+        then: [move(4), stop],
+        else: [move(7), stop],
+      },
+      move(10),
+    ])
+    expect(
+      result.tracks[0]?.segments.map((segment) => [segment.from.pos.col, segment.to.pos.col]),
+    ).toEqual([
+      [1, 4],
+      [1, 7],
+    ])
+    expect(result.notes.join(' ')).toContain('提前结束')
+  })
+
   test('loops show one conditional iteration and relative moves after uncertainty remain unknown', () => {
     const result = preview([
       {
