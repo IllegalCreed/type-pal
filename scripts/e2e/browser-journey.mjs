@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
+import { once } from 'node:events'
 import { createWriteStream } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
@@ -8,6 +9,7 @@ import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { createJourneyWatchdog, killOwnedBrowser, withDeadline } from './browser-watchdog.mjs'
 import { CAPTURE_BUDGET_MS, CAPTURE_SOURCES, createLocalCapture } from './capture-local.mjs'
 import { installVideoObserver } from './game-observer.mjs'
 import { installOpeningMatrix } from './opening-matrix-observer.mjs'
@@ -53,7 +55,7 @@ export async function runBrowserJourney({
     hashes: {},
     profile: args.has('--capture') ? 'capture' : 'verify',
   }
-  for (const file of [...sources, ...CAPTURE_SOURCES])
+  for (const file of new Set([...sources, ...CAPTURE_SOURCES, 'scripts/e2e/browser-watchdog.mjs']))
     report.hashes[file] = sha256(await readFile(resolve(repoRoot, file)))
   const probe = createServer()
   await new Promise((done, reject) => {
@@ -87,6 +89,7 @@ export async function runBrowserJourney({
   server.stderr.pipe(log)
   let serverError,
     interrupted = false,
+    browserServer,
     browser,
     page
   const contexts = []
@@ -103,6 +106,14 @@ export async function runBrowserJourney({
     if (report.errors.length < 50) report.errors.push(message)
     else report.errorOverflow = true
   }
+  const terminateBrowser = () => {
+    try {
+      if (killOwnedBrowser(browserServer)) report.browserHardTerminated = true
+    } catch (cause) {
+      error(`owned browser termination: ${cause}`)
+    }
+  }
+  const watchdog = createJourneyWatchdog({ deadline, terminate: terminateBrowser })
   const health = () => {
     assert(!interrupted, 'journey interrupted')
     assert(Date.now() < deadline, 'journey total deadline exceeded')
@@ -114,7 +125,7 @@ export async function runBrowserJourney({
     const started = Date.now()
     for (;;) {
       health()
-      const value = await read()
+      const value = await watchdog.run(`observation: ${label}`, read, timeout)
       if (accept(value)) return value
       assert(Date.now() - started < timeout, `timeout: ${label}; last=${JSON.stringify(value)}`)
       await delay(50) // State observation, not story timing or an input schedule.
@@ -133,14 +144,27 @@ export async function runBrowserJourney({
       Boolean,
       'owned dev server',
     )
-    browser = await chromium.launch({
-      channel: 'chrome',
-      headless: args.has('--headless'),
-      ...(args.has('--capture') ? { args: ['--mute-audio'] } : {}),
-    })
+    browserServer = await watchdog.run(
+      'owned browser launch',
+      () =>
+        chromium.launchServer({
+          channel: 'chrome',
+          headless: args.has('--headless'),
+          timeout: 30_000,
+          ...(args.has('--capture') ? { args: ['--mute-audio'] } : {}),
+        }),
+      40_000,
+      { onLate: killOwnedBrowser },
+    )
+    report.browserPid = browserServer.process().pid
+    browser = await watchdog.run('owned browser connect', () =>
+      chromium.connect(browserServer.wsEndpoint(), { timeout: 30_000 }),
+    )
     report.browser = browser.version()
     const newPage = async (label) => {
-      const context = await browser.newContext({ viewport: { width: 1360, height: 900 } })
+      const context = await watchdog.run('owned browser newContext', () =>
+        browser.newContext({ viewport: { width: 1360, height: 900 } }),
+      )
       contexts.push(context)
       await capture.install(context)
       await context.addInitScript(installVideoObserver)
@@ -183,7 +207,11 @@ export async function runBrowserJourney({
       report.contexts.push({ label, initialDatabases: databases })
       return page
     }
-    await journey({ newPage, baseURL, out, report, until, health, capture })
+    await watchdog.run(
+      `journey ${name}`,
+      () => journey({ newPage, baseURL, out, report, until, health, capture }),
+      deadline - Date.now(),
+    )
     capture.assertComplete()
     health()
     report.status = 'passed'
@@ -191,37 +219,60 @@ export async function runBrowserJourney({
   } catch (e) {
     report.status = 'failed'
     report.failure = e.stack ?? String(e)
-    if (page && !page.isClosed()) {
-      report.lastObservation = await page
-        .evaluate(() => ({
-          boot: window.__tpObserve?.readBoot?.(),
-          runtime: window.__tpObserve?.readRuntime?.(),
-        }))
-        .catch(() => null)
-      await page.screenshot({ path: resolve(out, 'failure.png') }).catch(() => {})
+    if (page && !page.isClosed() && !report.browserHardTerminated) {
+      report.lastObservation = await withDeadline(
+        'failure observation',
+        () =>
+          page.evaluate(() => ({
+            boot: window.__tpObserve?.readBoot?.(),
+            runtime: window.__tpObserve?.readRuntime?.(),
+          })),
+        2000,
+        { onTimeout: terminateBrowser },
+      ).catch(() => null)
+      await withDeadline(
+        'failure screenshot',
+        () => page.screenshot({ path: resolve(out, 'failure.png') }),
+        2000,
+        { onTimeout: terminateBrowser },
+      ).catch(() => {})
     }
     console.error(report.failure)
     process.exitCode = 1
   } finally {
     const failures = []
-    await capture.cleanup(report.status !== 'passed').catch((e) => failures.push(String(e)))
-    for (const context of contexts) await context.close().catch((e) => failures.push(String(e)))
-    await browser?.close().catch((e) => failures.push(String(e)))
+    const cleanup = (label, operation) =>
+      withDeadline(label, operation, 2000, { onTimeout: terminateBrowser }).catch((e) =>
+        failures.push(String(e)),
+      )
+    await cleanup('capture cleanup', () => capture.cleanup(report.status !== 'passed'))
+    for (const context of contexts) await cleanup('context close', () => context.close())
+    if (browser) await cleanup('browser connection close', () => browser.close())
+    if (browserServer) {
+      await cleanup('owned browser server close', () => browserServer.close())
+      terminateBrowser()
+      const child = browserServer.process()
+      if (child.exitCode === null && child.signalCode === null)
+        await cleanup('owned browser process exit', () => once(child, 'exit'))
+    }
     if (server.pid && server.exitCode === null) {
       try {
         process.kill(-server.pid, 'SIGTERM')
+        await withDeadline('owned dev server exit', () => once(server, 'exit'), 2000, {
+          onTimeout: () => process.kill(-server.pid, 'SIGKILL'),
+        })
       } catch (e) {
         if (e.code !== 'ESRCH') failures.push(String(e))
       }
     }
-    log.end()
+    await cleanup('server log flush', () => new Promise((done) => log.end(done)))
     process.removeListener('SIGINT', interrupt)
     process.removeListener('SIGTERM', interrupt)
     if (failures.length) {
       report.cleanupErrors = failures
       report.status = 'failed'
       process.exitCode = 1
-      await capture.cleanup(true).catch((error) => failures.push(String(error)))
+      await cleanup('failed capture cleanup', () => capture.cleanup(true))
     }
     await writeFile(resolve(out, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
     process.send?.({ report: resolve(out, 'report.json') })
