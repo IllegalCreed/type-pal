@@ -6,7 +6,7 @@
 隔离目录为 `/Users/zhangxu/.codex/worktrees/script-governance-closeout/type-pal`。
 原始只读输入为 `/Users/zhangxu/illegal/type-pal/data/extracted/events/all.json` 和 `data/scene/*.json`。
 以下原始证据使用全局 IP 标识，等价于 `all.json` 唯一全局 `commands` 地址；它比巨大 JSON 的行号稳定。
-未恢复转换器、未启动浏览器、未关闭 6012、未修改主工作树。产品准入由 [SCRIPT-GOV-3](../../ops/tasks/SCRIPT-GOV-3-residual-families-and-regression.md) 的 Root 独立核定。
+未恢复转换器、未启动浏览器、未关闭 6012、未修改主工作树。产品准入由 [SCRIPT-GOV-3](../../ops/archive/tasks/done/SCRIPT-GOV-3-residual-families-and-regression.md) 的 Root 独立核定。
 
 ## 第一阶段的激活和游标语义
 

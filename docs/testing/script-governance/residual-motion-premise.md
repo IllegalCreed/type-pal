@@ -1,6 +1,6 @@
 # 剩余自动动作与动画节拍核查
 
-本报告核查当前作者工程中的漏动作、错误循环和动画节拍，供[SCRIPT-GOV-3](../../ops/tasks/SCRIPT-GOV-3-residual-families-and-regression.md)决定产品修改范围。
+本报告核查当前作者工程中的漏动作、错误循环和动画节拍，供[SCRIPT-GOV-3](../../ops/archive/tasks/done/SCRIPT-GOV-3-residual-families-and-regression.md)决定产品修改范围。
 基线为`8efe04861`，状态为只读取证完成，尚未修复产品。原始脚本和第一阶段仅用于确认动作内容与观感；
 本报告不要求新引擎复活旧自动脚本解释器、全局对白冻结或脚本地址分派。
 

@@ -15,11 +15,9 @@
 | [QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性](QUALITY-TEST-INPUTS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [SCRIPT-GOV-1 剧本共性问题族治理](SCRIPT-GOV-1-script-family-governance.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [SCRIPT-GOV-3 剩余问题族治理与开场回归](SCRIPT-GOV-3-residual-families-and-regression.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-ASSET-UI-LARGE-1 — 已交付测试有限收口](TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 已交付测试有限收口](TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](TEST-FROZEN-CLOSE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+ | [TEST-CURSOR-ASSET-UI-LARGE-1 — 已交付测试有限收口](TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+ | [TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 已交付测试有限收口](TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+ | [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](TEST-FROZEN-CLOSE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -212,7 +210,9 @@
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理](../archive/tasks/done/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [SCRIPT-GOV-1 剧本共性问题族治理](../archive/tasks/done/SCRIPT-GOV-1-script-family-governance.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SCRIPT-GOV-2 统一作者步骤模型](../archive/tasks/done/SCRIPT-GOV-2-unified-author-steps.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [SCRIPT-GOV-3 剩余问题族治理与开场回归](../archive/tasks/done/SCRIPT-GOV-3-residual-families-and-regression.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤](../archive/tasks/done/SCRIPT-STEPS-1-redundant-machine-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-COMMAND-FORMS-1 — 当前命令弹层参数与输入保真](../archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md) | done | 完成证据、历史签字与交接见原卡。 |

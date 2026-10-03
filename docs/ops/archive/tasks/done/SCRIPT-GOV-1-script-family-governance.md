@@ -1,6 +1,6 @@
 # SCRIPT-GOV-1 剧本共性问题族治理
 
-Status: build
+Status: done
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: 分包独占，见下文
@@ -14,7 +14,7 @@ Branch: main
 
 用户要求共性问题批量治理，而不是随E2E逐NPC救火；作者模型统一方案→步骤→指令，
 不保留并列的“连续流程/高级状态”作为长期作者界面。当前开始首批治理，不推进006。
-母依据：[001–005共性回顾](../../testing/e2e-001-005-common-issues.md)。
+母依据：[001–005共性回顾](../../../../testing/e2e-001-005-common-issues.md)。
 
 首批先建立全量问题族清单，并修复源映射可靠的动态入口后继缺失、重复奖励；
 同时给165个复杂flow分类，核可以用现有步骤/指令折叠的机械链，不把状态数量直接当bug数量。
@@ -46,8 +46,8 @@ Branch: main
 
 ## 上下文与验收
 
-- [CLAUDE](../../../CLAUDE.md)、[二阶段纪律](../../phase2/READ-FIRST.md)、[工作流](../agent-workflow.md)。
-- [作者步骤治理](SCRIPT-AUTHOR-2-readable-inn-choreography.md)、[005收据](../../testing/e2e-005.md)。
+- [CLAUDE](../../../../../CLAUDE.md)、[二阶段纪律](../../../../phase2/READ-FIRST.md)、[工作流](../../../agent-workflow.md)。
+- [作者步骤治理](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)、[005收据](../../../../testing/e2e-005.md)。
 - `pal-errand-author.test.ts`使用真实compiler/runner验证连续激活，不能用手写解释器模拟新语义。
 - census反控：缓存去重漏调用边、self/0清绑定、多owner、相似对白错误匹配、作者修改、未知指令等须拒绝假确定。
 - 内容修复：连续激活/一次性奖励/循环复读/完成/取消与合法存读，原正文和非白名单字段保全。
@@ -58,7 +58,7 @@ Branch: main
 
 2026-10-03追加：统一步骤子卡已独立验收集成，147套旧作者机器全部退役，当前content22 / SAVE11，
 001–005前驱链已刷新。母卡继续未证动态入口映射与后期剧情合理化；以下2026-10-02首批准入/签字保留历史范围，
-不再据“剩147套”推断当前产品仍有机器。详见[SCRIPT-GOV-2](../archive/tasks/done/SCRIPT-GOV-2-unified-author-steps.md)。
+不再据“剩147套”推断当前产品仍有机器。详见[SCRIPT-GOV-2](SCRIPT-GOV-2-unified-author-steps.md)。
 
 2026-10-02：用户批准开始治理并确认6012没有未保存草稿。以下已核小批获准build；其它候选仍只读取证。
 审计脚本不写作者工程，主工程仅在整批验证后更新，服务和页面保留。
@@ -161,7 +161,7 @@ Root独立重算18后继前后/源段/首段hash，核14场景只20准入behavio
 原locale全保留；12确认结构逐对象对20a0ce2e9只flow变化，48状态→18步骤。
 支付8绑定逐一逆向核只有授权不足stop与s023确认前移，6场景其它内容保全；没有实现层改动。
 两批结构合计18机器/87状态→24普通步骤，当前147机器/5490状态；剩余能力设计见
-[统一步骤后续方案](../../testing/script-governance/unified-steps-plan.md)，不误报为全模型已退役。
+[统一步骤后续方案](../../../../testing/script-governance/unified-steps-plan.md)，不误报为全模型已退役。
 
 Root早次114项合跑有8个失败，为新增固定步骤名称尚未同步到结构对照期望；保留失败日志，
 后续按明确字面标签核准，没有忽略metadata或更改原历史SHA。最终114项由Root再跑后记整批质量门。
@@ -175,7 +175,7 @@ Root早次114项合跑有8个失败，为新增固定步骤名称尚未同步到
 ### 首批技术验收
 
 Root独立验收接受18套后继、18套结构、8个收费绑定及相邻医生修复。原始证据与未解决范围见
-[独立回执](../../testing/script-governance/independent-review.json)和[当前检查点](../../testing/script-governance/current-checkpoints.md)。
+[独立回执](../../../../testing/script-governance/independent-review.json)和[当前检查点](../../../../testing/script-governance/current-checkpoints.md)。
 全部实现/作者内容在e3586965e冻结，其后bb08d30ee仅补已核新增引用的测试断言；没有运行时、schema或版本改动。
 
 七包typecheck与11,116测试通过。首轮整仓门发现旧shop数量，实际逐项核出shop+1、portrait+4，
