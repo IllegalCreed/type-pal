@@ -33,10 +33,10 @@
     "shared": 113,
     "game": 3224,
     "palExtract": 377,
-    "reforge": 8567,
+    "reforge": 8569,
     "editor": 4761,
     "migrate": 670,
-    "total": 19202,
+    "total": 19204,
     "failed": 0,
     "pending": 0,
     "todo": 0
@@ -123,12 +123,12 @@
     "cross-package parser tests with distinct callers"
   ],
   "latestFastBaseline": {
-    "identityCount": 18792,
+    "identityCount": 18795,
     "sourceFileCount": 726,
-    "statements": "87.86%",
+    "statements": "87.87%",
     "branches": "81.13%",
-    "functions": "87.93%",
-    "lines": "89.88%"
+    "functions": "87.94%",
+    "lines": "89.89%"
   },
   "next": "selective main integration, GitHub required CI, then exact backup and retired branch/worktree cleanup"
 }
