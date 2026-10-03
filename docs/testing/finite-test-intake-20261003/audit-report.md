@@ -54,3 +54,5 @@ Game 域复核未发现 Grok 像素/宿主测试可直接删除；PNG/readback �
 Editor、Game、Reforge/Migrate 三域已完成机器清点与代表性语义复核；弱 matcher、真实 IO、跨域相似 caller 和 fixture typed bridge 的未裁决项仍明确保留，不能把静态标记当成全量垃圾判定。冻结树的完整 check、官方 ratchet、受保护 strict-fast 均已通过；main 合并、CI 与退休清理仍待完成。
 
 最新 main 的脚本治理合入又暴露一处真实数据闭包错误：新增的 `s021/s034/s100/s131/s134/s262` 现行对白引用了 16 个已有原版 message index，但 locale 重导漏项。已依据 `data/extracted/events/all.json` 的一手 `showDialog` 文本恢复这 16 个 locale 条目（含 `dlg.2074` 的历史 “哼！”），没有修改对白断言或放宽迁移门；该修复需随最新 main 重新跑全包与覆盖门。
+
+同一 main 合入只为 `script-world.test.ts` 的现有 typed host 增加 `entitiesNear: () => false`，测试身份与 15→12 精确退役账不变；保护账已更新为该实际文件 SHA，仍同时约束 old/current identityDigest、计数和字节哈希。

@@ -91,7 +91,7 @@ export const approvedTestRetirements = Object.freeze(
       current: 12,
       previousIdentityDigest: '32466b8856fa1cdbd366d9396d95736c8da13f1e379c9c168919110c2d426c76',
       currentIdentityDigest: 'd9d50583a636a229d30864551087460355ef98c2a321bd28de2db76081e599ed',
-      fileSha256: '3d3d2ca26cdb812e7d4a789f12d1ac4961e2f592e39eb09e098ad28cb399b6b1',
+      fileSha256: 'fa794cf41a5d96e9ab8d27943b99255a5a6399d1d9fcd9e19a7c21ebcddd6417',
     },
     {
       file: 'packages/game/src/core/command-bus.test.ts',
