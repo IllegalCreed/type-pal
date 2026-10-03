@@ -1,0 +1,110 @@
+[
+  {
+    "id": "SR-FADE-DEFAULT",
+    "source": "src/script-runner.ts",
+    "identity": "vitest run src/script-runner.c85-arms.test.ts -t 演出缺省臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]\n\n- Expected\n+ Received\n\n@@ -1,11 +1,11 @@\n  [\n    [\n      \"fade\",\n      [\n        \"out\",\n-       300,\n+       301,\n        undefined,\n        AbortSignal {\n          Symbol(kEvents): Map {},\n          Symbol(events.maxEventTargetListeners): 0,\n          Symbol(events.maxEventTargetListenersWarned): false,",
+    "sourceSha256Before": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c",
+    "sourceSha256AfterRestored": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c"
+  },
+  {
+    "id": "ADAPTER-SCENE-FILTER",
+    "source": "src/script-host-adapter.ts",
+    "identity": "vitest run src/script-host-adapter.c85-arms.test.ts -t 跨场景过滤臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected [ …(13) ] to deeply equal []\n\n- Expected\n+ Received\n\n- []\n+ [\n+   {\n+     \"args\": [\n+       \"e1\",\n+       {\n+         \"col\": 9,\n+         \"height\": 0,\n+         \"row\": 9,\n+       },\n+     ],\n+     \"method\": \"setEntityPos\",\n+   },\n+   {\n+     \"args\": [\n+       \"e2\",\n+       0,\n+       0,\n+     ],\n+     \"method\": \"setEntityPosRelParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e3\",\n+       1,\n+     ],\n+     \"method\": \"setEntityFrame\",\n+   },\n+   {\n+     \"args\": [\n+       \"e4\",\n+       {\n+         \"action\": \"spin\",\n+         \"loop\": false,\n+         \"sprite\": \"walker\",\n+       },\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"playEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e5\",\n+       true,\n+     ],\n+     \"method\": \"stopEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e6\",\n+     ],\n+     \"method\": \"takeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e7\",\n+     ],\n+     \"method\": \"releaseEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e8\",\n+       1,\n+       1,\n+     ],\n+     \"method\": \"mountParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e9\",\n+       {\n+         \"col\": 1,\n+         \"height\": 0,\n+         \"row\": 1,\n+       },\n+       \"slow\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"ride\",\n+   },\n+   {\n+     \"args\": [\n+       \"e10\",\n+       \"down\",\n+     ],\n+     \"method\": \"stepEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e11\",\n+     ],\n+     \"method\": \"animEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e12\",\n+       1,\n+       0,\n+     ],\n+     \"method\": \"nudgeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e13\",\n+       {\n+         \"col\": 0,\n+         \"height\": 0,\n+         \"row\": 0,\n+       },\n+       \"fast\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"moveEntity\",\n+   },\n+ ]",
+    "sourceSha256Before": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73",
+    "sourceSha256AfterRestored": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73"
+  },
+  {
+    "id": "CORE-STEAL-SPLIT",
+    "source": "src/battle/battle-core.ts",
+    "identity": "vitest run src/battle/battle-core.c85-branches.test.ts -t 偷钱臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected 3 to be 4 // Object.is equality\n\n- Expected\n+ Received\n\n- 4\n+ 3",
+    "sourceSha256Before": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+    "sourceSha256AfterRestored": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862"
+  },
+  {
+    "id": "CORE-POISON-MP",
+    "source": "src/battle/battle-core.ts",
+    "identity": "vitest run src/battle/battle-core.c85-branches.test.ts -t mpDelta 分侧臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected 34 to be 26 // Object.is equality\n\n- Expected\n+ Received\n\n- 26\n+ 34",
+    "sourceSha256Before": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+    "sourceSha256AfterRestored": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862"
+  },
+  {
+    "id": "WORLD-BARRIER-RELEASE-GATE",
+    "source": "src/script-world.ts",
+    "identity": "vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined",
+    "sourceSha256Before": "b89b85eb02ed58912fb88fdd4411aca6cc0963d24547bee81d9be8b3204b95c1",
+    "sourceSha256AfterRestored": "b89b85eb02ed58912fb88fdd4411aca6cc0963d24547bee81d9be8b3204b95c1"
+  },
+  {
+    "id": "MOTION-DUPLICATE-GUARD",
+    "source": "src/entity-motion.ts",
+    "identity": "vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined",
+    "sourceSha256Before": "8aff9be1a0dc0eac35eee2f451fe1aa60d8802d5667ba9432ac0b60a0e1a0546",
+    "sourceSha256AfterRestored": "8aff9be1a0dc0eac35eee2f451fe1aa60d8802d5667ba9432ac0b60a0e1a0546"
+  },
+  {
+    "id": "SESSION-CHOREO-STOP-FADE",
+    "source": "src/battle/battle-session.ts",
+    "identity": "vitest run src/battle/battle-session.c85-arms.test.ts -t stopMusic 即时臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected [] to deeply equal [ 1 ]\n\n- Expected\n+ Received\n\n- [\n-   1,\n- ]\n+ []",
+    "sourceSha256Before": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19",
+    "sourceSha256AfterRestored": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+  },
+  {
+    "id": "RUNTIME-COMPLETED-CURSOR",
+    "source": "src/script-runner-core.ts",
+    "identity": "vitest run src/runtime-host.c85-arms.test.ts -t 完成游标臂:未声明",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined",
+    "sourceSha256Before": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e",
+    "sourceSha256AfterRestored": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e"
+  },
+  {
+    "id": "MAIN-PARTY-FULL-HEAL",
+    "source": "src/main.ts",
+    "identity": "vitest run src/main.c85-boot.test.ts -t dev 队伍覆写臂",
+    "originalGreen": true,
+    "mutatedRed": true,
+    "restoredGreen": true,
+    "specifiedAssertionMatched": true,
+    "assertionError": "AssertionError: expected 99 to be 100 // Object.is equality\n\n- Expected\n+ Received\n\n- 100\n+ 99",
+    "sourceSha256Before": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
+    "sourceSha256AfterRestored": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+  }
+]

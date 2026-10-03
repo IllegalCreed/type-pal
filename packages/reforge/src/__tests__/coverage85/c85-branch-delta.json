@@ -1,0 +1,95 @@
+{
+  "targets": {
+    "src/main.ts": 7,
+    "src/battle/battle-session.ts": 8,
+    "src/battle/battle-core.ts": 12,
+    "src/script-runner.ts": 41,
+    "src/script-runner-core.ts": 2,
+    "src/script-host-adapter.ts": 26,
+    "src/entity-motion.ts": 7,
+    "src/script-project-core.ts": 0,
+    "src/script-world.ts": 20,
+    "src/runtime-script-project.ts": 5
+  },
+  "targetClosedTotal": 128,
+  "perFile": {
+    "src/main.ts": {
+      "baselineMissedArms": 835,
+      "finalMissedArms": 828,
+      "closedByThisCard": 7,
+      "newlyMissedArms": 0,
+      "closedLines": [469, 814, 823, 826, 827]
+    },
+    "src/battle/battle-session.ts": {
+      "baselineMissedArms": 412,
+      "finalMissedArms": 404,
+      "closedByThisCard": 8,
+      "newlyMissedArms": 0,
+      "closedLines": [385, 699, 701, 706, 754, 845, 846, 870]
+    },
+    "src/battle/battle-core.ts": {
+      "baselineMissedArms": 200,
+      "finalMissedArms": 188,
+      "closedByThisCard": 12,
+      "newlyMissedArms": 0,
+      "closedLines": [499, 502, 508, 663, 883, 897, 906, 907, 993, 1138, 1139]
+    },
+    "src/script-runner.ts": {
+      "baselineMissedArms": 60,
+      "finalMissedArms": 19,
+      "closedByThisCard": 41,
+      "newlyMissedArms": 0,
+      "closedLines": [
+        234, 236, 273, 372, 477, 483, 504, 510, 518, 521, 528, 616, 658, 661, 671, 681, 696, 744,
+        787, 801, 811, 820
+      ]
+    },
+    "src/script-runner-core.ts": {
+      "baselineMissedArms": 26,
+      "finalMissedArms": 24,
+      "closedByThisCard": 2,
+      "newlyMissedArms": 0,
+      "closedLines": [179, 638]
+    },
+    "src/script-host-adapter.ts": {
+      "baselineMissedArms": 38,
+      "finalMissedArms": 12,
+      "closedByThisCard": 26,
+      "newlyMissedArms": 0,
+      "closedLines": [
+        30, 43, 47, 50, 51, 119, 124, 141, 161, 179, 184, 191, 195, 198, 201, 209, 235, 242, 248,
+        256, 278, 283, 288, 328, 332
+      ]
+    },
+    "src/entity-motion.ts": {
+      "baselineMissedArms": 58,
+      "finalMissedArms": 51,
+      "closedByThisCard": 7,
+      "newlyMissedArms": 0,
+      "closedLines": [322, 344, 390, 401, 637, 670]
+    },
+    "src/script-project-core.ts": {
+      "baselineMissedArms": 35,
+      "finalMissedArms": 35,
+      "closedByThisCard": 0,
+      "newlyMissedArms": 0,
+      "closedLines": []
+    },
+    "src/script-world.ts": {
+      "baselineMissedArms": 35,
+      "finalMissedArms": 15,
+      "closedByThisCard": 20,
+      "newlyMissedArms": 0,
+      "closedLines": [
+        131, 162, 221, 288, 290, 291, 306, 308, 364, 375, 378, 382, 404, 444, 597, 609, 617, 721
+      ]
+    },
+    "src/runtime-script-project.ts": {
+      "baselineMissedArms": 28,
+      "finalMissedArms": 23,
+      "closedByThisCard": 5,
+      "newlyMissedArms": 0,
+      "closedLines": [329, 332, 481, 553, 663]
+    }
+  }
+}

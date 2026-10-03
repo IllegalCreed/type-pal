@@ -50,3 +50,37 @@ Capability: test-quality / coverage branch closure
 本卡和 fast baseline，逐行核对 main/battle/script/motion 的真实 caller。只写本卡白名单；
 交付时在本卡登记每个合同的源锚、合法输入、oracle、fullName、三态反控和覆盖变化，并给出
 `accept` 或 `counter`；不得改产品、旧测、配置或标 done。
+
+## GLM 交付回执（r1，2026-10-04，待 Codex 独立验收）
+
+- 候选分支 `codex/coverage85-glm-reforge-r1`（dispatch tip `76475c01c` 起，产品文件零改动，
+  `git status` 仅新增本卡测试/脚本/证据）。
+- **第一轮交付，未达 85%**：fast 口径 branches 9657→**9785**/12166（**+128**），
+  statements +83 / functions +6 / lines +48。逐文件闭合与剩余臂诚实披露见
+  [证据](../../testing/coverage85-glm-reforge-r1-evidence.md)。
+- 新增 8 个专属测试文件 121 测试（`*.c85-*.test.ts`，全部公开 caller：bootGame/BattleSession
+  构造器+tick/createBattleState+stepBattle/decideEnemyAction/applyEnemyEffect/ScriptRunner/
+  executeScriptHostEffect/planEntityMotion/ScriptProjectRuntime/RuntimeScriptRunner.runFlow/
+  FlowRuntimeCoordinator/公开纯函数）；零 unsafe cast、零 `@ts-expect-error`、零 skip、
+  零 timeout 扩大。
+- 三态反控 9/9（`packages/reforge/scripts/c85-mutation-counterproof.mjs`：原始绿→变异红
+  [指定 AssertionError 全文]→恢复绿，源 sha256 前后一致；回执
+  `src/__tests__/coverage85/c85-mutation-counterproof.json`）。
+- 账目：identity（`c85-identity-status.json` 121 条 file×fullName×status）、branch delta
+  （`c85-branch-delta.json`）、family ledger（`c85-family-ledger.json` 源行/caller/oracle）、
+  20 条不可达/防御臂判定（证据文档 U1–U20，各带源码条件+调用图+反例一手锚点）。
+- 验证：定向 121/121 绿；全量 fast 325 文件/8690 测试全绿（含相邻既有文件与 battle-trial
+  scripts 测试）；`typecheck` 0 错误；`pnpm lint` 全仓 3145 文件零诊断 PASS；`pnpm check:docs`
+  PASS；`git diff` 产品零改动。
+- 已知未闭合（非不可达，留后续轮）：main.ts 主循环/菜单/演出长尾（~780 臂）、battle-session
+  表现层（~390 臂，`state` 为 private 无公开观测口，未越权反射）、script-runner-core 续跑帧
+  内部（~24 臂）。85% 目标需后续轮继续或按卡面裁决。
+
+## 下一位 Agent 提示词（更新）
+
+Codex 独立验收：读本卡与 [证据](../../testing/coverage85-glm-reforge-r1-evidence.md)，复跑
+`node packages/reforge/scripts/c85-mutation-counterproof.mjs`（约 2 分钟，9 注入应全 PASS 且
+源恢复）、`pnpm --filter @type-pal/reforge run typecheck`、定向 8 文件与全量 fast、
+`pnpm lint`/`pnpm check:docs`。核对 identity/delta/family/不可达四账与源锚；重点抽查：
+反控指定 AssertionError 是否唯一归因、U3/U10/U17 守卫锚是否仍在一手位置、121 测试是否与
+既有 fullName 重复状态轴。裁决 accept/counter/rework；未验收前不合 main、不标 done。

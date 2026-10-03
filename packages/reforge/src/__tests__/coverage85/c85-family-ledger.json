@@ -1,0 +1,133 @@
+{
+  "generatedBy": "TEST-COVERAGE85-GLM-REFORGE-1",
+  "files": [
+    {
+      "file": "src/script-runner.c85-arms.test.ts",
+      "families": [
+        {
+          "lines": [510, 518, 521, 528, 579, 616, 671, 681, 696, 744, 787, 791, 805, 811, 820],
+          "caller": "ScriptRunner.run / evalCondition",
+          "oracle": "宿主逐参调用序 + world 写入"
+        },
+        {
+          "lines": [234, 236, 253, 273, 283, 285, 287],
+          "caller": "evalCondition 公开导出",
+          "oracle": "条件布尔语义(六算子/缺省/组合)"
+        },
+        {
+          "lines": [345, 372, 392, 459, 477, 483, 658, 661, 826],
+          "caller": "ScriptRunner.runStages/runLoop",
+          "oracle": "空段收尾/节拍等待/entry 守卫/后台失败上报/endBattle 拒绝"
+        }
+      ]
+    },
+    {
+      "file": "src/script-host-adapter.c85-arms.test.ts",
+      "families": [
+        {
+          "lines": [
+            43, 47, 50, 51, 58, 59, 119, 124, 141, 161, 162, 179, 184, 191, 195, 198, 201, 209, 235,
+            242, 248, 256, 278, 283, 288, 328, 332
+          ],
+          "caller": "executeScriptHostEffect 公开",
+          "oracle": "跨场景零派发/在场逐参/提交控制/能力缺席 fail-loud"
+        }
+      ]
+    },
+    {
+      "file": "src/battle/battle-core.c85-branches.test.ts",
+      "families": [
+        {
+          "lines": [328, 346, 416, 417, 441, 457],
+          "caller": "createBattleState/applyEnemyEffect",
+          "oracle": "dense 别名/敌阵重排/上限扩展"
+        },
+        {
+          "lines": [499, 502, 508],
+          "caller": "stepBattle 回合末毒 tick",
+          "oracle": "mpDelta 分侧/毒名合成/产物叠槽"
+        },
+        {
+          "lines": [639, 640, 642, 643, 651, 654, 663],
+          "caller": "cast 效果链 performSteal",
+          "oracle": "偷钱分成/moneyDelta/notice/偷物/回落名/空余量"
+        },
+        {
+          "lines": [
+            874, 883, 897, 906, 907, 921, 924, 926, 949, 951, 957, 993, 1016, 1044, 1046, 1061
+          ],
+          "caller": "decideEnemyAction/applyEnemyEffect",
+          "oracle": "沉默拦截/缺数据落普攻/自身召唤/混乱咬同伴/重掷/死者宿主失败/resolvedTarget 优先"
+        },
+        {
+          "lines": [1138, 1139],
+          "caller": "stepBattle 回合末",
+          "oracle": "regen 回蓝钳上限"
+        },
+        {
+          "lines": [733, 757, 766, 770],
+          "caller": "runPlayerCasualtySweep(敌攻路径)",
+          "oracle": "濒死睡眠挡 dying 脚本"
+        }
+      ]
+    },
+    {
+      "file": "src/battle/battle-session.c85-arms.test.ts",
+      "families": [
+        {
+          "lines": [385, 386, 515, 522, 530, 538, 706, 754, 756, 786, 845, 846, 850],
+          "caller": "BattleSession 构造器/tick/cancel",
+          "oracle": "形象缺定义 fail-loud/演出动作臂/终局登记/排程停曲/守卫"
+        }
+      ]
+    },
+    {
+      "file": "src/script-world.c85-arms.test.ts",
+      "families": [
+        {
+          "lines": [
+            131, 162, 191, 221, 288, 290, 291, 306, 308, 334, 348, 364, 375, 378, 382, 404, 425,
+            433, 444, 445, 597, 602, 609, 617, 628, 634, 721, 726, 740
+          ],
+          "caller": "公开纯函数 + FlowRuntimeCoordinator",
+          "oracle": "校验 fail-loud/inherit 清除/租约停机/checkpoint wait-continue/barrier 句柄全臂/gate 中止/idle 唤醒"
+        }
+      ]
+    },
+    {
+      "file": "src/entity-motion.c85-arms.test.ts",
+      "families": [
+        {
+          "lines": [
+            196, 322, 344, 400, 401, 417, 419, 421, 423, 425, 441, 443, 445, 447, 449, 451, 637, 670
+          ],
+          "caller": "planEntityMotion/motionActorKey/motionFootprintsOverlap 公开",
+          "oracle": "非法输入 fail-loud 族/原地朝向回落/floating 无视地形/键序/重叠语义"
+        }
+      ]
+    },
+    {
+      "file": "src/runtime-host.c85-arms.test.ts",
+      "families": [
+        {
+          "lines": [
+            120, 250, 329, 332, 436, 442, 446, 451, 455, 462, 481, 512, 553, 582, 663, 104, 175,
+            179, 183, 185, 638
+          ],
+          "caller": "ScriptProjectRuntime/ProjectScriptRuntimeHost/RuntimeScriptRunner.runFlow 公开",
+          "oracle": "digest/script 初始化/trigger 三臂/lifecycle 提交/私有脚本/场景错位/completed cursor/resume 缺游标/gate stop"
+        }
+      ]
+    },
+    {
+      "file": "src/main.c85-boot.test.ts",
+      "families": [
+        {
+          "lines": [300, 371, 378, 436, 469, 539, 548, 814, 823, 826, 827, 831],
+          "caller": "bootGame 公开启动入口",
+          "oracle": "gallery 速查图/battle-preview 摆位与拒绝/party 拉满/运动探针在场与缺席/MemorySaveStore 回退"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,732 @@
+{
+  "profile": "fast",
+  "testCount": 121,
+  "entries": [
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C65 敌效果门 > transform 解析臂:enemiesById 命中即换定义并保留余量",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C65 敌效果门 > transform 解析臂:enemiesById 命中即换定义并保留余量"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C65 敌效果门 > 召唤解析臂:显式 resolvedTarget 优先于表查询;无 fallback 的目标不带 fallback",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C65 敌效果门 > 召唤解析臂:显式 resolvedTarget 优先于表查询;无 fallback 的目标不带 fallback"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C65 敌效果门 > 死亡宿主臂:applyEnemyEffect 对死者直接 failed",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C65 敌效果门 > 死亡宿主臂:applyEnemyEffect 对死者直接 failed"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 AI 决策臂 > 无 enemyId 召唤臂:召唤动作回落召唤者自身定义",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 AI 决策臂 > 无 enemyId 召唤臂:召唤动作回落召唤者自身定义"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 AI 决策臂 > 沉默臂:技能在表的 cast fallback 被沉默拦回落普攻(规则路径由求值器先跳过)",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 AI 决策臂 > 沉默臂:技能在表的 cast fallback 被沉默拦回落普攻(规则路径由求值器先跳过)"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 AI 决策臂 > 混乱臂:唯一敌混乱咬不到同伴转 pass;多敌时咬中同伴",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 AI 决策臂 > 混乱臂:唯一敌混乱咬不到同伴转 pass;多敌时咬中同伴"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 AI 决策臂 > 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 AI 决策臂 > 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷物臂:具名道具入背包;未知道具名回落 itemId",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷物臂:具名道具入背包;未知道具名回落 itemId"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷空臂:余量耗尽后命中也一无所获",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷空臂:余量耗尽后命中也一无所获"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 回合末与伤亡臂 > 濒死伤亡臂:濒死队员睡着时不触发 dying 脚本",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 回合末与伤亡臂 > 濒死伤亡臂:濒死队员睡着时不触发 dying 脚本"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 回合末与伤亡臂 > 装备回蓝臂:regenMp 每回合回蓝并钳上限",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 回合末与伤亡臂 > 装备回蓝臂:regenMp 每回合回蓝并钳上限"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 建态与槽位臂 > deprecated enemies 别名臂:dense enemies 建出与 enemySlots 等价的敌阵",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 建态与槽位臂 > deprecated enemies 别名臂:dense enemies 建出与 enemySlots 等价的敌阵"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 建态与槽位臂 > divide 扩上限臂:分裂填入 maxEnemyIndex 之外的空槽,全场站位随新上限重排",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 建态与槽位臂 > divide 扩上限臂:分裂填入 maxEnemyIndex 之外的空槽,全场站位随新上限重排"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 毒系统臂 > mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 毒系统臂 > mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "fullName": "C85 毒系统臂 > 毒名缺省与到期产物臂:无 name 按 id 合成名,grantItem 优先叠已有背包槽",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 毒系统臂 > 毒名缺省与到期产物臂:无 name 按 id 合成名,grantItem 优先叠已有背包槽"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 会话生命周期臂 > cancel 双守卫臂:已取消会话 tick 不再驱动演出与回合准备",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 会话生命周期臂 > cancel 双守卫臂:已取消会话 tick 不再驱动演出与回合准备"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 会话生命周期臂 > cancel 幂等臂:终局后再 cancel 安静返回不再 reject",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 会话生命周期臂 > cancel 幂等臂:终局后再 cancel 安静返回不再 reject"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 会话生命周期臂 > 形象缺失臂:构造期形象复位即对未注册定义 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 会话生命周期臂 > 形象缺失臂:构造期形象复位即对未注册定义 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 战斗演出动作臂 > applyActorGrowth 身份臂:战斗队伍之外的角色 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > applyActorGrowth 身份臂:战斗队伍之外的角色 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 战斗演出动作臂 > endBattle 重复登记臂:同链两条终局命令第二条 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > endBattle 重复登记臂:同链两条终局命令第二条 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 战斗演出动作臂 > fleeBattle 演出臂:敌逃登记 won 终局并驱动离场 timeline",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > fleeBattle 演出臂:敌逃登记 won 终局并驱动离场 timeline"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 战斗演出动作臂 > stopMusic 即时臂:fadeMs 缺省 0 当拍停曲",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > stopMusic 即时臂:fadeMs 缺省 0 当拍停曲"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 战斗演出动作臂 > stopMusic 定时臂:fadeMs>0 入排程,越时后原 serial 停曲",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > stopMusic 定时臂:fadeMs>0 入排程,越时后原 serial 停曲"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "fullName": "C85 战斗演出动作臂 > 排程失效臂:排程后的 cancel 使 serial 失配,越时不再停曲",
+      "status": "passed",
+      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > 排程失效臂:排程后的 cancel 使 serial 失配,越时不再停曲"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "原地意图臂:desired 等于 from 的动态意图零位移成功且朝向回落 desiredFacing",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 原地意图臂:desired 等于 from 的动态意图零位移成功且朝向回落 desiredFacing"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "悬浮臂:floating 意图无视全图地形封锁照常移动",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 悬浮臂:floating 意图无视全图地形封锁照常移动"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "移动键臂:party 键恒为 0:party 且排序先于实体键",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 移动键臂:party 键恒为 0:party 且排序先于实体键"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;高度不参与",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;高度不参与"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "非法快照臂:重复 actor 与空足迹各自 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 非法快照臂:重复 actor 与空足迹各自 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 battle-preview 拒绝臂:未注册的敌人定义 fail-loud 且不进主循环",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 battle-preview 拒绝臂:未注册的敌人定义 fail-loud 且不进主循环"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 battle-preview 臂:无敌人表的工程按空摆位渲染静态预览",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 battle-preview 臂:无敌人表的工程按空摆位渲染静态预览"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 dev 队伍覆写臂:?party 重排开局队伍并拉满血蓝",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 dev 队伍覆写臂:?party 重排开局队伍并拉满血蓝"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 gallery 臂:?gallery 渲染精灵速查图后安静退出,不发布运行时",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 gallery 臂:?gallery 渲染精灵速查图后安静退出,不发布运行时"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与步态",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 运动探针臂:?motion-entity 报告在场实体的坐标与步态"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > lifecycle 拒收臂:lifecycle 命令不得进入基础 host,worldChanged 仍被通知",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ProjectScriptRuntimeHost 桥臂 > lifecycle 拒收臂:lifecycle 命令不得进入基础 host,worldChanged 仍被通知"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 时机臂:auto 时机直接 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 时机臂:auto 时机直接 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 桥臂:宿主未提供调用桥时 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 桥臂:宿主未提供调用桥时 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 派发臂:调用桥收到同 target 与 context",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 派发臂:调用桥收到同 target 与 context"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > 守卫臂:已中止 signal 下的 execute 直接 AbortError",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ProjectScriptRuntimeHost 桥臂 > 守卫臂:已中止 signal 下的 execute 直接 AbortError"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptProjectRuntime 装配臂 > script 初始化臂:world 缺 script 时构造补空脚本态",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptProjectRuntime 装配臂 > script 初始化臂:world 缺 script 时构造补空脚本态"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptProjectRuntime 装配臂 > 场景钩子臂:runSceneHook 对场景错位安静 false",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptProjectRuntime 装配臂 > 场景钩子臂:runSceneHook 对场景错位安静 false"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptProjectRuntime 装配臂 > 实体臂:runEntityBehavior 对缺席实体 fail-loud,对场景错位安静 false",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptProjectRuntime 装配臂 > 实体臂:runEntityBehavior 对缺席实体 fail-loud,对场景错位安静 false"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptProjectRuntime 装配臂 > 摘要臂:非 64 位 hex canonicalContentDigest 构造即拒",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptProjectRuntime 装配臂 > 摘要臂:非 64 位 hex canonicalContentDigest 构造即拒"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptProjectRuntime 装配臂 > 私有脚本臂:物品私有脚本缺定义 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptProjectRuntime 装配臂 > 私有脚本臂:物品私有脚本缺定义 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptRunnerCore 流臂 > auto 恢复臂:resume 无游标或控制器未开 checkpoint 即拒",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptRunnerCore 流臂 > auto 恢复臂:resume 无游标或控制器未开 checkpoint 即拒"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptRunnerCore 流臂 > gate 停止臂:宿主 gate 返回 stop 时本次运行干净收尾不再执行后续叶",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptRunnerCore 流臂 > gate 停止臂:宿主 gate 返回 stop 时本次运行干净收尾不再执行后续叶"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptRunnerCore 流臂 > 完成游标臂:声明 complete 的 flow 使用 completed cursor 立即收尾零效果",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptRunnerCore 流臂 > 完成游标臂:声明 complete 的 flow 使用 completed cursor 立即收尾零效果"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptRunnerCore 流臂 > 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptRunnerCore 流臂 > 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 ScriptRunnerCore 流臂 > 游标缺失臂:flow 指针指向不存在的 stage 即拒",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptRunnerCore 流臂 > 游标缺失臂:flow 指针指向不存在的 stage 即拒"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "chasePlayer 跨场景臂:self 不在场时零调用",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: chasePlayer 跨场景臂:self 不在场时零调用"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "endBattle 拒绝臂:非战斗演出上下文直接 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: endBattle 拒绝臂:非战斗演出上下文直接 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "loadScene 落点臂:pos+facing 落点与 source 过渡原样透传宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: loadScene 落点臂:pos+facing 落点与 source 过渡原样透传宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "loadScene 落点臂:三字段全缺席派发空 spawn,缺省无过渡直调宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: loadScene 落点臂:三字段全缺席派发空 spawn,缺省无过渡直调宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "mountParty 在场缺省臂:偏移缺席按 0 派发宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: mountParty 在场缺省臂:偏移缺席按 0 派发宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "playEntityAction 后台取消臂:runner 取消后的失败不再上报宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: playEntityAction 后台取消臂:runner 取消后的失败不再上报宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "playEntityAction 后台失败臂:循环动作非 abort 失败经 report 观测不抛",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: playEntityAction 后台失败臂:循环动作非 abort 失败经 report 观测不抛"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "playEntityAction 后台失败臂:非 Error 拒绝值按 String() 文本观测",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: playEntityAction 后台失败臂:非 Error 拒绝值按 String() 文本观测"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "playEntityAction 相位臂:startAtMs 透传,单次动作缺省阻塞至宿主完成",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: playEntityAction 相位臂:startAtMs 透传,单次动作缺省阻塞至宿主完成"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "releaseEntity 双臂:无 target 归还全部,target 在场只还该实体",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: releaseEntity 双臂:无 target 归还全部,target 在场只还该实体"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "setActorAppearance 三维臂:spriteId 与 portrait 维度分别派发",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: setActorAppearance 三维臂:spriteId 与 portrait 维度分别派发"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "setActorAppearance 部分补丁臂:仅改单维度时其余键缺席",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: setActorAppearance 部分补丁臂:仅改单维度时其余键缺席"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "setSceneMapOverride 提交控制臂:当前场景重载缺同步提交控制时 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: setSceneMapOverride 提交控制臂:当前场景重载缺同步提交控制时 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "setSceneMapOverride 提交臂:宿主 reloadMap 收到同拍提交控制并完成重载",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: setSceneMapOverride 提交臂:宿主 reloadMap 收到同拍提交控制并完成重载"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "setSceneMapOverride 状态宿主臂:无 reloadMap 的宿主直接同拍提交持久 override",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: setSceneMapOverride 状态宿主臂:无 reloadMap 的宿主直接同拍提交持久 override"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "世界持久类叶零派发臂:状态写入类命令不触碰画面宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: 世界持久类叶零派发臂:状态写入类命令不触碰画面宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "在场地址臂:setEntityPos/setEntityPosRelParty/setEntityFrame 逐参派发到宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: 在场地址臂:setEntityPos/setEntityPosRelParty/setEntityFrame 逐参派发到宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: 宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "演出缺省臂:ditherScreen 缺省 720ms;increaseHpMp 缺省 both",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: 演出缺省臂:ditherScreen 缺省 720ms;increaseHpMp 缺省 both"
+    },
+    {
+      "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
+      "fullName": "跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-host-adapter.c85-arms.test.ts :: project reforge :: 跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "0x13 缺省臂:setEntityPos 的 height 缺省落 0 并持久写 world.entityPos",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 0x13 缺省臂:setEntityPos 的 height 缺省落 0 并持久写 world.entityPos"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "0x2E/0x63/0x6E 缺省臂:loseItem count 缺省 1、mountParty 偏移缺省 0、addVar 缺省累加底数 0",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 0x2E/0x63/0x6E 缺省臂:loseItem count 缺省 1、mountParty 偏移缺省 0、addVar 缺省累加底数 0"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "0x98 清空臂:setFollowers 空表把 world.followers 归 undefined",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 0x98 清空臂:setFollowers 空表把 world.followers 归 undefined"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "B8 缺省臂:vanishEntity 无 entity 时回落触发者自身,seconds 缺省 2",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: B8 缺省臂:vanishEntity 无 entity 时回落触发者自身,seconds 缺省 2"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "B8 缺省臂:无宿主实体的 chasePlayer 以空 self 派发缺省 range/speed/floating",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: B8 缺省臂:无宿主实体的 chasePlayer 以空 self 派发缺省 range/speed/floating"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "call 重抛臂:callee 内非 returnScript 错误穿透 callScript 原样上抛",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: call 重抛臂:callee 内非 returnScript 错误穿透 callScript 原样上抛"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "endBattle 拒绝臂:大世界 runner 拒绝战斗演出专属命令",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: endBattle 拒绝臂:大世界 runner 拒绝战斗演出专属命令"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "runStages 宿主臂:entry 段遇无 revealSceneEntry 宿主 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: runStages 宿主臂:entry 段遇无 revealSceneEntry 宿主 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "runStages 空段臂:空 stages 绑定安静收尾,不建阶段不抛错",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: runStages 空段臂:空 stages 绑定安静收尾,不建阶段不抛错"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "setSceneMapOverride 当前场景臂:宿主无 reloadMap 时只落持久 override",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: setSceneMapOverride 当前场景臂:宿主无 reloadMap 时只落持久 override"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "setSceneMapOverride 当前场景臂:无 sceneId 查询的宿主保持零写入",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: setSceneMapOverride 当前场景臂:无 sceneId 查询的宿主保持零写入"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "setSceneMapOverride 持久臂:指定 scene 直接写 world,不触碰当前场景",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: setSceneMapOverride 持久臂:指定 scene 直接写 world,不触碰当前场景"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "vanish 双回落臂:无 entity 且无 selfId 时以空实体 id 派发宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: vanish 双回落臂:无 entity 且无 selfId 时以空实体 id 派发宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "后台失败上报臂:非 Error 拒绝值按 String() 文本上报",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 后台失败上报臂:非 Error 拒绝值按 String() 文本上报"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "命令残留臂:fleeBattle/holdScreen/revealScreen/shakeScreen 等直通宿主能力",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 命令残留臂:fleeBattle/holdScreen/revealScreen/shakeScreen 等直通宿主能力"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "场景覆写残留臂:onTeleport/clearSceneScripts 对全新场景各自建立 override 槽",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 场景覆写残留臂:onTeleport/clearSceneScripts 对全新场景各自建立 override 槽"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "循环动作后台失败臂:runner 已取消时不把 abort 上报为宿主错误",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 循环动作后台失败臂:runner 已取消时不把 abort 上报为宿主错误"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "循环动作后台失败臂:非 abort 错误按复合引用上报宿主,不中断后续命令",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 循环动作后台失败臂:非 abort 错误按复合引用上报宿主,不中断后续命令"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "战斗配置臂:startBattle 透传 choreography 且按字段缺席裁剪",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 战斗配置臂:startBattle 透传 choreography 且按字段缺席裁剪"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "条件残留臂:currentScene 缺当前场景查询时 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 条件残留臂:currentScene 缺当前场景查询时 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "条件残留臂:entitiesNear 透传 range,chance 用注入 random 定率",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 条件残留臂:entitiesNear 透传 range,chance 用注入 random 定率"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "条件残留臂:entityState 用 NaN 哨兵拒绝缺席实体,facingEntity/items 走宿主查询",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 条件残留臂:entityState 用 NaN 哨兵拒绝缺席实体,facingEntity/items 走宿主查询"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "条件残留臂:var 六比较算子按数值语义求值",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 条件残留臂:var 六比较算子按数值语义求值"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "条件残留臂:缺席 flag 按 false 求值,ownsItem 缺省 atLeast=1",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 条件残留臂:缺席 flag 按 false 求值,ownsItem 缺省 atLeast=1"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "条件残留臂:缺席 var 按默认 0 参与比较;not/all/any 组合臂齐走",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 条件残留臂:缺席 var 按默认 0 参与比较;not/all/any 组合臂齐走"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "脚本绑定 stages 臂:setEntityAuto 内联段与 onEnter 全新槽各自落位",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 脚本绑定 stages 臂:setEntityAuto 内联段与 onEnter 全新槽各自落位"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "脚本绑定双臂:setEntityAuto/setEntityTrigger 分别以 script 引用与 stages 内联派发",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 脚本绑定双臂:setEntityAuto/setEntityTrigger 分别以 script 引用与 stages 内联派发"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "节拍臂:paceMs>0 时每条命令后按拍等待宿主 wait",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 节拍臂:paceMs>0 时每条命令后按拍等待宿主 wait"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "activation gate 中止臂:等待期间与已中止 signal 都以 AbortError 拒绝",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: activation gate 中止臂:等待期间与已中止 signal 都以 AbortError 拒绝"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "auto bump 臂:页切换改变 auto 行为时 bump auto owner",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: auto bump 臂:页切换改变 auto 行为时 bump auto owner"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "barrier cancel 臂:Error 原样透传,字符串原因包成 Error",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: barrier cancel 臂:Error 原样透传,字符串原因包成 Error"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "checkpoint 等待臂:save barrier 未就绪时 ready=false 返回 wait,ready=true 返回 continue",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: checkpoint 等待臂:save barrier 未就绪时 ready=false 返回 wait,ready=true 返回 continue"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "owner idle 臂:已空闲即解析;活动期等待并在租约关闭后唤醒;中止拒绝",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: owner idle 臂:已空闲即解析;活动期等待并在租约关闭后唤醒;中止拒绝"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "page 缺席臂:initialPage 指向不存在页时 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: page 缺席臂:initialPage 指向不存在页时 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "resolveSceneHook 缺槽臂:场景无 onTeleport 槽返回 undefined",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: resolveSceneHook 缺槽臂:场景无 onTeleport 槽返回 undefined"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "scene hook inherit 臂:继承清空手动选择且同 id 游标保留",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: scene hook inherit 臂:继承清空手动选择且同 id 游标保留"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "scene hook 校验臂:空 selection 与未知变体 fail-loud;undefined 槽位安静跳过",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: scene hook 校验臂:空 selection 与未知变体 fail-loud;undefined 槽位安静跳过"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "selectEntityBehavior inherit 臂:显式继承清除该通道的手动选择",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: selectEntityBehavior inherit 臂:显式继承清除该通道的手动选择"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "trigger activation 校验臂:on 非 interact/touch 或 range 非法即 fail-loud",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: trigger activation 校验臂:on 非 interact/touch 或 range 非法即 fail-loud"
+    },
+    {
+      "file": "packages/reforge/src/script-world.c85-arms.test.ts",
+      "fullName": "租约停机臂:closed 租约与 epoch 失效租约的 checkpoint 都返回 stop",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: 租约停机臂:closed 租约与 epoch 失效租约的 checkpoint 都返回 stop"
+    }
+  ]
+}
