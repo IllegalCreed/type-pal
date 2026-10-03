@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "baseline": "8efe04861",
+  "oldOracle": "packages/reforge/src/pal-unified-steps-auto-oracle.json (unchanged)",
+  "rows": [
+    {
+      "key": "s016/e217/auto/default",
+      "oldOracleHashes": [
+        "011efc671caf84acff2933cec65e22f88b8b918d10781ff2984d776b7f53c160",
+        "011efc671caf84acff2933cec65e22f88b8b918d10781ff2984d776b7f53c160",
+        "011efc671caf84acff2933cec65e22f88b8b918d10781ff2984d776b7f53c160",
+        "011efc671caf84acff2933cec65e22f88b8b918d10781ff2984d776b7f53c160"
+      ],
+      "currentFlowHash": "a34a55bb8cc5f06e59be24c362d866c419dca2257786ad0f831b392e8bf361ee",
+      "source": {
+        "source": [5214, 5229],
+        "test": "pal-gov3-motion.test.ts:8-frame bathing foreground"
+      },
+      "status": "author-flow-kept-or-removed-in-foreground"
+    },
+    {
+      "key": "s016/e217/auto/legacy-001",
+      "oldOracleHashes": [
+        "30280e8a96217732076e2e845e510c66759d4c716d93e87a0072baaa8ea4774f",
+        "30280e8a96217732076e2e845e510c66759d4c716d93e87a0072baaa8ea4774f",
+        "30280e8a96217732076e2e845e510c66759d4c716d93e87a0072baaa8ea4774f",
+        "30280e8a96217732076e2e845e510c66759d4c716d93e87a0072baaa8ea4774f"
+      ],
+      "currentFlowHash": null,
+      "source": {
+        "source": [5256, 5258],
+        "test": "pal-gov3-motion.test.ts:8-frame bathing foreground"
+      },
+      "status": "author-flow-kept-or-removed-in-foreground"
+    },
+    {
+      "key": "s020/e343/auto/legacy-001",
+      "oldOracleHashes": [
+        "9935efe342d7afb544bb2c4c8bcc570af526063515e7b1edc405b22b588dc3fb",
+        "9935efe342d7afb544bb2c4c8bcc570af526063515e7b1edc405b22b588dc3fb",
+        "9935efe342d7afb544bb2c4c8bcc570af526063515e7b1edc405b22b588dc3fb",
+        "9935efe342d7afb544bb2c4c8bcc570af526063515e7b1edc405b22b588dc3fb"
+      ],
+      "currentFlowHash": null,
+      "source": {
+        "source": [4695, 5095],
+        "caller": [4695, 4696],
+        "test": "pal-gov3-motion.test.ts:crying foreground"
+      },
+      "status": "moved-to-foreground"
+    },
+    {
+      "key": "s032/e547/auto/default",
+      "oldOracleHashes": [
+        "57143b67d7eba95563bf694071b3cca207d1545123aefbcb6c7fa133057da047",
+        "57143b67d7eba95563bf694071b3cca207d1545123aefbcb6c7fa133057da047",
+        "4ead9067c971ea292a57cfd28738489cc197af1925df1fe4401816cd01fd1e20",
+        "4ead9067c971ea292a57cfd28738489cc197af1925df1fe4401816cd01fd1e20"
+      ],
+      "currentFlowHash": "8012f44fd478518ba301e5dce7639eace05117493fdff067464d44e9712f55e9",
+      "source": {
+        "source": [8148, 8211],
+        "caller": [8148, 8149, 8162, 8163, 8174],
+        "test": "pal-gov3-motion-arena.test.ts"
+      },
+      "status": "author-flow-kept-or-removed-in-foreground"
+    },
+    {
+      "key": "s032/e549/auto/legacy-001",
+      "oldOracleHashes": [
+        "7a1769f847d6498ddae44a87d1af063c47e83ee2e996d7608d93848700465cf9",
+        "7a1769f847d6498ddae44a87d1af063c47e83ee2e996d7608d93848700465cf9",
+        "7a1769f847d6498ddae44a87d1af063c47e83ee2e996d7608d93848700465cf9",
+        "7a1769f847d6498ddae44a87d1af063c47e83ee2e996d7608d93848700465cf9"
+      ],
+      "currentFlowHash": null,
+      "source": {
+        "source": [8183, 8191],
+        "caller": [8174],
+        "test": "pal-gov3-motion-arena.test.ts"
+      },
+      "status": "author-flow-rewritten"
+    },
+    {
+      "key": "s032/e549/auto/legacy-002",
+      "oldOracleHashes": [
+        "95c4e8d5b0c85e62b432b05ded13fc6560742f700bf9e1ad751ce4e25f1cb0a7",
+        "95c4e8d5b0c85e62b432b05ded13fc6560742f700bf9e1ad751ce4e25f1cb0a7",
+        "95c4e8d5b0c85e62b432b05ded13fc6560742f700bf9e1ad751ce4e25f1cb0a7",
+        "95c4e8d5b0c85e62b432b05ded13fc6560742f700bf9e1ad751ce4e25f1cb0a7"
+      ],
+      "currentFlowHash": null,
+      "source": {
+        "source": [8192, 8201],
+        "caller": [8150],
+        "test": "pal-gov3-motion-arena.test.ts"
+      },
+      "status": "author-flow-rewritten"
+    },
+    {
+      "key": "s032/e549/auto/legacy-003",
+      "oldOracleHashes": [
+        "934f11b3f1cdce5fb999e1264b4b6fb8a5977196c4119646dc6807d1ea817212",
+        "934f11b3f1cdce5fb999e1264b4b6fb8a5977196c4119646dc6807d1ea817212",
+        "934f11b3f1cdce5fb999e1264b4b6fb8a5977196c4119646dc6807d1ea817212",
+        "934f11b3f1cdce5fb999e1264b4b6fb8a5977196c4119646dc6807d1ea817212"
+      ],
+      "currentFlowHash": null,
+      "source": {
+        "source": [8202, 8211],
+        "caller": [8164],
+        "test": "pal-gov3-motion-arena.test.ts"
+      },
+      "status": "author-flow-rewritten"
+    },
+    {
+      "key": "s126/e2219/auto/legacy-001",
+      "oldOracleHashes": [
+        "ea77fee72f362508152af278164917d81a6a06122748f9ea39d1631587c9b62d",
+        "ea77fee72f362508152af278164917d81a6a06122748f9ea39d1631587c9b62d",
+        "ea77fee72f362508152af278164917d81a6a06122748f9ea39d1631587c9b62d",
+        "ea77fee72f362508152af278164917d81a6a06122748f9ea39d1631587c9b62d"
+      ],
+      "currentFlowHash": null,
+      "source": {
+        "source": [19629, 19640],
+        "caller": [19483, 19519],
+        "test": "pal-gov3-motion.test.ts:ritual foreground"
+      },
+      "status": "moved-to-foreground"
+    },
+    {
+      "key": "s126/e2219/auto/legacy-002",
+      "oldOracleHashes": [
+        "0b4f08ed1fc79413d4e3dccc7265509bb048785682ec9d7f66995896c102b74e",
+        "0b4f08ed1fc79413d4e3dccc7265509bb048785682ec9d7f66995896c102b74e",
+        "0b4f08ed1fc79413d4e3dccc7265509bb048785682ec9d7f66995896c102b74e",
+        "0b4f08ed1fc79413d4e3dccc7265509bb048785682ec9d7f66995896c102b74e"
+      ],
+      "currentFlowHash": null,
+      "source": {
+        "source": [19641, 19657],
+        "caller": [19555],
+        "test": "pal-gov3-motion.test.ts:ritual foreground"
+      },
+      "status": "author-flow-kept-or-removed-in-foreground"
+    },
+    {
+      "key": "s130/e2276/auto/default",
+      "oldOracleHashes": [
+        "5f60242c7b840ebe79281e202fcca1ed23e2d72d2c0dc25fe88c89e8b9eb2124",
+        "5f60242c7b840ebe79281e202fcca1ed23e2d72d2c0dc25fe88c89e8b9eb2124",
+        "5f60242c7b840ebe79281e202fcca1ed23e2d72d2c0dc25fe88c89e8b9eb2124",
+        "5f60242c7b840ebe79281e202fcca1ed23e2d72d2c0dc25fe88c89e8b9eb2124"
+      ],
+      "currentFlowHash": "68f2cea13b1def259b5de125b8936d959b543bcc4c86b5e9b2a0a4bde5a16098",
+      "source": {
+        "source": [17140, 17176],
+        "test": "pal-gov3-motion.test.ts:alternating cycle"
+      },
+      "status": "author-flow-rewritten"
+    },
+    {
+      "key": "s130/e2278/auto/default",
+      "oldOracleHashes": [
+        "196b42633431ce4a56087a50108b2e72ea6e439bb799e536092833f81387d223",
+        "196b42633431ce4a56087a50108b2e72ea6e439bb799e536092833f81387d223",
+        "196b42633431ce4a56087a50108b2e72ea6e439bb799e536092833f81387d223",
+        "196b42633431ce4a56087a50108b2e72ea6e439bb799e536092833f81387d223"
+      ],
+      "currentFlowHash": "4dc78d8f22522ee57ecce3d9178449f04bc37f764c8bff6d7394eb1d3ea48575",
+      "source": {
+        "source": [17140, 17176],
+        "test": "pal-gov3-motion.test.ts:alternating cycle"
+      },
+      "status": "author-flow-rewritten"
+    },
+    {
+      "key": "s130/e2280/auto/default",
+      "oldOracleHashes": [
+        "a6a4f89706c191b8633e8ae7ad28255a60585991d37a49218715a094b7c7d931",
+        "a6a4f89706c191b8633e8ae7ad28255a60585991d37a49218715a094b7c7d931",
+        "a6a4f89706c191b8633e8ae7ad28255a60585991d37a49218715a094b7c7d931",
+        "a6a4f89706c191b8633e8ae7ad28255a60585991d37a49218715a094b7c7d931"
+      ],
+      "currentFlowHash": "64314281b03872ab78c8a788eaddab8457732297413d4736330d4d85924f3732",
+      "source": {
+        "source": [17140, 17176],
+        "test": "pal-gov3-motion.test.ts:alternating cycle"
+      },
+      "status": "author-flow-rewritten"
+    },
+    {
+      "key": "s213/e3606/auto/default",
+      "oldOracleHashes": [
+        "d48872bd0c63053f06163361c88a6aa52fec38fb80443572800b4caef2daf013",
+        "40e7e43f3376365a9b3e3b8d74f007d84063a45afd2f665df66a408d668bbdac",
+        "d48872bd0c63053f06163361c88a6aa52fec38fb80443572800b4caef2daf013",
+        "40e7e43f3376365a9b3e3b8d74f007d84063a45afd2f665df66a408d668bbdac"
+      ],
+      "currentFlowHash": "4465b1cefc402f77a3b5157544c46fc3288d07e65a486a220b0a9814f8f9aa3f",
+      "source": {
+        "source": [31286, 31291],
+        "test": "pal-gov3-motion.test.ts:entitiesNear zone + SAVE11"
+      },
+      "status": "author-flow-rewritten"
+    }
+  ]
+}

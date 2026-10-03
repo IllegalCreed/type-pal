@@ -1,0 +1,91 @@
+{
+  "baseline": "8efe04861",
+  "batch": "dynamic-successors-and-conditional-exits",
+  "expected": "seven trigger roots plus eleven failing bindings; source semantics preserved; no old acceptance hash rewritten",
+  "files": [
+    {
+      "path": "projects/pal/content/scenes/s021.json",
+      "before": "a477f54158e5e5f50cffeaa0275c7136bf635814743085edd956a384482c8a25",
+      "after": "87c7840bfa53b84c5709c9a85910bb10b5a521f4d20e69fadafe2f9627a728b4",
+      "entities": ["e403"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s131.json",
+      "before": "fd26d796289f9720b93dde66939e804c5af9523551e9adb919f0345a2a555bac",
+      "after": "b5f4fcec1a7def3612cbd4b436461ca474005910390edcf8f4e46b05e2054d75",
+      "entities": ["e2293", "e2292"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s134.json",
+      "before": "0449456b0a5ac7f2e6115d158475df042623f6be5c12c90a9cb872bdb8ef91fd",
+      "after": "59cc019b77fa214ad3daacd22a49306918e77b3a3a51055b73c5ee79a73fe8e0",
+      "entities": ["e2319"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s100.json",
+      "before": "b06eb944ea8f2cc5b206cb3849e63d5ba6fcb975916fd106cca5d170b64ee350",
+      "after": "851497d71b1289ef06810bf7d72e9ee82075bdf7d1f532d1e34310c224554b8e",
+      "entities": ["e1824", "e1838"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s034.json",
+      "before": "21a0dc3f09ec75657b505986e41fcc0f32ee3f294207fb436bebc0849c15d734",
+      "after": "732f1ea29e834e23f40e1936de43f25c754206e46fd01d0b82ffe6c6b3e2554a",
+      "entities": ["e573"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s262.json",
+      "before": "0f1114d07ab91dc905fef0a98e0714d42bb8179de1a086cf86b85425dcb6f1f0",
+      "after": "65236a6406b299b35b40ea945990c10d93ee16aebab58c0bc5fd252eb99dc1c3",
+      "entities": ["e4568"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s005.json",
+      "before": "026dbb34f62a939f8d04934415265597789a61602da63dd0d58dfba42bdfddd7",
+      "after": "74ab73021cf97ffdc6df0b6f878516f5608ce0add028b8fc54e386b56531ff58",
+      "entities": ["e128"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s029.json",
+      "before": "a04d617f67f547fea66dd635009724e0ecd3a50df633ac2b002bd7c6c87b72de",
+      "after": "7f91beefb59db2a4b416dcc232dffe66e39e9606908e73e745ba0cc370ea3fc0",
+      "entities": ["e536"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s127.json",
+      "before": "d79bb509065b1ccb85fc6fdcf5b57c06421ad58cfce6a517875d0b9e90948937",
+      "after": "b281c23e4188307946774ab50f4b2db0bb57a625da0fcc8076f0350f4c4d1638",
+      "entities": ["e2228"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s023.json",
+      "before": "970d027330c42f738d9038eb3cd9be88b907904579af1b76f7b63dd4a2e5a439",
+      "after": "de40418683e8d533a25705aab5c59cef9bf9e8f7bb095ef5077fb9d5efeafa4e",
+      "entities": ["e427"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s064.json",
+      "before": "4b635c4f86428773b7ce79a6da4ce80f3a3fe9918f95335fdf758705a908ae13",
+      "after": "6248fd1ee231241ec5cec351ee6567309e23f839f8091a0dba155c7f8549b1e0",
+      "entities": ["e1219"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s172.json",
+      "before": "eb56a9e1d6e5bfe5c192a9a5b59f55f53572f7530f9213a85a6db11e61b10695",
+      "after": "b53ee64a0c6a4099e309f141c8f8da8ac75161a4428aefa362c7442781e508aa",
+      "entities": ["e2862"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s247.json",
+      "before": "6c2f660484d7708c622d9971783255a35f33adca9e01e02e84c93beee93fa9c9",
+      "after": "3ec1108783c7fb8c2ec2eaf2f3fd15c5dde0383000b66d634d7cacabcb832481",
+      "entities": ["e4367"]
+    },
+    {
+      "path": "projects/pal/content/scenes/s266.json",
+      "before": "9fc40bc76208facb0ac5fff6448b3dbe51dd95016378c37bc3a75512f7317495",
+      "after": "af215af1dc53867a737e4acc582b440b66921f16c2bc5fa2daef4c313a678a18",
+      "entities": ["e4662"]
+    }
+  ]
+}

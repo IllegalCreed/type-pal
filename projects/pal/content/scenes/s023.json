@@ -676,7 +676,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "依次分食给小豆子",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -709,6 +709,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -751,7 +757,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "分给糯米糕"
                 },
                 {
                   "id": "legacy-002",
@@ -780,6 +787,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -816,7 +829,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-003"
+                  "next": "legacy-003",
+                  "label": "分给糖葫芦"
                 },
                 {
                   "id": "legacy-003",
@@ -845,6 +859,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -881,7 +901,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-004"
+                  "next": "legacy-004",
+                  "label": "分给茶叶蛋"
                 },
                 {
                   "id": "legacy-004",
@@ -900,7 +921,8 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "肚子仍饿的复读"
                 }
               ]
             }
@@ -1006,7 +1028,8 @@
             }
           }
         }
-      }
+      },
+      "label": "小豆子"
     },
     {
       "id": "e428",

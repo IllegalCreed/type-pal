@@ -164,10 +164,17 @@ export interface ScriptHost {
   /** 过场编排:按稳定 AssetId 播真彩帧动画，阻塞至播完或跳过。 */
   playFrameAnimation(
     asset: AssetId,
-    opts?: { frameRate?: number; startFrame?: number; endFrame?: number },
+    opts?: {
+      frameRate?: number
+      startFrame?: number
+      endFrame?: number
+      holdLastFrame?: boolean
+      initialFadeInMs?: number
+    },
     signal?: AbortSignal,
   ): Promise<void>
   /** 商店/当铺(阻塞脚本至关店;店不存在须立即 resolve 防卡死)。 */
+  clearFrameAnimation(): void
   openShop(shop: number, mode: 'buy' | 'sell', signal?: AbortSignal): Promise<void>
   confirm(signal?: AbortSignal): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
@@ -180,8 +187,9 @@ export interface ScriptHost {
     allFullHp(): boolean
     /** 0x86 将军冢玉佛珠门:全队装备该物(itemId)件数 ≥ atLeast。 */
     itemEquipped(itemId: string, atLeast: number): boolean
-    /** 0x83:实体 id 是否属于当前场景(取代原版 EventObject 下标区间判定)。 */
+    /** Entity identity membership, independently of distance or visibility. */
     entityInScene(id: string): boolean
+    entitiesNear(from: string, to: string, range: number): boolean
     facingEntity(id: string, range: number): boolean
     /** 当前场景 id(0x99 当前场景换图的 override 键;缺省实现可返回空串 = 不落 override)。 */
     sceneId?(): string
@@ -253,6 +261,8 @@ export function evalCondition(
       return (world.entityState[cond.entity] ?? Number.NaN) === cond.is
     case 'entityInScene':
       return query.entityInScene(cond.entity)
+    case 'entitiesNear':
+      return query.entitiesNear(cond.from, cond.to, cond.range)
     case 'facingEntity':
       return query.facingEntity(cond.entity, cond.range ?? 0)
     case 'chance':
@@ -755,9 +765,13 @@ export class ScriptRunner {
             frameRate: cmd.frameRate,
             startFrame: cmd.startFrame,
             endFrame: cmd.endFrame,
+            holdLastFrame: cmd.holdLastFrame,
+            initialFadeInMs: cmd.initialFadeInMs,
           },
           this.signal,
         )
+      case 'clearFrameAnimation':
+        return h.clearFrameAnimation()
       case 'openShop':
         return h.openShop(cmd.shop, cmd.mode, this.signal)
       case 'confirm': {

@@ -58,6 +58,7 @@ function host(): ScriptHost {
     teleportOut: async () => false,
     playVideo: done,
     playFrameAnimation: done,
+    clearFrameAnimation: () => undefined,
     openShop: done,
     confirm: async () => true,
     query: {
@@ -68,6 +69,7 @@ function host(): ScriptHost {
       allFullHp: () => false,
       itemEquipped: () => false,
       entityInScene: () => false,
+      entitiesNear: () => false,
       facingEntity: () => false,
       sceneId: () => 's001',
     },

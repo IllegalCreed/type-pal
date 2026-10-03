@@ -1,6 +1,6 @@
 # SCRIPT-GOV-3 剩余问题族治理与开场回归
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W7 / P3 / Q1
 Coding Owner: 下文分域独占
@@ -95,12 +95,96 @@ OP_ADD_CASH、OP14及真实auto/goto/reset、tickSceneAutoFadeIn，以及现行m
 
 任一新增产品取舍或关键表达缺口仍停止对应实现报Root，Root需要用户决定时停止目标工作。
 
+### 追加的精确核定（2026-10-03）
+
+- Core自动姿态/页动作接管包已冻结交独立复核。内部checkpoint只标记当前可重入叶的快照边界，
+  不写存档函数、不改变SAVE11；姿态提交前再核exact signal、activation、scene session及目标authority，
+  前台动作可替换已暂停的自动动作。Root独立读7文件并先复跑5文件54项通过，完整137项相关门另跑。
+- Root直接核raw10423和31286，以及P1 `event-system.ts:4363`：两条0x83比较当前场景中两个实体的平面距离，
+  并非“实体在场”。格坐标等价条件为`max(abs(dcol),abs(drow)) < .5`；异场或缺实体为false，height/state不参与。
+  当前误译会提前触发捕兽夹/芦苇漂；s048等待后还有重复成功尾，须改为等靠近后只执行一次。
+  Core获准扩展现有条件为通用`entitiesNear {from,to,range}`，严格非负有限range、双地址校验/引用/编辑/预览/运行闭环；
+  不做opcode特例、不改变道具放置资格，不保留错误entityInScene语义或可选宿主的伪false回退。
+  Core独占相关content/editor/reforge实现，Content写s048/e797，Motion写s213/e3606。
+  这项保留已核原行为，没有新剧情取舍；作者合同批次冻结时由Root统一切content23，SAVE11结构不变。
+- s032完整caller的两处8161/8175确为advance，Root已读完整8148–8181。允许Motion把e547与e549协同背景动作
+  编排在一个步骤正文的显式双实体时间线中，以真实随机路径、声效时刻、净位移与反复执行证明，不新增parallel或重启合同。
+- s005两个页相位来自C2提交7eeec81f2，不是本轮剧情作者改写。Motion用真实action解析证明旧240/660都位于frame1边界；
+  新节拍下对应offset均为100，Content只改e118/e120这两个startAtMs，保留初姿、朝向和cue，不盲删相位。
+- s126再次入场重播的初步猜测被反证：Root直接提取基线initial.next已是complete，故不修改、不计缺陷。
+  只读static-hook指纹普查127匹配/100未匹配，匹配项中没有advance→plainend却缺next的候选；不能将未匹配当错误。
+- Root独占E2E浏览器watchdog。轮询无法打断挂起RPC，故新增独立操作/全程期限及有限诊断、清理；
+  仅杀本轮BrowserServer的确切ChildProcess，迟到launch结果也清理。真实自有Chrome暂停后newContext挂起，
+  watchdog按期终止并回收；8项反控通过，全部219项E2E工具回归通过，不连接或关闭用户浏览器/6012。
+  原始日志保存在`/tmp/type-pal-gov3-browser-watchdog.log`及`-root-e2e-tools.log`，最终证据归档后才清临时树。
+- Root逐条直接读40同场out到首次呈现IP+2的完整源序列，对照
+  `pal-gov3-content-presentation-candidates.json`，批准其中39个world恢复点；包括保护场景的明确后期方案，
+  不改001–005作者主链。in600放在摆位/状态准备后的首个可见wait、redraw或动作边界，条件点留在所属臂，
+  不把多个out合成一次结束恢复。s016三点与s020一点仍由Motion独占写，其余Content写。
+  s011首out2235依赖单独呈现合同：Root与Content直接核buffered末帧当前不可见，拆首帧后fade会露世界。
+  Root另读原2235–2248、P1首帧淡入测试和rng-player的hold-first-frame600；Core先核最小显式能力再报准入，
+  禁止用假dialog、隐式fade猜测或后台并行技巧绕过。s011第二out2249的world恢复不受这个依赖阻塞。
+- Core独立核现有frame range、黑幕hold与对白buffer均不能显式保持首帧；Root准入
+  `playFrameAnimation.holdLastFrame`可选参数与`clearFrameAnimation`叶，同批content23。
+  默认仍原buffered合同，只有成功且本次有帧的hold为可见held；声效、fade、clearDialog不暗改模式。
+  Core独占类型/严格validator/registry、runner/主壳/编辑器与反控，Content只写s011编排。
+  播放、decode、结束回调及clear/scene/save reset必须以瞬态exact owner保护，不新增SAVE字段。
+  Root另核teleportParty并不清Cinematic，候选原理由已被反证；s011尾out后须显式clear，再揭示准备好的world。
+  该能力是已登记画面恢复缺口的必要表达，不改原动画内容、不引入并行模型，也不提前开始006剧情。
+- 首帧时间核定后，Root不接受先等62.5ms再淡入的次序偏差。补准入可选且显式的
+  `playFrameAnimation.initialFadeInMs`：本次首帧同步呈现后先完成in600，再等待该帧自身62.5ms并续播，
+  完全保留P1顺序；省略参数不推断淡入。通用播放器只提供首帧就绪回调，fade仍归呈现宿主，
+  无须把声音或fade藏进另一套时间线。s011整段0..112用该参数，故不再拆0..0；其余片段只显式hold。
+  这是可证原时序的技术修复，不要求用户选择主动偏离；同批严格校验/转发/编辑/取消反控由Core完成。
+- s016/e218源5566–5571为连续四帧各100ms后隐藏自己；Root直接核准一步闪现后finishStep stay，
+  当前激活结束且保留initial，下一次caller显现才再执行，不在隐藏期登记forever活动。
+  Motion可合并同正文default/legacy，完整8caller改选default并核8次闪现、原声效位置、隐藏期快照/恢复；
+  不改变全局select保留游标合同，不新增restart/off-use技巧。
+- Root独立核普通world等待候选的507个source对应关系：每个IP确为0x09，旧值为max(N,1)*40，
+  目标为max(N,1)*100；去重475个作者字段、492原IP、72场景。421个当前完整wait和bodyHash仍吻合，
+  获准只修其ms；54个正文已改，须明确重定位或已修替代表达，不按旧索引写、不记作0待核。
+  直线trigger/hook由完整marker+wait顺序核映射，非09 delay、auto padding、非线性、保护及未知归属排除，
+  整批其余字段保全。Motion独占8scene，其它由Content；Root独占将只读普查收为可复跑工具与误匹配反控，
+  不增加产品写入或复活转换入口。余下原09分类不是“无问题”证明，不宣称全游戏演出已经实跑。
+- 水中持久外观已核完整源24769/33561入口、24891/33737离开和24101灵儿既有蛇形512，
+  以及当前main只对party写appearance、setParty保留reserve而不清临时sprite。
+  准入s144/s252在原setParty后持久化3/2泳装；s149在离队前恢复Li/月如本体和灵儿512，仅sprite维度，
+  s251在离队前WuHou本体、33752后Li本体。s250仍水中，不按地图号清外观；原232/193/541临时演出保持。
+  Content须以当前Character/主壳/SAVE核入队前缺Li、返回仍水中和reserve不粘泳装，不只查命令字段。
+- s048鹿被捕后frame16跨交互到领奖才变，Root直接核10430/10440与main读档清临时frame，
+  故准入同族caught持久页；Content独占scene48，Motion独占sprite266的真实对应单帧动作。
+  保留六叶原顺序/声效、触发与碰撞合同，仅添同拍页状态；读回仍caught，领奖转0/逃离及奖励一次须反控。
+  Source/P1/当前帧解析须证明同一真实帧，不猜布局或伪造原资源帧数。
+
 ## 验收顺序
 
 核清清单→按族开build→真实compiler/runner/ProjectRuntime失败反控与修复→作者工程/资源重导闭包和幂等→
 必要最小编辑器检查→整批冻结→001从正常新游戏开始，002–005消费真实前驱，story/物品取消站位专项/guards/保存专项分开。
 所有静态error/warning/info清零，原失败与原档保留。後期代表视觉按已登记入口集中验证，不逐站重复从开头通关。
 完整回归后关闭母任务，提交推送并清理临时工作树；仅在达到以上条件时完成持续目标。
+
+## 冻结候选与独立验收（2026-10-03）
+
+候选提交：`f7a2cd17c`（隔离分支 `codex/script-governance-closeout`）。该候选包含本卡准入的三域实现与作者内容，
+未修改 SAVE11 字段或旧存档；6012 页面和服务保持原 PID 运行，主树仍只保留用户 `.zcodeignore` 未跟踪文件。
+
+- 公共接管、距离条件、帧动画 owner/hold/首帧淡入/清层及浏览器 watchdog 已由 Root 独立复跑；Reforge 全包
+  `289` 个测试文件、`8,365` 项通过；Content `128/1,274` 通过；Editor `497/3,814` 通过；三包 typecheck
+  零诊断，Biome 目标文件与整仓 lint 均 `0 error / 0 warning / 0 info`。
+- 条件/消怪/门/游泳/同场恢复/捕获页及动作族均以真实 compiler/ProjectRuntime/宿主反控闭合；作者工程检查
+  `294 场景 / 223 地图 / 1,934 资源` 通过。OP09 世界等待精确改写 `389 sites / 81 stages / 66 scenes`；
+  `54` 个正文已改候选、以及 `111` 个未见 world root 的原始地址继续明确保留为未改/待核，不把它们冒称已修。
+- 旧 GOV2 auto oracle 原字节未改。已改动作由 `pal-gov3-motion-transition-ledger.json` 保留旧 hash 与新源/测试证据；
+  旧分阶段 receipt 的 after hash 保留其当时冻结快照，最终等待批的 canonical stage hash 和 `before/after ms` 由
+  `pal-gov3-content-world-wait-receipt.json` 接续，不静默改写历史证据。
+- 当前版本 Reforge 前驱链真实重跑通过：
+  001 `build/e2e/reforge-001-2026-10-03T10-45-08-230Z`；002 `reforge-002-2026-10-03T10-46-42-428Z`；
+  003 `reforge-003-2026-10-03T10-47-55-480Z`；004 剧情 `reforge-004-story-2026-10-03T10-48-37-189Z`；
+  004 保存专项 `reforge-004-saves-2026-10-03T10-51-28-387Z`；005 `reforge-005-story-2026-10-03T10-52-32-962Z`。
+  每段均为独立 verify profile、无视频；002–005 消费本轮前一段正式存档，001 在最终内容冻结后重新起跑。
+
+本节记录的是隔离候选的独立验收，尚未表示主分支已更新；Root 将先把候选 fast-forward 到 main、推送并复核远端
+commit/clean 状态，再将本卡与母卡收口。未开始 006。
 
 ## 上下文
 

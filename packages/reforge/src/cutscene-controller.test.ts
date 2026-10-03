@@ -12,6 +12,9 @@ function executor() {
     clearDialog: () => {
       calls.push('clearDialog')
     },
+    clearFrameAnimation: () => {
+      calls.push('clearFrameAnimation')
+    },
     fade: async () => {
       calls.push('fade')
     },

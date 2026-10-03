@@ -418,7 +418,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "itemId": "260",
@@ -434,7 +434,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "left",
@@ -454,7 +454,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "right",
@@ -474,7 +474,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "down",
@@ -494,7 +494,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "down",
@@ -520,7 +520,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "facing": "right",

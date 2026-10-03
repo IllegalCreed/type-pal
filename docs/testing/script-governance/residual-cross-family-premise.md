@@ -118,6 +118,11 @@
 特别是 s011 的 RNG：当前 fade 位于 Cinematic Layer 之上，单纯在播放前淡入会露旧世界，合理编排应先呈现
 需要揭示的动画首帧，再淡入并继续其余帧。既有 frame range 能表达这项编排，无须新增并行结构。
 
+2026-10-03实施前反控更正：上一句对“仅用既有frame range足够”的判断不成立。
+Content与Root直接核 `FrameAnimationPresentationState.finishPlayback`：首段返回后buffered末帧不可见，
+随后fade in会露出旧世界，连续动画片段间的声效也有相同边界。现有区间仍可切首帧，但需要显式保持/清除
+Cinematic Layer的通用合同，Core正在独立核定；不以假dialog或隐式fade耦合绕过。无需parallel的结论不变。
+
 | 方案位置 | 淡出正文索引 |
 | --- | --- |
 | s001/e7 default、legacy-001/initial；s001/e27 default/initial | 20；6 |

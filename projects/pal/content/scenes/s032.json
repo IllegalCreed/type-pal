@@ -134,7 +134,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "与挑战者交手的背景循环",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -142,349 +142,60 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "随机出招、收招与回位",
                   "body": [
                     {
                       "kind": "loop",
                       "mode": "forever",
+                      "id": "arena-round",
+                      "label": "一轮擂台交手",
                       "body": [
                         {
-                          "facing": "down",
                           "kind": "setEntityFacing",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "facing": "down"
                         },
                         {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 0,
                           "kind": "setEntityFrame",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "frame": 0
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "branch",
+                          "kind": "loop",
+                          "mode": "while",
                           "cond": {
-                            "kind": "chance",
-                            "percent": 31
+                            "kind": "not",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 69
+                            }
                           },
-                          "then": [
+                          "body": [
                             {
-                              "kind": "loop",
-                              "mode": "forever",
-                              "body": [
-                                {
-                                  "facing": "down",
-                                  "kind": "setEntityFacing",
-                                  "target": {
-                                    "scene": "s032",
-                                    "entity": "e547"
-                                  }
-                                },
-                                {
-                                  "kind": "wait",
-                                  "ms": 100
-                                },
-                                {
-                                  "frame": 0,
-                                  "kind": "setEntityFrame",
-                                  "target": {
-                                    "scene": "s032",
-                                    "entity": "e547"
-                                  }
-                                },
-                                {
-                                  "kind": "wait",
-                                  "ms": 100
-                                },
-                                {
-                                  "kind": "branch",
-                                  "cond": {
-                                    "kind": "not",
-                                    "cond": {
-                                      "kind": "chance",
-                                      "percent": 31
-                                    }
-                                  },
-                                  "then": [
-                                    {
-                                      "kind": "breakLoop"
-                                    }
-                                  ],
-                                  "else": [
-                                    {
-                                      "kind": "wait",
-                                      "ms": 100
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "kind": "selectEntityBehavior",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s032",
-                                "entity": "e549"
+                                "entity": "e547"
                               },
-                              "channel": "auto",
-                              "selection": {
-                                "kind": "use",
-                                "value": "legacy-002"
-                              }
+                              "facing": "down"
                             },
                             {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 1,
                               "kind": "setEntityFrame",
                               "target": {
                                 "scene": "s032",
                                 "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 2,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 3,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 4,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 5,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 6,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 7,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 8,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 9,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 10,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
+                              },
+                              "frame": 0
                             },
                             {
                               "kind": "wait",
@@ -497,757 +208,666 @@
                           "ms": 100
                         },
                         {
-                          "kind": "selectEntityBehavior",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s032",
                             "entity": "e549"
                           },
-                          "channel": "auto",
-                          "selection": {
-                            "kind": "use",
-                            "value": "legacy-002"
-                          }
+                          "facing": "down"
                         },
                         {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 1,
                           "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 2,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 3,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 4,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 5,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 6,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 7,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 8,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 9,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 10,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s032",
-                            "entity": "e547"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
-                        },
-                        {
-                          "kind": "branch",
-                          "cond": {
-                            "kind": "chance",
-                            "percent": 51
-                          },
-                          "then": [
-                            {
-                              "kind": "loop",
-                              "mode": "forever",
-                              "body": [
-                                {
-                                  "facing": "down",
-                                  "kind": "setEntityFacing",
-                                  "target": {
-                                    "scene": "s032",
-                                    "entity": "e547"
-                                  }
-                                },
-                                {
-                                  "kind": "wait",
-                                  "ms": 100
-                                },
-                                {
-                                  "frame": 0,
-                                  "kind": "setEntityFrame",
-                                  "target": {
-                                    "scene": "s032",
-                                    "entity": "e547"
-                                  }
-                                },
-                                {
-                                  "kind": "wait",
-                                  "ms": 100
-                                },
-                                {
-                                  "kind": "branch",
-                                  "cond": {
-                                    "kind": "not",
-                                    "cond": {
-                                      "kind": "chance",
-                                      "percent": 31
-                                    }
-                                  },
-                                  "then": [
-                                    {
-                                      "kind": "breakLoop"
-                                    }
-                                  ],
-                                  "else": [
-                                    {
-                                      "kind": "wait",
-                                      "ms": 100
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "kind": "selectEntityBehavior",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e549"
-                              },
-                              "channel": "auto",
-                              "selection": {
-                                "kind": "use",
-                                "value": "legacy-002"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 1,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 2,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 3,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 4,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 5,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 6,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 7,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 8,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 9,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "facing": "down",
-                              "kind": "setEntityFacing",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            },
-                            {
-                              "frame": 10,
-                              "kind": "setEntityFrame",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e547"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "branch",
-                          "cond": {
-                            "kind": "chance",
-                            "percent": 61
-                          },
-                          "then": [
-                            {
-                              "kind": "selectEntityBehavior",
-                              "target": {
-                                "scene": "s032",
-                                "entity": "e549"
-                              },
-                              "channel": "auto",
-                              "selection": {
-                                "kind": "use",
-                                "value": "legacy-001"
-                              }
-                            },
-                            {
-                              "kind": "wait",
-                              "ms": 100
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "selectEntityBehavior",
                           "target": {
                             "scene": "s032",
                             "entity": "e549"
                           },
-                          "channel": "auto",
-                          "selection": {
-                            "kind": "use",
-                            "value": "legacy-003"
-                          }
+                          "frame": 0
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "facing": "down",
                           "kind": "setEntityFacing",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "facing": "down"
                         },
                         {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 0,
                           "kind": "setEntityFrame",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "frame": 1
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e549"
+                          },
+                          "dx": 0,
+                          "dy": -8
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "facing": "down",
                           "kind": "setEntityFacing",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "facing": "down"
                         },
                         {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 1,
                           "kind": "setEntityFrame",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "frame": 2
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "facing": "down",
                           "kind": "setEntityFacing",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "facing": "down"
                         },
                         {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 2,
                           "kind": "setEntityFrame",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "frame": 3
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e549"
+                          },
+                          "dx": 8,
+                          "dy": 4
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "facing": "down",
                           "kind": "setEntityFacing",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "facing": "down"
                         },
                         {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 11,
                           "kind": "setEntityFrame",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "frame": 4
+                        },
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e549"
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e549"
+                          },
+                          "frame": 2
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "asset": "sound.pal.091",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 360
-                        },
-                        {
-                          "facing": "down",
                           "kind": "setEntityFacing",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "frame": 5
+                        },
+                        {
+                          "kind": "playSound",
+                          "asset": "sound.pal.017"
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "frame": 0,
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "facing": "down"
+                        },
+                        {
                           "kind": "setEntityFrame",
                           "target": {
                             "scene": "s032",
                             "entity": "e547"
-                          }
+                          },
+                          "frame": 6
+                        },
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e549"
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e549"
+                          },
+                          "frame": 1
                         },
                         {
                           "kind": "wait",
-                          "ms": 140
+                          "ms": 100
+                        },
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "frame": 7
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e549"
+                          },
+                          "dx": -8,
+                          "dy": 4
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "frame": 8
+                        },
+                        {
+                          "kind": "playSound",
+                          "asset": "sound.pal.015"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "frame": 9
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s032",
+                            "entity": "e547"
+                          },
+                          "frame": 10
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 200
+                        },
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "chance",
+                            "percent": 49
+                          },
+                          "then": [
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 39
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "dx": -8,
+                                  "dy": -4
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "frame": 0
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "frame": 1
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "frame": 2
+                                },
+                                {
+                                  "kind": "playSound",
+                                  "asset": "sound.pal.007"
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "frame": 11
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "frame": 3
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "playSound",
+                                  "asset": "sound.pal.091"
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "dx": 6,
+                                  "dy": 3
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "dx": 2,
+                                  "dy": 1
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 200
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "frame": 0
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 200
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "frame": 0
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 200
+                                }
+                              ],
+                              "else": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "dx": 10,
+                                  "dy": 7
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "frame": 0
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "dx": 2,
+                                  "dy": 1
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "dx": 2,
+                                  "dy": 1
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "frame": 8
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "frame": 1
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "dx": -16,
+                                  "dy": -12
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e549"
+                                  },
+                                  "dx": 4,
+                                  "dy": 4
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "frame": 0
+                                },
+                                {
+                                  "kind": "playSound",
+                                  "asset": "sound.pal.017"
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 100
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "target": {
+                                    "scene": "s032",
+                                    "entity": "e547"
+                                  },
+                                  "dx": -2,
+                                  "dy": -1
+                                },
+                                {
+                                  "kind": "wait",
+                                  "ms": 200
+                                }
+                              ]
+                            }
+                          ],
+                          "else": [
+                            {
+                              "kind": "continueLoop",
+                              "loop": "arena-round"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -1257,7 +877,8 @@
             }
           }
         }
-      }
+      },
+      "label": "林月如（擂台比武）"
     },
     {
       "id": "e548",
@@ -1451,185 +1072,7 @@
       "sprite": "sprite-241",
       "collide": true,
       "zBias": 9,
-      "behaviors": {
-        "auto": {
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "dx": 10,
-                      "dy": 7,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "dx": 2,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
-          "legacy-002": {
-            "label": "自动行为 2",
-            "order": 2,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
-          "legacy-003": {
-            "label": "自动行为 3",
-            "order": 3,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "dx": -8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e549"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "label": "擂台挑战者"
     },
     {
       "id": "e550",

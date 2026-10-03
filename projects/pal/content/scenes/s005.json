@@ -401,7 +401,7 @@
             "sprite": "sprite-36",
             "action": "pal-auto-v1-3184bfed119790e6",
             "loop": true,
-            "startAtMs": 240
+            "startAtMs": 100
           }
         }
       ],
@@ -550,7 +550,7 @@
             "sprite": "sprite-37",
             "action": "pal-auto-v1-918a20e9e5ac98b4",
             "loop": true,
-            "startAtMs": 660
+            "startAtMs": 100
           }
         }
       ],
@@ -5034,6 +5034,11 @@
                       }
                     },
                     {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
+                    },
+                    {
                       "kind": "clearDialog"
                     }
                   ]
@@ -5289,7 +5294,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "购买水果（二十五文）",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5297,7 +5302,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "初次交互",
+                  "label": "询价与确认购买",
                   "body": [
                     {
                       "kind": "dialog",
@@ -5379,6 +5384,12 @@
                                   "kind": "unbound",
                                   "speaker": "spk.李逍遥"
                                 }
+                              }
+                            },
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stay"
                               }
                             }
                           ]
@@ -5475,7 +5486,8 @@
             }
           }
         }
-      }
+      },
+      "label": "水果贩"
     },
     {
       "id": "e129",

@@ -10304,13 +10304,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-54",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -10344,6 +10358,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e70"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -10366,14 +10391,27 @@
                         "scene": "s003",
                         "entity": "e71"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e71"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "客栈房门（左扇）"
     },
     {
       "id": "e71",
@@ -10393,13 +10431,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-53",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -10433,6 +10485,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e70"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -10455,14 +10518,27 @@
                         "scene": "s003",
                         "entity": "e71"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e71"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "客栈房门（右扇）"
     },
     {
       "id": "e72",

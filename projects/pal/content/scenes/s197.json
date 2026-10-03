@@ -54,7 +54,7 @@
                 "body": [
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "down",
@@ -74,7 +74,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "cue": {

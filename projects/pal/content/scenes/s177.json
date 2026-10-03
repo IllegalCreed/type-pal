@@ -284,7 +284,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1040
+                    "ms": 2600
                   },
                   {
                     "facing": "right",
@@ -519,7 +519,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "right",
@@ -576,7 +576,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 480
+                    "ms": 1200
                   },
                   {
                     "facing": "down",
@@ -596,7 +596,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1200
+                    "ms": 3000
                   },
                   {
                     "dir": "out",

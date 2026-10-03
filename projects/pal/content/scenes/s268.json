@@ -601,12 +601,14 @@
                     },
                     {
                       "kind": "loadScene",
-                      "scene": "s273"
-                    },
-                    {
-                      "kind": "fade",
-                      "dir": "out",
-                      "ms": 600
+                      "scene": "s273",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-34617"
+                      }
                     }
                   ],
                   "next": {
@@ -772,7 +774,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "dx": -8,
@@ -781,7 +783,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -836,7 +838,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "repeat",
@@ -849,7 +851,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 40
+                          "ms": 100
                         }
                       ]
                     },
@@ -860,7 +862,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 520
+                      "ms": 1300
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -937,7 +939,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {

@@ -1772,6 +1772,11 @@
                                   "ms": 600
                                 },
                                 {
+                                  "kind": "fade",
+                                  "dir": "in",
+                                  "ms": 600
+                                },
+                                {
                                   "kind": "wait",
                                   "ms": 40
                                 },
@@ -2127,6 +2132,11 @@
                                 {
                                   "kind": "fade",
                                   "dir": "out",
+                                  "ms": 600
+                                },
+                                {
+                                  "kind": "fade",
+                                  "dir": "in",
                                   "ms": 600
                                 },
                                 {

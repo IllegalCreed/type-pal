@@ -768,6 +768,7 @@ export function evalAuthorCondition(
       money(): number
       inParty(actorId: string): boolean
       entityInScene(target: EntityAddress): boolean
+      entitiesNear(from: EntityAddress, to: EntityAddress, range: number): boolean
       facingEntity(target: EntityAddress, range: number): boolean
     }
     random?: () => number
@@ -807,6 +808,8 @@ export function evalAuthorCondition(
       )
     case 'entityInScene':
       return args.query.entityInScene(condition.target)
+    case 'entitiesNear':
+      return args.query.entitiesNear(condition.from, condition.to, condition.range)
     case 'facingEntity':
       return args.query.facingEntity(condition.target, condition.range ?? 0)
     case 'chance':

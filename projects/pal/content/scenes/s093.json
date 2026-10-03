@@ -1296,7 +1296,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "up",
@@ -1316,7 +1316,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "kind": "setEntityState",
@@ -1368,7 +1368,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 600
+                      "ms": 1500
                     },
                     {
                       "cue": {
@@ -2817,13 +2817,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-275",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2857,6 +2871,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1749"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -2879,14 +2904,27 @@
                         "scene": "s093",
                         "entity": "e1750"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1750"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门1（左扇）"
     },
     {
       "id": "e1750",
@@ -2906,13 +2944,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-274",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2946,6 +2998,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1749"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -2968,14 +3031,27 @@
                         "scene": "s093",
                         "entity": "e1750"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1750"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门1（右扇）"
     },
     {
       "id": "e1751",
@@ -2995,13 +3071,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-275",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3035,6 +3125,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1751"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -3057,14 +3158,27 @@
                         "scene": "s093",
                         "entity": "e1752"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1752"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门2（左扇）"
     },
     {
       "id": "e1752",
@@ -3084,13 +3198,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-274",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3124,6 +3252,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1751"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -3146,14 +3285,27 @@
                         "scene": "s093",
                         "entity": "e1752"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1752"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门2（右扇）"
     },
     {
       "id": "e1753",
@@ -3173,13 +3325,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-275",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3213,6 +3379,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1753"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -3235,14 +3412,27 @@
                         "scene": "s093",
                         "entity": "e1754"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1754"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门3（左扇）"
     },
     {
       "id": "e1754",
@@ -3262,13 +3452,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-274",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3302,6 +3506,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1753"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -3324,14 +3539,27 @@
                         "scene": "s093",
                         "entity": "e1754"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1754"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门3（右扇）"
     },
     {
       "id": "e1755",
@@ -3351,13 +3579,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-275",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3391,6 +3633,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1755"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -3413,14 +3666,27 @@
                         "scene": "s093",
                         "entity": "e1756"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1756"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门4（左扇）"
     },
     {
       "id": "e1756",
@@ -3440,13 +3706,27 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-274",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "打开两扇房门",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3480,6 +3760,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1755"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -3502,14 +3793,27 @@
                         "scene": "s093",
                         "entity": "e1756"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1756"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "扬州客栈房门4（右扇）"
     },
     {
       "id": "e1757",

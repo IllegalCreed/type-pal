@@ -49,8 +49,9 @@ describe('PAL item scheme author labels', () => {
     const authoredNames = new Map([
       ['scenes.s001.entities.e19.behaviors.trigger.c8-74bc98f07f8e', '赠酒后：给钱托逍遥买鲜虾'],
       ['scenes.s003.entities.e62.behaviors.trigger.c8-321c0a7d7de1', '赠桂花酒：约定山神庙学剑'],
+      ['scenes.s047.entities.e757.behaviors.trigger.c8-602d89c238c1', '石钥匙解锁并打开石门'],
     ])
-    expect(baseline.labels.filter((entry) => authoredNames.has(entry.path))).toHaveLength(2)
+    expect(baseline.labels.filter((entry) => authoredNames.has(entry.path))).toHaveLength(3)
     expect(project.labels).toEqual(
       baseline.labels.map((entry) => ({
         ...entry,

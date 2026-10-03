@@ -212,10 +212,11 @@ test('035/072 保留实例行为预览，076 只由预制动作消费', async ()
   expect(action).toMatchObject({
     loopFrom: 0,
     steps: [
-      { frame: 0, durationMs: 240 },
-      { frame: 1, durationMs: 240 },
-      { frame: 2, durationMs: 240 },
-      { frame: 3, durationMs: 240 },
+      { frame: 0, durationMs: 100 },
+      { frame: 1, durationMs: 200 },
+      { frame: 2, durationMs: 200 },
+      { frame: 3, durationMs: 200 },
+      { frame: 0, durationMs: 100 },
     ],
   })
   const scene22 = state.scenes.find((scene) => scene.id === 's022')
@@ -225,7 +226,6 @@ test('035/072 保留实例行为预览，076 只由预制动作消费', async ()
       sprite: 'sprite-76',
       action: actionId,
       loop: true,
-      startAtMs: 240,
     },
   })
 }, 30_000)

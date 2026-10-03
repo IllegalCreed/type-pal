@@ -14,6 +14,8 @@
 - [剩余动态后继核查](residual-dynamic-premise.md)：当前源安装链、默认后继、未匹配与多上下文的直接证据。
 - [剩余动作与节拍核查](residual-motion-premise.md)：漏动画、错误循环、复播与完整页动作分组。
 - [剩余条件与呈现核查](residual-cross-family-premise.md)：失败副作用、画面恢复、持久外观及公共接管边界。
+- [两实体靠近条件](entity-proximity-premise.md)：距离误译的原始证据、当前实例查询、严格半格边界和编辑器合同。
+- [帧动画显式保持与清层](frame-animation-hold-premise.md)：首帧揭示、分段连续性及取消/替换时的呈现所有权。
 - [治理后的当前检查点](current-checkpoints.md)：新SAVE11的001至005正式保存读回、当前入口和原档保全。
 - [上一批SAVE10检查点](save10-checkpoints-20261002.md)：2026-10-02批次的历史回执，不作当前前驱。
 - [Codex独立验收回执](independent-review.json)：逐项核查、质量原始结果、四段报告及已保全失败，不混淆首批与全治理完成。

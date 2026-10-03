@@ -1155,6 +1155,10 @@ export function validateReferences(b: ContentBundle): Issue[] {
       case 'facingEntity':
         validateEntityAddress(condition.target, `${where}.target`)
         return
+      case 'entitiesNear':
+        validateEntityAddress(condition.from, `${where}.from`)
+        validateEntityAddress(condition.to, `${where}.to`)
+        return
       case 'all':
       case 'any':
         condition.of.forEach((child, index) => {

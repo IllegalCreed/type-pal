@@ -403,7 +403,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -727,6 +727,20 @@
             "on": "touch",
             "range": 3
           }
+        },
+        {
+          "id": "caught",
+          "label": "已捕获，等待领取鹿茸",
+          "trigger": "legacy-001",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-266",
+            "action": "caught",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
@@ -976,6 +990,11 @@
                         "kind": "use",
                         "value": "legacy-007"
                       }
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "wait",
@@ -1938,7 +1957,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "鹿接近陷阱后捕获并开放领奖",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1946,147 +1965,27 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "完成本段自动动作",
+                  "label": "等待接近、捕获一次并隐藏陷阱",
                   "body": [
                     {
-                      "kind": "branch",
+                      "kind": "loop",
+                      "mode": "while",
                       "cond": {
                         "kind": "not",
                         "cond": {
-                          "kind": "entityInScene",
-                          "target": {
-                            "scene": "s048",
-                            "entity": "e796"
-                          }
-                        }
-                      },
-                      "then": [
-                        {
-                          "kind": "loop",
-                          "mode": "forever",
-                          "body": [
-                            {
-                              "kind": "branch",
-                              "cond": {
-                                "kind": "not",
-                                "cond": {
-                                  "kind": "not",
-                                  "cond": {
-                                    "kind": "entityInScene",
-                                    "target": {
-                                      "scene": "s048",
-                                      "entity": "e796"
-                                    }
-                                  }
-                                }
-                              },
-                              "then": [
-                                {
-                                  "kind": "breakLoop"
-                                }
-                              ],
-                              "else": [
-                                {
-                                  "kind": "wait",
-                                  "ms": 100
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "selectEntityBehavior",
-                          "target": {
-                            "scene": "s048",
-                            "entity": "e796"
-                          },
-                          "channel": "auto",
-                          "selection": {
-                            "kind": "disabled"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "selectEntityBehavior",
-                          "target": {
-                            "scene": "s048",
-                            "entity": "e796"
-                          },
-                          "channel": "trigger",
-                          "selection": {
-                            "kind": "use",
-                            "value": "legacy-001"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "setEntityTriggerActivation",
-                          "target": {
-                            "scene": "s048",
-                            "entity": "e796"
-                          },
-                          "selection": {
-                            "kind": "use",
-                            "value": {
-                              "on": "interact",
-                              "range": 1
-                            }
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s048",
-                            "entity": "e796"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 16,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s048",
-                            "entity": "e796"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "asset": "sound.pal.014",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
+                          "kind": "entitiesNear",
+                          "from": {
                             "scene": "s048",
                             "entity": "e797"
-                          }
-                        },
+                          },
+                          "to": {
+                            "scene": "s048",
+                            "entity": "e796"
+                          },
+                          "range": 0.5
+                        }
+                      },
+                      "body": [
                         {
                           "kind": "wait",
                           "ms": 100
@@ -2109,10 +2008,6 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "kind": "selectEntityBehavior",
                       "target": {
                         "scene": "s048",
@@ -2123,10 +2018,6 @@
                         "kind": "use",
                         "value": "legacy-001"
                       }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
                     },
                     {
                       "kind": "setEntityTriggerActivation",
@@ -2143,20 +2034,12 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s048",
                         "entity": "e796"
                       }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
                     },
                     {
                       "frame": 16,
@@ -2167,12 +2050,19 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "asset": "sound.pal.014",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s048",
+                        "entity": "e796"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "caught"
+                      }
                     },
                     {
                       "kind": "wait",
@@ -2201,7 +2091,8 @@
             }
           }
         }
-      }
+      },
+      "label": "捕鹿陷阱"
     },
     {
       "id": "e798",

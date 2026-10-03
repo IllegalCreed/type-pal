@@ -219,8 +219,7 @@
           "animation": {
             "sprite": "sprite-196",
             "action": "pal-auto-v1-08679dac4d0551b2",
-            "loop": true,
-            "startAtMs": 1020
+            "loop": true
           }
         }
       ],
@@ -241,8 +240,7 @@
           "animation": {
             "sprite": "sprite-196",
             "action": "pal-auto-v1-08679dac4d0551b2",
-            "loop": true,
-            "startAtMs": 1020
+            "loop": true
           }
         }
       ],
@@ -263,8 +261,7 @@
           "animation": {
             "sprite": "sprite-196",
             "action": "pal-auto-v1-08679dac4d0551b2",
-            "loop": true,
-            "startAtMs": 1020
+            "loop": true
           }
         }
       ],
@@ -2954,7 +2951,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "施舍十文或询问莺莺",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2962,7 +2959,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "初次交互",
+                  "label": "决定施舍或听取诉苦",
                   "body": [
                     {
                       "kind": "setEntityFacing",
@@ -2999,6 +2996,24 @@
                     {
                       "kind": "confirm",
                       "onYes": [
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "hasMoney",
+                              "atLeast": 10
+                            }
+                          },
+                          "then": [
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stay"
+                              }
+                            }
+                          ]
+                        },
                         {
                           "kind": "giveMoney",
                           "delta": -10
@@ -3253,7 +3268,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "质问乞丐并结束莺莺支线",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -3598,6 +3613,28 @@
                         "entity": "e2321"
                       }
                     }
+                  ],
+                  "label": "质问乞丐并结束莺莺支线",
+                  "next": "beg-for-mercy"
+                },
+                {
+                  "id": "beg-for-mercy",
+                  "label": "乞丐求饶复读",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.6248"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
                   ]
                 }
               ]
@@ -3639,7 +3676,8 @@
             }
           }
         }
-      }
+      },
+      "label": "乞丐（莺莺丈夫）"
     },
     {
       "id": "e1825",
@@ -4554,7 +4592,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -4627,7 +4665,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -4697,7 +4735,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -5422,8 +5460,7 @@
           "animation": {
             "sprite": "sprite-402",
             "action": "pal-auto-v1-843d53e8d0b7d0da",
-            "loop": true,
-            "startAtMs": 240
+            "loop": true
           }
         }
       ],
@@ -6192,6 +6229,11 @@
                     {
                       "kind": "setPartyFacing",
                       "facing": "down"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "wait",
@@ -7011,7 +7053,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "收集醉仙封魔大法材料",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -7044,6 +7086,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -7071,6 +7119,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -7098,6 +7152,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -7128,6 +7188,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -7205,13 +7271,15 @@
                       "asset": "music.pal.032",
                       "kind": "playMusic"
                     }
-                  ]
+                  ],
+                  "label": "检查蜡烛符纸檀香与酒"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "酒剑仙"
     },
     {
       "id": "e1839",
@@ -7456,7 +7524,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 360
+                    "ms": 900
                   },
                   {
                     "kind": "moveParty",
@@ -7490,7 +7558,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "right",
@@ -7498,7 +7566,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "facing": "down",
@@ -7506,7 +7574,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "left",
@@ -7514,7 +7582,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "down",
@@ -7522,7 +7590,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "cue": {
@@ -7699,7 +7767,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   }
                 ],
                 "next": "legacy-002"

@@ -1210,7 +1210,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "交付三十六只傀儡虫",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1307,6 +1307,12 @@
                             ]
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -1352,7 +1358,8 @@
                       "kind": "loadScene",
                       "scene": "s174"
                     }
-                  ]
+                  ],
+                  "label": "检查采集数量并交虫"
                 }
               ]
             }
@@ -1468,7 +1475,8 @@
             }
           }
         }
-      }
+      },
+      "label": "圣姑"
     },
     {
       "id": "e2863",

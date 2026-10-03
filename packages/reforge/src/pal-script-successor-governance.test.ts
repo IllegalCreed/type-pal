@@ -165,6 +165,7 @@ function harness(
       money: () => world.money,
       inParty: () => false,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => true,
     },
     wait: async () => {},

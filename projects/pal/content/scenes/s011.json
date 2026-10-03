@@ -262,7 +262,9 @@
                       "endFrame": 112,
                       "frameRate": 16,
                       "kind": "playFrameAnimation",
-                      "startFrame": 0
+                      "startFrame": 0,
+                      "holdLastFrame": true,
+                      "initialFadeInMs": 600
                     },
                     {
                       "asset": "sound.pal.086",
@@ -273,7 +275,8 @@
                       "endFrame": 162,
                       "frameRate": 16,
                       "kind": "playFrameAnimation",
-                      "startFrame": 113
+                      "startFrame": 113,
+                      "holdLastFrame": true
                     },
                     {
                       "asset": "sound.pal.087",
@@ -284,7 +287,8 @@
                       "endFrame": 186,
                       "frameRate": 16,
                       "kind": "playFrameAnimation",
-                      "startFrame": 163
+                      "startFrame": 163,
+                      "holdLastFrame": true
                     },
                     {
                       "asset": "sound.pal.085",
@@ -295,7 +299,8 @@
                       "endFrame": 195,
                       "frameRate": 16,
                       "kind": "playFrameAnimation",
-                      "startFrame": 187
+                      "startFrame": 187,
+                      "holdLastFrame": true
                     },
                     {
                       "asset": "sound.pal.085",
@@ -306,7 +311,8 @@
                       "endFrame": 266,
                       "frameRate": 16,
                       "kind": "playFrameAnimation",
-                      "startFrame": 196
+                      "startFrame": 196,
+                      "holdLastFrame": true
                     },
                     {
                       "asset": "sound.pal.088",
@@ -316,12 +322,16 @@
                       "asset": "frame-animation.pal.001",
                       "frameRate": 16,
                       "kind": "playFrameAnimation",
-                      "startFrame": 267
+                      "startFrame": 267,
+                      "holdLastFrame": true
                     },
                     {
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "clearFrameAnimation"
                     },
                     {
                       "kind": "teleportParty",
@@ -400,6 +410,11 @@
                         "kind": "use",
                         "value": "legacy-001"
                       }
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "clearDialog"

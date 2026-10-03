@@ -512,6 +512,7 @@ describe('canonical script world authority', () => {
       money: vi.fn(() => 0),
       inParty: vi.fn(() => false),
       entityInScene: vi.fn(() => true),
+      entitiesNear: () => false,
       facingEntity: vi.fn(() => true),
     }
 

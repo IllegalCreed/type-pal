@@ -14,6 +14,8 @@ export interface EntityActionSeed extends ResolvedEntityAction {
   entity: string
 }
 
+export type EntityActionSource = 'automatic' | 'script'
+
 export interface SpriteActionPosition {
   stepIndex: number
   elapsedInStepMs: number
@@ -29,6 +31,8 @@ interface Deferred {
 }
 
 interface ActionTrack extends ResolvedEntityAction {
+  source: EntityActionSource
+  signal?: AbortSignal
   stepIndex: number
   elapsedInStepMs: number
   finished: boolean
@@ -185,7 +189,11 @@ export function resolveSpriteActionPosition(
   }
 }
 
-function createTrack(resolved: ResolvedEntityAction, deferred?: Deferred): ActionTrack {
+function createTrack(
+  resolved: ResolvedEntityAction,
+  deferred?: Deferred,
+  source: EntityActionSource = 'automatic',
+): ActionTrack {
   const position = resolveSpriteActionPosition(
     resolved.action,
     0,
@@ -194,6 +202,7 @@ function createTrack(resolved: ResolvedEntityAction, deferred?: Deferred): Actio
   )
   const loopFrom = resolved.action.loopFrom ?? 0
   return {
+    source,
     binding: { ...resolved.binding },
     action: resolved.action,
     stepIndex: position.stepIndex,
@@ -246,15 +255,25 @@ export class EntityActionPlayer {
    * 相同的活动覆盖请求幂等；不同请求兑现旧 waiter 后原子替换。循环请求立即 resolve，
    * 但仍绑定 signal，以便所属脚本中止时清除覆盖态。
    */
-  play(entity: string, resolved: ResolvedEntityAction, signal?: AbortSignal): Promise<void> {
+  play(
+    entity: string,
+    resolved: ResolvedEntityAction,
+    signal?: AbortSignal,
+    source: EntityActionSource = 'script',
+  ): Promise<void> {
     if (signal?.aborted) return Promise.reject(abortError())
     const tracks = this.entities.get(entity) ?? {}
-    if (tracks.override && sameBinding(tracks.override.binding, resolved.binding))
+    if (
+      tracks.override?.source === source &&
+      tracks.override.signal === signal &&
+      sameBinding(tracks.override.binding, resolved.binding)
+    )
       return tracks.override.deferred?.promise ?? Promise.resolve()
 
     this.settleTrack(tracks.override)
     const deferred = resolved.binding.loop ? undefined : createDeferred()
-    const override = createTrack(resolved, deferred)
+    const override = createTrack(resolved, deferred, source)
+    override.signal = signal
     tracks.override = override
     this.entities.set(entity, tracks)
     this.attachAbort(entity, override, signal)
@@ -294,18 +313,26 @@ export class EntityActionPlayer {
     this.entities.clear()
   }
 
-  advance(dtMs: number, paused: (entity: string) => boolean = () => false): void {
+  advance(
+    dtMs: number,
+    paused: (entity: string, source: EntityActionSource) => boolean = () => false,
+  ): void {
     if (!Number.isFinite(dtMs) || dtMs < 0) throw new Error('sprite action: dtMs 必须为非负有限数')
     if (dtMs === 0) return
     for (const [entity, tracks] of this.entities) {
-      if (paused(entity)) continue
       const active = tracks.override ?? tracks.base
       if (!active || active.finished) continue
+      if (paused(entity, active.source)) continue
       const remaining = this.advanceTrack(entity, active, dtMs)
       if (tracks.override === active && active.finished) {
         this.settleTrack(active)
         tracks.override = undefined
-        if (tracks.base && remaining > 0 && !tracks.base.finished)
+        if (
+          tracks.base &&
+          remaining > 0 &&
+          !tracks.base.finished &&
+          !paused(entity, tracks.base.source)
+        )
           this.advanceTrack(entity, tracks.base, remaining)
         if (!tracks.base) this.entities.delete(entity)
       }

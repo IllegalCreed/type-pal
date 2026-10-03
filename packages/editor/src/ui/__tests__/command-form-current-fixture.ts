@@ -38,8 +38,10 @@ export async function commandForm(
   options: {
     requireLeafFormRow?: boolean
     includeEntity?: boolean
+    includeSecondEntity?: boolean
     includeSharedScript?: boolean
     commandScope?: EditorCommandScope
+    onOpenEntity?: CanonicalScriptEditorContext['onOpenEntity']
   } = {},
 ) {
   const scope = options.commandScope
@@ -64,7 +66,12 @@ export async function commandForm(
       back: { label: '后门', pos: { col: 7, row: 8, height: 0 }, facing: 'left' },
     },
     entities: options.includeEntity
-      ? [{ id: 'npc', sprite: 'hero', pos: { col: 1, row: 1, height: 0 } }]
+      ? [
+          { id: 'npc', sprite: 'hero', pos: { col: 1, row: 1, height: 0 } },
+          ...(options.includeSecondEntity
+            ? [{ id: 'npc-2', sprite: 'hero', pos: { col: 2, row: 1, height: 0 } }]
+            : []),
+        ]
       : [],
   }
   const authorScene: AuthorSceneDef = {
@@ -93,6 +100,9 @@ export async function commandForm(
               },
             },
           },
+          ...(options.includeSecondEntity
+            ? [{ id: 'npc-2', sprite: 'hero', pos: { col: 2, row: 1, height: 0 } }]
+            : []),
         ]
       : [],
   }
@@ -162,6 +172,7 @@ export async function commandForm(
     shops,
     onOpenWorldVariable,
     onOpenBattleSprite,
+    onOpenEntity: options.onOpenEntity,
   }
   const data = {
     locale: context.locale,

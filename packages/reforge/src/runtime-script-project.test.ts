@@ -67,6 +67,7 @@ function hostOptions(
       money: () => 0,
       inParty: () => false,
       entityInScene: () => true,
+      entitiesNear: () => false,
       facingEntity: () => false,
     },
     confirm: async () => true,

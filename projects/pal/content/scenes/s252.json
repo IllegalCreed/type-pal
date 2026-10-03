@@ -1631,6 +1631,16 @@
                     ]
                   },
                   {
+                    "kind": "setActorAppearance",
+                    "actor": "li-xiaoyao",
+                    "spriteId": "sprite-531"
+                  },
+                  {
+                    "kind": "setActorAppearance",
+                    "actor": "wu-hou",
+                    "spriteId": "sprite-576"
+                  },
+                  {
                     "facing": "right",
                     "kind": "setPartyFacing"
                   },

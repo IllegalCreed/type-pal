@@ -285,28 +285,28 @@
     },
     "poses": {
       "pal-auto-v1-9923bcc34d4284e3": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 0,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 1,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 420
+            "durationMs": 400
           },
           {
             "frame": 3,
-            "durationMs": 480
+            "durationMs": 300
           }
         ],
         "loopFrom": 1
@@ -479,23 +479,23 @@
     },
     "poses": {
       "pal-auto-v1-08679dac4d0551b2": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 780
-          },
-          {
-            "frame": 0,
-            "durationMs": 1020
+            "durationMs": 1300
           },
           {
             "frame": 1,
-            "durationMs": 660
+            "durationMs": 1000
+          },
+          {
+            "frame": 0,
+            "durationMs": 100
           }
         ],
-        "loopFrom": 1
+        "loopFrom": 0
       }
     }
   },
@@ -516,24 +516,28 @@
     },
     "poses": {
       "pal-auto-v1-3184bfed119790e6": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 240
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 240
+            "durationMs": 200
+          },
+          {
+            "frame": 0,
+            "durationMs": 100
           }
         ],
         "loopFrom": 0
@@ -549,24 +553,28 @@
     },
     "poses": {
       "pal-auto-v1-918a20e9e5ac98b4": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 660
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 240
+            "durationMs": 200
+          },
+          {
+            "frame": 0,
+            "durationMs": 900
           }
         ],
         "loopFrom": 0
@@ -792,7 +800,7 @@
     },
     "poses": {
       "pal-auto-v1-f22619b09a66b2f6": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
@@ -801,11 +809,11 @@
           },
           {
             "frame": 0,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 1,
-            "durationMs": 460
+            "durationMs": 500
           },
           {
             "frame": 2,
@@ -813,7 +821,7 @@
           },
           {
             "frame": 2,
-            "durationMs": 380,
+            "durationMs": 300,
             "cues": [
               {
                 "kind": "sound",
@@ -823,7 +831,7 @@
           },
           {
             "frame": 3,
-            "durationMs": 560
+            "durationMs": 500
           }
         ],
         "loopFrom": 1
@@ -928,7 +936,7 @@
     },
     "poses": {
       "pal-auto-v1-d1bd68d3b84b78cd": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
@@ -937,27 +945,27 @@
           },
           {
             "frame": 0,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 1,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 1,
-            "durationMs": 340
+            "durationMs": 200
           }
         ],
         "loopFrom": 1
@@ -1165,7 +1173,7 @@
     },
     "poses": {
       "pal-auto-v1-06f5a00e1f6d5d04": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
@@ -1174,15 +1182,15 @@
           },
           {
             "frame": 1,
-            "durationMs": 200
+            "durationMs": 100
           },
           {
             "frame": 2,
-            "durationMs": 200
+            "durationMs": 100
           },
           {
             "frame": 3,
-            "durationMs": 200
+            "durationMs": 100
           }
         ],
         "loopFrom": 1
@@ -1198,7 +1206,7 @@
     },
     "poses": {
       "pal-auto-v1-47e35d5d733ff36b": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
@@ -1206,16 +1214,16 @@
             "durationMs": 100
           },
           {
-            "frame": 1,
-            "durationMs": 200
-          },
-          {
             "frame": 2,
-            "durationMs": 200
+            "durationMs": 100
           },
           {
             "frame": 3,
-            "durationMs": 200
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
           }
         ],
         "loopFrom": 1
@@ -1290,24 +1298,28 @@
     },
     "poses": {
       "pal-auto-v1-81995fd3c098696d": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 240
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 240
+            "durationMs": 200
+          },
+          {
+            "frame": 0,
+            "durationMs": 100
           }
         ],
         "loopFrom": 0
@@ -1359,7 +1371,7 @@
     },
     "poses": {
       "pal-auto-v1-d077a8b1528a0000": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
@@ -1368,27 +1380,27 @@
           },
           {
             "frame": 0,
-            "durationMs": 620
+            "durationMs": 900
           },
           {
             "frame": 1,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 3,
-            "durationMs": 1100
+            "durationMs": 2100
           },
           {
             "frame": 2,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 1,
-            "durationMs": 340
+            "durationMs": 200
           }
         ],
         "loopFrom": 1
@@ -1765,16 +1777,20 @@
     },
     "poses": {
       "pal-auto-v1-843d53e8d0b7d0da": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 240
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 240
+            "durationMs": 200
+          },
+          {
+            "frame": 0,
+            "durationMs": 100
           }
         ],
         "loopFrom": 0
@@ -1868,59 +1884,54 @@
     },
     "poses": {
       "pal-auto-v1-0cea4891241e76a8": {
-        "label": "PAL 自动循环",
+        "label": "摆动后恢复站姿",
         "order": 0,
         "steps": [
           {
-            "frame": 0,
-            "durationMs": 100
-          },
-          {
             "frame": 2,
-            "durationMs": 380
+            "durationMs": 400
           },
           {
             "frame": 3,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 3,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 3,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 3,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 420
+            "durationMs": 400
           },
           {
             "frame": 3,
-            "durationMs": 500
+            "durationMs": 600
           },
           {
             "frame": 4,
-            "durationMs": 340
+            "durationMs": 100
           }
-        ],
-        "loopFrom": 1
+        ]
       }
     }
   },
@@ -2389,6 +2400,17 @@
     "label": "原精灵 255",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "open": {
+        "label": "已打开",
+        "steps": [
+          {
+            "frame": 3,
+            "durationMs": 100
+          }
+        ]
+      }
     }
   },
   {
@@ -2424,6 +2446,17 @@
     "layout": {
       "kind": "directional",
       "framesPerDir": 4
+    },
+    "poses": {
+      "caught": {
+        "label": "被捕获的朝南姿态",
+        "steps": [
+          {
+            "frame": 16,
+            "durationMs": 100
+          }
+        ]
+      }
     }
   },
   {
@@ -3114,28 +3147,32 @@
     },
     "poses": {
       "pal-auto-v1-3b661e352cd3e61c": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 240
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 4,
-            "durationMs": 240
+            "durationMs": 200
+          },
+          {
+            "frame": 0,
+            "durationMs": 100
           }
         ],
         "loopFrom": 0
@@ -3540,6 +3577,17 @@
     "label": "原精灵 275",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "open": {
+        "label": "已打开",
+        "steps": [
+          {
+            "frame": 1,
+            "durationMs": 100
+          }
+        ]
+      }
     }
   },
   {
@@ -3548,6 +3596,17 @@
     "label": "原精灵 274",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "open": {
+        "label": "已打开",
+        "steps": [
+          {
+            "frame": 1,
+            "durationMs": 100
+          }
+        ]
+      }
     }
   },
   {
@@ -3576,16 +3635,20 @@
     },
     "poses": {
       "pal-auto-v1-8f177ccaeb5ae162": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 380
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 380
+            "durationMs": 300
+          },
+          {
+            "frame": 0,
+            "durationMs": 200
           }
         ],
         "loopFrom": 0
@@ -4321,7 +4384,7 @@
     },
     "poses": {
       "pal-auto-v1-dc0f05226493868f": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
@@ -4330,147 +4393,147 @@
           },
           {
             "frame": 0,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 1,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 4,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 5,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 0,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 1,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 4,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 5,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 0,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 1,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 4,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 5,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 6,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 7,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 8,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 9,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 10,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 11,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 6,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 7,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 8,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 9,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 10,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 11,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 6,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 7,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 8,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 9,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 10,
-            "durationMs": 340
+            "durationMs": 200
           },
           {
             "frame": 11,
-            "durationMs": 480
+            "durationMs": 300
           }
         ],
         "loopFrom": 1
@@ -5274,24 +5337,28 @@
     },
     "poses": {
       "pal-auto-v1-7a51cc59d95d3a88": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 240
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 240
+            "durationMs": 200
+          },
+          {
+            "frame": 0,
+            "durationMs": 100
           }
         ],
         "loopFrom": 0
@@ -5307,24 +5374,28 @@
     },
     "poses": {
       "pal-auto-v1-164f35fd7bd36b14": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 240
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 2,
-            "durationMs": 240
+            "durationMs": 200
           },
           {
             "frame": 3,
-            "durationMs": 240
+            "durationMs": 200
+          },
+          {
+            "frame": 0,
+            "durationMs": 100
           }
         ],
         "loopFrom": 0
@@ -5503,40 +5574,44 @@
     },
     "poses": {
       "pal-auto-v1-2b1a3ba71d0d6c62": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 380
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 3,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 4,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 5,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 6,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 7,
-            "durationMs": 380
+            "durationMs": 300
+          },
+          {
+            "frame": 0,
+            "durationMs": 200
           }
         ],
         "loopFrom": 0
@@ -5552,40 +5627,44 @@
     },
     "poses": {
       "pal-auto-v1-fd4d0cb939df0362": {
-        "label": "PAL 自动循环",
+        "label": "环境帧动画循环",
         "order": 0,
         "steps": [
           {
             "frame": 0,
-            "durationMs": 380
+            "durationMs": 100
           },
           {
             "frame": 1,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 2,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 3,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 4,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 5,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 6,
-            "durationMs": 380
+            "durationMs": 300
           },
           {
             "frame": 7,
-            "durationMs": 380
+            "durationMs": 300
+          },
+          {
+            "frame": 0,
+            "durationMs": 200
           }
         ],
         "loopFrom": 0

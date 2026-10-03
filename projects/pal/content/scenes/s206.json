@@ -60,7 +60,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "恢复通行后的场景入口",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -72,9 +72,17 @@
                     {
                       "entryId": "pal-entry-d17a5978",
                       "kind": "loadScene",
-                      "scene": "s202"
+                      "scene": "s202",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-28871"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "按原落点和渐变通行"
                 }
               ]
             }
@@ -4792,7 +4800,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -4901,7 +4909,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -5032,7 +5040,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "cue": {

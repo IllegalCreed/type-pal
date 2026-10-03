@@ -3236,6 +3236,21 @@
                     ]
                   },
                   {
+                    "kind": "setActorAppearance",
+                    "actor": "li-xiaoyao",
+                    "spriteId": "sprite-532"
+                  },
+                  {
+                    "kind": "setActorAppearance",
+                    "actor": "zhao-linger",
+                    "spriteId": "sprite-534"
+                  },
+                  {
+                    "kind": "setActorAppearance",
+                    "actor": "lin-yueru",
+                    "spriteId": "sprite-533"
+                  },
+                  {
                     "facing": "right",
                     "kind": "setPartyFacing"
                   },

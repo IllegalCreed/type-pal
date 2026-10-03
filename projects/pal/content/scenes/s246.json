@@ -1045,6 +1045,11 @@
                       }
                     },
                     {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
+                    },
+                    {
                       "kind": "wait",
                       "ms": 1760
                     },
@@ -1607,6 +1612,11 @@
                       "actor": "li-xiaoyao",
                       "kind": "setActorSprite",
                       "sprite": "sprite-563"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "clearDialog"
@@ -2183,7 +2193,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 240
+                    "ms": 600
                   },
                   {
                     "facing": "down",
@@ -2191,7 +2201,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "cue": {

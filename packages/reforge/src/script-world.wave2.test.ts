@@ -164,6 +164,7 @@ describe('W2-A A04 evalAuthorCondition 全条件臂', () => {
     },
     money: () => 250,
     inParty: (id: string) => id === 'li',
+    entitiesNear: () => false,
     entityInScene: (t: { scene: string }) => {
       calls.push('inScene')
       return t.scene === 's1'

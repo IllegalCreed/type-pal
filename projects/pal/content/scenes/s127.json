@@ -838,7 +838,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "补付五百文看相钱",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1048,7 +1048,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "重逢并补提看相钱"
                 },
                 {
                   "id": "legacy-002",
@@ -1077,6 +1078,12 @@
                             }
                           },
                           "kind": "dialog"
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ]
                     },
@@ -1183,7 +1190,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-003"
+                  "next": "legacy-003",
+                  "label": "补付五百文并赠箴言"
                 },
                 {
                   "id": "legacy-003",
@@ -1209,13 +1217,15 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "箴言复读"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "算命仙"
     },
     {
       "id": "e2229",

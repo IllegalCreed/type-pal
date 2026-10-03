@@ -350,7 +350,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "cue": {
@@ -967,6 +967,11 @@
                     "kind": "setAmbience"
                   },
                   {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
@@ -1171,6 +1176,11 @@
                   {
                     "ambience": "day",
                     "kind": "setAmbience"
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "clearDialog"

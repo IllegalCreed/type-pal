@@ -320,7 +320,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 560
+                      "ms": 1400
                     },
                     {
                       "kind": "setEntityState",
@@ -39631,6 +39631,11 @@
                       "scene": "s019",
                       "entity": "e283"
                     }
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "clearDialog"

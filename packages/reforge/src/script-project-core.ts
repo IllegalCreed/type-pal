@@ -90,6 +90,7 @@ export interface BaseProjectScriptHostOptions extends RuntimeHostServices {
     money(): number
     inParty(actorId: string): boolean
     entityInScene(target: EntityAddress): boolean
+    entitiesNear(from: EntityAddress, to: EntityAddress, range: number): boolean
     facingEntity(target: EntityAddress, range: number): boolean
   }
   random?: () => number

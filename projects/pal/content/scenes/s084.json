@@ -305,7 +305,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "恢复通行后的场景入口",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -317,9 +317,17 @@
                     {
                       "entryId": "pal-entry-2931020f",
                       "kind": "loadScene",
-                      "scene": "s088"
+                      "scene": "s088",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-13021"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "按原落点和渐变通行"
                 }
               ]
             }
@@ -4833,16 +4841,15 @@
                     {
                       "entryId": "pal-entry-8c67b6ee",
                       "kind": "loadScene",
-                      "scene": "s092"
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dir": "out",
-                      "kind": "fade",
-                      "ms": 600
+                      "scene": "s092",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-13410"
+                      },
+                      "facing": "right"
                     }
                   ]
                 }

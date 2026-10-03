@@ -1,0 +1,150 @@
+{
+  "baseline": "8efe04861",
+  "source": "data/extracted/events/all.json global IP",
+  "sourceOpcode": "0x1E negative operands",
+  "denominator": 19,
+  "worldInputs": 17,
+  "privateSkillInputs": 2,
+  "verification": {
+    "newContentTests": "pal-gov3-content.test.ts: 49 passed",
+    "retainedPaymentAndControlTests": "pal-script-payment-governance / pal-confirm-script-governance / pal-linear-script-governance: 74 passed",
+    "privateMoneyEffectTests": "battle-core.test.ts moneyDamage and money cost: 2 passed, 111 filtered",
+    "currentAuthorValidation": "pal: 294 scenes / 223 maps / 1934 resources passed",
+    "limits": "Real compiler/project runtime and formal SAVE11; shell resource effects supplied by host. Not new posterior story E2E evidence."
+  },
+  "rows": [
+    {
+      "ip": 3759,
+      "cost": 25,
+      "binding": "s005/e128/default",
+      "status": "repaired",
+      "proof": "confirm precedes balance check; failed branch finishes stay; new failure/cancel/exact balance/SAVE11 tests"
+    },
+    {
+      "ip": 6349,
+      "cost": 400,
+      "binding": "s023/e433/default",
+      "status": "verified-existing",
+      "proof": "inParty(zhao-linger) plus hasMoney; insufficient branch falls into ordinary shop; exact charge grants item199 once; new live tests"
+    },
+    {
+      "ip": 7454,
+      "cost": 100,
+      "binding": "s030/e540/default",
+      "status": "verified-existing",
+      "proof": "confirm and hasMoney are separate control arms; insufficient/cancel stop with no charge; new live tests"
+    },
+    {
+      "ip": 7485,
+      "cost": 50,
+      "binding": "s029/e536/default initial and phase-002",
+      "status": "repaired",
+      "proof": "both confirmation success arms require fifty wen; insufficiency stops without binding the gamblers; original no-failure-dialogue preserved"
+    },
+    {
+      "ip": 7568,
+      "cost": 20,
+      "binding": "s023/e437/default",
+      "status": "verified-existing",
+      "proof": "current confirm then balance gate; retained payment tests cover cancel/zero/short/exact/excess and SAVE11"
+    },
+    {
+      "ip": 11020,
+      "cost": 100,
+      "binding": "s050/e845 and e846/default",
+      "status": "verified-existing",
+      "proof": "both owners protected by current confirm/balance branches; retained payment tests"
+    },
+    {
+      "ip": 14584,
+      "cost": 100,
+      "binding": "s084/e1583 and e1584/legacy-001",
+      "status": "verified-existing",
+      "proof": "source14541/14542 actual installers tested; both gate selections change only after confirmed sufficient payment; SAVE11 tests"
+    },
+    {
+      "ip": 15389,
+      "cost": 300,
+      "binding": "s091/e1682/default",
+      "status": "verified-existing",
+      "proof": "prison admission paths cancel/0/299/300/301 with SAVE11 and paid vs unpaid repeat are in retained payment tests"
+    },
+    {
+      "ip": 15949,
+      "cost": 2000,
+      "binding": "s131/e2292/default",
+      "status": "repaired",
+      "proof": "failure dialog stops in original enquiry step; no charge or transfer to s133; exact payment and refusal tested"
+    },
+    {
+      "ip": 16225,
+      "cost": 100,
+      "binding": "s127/e2224/default",
+      "status": "verified-existing",
+      "proof": "wine confirm/balance control tested including failure and SAVE11"
+    },
+    {
+      "ip": 17182,
+      "cost": 30,
+      "binding": "s111/e2085/default",
+      "status": "verified-existing",
+      "proof": "snack confirm/balance control tested including failure and SAVE11"
+    },
+    {
+      "ip": 17498,
+      "cost": 10,
+      "binding": "s100/e1824/default",
+      "status": "repaired",
+      "proof": "confirmed donation checks ten wen before charge; no invented failure dialogue; no partial charge; no-choice branch still opens Yingying enquiry"
+    },
+    {
+      "ip": 17793,
+      "cost": 100,
+      "binding": "s100/e1825/default legacy-002",
+      "status": "verified-existing",
+      "proof": "paid rumour reached by completing real two-confirmation first step; insufficient/cancel retains this paid step; no repeated half-money gift; retained SAVE11 tests"
+    },
+    {
+      "ip": 19266,
+      "cost": 30000,
+      "binding": "s108/e2002/default phase-002",
+      "status": "verified-existing",
+      "proof": "source subtracts and immediately refunds three wan to test remaining balance; below threshold offers optional top-up; new live net-zero and top-up controls"
+    },
+    {
+      "ip": 19286,
+      "cost": 30000,
+      "binding": "s108/e2002/default phase-003",
+      "status": "verified-existing",
+      "proof": "same original refundable balance check for second top-up; new live source path tests, no ordinary purchase redesign"
+    },
+    {
+      "ip": 19353,
+      "cost": 15000,
+      "binding": "s128/e2245/legacy-001",
+      "status": "verified-existing",
+      "proof": "actual s108/e2005 installs paid variant; both first and repeated enquiry gates preserve confirmation/insufficiency exits; new SAVE11 tests"
+    },
+    {
+      "ip": 20074,
+      "cost": 500,
+      "binding": "s127/e2228/default legacy-002",
+      "status": "repaired",
+      "proof": "failure reassurance returns to the payment step; sufficient payment alone reaches fortune repeat; source amount and dialogue preserved"
+    },
+    {
+      "ip": 43062,
+      "cost": 500,
+      "binding": "skill344 cost.money",
+      "status": "verified-current-cost-model",
+      "proof": "validated canonical cost {mp:1,money:500}; live battle tests reject insufficient funds and charge once; no private cash script or flow-step command retained"
+    },
+    {
+      "ip": 43068,
+      "cost": 1,
+      "binding": "skill394 moneyDamage",
+      "status": "verified-current-cost-model",
+      "proof": "source43069 refunds one before43070 moneyDamage; canonical effect caps spend at5000 and requires actual money, with zero-money live battle test; not an extra one-wen fee"
+    }
+  ]
+}

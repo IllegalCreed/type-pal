@@ -127,6 +127,7 @@ export interface CanonicalScriptEditorContext {
   onOpenBattleSprite?: (id: string) => void
   onOpenBattleField?: (id: number) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
+  onOpenEntity?: (address: EntityAddress) => void
 }
 
 function sceneDisplayLabel(sceneIndex: SceneIndexV1 | undefined, sceneId: string): string {
@@ -551,6 +552,7 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   chasePlayer: ['👣', '追逐玩家'],
   clearActorCondition: ['🩹', '清除角色当前状态'],
   clearDialog: ['🧹', '清除对话框'],
+  clearFrameAnimation: ['🧹', '清除帧动画画面'],
   confirm: ['❓', '是/否询问'],
   dialog: ['💬', '对话'],
   ditherScreen: ['▦', '逐像素渐变'],
@@ -651,6 +653,8 @@ function conditionLabel(
       return `${addressLabel(condition.target, context)} 状态 = ${condition.is}`
     case 'entityInScene':
       return `${addressLabel(condition.target, context)} 在场`
+    case 'entitiesNear':
+      return `${addressLabel(condition.from, context)} 与 ${addressLabel(condition.to, context)} 距离小于 ${condition.range} 格`
     case 'facingEntity':
       return `面向实体 ${addressLabel(condition.target, context)}${condition.range !== undefined ? `（${condition.range} 格内）` : ''}`
     case 'all':
@@ -708,6 +712,13 @@ function presentationCondition(condition: AuthorCondition): ScriptCondition {
       const { target, ...rest } = condition
       return { ...rest, entity: target.entity } as ScriptCondition
     }
+    case 'entitiesNear':
+      return {
+        kind: condition.kind,
+        from: condition.from.entity,
+        to: condition.to.entity,
+        range: condition.range,
+      }
     case 'all':
     case 'any':
       return { ...condition, of: condition.of.map(presentationCondition) }
@@ -1277,6 +1288,13 @@ function defaultCondition(kind: AuthorCondition['kind'], target?: EntityAddress)
       return { kind, target: target ?? { scene: 'scene', entity: 'entity' }, is: 1 }
     case 'entityInScene':
       return { kind, target: target ?? { scene: 'scene', entity: 'entity' } }
+    case 'entitiesNear':
+      return {
+        kind,
+        from: target ?? { scene: 'scene', entity: 'entity' },
+        to: target ?? { scene: 'scene', entity: 'entity' },
+        range: 0.5,
+      }
     case 'facingEntity':
       return { kind, target: target ?? { scene: 'scene', entity: 'entity' }, range: 1 }
     case 'chance':
@@ -1312,6 +1330,7 @@ function EntityAddressEditor(props: {
   displayContext?: CanonicalScriptEditorContext
   entityFilter?: (entity: ScriptEditorEntity) => boolean
   onChange: (value: EntityAddress) => void
+  onOpen?: (value: EntityAddress) => void
 }) {
   const scenes = props.state?.scenes ?? []
   const scene = scenes.find((candidate) => candidate.id === props.value.scene)
@@ -1406,6 +1425,19 @@ function EntityAddressEditor(props: {
           />
         )}
       </div>
+      {props.onOpen ? (
+        <DsButton
+          size="compact"
+          variant="secondary"
+          className="canonical-address-open"
+          disabled={!currentEntity}
+          onClick={() => props.onOpen?.(props.value)}
+        >
+          {props.displayContext
+            ? `定位 ${addressLabel(props.value, props.displayContext)}`
+            : `定位 ${props.value.entity}`}
+        </DsButton>
+      ) : null}
     </div>
   )
 }
@@ -1452,6 +1484,7 @@ function ConditionEditor(props: {
             ['itemEquipped', '已装备物品'],
             ['entityState', '实体状态'],
             ['entityInScene', '实体在场'],
+            ['entitiesNear', '两个实体靠近'],
             ['facingEntity', '面向实体'],
             ['allFullHp', '全队满血'],
             ['hasMoney', '金钱'],
@@ -1605,6 +1638,39 @@ function ConditionEditor(props: {
           onChange={(next) => patch({ target: next })}
         />
       ) : null}
+      {props.value.kind === 'entitiesNear' ? (
+        <>
+          <CanonicalField label="起点实体">
+            <EntityAddressEditor
+              value={props.value.from}
+              state={props.state}
+              sceneIndex={props.sceneIndex}
+              displayContext={props.displayContext}
+              onChange={(from) => patch({ from })}
+              onOpen={props.displayContext?.onOpenEntity}
+            />
+          </CanonicalField>
+          <CanonicalField label="目标实体">
+            <EntityAddressEditor
+              value={props.value.to}
+              state={props.state}
+              sceneIndex={props.sceneIndex}
+              displayContext={props.displayContext}
+              onChange={(to) => patch({ to })}
+              onOpen={props.displayContext?.onOpenEntity}
+            />
+          </CanonicalField>
+          <CanonicalField label="距离小于（格）">
+            <DsNumberInput
+              size="compact"
+              min={0}
+              step={0.25}
+              value={props.value.range}
+              onChange={(event) => patch({ range: Math.max(0, Number(event.target.value)) })}
+            />
+          </CanonicalField>
+        </>
+      ) : null}
       {props.value.kind === 'entityState' ? (
         <CanonicalField label="状态">
           <DsNumberInput
@@ -1714,6 +1780,7 @@ const PRIMITIVE_FIELD_LABELS: Readonly<Record<string, string>> = {
   startFrame: '起始帧',
   endFrame: '结束帧',
   frameRate: '每秒帧数',
+  initialFadeInMs: '首帧淡入（毫秒）',
   tenths: '恢复生命（十分之几）',
   mapId: '地图',
   level: '强度',
@@ -2170,7 +2237,7 @@ function CanonicalCommandForm(props: {
         </CanonicalField>
         {command.kind === 'playFrameAnimation' ? (
           <div className="canonical-grid-editor">
-            {(['startFrame', 'endFrame', 'frameRate'] as const).map((key) => (
+            {(['startFrame', 'endFrame', 'frameRate', 'initialFadeInMs'] as const).map((key) => (
               <CanonicalField key={key} label={PRIMITIVE_FIELD_LABELS[key]!}>
                 <DsNumberInput
                   size="compact"
@@ -2184,6 +2251,13 @@ function CanonicalCommandForm(props: {
                 />
               </CanonicalField>
             ))}
+            <DsCheckbox
+              label="播放后保留末帧"
+              checked={command.holdLastFrame ?? false}
+              onChange={(event) =>
+                props.onChange({ ...command, holdLastFrame: event.target.checked })
+              }
+            />
           </div>
         ) : null}
       </div>
@@ -3019,6 +3093,8 @@ function fallbackInsertionChoice(
     case 'takeEntity':
       return target ? enabled({ kind, target }) : unavailable('请先选择一个场景实体')
     case 'unmountParty':
+      return enabled({ kind })
+    case 'clearFrameAnimation':
       return enabled({ kind })
     default:
       return unavailable('当前项目没有这种指令的可复用样例')

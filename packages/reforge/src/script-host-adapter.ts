@@ -304,9 +304,14 @@ export async function executeScriptHostEffect(
           frameRate: command.frameRate,
           startFrame: command.startFrame,
           endFrame: command.endFrame,
+          holdLastFrame: command.holdLastFrame,
+          initialFadeInMs: command.initialFadeInMs,
         },
         signal,
       )
+      return
+    case 'clearFrameAnimation':
+      host.clearFrameAnimation()
       return
     case 'openShop':
       await host.openShop(command.shop, command.mode, signal)

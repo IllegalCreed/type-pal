@@ -21,7 +21,10 @@ export type PresentationIntent =
       startFrame?: number
       endFrame?: number
       frameRate?: number
+      holdLastFrame?: boolean
+      initialFadeInMs?: number
     }
+  | { kind: 'clearFrameAnimation' }
   | { kind: 'video'; asset: AssetId }
   | { kind: 'wait'; ms: number }
 

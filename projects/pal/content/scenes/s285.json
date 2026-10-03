@@ -130,7 +130,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "facing": "right",
@@ -138,7 +138,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "actor": "li-xiaoyao",
@@ -173,7 +173,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "asset": "sound.pal.155",
@@ -193,7 +193,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 1600
                     },
                     {
                       "dir": "out",

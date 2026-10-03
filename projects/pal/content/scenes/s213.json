@@ -77,7 +77,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "芦苇漂两岸往返",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -115,7 +115,45 @@
                         "row": 82
                       }
                     }
-                  ]
+                  ],
+                  "label": "渡到对岸",
+                  "next": "return-to-bank"
+                },
+                {
+                  "id": "return-to-bank",
+                  "label": "渡回放置处",
+                  "body": [
+                    {
+                      "kind": "mountParty",
+                      "target": {
+                        "scene": "s213",
+                        "entity": "e3606"
+                      }
+                    },
+                    {
+                      "kind": "ride",
+                      "target": {
+                        "scene": "s213",
+                        "entity": "e3606"
+                      },
+                      "to": {
+                        "col": 99,
+                        "row": 82,
+                        "height": 0
+                      },
+                      "speed": "fast"
+                    },
+                    {
+                      "kind": "moveParty",
+                      "to": {
+                        "col": 99,
+                        "row": 81,
+                        "height": 0
+                      },
+                      "speed": "fast"
+                    }
+                  ],
+                  "next": "initial"
                 }
               ]
             }
@@ -123,7 +161,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "放到岸边后准备渡行",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -131,112 +169,27 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "完成本段自动动作",
+                  "label": "等芦苇漂到达标记位置再启用",
                   "body": [
                     {
-                      "kind": "branch",
+                      "kind": "loop",
+                      "mode": "while",
                       "cond": {
                         "kind": "not",
                         "cond": {
-                          "kind": "entityInScene",
-                          "target": {
+                          "kind": "entitiesNear",
+                          "from": {
+                            "scene": "s213",
+                            "entity": "e3606"
+                          },
+                          "to": {
                             "scene": "s213",
                             "entity": "e3607"
-                          }
+                          },
+                          "range": 0.5
                         }
                       },
-                      "then": [
-                        {
-                          "kind": "loop",
-                          "mode": "forever",
-                          "body": [
-                            {
-                              "kind": "branch",
-                              "cond": {
-                                "kind": "not",
-                                "cond": {
-                                  "kind": "not",
-                                  "cond": {
-                                    "kind": "entityInScene",
-                                    "target": {
-                                      "scene": "s213",
-                                      "entity": "e3607"
-                                    }
-                                  }
-                                }
-                              },
-                              "then": [
-                                {
-                                  "kind": "breakLoop"
-                                }
-                              ],
-                              "else": [
-                                {
-                                  "kind": "wait",
-                                  "ms": 100
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s213",
-                            "entity": "e3607"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 1,
-                          "target": {
-                            "scene": "s213",
-                            "entity": "e3606"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "setEntityTriggerActivation",
-                          "target": {
-                            "scene": "s213",
-                            "entity": "e3606"
-                          },
-                          "selection": {
-                            "kind": "use",
-                            "value": {
-                              "on": "touch",
-                              "range": 0
-                            }
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "selectEntityBehavior",
-                          "target": {
-                            "scene": "s213",
-                            "entity": "e3606"
-                          },
-                          "channel": "trigger",
-                          "selection": {
-                            "kind": "use",
-                            "value": "legacy-001"
-                          }
-                        },
+                      "body": [
                         {
                           "kind": "wait",
                           "ms": 100
@@ -249,11 +202,11 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 0,
                       "target": {
                         "scene": "s213",
                         "entity": "e3607"
-                      }
+                      },
+                      "state": 0
                     },
                     {
                       "kind": "wait",
@@ -261,11 +214,11 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
                       "target": {
                         "scene": "s213",
                         "entity": "e3606"
-                      }
+                      },
+                      "state": 1
                     },
                     {
                       "kind": "wait",
@@ -320,7 +273,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂（可拾取与两岸渡行）"
     },
     {
       "id": "e3613",
@@ -4568,7 +4522,8 @@
         "height": 0
       },
       "zone": true,
-      "collide": true
+      "collide": true,
+      "label": "芦苇漂放置区标记"
     },
     {
       "id": "e3608",

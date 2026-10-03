@@ -1,0 +1,169 @@
+{
+  "sourceCommonTail": [41127, 41128, 41129],
+  "count": 93,
+  "semanticChange": "victory only hides800 and explicitly fades out/in600; playerFled suspends15 and exits; original death branch plus loadLastSave exits; no global runner implicit end",
+  "receipts": [
+    {
+      "scene": "s040",
+      "bindings": ["e641", "e651", "e652", "e655"],
+      "beforeHash": "5990e945770396abfc9533f4b1e1aec265922e51d5554248a6bb80381599976a",
+      "afterHash": "c2673c5c8bb3f62bf8bd128e01fd081e82fe4d03c73ec12fb1efd2b61d94dcd3"
+    },
+    {
+      "scene": "s041",
+      "bindings": ["e679"],
+      "beforeHash": "3600540c135e09dcd1276466dfe59502683a76a3182ac56ea6631b0c27f429bb",
+      "afterHash": "6b94f93f0611849e7358201d0f1dd8600fa758a69fe5954106276dcc951f3c1d"
+    },
+    {
+      "scene": "s044",
+      "bindings": ["e702", "e703", "e706", "e707", "e708", "e709", "e710"],
+      "beforeHash": "bebde75e889b37ba148d7b0211b3ec692460337ac3d3e84de17240fd70bf3ee6",
+      "afterHash": "95e2727eb8ec8a19ca52c9135f53d78c4f90c8a9115dcbd66f81f3cc0d3c5b96"
+    },
+    {
+      "scene": "s045",
+      "bindings": ["e728", "e729", "e730", "e733", "e734", "e740"],
+      "beforeHash": "73e7430219c88b5ff35898e078e398a077a85daf3e8a21af9c0db77617d43ddb",
+      "afterHash": "acbec2b0ffe7c0184d73a7e87f462975edec70b8265a4a2d1264b815e0baa7fa"
+    },
+    {
+      "scene": "s059",
+      "bindings": ["e1052", "e1054", "e1056", "e1062", "e1063", "e1066", "e1067", "e1068", "e1071"],
+      "beforeHash": "4bdf61ba79256584fb3ac147b294b80f14d90c88145f4451939caa619d4b6813",
+      "afterHash": "0d82214f2d989322379c5b6b8d48ea9fcb66707a398466a550ece18d5e1a02e6"
+    },
+    {
+      "scene": "s101",
+      "bindings": ["e1851", "e1857"],
+      "beforeHash": "dd469aae9064a6a820c69bd2fea25f6268be70f1d8ce857ce113e177ece06eb9",
+      "afterHash": "9bd3abc011979a12a6a3e9187cf61fc6089dfd39a36eb7de2206c022a13f5e0f"
+    },
+    {
+      "scene": "s102",
+      "bindings": ["e1892", "e1896"],
+      "beforeHash": "9dcf69f43ad6c03bfd7c2ea8ff7100a6741b9d84a7491275ee4c67ae279968d1",
+      "afterHash": "b6091b6752d6e91a2666beb1d73b3cff6bac1cda360625f800d389fee6745972"
+    },
+    {
+      "scene": "s104",
+      "bindings": ["e1932", "e1941", "e1948"],
+      "beforeHash": "dcadc34db104157577350fed7bd75773f13a85319793bc920df05a18e29468ea",
+      "afterHash": "42748ca066052c47cb2bca4ba40e64919ccfd5d97cde46b8f9b461c6bba770e9"
+    },
+    {
+      "scene": "s147",
+      "bindings": ["e2411", "e2413", "e2417"],
+      "beforeHash": "cfb75957c6e22b801f3ac96e8ba38b463cd183c6bbfa3a0a6320e9ffc6f22aea",
+      "afterHash": "462b66b446d12c662e364bf45e1ec69bb8fd54ab12feeada8ea5cbbe59d08317"
+    },
+    {
+      "scene": "s148",
+      "bindings": ["e2436", "e2441", "e2444", "e2450"],
+      "beforeHash": "27a065e898b1cd3afb0cd131c47723f10326b5fac2e70b2e0539f07ffaa77e36",
+      "afterHash": "e229fda11fbb872a538bd37b29b505dde1d2dd0ae16329f3b8f9ec70f018c4cd"
+    },
+    {
+      "scene": "s154",
+      "bindings": ["e2502", "e2503", "e2504"],
+      "beforeHash": "d8eeb3fe73e57b65139d9f001edfe0fee816169ff2e698acb9aed9fc9139e43f",
+      "afterHash": "a0932c356df7da240ab0dfab30886743adec8e5aeb56b589dfe1a3d311f6b7fc"
+    },
+    {
+      "scene": "s156",
+      "bindings": ["e2557", "e2570", "e2573"],
+      "beforeHash": "3dec4e3d3420ca679cbe64839e624af7b52e3185e0b74ff0147f7ca96577b426",
+      "afterHash": "4bc8fd34a75e4c878ae0de38ff4ff73a0033969d2b4973a59846b564171ed112"
+    },
+    {
+      "scene": "s165",
+      "bindings": ["e2714", "e2716", "e2720", "e2721"],
+      "beforeHash": "f31a9e4a03f40f59af3cc2f7c4034769c1d246b83663f7ddca2849f69ce3c4d2",
+      "afterHash": "490edd12bb2be009fbcbc9176538368a7e20a923be478a19c81cfcbc0eb54b7c"
+    },
+    {
+      "scene": "s166",
+      "bindings": ["e2741", "e2743", "e2745", "e2746", "e2748", "e2754", "e2757", "e2758"],
+      "beforeHash": "fc54dbc43d8d12547791bbea1012b9dad85bf05b4d60dd99bee92b59dcd0e315",
+      "afterHash": "acb25847b6a964d6bf5951c4805e2703cfe3bc6b49088eab019857e59b745f38"
+    },
+    {
+      "scene": "s167",
+      "bindings": ["e2774", "e2778", "e2779", "e2793", "e2794"],
+      "beforeHash": "52785ba8f761d930da6907100ef8a4c01e6ceb0cf66b2491b59f9fdcb459b464",
+      "afterHash": "7a9d72ab42d37817c92410d0f7530e607ffbd36019a039ccb8e4308e59cd917b"
+    },
+    {
+      "scene": "s168",
+      "bindings": ["e2806"],
+      "beforeHash": "bfc46b1dc481ae2e647601d6df1b8df871299e234982140c42608fda7cfef4e3",
+      "afterHash": "c3cdba35779b2cabac48361bf7bcee9b02b3aca90b4e31824f0968ee3f473a3d"
+    },
+    {
+      "scene": "s189",
+      "bindings": ["e3162", "e3185"],
+      "beforeHash": "0733998d8009135303823ef88cd033aab84ed84a01d6e66d4fd59538947f2757",
+      "afterHash": "8d9495bfb1fb670b1dcc96924a49b60b751afb9f1a99ef1168c1312a803b7a8d"
+    },
+    {
+      "scene": "s215",
+      "bindings": ["e3665", "e3667"],
+      "beforeHash": "16df0440e307514aae6270962cb2a5d73c747cabb39dc4a5d4371be68cdcd124",
+      "afterHash": "575e9d4a2e690480a65478aca60cdfbcb7d098926be65d17025866a393ef3701"
+    },
+    {
+      "scene": "s216",
+      "bindings": ["e3680", "e3686"],
+      "beforeHash": "067199d14af8a7f94c885126f11801a593ecdf827fd181783e2afc8df79f3173",
+      "afterHash": "77bdb0a9155e638f403481b1a25a674b915f394bf3ed79629abb2b63f203b17f"
+    },
+    {
+      "scene": "s218",
+      "bindings": ["e3719", "e3733"],
+      "beforeHash": "7a1c9ed80b28b122fd38c0f4283ca05549285b038560bce77c60035a5c16a128",
+      "afterHash": "80c2c26161b50dc6ede5554a337c4de95ebf8291330f086c549a411575e74e2c"
+    },
+    {
+      "scene": "s219",
+      "bindings": ["e3737", "e3739", "e3745", "e3747"],
+      "beforeHash": "2c8957bde0caa64f471645e8b0203212760dc95af502f2bc7af960b9e3a35a5f",
+      "afterHash": "47269aaabf486059cadba54e0ef3fbac11d96d08abd4326d5f92caf4616a1481"
+    },
+    {
+      "scene": "s220",
+      "bindings": ["e3812", "e3813", "e3821"],
+      "beforeHash": "f8e2a0e58c5da4d03618dfdc00bf7e1a8751176f68e10f7dfbcb8a99b19f8fe0",
+      "afterHash": "b715f77d7769d512d89f96bfa8722a0bf162ff93ac1cec07cdb60812333c23fb"
+    },
+    {
+      "scene": "s222",
+      "bindings": ["e3833", "e3834", "e3840", "e3841", "e3844"],
+      "beforeHash": "9fef1870b17c6836878c8d4cb4ae2b805cebc45bfb640d3d61526a0451749724",
+      "afterHash": "35579574bf16553a37f67d98d545565b0e1a2d0c9f7de5b8daaf94677ca40d1e"
+    },
+    {
+      "scene": "s223",
+      "bindings": ["e3882"],
+      "beforeHash": "1413d98a2d86592dcda80df43c4c3481df2b53d012cf5e8ad46841d33d6e78b3",
+      "afterHash": "c900a0aa43a4e14d0eae03ccc70f1252232d3bfa0ec4d6a8c4cc52d3a7577dbc"
+    },
+    {
+      "scene": "s224",
+      "bindings": ["e3924"],
+      "beforeHash": "451afbcbe2951af2e57ad8226fcee329b212b1d47098352b5dab5d331fc6daf4",
+      "afterHash": "a567b8b1f01c58fbd39dee66541b9ebd47d783d61c3651aa544762306356c69e"
+    },
+    {
+      "scene": "s291",
+      "bindings": ["e4977", "e4988"],
+      "beforeHash": "ee3fac615a4beb42c1938943f501a9fa853ab8af29cb1e55133dbf001a2aa717",
+      "afterHash": "4705ab884894e36eb58e51c4dd840da039a587cb9ef6ff58225d99b321bc5fd6"
+    },
+    {
+      "scene": "s292",
+      "bindings": ["e4998", "e5004", "e5011", "e5012"],
+      "beforeHash": "5ccbe30de101f56213f1c2e2af0dff8bfe4504ae1f053751f589fe8c7c71380d",
+      "afterHash": "366b236d1d171e9751c774dc3a3218f0c88e3d594c8a3625c7da0003cb3d1403"
+    }
+  ]
+}

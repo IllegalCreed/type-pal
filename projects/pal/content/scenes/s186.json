@@ -97,16 +97,15 @@
                     {
                       "entryId": "pal-entry-70245d91",
                       "kind": "loadScene",
-                      "scene": "s179"
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dir": "out",
-                      "kind": "fade",
-                      "ms": 600
+                      "scene": "s179",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-25960"
+                      },
+                      "facing": "down"
                     }
                   ]
                 }
@@ -151,16 +150,15 @@
                     {
                       "entryId": "pal-entry-d266a658",
                       "kind": "loadScene",
-                      "scene": "s192"
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dir": "out",
-                      "kind": "fade",
-                      "ms": 600
+                      "scene": "s192",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-25965"
+                      },
+                      "facing": "down"
                     }
                   ]
                 }
@@ -231,20 +229,19 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s180"
-                    },
-                    {
-                      "kind": "teleportParty",
+                      "scene": "s180",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-25168"
+                      },
                       "pos": {
                         "col": 158,
                         "row": 54,
                         "height": 0
                       }
-                    },
-                    {
-                      "kind": "fade",
-                      "dir": "out",
-                      "ms": 600
                     }
                   ]
                 }

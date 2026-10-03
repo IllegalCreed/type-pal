@@ -28,6 +28,20 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-255",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
@@ -63,7 +77,7 @@
             }
           },
           "c8-602d89c238c1": {
-            "label": "石钥匙剧情方案",
+            "label": "石钥匙解锁并打开石门",
             "order": 1030,
             "flow": {
               "kind": "stages",
@@ -112,7 +126,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "kind": "setEntityFacing",
@@ -132,7 +146,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "kind": "setEntityFacing",
@@ -149,14 +163,27 @@
                         "scene": "s047",
                         "entity": "e757"
                       }
+                    },
+                    {
+                      "kind": "selectEntityPage",
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "打开后保持门姿态"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "隐龙窟石钥匙石门"
     },
     {
       "id": "e758",

@@ -297,7 +297,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "驱赶闯入房间的人",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -324,61 +324,27 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "peeking-warning",
+                  "label": "初次驱赶闯入者"
                 },
                 {
-                  "id": "legacy-002",
+                  "id": "peeking-warning",
+                  "label": "再次警告别偷看",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s134",
-                        "entity": "e2319"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s134",
-                        "entity": "e2319"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
+                      "kind": "dialog",
                       "cue": {
                         "identity": {
-                          "kind": "narration"
+                          "kind": "unbound",
+                          "speaker": "spk.嫖客"
                         },
                         "rows": [
                           {
-                            "text": "dlg.6249"
+                            "text": "dlg.5444"
                           }
-                        ]
-                      },
-                      "kind": "dialog"
-                    }
-                  ],
-                  "next": "legacy-003"
-                },
-                {
-                  "id": "legacy-003",
-                  "body": [
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.6250"
-                          }
-                        ]
-                      },
-                      "kind": "dialog"
+                        ],
+                        "slot": "top"
+                      }
                     }
                   ]
                 }
@@ -386,7 +352,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "询问找莺莺的来意",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -407,6 +373,34 @@
                         ]
                       },
                       "kind": "dialog"
+                    }
+                  ],
+                  "label": "询问找莺莺的来意",
+                  "next": "hurry-talk"
+                },
+                {
+                  "id": "hurry-talk",
+                  "label": "催促尽快谈完",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.6183"
+                          },
+                          {
+                            "text": "dlg.6184"
+                          },
+                          {
+                            "text": "dlg.6185"
+                          }
+                        ],
+                        "slot": "top"
+                      }
                     }
                   ]
                 }
@@ -462,7 +456,8 @@
             }
           }
         }
-      }
+      },
+      "label": "嫖客（莺莺房间）"
     },
     {
       "id": "e2320",

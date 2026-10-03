@@ -103,6 +103,51 @@ describe('FrameSequenceReader', () => {
 })
 
 describe('playFrameAnimation', () => {
+  test('首帧先同步呈现，等待显式首帧揭示后才等待62.5ms并进入下一帧', async () => {
+    const bytes = await fixture(2)
+    const reader = new FrameSequenceReader(resolver(bytes), identity)
+    const events: string[] = []
+    let reveal!: () => void, frameEnd!: () => void
+    const revealing = new Promise<void>((resolve) => {
+      reveal = resolve
+    })
+    const firstWait = new Promise<void>((resolve) => {
+      frameEnd = resolve
+    })
+    const pending = playFrameAnimation({
+      reader,
+      asset,
+      frameRate: 16,
+      onFrame: (frame) => {
+        events.push(`frame:${frame.rgba[0]}`)
+      },
+      onFirstFrameReady: async () => {
+        events.push('fade:start:600')
+        await revealing
+        events.push('fade:end:600')
+      },
+      wait: async (ms) => {
+        events.push(`wait:${ms}`)
+        if (events.filter((event) => event.startsWith('frame:')).length === 1) await firstWait
+      },
+    })
+    await vi.waitFor(() => expect(events).toEqual(['frame:0', 'fade:start:600']))
+    reveal()
+    await vi.waitFor(() =>
+      expect(events).toEqual(['frame:0', 'fade:start:600', 'fade:end:600', 'wait:62.5']),
+    )
+    frameEnd()
+    await pending
+    expect(events).toEqual([
+      'frame:0',
+      'fade:start:600',
+      'fade:end:600',
+      'wait:62.5',
+      'frame:1',
+      'wait:62.5',
+    ])
+  })
+
   test('按闭合区间和 frameRate 顺序输出完整帧，返回最后一帧', async () => {
     const bytes = await fixture(4)
     const reader = new FrameSequenceReader(resolver(bytes), identity)

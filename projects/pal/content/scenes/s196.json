@@ -208,7 +208,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 280
+                    "ms": 700
                   },
                   {
                     "facing": "down",
@@ -228,7 +228,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "cue": {
@@ -248,7 +248,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "facing": "down",
@@ -287,7 +287,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 300
                   },
                   {
                     "facing": "down",
@@ -307,7 +307,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 300
                   },
                   {
                     "kind": "setEntityState",
@@ -335,7 +335,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "down",
@@ -355,7 +355,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "kind": "loadScene",

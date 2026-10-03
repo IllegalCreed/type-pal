@@ -99,7 +99,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "up",
@@ -107,7 +107,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "left",
@@ -115,7 +115,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "kind": "setEntityState",
@@ -359,7 +359,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "down",
@@ -379,7 +379,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "down",
@@ -466,7 +466,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "down",
@@ -605,7 +605,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 1600
                     },
                     {
                       "kind": "setEntityState",
@@ -622,7 +622,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "cue": {
@@ -671,7 +671,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "cue": {
@@ -693,7 +693,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "facing": "down",
@@ -720,7 +720,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 500
                     },
                     {
                       "cue": {
@@ -744,7 +744,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -753,137 +753,11 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "facing": "down",
                       "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 7,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 240
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 8,
                       "kind": "setPartyFacing"
                     },
                     {
@@ -892,12 +766,138 @@
                     },
                     {
                       "facing": "down",
+                      "gesture": 5,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 6,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 5,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 300
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 6,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 5,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 6,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 5,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 6,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 5,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 300
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 6,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 5,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 6,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 7,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 600
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 8,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 500
+                    },
+                    {
+                      "facing": "down",
                       "gesture": 9,
                       "kind": "setPartyFacing"
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -906,7 +906,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "asset": "sound.pal.263",
@@ -919,7 +919,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "facing": "down",
@@ -928,7 +928,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "down",
@@ -937,7 +937,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "down",
@@ -946,7 +946,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "down",
@@ -955,7 +955,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "down",
@@ -964,7 +964,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "down",
@@ -973,7 +973,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "cue": {
@@ -998,6 +998,11 @@
                       "facing": "down",
                       "gesture": 16,
                       "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "clearDialog"
@@ -1311,7 +1316,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "cue": {
@@ -2731,7 +2736,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "回头询问月如求救",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -2863,6 +2868,28 @@
                       "selection": {
                         "kind": "use",
                         "value": "legacy-001"
+                      }
+                    }
+                  ],
+                  "label": "回头询问月如求救",
+                  "next": "after-argument"
+                },
+                {
+                  "id": "after-argument",
+                  "label": "争执后的复读",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.2074"
+                          }
+                        ],
+                        "slot": "top"
                       }
                     }
                   ]
@@ -3112,7 +3139,8 @@
             }
           }
         }
-      }
+      },
+      "label": "林月如（被绑）"
     },
     {
       "id": "e404",
@@ -3208,7 +3236,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "kind": "setPartyFacing",

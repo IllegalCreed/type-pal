@@ -1,0 +1,689 @@
+{
+  "scope": "40 exact previously registered same-scene out paths; proposals only, no product edits",
+  "source": "Original all.json global IP and P1 first MakeScene/scene-producing operation",
+  "firstPhaseMechanism": "pending fade-in consumed by scene presentation; new content explicitly restores at analogous meaningful point",
+  "cinematicCounterexample": "finishPlayback mode buffered is invisible during fade; first-frame split requires Core contract before authoring",
+  "rows": [
+    {
+      "key": "s001/e7/default/initial",
+      "currentFadePath": "body/20",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 166,
+      "sourceFirstPresentationIp": 172,
+      "proposedInsertion": "body/26",
+      "reason": "黑屏定位及安装密道触发后，第一次clearDialog/固定四次退梯开始前；fade in只执行一次，不放进repeat体。",
+      "status": "proposed-world-recovery",
+      "protectedScene": true,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s001/e7/legacy-001/initial",
+      "currentFadePath": "body/20",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 166,
+      "sourceFirstPresentationIp": 172,
+      "proposedInsertion": "body/26",
+      "reason": "黑屏定位及安装密道触发后，第一次clearDialog/固定四次退梯开始前；fade in只执行一次，不放进repeat体。",
+      "status": "proposed-world-recovery",
+      "protectedScene": true,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s001/e27/default/initial",
+      "currentFadePath": "body/6",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 2507,
+      "sourceFirstPresentationIp": 2513,
+      "proposedInsertion": "body/12",
+      "reason": "转向、定位及切换三实体状态后，在第一条clearDialog与899对话之前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": true,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s002/e35/default/initial",
+      "currentFadePath": "body/14",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 1064,
+      "sourceFirstPresentationIp": 1067,
+      "proposedInsertion": "body/18",
+      "reason": "给李大娘与逍遥准备新朝向/姿势后，第一条wait3拍前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": true,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s005/e125/legacy-001/initial",
+      "currentFadePath": "body/6",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 3500,
+      "sourceFirstPresentationIp": 3507,
+      "proposedInsertion": "body/13",
+      "reason": "登船专用精灵、队伍、触发关闭及位置准备后，末尾clearDialog前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": true,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s008/hook/legacy-001/initial",
+      "currentFadePath": "body/8",
+      "fadeOutMs": 1200,
+      "sourceFadeIp": 2134,
+      "sourceFirstPresentationIp": 2138,
+      "proposedInsertion": "body/13",
+      "reason": "叔嫂摆位状态准备后，第一次clearDialog前，后续朝向变化可见。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s019/hook/legacy-001/initial",
+      "currentFadePath": "body/9",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 4924,
+      "sourceFirstPresentationIp": 4930,
+      "proposedInsertion": "body/15",
+      "reason": "队伍与月如位置、灵儿消失状态准备后，first clearDialog前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s011/e195/default/initial",
+      "currentFadePath": "body/11",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 2235,
+      "sourceFirstPresentationIp": 2238,
+      "proposedInsertion": "body/13 split first frame",
+      "reason": "先保持黑幕播放0..0，明确保持首帧可见再in600，接1..112；现buffered invisible合同不能表达，需Core核定。",
+      "status": "needs-cinematic-hold-contract",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s011/e195/default/initial",
+      "currentFadePath": "body/24",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 2249,
+      "sourceFirstPresentationIp": 2260,
+      "proposedInsertion": "body/35",
+      "reason": "RNG结束后黑屏中必须先明确clearFrameAnimation，再定位、准备逍遥193与NPC/出口绑定，在2260对应clearDialog前恢复。teleportParty本身不复位Cinematic。",
+      "counterEvidence": "Root直接读main teleportParty反驳初始假设；旧buffered不可见不等于新hold已释放。新增hold后由显式clear负责。",
+      "status": "approved-world-recovery-needs-clear-frame-layer",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s016/e212/default/initial",
+      "currentFadePath": "body/7",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 5242,
+      "sourceFirstPresentationIp": 5245,
+      "proposedInsertion": "after cameraSnap before wait10",
+      "reason": "换361、准备朝向和回镜头后，第一wait前；Motion文件以动作锚点定位。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": true,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s016/e212/default/initial",
+      "currentFadePath": "body/17",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 5253,
+      "sourceFirstPresentationIp": 5254,
+      "proposedInsertion": "after cameraPan and frame0 before bath action",
+      "reason": "镜头移到浴池与初始frame0准备完成后，完整沐浴动作开始前；Motion统一实施。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": true,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s016/e212/default/initial",
+      "currentFadePath": "body/29",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 5264,
+      "sourceFirstPresentationIp": 5269,
+      "proposedInsertion": "after cameraSnap before wait10",
+      "reason": "隐藏e212、移动e217/frame10及逍遥摆位后，回镜头与首次等待边界；Motion统一实施。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": true,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s020/e348/default/initial",
+      "currentFadePath": "body/260",
+      "fadeOutMs": 1800,
+      "sourceFadeIp": 4759,
+      "sourceFirstPresentationIp": 4767,
+      "proposedInsertion": "before first clearDialog after teleportParty/facing",
+      "reason": "灵儿/逍遥与姥姥收尾位置准备后，first redraw及1779对白前；Motion文件body已由243改260，用命令锚点。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": true,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s021/e396/default/initial",
+      "currentFadePath": "body/109",
+      "fadeOutMs": 1800,
+      "sourceFadeIp": 6105,
+      "sourceFirstPresentationIp": 6107,
+      "proposedInsertion": "body/111",
+      "reason": "逍遥frame16摆位后，first clearDialog及2135对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s026/hook/legacy-001/initial",
+      "currentFadePath": "body/17",
+      "fadeOutMs": 1200,
+      "sourceFadeIp": 6811,
+      "sourceFirstPresentationIp": 6815,
+      "proposedInsertion": "body/21",
+      "reason": "睡眠实体和夜色准备后，first clearDialog，保留随后夜间叙述。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s026/hook/legacy-001/initial",
+      "currentFadePath": "body/23",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 6821,
+      "sourceFirstPresentationIp": 6839,
+      "proposedInsertion": "before first clearDialog after ambience day",
+      "reason": "恢复本体、队伍位置和城中阶段状态后，first clearDialog及2489对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s034/e573/legacy-001/initial",
+      "currentFadePath": "body/43",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 8712,
+      "sourceFirstPresentationIp": 8718,
+      "proposedInsertion": "body/48",
+      "reason": "秋菊隐藏和林天南/逍遥朝向准备后，first clearDialog及3128对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s048/e796/legacy-001/initial",
+      "currentFadePath": "body/2",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 10439,
+      "sourceFirstPresentationIp": 10442,
+      "proposedInsertion": "body/6",
+      "reason": "鹿转向及逃离auto安装后，wait12拍开始前，避免把整段逃离藏在黑幕后。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s049/e830/c8-399fa4daabe1/main",
+      "currentFadePath": "body/0",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 9951,
+      "sourceFirstPresentationIp": 9956,
+      "proposedInsertion": "body/5",
+      "reason": "变259、单人队伍、姿势与位置准备后，first wait8拍前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s049/e830/c8-399fa4daabe1/main",
+      "currentFadePath": "body/65",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 10024,
+      "sourceFirstPresentationIp": 10031,
+      "proposedInsertion": "append after body end",
+      "reason": "发物品/绑定、恢复角色精灵、姿势、隐藏自己及归位后，原end即返探索时明示in。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s052/e897/legacy-001/phase-002",
+      "currentFadePath": "body/2/else/0/else/0/else/1",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 10291,
+      "sourceFirstPresentationIp": 10292,
+      "proposedInsertion": "body/2/else/0/else/0/else/2",
+      "reason": "成功分支第一wait0前，phase-002及phase-003各有一份同源正文。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s052/e897/legacy-001/phase-003",
+      "currentFadePath": "body/2/else/0/else/0/else/1",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 10291,
+      "sourceFirstPresentationIp": 10292,
+      "proposedInsertion": "body/2/else/0/else/0/else/2",
+      "reason": "成功分支第一wait0前，phase-002及phase-003各有一份同源正文。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s053/e904/c8-a962aeca50ea/main",
+      "currentFadePath": "body/3",
+      "fadeOutMs": 1800,
+      "sourceFadeIp": 10461,
+      "sourceFirstPresentationIp": 10465,
+      "proposedInsertion": "body/8",
+      "reason": "播放BGM、选择scene hook与frame1准备后，clearDialog+180ms等待及3674对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s053/e904/c8-a962aeca50ea/main",
+      "currentFadePath": "body/25",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 10487,
+      "sourceFirstPresentationIp": 10488,
+      "proposedInsertion": "body/26",
+      "reason": "黑屏做完队伍/韩医仙摆位后，first wait0前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s053/e906/default/initial",
+      "currentFadePath": "body/0",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 10760,
+      "sourceFirstPresentationIp": 10766,
+      "proposedInsertion": "body/6",
+      "reason": "韩医仙等状态/对话方案更新后，first clearDialog前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s077/hook/default/initial",
+      "currentFadePath": "body/19",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 12845,
+      "sourceFirstPresentationIp": 12854,
+      "proposedInsertion": "body/29",
+      "reason": "队伍本体、月如位置和复活准备后，first clearDialog前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s077/hook/default/initial",
+      "currentFadePath": "body/47",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 12890,
+      "sourceFirstPresentationIp": 12907,
+      "proposedInsertion": "before first clearDialog after stage-state group",
+      "reason": "前台所有NPC显隐与阶段绑定完成后，4498中心叙述前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s081/hook/legacy-001/initial",
+      "currentFadePath": "body/67",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 14869,
+      "sourceFirstPresentationIp": 14871,
+      "proposedInsertion": "body/69",
+      "reason": "公堂NPC移动16/16后，first clearDialog及5048对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s081/hook/legacy-001/initial",
+      "currentFadePath": "body/101",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 14935,
+      "sourceFirstPresentationIp": 14942,
+      "proposedInsertion": "body/110",
+      "reason": "公堂/牢房阶段状态和姿势准备后，first wait12拍前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s097/e1785/default/initial",
+      "currentFadePath": "body/61",
+      "fadeOutMs": 1200,
+      "sourceFadeIp": 13679,
+      "sourceFirstPresentationIp": 13690,
+      "proposedInsertion": "body/72",
+      "reason": "睡姿、床位、夜色和NPC阶段准备后，first wait5拍前，随后夜盗动作可见。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s100/e1837/default/initial",
+      "currentFadePath": "body/4",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 20369,
+      "sourceFirstPresentationIp": 20379,
+      "proposedInsertion": "body/14",
+      "reason": "NPC显隐、双人队伍、站位与朝向准备后，first wait10拍前；后续20380/81变化不能提前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s102/e1883/default/initial",
+      "currentFadePath": "body/41/then/14",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 16503,
+      "sourceFirstPresentationIp": 16504,
+      "proposedInsertion": "body/41/then/15",
+      "reason": "此条件分支立即clearDialog，then臂内在5728中心叙述前恢复；不挪到父共同尾。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s109/e2039/default/initial",
+      "currentFadePath": "body/1",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 17020,
+      "sourceFirstPresentationIp": 17026,
+      "proposedInsertion": "body/7",
+      "reason": "石长老消失/替身显现、党队伍坐标与出口绑定准备后，first clearDialog前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s109/e2039/default/initial",
+      "currentFadePath": "body/28",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 17084,
+      "sourceFirstPresentationIp": 17086,
+      "proposedInsertion": "body/30",
+      "reason": "隐藏替身后，first clearDialog及5978对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s110/hook/legacy-001/initial",
+      "currentFadePath": "body/8",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 16985,
+      "sourceFirstPresentationIp": 16988,
+      "proposedInsertion": "body/11",
+      "reason": "新位置与SFX26准备后，first clearDialog及5931中心叙述前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s124/e2208/default/initial",
+      "currentFadePath": "body/15",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 17380,
+      "sourceFirstPresentationIp": 17381,
+      "proposedInsertion": "body/16",
+      "reason": "first wait4拍前，彩依/晋元交替姿势段应可见，不能等到6094对白才揭幕。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s148/e2433/default/initial",
+      "currentFadePath": "body/4",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 23519,
+      "sourceFirstPresentationIp": 23524,
+      "proposedInsertion": "body/10",
+      "reason": "天鬼皇frame1、e2432显现、队伍站位朝向准备后，first clearDialog及8687对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s215/e3657/default/initial",
+      "currentFadePath": "body/42",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 31243,
+      "sourceFirstPresentationIp": 31244,
+      "proposedInsertion": "body/43",
+      "reason": "原out之后立即redraw，不额外吞掉两次转向/等待，原独立auto职责保持。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s246/e4350/default/initial",
+      "currentFadePath": "body/30",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 32662,
+      "sourceFirstPresentationIp": 32667,
+      "proposedInsertion": "body/35",
+      "reason": "朝向、位置和两实体显现后，first wait44拍前，船与人物动作可见。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    },
+    {
+      "key": "s246/e4350/default/initial",
+      "currentFadePath": "body/88",
+      "fadeOutMs": 600,
+      "sourceFadeIp": 32742,
+      "sourceFirstPresentationIp": 32749,
+      "proposedInsertion": "body/95",
+      "reason": "隐藏五敌人与换563姿势后，first clearDialog及11282对白前。",
+      "status": "proposed-world-recovery",
+      "protectedScene": false,
+      "motionOwner": false,
+      "command": {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      }
+    }
+  ]
+}

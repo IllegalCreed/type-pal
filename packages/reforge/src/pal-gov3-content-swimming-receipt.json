@@ -1,0 +1,55 @@
+{
+  "scope": "2 exact exploration swim entries and complete approved departure mutation points",
+  "receipts": [
+    {
+      "scene": "s144",
+      "beforeHash": "6da9e9c44713a4057f72c7ac480f2addef0064c2e7cd1e30dc9cf6c267f534fb",
+      "afterHash": "124de746bf5894aa6bbe122a43af415529ca8d636870f5d72a5790e73ac01d19",
+      "evidence": [
+        {
+          "source": [24771, 24772, 24773, 24775],
+          "after": "setParty",
+          "preserved": "three original transient overrides and every original ordering"
+        }
+      ]
+    },
+    {
+      "scene": "s252",
+      "beforeHash": "47d146fe0f3c73a7a6956b043df2780bbc0e77b090261e6f2acd39ded6e7378a",
+      "afterHash": "612729f58c036b97597ec8f87f0ea1992098a6aa86953252cd29247700d94d84",
+      "evidence": [
+        {
+          "source": [33561, 33562, 33563],
+          "after": "setParty adds previously absent Li",
+          "preserved": "two original transient overrides"
+        }
+      ]
+    },
+    {
+      "scene": "s149",
+      "beforeHash": "93b60751ca304bb839cdf47e37e21e0dfa66bc9145d6b3692b953e6e1e327c46",
+      "afterHash": "4fb6d316de0c55fc64e491288e7ea0403885f3368e58b1a4b054f62ae175fd57",
+      "evidence": [
+        {
+          "source": [24891, 24892, 24893, 24894],
+          "before": "setParty removes Linger/Yueru",
+          "restoration": "Li/Yueru ActorDef base; Linger retains prior snake512, portrait91 and fighter5 unmodified",
+          "preserved": "Li transient232 remains"
+        }
+      ]
+    },
+    {
+      "scene": "s251",
+      "beforeHash": "0a328ef374f3d167d245ff883980b17e01499e89908f7a770d4cd281fabea09d",
+      "afterHash": "0c8dafd7334dfd96f41fd107065f455bf251baa73ea616b6cdca1f1a698890f4",
+      "evidence": [
+        {
+          "source": [33737, 33739, 33740, 33752],
+          "before": "WuHou removes to reserve in base appearance",
+          "after": "native33752 Li transient base then persistent base",
+          "preserved": "193/541/232 transient downstream choreography"
+        }
+      ]
+    }
+  ]
+}

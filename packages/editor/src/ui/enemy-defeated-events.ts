@@ -300,6 +300,14 @@ function describeCondition(
       const reference = context.entity(condition.target.scene, condition.target.entity)
       return { label: `实体 ${reference.label} 位于目标场景`, invalid: reference.invalid }
     }
+    case 'entitiesNear': {
+      const from = context.entity(condition.from.scene, condition.from.entity)
+      const to = context.entity(condition.to.scene, condition.to.entity)
+      return {
+        label: `${from.label} 与 ${to.label} 距离小于 ${condition.range} 格`,
+        invalid: from.invalid || to.invalid,
+      }
+    }
     case 'facingEntity': {
       const reference = context.entity(condition.target.scene, condition.target.entity)
       return {

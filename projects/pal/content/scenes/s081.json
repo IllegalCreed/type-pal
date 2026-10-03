@@ -5843,6 +5843,11 @@
                     }
                   },
                   {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
@@ -6270,6 +6275,11 @@
                       "scene": "s081",
                       "entity": "e1541"
                     }
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "wait",

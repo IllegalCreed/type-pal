@@ -45,16 +45,15 @@
                     {
                       "entryId": "pal-entry-f87102e1",
                       "kind": "loadScene",
-                      "scene": "s186"
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "dir": "out",
-                      "kind": "fade",
-                      "ms": 600
+                      "scene": "s186",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-25970"
+                      },
+                      "facing": "right"
                     }
                   ]
                 }
@@ -4849,7 +4848,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 80
+                          "ms": 200
                         },
                         {
                           "facing": "down",
@@ -4869,7 +4868,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 80
+                          "ms": 200
                         }
                       ]
                     }

@@ -59,7 +59,10 @@ test('confirmation refusal remains structurally reachable with its real caller o
   assert.deepEqual(callerContexts(source).get(4), [
     { root: 's010/e191/trigger', entry: 1, owner: 191 },
   ])
-  assert.equal(buildCensus(input).edges[0].rootReachability, 'structurally-reached-from-static-root')
+  assert.equal(
+    buildCensus(input).edges[0].rootReachability,
+    'structurally-reached-from-static-root',
+  )
   assert.equal(sourceSegment(source.commands, 1, 191).terminal.kind, 'nonlinear')
 })
 

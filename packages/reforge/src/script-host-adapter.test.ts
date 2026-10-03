@@ -56,6 +56,7 @@ function host(): ScriptHost {
     teleportOut: vi.fn(async () => false),
     playVideo: vi.fn(async () => undefined),
     playFrameAnimation: vi.fn(async () => undefined),
+    clearFrameAnimation: vi.fn(),
     openShop: vi.fn(async () => undefined),
     confirm: vi.fn(async () => true),
     query: {
@@ -66,6 +67,7 @@ function host(): ScriptHost {
       allFullHp: vi.fn(() => false),
       itemEquipped: vi.fn(() => false),
       entityInScene: vi.fn(() => false),
+      entitiesNear: () => false,
       facingEntity: vi.fn(() => false),
     },
     report: vi.fn(),

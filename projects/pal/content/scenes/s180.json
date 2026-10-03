@@ -112,7 +112,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "恢复通行后的场景入口",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -124,9 +124,17 @@
                     {
                       "entryId": "pal-entry-243fccba",
                       "kind": "loadScene",
-                      "scene": "s182"
+                      "scene": "s182",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-25096"
+                      }
                     }
-                  ]
+                  ],
+                  "label": "按原落点和渐变通行"
                 }
               ]
             }

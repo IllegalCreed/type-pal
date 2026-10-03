@@ -334,7 +334,8 @@
           "animation": {
             "sprite": "sprite-9",
             "action": "pal-auto-v1-47e35d5d733ff36b",
-            "loop": true
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ],
@@ -357,7 +358,7 @@
             "sprite": "sprite-9",
             "action": "pal-auto-v1-47e35d5d733ff36b",
             "loop": true,
-            "startAtMs": 400
+            "startAtMs": 100
           }
         }
       ],
@@ -795,7 +796,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 640
+                    "ms": 1600
                   },
                   {
                     "facing": "down",
@@ -803,7 +804,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "right",
@@ -811,7 +812,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "up",
@@ -819,7 +820,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "facing": "left",
@@ -827,7 +828,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "up",
@@ -835,7 +836,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "cue": {

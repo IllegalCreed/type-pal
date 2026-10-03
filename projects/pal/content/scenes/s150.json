@@ -254,7 +254,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 600
+                    "ms": 1500
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -269,7 +269,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "left",
@@ -312,7 +312,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "facing": "right",
@@ -398,7 +398,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "kind": "setEntityState",
@@ -418,7 +418,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 800
                   },
                   {
                     "facing": "up",
@@ -438,7 +438,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 480
+                    "ms": 1200
                   },
                   {
                     "cue": {

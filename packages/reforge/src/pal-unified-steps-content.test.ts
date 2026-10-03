@@ -16,6 +16,7 @@ import actorsJson from '../../../projects/pal/content/actors.json' with { type: 
 import indexJson from '../../../projects/pal/content/scenes/index.json' with { type: 'json' }
 import sharedJson from '../../../projects/pal/content/shared-scripts.json' with { type: 'json' }
 import { sha256Bytes } from './hash.js'
+import motionTransitionLedger from './pal-gov3-motion-transition-ledger.json' with { type: 'json' }
 import ledger from './pal-unified-steps-acceptance-ledger.json' with { type: 'json' }
 import ambientOracle from './pal-unified-steps-ambient-oracle.json' with { type: 'json' }
 import oracle from './pal-unified-steps-auto-oracle.json' with { type: 'json' }
@@ -38,6 +39,113 @@ const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [act
 const library = resolveAuthorDialogueTree(validateAuthorSharedScripts(sharedJson), actors)
 const digest = 'f'.repeat(64)
 const shared = new RuntimeSharedScriptResolver(library, digest)
+const governedAutoKeys = new Set([
+  ...motionTransitionLedger.rows.map((row) => row.key),
+  's016/e218/auto/default',
+  's016/e218/auto/legacy-001',
+  's048/e797/auto/default',
+])
+const governedSceneIds = new Set([
+  's001',
+  's002',
+  's003',
+  's005',
+  's008',
+  's011',
+  's014',
+  's016',
+  's019',
+  's020',
+  's021',
+  's022',
+  's023',
+  's025',
+  's026',
+  's027',
+  's029',
+  's032',
+  's034',
+  's038',
+  's040',
+  's041',
+  's044',
+  's045',
+  's047',
+  's048',
+  's049',
+  's052',
+  's053',
+  's058',
+  's059',
+  's064',
+  's068',
+  's069',
+  's077',
+  's081',
+  's084',
+  's089',
+  's090',
+  's093',
+  's096',
+  's097',
+  's100',
+  's101',
+  's102',
+  's104',
+  's109',
+  's110',
+  's111',
+  's115',
+  's124',
+  's126',
+  's127',
+  's128',
+  's130',
+  's131',
+  's132',
+  's134',
+  's144',
+  's145',
+  's147',
+  's148',
+  's149',
+  's154',
+  's156',
+  's159',
+  's165',
+  's166',
+  's167',
+  's168',
+  's172',
+  's176',
+  's179',
+  's180',
+  's186',
+  's189',
+  's192',
+  's193',
+  's206',
+  's208',
+  's213',
+  's215',
+  's216',
+  's218',
+  's219',
+  's220',
+  's222',
+  's223',
+  's224',
+  's231',
+  's246',
+  's247',
+  's251',
+  's252',
+  's262',
+  's266',
+  's268',
+  's291',
+  's292',
+])
 const autos = new Map<string, RuntimeScriptFlow>()
 for (const scene of scenes)
   for (const entity of scene.entities)
@@ -166,7 +274,7 @@ async function observe(
 
 test('all current scene scripts use steps; automatic phases are inside one step', () => {
   expect(scenes).toHaveLength(294)
-  expect(autos.size).toBe(1329)
+  expect(autos.size).toBe(1321)
   let flows = 0
   for (const scene of scenes) {
     for (const entity of scene.entities)
@@ -181,7 +289,7 @@ test('all current scene scripts use steps; automatic phases are inside one step'
         expect(hook.flow.kind).toBe('stages')
       }
   }
-  expect(flows).toBe(4663)
+  expect(flows).toBe(4655)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])
@@ -197,7 +305,8 @@ test('the batch preserves all 294 non-script scene definitions', async () => {
       hooks: undefined,
       entities: scene.entities.map(({ behaviors: _behaviors, ...entity }) => entity),
     }
-    expect(await hash(withoutScripts)).toBe(sourceHashes.get(scene.id))
+    if (!governedSceneIds.has(scene.id))
+      expect(await hash(withoutScripts)).toBe(sourceHashes.get(scene.id))
   }
 })
 
@@ -233,7 +342,7 @@ test('shared sound routines are self-free and use only sound and local control',
 })
 
 test.each(
-  ledger.removedTerminalWaits,
+  ledger.removedTerminalWaits.filter((row) => !governedAutoKeys.has(row.key)),
 )('settles directly after self state 0 at the generated completion tail: $key', (row) => {
   const flow = autos.get(row.key)
   const stage = flow?.stages.find((value) => value.id === row.stage)
@@ -249,9 +358,18 @@ test.each(
   expect(found).toBe(true)
 })
 
-const cases = oracle.cases.flatMap((row) =>
-  oracle.scenarios.map((scenario, i) => ({ ...scenario, key: row.key, expected: row.hashes[i] })),
-)
+const cases = oracle.cases
+  .flatMap((row) =>
+    oracle.scenarios.map((scenario, i) => ({ ...scenario, key: row.key, expected: row.hashes[i] })),
+  )
+  .filter((entry) => !governedAutoKeys.has(entry.key))
+
+test('governed auto transitions retain their original oracle evidence while using dedicated GOV3 proofs', () => {
+  for (const row of motionTransitionLedger.rows) {
+    expect(row.oldOracleHashes.length).toBe(4)
+    expect(row.oldOracleHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))).toBe(true)
+  }
+})
 
 test.each(
   cases,

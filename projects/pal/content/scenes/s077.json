@@ -551,7 +551,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 640
+                    "ms": 1600
                   },
                   {
                     "facing": "down",
@@ -571,7 +571,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 800
+                    "ms": 2000
                   },
                   {
                     "cue": {
@@ -662,7 +662,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "cue": {
@@ -763,6 +763,11 @@
                   {
                     "kind": "revivePartyAll",
                     "tenths": 10
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "clearDialog"
@@ -1108,6 +1113,11 @@
                       "kind": "use",
                       "value": "legacy-001"
                     }
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "clearDialog"

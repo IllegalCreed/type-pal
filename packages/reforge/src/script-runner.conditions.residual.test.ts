@@ -11,6 +11,7 @@ function query(): ScriptHost['query'] {
     allFullHp: vi.fn(() => false),
     itemEquipped: vi.fn((id: string, count: number) => id === 'ring' && count <= 1),
     entityInScene: vi.fn((id: string) => id === 'npc'),
+    entitiesNear: () => false,
     facingEntity: vi.fn((id: string, range: number) => id === 'npc' && range === 2),
     sceneId: vi.fn(() => 's001'),
   }
