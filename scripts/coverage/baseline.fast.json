@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-03T06:48:47.069Z",
+  "generatedAt": "2026-10-03T10:38:56.090Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -9724,7 +9724,7 @@
           "total": 33494
         },
         "branches": {
-          "covered": 23834,
+          "covered": 23835,
           "total": 29029
         },
         "functions": {
@@ -9744,7 +9744,7 @@
       "total": 77050
     },
     "branches": {
-      "covered": 48549,
+      "covered": 48550,
       "total": 59877
     },
     "functions": {
