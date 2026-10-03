@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-03T10:38:56.090Z",
+  "generatedAt": "2026-10-03T12:22:30.070Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 723,
-  "testCount": 18221,
+  "sourceFileCount": 726,
+  "testCount": 18792,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -236,8 +236,8 @@
       ],
       "scopeDigest": "048275ba8e3020dd698db3c0f14f599e200ec84daad1c7f47aac0f15fa067971",
       "fastTests": {
-        "testCount": 1472,
-        "testFileCount": 147,
+        "testCount": 1490,
+        "testFileCount": 149,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.cursor-pure-wave2.test.ts",
@@ -297,7 +297,9 @@
           "packages/content/src/enemy-team-reference.resource-boundaries.test.ts",
           "packages/content/src/enemy-team.contracts.test.ts",
           "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+          "packages/content/src/entities-near-condition.test.ts",
           "packages/content/src/entity-lifecycle.test.ts",
+          "packages/content/src/frame-animation-control.test.ts",
           "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
           "packages/content/src/frame-sequence.contracts.test.ts",
           "packages/content/src/frame-sequence.cursor-boundaries.test.ts",
@@ -679,9 +681,19 @@
             "identityDigest": "fcfcdb5e218e8164a55c8ddee94fb441ef36c971bc8a7c071ed4d17e02d22fdf"
           },
           {
+            "file": "packages/content/src/entities-near-condition.test.ts",
+            "testCount": 11,
+            "identityDigest": "0d2234b2141c6745dbfe51250ce323a4ebff119859696bae0e87608b9a02e6d6"
+          },
+          {
             "file": "packages/content/src/entity-lifecycle.test.ts",
             "testCount": 9,
             "identityDigest": "ff63d96f6e3fbb7895b957666cc66f3836ab81db5ad85eae816e48c95d8416f0"
+          },
+          {
+            "file": "packages/content/src/frame-animation-control.test.ts",
+            "testCount": 7,
+            "identityDigest": "c86195fe51892583733fe1d00f598315678d388964f6adf4629a46f20e59d069"
           },
           {
             "file": "packages/content/src/frame-sequence-provider-next2.glm-o.test.ts",
@@ -1124,26 +1136,26 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "e440bd0ed9c4eaadec166320d1988363a3dc36027dc61bfc5b620901242886a9",
-        "duplicateIdentityCount": 0,
-        "executionDigest": "bbe6ac7d3242322cf5584190d7fd59e2d25041ab264a08380c944a5363ead1af"
+        "identityDigest": "d61b0184da4ca315fdee2a18fa2f1a3405ec81d468aaea3b6172f0825d991b1e",
+        "duplicateIdentityCount": 1,
+        "executionDigest": "436665db74a69d300d59f1790743d85b07da98c06244dbdf0e45421fb8b586ac"
       },
       "metrics": {
         "statements": {
-          "covered": 5629,
-          "total": 5832
+          "covered": 5646,
+          "total": 5856
         },
         "branches": {
-          "covered": 4783,
-          "total": 5077
+          "covered": 4807,
+          "total": 5109
         },
         "functions": {
           "covered": 811,
-          "total": 826
+          "total": 827
         },
         "lines": {
-          "covered": 5026,
-          "total": 5158
+          "covered": 5042,
+          "total": 5180
         }
       }
     },
@@ -2065,7 +2077,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 152,
+      "sourceFileCount": 155,
       "sourceFiles": [
         "packages/reforge/src/active-scene.ts",
         "packages/reforge/src/actor-condition-lifecycle.ts",
@@ -2080,6 +2092,7 @@
         "packages/reforge/src/audio/sfx.ts",
         "packages/reforge/src/audio/spessa-browser-runtime.ts",
         "packages/reforge/src/author-io.ts",
+        "packages/reforge/src/automatic-target-command.ts",
         "packages/reforge/src/battle-trial-assets.ts",
         "packages/reforge/src/battle-trial-config.ts",
         "packages/reforge/src/battle-trial-host.ts",
@@ -2125,6 +2138,7 @@
         "packages/reforge/src/entity-lifecycle-command.ts",
         "packages/reforge/src/entity-lifecycle.ts",
         "packages/reforge/src/entity-motion.ts",
+        "packages/reforge/src/entity-proximity.ts",
         "packages/reforge/src/entity-walk.ts",
         "packages/reforge/src/equip-menu-state.ts",
         "packages/reforge/src/fade-driver.ts",
@@ -2162,6 +2176,7 @@
         "packages/reforge/src/motion-runtime-wiring.ts",
         "packages/reforge/src/movement.ts",
         "packages/reforge/src/opening-menu.ts",
+        "packages/reforge/src/pal-gov3-content-harness.ts",
         "packages/reforge/src/presentation-intent.ts",
         "packages/reforge/src/project-image-cache.ts",
         "packages/reforge/src/project-loader.ts",
@@ -2220,10 +2235,10 @@
         "packages/reforge/src/world-motion-runtime.ts",
         "packages/reforge/src/world-scene-presentation.ts"
       ],
-      "scopeDigest": "77aa4a231c1348e35e6da9fc439631753a3fb4909f8445416f4968f323b2320a",
+      "scopeDigest": "61cae1c7643764853bb8c3615b56a1b844c2eef7ed9552d0ab7e87a1cd76152a",
       "fastTests": {
-        "testCount": 8017,
-        "testFileCount": 298,
+        "testCount": 8567,
+        "testFileCount": 317,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2256,6 +2271,7 @@
           "packages/reforge/src/audio/sfx-readiness.test.ts",
           "packages/reforge/src/audio/sfx.staged-failures.test.ts",
           "packages/reforge/src/audio/sfx.test.ts",
+          "packages/reforge/src/automatic-target-command.test.ts",
           "packages/reforge/src/battle-trial-assets.glm-n.test.ts",
           "packages/reforge/src/battle-trial-assets.wave2.test.ts",
           "packages/reforge/src/battle-trial-config.glm-runtime-resource.test.ts",
@@ -2341,6 +2357,7 @@
           "packages/reforge/src/entity-lifecycle.test.ts",
           "packages/reforge/src/entity-motion.glm-next-wave.test.ts",
           "packages/reforge/src/entity-motion.test.ts",
+          "packages/reforge/src/entity-proximity.test.ts",
           "packages/reforge/src/entity-walk.test.ts",
           "packages/reforge/src/equip-menu-state.glm-boundaries.test.ts",
           "packages/reforge/src/equip-menu-state.navigation-boundaries.test.ts",
@@ -2365,6 +2382,7 @@
           "packages/reforge/src/magic-menu-state.glm-boundaries.test.ts",
           "packages/reforge/src/magic-menu-state.glm-next-wave.test.ts",
           "packages/reforge/src/magic-menu-state.test.ts",
+          "packages/reforge/src/main.auto-pose-authority.test.ts",
           "packages/reforge/src/main.auto-save-flows.test.ts",
           "packages/reforge/src/main.battle-host-flows.test.ts",
           "packages/reforge/src/main.battle-preview.glm-q.test.ts",
@@ -2373,7 +2391,9 @@
           "packages/reforge/src/main.dialog-flows.test.ts",
           "packages/reforge/src/main.effect-flows.residual.test.ts",
           "packages/reforge/src/main.entity-host-flows.test.ts",
+          "packages/reforge/src/main.entity-proximity.test.ts",
           "packages/reforge/src/main.equipment-flows.test.ts",
+          "packages/reforge/src/main.frame-animation-owner.test.ts",
           "packages/reforge/src/main.glm-n.test.ts",
           "packages/reforge/src/main.item-flows.test.ts",
           "packages/reforge/src/main.menu-flows.test.ts",
@@ -2414,6 +2434,20 @@
           "packages/reforge/src/opening-menu.test.ts",
           "packages/reforge/src/pal-confirm-script-governance.test.ts",
           "packages/reforge/src/pal-errand-author.test.ts",
+          "packages/reforge/src/pal-gov3-content-caught.test.ts",
+          "packages/reforge/src/pal-gov3-content-cinematic.test.ts",
+          "packages/reforge/src/pal-gov3-content-door-shell.test.ts",
+          "packages/reforge/src/pal-gov3-content-doors.test.ts",
+          "packages/reforge/src/pal-gov3-content-portal-shell.test.ts",
+          "packages/reforge/src/pal-gov3-content-presentation.test.ts",
+          "packages/reforge/src/pal-gov3-content-proximity.test.ts",
+          "packages/reforge/src/pal-gov3-content-swimming.test.ts",
+          "packages/reforge/src/pal-gov3-content-world-recovery.test.ts",
+          "packages/reforge/src/pal-gov3-content-world-wait.test.ts",
+          "packages/reforge/src/pal-gov3-content.test.ts",
+          "packages/reforge/src/pal-gov3-motion-actions.test.ts",
+          "packages/reforge/src/pal-gov3-motion-arena.test.ts",
+          "packages/reforge/src/pal-gov3-motion.test.ts",
           "packages/reforge/src/pal-inn-choreography.test.ts",
           "packages/reforge/src/pal-inn-door-save.test.ts",
           "packages/reforge/src/pal-inn-kitchen.test.ts",
@@ -2679,6 +2713,11 @@
             "file": "packages/reforge/src/audio/sfx.test.ts",
             "testCount": 12,
             "identityDigest": "31d200ba82badd17c9f51f0952e7e3116e06cca5337234ffa99d711319031172"
+          },
+          {
+            "file": "packages/reforge/src/automatic-target-command.test.ts",
+            "testCount": 7,
+            "identityDigest": "e008d3b33aac3a64a5718ef35954ce5af8f8ca301fadce008e8fa0c7be3c16df"
           },
           {
             "file": "packages/reforge/src/battle-trial-assets.glm-n.test.ts",
@@ -3082,8 +3121,8 @@
           },
           {
             "file": "packages/reforge/src/entity-action-player.test.ts",
-            "testCount": 11,
-            "identityDigest": "427d63b4c4abd4293366561ee6a404dbc26d823ead328411ebf4c595f564ee30"
+            "testCount": 13,
+            "identityDigest": "22e988bc5523ea974376ec54bb993d39689244c34ee21d996be4b0b9fc90f244"
           },
           {
             "file": "packages/reforge/src/entity-lifecycle-command.test.ts",
@@ -3104,6 +3143,11 @@
             "file": "packages/reforge/src/entity-motion.test.ts",
             "testCount": 45,
             "identityDigest": "7db71044396e9f01d932c57a9e19a0c06c8cd76c72a19594ac3fea4771362650"
+          },
+          {
+            "file": "packages/reforge/src/entity-proximity.test.ts",
+            "testCount": 8,
+            "identityDigest": "f95e39108b5fc0fbb275e90d8e9955a410891e05ff745f56267c917b1d66056f"
           },
           {
             "file": "packages/reforge/src/entity-walk.test.ts",
@@ -3152,13 +3196,13 @@
           },
           {
             "file": "packages/reforge/src/frame-animation-player.test.ts",
-            "testCount": 7,
-            "identityDigest": "d05ab09eb99e1c49faa7ab32a7683d5b2aeb3898bf571e0062a6eeacaee6be3e"
+            "testCount": 8,
+            "identityDigest": "90b51357f96c3f25ccf1b6b2f04e87b8edcdab931cad6b9df4bd9ce19fd7c20c"
           },
           {
             "file": "packages/reforge/src/frame-animation-presentation.test.ts",
-            "testCount": 3,
-            "identityDigest": "2c42a231537e81e5aecb49da5269a2fcdd19c1a41e32159c07ad37e74a922551"
+            "testCount": 5,
+            "identityDigest": "7a91e1ddbce9f3d8c11422134b98d8ab9bc48bee77751f10702ed8bf89bc25d3"
           },
           {
             "file": "packages/reforge/src/fsa-source.cancel-windows.test.ts",
@@ -3226,6 +3270,11 @@
             "identityDigest": "a34954cc7f6373cb9a9262905baa257614413cefda6c43b86ff25d4206b3e5e6"
           },
           {
+            "file": "packages/reforge/src/main.auto-pose-authority.test.ts",
+            "testCount": 12,
+            "identityDigest": "5fa89a2d6bd4f72c8a5210e381a4d7c121f389cfba44752256c820d55f1969d0"
+          },
+          {
             "file": "packages/reforge/src/main.auto-save-flows.test.ts",
             "testCount": 24,
             "identityDigest": "341f81f193b1264401ca8aa2733d3816f4cd7d4f86989fe47c8cf72de2bc0a0b"
@@ -3266,9 +3315,19 @@
             "identityDigest": "99f2663e4f95e68c890d69ba5f793dd6e9c3f06b1c53a18f5260a0181c0c4361"
           },
           {
+            "file": "packages/reforge/src/main.entity-proximity.test.ts",
+            "testCount": 1,
+            "identityDigest": "2eb0c1f8f2e568fcd95e36f8c63223fa9831eb419b66123277505bd76d136353"
+          },
+          {
             "file": "packages/reforge/src/main.equipment-flows.test.ts",
             "testCount": 7,
             "identityDigest": "c19b3820758937d9ef8e312486e05fdb5ed27d729a02c4b95eb490a02fa6c332"
+          },
+          {
+            "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+            "testCount": 8,
+            "identityDigest": "418aad1c7680646399c6f26ece350970d88a805cca0902161f41c96c5a7f0525"
           },
           {
             "file": "packages/reforge/src/main.glm-n.test.ts",
@@ -3471,6 +3530,76 @@
             "identityDigest": "bab6687cbab70aa3b5aab5b2682b0de9d4328136a28b59329429c5513c8226d8"
           },
           {
+            "file": "packages/reforge/src/pal-gov3-content-caught.test.ts",
+            "testCount": 1,
+            "identityDigest": "c7b64ee1501575bf4c6d710cee15e27109f35633f143f800c34df4e5bdb1ae31"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-cinematic.test.ts",
+            "testCount": 1,
+            "identityDigest": "57bfd49d5a82a6fb98e86f809f1f4c2b7f8b41552ecbc826dbee48f9eaa6472d"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-door-shell.test.ts",
+            "testCount": 1,
+            "identityDigest": "32b6d4907f9d843623f830c7aebc63613cf47cf849f8085afba5035a21603f55"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-doors.test.ts",
+            "testCount": 11,
+            "identityDigest": "0b6cdbdcb15f5246489b3b6deacad5d830cbd684577b000a8169164b3de96687"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-portal-shell.test.ts",
+            "testCount": 35,
+            "identityDigest": "1acde4132409ceffc418e2e90bf896ec9d54968ec9bc74de1fc7b1ef0be56466"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-presentation.test.ts",
+            "testCount": 280,
+            "identityDigest": "f3a4865e3ffa05bc8c55b4b5b6bd73ac7edb72730ae4ee5e1fa30e132f6a58b2"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-proximity.test.ts",
+            "testCount": 2,
+            "identityDigest": "c1c8317894fd0ed0be016ee8ca90d62e8606f82a37bc494b2c75da457476a557"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-swimming.test.ts",
+            "testCount": 4,
+            "identityDigest": "bd372de7926a1c71362985af6c1f5c27a1ae4fb30dd41f37607b3bc7610c0568"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-world-recovery.test.ts",
+            "testCount": 72,
+            "identityDigest": "4d7499b2a4007ddbdaf41fca703257520cea6024b053cfb6301d46471ae4265b"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content-world-wait.test.ts",
+            "testCount": 1,
+            "identityDigest": "419e7b4ef47871abe58603ff3a92ac92fda449b1898a9e0da95b3425a04ade6f"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-content.test.ts",
+            "testCount": 50,
+            "identityDigest": "ff6567b4ec4cabf48bef57558d4b2ebb0435f2beed68bccb797dd2498d6d3a17"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-motion-actions.test.ts",
+            "testCount": 101,
+            "identityDigest": "e95a9b5ab6752d0ce1bc31554f714c452058d4d3668e96e74223094021a8960b"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-motion-arena.test.ts",
+            "testCount": 4,
+            "identityDigest": "1f5c6785c95e3c0c8f4ff8019aab216ed3deea0d2b2f7f65068e9f4d4246827e"
+          },
+          {
+            "file": "packages/reforge/src/pal-gov3-motion.test.ts",
+            "testCount": 12,
+            "identityDigest": "20cf4d055f7814facbd5088a0b6a7b5e1e31cf75449c754b1dc8a7565dbde26c"
+          },
+          {
             "file": "packages/reforge/src/pal-inn-choreography.test.ts",
             "testCount": 8,
             "identityDigest": "970d97db0684341ddc84b96f2d7701b6be7491102f6fda2ab716b739bebcf609"
@@ -3522,8 +3651,8 @@
           },
           {
             "file": "packages/reforge/src/pal-unified-steps-content.test.ts",
-            "testCount": 5480,
-            "identityDigest": "1fa98347867efeca31494d8b95635b06dd80ab3672d889ed064ac4b23459f4cb"
+            "testCount": 5414,
+            "identityDigest": "4534af8bbc8e5f01d0d05c34f138e2032f6c29932af75dc711c26b914efd5e69"
           },
           {
             "file": "packages/reforge/src/project-image-cache.lifecycle.test.ts",
@@ -4016,26 +4145,26 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "5dfb84feedf59371f232767d6744333b1320d68e47a17635c4b6fe3bd33cd909",
+        "identityDigest": "0c958269c9a9d939ee5f0f95cce87f74bc4e6c27a93f784d4373abd1a92e2961",
         "duplicateIdentityCount": 3,
-        "executionDigest": "18c4361378e5aec4b7d74b0fa636771e46835776535b12106593e97ca4c4a15f"
+        "executionDigest": "885d21a5169edbad0ded5a7602a2a0e06551ffc48bac883cce7ef67d17e10aa5"
       },
       "metrics": {
         "statements": {
-          "covered": 15493,
-          "total": 17721
+          "covered": 15760,
+          "total": 17938
         },
         "branches": {
-          "covered": 9488,
-          "total": 11990
+          "covered": 9653,
+          "total": 12162
         },
         "functions": {
-          "covered": 2497,
-          "total": 2860
+          "covered": 2560,
+          "total": 2915
         },
         "lines": {
-          "covered": 13922,
-          "total": 15468
+          "covered": 14161,
+          "total": 15661
         }
       }
     },
@@ -6252,8 +6381,8 @@
       ],
       "scopeDigest": "17a2035a760e7292c1ab49e410b06bcaad56c83e05557d927416ae1e5db09b7a",
       "fastTests": {
-        "testCount": 4596,
-        "testFileCount": 576,
+        "testCount": 4599,
+        "testFileCount": 579,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -6408,6 +6537,7 @@
           "packages/editor/src/core/play-workspace.test.ts",
           "packages/editor/src/core/playback.controls.test.ts",
           "packages/editor/src/core/playback.effects.test.ts",
+          "packages/editor/src/core/playback.entities-near.test.ts",
           "packages/editor/src/core/playback.entities.test.ts",
           "packages/editor/src/core/playback.entity-trigger.test.ts",
           "packages/editor/src/core/playback.motion.test.ts",
@@ -6687,6 +6817,8 @@
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
           "packages/editor/src/ui/ScriptEditor.coverage-batch.test.tsx",
           "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.entities-near.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.frame-animation.test.tsx",
           "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
           "packages/editor/src/ui/ScriptEditor.summaries.test.ts",
           "packages/editor/src/ui/ScriptEditor.test.tsx",
@@ -7597,6 +7729,11 @@
             "file": "packages/editor/src/core/playback.effects.test.ts",
             "testCount": 10,
             "identityDigest": "a35da0952750ad14e868e7ddc7dfddfcd0bcc146f9969e90606adf915a2f824a"
+          },
+          {
+            "file": "packages/editor/src/core/playback.entities-near.test.ts",
+            "testCount": 1,
+            "identityDigest": "3714e88a743d7e1079984370fedf137d60deaf57882b7c770b632dacad210d14"
           },
           {
             "file": "packages/editor/src/core/playback.entities.test.ts",
@@ -8994,6 +9131,16 @@
             "identityDigest": "21acfb5a30c9cdd277ae078a4fb1d22bbb7d153d2e18e26cc677566471417797"
           },
           {
+            "file": "packages/editor/src/ui/ScriptEditor.entities-near.test.tsx",
+            "testCount": 1,
+            "identityDigest": "befec2d3def0b2b366107e01dc7dc5f60eef57bfd7bbec8e9be4f0023ce65333"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptEditor.frame-animation.test.tsx",
+            "testCount": 1,
+            "identityDigest": "10cd5573848f7cd5216aa18a4b20b325e26908efa9ad915b687ebeb21f0c53b0"
+          },
+          {
             "file": "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
             "testCount": 1,
             "identityDigest": "6c93b1c43906ef1391c5fcb3825e341da0c2f3f3cfb42f06b61bcc282263e93f"
@@ -9714,46 +9861,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "f5c5d43c283a06ad4a7144e118a19e8ed656a7894e8336e3335ace968a55ca2b",
+        "identityDigest": "c2b03d3f2ff7b2ed7b44233d432048cf93548ef6f5c8f4f81ef70ec17952c6d5",
         "duplicateIdentityCount": 8,
-        "executionDigest": "0c50d28bc977eb9a7a9b669c337c6e114d79d342ddcab2ee1fc4226e74b59566"
+        "executionDigest": "dafb1efddc2c0cc7a7814fbb3cdadf6a3162a24be221fe98645ad3dadd4157ec"
       },
       "metrics": {
         "statements": {
-          "covered": 29905,
-          "total": 33494
+          "covered": 29919,
+          "total": 33513
         },
         "branches": {
-          "covered": 23835,
-          "total": 29029
+          "covered": 23861,
+          "total": 29058
         },
         "functions": {
-          "covered": 7561,
-          "total": 8534
+          "covered": 7569,
+          "total": 8543
         },
         "lines": {
-          "covered": 26780,
-          "total": 29265
+          "covered": 26794,
+          "total": 29284
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 67630,
-      "total": 77050
+      "covered": 67928,
+      "total": 77310
     },
     "branches": {
-      "covered": 48550,
-      "total": 59877
+      "covered": 48765,
+      "total": 60110
     },
     "functions": {
-      "covered": 12862,
-      "total": 14643
+      "covered": 12933,
+      "total": 14708
     },
     "lines": {
-      "covered": 60566,
-      "total": 67448
+      "covered": 60835,
+      "total": 67682
     }
   }
 }

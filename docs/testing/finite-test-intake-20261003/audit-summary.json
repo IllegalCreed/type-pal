@@ -28,15 +28,15 @@
     "todo": 0
   },
   "finalAuditSet": {
-    "status": "frozen-tree-full-run-passed",
-    "content": 1472,
+    "status": "latest-main-frozen-tree-full-run-passed",
+    "content": 1490,
     "shared": 113,
     "game": 3224,
     "palExtract": 377,
-    "reforge": 8017,
-    "editor": 4758,
+    "reforge": 8567,
+    "editor": 4761,
     "migrate": 670,
-    "total": 18631,
+    "total": 19202,
     "failed": 0,
     "pending": 0,
     "todo": 0
@@ -122,5 +122,13 @@
     "CLI field/alias contracts with distinct output axes",
     "cross-package parser tests with distinct callers"
   ],
+  "latestFastBaseline": {
+    "identityCount": 18792,
+    "sourceFileCount": 726,
+    "statements": "87.86%",
+    "branches": "81.13%",
+    "functions": "87.93%",
+    "lines": "89.88%"
+  },
   "next": "selective main integration, GitHub required CI, then exact backup and retired branch/worktree cleanup"
 }
