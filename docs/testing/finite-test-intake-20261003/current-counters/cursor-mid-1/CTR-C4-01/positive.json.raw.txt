@@ -1,0 +1,327 @@
+{
+  "numTotalTestSuites": 7,
+  "numPassedTestSuites": 7,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 26,
+  "numPassedTests": 1,
+  "numFailedTests": 0,
+  "numPendingTests": 25,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791000615127,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "C2 cursor-mid-1 分支合流知识"
+          ],
+          "fullName": "C2 cursor-mid-1 分支合流知识 C2-01 两臂同落点但不同 node 时后续从合成起点连线，不跨回分支前",
+          "status": "skipped",
+          "title": "C2-01 两臂同落点但不同 node 时后续从合成起点连线，不跨回分支前",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C2 cursor-mid-1 分支合流知识"
+          ],
+          "fullName": "C2 cursor-mid-1 分支合流知识 C2-02 两臂都不改位置时保留分支前 node，后续实线直接衔接",
+          "status": "skipped",
+          "title": "C2-02 两臂都不改位置时保留分支前 node，后续实线直接衔接",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C2 cursor-mid-1 分支合流知识"
+          ],
+          "fullName": "C2 cursor-mid-1 分支合流知识 C2-03 两臂同列 move 仍因 node 引用不同而清零起点，后续合成起点",
+          "status": "skipped",
+          "title": "C2-03 两臂同列 move 仍因 node 引用不同而清零起点，后续合成起点",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C3 cursor-mid-1 挂载与追逐动态边界"
+          ],
+          "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+          "status": "skipped",
+          "title": "C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C3 cursor-mid-1 挂载与追逐动态边界"
+          ],
+          "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-02 mountParty 清空队伍知识，后续绝对 moveParty 仅孤立节点不连旧位",
+          "status": "skipped",
+          "title": "C3-02 mountParty 清空队伍知识，后续绝对 moveParty 仅孤立节点不连旧位",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C3 cursor-mid-1 挂载与追逐动态边界"
+          ],
+          "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-03 顶层 chasePlayer 无 owner 时不绘制 dynamic，仅记缺少触发实体",
+          "status": "skipped",
+          "title": "C3-03 顶层 chasePlayer 无 owner 时不绘制 dynamic，仅记缺少触发实体",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C3 cursor-mid-1 挂载与追逐动态边界"
+          ],
+          "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-04 mount 后 setEntityPosRelParty 因队伍未知而清空实体位，不伪造落点",
+          "status": "skipped",
+          "title": "C3-04 mount 后 setEntityPosRelParty 因队伍未知而清空实体位，不伪造落点",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C3 cursor-mid-1 挂载与追逐动态边界"
+          ],
+          "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-05 ride 后其它实体仍可独立绝对移动",
+          "status": "skipped",
+          "title": "C3-05 ride 后其它实体仍可独立绝对移动",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C4 cursor-mid-1 条件结果族"
+          ],
+          "fullName": "C4 cursor-mid-1 条件结果族 C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段",
+          "status": "passed",
+          "title": "C4-01 confirm 空同意臂与 onNo 虚线臂并存，分歧后单步无连入段",
+          "duration": 1.649249999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C4 cursor-mid-1 条件结果族"
+          ],
+          "fullName": "C4 cursor-mid-1 条件结果族 C4-02 startBattle 缺省胜利空臂，仅 onLose/onFlee 有虚线落点",
+          "status": "skipped",
+          "title": "C4-02 startBattle 缺省胜利空臂，仅 onLose/onFlee 有虚线落点",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C4 cursor-mid-1 条件结果族"
+          ],
+          "fullName": "C4 cursor-mid-1 条件结果族 C4-03 startBattle 三结果臂从同一已知点发散，不含胜利实线拼接",
+          "status": "skipped",
+          "title": "C4-03 startBattle 三结果臂从同一已知点发散，不含胜利实线拼接",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C4 cursor-mid-1 条件结果族"
+          ],
+          "fullName": "C4 cursor-mid-1 条件结果族 C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+          "status": "skipped",
+          "title": "C4-04 teleportOut 展开 onFail 后 boundary，后续绝对移动不绘制",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C4 cursor-mid-1 条件结果族"
+          ],
+          "fullName": "C4 cursor-mid-1 条件结果族 C4-05 confirm 同意保留原位、拒绝瞬移导致分歧，后续孤立节点无假连线",
+          "status": "skipped",
+          "title": "C4-05 confirm 同意保留原位、拒绝瞬移导致分歧，后续孤立节点无假连线",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C5 cursor-mid-1 共享调用域"
+          ],
+          "fullName": "C5 cursor-mid-1 共享调用域 C5-01 缺失共享脚本 invalidate 后后续绝对移动仅孤立节点，不伪造连线",
+          "status": "skipped",
+          "title": "C5-01 缺失共享脚本 invalidate 后后续绝对移动仅孤立节点，不伪造连线",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C5 cursor-mid-1 共享调用域"
+          ],
+          "fullName": "C5 cursor-mid-1 共享调用域 C5-02 32 层嵌套共享调用触达上限后不再展开，末段列精确",
+          "status": "skipped",
+          "title": "C5-02 32 层嵌套共享调用触达上限后不再展开，末段列精确",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C5 cursor-mid-1 共享调用域"
+          ],
+          "fullName": "C5 cursor-mid-1 共享调用域 C5-03 self none 库被显式 self 调用时记不合法并 boundary，截断后续",
+          "status": "skipped",
+          "title": "C5-03 self none 库被显式 self 调用时记不合法并 boundary，截断后续",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C5 cursor-mid-1 共享调用域"
+          ],
+          "fullName": "C5 cursor-mid-1 共享调用域 C5-04 两个独立 sibling 共享脚本依次展开，轨迹不串台",
+          "status": "skipped",
+          "title": "C5-04 两个独立 sibling 共享脚本依次展开，轨迹不串台",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C6 cursor-mid-1 地图与可见目标"
+          ],
+          "fullName": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+          "status": "skipped",
+          "title": "C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C6 cursor-mid-1 地图与可见目标"
+          ],
+          "fullName": "C6 cursor-mid-1 地图与可见目标 C6-02 setSceneMapOverride 显式当前 scene id 同样 boundary",
+          "status": "skipped",
+          "title": "C6-02 setSceneMapOverride 显式当前 scene id 同样 boundary",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C6 cursor-mid-1 地图与可见目标"
+          ],
+          "fullName": "C6 cursor-mid-1 地图与可见目标 C6-03 setSceneMapOverride 仅其它 scene 不 boundary，后续本图移动照常",
+          "status": "skipped",
+          "title": "C6-03 setSceneMapOverride 仅其它 scene 不 boundary，后续本图移动照常",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C6 cursor-mid-1 地图与可见目标"
+          ],
+          "fullName": "C6 cursor-mid-1 地图与可见目标 C6-04 当前 scene 无该实体时记不在当前场景，不建 track",
+          "status": "skipped",
+          "title": "C6-04 当前 scene 无该实体时记不在当前场景，不建 track",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C6 cursor-mid-1 地图与可见目标"
+          ],
+          "fullName": "C6 cursor-mid-1 地图与可见目标 C6-05 跨 scene 实体坐标不绘制，且不依赖 loadScene",
+          "status": "skipped",
+          "title": "C6-05 跨 scene 实体坐标不绘制，且不依赖 loadScene",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C7 cursor-mid-1 显示容量与步号"
+          ],
+          "fullName": "C7 cursor-mid-1 显示容量与步号 C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move",
+          "status": "skipped",
+          "title": "C7-01 第 10001 条命令触发脚本过长 boundary，末列停在上限前最后一次 move",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C7 cursor-mid-1 显示容量与步号"
+          ],
+          "fullName": "C7 cursor-mid-1 显示容量与步号 C7-02 重复瞬移文案经 Set 去重，notes 数组仅一份",
+          "status": "skipped",
+          "title": "C7-02 重复瞬移文案经 Set 去重，notes 数组仅一份",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C7 cursor-mid-1 显示容量与步号"
+          ],
+          "fullName": "C7 cursor-mid-1 显示容量与步号 C7-03 segment.from/to 引用同 track.nodes 内对象，非拷贝值相等",
+          "status": "skipped",
+          "title": "C7-03 segment.from/to 引用同 track.nodes 内对象，非拷贝值相等",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C7 cursor-mid-1 显示容量与步号"
+          ],
+          "fullName": "C7 cursor-mid-1 显示容量与步号 C7-04 条件臂内 move 的 segment.conditional 为 true，且与实体轨独立编号",
+          "status": "skipped",
+          "title": "C7-04 条件臂内 move 的 segment.conditional 为 true，且与实体轨独立编号",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791000615472,
+      "endTime": 1791000615473.6492,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts"
+    }
+  ]
+}

@@ -1,22 +1,22 @@
-# TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 — 确认队列与脚本活动权限生命周期中包
+# TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 — 已交付测试有限收口
 
 Status: review
-Owner: Kimi（作者已交付）
-Reviewer: Codex
 Phase: phase2
-Capability: test-coverage / script-lifecycle
-Visual Verification Timing: N/A
+Owner: Kimi（作者交付已冻结）
+Reviewer: Codex
+Capability: test-coverage / finite-closeout
+Visual Verification Timing: N/A（本次只接入测试，不改变产品或重走剧情）
+Branch: `codex/kimi-script-lifecycle-medium-r1`
 
 ## 当前独立裁决
 
-候选42b3d303de3f2178e249b4ccbabf967e0affd194，测试/证据95ddc3adcb289ccfab7cd8ca916d80a6b502f139，docs-only尾仅receipt pin。原卡准入、16候选、源码/caller与全部历史按[固定Git原件](https://github.com/IllegalCreed/type-pal/blob/42b3d303de3f2178e249b4ccbabf967e0affd194/docs/ops/tasks/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md)保持。
+固定作者提交 `42b3d303de3f2178e249b4ccbabf967e0affd194` 已核真实Git对象。16例现行回归；当前定向与相邻50/50、全包已含此交付。原M01真实结算counter闭合，不再作者返工。
+产品、旧测试、共享配置和真实数据不因本卡改动；现行main目标8efe048610fab7aa4a257a716b91ece30194eba8/content22/SAVE11，仅选择性接收新测试/专属fixture，不merge旧产品树或恢复旧兼容。
 
-[2026-10-03 Codex复核](../../testing/kimi-script-lifecycle-review-20261003/README.md)：14冻结/白名单valid；M01真实结算返工闭合，L07口径如实。当前副本50/50身份与作者38逐条对应；四指定新业务反控均旧34绿、新指定单红、恢复50绿，typecheck零诊断。代码accept；官方接入pending，未main/done/清理作者树。反控责任已由Codex履行，不派作者重做。
+[统一验收与准确机账](../../testing/finite-test-intake-20261003/README.md)、[统一收口卡](TEST-FROZEN-CLOSE-1.md)。全仓check18683已通过、七包类型与静态零；官方ratchet的migrate函数比例窄修与最终strict/推送/CI仍须完成，当前不标done、不删作者分支。
 
-本卡只有原16候选/两新test，完成即停止，不扩张剩余额度或连续新包。只读产品/旧测/配置/真实数据；不做世界后门、故事E2E、save策略或视觉取舍。完整Ref补验与正式接入仍由Codex串行执行，不夹进O/P/Q冻结83文件范围。
+用户2026-10-03要求完成全部已交付测试收口并删除错误/过期材料。本卡范围由Codex裁决为上述有限现行回归，不追原数量预算；未核语义净新不给信用，错误反控不计有效。旧提示词、失败转录、失效工具与不实回执从工作树移除，历史仅由Git保存。
 
-当前源自有副本完整Ref补验2489/2489，零failed/pending/todo，typecheck0；本机ignored外部资产已只读补齐、canvas已构建，作者原5环境红保持历史原文。正式main接入仍pending；没有新的Kimi返工项。
+## 下一步
 
-## 下一位 Agent 提示词
-
-无下一位Kimi提示词；作者不再返工，Codex继续本卡正式接入收口。
+无下一位贡献者提示词。Codex完成最终质量门、main推送与GitHub必需CI核验，之后更新done并按精确SHA和可恢复备份退休本分支/树；独立产品draft不随本卡done。

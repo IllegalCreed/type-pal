@@ -15,7 +15,7 @@ Visual Verification Timing: N/A
 
 - 纯内部质量工具维护，产品/玩法/格式/UI不变；原版及两阶段机制真值不适用。
 - 保护参照仍 `1b3bffb7977455ce579cc1e66ea0a39fb400b151`，不换参照、不降低任何覆盖率指标、不恢复废弃测试凑数。
-- [原始门禁与五处差异](../../testing/glm-tenfold-triple/closure-20261003/receipt.json)：`903f833da2acbeead33565f969c26928a00a4706` 退役转换核四文件9→7、8→1、3→1、12→11；`04eb93318379339c301b28272ddb16224ee90436` 用真实party像素回归替代旧整瓦片alpha/latch，render旧文件5→1。净计数下降16，不把改名/重写后的身份差集谎称恰16个fullName。
+- [原始门禁与五处差异](../../testing/finite-test-intake-20261003/README.md)：`903f833da2acbeead33565f969c26928a00a4706` 退役转换核四文件9→7、8→1、3→1、12→11；`04eb93318379339c301b28272ddb16224ee90436` 用真实party像素回归替代旧整瓦片alpha/latch，render旧文件5→1。净计数下降16，不把改名/重写后的身份差集谎称恰16个fullName。
 - 五文件未被O/P/Q改动。唯一例外必须精确匹配旧/新计数、旧/新身份摘要及当前测试文件SHA256。第六文件、额外删除、换名换身份、文件变动或不匹配旧基线均拒绝。
 - 最强替代解释：作者借历史退役隐藏新删除。任一指定摘要/hash/count不匹配即推翻并拒收；全包真实执行及原保护比例/生产范围检查继续成立。
 - 白名单：`scripts/coverage/protected-baseline.mjs`、新增专属退役判据/测试、`scripts/coverage/run.mjs`的保护判据接线及本卡/索引/看板/收口证据。不改coverage配置、依赖、产品、旧测试或作者证据。

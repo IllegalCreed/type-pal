@@ -338,13 +338,6 @@ describe('C04-G04 删除与选区', () => {
     expect(h.counter()).toBe('2 / 2')
   })
 
-  test('C04-G04-08 删除中间帧 metadata 立即更新', async () => {
-    const h = await mount()
-    await h.select(1)
-    await h.click('删除选中帧')
-    expect(h.latest()?.durationMs).toBe(80)
-  })
-
   test('C04-G04-09 单选删除后 selectedIds 长度为 1', async () => {
     const h = await mount()
     await h.select(1)

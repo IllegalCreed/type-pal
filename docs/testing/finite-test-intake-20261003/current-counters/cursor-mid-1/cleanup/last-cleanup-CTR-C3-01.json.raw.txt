@@ -1,0 +1,30 @@
+{
+  "id": "CTR-C3-01",
+  "reason": "success",
+  "at": "2026-10-03T04:10:13.617Z",
+  "reports": [
+    {
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-CTR-C3-01-Sthjps",
+      "owned": true,
+      "legalPath": true,
+      "identityOk": true,
+      "gitRemoveOk": true,
+      "dirRemoved": true,
+      "pathExistsAfter": false,
+      "listedInGitWorktreeAfter": false,
+      "registeredIdentity": {
+        "dev": 16777233,
+        "ino": 168002361,
+        "gitWorktree": true
+      },
+      "currentIdentity": {
+        "dev": 16777233,
+        "ino": 168002361
+      },
+      "error": null
+    }
+  ],
+  "ownedAfter": [],
+  "prefixTempsInTmpdir": [],
+  "zeroResidue": true
+}

@@ -89,10 +89,12 @@ let rawRecordPath: string
  * 正式 blank 项目 + 未使用的第二源资源（真实 gzip 字节与真实 sha），经保存门自证；
  * reader 为正式 EditorAssetReader（source+session），删除资源时读真实字节。
  */
-async function legalWorldState(
-  entries: readonly SpriteDef[],
-): Promise<{ state: EditorState; reader: ReturnType<typeof createEditorAssetReader> }> {
-  const { source, state } = await loadLegalUiProject('glm-ui-wave-world')
+async function legalWorldState(entries: readonly SpriteDef[]): Promise<{
+  state: EditorState
+  reader: ReturnType<typeof createEditorAssetReader>
+  assetBase: Awaited<ReturnType<typeof loadLegalUiProject>>['assetBase']
+}> {
+  const { source, state, assetBase } = await loadLegalUiProject('glm-ui-wave-world')
   const seedAssets = await buildSeedAssets()
   rawBytes = seedAssets.spriteRle
   rawRecordPath = 'assets/authored/sprites/raw.rle'
@@ -126,7 +128,7 @@ async function legalWorldState(
   } as EditorState
   assertProjectSaveValid(next)
   const reader = createEditorAssetReader(source, () => next)
-  return { state: next, reader }
+  return { state: next, reader, assetBase }
 }
 
 let root: Root
@@ -156,6 +158,7 @@ function renderLibrary(input: {
   entries: readonly SpriteDef[]
   session: EditSession
   reader: ReturnType<typeof createEditorAssetReader>
+  assetBase: Awaited<ReturnType<typeof loadLegalUiProject>>['assetBase']
   view?: 'definition' | 'asset'
   focusObjectId?: string
   onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
@@ -165,7 +168,7 @@ function renderLibrary(input: {
     <WorldSpriteLibrary
       definitions={input.entries}
       catalog={catalog}
-      assetBase={{} as never}
+      assetBase={input.assetBase}
       assetReader={input.reader}
       session={input.session}
       tabBar={null}
@@ -188,10 +191,10 @@ async function mountLibrary(input: {
   onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }): Promise<EditSession> {
-  const { state, reader } = await legalWorldState(input.entries)
+  const { state, reader, assetBase } = await legalWorldState(input.entries)
   const session = new EditSession(state)
   await act(async () => {
-    renderLibrary({ ...input, session, reader })
+    renderLibrary({ ...input, session, reader, assetBase })
     await Promise.resolve()
   })
   return session
@@ -211,18 +214,6 @@ describe('U2b WorldSpriteLibrary 残差', () => {
       entries: definitions,
       focusObjectId: 'hero-static',
     })
-    console.log(
-      'ACTIVE-DEF =',
-      host
-        .querySelector('[data-world-active-definition]')
-        ?.getAttribute('data-world-active-definition'),
-    )
-    console.log(
-      'RESOURCE =',
-      host.querySelector('[data-world-resource]')?.getAttribute('data-world-resource'),
-      'CONSUMERS =',
-      host.querySelector('[data-world-consumer-count]')?.getAttribute('data-world-consumer-count'),
-    )
     const before = session.getHistoryVersion()
     await clickHostButton('删除用途')
     expect(session.getState().sprites?.map((entry) => entry.id)).toEqual(['hero'])

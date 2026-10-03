@@ -1,4 +1,0 @@
-JSON report written to /private/tmp/codex-opq-closure.U0so5f/kimi-M02-mutated.json
-undefined
-/private/tmp/codex-opq-closure.U0so5f/counter/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-confirm-lifecycle.kimi-mid-2.test.ts src/script-lineage-lifecycle.kimi-mid-2.test.ts src/script-confirm-modal.test.ts src/script-activity-lineage.test.ts src/script-confirm-modal.glm-q.test.ts --reporter=json --outputFile=/private/tmp/codex-opq-closure.U0so5f/kimi-M02-mutated.json

@@ -23,3 +23,7 @@ Grok400的历史独立语义接受保持；Kimi/Cursor中量软预算不补齐�
 作者完整SHA与原始证据保留。L/M/N、O/P/Q及Kimi/Grok/Cursor各有Git common directory私有恢复bundle与ignored档案，退休前逐tip/状态/hash/无PR复核；仅可再生node_modules不打包，外部symlink不解引用。质量门和GitHub必需CI成功后，远端精确旧SHA lease删除、本地比较SHA删除并移除精确退休树。独立产品draft保留在main文档，相关审核快照只在证据保存后退休，不等于产品done。
 
 机器证据/最终门/CI与清理回执将在本目录补齐。无下一位贡献者提示词，Codex继续收口。
+
+[当前版本受影响反控新三态原件](current-counters/README.md)已落盘；[精确接入/退出与备份机账](intake.json)不把未核净新估算标成达标。
+
+[全仓测试质量审计](audit-report.md)按“少而精、原子合同、低重叠”给出机器清点与已核裁决；弱断言/强转/时长候选未经语义核验不自动删除。

@@ -1,0 +1,87 @@
+{
+  "id": "CTR-C3-01",
+  "productFile": "packages/editor/src/core/script-movement-preview.ts",
+  "findText": "notes.add('骑行只标出载具目标；队伍挂载位置不作固定路径预测。')",
+  "replaceText": "notes.add('骑行绘出完整队伍挂载路径。')",
+  "testSpec": "src/core/script-movement-preview.cursor-mid-1.test.ts",
+  "expectFullname": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+  "grep": "C3-01 ride",
+  "oldSpec": null,
+  "declaredFullNames": [
+    "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
+  ],
+  "depsMode": "symlink-node_modules",
+  "candidateHead": "9be30a3a4a4ed5738d287e942fb70fe4ef03c5f0",
+  "productSha256Candidate": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+  "testSha256Candidate": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+  "patch": "--- a/packages/editor/src/core/script-movement-preview.ts\n+++ b/packages/editor/src/core/script-movement-preview.ts\n@@ -360,7 +360,7 @@\n             '骑行目标',\n           )\n           route.positions.set(PARTY_KEY, {})\n-          notes.add('骑行只标出载具目标；队伍挂载位置不作固定路径预测。')\n+          notes.add('骑行绘出完整队伍挂载路径。')\n           break\n         case 'mountParty':\n           route.positions.set(PARTY_KEY, {})\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
+    ],
+    "productSha256": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+    "testSha256": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-movement-preview.cursor-mid-1.test.ts×C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "f22d014ec5aee012806d0ba1ccec54fc37a4c6880b905fddfb735761496fdcc2",
+  "testSha256MutatedTree": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 1,
+    "executedFullNames": [
+      "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
+    ],
+    "failed": [
+      {
+        "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+        "message": "AssertionError: expected '骑行绘出完整队伍挂载路径。' to contain '骑行只标出载具目标'",
+        "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+      }
+    ],
+    "productSha256": "f22d014ec5aee012806d0ba1ccec54fc37a4c6880b905fddfb735761496fdcc2",
+    "testSha256": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/script-movement-preview.cursor-mid-1.test.ts×C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
+      ]
+    },
+    "target": {
+      "fullName": "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线",
+      "message": "AssertionError: expected '骑行绘出完整队伍挂载路径。' to contain '骑行只标出载具目标'",
+      "failureMessages": [
+        "AssertionError: expected '骑行绘出完整队伍挂载路径。' to contain '骑行只标出载具目标'\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-CTR-C3-01-Sthjps/packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts:105:36\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+    }
+  },
+  "productSha256Restored": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+  "testSha256Restored": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+  "restored": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
+    ],
+    "productSha256": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+    "testSha256": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-movement-preview.cursor-mid-1.test.ts×C3 cursor-mid-1 挂载与追逐动态边界 C3-01 ride 标载具目标虚线，队伍位置清空且无队伍连线"
+      ]
+    }
+  }
+}

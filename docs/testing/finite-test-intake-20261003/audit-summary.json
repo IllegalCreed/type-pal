@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-03",
+  "status": "audit-complete-pending-final-gates",
+  "policy": "few-high-signal-atomic-contracts; no coverage-padding",
+  "staticInventory": {
+    "files": 1701,
+    "definitions": 11873,
+    "exactBodyCandidateGroups": 37,
+    "weakMatcherCandidates": 173,
+    "noVisibleMatcherCandidates": 458,
+    "doubleAssertionFlags": 232,
+    "neverAssertionFlags": 147,
+    "tsSuppressionFlags": 24,
+    "conditionalSkipFiles": 2,
+    "ioIsolationCandidates": 36
+  },
+  "fullRunBeforeAudit": {
+    "content": 1472,
+    "shared": 154,
+    "game": 3231,
+    "palExtract": 381,
+    "reforge": 8017,
+    "editor": 4760,
+    "migrate": 669,
+    "total": 18684,
+    "failed": 0,
+    "pending": 0,
+    "todo": 0
+  },
+  "confirmedChanges": [
+    {
+      "path": "packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+      "removedCases": ["C04-G04-08"],
+      "reason": "exact duplicate of C04-G04-02"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "removedCases": 2,
+      "reason": "exact duplicate parser contracts; shared parser remains canonical"
+    },
+    {
+      "path": "packages/game/src/framebuffer-ports.glm-q.test.ts",
+      "removedCases": 4,
+      "reason": "fully covered by existing framebuffer and leaves contracts"
+    },
+    {
+      "path": "packages/shared/src/mkf.glm-o.test.ts",
+      "removedCases": 5,
+      "reason": "duplicate/inaccurate O10 candidate; mkf.boundaries is stronger"
+    },
+    {
+      "path": "packages/shared/src/yj2-encode.glm-o.test.ts",
+      "removedCases": 7,
+      "reason": "weak deterministic-only or duplicate RLE/YJ2 boundary contracts"
+    },
+    {
+      "path": "docs/testing/glm-architecture-regression-lab/candidates/content/g06-validation-crosscalls.test.ts",
+      "removedCases": 8,
+      "reason": "isolated copy of formal production test"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+      "changed": "replace assetBase as-never with typed assetBase from legal loader"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
+      "changed": "remove debug console output"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "changed": "single caught TypeError oracle instead of duplicate calls"
+    },
+    {
+      "path": "packages/migrate/src/pal-sprite-report.fast.test.ts",
+      "addedCases": 1,
+      "reason": "real public formatter contract to restore protected migrate function ratio without IO padding"
+    }
+  ],
+  "negativeControlDisposition": {
+    "withdrawnQHistoricalInvalidAssertionClass": 9,
+    "retainedKimiCurrentNeedles": 2,
+    "retainedCursorCurrentNeedles": 6,
+    "OQOldCounterEvidence": "removed from live tree; no current credit without command/cwd/spawn receipt pairing"
+  },
+  "notAutomaticDeletion": [
+    "weak matcher/static suppression flags",
+    "slow real PAL corpus tests",
+    "CLI field/alias contracts with distinct output axes",
+    "cross-package parser tests with distinct callers"
+  ],
+  "next": "rerun full check, ratchet to a newly generated baseline, protected strict-fast, then main/CI"
+}

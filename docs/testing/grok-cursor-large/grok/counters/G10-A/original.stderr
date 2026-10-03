@@ -1,3 +1,0 @@
-stderr | src/shell/rng-window.grok-r1.test.ts > G10-A RNG 默认跳过与帧窗 > G10-A07 默认块地址是 rng-07.rle
-[rng-player] frame 0 fetch fail, skip: Error: rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)
-    at fetchAndDecodeRngChunk (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G10-A-nEP3FJ/packages/game/src/shell/rng-player.ts:100:22)

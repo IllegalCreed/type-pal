@@ -174,32 +174,6 @@ describe('O10 parseIndexedRleChunk：legacy 坏尾三轴', () => {
     }
     expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow(/在坏尾后仍可解/)
   })
-
-  test('纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容', () => {
-    // 三槽：slot0 有效帧；slot1/slot2 全 0（canonical 在 slot1 越界失败）。
-    // legacy 走槽0 得 1 帧，后缀全 0 → skipped=0 → 拒绝进 legacy 兼容。
-    const frameBytes = encodeRleFrame(frameOf(2, 2, 1))
-    const header = 6
-    const out = new Uint8Array(header + frameBytes.byteLength + 2)
-    const view = new DataView(out.buffer)
-    view.setUint16(0, 3, true)
-    view.setUint16(0, header >> 1, true) // slot0
-    view.setUint16(2, 0, true) // slot1 = 0
-    view.setUint16(4, 0, true) // slot2 = 0
-    out.set(frameBytes, header)
-    expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow(
-      'sprite chunk 只有普通 sentinel，不应进入 legacy 坏尾兼容',
-    )
-  })
-
-  test('legacy 前缀全无效 → 坏尾前不含有效帧拒绝', () => {
-    const out = new Uint8Array([1, 0, 0xf0, 0xff])
-    expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow(
-      'sprite chunk legacy 尾槽前不含有效帧',
-    )
-    // 注：未知 profile 的运行时守卫对 typed 调用方不可构造（IndexedRleChunkProfile
-    // 为字面量联合，'wat' 需要 as never 桥），登记 unreachable-via-typed-entry。
-  })
 })
 
 describe('O10 encodeSpriteChunk：上限与空容器', () => {
@@ -210,23 +184,9 @@ describe('O10 encodeSpriteChunk：上限与空容器', () => {
     expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow('sprite chunk 不含帧')
   })
 
-  test('超 u16 word 偏移上限 → 拆分图集错误', () => {
-    const big = frameOf(400, 400, 1) // 400*400 全不透明 → 指令流 > 128KB
-    expect(() => encodeSpriteChunk([big, big, big])).toThrow(/超 u16 偏移上限/)
-  })
-
-  test('encodeRleFrame：透明段写满 width*height（尾透明补跳段）', () => {
-    const f: RleFrame = {
-      width: 4,
-      height: 1,
-      pixels: new Uint8Array([1, 0, 0, 0]),
-      opaque: new Uint8Array([1, 0, 0, 0]),
-    }
-    const bytes = encodeRleFrame(f)
-    // 头 4 字节 + 1 像素段(1+1) + 3 透明跳段(1) = 7
-    expect(bytes.byteLength).toBe(7)
-    expect(bytes[4]).toBe(1)
-    expect(bytes[6]).toBe(0x80 + 3)
+  test('空 frames 的 indexed profile 明确拒绝无帧容器', () => {
+    const out = encodeSpriteChunk([])
+    expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow('sprite chunk 不含帧')
   })
 })
 

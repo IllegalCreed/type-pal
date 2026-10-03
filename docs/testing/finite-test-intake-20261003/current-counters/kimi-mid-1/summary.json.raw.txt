@@ -1,0 +1,148 @@
+{
+  "repoHashes": {
+    "packages/reforge/src/script-continuation.ts": "ee11bce4a18ea6a7f86c9a3d6a17b9aee939ba216cb24cde90a0f4a424511092",
+    "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+    "packages/reforge/src/runtime-auto-checkpoint.test.ts": "39114858a61b830d50a9b91579a03f548c1994721a4a93549340fa90228730d4"
+  },
+  "judge": {
+    "accepted": 2,
+    "rejected": 23
+  },
+  "rows": [
+    {
+      "id": "battle-none-arm",
+      "source": "packages/reforge/src/script-continuation.ts",
+      "needle": {
+        "from": "if (control?.kind !== 'startBattle' || control.arm === 'none')",
+        "to": "if (control?.kind !== 'startBattle')"
+      },
+      "target": {
+        "file": "src/script-continuation.kimi-mid-1.test.ts",
+        "fullName": "K2 a startBattle child without an outcome arm rejects"
+      },
+      "scope": {
+        "files": [
+          "src/script-continuation.kimi-mid-1.test.ts",
+          "src/runtime-auto-checkpoint.test.ts"
+        ],
+        "declaredLeaves": 61,
+        "identitiesSha256": "e179710d96941cd614772760fcd6f7a9c441a90cf313c30b143b769bcc7c4d78",
+        "sameAcrossStates": [
+          "control",
+          "variant",
+          "restored"
+        ]
+      },
+      "sensitivity": {
+        "oldFiles": [
+          "src/runtime-auto-checkpoint.test.ts"
+        ],
+        "oldLeavesExecuted": 37,
+        "oldAllGreenVariant": true,
+        "onlyNewRed": "K2 a startBattle child without an outcome arm rejects"
+      },
+      "states": {
+        "control": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "ee11bce4a18ea6a7f86c9a3d6a17b9aee939ba216cb24cde90a0f4a424511092",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "39114858a61b830d50a9b91579a03f548c1994721a4a93549340fa90228730d4"
+          }
+        },
+        "variant": {
+          "exit": 1,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "5b7488c6f9779292a5f767278c10e10d685125ad95b37e9f9a89cbc5510fe084",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "39114858a61b830d50a9b91579a03f548c1994721a4a93549340fa90228730d4"
+          }
+        },
+        "restored": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "ee11bce4a18ea6a7f86c9a3d6a17b9aee939ba216cb24cde90a0f4a424511092",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "39114858a61b830d50a9b91579a03f548c1994721a4a93549340fa90228730d4"
+          }
+        }
+      },
+      "artifacts": {
+        "json": [
+          "battle-none-arm.control.json",
+          "battle-none-arm.variant.json",
+          "battle-none-arm.restored.json"
+        ],
+        "raw": [
+          "battle-none-arm.control.raw.txt",
+          "battle-none-arm.variant.raw.txt",
+          "battle-none-arm.restored.raw.txt"
+        ]
+      }
+    },
+    {
+      "id": "none-explicit-self",
+      "source": "packages/reforge/src/script-continuation.ts",
+      "needle": {
+        "from": "if (script.self === 'none' && command.self)",
+        "to": "if (false && command.self)"
+      },
+      "target": {
+        "file": "src/script-continuation.kimi-mid-1.test.ts",
+        "fullName": "K3 a none-self shared script refuses an explicit command self"
+      },
+      "scope": {
+        "files": [
+          "src/script-continuation.kimi-mid-1.test.ts",
+          "src/runtime-auto-checkpoint.test.ts"
+        ],
+        "declaredLeaves": 61,
+        "identitiesSha256": "e179710d96941cd614772760fcd6f7a9c441a90cf313c30b143b769bcc7c4d78",
+        "sameAcrossStates": [
+          "control",
+          "variant",
+          "restored"
+        ]
+      },
+      "sensitivity": null,
+      "states": {
+        "control": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "ee11bce4a18ea6a7f86c9a3d6a17b9aee939ba216cb24cde90a0f4a424511092",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "39114858a61b830d50a9b91579a03f548c1994721a4a93549340fa90228730d4"
+          }
+        },
+        "variant": {
+          "exit": 1,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "e4ab7472dcb7617eedacce8e113b9eba1cc26fe7a7447a1b506d964ed90ad123",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "39114858a61b830d50a9b91579a03f548c1994721a4a93549340fa90228730d4"
+          }
+        },
+        "restored": {
+          "exit": 0,
+          "sha256": {
+            "packages/reforge/src/script-continuation.ts": "ee11bce4a18ea6a7f86c9a3d6a17b9aee939ba216cb24cde90a0f4a424511092",
+            "packages/reforge/src/script-continuation.kimi-mid-1.test.ts": "da14595b762a972f46b03aba6e067bb55bab3b2cb5476f35a02f2c93566f470e",
+            "packages/reforge/src/runtime-auto-checkpoint.test.ts": "39114858a61b830d50a9b91579a03f548c1994721a4a93549340fa90228730d4"
+          }
+        }
+      },
+      "artifacts": {
+        "json": [
+          "none-explicit-self.control.json",
+          "none-explicit-self.variant.json",
+          "none-explicit-self.restored.json"
+        ],
+        "raw": [
+          "none-explicit-self.control.raw.txt",
+          "none-explicit-self.variant.raw.txt",
+          "none-explicit-self.restored.raw.txt"
+        ]
+      }
+    }
+  ]
+}

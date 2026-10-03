@@ -1,9 +1,0 @@
---- a/packages/game/src/present/screen-wave.ts
-+++ b/packages/game/src/present/screen-wave.ts
-@@ -50,5 +50,5 @@
-     b -= 8
-     a += b
-     wave[i] = Math.trunc((a * gs.wScreenWave) / 256)
--    wave[i + 16] = SCREEN_W - wave[i]!
-+    wave[i + 16] = wave[i]!
-   }

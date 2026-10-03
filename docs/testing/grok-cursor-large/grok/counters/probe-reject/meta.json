@@ -1,8 +1,0 @@
-{
-  "id": "probe-reject",
-  "purpose": "真实 Vitest：单断言失败叠未处理异常必须被 judge 拒收",
-  "rejected": true,
-  "reasons": ["unhandled error stacked on assertion"],
-  "exitCode": 1,
-  "signal": null
-}

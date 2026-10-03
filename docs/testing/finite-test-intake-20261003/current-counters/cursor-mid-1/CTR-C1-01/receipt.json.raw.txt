@@ -1,0 +1,87 @@
+{
+  "id": "CTR-C1-01",
+  "productFile": "packages/editor/src/core/script-flow-preview.ts",
+  "findText": "return JSON.stringify(cursor ?? null)",
+  "replaceText": "return JSON.stringify(cursor)",
+  "testSpec": "src/core/script-flow-preview.cursor-mid-1.test.ts",
+  "expectFullname": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+  "grep": "C1-01 previewCursorKey",
+  "oldSpec": null,
+  "declaredFullNames": [
+    "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+  ],
+  "depsMode": "symlink-node_modules",
+  "candidateHead": "9be30a3a4a4ed5738d287e942fb70fe4ef03c5f0",
+  "productSha256Candidate": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55",
+  "testSha256Candidate": "c0ed053f5cb1e64b07383c61a23c21aaf956e869c477bf0c0dfc7ff03ac7a5f8",
+  "patch": "--- a/packages/editor/src/core/script-flow-preview.ts\n+++ b/packages/editor/src/core/script-flow-preview.ts\n@@ -12,7 +12,7 @@\n }\n \n export function previewCursorKey(cursor: FlowCursor | undefined): string {\n-  return JSON.stringify(cursor ?? null)\n+  return JSON.stringify(cursor)\n }\n \n export function previewStepLabel(flow: AuthorScriptFlow, cursor: FlowCursor): string {\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+    ],
+    "productSha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55",
+    "testSha256": "c0ed053f5cb1e64b07383c61a23c21aaf956e869c477bf0c0dfc7ff03ac7a5f8",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "bc572273f2ac96e6c49bc72e5198ccb8bbc12d246454e50ce0ae734fc30dbb21",
+  "testSha256MutatedTree": "c0ed053f5cb1e64b07383c61a23c21aaf956e869c477bf0c0dfc7ff03ac7a5f8",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 1,
+    "executedFullNames": [
+      "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+    ],
+    "failed": [
+      {
+        "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+        "message": "AssertionError: expected undefined to be 'null' // Object.is equality",
+        "file": "src/core/script-flow-preview.cursor-mid-1.test.ts"
+      }
+    ],
+    "productSha256": "bc572273f2ac96e6c49bc72e5198ccb8bbc12d246454e50ce0ae734fc30dbb21",
+    "testSha256": "c0ed053f5cb1e64b07383c61a23c21aaf956e869c477bf0c0dfc7ff03ac7a5f8",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+      ]
+    },
+    "target": {
+      "fullName": "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价",
+      "message": "AssertionError: expected undefined to be 'null' // Object.is equality",
+      "failureMessages": [
+        "AssertionError: expected undefined to be 'null' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-CTR-C1-01-cnGKMa/packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts:17:41\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "file": "src/core/script-flow-preview.cursor-mid-1.test.ts"
+    }
+  },
+  "productSha256Restored": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55",
+  "testSha256Restored": "c0ed053f5cb1e64b07383c61a23c21aaf956e869c477bf0c0dfc7ff03ac7a5f8",
+  "restored": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+    ],
+    "productSha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55",
+    "testSha256": "c0ed053f5cb1e64b07383c61a23c21aaf956e869c477bf0c0dfc7ff03ac7a5f8",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-flow-preview.cursor-mid-1.test.ts×C1 cursor-mid-1 选中游标与标题域 C1-01 previewCursorKey(undefined) 与 JSON null 字面量等价"
+      ]
+    }
+  }
+}

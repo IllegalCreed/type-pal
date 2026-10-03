@@ -249,14 +249,6 @@ describe('U2a BattleSpriteLibrary 残差', () => {
     const apply = [...document.querySelectorAll<HTMLButtonElement>('button')].find(
       (candidate) => candidate.textContent?.trim() === '应用修改',
     )
-    console.log(
-      'APPLY disabled =',
-      apply?.disabled,
-      'input value =',
-      JSON.stringify(document.querySelector<HTMLInputElement>('#battle-sprite-usage-name')?.value),
-      'input id exists =',
-      Boolean(document.getElementById('battle-sprite-usage-name')),
-    )
     await act(async () => {
       apply!.click()
     })

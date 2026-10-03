@@ -1,0 +1,87 @@
+{
+  "id": "CTR-C6-01",
+  "productFile": "packages/editor/src/core/script-movement-preview.ts",
+  "findText": "if (!command.scene || command.scene === scene.id) {",
+  "replaceText": "if (command.scene === scene.id) {",
+  "testSpec": "src/core/script-movement-preview.cursor-mid-1.test.ts",
+  "expectFullname": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+  "grep": "C6-01 setSceneMapOverride 当前场景",
+  "oldSpec": null,
+  "declaredFullNames": [
+    "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
+  ],
+  "depsMode": "symlink-node_modules",
+  "candidateHead": "9be30a3a4a4ed5738d287e942fb70fe4ef03c5f0",
+  "productSha256Candidate": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+  "testSha256Candidate": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+  "patch": "--- a/packages/editor/src/core/script-movement-preview.ts\n+++ b/packages/editor/src/core/script-movement-preview.ts\n@@ -447,7 +447,7 @@\n           notes.add('场景或存档切换之后的轨迹不在当前地图显示。')\n           break\n         case 'setSceneMapOverride':\n-          if (!command.scene || command.scene === scene.id) {\n+          if (command.scene === scene.id) {\n             route.stop = 'boundary'\n             notes.add('地图更换之后的轨迹不在当前底图显示。')\n           }\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
+    ],
+    "productSha256": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+    "testSha256": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-movement-preview.cursor-mid-1.test.ts×C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "e8d945743220e7a37a82014b6d52937d531f8baa688e92364d0850dbfde96276",
+  "testSha256MutatedTree": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 1,
+    "executedFullNames": [
+      "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
+    ],
+    "failed": [
+      {
+        "fullName": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+        "message": "AssertionError: expected [ [ 1, 2, false ], [ 2, 5, false ] ] to deeply equal [ [ 1, 2, false ] ]",
+        "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+      }
+    ],
+    "productSha256": "e8d945743220e7a37a82014b6d52937d531f8baa688e92364d0850dbfde96276",
+    "testSha256": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "identitySet": [
+        "src/core/script-movement-preview.cursor-mid-1.test.ts×C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
+      ]
+    },
+    "target": {
+      "fullName": "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments",
+      "message": "AssertionError: expected [ [ 1, 2, false ], [ 2, 5, false ] ] to deeply equal [ [ 1, 2, false ] ]",
+      "failureMessages": [
+        "AssertionError: expected [ [ 1, 2, false ], [ 2, 5, false ] ] to deeply equal [ [ 1, 2, false ] ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-mid-counter-CTR-C6-01-zdd0hJ/packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts:370:26\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/opq-frozen-integration/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "file": "src/core/script-movement-preview.cursor-mid-1.test.ts"
+    }
+  },
+  "productSha256Restored": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+  "testSha256Restored": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+  "restored": {
+    "exitCode": 0,
+    "executed": 1,
+    "executedFullNames": [
+      "C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
+    ],
+    "productSha256": "97063e60a19d5b1b561e900d452da556e24ccd16cdeeb60ef427d26b0eb2a1de",
+    "testSha256": "f39b106a79e20c6c806c81c768240a7621f02c67459ca0fdb0726cb174e7e20b",
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 1,
+      "identitySet": [
+        "src/core/script-movement-preview.cursor-mid-1.test.ts×C6 cursor-mid-1 地图与可见目标 C6-01 setSceneMapOverride 当前场景 boundary，后续移动不进 segments"
+      ]
+    }
+  }
+}

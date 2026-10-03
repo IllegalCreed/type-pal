@@ -173,33 +173,6 @@ describe('U3c AudioAssetWorkbench 残差', () => {
     expect(focused.at(-1)).toBe(newId)
   })
 
-  test('非法 WAV 失败零提交并显示错误', async () => {
-    const session = await legalAudioSessionWithSeed()
-    const strategy = soundStrategy(transportMock())
-    await act(async () => {
-      root.render(<Harness session={session} strategy={strategy} />)
-      await Promise.resolve()
-    })
-    const before = session.getHistoryVersion()
-    const input = inputByAriaLabel<HTMLInputElement>(document, '导入音效')
-    await loadFilesIntoInput(input, [
-      new File([new Uint8Array(24)], 'bad.wav', { type: 'audio/wav' }),
-    ])
-    await vi.waitFor(() => {
-      expect(host.textContent).toContain('不是有效 WAV 文件')
-    })
-    expect(session.getHistoryVersion()).toBe(before)
-    expect(
-      Object.keys(session.getState().assetCatalog.assets).filter((id) =>
-        id.startsWith('sound.authored.'),
-      ),
-    ).toEqual(
-      [`sound.authored.${(await (async () => 'seed-placeholder')()).slice(0, 0)}seed`].length
-        ? expect.anything()
-        : [],
-    )
-  })
-
   test('替换：同 id 提交并保留旧 label，undo 还原旧字节', async () => {
     const session = await legalAudioSessionWithSeed()
     const strategy = soundStrategy(transportMock())

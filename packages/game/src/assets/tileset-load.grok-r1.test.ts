@@ -81,10 +81,13 @@ describe('G02-C sprite 与 tileset 加载边界', () => {
       'fetch',
       vi.fn(async () => new Response(Uint8Array.of(0x1f, 0x8b, 0x00), { status: 200 })),
     )
-    await expect(loadTilesetBlob('/extracted/data/tileset/1.rle')).rejects.toThrow()
-    await expect(loadTilesetBlob('/extracted/data/tileset/1.rle')).rejects.not.toThrow(
-      /tileset-blob: fetch/,
+    const caught = await loadTilesetBlob('/extracted/data/tileset/1.rle').then(
+      () => null,
+      (error: unknown) => error,
     )
+    expect(caught).toBeInstanceOf(TypeError)
+    if (!(caught instanceof TypeError)) throw new Error('expected TypeError')
+    expect(caught.message).not.toContain('tileset-blob: fetch')
   })
 
   it('G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串', async () => {
