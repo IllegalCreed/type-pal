@@ -22,7 +22,7 @@ Kimi42b3d303de3f2178e249b4ccbabf967e0affd194两文件16例，当前新main50/50�
 
 ## 两旧输入与必要门
 
-2026-10-03最新 main 合入后的冻结树全仓 check 已通过：content 1490、shared 113、game 3224、pal-extract 377、reforge 8569、editor 4761、migrate 670，共 19204 例；lint 3128 文件 0/0/0，七包 typecheck、docs/diff 均通过。保护 main 的脚本治理/战斗提交曾暴露真实 locale 漏项（16 个已有 source message index），已依据 `data/extracted/events/all.json` 恢复；战斗装备状态新增 branch 以原子合同补测闭合。官方 ratchet 与 strict-fast 已通过并生成 18795 identity 的新基线（87.87/81.13/87.94/89.89）。Grok 像素/readback 见证已改为每进程独立临时目录，普通测试不再生成仓库垃圾。原 ratchet worker 启动超时保留在私有 raw 记录，不作为业务结论。
+2026-10-03最新 main 合入后的冻结树全仓 check 已通过：content 1490、shared 113、game 3224、pal-extract 377、reforge 8569、editor 4761、migrate 670，共 19204 例；lint 3128 文件 0/0/0，七包 typecheck、docs/diff 均通过。保护 main 的脚本治理/战斗提交曾暴露真实 locale 漏项（16 个已有 source message index），已依据 `data/extracted/events/all.json` 恢复；战斗装备状态新增 branch 以原子合同补测闭合。官方 ratchet 与 strict-fast 已通过并生成 18795 identity 的新基线（87.87/81.14/87.94/89.89）。`projects/pal/assets/migrated` 与 `assets/runtime` 已按用户裁决纳入 Git，CI checkout 资源闭包完整。Grok 像素/readback 见证已改为每进程独立临时目录，普通测试不再生成仓库垃圾。原 ratchet worker 启动超时保留在私有 raw 记录，不作为业务结论。
 
 [QUALITY-TEST-INPUTS-1](QUALITY-TEST-INPUTS-1.md)：I06随机输入固定，透明像素臂两次同45命中；PAL六旧例业务断言不改，完整PNG/256色表/按精灵声明与实际两地图tile IDs派生的canonical gzip RLE，catalog来源/路径/bytes/hash一致。自有migrated目录暂移、6/6测试、finally恢复；不动真实PAL，空白外部IO非视觉oracle，真实AssetResolver/hash/gzip/RLE照跑。
 七包typecheck及静态error/warning/info全零；定向/相邻与全仓check→官方ratchet→原目标main完整SHA受保护strict-fast，source/每包/总比例/其它测试保护不变，不回调新基线、不相加私有百分比，不追85%新包。

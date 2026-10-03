@@ -56,3 +56,5 @@ Editor、Game、Reforge/Migrate 三域已完成机器清点与代表性语义复
 最新 main 的脚本治理合入又暴露一处真实数据闭包错误：新增的 `s021/s034/s100/s131/s134/s262` 现行对白引用了 16 个已有原版 message index，但 locale 重导漏项。已依据 `data/extracted/events/all.json` 的一手 `showDialog` 文本恢复这 16 个 locale 条目（含 `dlg.2074` 的历史 “哼！”），没有修改对白断言或放宽迁移门；该修复需随最新 main 重新跑全包与覆盖门。
 
 同一 main 合入只为 `script-world.test.ts` 的现有 typed host 增加 `entitiesNear: () => false`，测试身份与 15→12 精确退役账不变；保护账已更新为该实际文件 SHA，仍同时约束 old/current identityDigest、计数和字节哈希。
+
+用户明确裁决 `projects/pal` 下资源不得 ignored；已移除 `.gitignore` 对 `assets/migrated`/`assets/runtime` 的规则并纳入 1,934 个二进制资源（约 70 MiB）。这些资产记录仍标为 `legacy-migrated`，但现在属于 canonical 工程闭包，fresh CI checkout 可直接读取；meal-shell 的 synthetic fixture 继续保留为独立 IO 合同，不替代正式工程资源。
