@@ -35,8 +35,8 @@ Branch: main（本轮隔离工作树已归档，已合本地分支已删除）
 
 ## 上下文锚点
 
-- [CLAUDE](../../../CLAUDE.md)、[二阶段纪律](../../phase2/READ-FIRST.md)、[E2E合同](../../testing/e2e.md)。
-- [004实跑回执](../../testing/e2e-004.md)、[碎片和当前004前驱](../../../projects/pal/e2e-checkpoints/README.md)。
+- [CLAUDE](../../../CLAUDE.md)、[二阶段纪律](../../phase2/READ-FIRST.md)、[E2E合同](../../testing/e2e/contract.md)。
+- [004实跑回执](../../testing/e2e/stages/004-meal/report.md)、[碎片和当前004前驱](../../../projects/pal/e2e-checkpoints/README.md)。
 - `scripts/e2e/meal-contract.mjs:112`独立case合同；`meal-journey.mjs:41`连续held输入和异常先松键。
 - `scripts/e2e/browser-journey.mjs:18`独占临时浏览器/服务，不连接用户profile。
 - [一阶段经验](../../phase1/engineering-notes.md)§3.5香兰报信fade孤儿历史；[知识摘录](../../phase2/reference/phase1-knowledge-harvest.md)X7。
@@ -165,7 +165,7 @@ Root直接读一阶段`scene-system.ts:422`，其像素菱形距离门换为格�
 ## 技术交付与剩余边界
 
 Root独立accept最终98a42d4e0的六份同版case，原字节416输入/413 Git项、8trace、两终档及全部业务门逐项重算。
-精确目录、hash、Chrome启动失败后仅补缺case、共享导航反控及组合质量收据见[005回执](../../testing/e2e-005.md)。
+精确目录、hash、Chrome启动失败后仅补缺case、共享导航反控及组合质量收据见[005回执](../../testing/e2e/stages/005-shrimp/report.md)。
 作者最终46823e38补齐e53三个名称；其后仅E2E共享工具变更，不再修改作者正文。
 完整包门11002项/类型检查、最终211工具与全仓lint2774文件零error/warning/info通过，文档门另核。
 原始失败及两份无损压缩诊断均保留；主树保全377文件原字节，不录屏，不修改用户存档。

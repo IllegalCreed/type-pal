@@ -1,10 +1,10 @@
 # 002 — 客栈路线、e56 核心与脚本编排
 
 002 双引擎 verify 已收口：正常路线、核心编排、真实存读档与恢复画面通过，全仓质量门零诊断。实现准入与完整前提见
-[子卡](../ops/archive/tasks/done/E2E-002-1-inn-route-and-trio.md)，后续全局范围见
-[母卡](../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)。
+[子卡](../../../../ops/archive/tasks/done/E2E-002-1-inn-route-and-trio.md)，后续全局范围见
+[母卡](../../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)。
 
-2026-10-02脚本治理后，当前二阶段检查点使用[本轮重建链](script-governance/current-checkpoints.md)。
+2026-10-02脚本治理后，当前二阶段检查点使用[本轮重建链](../../../script-governance/current-checkpoints.md)。
 下文各轮目录、版本与数字仍是历史原始证据，不自动成为新内容的可加载前驱。
 
 ## 用户边界与两块验证
@@ -77,7 +77,7 @@ order95，此时坐标为 e59 `(1248,1360)`、e60 `(1204,1322)`、e61 `(1176,133
 
 2026-09-30 用户指出应先参考一阶段，不应让用户重新选择已存在的演出。
 Codex 撤回先前产品选择和机械搬尾部建议，按已核 UX 修正，见
-[窄作者卡](../ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md)：保留三人 auto 派发、
+[窄作者卡](../../../../ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md)：保留三人 auto 派发、
 原路线/速度和起步 wait600；`dlg.32` 前显式 take 三位参与者，奖励 `dlg.51` 关闭后 release；
 原 wait320/转身/wait40 后，`dlg.53` 前再次 take，关闭后 release。
 只用既有命令，不冻结全局 NPC、不恢复原版转换器、不新增 parallel/join 或估时等待。
@@ -104,7 +104,7 @@ e60进房链与两门交互原来用瞬态 `setEntityFrame(1)` 表示已打开�
 已核全部18条实体引用及三处开门链，按既有模型将六个定帧叶替换为 `selectEntityPage(use open)`；
 sprite53/54各声明单帧、无cue、nonloop的open动作。默认页仍关闭，open页仍绑定原default交互，
 状态/碰撞、原命令位置和其它演出不变。持久的是“门已打开”意图，而非所有临时帧。
-见[门卡](../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)。未新增schema/save兼容层或关门剧情。
+见[门卡](../../../../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)。未新增schema/save兼容层或关门剧情。
 
 本段结论：坐标＋速度及独立auto并行保留；局部接管与持久开门已改进；等待和零位移边界保留；
 大娘低层路径作为有证据的后续候选，不机械压成一个move，不新增parallel/join或大改列表结构。
@@ -150,7 +150,7 @@ sprite53/54各声明单帧、无cue、nonloop的open动作。默认页仍关闭�
   end/restore e73/e74同pos/state1/visible/sprite，但frame1→0；Codex实际看`002-end.png`和`failure.png`，
   门从打开变为关闭。生产setEntityFrame仅写瞬态Map，正式restore的abortScript清除此Map。
   修复候选为持久门page/action意图，须先核所有调用方，见
-  [E2E-002-DOOR-1](../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)；不得过滤门像素或放宽阈值。
+  [E2E-002-DOOR-1](../../../../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)；不得过滤门像素或放宽阈值。
 - 两轮原始回执和当前001均已复制到main同名`build/e2e/`；RF正式链使用生产dumpSave，
   不冒称浏览器F5。真实F5/F9由`main.auto-save-flows.test.ts`6项正式主壳回归单独证明。
 - 主树集成`fc1d5804`后typecheck/严格lint/作者检查与相邻编辑器81项通过；6012保持运行。
@@ -203,7 +203,7 @@ Root最终accept、四张002子卡done归档；母卡与完成表达用户检视
 用户批准只当前受控主角主动触发前景透明，NPC/队友/编外跟随者仍保留普通深度遮挡；
 沿用整块瓦片透明和120ms迟滞，主角触发的同一块墙可能顺带显露NPC，不是NPC本体alpha。
 本轮不改运行时100ms格步、不加插值、不动作者脚本或6012编辑器。
-见[反馈卡](../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md)，隔离分支
+见[反馈卡](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md)，隔离分支
 `codex/002-feedback`；代码复核accept，用户体验pending，未集成main。
 
 - 真实输入从逐格down/up改为同向持续held，转向/已观察到场景或脚本接管时释放，失败时有界清理。

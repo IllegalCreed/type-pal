@@ -519,7 +519,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 - 本人实际看过 `local-workspace-restored.png` 与 `missing-workspace.png`：读档短提示完整、缺句柄错误可见；
   未改变界面样式、不重复做剧情观感验证。浏览器/context 已关闭，未删除用户数据库。
 
-完整 R4/Q1（含 auto/手动菜单及 checkpoint 连续链）仍按[登记](../../../../testing/e2e.md#已登记的多项目工作区存档回归save-isolation-1)待跑。
+完整 R4/Q1（含 auto/手动菜单及 checkpoint 连续链）仍按[登记](../../../../testing/e2e/contract.md#已登记的多项目工作区存档回归save-isolation-1)待跑。
 期间发现既有 Q1 `dumpSave` 误接有参 builder，已在[审计追加](../../../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)
 登记独立证据；本卡不修改该钩子、不把合法 builder 或正常 F5 误报成 Q1 导出已闭环。
 

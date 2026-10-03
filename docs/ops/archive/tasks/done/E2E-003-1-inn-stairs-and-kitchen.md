@@ -28,7 +28,7 @@ Branch: codex/e2e-003
 ## 前提与上下文
 
 - 必读 `docs/phase2/READ-FIRST.md`、`docs/phase2/reference/phase1-knowledge-harvest.md` W/E段、
-  `docs/testing/e2e-002.md`、`docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md`。
+  `docs/testing/e2e/stages/002-inn-e56/report.md`、`docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md`。
 - 原前驱：冻结10e65063 RF002 `build/e2e/reforge-002-2026-09-30T23-09-35-990Z`，
   actual ended SAVE9/content21，SHA `42ac15aff0719f8f11b3f59d6001266c59e2075c715d616f5c75985bcfb0136f`。
   此档后来核实选错次日方案，保留历史、不用于新003；当前正常重跑前驱见下方05-09-59-537Z。
@@ -126,7 +126,7 @@ render/world-scene-presentation由独立贡献者拥有，Root不与其同时写
   Root RF `reforge-003-2026-10-01T06-54-19-263Z`（edca85df）各passed；并非同revision的both汇总。
   14正文/说话人、实际12楼梯commit/draw脚步、合法held路线、不取菜、生产保存及fresh-context恢复通过。
   Root独立重算两实际档字节hash、核完整World/Canvas相等，目视RF厨房交代画面，桌上菜仍可见。
-  详见[003回执](../../../../testing/e2e-003.md)，原失败目录/内容保持，不重复已证视觉路线。
+  详见[003回执](../../../../testing/e2e/stages/003-kitchen/report.md)，原失败目录/内容保持，不重复已证视觉路线。
 - RF首轮failed实为collector把正式start之前的读档placement当成故事移动。
   edca85df只收窄剧情移动/隐藏到正式phase，全局continuity/gap仍保留；90工具回归包含真实过早移动反控。
 - Root独立读取贡献者ef562134五文件补充，独立92工具测试绿后集成75e35a45：

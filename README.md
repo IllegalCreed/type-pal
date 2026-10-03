@@ -49,7 +49,7 @@ PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、�
 第一、第二阶段首轮代码审计见[审计总报告](docs/ops/audits/pre-e2e/summary.md)，确认问题按独立任务修复；
 不能把审计完成当成所有缺陷已修复。全仓[13 批结构治理](docs/testing/architecture-continuation-integration.md)
 和[零诊断质量门](docs/testing/quality-zero/README.md)已收口，第一阶段仍可在保真前提下继续修缺陷。
-双引擎 [001 开场 E2E](docs/testing/e2e-001.md)已经有独立可运行的流程、真实存档检查点和关键 NPC 稀疏时序；
+双引擎 [001 开场 E2E](docs/testing/e2e/stages/001-opening/report.md)已经有独立可运行的流程、真实存档检查点和关键 NPC 稀疏时序；
 这**不是**完整剧情通关、完整视觉/音轨验收或可直接用于宣传的录像链。
 
 全生产源码的 Vitest/V8 fast/full 覆盖率和只升不降门禁已建立；口径见
@@ -191,7 +191,7 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 
 已落地的开场 E2E 可在具备 Chrome 和本地 PAL 资产的环境中运行 `pnpm e2e:001:both`；
 它自建隔离服务、分别运行两引擎并生成检查点，不使用已打开的 6005/6051 开发页。
-有/无窗口模式和目前覆盖边界见[001 执行说明](docs/testing/e2e-001.md)。
+有/无窗口模式和目前覆盖边界见[001 执行说明](docs/testing/e2e/stages/001-opening/report.md)。
 
 视觉、音频、浏览器文件系统、长剧情和完整游玩路线不能只靠单元测试判断，仍需按相应任务的浏览器 / E2E 验收记录执行。
 覆盖率口径、基线更新规则和长期目标见 [`docs/testing/coverage.md`](docs/testing/coverage.md)。

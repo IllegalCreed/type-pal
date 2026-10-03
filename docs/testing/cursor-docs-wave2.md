@@ -285,7 +285,7 @@
 
 | 声称 | 判定 |
 |---|---|
-| 链到 `docs/testing/e2e.md` | 文件存在 | 一致 |
+| 链到 `docs/testing/e2e/contract.md` | 文件存在 | 一致 |
 | 001/002 剧情边界文字 | 历史/验收叙述 | **历史不改** |
 | 「尚未生成连续 checkpoint 链」 | 目录仅 README（无 `*.save.json` 于跟踪集） | 与现状一致 |
 

@@ -1,9 +1,9 @@
 # 001 开场执行器：双引擎完整验证
 
-[任务卡](../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /
-[跨阶段合同](e2e.md) / [剧情边界](../../projects/pal/e2e-checkpoints/README.md)。
+[任务卡](../../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /
+[跨阶段合同](../../contract.md) / [剧情边界](../../../../../projects/pal/e2e-checkpoints/README.md)。
 
-2026-09-28：[001收口卡](../ops/archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md)已核定 **verify done**。
+2026-09-28：[001收口卡](../../../../ops/archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md)已核定 **verify done**。
 覆盖game/Reforge各自001正常流程与真实检查点、55行正文及说话人、24个对白块的完整显示、
 参与本段的队长/e3出口/e8密道遮挡物/e10行走李大娘/e11床边替身；保留两句站定对话与离场偏序。
 这是verify合同，不是capture-ready或全游戏所有NPC验收。无需AI、模型账号或人工逐句回车。

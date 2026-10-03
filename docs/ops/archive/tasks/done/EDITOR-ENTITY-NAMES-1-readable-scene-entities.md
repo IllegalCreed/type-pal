@@ -51,7 +51,7 @@ Branch: codex/editor-entity-names
 
 - [第二阶段铁律](../../../../phase2/READ-FIRST.md)：稳定身份、作者真源、仅当前版本。
 - [前批方案/步骤命名](E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md)：label元数据，不改执行，已核剧情范围和digest边界。
-- [脚本合同](../../../../phase2/specs/script-system.md)、[E2E合同](../../../../testing/e2e.md)：后续走过的内容同步核读命名。
+- [脚本合同](../../../../phase2/specs/script-system.md)、[E2E合同](../../../../testing/e2e/contract.md)：后续走过的内容同步核读命名。
 - `entity-commands.ts:138–196`不可变patch与undo；`script-editor-projection.ts:30–75`主属性会话和脚本真值保存合并。
 - `ScriptEditor.tsx:640–649`当前摘要只读脚本会话；名称从主属性会话编辑时必须及时供给脚本摘要/目标选择，不能等保存重开才更新。
 - 唯一显示解析器，不从sprite猜角色；可选名称表示当前未填写，非旧版本fallback。空输入清除label，guard拒绝非空白字符串之外的显式值。
@@ -78,7 +78,7 @@ Branch: codex/editor-entity-names
 
 | 场景/实体 | 实例名称 | 直接依据 |
 | --- | --- | --- |
-| s001/e8 | 密道遮挡物 | RF001实际密道开启图及`docs/testing/e2e-001.md:193`纠正旧“锅具”误称；不从sprite-55推断身份。 |
+| s001/e8 | 密道遮挡物 | RF001实际密道开启图及`docs/testing/e2e/stages/001-opening/report.md:193`纠正旧“锅具”误称；不从sprite-55推断身份。 |
 | s001/e10、e11 | 李大娘（房内走动）、李大娘（床边） | RF001真实参与矩阵；`opening-matrix.mjs:195–215`床边替身隐藏→行走婶婶显示，现行s001正文同坐标换身。 |
 | s001/e19 | 李大娘（厨房） | actor=li-daniang；RF003厨房126/127交代端菜。 |
 | s003/e56 | 李大娘（走廊与大厅） | actor=li-daniang；RF002接待、下楼及RF003大厅交谈。 |

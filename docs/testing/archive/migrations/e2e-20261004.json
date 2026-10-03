@@ -1,0 +1,52 @@
+{
+  "kind": "documentation-relocation",
+  "id": "e2e-20261004",
+  "reason": "建立按阶段组织的 E2E canonical 路径；稳定 fragmentId 不变，旧平面文件只保留 Git 历史。",
+  "entries": [
+    {
+      "from": "docs/testing/e2e-001.md",
+      "to": "docs/testing/e2e/stages/001-opening/report.md",
+      "sha256": "cd775d4367ea6a01568e291a1d97b793437d39a5032f988cf8788a642cbc0791"
+    },
+    {
+      "from": "docs/testing/e2e-002.md",
+      "to": "docs/testing/e2e/stages/002-inn-e56/report.md",
+      "sha256": "a9cae74befd6d0b7b44d9bc52795f2368f6b4a3ffbd2b1d5643302ac0158a933"
+    },
+    {
+      "from": "docs/testing/e2e-003.md",
+      "to": "docs/testing/e2e/stages/003-kitchen/report.md",
+      "sha256": "ea9182e6d86186a895c53bc2083979aa2fdfbb3a23a0e6bb6549f7a5a9b06532"
+    },
+    {
+      "from": "docs/testing/e2e-004.md",
+      "to": "docs/testing/e2e/stages/004-meal/report.md",
+      "sha256": "929e626a5245af17b4778eb5fcec9f7dbd26b2272e8067b67a8636b7cc770bf2"
+    },
+    {
+      "from": "docs/testing/e2e-005.md",
+      "to": "docs/testing/e2e/stages/005-shrimp/report.md",
+      "sha256": "a2a1a28e209b25489caf4b479ad432ef3d3e97e3347e607e663dfeb8c033972b"
+    },
+    {
+      "from": "docs/testing/e2e-006.md",
+      "to": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "sha256": "281fb91cb5def9a7ed27d866e9db0507596b5633c5a9adb7a5a757cef0c9a100"
+    },
+    {
+      "from": "docs/testing/e2e-001-005-common-issues.md",
+      "to": "docs/testing/e2e/cross-stage/common-issues.md",
+      "sha256": "104c97cbd0329834f4b0a27b47260ad5bf429efc305a065f509ac9883f5566d3"
+    },
+    {
+      "from": "docs/testing/e2e-route-proposal.md",
+      "to": "docs/testing/e2e/route-proposal.md",
+      "sha256": "03cf26dce260002eaf488a1d827afa7e486b5087239866257ec087e0ee7a0ed5"
+    },
+    {
+      "from": "docs/testing/e2e.md",
+      "to": "docs/testing/e2e/contract.md",
+      "sha256": "54602ca729af0318c92c98a231276f4d366c149da6a3a253b5f907ad31ae1f15"
+    }
+  ]
+}

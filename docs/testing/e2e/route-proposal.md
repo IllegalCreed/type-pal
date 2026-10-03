@@ -1,8 +1,8 @@
 # 双阶段快速通关E2E：路线驱动方案（讨论稿）
 
 2026-09-27用户改优先级：GLM/Cursor继续隔离补测，Codex暂停主动覆盖率推进，先讨论E2E怎么跑。
-[R4准备卡](../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /
-[已有合同](e2e.md) / [已确认001/002](../../projects/pal/e2e-checkpoints/README.md)。
+[R4准备卡](../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /
+[已有合同](contract.md) / [已确认001/002](../../../projects/pal/e2e-checkpoints/README.md)。
 范围已按下方2026-09-27用户追加裁决更新；执行器细节仍是建议，不表示runner/导航器已存在，
 不批准未核实的测试后门或改变剧情结果。
 

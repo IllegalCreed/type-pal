@@ -2,7 +2,7 @@
 
 状态：`rework`。当前 Reforge 剧情链已跑通，但第一阶段关键 NPC 日志/演出对照和船段视觉修正尚未闭合，不能标记 done。
 
-任务卡：[E2E-006-1](../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)
+任务卡：[E2E-006-1](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)
 
 ## 已确认范围
 

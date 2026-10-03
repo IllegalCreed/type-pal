@@ -21,7 +21,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 lint/格式/七包typecheck零诊断，完整check9712、ratchet/受保护单次strict9220通过；warning/info/截断均硬失败。
 
 **当前优先级（用户2026-09-27最新裁决）**：GLM/Cursor继续隔离补测，Codex独立验收；
-[快速通关E2E](../testing/e2e-route-proposal.md)的001双引擎流程、检查点和关键NPC稀疏时序已入库，
+[快速通关E2E](../testing/e2e/route-proposal.md)的001双引擎流程、检查点和关键NPC稀疏时序已入库，
 完整通关/录制矩阵未证。用户随后要求Codex自主补测再争取全仓分支覆盖率绝对+2pp，
 该阶段目标已完成归档；覆盖率目标不是E2E门槛，不以盲探代替路线脚本。
 **2026-09-24补充**：用户要求推进[全仓架构治理](audits/architecture-debt.md)，改为按职责拆分与补测同步推进。
@@ -83,7 +83,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 首步空门修复；15新回归、11针、6010实际按钮闭环。check10,191/strict9,730，静态零诊断；
 运行时保存安全门不变，E2E001/002独立继续。
 
-2026-09-28[001双引擎验证已收口](../testing/e2e-001.md)：55正文/说话人/参与角色、真实档读回与像素一致，
+2026-09-28[001双引擎验证已收口](../testing/e2e/stages/001-opening/report.md)：55正文/说话人/参与角色、真实档读回与像素一致，
 修复一阶段翻页跳行和自动淡入变暗。check10,207/strict9,746、静态零诊断；母任务转002，capture音轨另排。
 
 2026-09-30 作者发布与PAL供给拆分、脚本转换退役（ARCH-PAL-SUPPLY-1，证据见[任务卡索引](tasks/index.md)）
@@ -109,7 +109,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 006剧情链可达但视觉与关键NPC日志未验收；截图显示船体锚点/张四动作/人物落船异常 |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
 
-2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：
+2026-10-01 [002最终回执](../testing/e2e/stages/002-inn-e56/report.md)已独立accept，四张002子卡done归档：
 正常出房至e56、20正文/500文/三人实际进房、真实002新上下文全量World与Canvas恢复均通过。
 落实局部对白接管与持久open页，保留目标＋速度/独立auto，不新增parallel/join；
 check10655项、E2E工具57项与2704文件静态零诊断。母任务继续003以后/capture，不关闭完整Q1/Q2。

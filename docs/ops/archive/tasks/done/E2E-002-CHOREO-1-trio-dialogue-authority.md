@@ -63,7 +63,7 @@ Branch: codex/e2e-002-r1
 - [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[二阶段铁律](../../../../phase2/READ-FIRST.md)
   6/8/10：一阶段是演出参考，显式编排；canonical作者正文不回同步退役转换核。
 - [脚本系统](../../../../phase2/specs/script-system.md)、[一阶段知识测绘](../../../../phase2/reference/phase1-knowledge-harvest.md) E6/E7。
-- [002回执](../../../../testing/e2e-002.md)、[母卡](../../../tasks/E2E-R4-1-route-and-checkpoint-foundation.md)、[工具卡](E2E-002-1-inn-route-and-trio.md)。
+- [002回执](../../../../testing/e2e/stages/002-inn-e56/report.md)、[母卡](../../../tasks/E2E-R4-1-route-and-checkpoint-foundation.md)、[工具卡](E2E-002-1-inn-route-and-trio.md)。
 - `packages/content/src/author-script-core.ts:192–193`既有take/release；`main.ts:2296/2299`宿主；
   `motion-runtime-coordinator.ts:64–77`局部权威；`main.ts:4206/4251`正常与取消归还。
 - 不得引入：全局对白冻结NPC、原始opcode依赖、估时等待、旧版本兼容、内容生成器复活。

@@ -217,7 +217,7 @@ Branch: main（已验内容真源；后期语义治理按新段另建分支，�
   [E2E-SCRIPT-NAMES-1](../archive/tasks/done/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md)补5个方案/22个步骤名称，并补普通stage的可选label及可保存编辑入口。
 - E2E回执必须区分实际执行和相邻复读正文核读；后期未核方案不猜名、不冒充全PAL命名完成。
   本批只改作者label，所有稳定ID、命令、步骤去向与执行编排不变，详细地址/依据在子卡。
-- 命名合同已补入`docs/testing/e2e.md`；总卡仍build，不把本批补名等同4587存量模板治理全部完成。
+- 命名合同已补入`docs/testing/e2e/contract.md`；总卡仍build，不把本批补名等同4587存量模板治理全部完成。
 
 004增量：[E2E-004-1](../archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md)已落实正常物品显式await NPC当前方案，
 完整正文保留醉道士实体；厨房无意义姿态auto退役，转身由取菜正文显式表达，端菜外观持久保存。

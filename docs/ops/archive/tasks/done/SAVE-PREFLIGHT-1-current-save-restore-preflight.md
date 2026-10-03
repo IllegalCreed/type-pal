@@ -138,7 +138,7 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 - R4/Q1 / Codex：合法 checkpoint → 行走/脚本检查 → 坏 checkpoint 拒绝且保持前一状态 → 正确 checkpoint 成功。
   入口为现有 `e2e-load` 和正式 quick/menu 路径；记录场景、坐标、队伍/金额、脚本活动与关键时序，不以 toast 唯一验收。
 - dev-functional 已由 Codex 完成并经 Kimi 复用证据核验；剧情观感仍未执行，归 R4/Q1 集中 E2E。
-  可执行步骤、断言与证据位置已同步到[测试入口](../../../../testing/e2e.md#已登记的存档恢复回归save-preflight-1)，不重复走整段剧情。
+  可执行步骤、断言与证据位置已同步到[测试入口](../../../../testing/e2e/contract.md#已登记的存档恢复回归save-preflight-1)，不重复走整段剧情。
 
 ## 推进签字
 

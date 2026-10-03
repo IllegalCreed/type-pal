@@ -14,7 +14,7 @@ Codex核定001 **verify done**：候选0a8c998f，两独立引擎均正常新局
 七包完整check10,207、官方ratchet与保护90d977d5的单次严格fast9,746/730生产文件串行通过，
 全包TC及lint2,398文件error/warning/info均0；其余六包完整基线对象不变，B47,678/63,398=75.20%。
 最终日志`/tmp/codex-001-final-{complete,check,ratchet,strict}.log`，并复制至主树`build/e2e/001-close-20260928/`。
-[执行回执与差异说明](../../../../testing/e2e-001.md)记录所有失败/更正、存档散列和证据路径。
+[执行回执与差异说明](../../../../testing/e2e/stages/001-opening/report.md)记录所有失败/更正、存档散列和证据路径。
 母卡继续002/前十段；capture/音轨/全Q1-Q2未通过，不随本卡关闭。无下一位Agent提示词。
 
 ## 准入（2026-09-28）

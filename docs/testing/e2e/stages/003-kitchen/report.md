@@ -2,9 +2,9 @@
 
 现行边界由用户2026-10-01指定：三苗人全部进房后，正常下楼找李大娘、与醉酒道士交谈、
 再正常进厨房，止于李大娘交代把桌上酒菜端上楼（126/127）及恢复控制；不开始拿菜。
-任务卡：[E2E-003-1](../ops/archive/tasks/done/E2E-003-1-inn-stairs-and-kitchen.md)。
+任务卡：[E2E-003-1](../../../../ops/archive/tasks/done/E2E-003-1-inn-stairs-and-kitchen.md)。
 
-2026-10-02脚本治理后的当前二阶段002前驱和003结束档见[重建链](script-governance/current-checkpoints.md)。
+2026-10-02脚本治理后的当前二阶段002前驱和003结束档见[重建链](../../../script-governance/current-checkpoints.md)。
 本页下列旧回执原样保留，不改历史版本、hash或通过结论。
 
 ## 可执行入口

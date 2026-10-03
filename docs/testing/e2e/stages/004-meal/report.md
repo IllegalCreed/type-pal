@@ -2,14 +2,14 @@
 
 用户2026-10-02指定：从003厨房交代结束、尚未取菜开始，取菜→送苗族随从→取得桂花酒→
 正常菜单赠醉道士→完整喝酒/约剑/消失/大娘喊话及逍遥应答→真实恢复移动；不进入买虾任务或005。
-任务卡：[E2E-004-1](../ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md)。
+任务卡：[E2E-004-1](../../../../ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md)。
 
 2026-10-02脚本治理改变了二阶段内容指纹，当前003前驱与004 saves结束档见
-[重建链](script-governance/current-checkpoints.md)。下文原六case仍为当时验收证据，不将旧二阶段档继续当当前前驱。
+[重建链](../../../script-governance/current-checkpoints.md)。下文原六case仍为当时验收证据，不将旧二阶段档继续当当前前驱。
 
 ## 当前状态
 
-2026-10-02用户复验后按[E2E-004-2](../ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md)返工：
+2026-10-02用户复验后按[E2E-004-2](../../../../ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md)返工：
 默认004现在只演示连续剧情，取消/错误use及慢读/存读分别独立执行；主壳两处混钟已修，作者正文完全未改。
 当前六份真实case均已passed，同revision/source/各自同003前驱；Root逐项复算原字节和完整存读证据。
 原both比较器曾错误拒绝浏览器advisory，已恢复原factory规则并只读重新汇总六份原回执，不改历史failed报告。
@@ -196,4 +196,4 @@ Root独立复算391来源项（385对应冻结Git字节、6资产当前原字节
   截图保存在main的`build/e2e/004-editor-delivery/6012-npc-owned-gift.png`，Root已目视；页面继续打开供用户查看。
 - 当前game正式重跑及最终工具窄修独立接收；旧失败记录不删除。
 - 用户判断命名/可编辑性与剧情观感；001–003既有流程无需重新验一遍。
-- capture视频与音轨另排，技术verify不自动证明capture；本节交付时005尚未定义，现行买虾至报信范围及实跑见[005回执](e2e-005.md)。
+- capture视频与音轨另排，技术verify不自动证明capture；本节交付时005尚未定义，现行买虾至报信范围及实跑见[005回执](../005-shrimp/report.md)。

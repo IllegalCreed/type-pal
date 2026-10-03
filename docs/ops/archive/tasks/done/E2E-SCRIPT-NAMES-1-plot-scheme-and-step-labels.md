@@ -55,7 +55,7 @@ e61随行进房换身（`s003.json:7136/8638`）。既有RF002正式终点三人
 - [第二阶段铁律](../../../../phase2/READ-FIRST.md)：当前作者内容为真源，不重新启动已退役完整转换核。
 - [现行脚本合同](../../../../phase2/specs/script-system.md)：方案→步骤→指令，跨方案显式选择，作者稳定ID不变。
 - [脚本合理化母卡](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)：已核客栈名称、单步路线及已闭合保存counter；未核全PAL不宣称完成。
-- [E2E合同](../../../../testing/e2e.md)、`projects/pal/e2e-checkpoints/README.md`：RF002三人入房，RF003不取菜。
+- [E2E合同](../../../../testing/e2e/contract.md)、`projects/pal/e2e-checkpoints/README.md`：RF002三人入房，RF003不取菜。
 - `project-io.ts:1–9`：作者工作副本序列化/重开必须保真；`character.ts:168–170`现行21/SAVE10，只接受现行版本。
 
 ## 设计与验收

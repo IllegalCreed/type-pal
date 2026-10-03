@@ -32,7 +32,7 @@ R4 runner以`await window.__tpE2e.dumpSave()`取得一个独立、当前SAVE8/co
 
 | 维度 | 当前真值与一手证据 |
 |---|---|
-| 原版 / primary source | 原版机制N/A：现代DEV检查点不是原版功能。当前一手协议为[存档规范](../../../../phase2/specs/save-system.md):20–28，只保存FlowCursor，不保存命令栈/等待相位，超时无半成品；[E2E规范](../../../../testing/e2e.md):243–250明确此钩子待修 |
+| 原版 / primary source | 原版机制N/A：现代DEV检查点不是原版功能。当前一手协议为[存档规范](../../../../phase2/specs/save-system.md):20–28，只保存FlowCursor，不保存命令栈/等待相位，超时无半成品；[E2E规范](../../../../testing/e2e/contract.md):243–250明确此钩子待修 |
 | 第一阶段 | 不以一阶段存档布局/事件游标替代二阶段WorldState；无复用一阶段DEV钩子的需求。[工程经验](../../../../phase1/engineering-notes.md):65说明JSON可丢Map语义，故本卡验收包括真实JSON往返，而不添加一阶段兼容fallback |
 | 当前二阶段缺陷 | `main.ts:6940–6948`只在DEV注册，`:6942`绑定`buildCurrentSavePayload`；`save/ops.ts:34–39`需world/position/projectId。实际注册函数零参调用后三个字段undefined，JSON仅version/contentVersion，正式preflight拒projectId |
 | 当前正确零参捕获 | `main.ts:958`深克隆world，`:5589–5596`克隆位置并附真实inputProject ID。相同合法内存世界经真实capture/codec/restore成功；不是builder/codec或工程数据缺陷 |
@@ -128,7 +128,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
   - **缺陷直读**：`main.ts:6940-6948` DEV 分支 `dumpSave: buildCurrentSavePayload` 裸绑；
     `save/ops.ts:34-39` builder 签名 (world, position, projectId) 三参必填；零参调用后三字段
     undefined（JSON 仅 version/contentVersion），正式 preflight 拒 projectId。全仓无受支持的
-    三参 runner 调用方、e2e.md:243-250 登记零参合同——「本意要求传参」替代解释不成立。
+    三参 runner 调用方、e2e/contract.md:243-250 登记零参合同——「本意要求传参」替代解释不成立。
   - **正控链直读**：`main.ts:958` `currentWorldSnapshot=()=>structuredClone(world)`；
     `:5589-5596` captureCurrentSavePayload 克隆 position + 真实 inputProject.manifest.id——
     正确零参捕获已在主壳内，修注册/排队入口而非 builder/codec 的层判正确。
@@ -158,7 +158,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 - GLM：**premise verified / design agree（2026-09-17，r1，取证产品 c1cec3ad、工作树 e06cba01 相对基线仅文档；
   全部证据本人直读/复跑，未读 Kimi 结论；B11/B12 探针为本席批二原始材料，本轮为独立重核）**。
   - **缺陷直读**：`main.ts:6940-6948` DEV 分支 `dumpSave: buildCurrentSavePayload` 裸绑三参 builder；
-    `save/ops.ts:34-40` 签名为 (world, position, projectId)。零参调用后三字段 undefined——`e2e.md:243-250`
+    `save/ops.ts:34-40` 签名为 (world, position, projectId)。零参调用后三字段 undefined——`e2e/contract.md:243-250`
     已把该钩子登记为待修且合同为零参，全仓无受支持的三参 runner 调用方，"本意要求传参"替代解释不成立。
   - **正控链直读**：`main.ts:958` `currentWorldSnapshot=()=>structuredClone(world)`；`:5587-5596`
     captureCurrentSavePayload 克隆 position 并取 `inputProject.manifest.id`——零参捕获在主壳内已有正确实现，

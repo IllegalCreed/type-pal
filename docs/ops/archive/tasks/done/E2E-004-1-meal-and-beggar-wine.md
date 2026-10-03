@@ -38,7 +38,7 @@ Branch: codex/e2e-004（Root接收）；贡献者独立分支见准入增量
   Root重构批准的六项非label差异并全树deepEqual，证明其余正文/动作/节拍/去向未改；8个经过对象及方案/步骤补名。
 - 当前Root正式RF002→003→004 passed，004冻结e5b432685，真实003档SHA3f5f74b9…；
   40正文/400来源/3fresh上下文、取消/失败/静止成功dispatch、唯一耗酒/完整收尾/真实移动/存读World与Canvas均通过。
-  Root逐项核原字节和截图，详见[完整收据](../../../../testing/e2e-004.md)。不与历史game报告拼成同revision both。
+  Root逐项核原字节和截图，详见[完整收据](../../../../testing/e2e/stages/004-meal/report.md)。不与历史game报告拼成同revision both。
 - Root追加白名单：`project-reference.pal.test.ts`仅修当前内容的精确golden及真实语义见证；总entityAddress38111不变，
   e20→e19新转向引用、e19auto退役、两处持久appearance与net+1正文均显式核。规则/预算/边界未放宽。
   `004-final-frozen-quality.log`全仓check七包10957测试与所有types、docs/工具门绿，lint2757文件0/0/0；
@@ -158,7 +158,7 @@ Root premise verified / design agree / build allowed：独立审计的条件性c
 - 新004工具02b270e77/4e1a5ab79已在Root候选树接收；独立读12源及实际菜单/dispatch只读插桩，无产品/旧001–003越界。
   发现private正文来源fallback后返工ff2b3ac16，Root复读差异并执行107工具测试绿、相关Biome零诊断，旧报告不改。
 - game候选4e1a5ab79回执391来源/三trace/两档原字节逐项复算，持久域/Canvas实际相等；两张关键图已看。
-  [004证据登记](../../../../testing/e2e-004.md)明确game已核、RF仍未完成，不把两个独立engine报告误称both通过。
+  [004证据登记](../../../../testing/e2e/stages/004-meal/report.md)明确game已核、RF仍未完成，不把两个独立engine报告误称both通过。
 - Root严格003交接45570b01f：待取菜正文只接受持久setActorAppearance208，无瞬态兼容分支；结束party与前驱一致、
   无已端菜外观。19回归红→绿、两文件Biome零诊断。新候选作者冻结前不能拿此合同跑旧作者正文并报003绿。
 - 用户本轮确认6012没有未保存改动、可更新；Root实际只读页面显示“已保存”、保存按钮禁用，服务PID88523保持。
@@ -235,8 +235,8 @@ s003/e62 trigger/c8-321c0a7d7de1；items.json id272 use.script(use)。地址比�
 
 ## 上下文锚点
 
-- [第二阶段铁律](../../../../phase2/READ-FIRST.md)、[E2E合同](../../../../testing/e2e.md)、[双阶段路线方案](../../../../testing/e2e-route-proposal.md)。
-- [003范围与交接](E2E-003-1-inn-stairs-and-kitchen.md)、[003原始回执](../../../../testing/e2e-003.md)、[保存修复](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)。
+- [第二阶段铁律](../../../../phase2/READ-FIRST.md)、[E2E合同](../../../../testing/e2e/contract.md)、[双阶段路线方案](../../../../testing/e2e/route-proposal.md)。
+- [003范围与交接](E2E-003-1-inn-stairs-and-kitchen.md)、[003原始回执](../../../../testing/e2e/stages/003-kitchen/report.md)、[保存修复](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)。
 - [脚本合理化母卡](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)、[实体命名](EDITOR-ENTITY-NAMES-1-readable-scene-entities.md)。
 - [剧情碎片目录](../../../../../projects/pal/e2e-checkpoints/README.md)；当前003 runner只证明未拿菜，不能代替004。
 - item-use-executor.ts实际生产入口及原子使用/取消合同、正常物品菜单/场景使用与触发绑定须在build前读到端到端调用点。

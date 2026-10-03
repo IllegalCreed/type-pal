@@ -89,7 +89,7 @@ Root `premise verified / design agree / build allowed`：源码、历史政策�
 ## 上下文
 
 - [第二阶段铁律](../../../../phase2/READ-FIRST.md)、[一期知识harvest N/X](../../../../phase2/reference/phase1-knowledge-harvest.md)、[工程经验](../../../../phase1/engineering-notes.md)。
-- [004收据](../../../../testing/e2e-004.md)、[E2E合同](../../../../testing/e2e.md)、[现行脚本合同](../../../../phase2/specs/script-system.md)。
+- [004收据](../../../../testing/e2e/stages/004-meal/report.md)、[E2E合同](../../../../testing/e2e/contract.md)、[现行脚本合同](../../../../phase2/specs/script-system.md)。
 - [X3历史溶解](X3-opening-dither-speaker-inheritance.md)仅视觉与独立snapshot算法参考，旧入场前瞻已退役，不复活。
 - [现行debug时钟范围](../../../../phase2/guides/debug-tools.md)、当前main/RuntimeFrameSession/GameplayClock/DialogBox/typewriter。
 

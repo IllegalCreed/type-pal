@@ -1,0 +1,2160 @@
+{
+  "schemaVersion": 1,
+  "policy": "No new root-level testing files. Every legacy entry needs an explicit migration review date.",
+  "entries": [
+    {
+      "path": "active-scene-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "active-scene-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "active-scene-parity.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "active-scene-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-continuation-integration-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-continuation-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-intake-completion-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r10-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r10-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r4-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r5-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r6-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r7-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r8-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r9-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-codex-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "architecture-regression-lab-completion.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-host-readiness-scheduling.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-host-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-host-refactor-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-host-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-host-rng-witness.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-host-shell-parity.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-session-owners-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-session-owners-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-session-owners-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-simulator-assessment.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-simulator-functional.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-simulator-implementation.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-simulator-r2-design.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-simulator-runtime-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-simulator-s1-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-integration-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r2-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r2-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r3-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r3-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r4-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r4-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r4-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r5-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-r5-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "battle-workflows-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "check-environment-stability.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "checkpoint-export-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "checkpoint-export.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-content-boundaries-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-content-boundaries.config.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-content-boundaries.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-plus2-ui.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-reference-coverage.config.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-reference-coverage.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-reference-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-runtime-shell-coverage.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-runtime-shell-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-runtime-shell-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-runtime-shell-wave2-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-runtime-shell-wave2-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-runtime-shell-wave2.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "codex-runtime-shell.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "command-form-families-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "command-form-families-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "command-form-families-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "content-contracts-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "content-contracts-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "content-residual-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "content-residual-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "content-validation-refactor-audit.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "content-validation-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-initializer-capture.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-initializer-diagnosis.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-initializer-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-initializer-probe.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-large-domain-census.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-large-domain-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-large-domain-plan.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage-parallel-wave3-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "coverage.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-arch-ds-labels-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-arch-ds-labels.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-architecture-batch-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-architecture-batch-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-architecture-batch-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-architecture-batch.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-architecture-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-author-guides-batch.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-author-guides-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-command-boundaries-r3-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-command-boundaries-r3-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-command-boundaries-r3-review.config.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-command-boundaries-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-commands-wave2-audit.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-commands-wave2-integration-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-commands-wave2-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-commands-wave2-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-commands-wave2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-content-pure-wave2-codex-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-coverage-guide-audit.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-coverage-guide-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-docs-hygiene-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-docs-hygiene.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-docs-wave2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-docs-wave2.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-guide-revision-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-integration-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-logic-r1-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-logic-r1-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-logic-r2-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-logic-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-r2-plan-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-r2-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-map-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-scene-entry-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-scene-entry-truth.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-wave2-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-wave2-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "cursor-wave2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "design-system-audit-layering-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "design-system-audit-layering-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "design-system-audit-layering-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-app-sessions-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-app-sessions-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-app-sessions-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-functional-visual-2026-09-22.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-leave-guard.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-logic-coverage-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-logic-coverage-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-preview-cache-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-preview-cache-visual.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-preview-cache.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-capability-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-closeout.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-coverage-pending.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-glm-batch-report.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-glm-batch.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-glm-identity-foundation.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-glm-open-identity.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-glm-preflight.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-native-ui.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "editor-save-recovery-project-io-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "gemini-phase1-stats-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-arch-battle-field-commands.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-battle-workflows-coverage.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-battle-workflows-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-battle-workflows-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-battle-workflows.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-contracts-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-contracts-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-contracts.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-contracts.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-residual-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-residual-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-residual.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-content-residual.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-queue-census.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-queue-design-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-queue-premise.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-remaining-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-wave2-census.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-wave2-coverage.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-wave2-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-wave2-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-wave2-receipt.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-wave2-results.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-wave2.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-work-queue.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-coverage-work-queue.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-delivery-checklist.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-history-workflows-receipt.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-history-workflows.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-import-codec.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-logic-coverage-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-logic-coverage-receipt.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-logic-coverage.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-map-data-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-map-data-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-map-data.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-map-data.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-script-helpers-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-script-helpers-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-script-helpers.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-script-helpers.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-ui-wave-codex-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-editor-ui-wave-codex-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-foundation-coverage-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-foundation-coverage-receipt.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-foundation-coverage-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-foundation-coverage.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-host-boundaries-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-host-boundaries-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-host-boundaries.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-host-boundaries.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-menu-boundaries-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-menu-boundaries-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-menu-boundaries.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-game-menu-boundaries.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-import-codec-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-import-codec-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-import-codec.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-migration-boundaries-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-migration-boundaries-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-migration-boundaries.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-migration-boundaries.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-final-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-final-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-intake-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-intake-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-intake-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-rework-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-rework-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-nine-rework-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pal-tables-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pal-tables-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pal-tables.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pal-tables.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pre-e2e-boundary-batch-2-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pre-e2e-boundary-batch-2-report.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pre-e2e-boundary-batch-2.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pre-e2e-prep-report.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-pre-e2e-prep.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-asset-io-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-asset-io-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-asset-io.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-asset-io.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-runtime-contracts-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-runtime-contracts-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-runtime-contracts.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-reforge-runtime-contracts.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-resource-tools-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-resource-tools-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-resource-tools.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-resource-tools.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-runtime-state-boundaries.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-runtime-state-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-runtime-state-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-runtime-state.config.mts",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "glm-wave-union-20260929.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-arch-ds-overflow-mutant.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-arch-ds-overflow-mutant.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-arch-ds-overflow-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-arch-ds-overflow.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-phase1-composition-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-phase1-composition-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-present-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "grok-present-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-leaf-intake-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-leaf-r2-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-leaf-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-leaf-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-leaf-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-leaf-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-final-review-witness.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-r3-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-r3-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-review.config.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "guard-wave3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "image-import-cleanup.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "import-codec-acceptance-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "import-codec-acceptance.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "import-codec-png-host-review.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "import-codec-preview-review.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "import-codec-r4-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "import-codec-r4-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-authoring-functional.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-authoring-glm-audit.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-authoring-implementation.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-authoring-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-authoring-premise.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-integration.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r1-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r1-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r2-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r2-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r3-residual-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r3-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r4-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r4-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r5-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r5-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r6-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r6-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r7-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-r8-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-required-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "item-logic-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "map-pointer-gesture-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "map-workspace-sessions-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "map-workspace-sessions-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "map-workspace-sessions-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "menu-session-parity.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "menu-session-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "menu-session-refactor-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "menu-session-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "migration-phase-owners-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "migration-phase-owners-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "migration-phase-owners-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "migration-write-guard-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "migration-write-guard-publish.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "migration-write-guard.config.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "migration-write-guard.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "pal-simulator-presets.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "parallel-guard-command-r2-review-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "parallel-guard-command-r2-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-dependency-refactor-audit.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-dependency-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-dependency-refactor-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-dependency-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-main-owners-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-main-owners-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-main-owners-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-player-opcode-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "phase1-resource-test-inputs.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "pre-e2e-admission.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "preview-controls.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "quality-zero-inventory.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "reforge-runtime-contracts-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "reforge-runtime-contracts-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "reforge-runtime-input-review-witness.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "runtime-frame-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "runtime-frame-parity.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "runtime-frame-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "runtime-frame-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "runtime-state-review-witnesses.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "runtime-state-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "save-barrier-lineage.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "save-lineage-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "scene-preparation-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "scene-preparation-parity.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "scene-preparation-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "scene-preparation-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "scene-reference-guard-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "scene-reference-guard-visual.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "scene-reference-guard.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "script-card-ui.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "skill-trial-premise.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "sprite-selection-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "sprite-selection.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "stability-fire-closeout-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "tb00-tb01-completion-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "tb00-tb01-completion.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "world-async-commit-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "world-async-commit.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "world-runtime-mutants.mjs",
+      "kind": "tool",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "world-runtime-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    },
+    {
+      "path": "world-runtime-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ Branch: main
 
 用户要求共性问题批量治理，而不是随E2E逐NPC救火；作者模型统一方案→步骤→指令，
 不保留并列的“连续流程/高级状态”作为长期作者界面。当前开始首批治理，不推进006。
-母依据：[001–005共性回顾](../../../../testing/e2e-001-005-common-issues.md)。
+母依据：[001–005共性回顾](../../../../testing/e2e/cross-stage/common-issues.md)。
 
 首批先建立全量问题族清单，并修复源映射可靠的动态入口后继缺失、重复奖励；
 同时给165个复杂flow分类，核可以用现有步骤/指令折叠的机械链，不把状态数量直接当bug数量。
@@ -47,7 +47,7 @@ Branch: main
 ## 上下文与验收
 
 - [CLAUDE](../../../../../CLAUDE.md)、[二阶段纪律](../../../../phase2/READ-FIRST.md)、[工作流](../../../agent-workflow.md)。
-- [作者步骤治理](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)、[005收据](../../../../testing/e2e-005.md)。
+- [作者步骤治理](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)、[005收据](../../../../testing/e2e/stages/005-shrimp/report.md)。
 - `pal-errand-author.test.ts`使用真实compiler/runner验证连续激活，不能用手写解释器模拟新语义。
 - census反控：缓存去重漏调用边、self/0清绑定、多owner、相似对白错误匹配、作者修改、未知指令等须拒绝假确定。
 - 内容修复：连续激活/一次性奖励/循环复读/完成/取消与合法存读，原正文和非白名单字段保全。

@@ -54,7 +54,7 @@ Branch: codex/e2e-003（当前集成）；codex/002-feedback（历史）
 
 - `docs/phase2/READ-FIRST.md`：干净架构、资产锚点与 UX 裁决；`docs/phase2/reference/phase1-knowledge-harvest.md` W/E 段。
 - `docs/ops/archive/tasks/done/D6-1-occlusion-semi-transparent.md`：历史全角色/0.35/120ms，历史记录不追溯重写。
-- `docs/testing/e2e-002.md`：真实001档、正常路线、20正文/500文、实际三人进房及恢复检查。
+- `docs/testing/e2e/stages/002-inn-e56/report.md`：真实001档、正常路线、20正文/500文、实际三人进房及恢复检查。
 - 不新增全局角色冻结、兼容版本、输入速度作弊、坐标瞬移、固定长等待；不放宽证据/超时/动作预算。
 
 ## 验收条件与 E2E 登记

@@ -2,7 +2,7 @@
 
 [总卡](../../ops/archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md) / [测试入口](../README.md)
 
-2026-09-27用户调整：Codex暂停主动补测、转[E2E方案讨论](../e2e-route-proposal.md)；
+2026-09-27用户调整：Codex暂停主动补测、转[E2E方案讨论](../e2e/route-proposal.md)；
 GLM/Cursor仍按[新两包](../background-tests-20260927/README.md)后台实施。目标尚未完成，不再阻塞E2E。
 以下自动持续推进文字为历史节奏，不能覆盖本次暂停。
 

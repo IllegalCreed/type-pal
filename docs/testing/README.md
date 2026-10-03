@@ -1,5 +1,17 @@
 # 跨阶段测试与验证
 
+## Canonical system（人类与 Agent 共同入口）
+
+先看[测试文档治理](governance.md)，再按专项进入：
+
+- [E2E 专项总览](e2e/README.md)：001–006 阶段报告、依赖链和当前状态。
+- [多维索引](indexes/README.md)：按阶段、状态、标签、Owner 检索。
+- [机器 catalog](catalog.json)：稳定 ID、canonical 路径、证据、依赖和 reviewBy 的唯一索引源。
+- [新文档模板](_templates/README.md)：报告、阶段页、evidence JSON 的固定格式。
+- [legacy 平面文件登记](legacy-flat.json)：迁移期间的兼容清单；未登记的新平面文件会被 CI 拒绝。
+
+旧平面列表保留在下方仅为兼容入口；新报告不得继续直接放在 `docs/testing/` 根目录。
+
 覆盖率说明统计范围和防回退门槛；E2E 合同定义业务断言、检查点链、战斗速胜边界与录像条件。两者各自维护，不能互相替代。
 
 上级：[文档总入口](../README.md)。
@@ -53,13 +65,13 @@
 
 - [GLM物品六组独立接收](item-logic-r1-review.md)（705eb161，六漏检反证/夹具与回执R1–R4）。
 
-- [001双引擎独立执行器](e2e-001.md)（正常新局、各自真实结束档/新上下文读回；同时运行并核李大娘两段对话静止/移动偏序，全角色与录制矩阵未完成）。
-- [002客栈路线与e56编排审查](e2e-002.md)（双引擎真实001→002链、20正文/500文/实际进房及新上下文World/Canvas通过；check10655项与静态零诊断，verify已收口，编排改进与历史失败留证）。
-- [003下楼、道士交谈与厨房交代](e2e-003.md)（真实002交接、14正文、实际楼梯步频与生产存读档；不取菜，004朝向反例单列）。
-- [004端菜与桂花酒赠道士](e2e-004.md)（两阶段story/items/saves六case已验，正常演示与专项分离；正文归醉道士）。
-- [005买虾出门与香兰报信](e2e-005.md)（两阶段六份同版case独立核验通过，NPC报信与后台返程；包门及最终工具零诊断，保留一次浏览器启动失败）。
-- [006回客栈求药与张四出海](e2e-006.md)（Reforge剧情链已实跑；关键NPC日志/第一阶段对照与船段视觉仍在rework）。
-- [001至005共性问题回顾](e2e-001-005-common-issues.md)（机械拆分、激活后继、隐式调度、时基、持久语义及问题族批量治理）。
+- [001双引擎独立执行器](e2e/stages/001-opening/report.md)（正常新局、各自真实结束档/新上下文读回；同时运行并核李大娘两段对话静止/移动偏序，全角色与录制矩阵未完成）。
+- [002客栈路线与e56编排审查](e2e/stages/002-inn-e56/report.md)（双引擎真实001→002链、20正文/500文/实际进房及新上下文World/Canvas通过；check10655项与静态零诊断，verify已收口，编排改进与历史失败留证）。
+- [003下楼、道士交谈与厨房交代](e2e/stages/003-kitchen/report.md)（真实002交接、14正文、实际楼梯步频与生产存读档；不取菜，004朝向反例单列）。
+- [004端菜与桂花酒赠道士](e2e/stages/004-meal/report.md)（两阶段story/items/saves六case已验，正常演示与专项分离；正文归醉道士）。
+- [005买虾出门与香兰报信](e2e/stages/005-shrimp/report.md)（两阶段六份同版case独立核验通过，NPC报信与后台返程；包门及最终工具零诊断，保留一次浏览器启动失败）。
+- [006回客栈求药与张四出海](e2e/stages/006-doctor-boat/report.md)（Reforge剧情链已实跑；关键NPC日志/第一阶段对照与船段视觉仍在rework）。
+- [001至005共性问题回顾](e2e/cross-stage/common-issues.md)（机械拆分、激活后继、隐式调度、时基、持久语义及问题族批量治理）。
 - [剧本共性治理证据](script-governance/README.md)（639条安装边、165套机器分类、后继批次修复及普通步骤整理；候选与已验分列）。
 - [Codex脚本展示补覆盖首批](codex-plus2-ui.md)（已核当前编辑器三源码 +192 分支；队伍成员条件选择器另卡修复，累计 +2pp 目标继续）。
 - [Codex脚本树与属性弹窗补覆盖第三批](codex-plus2-ui-wave2/README.md)（23项/三针，单次统一门后+182分支，累计+2pp仍待继续）。
@@ -70,7 +82,7 @@
 - [Codex Reforge 正式总壳与画面资源补覆盖第八批](codex-plus2-runtime-wave7/README.md)（14项/四针、正式项目装载与真实 gzip/SHA；统一门后+71分支，累计+2pp仍待继续）。
 - [Codex Reforge 状态画面与战斗资源补覆盖第九批](codex-plus2-runtime-wave8/README.md)（25项/六针；全仓统一门通过，净增100分支，距本轮+2pp还差49）。
 - [Codex Reforge 当前脚本命令与施法时间线补覆盖第十批](codex-plus2-runtime-wave9/README.md)（14项/三针；统一门通过，净增64分支，本轮绝对+2pp达标）。
-- [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
+- [快速通关E2E路线方案](e2e/route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 - [Cursor三包十二模块纯逻辑补测](cursor-pure-wave/README.md)（已[独立接收并收口](cursor-pure-wave/codex-final-review.md)；七项正式回归、六针、分支+5/分母+2）。
 - [Cursor内容模型十六模块首轮接收](cursor-content-pure-wave2-codex-review.md)（C3 两处正控前提历史 counter；当前结论见最终接收）。
@@ -275,7 +287,7 @@
 - [保存与嵌套脚本活动互等](save-barrier-lineage.md)（B-06/B-07；真实lease准入、子流程完整执行、反控与集中E2E登记）
 - [测试覆盖率基线与只升不降门禁](coverage.md)
 - [GLM剩余边界大批工作包（二）](glm-pre-e2e-boundary-batch-2.md)与[回执](glm-pre-e2e-boundary-batch-2-report.md)（Codex接手完成六组72项诊断准备；34覆盖/23复现/15待证，不代表产品已修复或官方覆盖率提升）
-- [两阶段 E2E 与录像验证合同](e2e.md)
+- [两阶段 E2E 与录像验证合同](e2e/contract.md)
 - [未保存修改的离开保护](editor-leave-guard.md)（A-07；真实菜单/保存回归、原生刷新与选夹、负控制和质量门）
 - [GLM并行审计准备工作包](glm-pre-e2e-prep.md)与[整批回执](glm-pre-e2e-prep-report.md)（44项只读取证；D-01签字先回，引用删除/上传/缓存三组并行准备，不授权产品修复）
 - [D-01：GLM配对工作流正式回归](glm-editor-history-workflows.md)与[回执及Codex接收勘误](glm-editor-history-workflows-receipt.md)（20项检查范围；Codex适配核心、补强断言并负责视觉/集成）
