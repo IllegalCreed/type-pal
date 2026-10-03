@@ -47,8 +47,8 @@ Branch: main
 
 ## 上下文锚点
 
-- [`docs/phase2/READ-FIRST.md`](../../../../../docs/phase2/READ-FIRST.md) 铁律 4/6/10；脚本后继必须显式、内容归属清晰。
-- [`docs/lore/timeline.md`](../../../../lore/timeline.md) 001–005 已核区段；006 后续暂未填实跑结论。
+- [`docs/phase2/READ-FIRST.md`](../../phase2/READ-FIRST.md) 铁律 4/6/10；脚本后继必须显式、内容归属清晰。
+- [`docs/lore/timeline.md`](../../lore/timeline.md) 001–005 已核区段；006 后续暂未填实跑结论。
 - `projects/pal/content/scenes/s002.json` e36/e35；`projects/pal/content/scenes/s005.json` e123 `legacy-002` 与 e116 上船链。
 - `data/extracted/events/all.json` `L_1026/L_1070/L_1465/L_1509`。
 - 不得重新引入：把上船放入 e116/e117 的常驻 auto；用 wait 猜测后继；复活/存档/迁移兼容旁路。
