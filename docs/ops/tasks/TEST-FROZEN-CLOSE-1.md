@@ -22,7 +22,7 @@ Kimi42b3d303de3f2178e249b4ccbabf967e0affd194两文件16例，当前新main50/50�
 
 ## 两旧输入与必要门
 
-2026-10-03最终冻结树 `88859fa2d` 的全仓 check 已通过：content 1472、shared 113、game 3224、pal-extract 377、reforge 8017、editor 4758、migrate 670，共 18631 例；lint 3081 文件 0/0/0，七包 typecheck、docs/diff 均通过。官方 ratchet 与受保护 strict-fast 已通过并生成新基线：statements 87.77%、branches 81.08%、functions 87.84%、lines 89.80%。Grok 像素/readback 见证已改为每进程独立临时目录，普通测试不再生成仓库垃圾。原 ratchet worker 启动超时保留在私有 raw 记录，不作为业务结论。
+2026-10-03冻结树 `88859fa2d` 的全仓 check 曾通过：content 1472、shared 113、game 3224、pal-extract 377、reforge 8017、editor 4758、migrate 670，共 18631 例；lint 3081 文件 0/0/0，七包 typecheck、docs/diff 均通过。随后保护 main 前进至 `379304503`，带来脚本治理产品/测试变更；第一次重跑在迁移对白完整性门发现真实 locale 漏项（16 个已有 source message index），已依据 `data/extracted/events/all.json` 恢复，不改测试判据，需重新完成最新 main 的全仓门与覆盖门。Grok 像素/readback 见证已改为每进程独立临时目录，普通测试不再生成仓库垃圾。原 ratchet worker 启动超时保留在私有 raw 记录，不作为业务结论。
 
 [QUALITY-TEST-INPUTS-1](QUALITY-TEST-INPUTS-1.md)：I06随机输入固定，透明像素臂两次同45命中；PAL六旧例业务断言不改，完整PNG/256色表/按精灵声明与实际两地图tile IDs派生的canonical gzip RLE，catalog来源/路径/bytes/hash一致。自有migrated目录暂移、6/6测试、finally恢复；不动真实PAL，空白外部IO非视觉oracle，真实AssetResolver/hash/gzip/RLE照跑。
 七包typecheck及静态error/warning/info全零；定向/相邻与全仓check→官方ratchet→原目标main完整SHA受保护strict-fast，source/每包/总比例/其它测试保护不变，不回调新基线、不相加私有百分比，不追85%新包。

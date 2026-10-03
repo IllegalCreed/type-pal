@@ -103,6 +103,11 @@
       "path": "packages/pal-extract/src/resources/sprite.test.ts",
       "removedCases": 2,
       "reason": "PNG magic and single-frame smoke covered by pngjs runtime-resource contract"
+    },
+    {
+      "path": "projects/pal/content/locale.json",
+      "changed": "restore 16 existing source message-index entries referenced by current scenes",
+      "reason": "current-main script-governance rebase exposed a real locale closure defect; values read from data/extracted/events/all.json, no test weakening"
     }
   ],
   "negativeControlDisposition": {

@@ -52,3 +52,5 @@ Game 域复核未发现 Grok 像素/宿主测试可直接删除；PNG/readback �
 审计后基准必须从最终保留测试集合重新实测生成，包含测试身份 digest、source/test scope、包级 statements/branches/functions/lines、测试总数与排除清单；只允许由正式 ratchet 工具更新，不能手工回填或为了数字回退门槛。删除重复测试后若某包比例变化，先补同一真实合同的高判别力原子测试或登记 existing-proof/unreachable，再决定是否接受新基准；绝不以弱断言、强转、ignore、扩大 timeout 或堆重复用例补齐。
 
 Editor、Game、Reforge/Migrate 三域已完成机器清点与代表性语义复核；弱 matcher、真实 IO、跨域相似 caller 和 fixture typed bridge 的未裁决项仍明确保留，不能把静态标记当成全量垃圾判定。冻结树的完整 check、官方 ratchet、受保护 strict-fast 均已通过；main 合并、CI 与退休清理仍待完成。
+
+最新 main 的脚本治理合入又暴露一处真实数据闭包错误：新增的 `s021/s034/s100/s131/s134/s262` 现行对白引用了 16 个已有原版 message index，但 locale 重导漏项。已依据 `data/extracted/events/all.json` 的一手 `showDialog` 文本恢复这 16 个 locale 条目（含 `dlg.2074` 的历史 “哼！”），没有修改对白断言或放宽迁移门；该修复需随最新 main 重新跑全包与覆盖门。
