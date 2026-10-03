@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/menu/menu-driver.cov85.test.ts > cov85 商店买菜单(shop-buy) > confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库
+AssertionError: expected 41 to be 40 // Object.is equality
+
+- Expected
++ Received
+
+- 40
++ 41
+
+ ❯ src/core/menu/menu-driver.cov85.test.ts:298:23
+    296|     expect(s.confirmYes).toBe(true)
+    297|     dispatchMenuInput(gs, snap(['Confirm']), bus)
+    298|     expect(gs.dwCash).toBe(40)
+       |                       ^
+    299|     expect(gs.inventory).toEqual([{ itemId: 10, count: 1 }])
+    300|     expect(s.phase).toBe('list')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

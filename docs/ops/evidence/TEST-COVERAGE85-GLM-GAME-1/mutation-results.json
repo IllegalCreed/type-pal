@@ -1,0 +1,3644 @@
+{
+  "note": "每次执行(原始/变异/恢复)含完整 command/cwd/env引用/stdout/stderr(hash+路径)/JSON 摘要/exit/signal/spawn 与全量 file×fullName×status 身份集合(identitySet)",
+  "envSnapshot": {
+    "COMMAND_MODE": "unix2003",
+    "HOME": "/Users/zhangxu",
+    "LOGNAME": "zhangxu",
+    "MACH_PORT_RENDEZVOUS_PEER_VALDATION": "1",
+    "MallocNanoZone": "0",
+    "PATH": "/Users/zhangxu/.antigravity-ide/antigravity-ide/bin:/Users/zhangxu/.grok/bin:/Users/zhangxu/.kimi-code/bin:/Users/zhangxu/.antigravity/antigravity/bin:/Users/zhangxu/.local/bin:/Users/zhangxu/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Users/zhangxu/.cargo/bin:/Users/zhangxu/.nvm/versions/node/v22.23.2/bin:/Users/zhangxu/bin:/Users/zhangxu/Library/Android/sdk/platform-tools:/Users/zhangxu/Library/Android/sdk/emulator:/Applications/ZCode.app/Contents/Resources/tools/bfs:/Applications/ZCode.app/Contents/Resources/tools/ripgrep:/Applications/ZCode.app/Contents/Resources/tools/ugrep",
+    "SHELL": "/bin/zsh",
+    "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.P8UEHOTVd0/Listeners",
+    "TMPDIR": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/",
+    "USER": "zhangxu",
+    "XPC_FLAGS": "0x0",
+    "XPC_SERVICE_NAME": "0",
+    "ZAI_BUSINESS_BASE_URL": "https://api.z.ai",
+    "ZAI_OAUTH_CLIENT_ID": "client_P8X5CMWmlaRO9gyO-KSqtg",
+    "ZAI_OAUTH_ORIGIN": "https://chat.z.ai",
+    "ZCODE_APP_VERSION": "3.14.4",
+    "ZCODE_BASE_URL": "https://zcode.z.ai",
+    "ZCODE_BUILD_COMMIT_ID": "10bbcea5",
+    "ZCODE_CUA_BUNDLED_HELPER_APP_PATH": "/Applications/ZCode.app/Contents/Resources/cua-helper/ZCode Computer Use.app",
+    "ZCODE_CUA_LAUNCHER_PID": "3349",
+    "ZCODE_DESKTOP_CONTEXT_PROMPT_ENABLED": "1",
+    "ZCODE_ENV": "production",
+    "ZCODE_PROCESS_LABEL": "local-1",
+    "ZCODE_RUNTIME_ENV": "production",
+    "__CFBundleIdentifier": "dev.zcode.app",
+    "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
+    "TERM": "dumb",
+    "NVM_DIR": "/Users/zhangxu/.nvm",
+    "NVM_CD_FLAGS": "-q",
+    "JAVA_HOME": "/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home",
+    "ZCODE_BFS_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/bfs/bfs",
+    "ZCODE_RG_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/ripgrep/rg",
+    "ZCODE_UGREP_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/ugrep/ugrep",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "ZCODE_BUILTIN_PROVIDER_CONFIG_FILE": "/Users/zhangxu/.zcode/v2/runtime/provider/darwin-aarch64/3.14.4/endpoint-78d7c3bef4024722642626fe3669a799/zcode-builtin.json",
+    "ZCODE_PERSONAL_PROVIDER_CONFIG_FILE": "/Users/zhangxu/.zcode/v2/provider_config.json",
+    "LANG": "en_US.UTF-8",
+    "LC_CTYPE": "en_US.UTF-8",
+    "GIT_EDITOR": "true",
+    "SHLVL": "1",
+    "PWD": "/Users/zhangxu/illegal/type-pal-cov85-game",
+    "OLDPWD": "/Users/zhangxu/illegal/type-pal",
+    "NVM_BIN": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin",
+    "NVM_INC": "/Users/zhangxu/.nvm/versions/node/v22.23.2/include/node",
+    "_": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node"
+  },
+  "results": [
+    {
+      "id": "MUT-01",
+      "file": "src/core/battle/battle-opcodes.ts",
+      "line": 478,
+      "mutation": "enemy.e.health = Math.max(0, enemy.e.health - dmg) => enemy.e.health = Math.max(1, enemy.e.health - dmg)",
+      "shaOriginal": "ee75e465d011daff012dbc852402016c465dd9913b417d903aead08828917419",
+      "shaMutated": "8c3c07fcf3fe7403a79de932131944a32d6b83d243f50e2534fa7c618d9a35a6",
+      "shaRestored": "ee75e465d011daff012dbc852402016c465dd9913b417d903aead08828917419",
+      "restoredEqualsOriginal": true,
+      "execution": {
+        "greenBefore": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-opcodes.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stdout.txt",
+            "bytes": 18546,
+            "sha256": "66d500310820266bb390ef3bfb2df9e125d1b8701ba440d6767bfac9b908cd83"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 56,
+              "numPassedTests": 56,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 56
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 op2 显式目标(op2-1≥0)→ 只打指定敌;applyToAll → 全体活敌各中一发",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 无 magicTables → consumed no-op,零变异(state.enemies 不动)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 有表无特效上下文且 mg.sound>0 → magic.sound 即时进 gs.pendingSounds",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x66 ThrowWeapon 攻击力系数 caster=player + playerRoles → w=op1*5+attackStrength*roll(0),模拟 magic 落到目标敌",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x66 ThrowWeapon 攻击力系数 无 playerRoles / 非 player caster → attackStr=0 仍结算",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0≠0 全体:活敌各扣 op1,死敌(defeated)跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 单体超杀:health 钳 0,显示完整算出伤害(fullDamage)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 且无 ctx.target → 空操作零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 抗性 9(rng=0 抵抗)→ 不落毒;抗性 0 → 落毒且带入口脚本返回值",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 rng < 抗性 → 抵抗不落毒;同毒去重;缺 commands → fallback 存原始 enemyScript",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 毒槽满 16 → 不再落;全体模式(op0≠0)selfIdx 恒为投掷目标",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 op0=0 且无 target → 空操作",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2A CureEnemyPoisonKind 全体/单体/无 target op0≠0 → 全体活敌清指定毒,死敌不动;op0=0 → 只清 target",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2A CureEnemyPoisonKind 全体/单体/无 target op0=0 无 target → 空操作不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 resolvePlayerPoisonTargets(0x2B/0x2C/0x29 目标解析) op0≠0 → 全队;op0=0 target(player)优先;无 target 退 caster;都无 → 空;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 坏状态 current=0 才写;已有不刷新;无 player target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 puppet:死人可设更久;活人 → fScriptSuccess=false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 好状态:活人更久才写;死人不动;无 gs 活人失败不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2E SetEnemyStatus 命中/抵抗/非法 rng≥抗性 → 命中写状态;rng<抗性 → newIp=op2;未知 statusId / 无敌 target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2F RemovePlayerStatus 清 target player 的普通状态;>999 装备态不清;无敌 target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5E JumpIfNoPoison 无敌无该毒 → newIp=op1;有该毒 → 不跳;caster(enemy) 退路",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x57/0x88 法术伤害改写(酒神/乾坤一掷) 0x57:magic.baseDamage=caster.mp*i;op1=0 → i=8;caster.mp 清 0;无表/无 magic no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x57/0x88 法术伤害改写(酒神/乾坤一掷) 0x88:cash>5000 → 扣 5000、baseDamage=2000;cash<5000 → 全扣;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5B HalveEnemyHP w=health/2+1 超 cap → 钳 cap;无 target / 目标槽空 → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5F KillPlayer / 0x5A HalvePlayerHP 0x5F:target player → hp=0 + blue 数字;无 player 上下文 → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5F KillPlayer / 0x5A HalvePlayerHP 0x5A:hp 减半(向下取整)+ blue 数字;无 player 上下文 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x5C → iHidingTime=-op0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x89:3→won、1→lost、0→terminated 标记+fleed、0xFFFF→fleed、1000+不改",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x8A:有 gs → fAutoBattle=true;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x33 CollectEnemy / 0x3A PlayerFlee 0x33:collectValue≠0 → wCollectValue 累加;=0 → newIp=op0;无 target → newIp",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x33 CollectEnemy / 0x3A PlayerFlee 0x3A:boss → newIp=op0;非 boss → fleeAnim 起 + 音 45",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct gs 路径:bonus=trunc(base*op1/100) 写 Extra 槽并 recompute snapshot",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct op2>0 显式 role;未知 row / 无 player 上下文 → no-op;负 % 缩围",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct 无 gs 退化路径:直接 mutate snapshot(叠加)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x31 ChangeBattleSprite / 0x92 ShowMagicAnim 0x31:caster player 优先;写 spriteNumOverride",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x31 ChangeBattleSprite / 0x92 ShowMagicAnim 0x92:op0=0 → no-op;op0 非 0 无 bus → no-op 不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷钱:c=count/divisor,stealItemCount 减、cash 加;c=0 不弹框",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷物:已持有 +1(封顶 99);roll>rate 失败;count=0 直接失败跳 roll;无 target/gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷物:包里没有 → push 新条目;stealItemCount=0 → 不抽 rng 直接失败",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 0x1B applyAll:全队(死人跳过),fScriptSuccess=anyChanged;单体无改动 → false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 0x1C 单体 MP:回蓝发 cyan;掉蓝不发;0x1D 双回(HP yellow + MP cyan)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 无 playerRoles / 无 player 上下文单目标 → 空集 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x22 战内 RevivePlayer applyAll:复活死人(比例+清战内全部状态+currentFrame 复位+清≤3级毒);fScriptSuccess=anyRevived",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x22 战内 RevivePlayer 单体复活活人 → fScriptSuccess=false;无 player 上下文 → 空目标 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x39:敌扣血、caster 回血钳 maxHP;无 target / 无 caster(player) no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x68:caster=enemy → newIp=op0;否则续行",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x91:同种第二个及以后 → newIp;第一个续行;非 enemy caster no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9C 失败臂:多活敌 → failJump≠0 跳 op1;health≤1 → failJump=0 续行;非 enemy caster no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9C 成功:恰 1 活敌 health>1 → 血减半 + 分裂落 defeated 空槽",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9F:hiding/睡眠 → no-op;查无对象/查无 base → no-op;成功保 health 换 stats",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon 无表/非 enemy caster → no-op;房位不足(count>defeated 数)→ failJump",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon hiding / 自身睡眠 → failJump;count≤0 → 1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon w=0 自身同种:查无 overlay/对象表 → 回退 self 脚本字段;查无 base → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x69 EnemyEscape / 0x60 EnemyImmediateKO 0x69:enemyEscapeAnim 起 + terminated 标记 + 音 45",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x69 EnemyEscape / 0x60 EnemyImmediateKO 0x60:target(enemy)KO 血 0 + blue;无 enemy 上下文 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 家族外 opcode → consumed:false 未实现 opcode(0x01)交还 raw skip",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        },
+        "red": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-opcodes.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stdout.txt",
+            "bytes": 23339,
+            "sha256": "93129bf7f72f86516a61f95518e699e12d18bd0b484d23504444e1bd3dffeead"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stderr.txt",
+            "bytes": 743,
+            "sha256": "7af24d0870521aa0a851e0e53c60f60f87ce47f4d1e1630db3a14dc961f4e265"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 56,
+              "numPassedTests": 55,
+              "numFailedTests": 1,
+              "numPendingTests": 0,
+              "success": false,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+                "status": "failed",
+                "assertionCount": 56
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 op2 显式目标(op2-1≥0)→ 只打指定敌;applyToAll → 全体活敌各中一发",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 无 magicTables → consumed no-op,零变异(state.enemies 不动)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 有表无特效上下文且 mg.sound>0 → magic.sound 即时进 gs.pendingSounds",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x66 ThrowWeapon 攻击力系数 caster=player + playerRoles → w=op1*5+attackStrength*roll(0),模拟 magic 落到目标敌",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x66 ThrowWeapon 攻击力系数 无 playerRoles / 非 player caster → attackStr=0 仍结算",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0≠0 全体:活敌各扣 op1,死敌(defeated)跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 单体超杀:health 钳 0,显示完整算出伤害(fullDamage)",
+                "status": "failed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 且无 ctx.target → 空操作零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 抗性 9(rng=0 抵抗)→ 不落毒;抗性 0 → 落毒且带入口脚本返回值",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 rng < 抗性 → 抵抗不落毒;同毒去重;缺 commands → fallback 存原始 enemyScript",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 毒槽满 16 → 不再落;全体模式(op0≠0)selfIdx 恒为投掷目标",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 op0=0 且无 target → 空操作",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2A CureEnemyPoisonKind 全体/单体/无 target op0≠0 → 全体活敌清指定毒,死敌不动;op0=0 → 只清 target",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2A CureEnemyPoisonKind 全体/单体/无 target op0=0 无 target → 空操作不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 resolvePlayerPoisonTargets(0x2B/0x2C/0x29 目标解析) op0≠0 → 全队;op0=0 target(player)优先;无 target 退 caster;都无 → 空;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 坏状态 current=0 才写;已有不刷新;无 player target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 puppet:死人可设更久;活人 → fScriptSuccess=false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 好状态:活人更久才写;死人不动;无 gs 活人失败不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2E SetEnemyStatus 命中/抵抗/非法 rng≥抗性 → 命中写状态;rng<抗性 → newIp=op2;未知 statusId / 无敌 target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2F RemovePlayerStatus 清 target player 的普通状态;>999 装备态不清;无敌 target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5E JumpIfNoPoison 无敌无该毒 → newIp=op1;有该毒 → 不跳;caster(enemy) 退路",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x57/0x88 法术伤害改写(酒神/乾坤一掷) 0x57:magic.baseDamage=caster.mp*i;op1=0 → i=8;caster.mp 清 0;无表/无 magic no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x57/0x88 法术伤害改写(酒神/乾坤一掷) 0x88:cash>5000 → 扣 5000、baseDamage=2000;cash<5000 → 全扣;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5B HalveEnemyHP w=health/2+1 超 cap → 钳 cap;无 target / 目标槽空 → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5F KillPlayer / 0x5A HalvePlayerHP 0x5F:target player → hp=0 + blue 数字;无 player 上下文 → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5F KillPlayer / 0x5A HalvePlayerHP 0x5A:hp 减半(向下取整)+ blue 数字;无 player 上下文 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x5C → iHidingTime=-op0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x89:3→won、1→lost、0→terminated 标记+fleed、0xFFFF→fleed、1000+不改",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x8A:有 gs → fAutoBattle=true;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x33 CollectEnemy / 0x3A PlayerFlee 0x33:collectValue≠0 → wCollectValue 累加;=0 → newIp=op0;无 target → newIp",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x33 CollectEnemy / 0x3A PlayerFlee 0x3A:boss → newIp=op0;非 boss → fleeAnim 起 + 音 45",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct gs 路径:bonus=trunc(base*op1/100) 写 Extra 槽并 recompute snapshot",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct op2>0 显式 role;未知 row / 无 player 上下文 → no-op;负 % 缩围",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct 无 gs 退化路径:直接 mutate snapshot(叠加)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x31 ChangeBattleSprite / 0x92 ShowMagicAnim 0x31:caster player 优先;写 spriteNumOverride",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x31 ChangeBattleSprite / 0x92 ShowMagicAnim 0x92:op0=0 → no-op;op0 非 0 无 bus → no-op 不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷钱:c=count/divisor,stealItemCount 减、cash 加;c=0 不弹框",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷物:已持有 +1(封顶 99);roll>rate 失败;count=0 直接失败跳 roll;无 target/gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷物:包里没有 → push 新条目;stealItemCount=0 → 不抽 rng 直接失败",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 0x1B applyAll:全队(死人跳过),fScriptSuccess=anyChanged;单体无改动 → false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 0x1C 单体 MP:回蓝发 cyan;掉蓝不发;0x1D 双回(HP yellow + MP cyan)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 无 playerRoles / 无 player 上下文单目标 → 空集 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x22 战内 RevivePlayer applyAll:复活死人(比例+清战内全部状态+currentFrame 复位+清≤3级毒);fScriptSuccess=anyRevived",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x22 战内 RevivePlayer 单体复活活人 → fScriptSuccess=false;无 player 上下文 → 空目标 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x39:敌扣血、caster 回血钳 maxHP;无 target / 无 caster(player) no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x68:caster=enemy → newIp=op0;否则续行",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x91:同种第二个及以后 → newIp;第一个续行;非 enemy caster no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9C 失败臂:多活敌 → failJump≠0 跳 op1;health≤1 → failJump=0 续行;非 enemy caster no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9C 成功:恰 1 活敌 health>1 → 血减半 + 分裂落 defeated 空槽",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9F:hiding/睡眠 → no-op;查无对象/查无 base → no-op;成功保 health 换 stats",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon 无表/非 enemy caster → no-op;房位不足(count>defeated 数)→ failJump",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon hiding / 自身睡眠 → failJump;count≤0 → 1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon w=0 自身同种:查无 overlay/对象表 → 回退 self 脚本字段;查无 base → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x69 EnemyEscape / 0x60 EnemyImmediateKO 0x69:enemyEscapeAnim 起 + terminated 标记 + 音 45",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x69 EnemyEscape / 0x60 EnemyImmediateKO 0x60:target(enemy)KO 血 0 + blue;无 enemy 上下文 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 家族外 opcode → consumed:false 未实现 opcode(0x01)交还 raw skip",
+                "status": "passed"
+              }
+            ],
+            "failedTests": [
+              {
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 单体超杀:health 钳 0,显示完整算出伤害(fullDamage)",
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+                "message": "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-opcodes.cov85.test.ts:270:40\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ]
+          }
+        },
+        "greenAfter": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-opcodes.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stdout.txt",
+            "bytes": 18545,
+            "sha256": "7249ebe61eaead24ab4bef5f829af1c89bfff80150ab2fe7c00213077a1b6533"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 56,
+              "numPassedTests": 56,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 56
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 op2 显式目标(op2-1≥0)→ 只打指定敌;applyToAll → 全体活敌各中一发",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 无 magicTables → consumed no-op,零变异(state.enemies 不动)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x42 SimulateMagic 目标解析与特效音 有表无特效上下文且 mg.sound>0 → magic.sound 即时进 gs.pendingSounds",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x66 ThrowWeapon 攻击力系数 caster=player + playerRoles → w=op1*5+attackStrength*roll(0),模拟 magic 落到目标敌",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x66 ThrowWeapon 攻击力系数 无 playerRoles / 非 player caster → attackStr=0 仍结算",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0≠0 全体:活敌各扣 op1,死敌(defeated)跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 单体超杀:health 钳 0,显示完整算出伤害(fullDamage)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 且无 ctx.target → 空操作零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 抗性 9(rng=0 抵抗)→ 不落毒;抗性 0 → 落毒且带入口脚本返回值",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 rng < 抗性 → 抵抗不落毒;同毒去重;缺 commands → fallback 存原始 enemyScript",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 毒槽满 16 → 不再落;全体模式(op0≠0)selfIdx 恒为投掷目标",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 op0=0 且无 target → 空操作",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2A CureEnemyPoisonKind 全体/单体/无 target op0≠0 → 全体活敌清指定毒,死敌不动;op0=0 → 只清 target",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2A CureEnemyPoisonKind 全体/单体/无 target op0=0 无 target → 空操作不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 resolvePlayerPoisonTargets(0x2B/0x2C/0x29 目标解析) op0≠0 → 全队;op0=0 target(player)优先;无 target 退 caster;都无 → 空;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 坏状态 current=0 才写;已有不刷新;无 player target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 puppet:死人可设更久;活人 → fScriptSuccess=false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2D SetPlayerStatus 战内状态三族 好状态:活人更久才写;死人不动;无 gs 活人失败不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2E SetEnemyStatus 命中/抵抗/非法 rng≥抗性 → 命中写状态;rng<抗性 → newIp=op2;未知 statusId / 无敌 target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x2F RemovePlayerStatus 清 target player 的普通状态;>999 装备态不清;无敌 target → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5E JumpIfNoPoison 无敌无该毒 → newIp=op1;有该毒 → 不跳;caster(enemy) 退路",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x57/0x88 法术伤害改写(酒神/乾坤一掷) 0x57:magic.baseDamage=caster.mp*i;op1=0 → i=8;caster.mp 清 0;无表/无 magic no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x57/0x88 法术伤害改写(酒神/乾坤一掷) 0x88:cash>5000 → 扣 5000、baseDamage=2000;cash<5000 → 全扣;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5B HalveEnemyHP w=health/2+1 超 cap → 钳 cap;无 target / 目标槽空 → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5F KillPlayer / 0x5A HalvePlayerHP 0x5F:target player → hp=0 + blue 数字;无 player 上下文 → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5F KillPlayer / 0x5A HalvePlayerHP 0x5A:hp 减半(向下取整)+ blue 数字;无 player 上下文 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x5C → iHidingTime=-op0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x89:3→won、1→lost、0→terminated 标记+fleed、0xFFFF→fleed、1000+不改",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle 0x8A:有 gs → fAutoBattle=true;无 gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x33 CollectEnemy / 0x3A PlayerFlee 0x33:collectValue≠0 → wCollectValue 累加;=0 → newIp=op0;无 target → newIp",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x33 CollectEnemy / 0x3A PlayerFlee 0x3A:boss → newIp=op0;非 boss → fleeAnim 起 + 音 45",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct gs 路径:bonus=trunc(base*op1/100) 写 Extra 槽并 recompute snapshot",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct op2>0 显式 role;未知 row / 无 player 上下文 → no-op;负 % 缩围",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x30 BuffPlayerStatPct 无 gs 退化路径:直接 mutate snapshot(叠加)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x31 ChangeBattleSprite / 0x92 ShowMagicAnim 0x31:caster player 优先;写 spriteNumOverride",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x31 ChangeBattleSprite / 0x92 ShowMagicAnim 0x92:op0=0 → no-op;op0 非 0 无 bus → no-op 不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷钱:c=count/divisor,stealItemCount 减、cash 加;c=0 不弹框",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷物:已持有 +1(封顶 99);roll>rate 失败;count=0 直接失败跳 roll;无 target/gs no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x6A StealFromEnemy 偷物:包里没有 → push 新条目;stealItemCount=0 → 不抽 rng 直接失败",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 0x1B applyAll:全队(死人跳过),fScriptSuccess=anyChanged;单体无改动 → false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 0x1C 单体 MP:回蓝发 cyan;掉蓝不发;0x1D 双回(HP yellow + MP cyan)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x1B/0x1C/0x1D 战内 HP/MP delta 无 playerRoles / 无 player 上下文单目标 → 空集 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x22 战内 RevivePlayer applyAll:复活死人(比例+清战内全部状态+currentFrame 复位+清≤3级毒);fScriptSuccess=anyRevived",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x22 战内 RevivePlayer 单体复活活人 → fScriptSuccess=false;无 player 上下文 → 空目标 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x39:敌扣血、caster 回血钳 maxHP;无 target / 无 caster(player) no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x68:caster=enemy → newIp=op0;否则续行",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x39 DrainHP / 0x68 JumpIfEnemyTurn / 0x91 JumpIfEnemyNotFirst 0x91:同种第二个及以后 → newIp;第一个续行;非 enemy caster no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9C 失败臂:多活敌 → failJump≠0 跳 op1;health≤1 → failJump=0 续行;非 enemy caster no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9C 成功:恰 1 活敌 health>1 → 血减半 + 分裂落 defeated 空槽",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9C EnemyDivision / 0x9F EnemyTransform 0x9F:hiding/睡眠 → no-op;查无对象/查无 base → no-op;成功保 health 换 stats",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon 无表/非 enemy caster → no-op;房位不足(count>defeated 数)→ failJump",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon hiding / 自身睡眠 → failJump;count≤0 → 1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x9E EnemySummon w=0 自身同种:查无 overlay/对象表 → 回退 self 脚本字段;查无 base → no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x69 EnemyEscape / 0x60 EnemyImmediateKO 0x69:enemyEscapeAnim 起 + terminated 标记 + 音 45",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 0x69 EnemyEscape / 0x60 EnemyImmediateKO 0x60:target(enemy)KO 血 0 + blue;无 enemy 上下文 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-opcodes.cov85.test.ts",
+                "fullName": "cov85 家族外 opcode → consumed:false 未实现 opcode(0x01)交还 raw skip",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        }
+      },
+      "red": {
+        "failedFullNames": [
+          "cov85 0x21 InflictDamage 全体/单体/超杀钳零 op0=0 单体超杀:health 钳 0,显示完整算出伤害(fullDamage)"
+        ],
+        "assertionErrors": [
+          "AssertionError: expected 1 to be +0 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-opcodes.cov85.test.ts:270:40 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+        ]
+      },
+      "status": "VALID",
+      "reason": ""
+    },
+    {
+      "id": "MUT-02",
+      "file": "src/core/battle/battle-system.ts",
+      "line": 273,
+      "mutation": "      r.hp = 1\n      input.gs.PlayerRolesRuntime.rgwHP[roleId] = 1 =>       r.hp = 2\n      input.gs.PlayerRolesRuntime.rgwHP[roleId] = 2",
+      "shaOriginal": "0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "shaMutated": "99f349ea35c4b9bd706c7ea1ec0b907f5315469f200c176ddfb0c7faf5a48dc0",
+      "shaRestored": "0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "restoredEqualsOriginal": true,
+      "execution": {
+        "greenBefore": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-system.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stdout.txt",
+            "bytes": 4747,
+            "sha256": "5578e830801bc272e1b48d0416e4e80f53444a295e08ed332b75c92016e63824"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 12,
+              "numPassedTests": 12,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 12
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 startBattle 倒地队员复活(276-277) hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 startBattle 倒地队员复活(276-277) 屏波交接:prevWaveLevel/wScreenWave 写入 + sWaveProgression 清 0(299-305)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) defeated / health<=0 敌不推进;sleep/paralyzed 定格 idleFrame=0 且计数不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) idleAnimSpeed 倒数:到 0 → idleFrame++ 并恢复计数;帧数到顶回绕 0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) currentFrame 链帧敌:推 currentFrame 并按 idleFrames 回绕(不动 idleFrame)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle 顶层守卫(392-418) 无 battleState → no-op;资源缺失 → 强制退出 explore + console.error",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle 顶层守卫(392-418) phase stall 兜底:phaseStallTicks 超 1500 → 强制 finalize 回 explore(selectAction 不计)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) roundEndDelayTicks>0 → 递减且不起菜单;归零后 selectionStartedForTurn 帧起菜单",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) 全员失能(睡)→ 起手落空(无手动选择)+ 自动占位 action 填满进 perform(583-595)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) 活队员全死 → selectAction 兜底转 lost(651-655)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) won:无 settlement → 建;已有 → 不重建(523-527)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle hold 守卫(420-449) 战斗调色板 fade 进行中 → 暂停推进(426)",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        },
+        "red": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-system.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stdout.txt",
+            "bytes": 6919,
+            "sha256": "1b942c99e8cdb0e6b3d1578ac9ffd4fe617b6314facea662dda1930bc03ae106"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stderr.txt",
+            "bytes": 669,
+            "sha256": "5298cc6b8d746e181b91a1bc226f9e0f7f65102d3c3e53052fdbb59292c23b04"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 12,
+              "numPassedTests": 11,
+              "numFailedTests": 1,
+              "numPendingTests": 0,
+              "success": false,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts",
+                "status": "failed",
+                "assertionCount": 12
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 startBattle 倒地队员复活(276-277) hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0",
+                "status": "failed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 startBattle 倒地队员复活(276-277) 屏波交接:prevWaveLevel/wScreenWave 写入 + sWaveProgression 清 0(299-305)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) defeated / health<=0 敌不推进;sleep/paralyzed 定格 idleFrame=0 且计数不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) idleAnimSpeed 倒数:到 0 → idleFrame++ 并恢复计数;帧数到顶回绕 0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) currentFrame 链帧敌:推 currentFrame 并按 idleFrames 回绕(不动 idleFrame)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle 顶层守卫(392-418) 无 battleState → no-op;资源缺失 → 强制退出 explore + console.error",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle 顶层守卫(392-418) phase stall 兜底:phaseStallTicks 超 1500 → 强制 finalize 回 explore(selectAction 不计)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) roundEndDelayTicks>0 → 递减且不起菜单;归零后 selectionStartedForTurn 帧起菜单",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) 全员失能(睡)→ 起手落空(无手动选择)+ 自动占位 action 填满进 perform(583-595)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) 活队员全死 → selectAction 兜底转 lost(651-655)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) won:无 settlement → 建;已有 → 不重建(523-527)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle hold 守卫(420-449) 战斗调色板 fade 进行中 → 暂停推进(426)",
+                "status": "passed"
+              }
+            ],
+            "failedTests": [
+              {
+                "fullName": "cov85 startBattle 倒地队员复活(276-277) hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0",
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts",
+                "message": "AssertionError: expected 2 to be 1 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts:82:38\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ]
+          }
+        },
+        "greenAfter": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-system.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stdout.txt",
+            "bytes": 4749,
+            "sha256": "9602ca992600e45dedd6ee7bbe4d9bba36530f14d37bfa4c1a41fa5ad43ee4d8"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 12,
+              "numPassedTests": 12,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 12
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 startBattle 倒地队员复活(276-277) hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 startBattle 倒地队员复活(276-277) 屏波交接:prevWaveLevel/wScreenWave 写入 + sWaveProgression 清 0(299-305)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) defeated / health<=0 敌不推进;sleep/paralyzed 定格 idleFrame=0 且计数不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) idleAnimSpeed 倒数:到 0 → idleFrame++ 并恢复计数;帧数到顶回绕 0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickEnemyIdleGestures(370-390) currentFrame 链帧敌:推 currentFrame 并按 idleFrames 回绕(不动 idleFrame)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle 顶层守卫(392-418) 无 battleState → no-op;资源缺失 → 强制退出 explore + console.error",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle 顶层守卫(392-418) phase stall 兜底:phaseStallTicks 超 1500 → 强制 finalize 回 explore(selectAction 不计)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) roundEndDelayTicks>0 → 递减且不起菜单;归零后 selectionStartedForTurn 帧起菜单",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) 全员失能(睡)→ 起手落空(无手动选择)+ 自动占位 action 填满进 perform(583-595)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) 活队员全死 → selectAction 兜底转 lost(651-655)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle phase 路由(496-533) won:无 settlement → 建;已有 → 不重建(523-527)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/battle/battle-system.cov85.test.ts",
+                "fullName": "cov85 tickBattle hold 守卫(420-449) 战斗调色板 fade 进行中 → 暂停推进(426)",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        }
+      },
+      "red": {
+        "failedFullNames": [
+          "cov85 startBattle 倒地队员复活(276-277) hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0"
+        ],
+        "assertionErrors": [
+          "AssertionError: expected 2 to be 1 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts:82:38 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+        ]
+      },
+      "status": "VALID",
+      "reason": ""
+    },
+    {
+      "id": "MUT-03",
+      "file": "src/core/event-opcode-player.ts",
+      "line": 197,
+      "mutation": "gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10) => gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 11)",
+      "shaOriginal": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "shaMutated": "830745cf93212d26cd599975befc08dbb434ab62a523c3166ee30adc3a199ec4",
+      "shaRestored": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "restoredEqualsOriginal": true,
+      "execution": {
+        "greenBefore": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-opcode-player.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stdout.txt",
+            "bytes": 9360,
+            "sha256": "fca6561101cf4d2eb64615cfdd752b597bccb145f58a4b1b0e9bdd6752170d74"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 30,
+              "numPassedTests": 30,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcode-player.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 30
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 未知 role(数组外下标)→ 警告跳过不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 无 role 上下文 → 警告且装备效果层零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 无 role 上下文 → 警告跳过,装备与背包零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 同物重装(oldItem===newItem)→ 装备层与背包均不变",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2=0 且无上下文 → 警告跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a 上下文 0xffff → 警告跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1b applyAll:任一队员真改 → true;全员满血零改 → false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1d 单体无改动 → false;死人(hp=0)不被治疗",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支 指定单槽为空 → 背包与装备层零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0=0 且无上下文 → 空目标集,毒槽零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 坏状态(≤3)已有(≠0)不刷新,为 0 才写",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界 >999 装备态不清;≤999 清 0;越界下标不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:op1≠0 → 显式 role;role 越界 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 家族归属 非本族 opcode(0x01)→ false 交还调用方",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        },
+        "red": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-opcode-player.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stdout.txt",
+            "bytes": 12203,
+            "sha256": "0d6edf0bdd7afdbdefb020f9db21ab9281d3aeb27ba3ee792f115e47e63e334f"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stderr.txt",
+            "bytes": 658,
+            "sha256": "bff5726c685e84081682e1368b1da489db72eecd60246167a2b6c1d1d84a864e"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 30,
+              "numPassedTests": 29,
+              "numFailedTests": 1,
+              "numPendingTests": 0,
+              "success": false,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcode-player.cov85.test.ts",
+                "status": "failed",
+                "assertionCount": 30
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 未知 role(数组外下标)→ 警告跳过不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 无 role 上下文 → 警告且装备效果层零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 无 role 上下文 → 警告跳过,装备与背包零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 同物重装(oldItem===newItem)→ 装备层与背包均不变",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2=0 且无上下文 → 警告跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a 上下文 0xffff → 警告跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1b applyAll:任一队员真改 → true;全员满血零改 → false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1d 单体无改动 → false;死人(hp=0)不被治疗",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny",
+                "status": "failed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支 指定单槽为空 → 背包与装备层零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0=0 且无上下文 → 空目标集,毒槽零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 坏状态(≤3)已有(≠0)不刷新,为 0 才写",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界 >999 装备态不清;≤999 清 0;越界下标不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:op1≠0 → 显式 role;role 越界 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 家族归属 非本族 opcode(0x01)→ false 交还调用方",
+                "status": "passed"
+              }
+            ],
+            "failedTests": [
+              {
+                "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny",
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcode-player.cov85.test.ts",
+                "message": "AssertionError: expected 45 to be 50 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcode-player.cov85.test.ts:264:25\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ]
+          }
+        },
+        "greenAfter": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-opcode-player.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stdout.txt",
+            "bytes": 9362,
+            "sha256": "913b9782e7c009c7e1a0bc5122cb2271e19a409a446d409ef26cec63e183c58b"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 30,
+              "numPassedTests": 30,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcode-player.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 30
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 未知 role(数组外下标)→ 警告跳过不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 无 role 上下文 → 警告且装备效果层零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 无 role 上下文 → 警告跳过,装备与背包零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 同物重装(oldItem===newItem)→ 装备层与背包均不变",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2=0 且无上下文 → 警告跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a 上下文 0xffff → 警告跳过",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1b applyAll:任一队员真改 → true;全员满血零改 → false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1d 单体无改动 → false;死人(hp=0)不被治疗",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支 指定单槽为空 → 背包与装备层零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0=0 且无上下文 → 空目标集,毒槽零变异",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 坏状态(≤3)已有(≠0)不刷新,为 0 才写",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界 >999 装备态不清;≤999 清 0;越界下标不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:op1≠0 → 显式 role;role 越界 no-op",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 0x55/0x56 学/忘法术边界 0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcode-player.cov85.test.ts",
+                "fullName": "cov85 家族归属 非本族 opcode(0x01)→ false 交还调用方",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        }
+      },
+      "red": {
+        "failedFullNames": [
+          "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny"
+        ],
+        "assertionErrors": [
+          "AssertionError: expected 45 to be 50 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcode-player.cov85.test.ts:264:25 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+        ]
+      },
+      "status": "VALID",
+      "reason": ""
+    },
+    {
+      "id": "MUT-04",
+      "file": "src/core/menu/menu-driver.ts",
+      "line": 358,
+      "mutation": "gs.dwCash -= item.price => gs.dwCash -= item.price - 1",
+      "shaOriginal": "ee2eda0c65e20975ad96955b1fe729c29a59126b0513304ca60a21f5c263aaeb",
+      "shaMutated": "e83e13cb3d6dff119ffbe591598daeb54b3d1f65cf2efd9b2e244e164d3687a9",
+      "shaRestored": "ee2eda0c65e20975ad96955b1fe729c29a59126b0513304ca60a21f5c263aaeb",
+      "restoredEqualsOriginal": true,
+      "execution": {
+        "greenBefore": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/menu/menu-driver.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stdout.txt",
+            "bytes": 9679,
+            "sha256": "f27bd9035d4204d0976b27ecf606f72bb4dfbf25904b2340cbd39e2692f8abee"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 29,
+              "numPassedTests": 29,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/menu/menu-driver.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 29
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 requireCatalogs 未注入守卫 setMenuCatalogs 未调用 → openOverworldShortcutMenu 经 requireCatalogs 抛错",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 dispatchMenuInput 空栈 menuStack 空 → 直接返回不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) list:Up/Left 上移、Down/Right 下移、买不起 Confirm 留 list、Menu 关店",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) list:Left/Right 也位移(DL21);买得起 Confirm → confirm 阶段",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm:Up/Left 也 toggle;Confirm 否 → 不交易",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm 期间钱变少(price>cash)→ 交易被拒(applyShopTransaction 再判)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) 不可卖物 Confirm 留 list;可卖 Confirm → confirm,方向 toggle + Menu 回 list",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) confirm 是 → 卖 1 个:+floor(price/2) 钱、库存刷新;否 → 不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) sound switch:Up toggle;Menu 取消关整栈(保持当前态)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) quit → confirm 阶段;Menu 关整栈;否 → 关整栈;是 → systemQuitHandler",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) save/load → push save-slot;Menu 阶段 Up/Left、Down/Right 位移",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) Left/Right 在 menu 阶段也位移(DL21)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品一级子菜单(inventory-action) Menu → 关整栈;Up/Down 位移;Confirm 装备 → equip;Confirm 使用 → inventory",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) Confirm 可用单体物 → use-target;Left/Right 换目标;Menu 回 list;再 Menu 关整栈",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) applyToAll 可用物 Confirm → 起世界脚本(mode=event)并 return",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) list 导航 + Confirm → pick-role 且 wLastUnequippedItem=选中物(DM23 入口值)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) pick-role Confirm 可装备角色 → 跑 scriptOnEquip 后仍 pick-role(换出旧物=同物)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) 不可装备角色 Confirm → no-op 留 pick-role",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) 单人队:直接 pick-spell;8 键导航;Menu 关整栈",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm single-target spell → pick-target;Left/Up 换人;Confirm → 扣 MP、留菜单",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm applyToAll spell → 扣 MP 留 pick-spell;MP 剩余不足时 pick-target 确认后退回",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 角色状态屏(player-status) Left/Up → 前一人;Right/Down/Confirm → 后一人;到头 → 关整栈;Menu → 关",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) load 模式:有 handler → 调用;无 handler → pop 顶 + 警告",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        },
+        "red": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/menu/menu-driver.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stdout.txt",
+            "bytes": 12976,
+            "sha256": "8db4976ceb6923ccdf0c7a8cfd4c9c087fdd9a761927a45b10073de5319319d2"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stderr.txt",
+            "bytes": 624,
+            "sha256": "aced825cbd3865cf2c1003eb944f1fac2e2bb41afa45241c73f39036a92a02fe"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 29,
+              "numPassedTests": 28,
+              "numFailedTests": 1,
+              "numPendingTests": 0,
+              "success": false,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/menu/menu-driver.cov85.test.ts",
+                "status": "failed",
+                "assertionCount": 29
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 requireCatalogs 未注入守卫 setMenuCatalogs 未调用 → openOverworldShortcutMenu 经 requireCatalogs 抛错",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 dispatchMenuInput 空栈 menuStack 空 → 直接返回不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) list:Up/Left 上移、Down/Right 下移、买不起 Confirm 留 list、Menu 关店",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) list:Left/Right 也位移(DL21);买得起 Confirm → confirm 阶段",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库",
+                "status": "failed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm:Up/Left 也 toggle;Confirm 否 → 不交易",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm 期间钱变少(price>cash)→ 交易被拒(applyShopTransaction 再判)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) 不可卖物 Confirm 留 list;可卖 Confirm → confirm,方向 toggle + Menu 回 list",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) confirm 是 → 卖 1 个:+floor(price/2) 钱、库存刷新;否 → 不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) sound switch:Up toggle;Menu 取消关整栈(保持当前态)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) quit → confirm 阶段;Menu 关整栈;否 → 关整栈;是 → systemQuitHandler",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) save/load → push save-slot;Menu 阶段 Up/Left、Down/Right 位移",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) Left/Right 在 menu 阶段也位移(DL21)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品一级子菜单(inventory-action) Menu → 关整栈;Up/Down 位移;Confirm 装备 → equip;Confirm 使用 → inventory",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) Confirm 可用单体物 → use-target;Left/Right 换目标;Menu 回 list;再 Menu 关整栈",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) applyToAll 可用物 Confirm → 起世界脚本(mode=event)并 return",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) list 导航 + Confirm → pick-role 且 wLastUnequippedItem=选中物(DM23 入口值)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) pick-role Confirm 可装备角色 → 跑 scriptOnEquip 后仍 pick-role(换出旧物=同物)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) 不可装备角色 Confirm → no-op 留 pick-role",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) 单人队:直接 pick-spell;8 键导航;Menu 关整栈",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm single-target spell → pick-target;Left/Up 换人;Confirm → 扣 MP、留菜单",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm applyToAll spell → 扣 MP 留 pick-spell;MP 剩余不足时 pick-target 确认后退回",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 角色状态屏(player-status) Left/Up → 前一人;Right/Down/Confirm → 后一人;到头 → 关整栈;Menu → 关",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) load 模式:有 handler → 调用;无 handler → pop 顶 + 警告",
+                "status": "passed"
+              }
+            ],
+            "failedTests": [
+              {
+                "fullName": "cov85 商店买菜单(shop-buy) confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库",
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/menu/menu-driver.cov85.test.ts",
+                "message": "AssertionError: expected 41 to be 40 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/menu/menu-driver.cov85.test.ts:298:23\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ]
+          }
+        },
+        "greenAfter": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/menu/menu-driver.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stdout.txt",
+            "bytes": 9679,
+            "sha256": "86eff15d1159595f9547c152542801a8766c0bb31f1ee5998fbde96003b31844"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 29,
+              "numPassedTests": 29,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/menu/menu-driver.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 29
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 requireCatalogs 未注入守卫 setMenuCatalogs 未调用 → openOverworldShortcutMenu 经 requireCatalogs 抛错",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 dispatchMenuInput 空栈 menuStack 空 → 直接返回不炸",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) list:Up/Left 上移、Down/Right 下移、买不起 Confirm 留 list、Menu 关店",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) list:Left/Right 也位移(DL21);买得起 Confirm → confirm 阶段",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm:Up/Left 也 toggle;Confirm 否 → 不交易",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店买菜单(shop-buy) confirm 期间钱变少(price>cash)→ 交易被拒(applyShopTransaction 再判)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) 不可卖物 Confirm 留 list;可卖 Confirm → confirm,方向 toggle + Menu 回 list",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 商店卖菜单(shop-sell) confirm 是 → 卖 1 个:+floor(price/2) 钱、库存刷新;否 → 不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) sound switch:Up toggle;Menu 取消关整栈(保持当前态)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) quit → confirm 阶段;Menu 关整栈;否 → 关整栈;是 → systemQuitHandler",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) save/load → push save-slot;Menu 阶段 Up/Left、Down/Right 位移",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 系统菜单(system) Left/Right 在 menu 阶段也位移(DL21)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品一级子菜单(inventory-action) Menu → 关整栈;Up/Down 位移;Confirm 装备 → equip;Confirm 使用 → inventory",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) Confirm 可用单体物 → use-target;Left/Right 换目标;Menu 回 list;再 Menu 关整栈",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 物品菜单(inventory,use 路由) applyToAll 可用物 Confirm → 起世界脚本(mode=event)并 return",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) list 导航 + Confirm → pick-role 且 wLastUnequippedItem=选中物(DM23 入口值)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) pick-role Confirm 可装备角色 → 跑 scriptOnEquip 后仍 pick-role(换出旧物=同物)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 装备菜单(equip) 不可装备角色 Confirm → no-op 留 pick-role",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) 单人队:直接 pick-spell;8 键导航;Menu 关整栈",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm single-target spell → pick-target;Left/Up 换人;Confirm → 扣 MP、留菜单",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm applyToAll spell → 扣 MP 留 pick-spell;MP 剩余不足时 pick-target 确认后退回",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 角色状态屏(player-status) Left/Up → 前一人;Right/Down/Confirm → 后一人;到头 → 关整栈;Menu → 关",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/menu/menu-driver.cov85.test.ts",
+                "fullName": "cov85 存档槽菜单(save-slot) load 模式:有 handler → 调用;无 handler → pop 顶 + 警告",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        }
+      },
+      "red": {
+        "failedFullNames": [
+          "cov85 商店买菜单(shop-buy) confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库"
+        ],
+        "assertionErrors": [
+          "AssertionError: expected 41 to be 40 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/menu/menu-driver.cov85.test.ts:298:23 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+        ]
+      },
+      "status": "VALID",
+      "reason": ""
+    },
+    {
+      "id": "MUT-05",
+      "file": "src/core/event-system.ts",
+      "line": 1227,
+      "mutation": "npc.id === gs.eventCursor.triggerOwnerId && => npc.id !== gs.eventCursor.triggerOwnerId &&",
+      "shaOriginal": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "shaMutated": "2a848b53bdbe9fef18f88b68aa990230466d3fa102865eea25a429781f28dac6",
+      "shaRestored": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "restoredEqualsOriginal": true,
+      "execution": {
+        "greenBefore": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-system.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stdout.txt",
+            "bytes": 7603,
+            "sha256": "6a5113682b7d9d29e4ad9ba0a7b8c3ee5a9232199f93d6b368803d0adf57fb6f"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 19,
+              "numPassedTests": 19,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 19
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) 全局脚本数组空 → 直接返回,NPC 不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) sState≤0(隐藏态)与 sVanishTime≠0(临时消失)→ autoScript 不跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) owner 门:triggerOwnerId 在 waiting===undefined 且脚本未开跑(startedExecution falsy)时跳 owner,其余 NPC 照跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) owner 门豁免:startedExecution=true 或 waiting 已设 → owner autoScript 照跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) 无 autoCursor:按 autoLabel 延迟解析到全局 ip;解析失败(label 缺)→ 保持 undefined 不跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end plain:park(ip 不变,每帧重读);end advance:ip++",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end reset:idleFrames=0 恒跳 resetTo;计数满后复位+推进;resetTo 不存在 → 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end 带 callStack:弹帧回 caller(全局 ip),restore currentEventObjectId",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) goto:frameDelay=0 恒跳(同帧续跑,不消耗帧);frameDelay 计数满 fall-through;目标缺失 → 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) 0x09 wait N frames:逐帧累计,满 N 推进并复位计数",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) ip 越界(≥cmds.length)→ autoCursor 置 undefined 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x06 RandomLong 门(1360-1385) rate=0:每次掷 1..100 >= 0 恒推进(target=0 原地重掷 → ip 不动但帧消耗);rate 极大 + target≠0 → 同帧跳走",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) 0x11 stagger gate:(id+1) 奇偶与 frameNum 不匹配的帧跳过移动,匹配帧走一步",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) 0x10 无 stagger 每帧都走;到达目标后 snap + ip 推进",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) default 分支(showDialog 等):防御性 ip++ 跳过,不死循环",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) explore + needToFadeIn → 起 600ms FadeIn、清 flag/blackScreenHold;fade 中/sceneLoading → 不起",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) 无 needToFadeIn → 零动作;fadeState(非 palette)进行中 → 不起",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) event 模式:仅 frame-wait/scene-fade/camera-pan waiting 或停在 MakeScene 步时放行",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) isEventCursorAtMakeSceneStep:0x7F pan(非 0 步长)算 MakeScene;非 pan(全 0/flag 0xFFFF)不算",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        },
+        "red": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-system.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stdout.txt",
+            "bytes": 10327,
+            "sha256": "c59caf62745518f796b9fc1384a915e046ace1459533a8e0b7796b6c28aa989d"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stderr.txt",
+            "bytes": 608,
+            "sha256": "988f033e8099ab4d891f8ff7d9159d892d8963358016a50813e76c248813e1e3"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 19,
+              "numPassedTests": 18,
+              "numFailedTests": 1,
+              "numPendingTests": 0,
+              "success": false,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
+                "status": "failed",
+                "assertionCount": 19
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) 全局脚本数组空 → 直接返回,NPC 不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) sState≤0(隐藏态)与 sVanishTime≠0(临时消失)→ autoScript 不跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) owner 门:triggerOwnerId 在 waiting===undefined 且脚本未开跑(startedExecution falsy)时跳 owner,其余 NPC 照跑",
+                "status": "failed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) owner 门豁免:startedExecution=true 或 waiting 已设 → owner autoScript 照跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) 无 autoCursor:按 autoLabel 延迟解析到全局 ip;解析失败(label 缺)→ 保持 undefined 不跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end plain:park(ip 不变,每帧重读);end advance:ip++",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end reset:idleFrames=0 恒跳 resetTo;计数满后复位+推进;resetTo 不存在 → 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end 带 callStack:弹帧回 caller(全局 ip),restore currentEventObjectId",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) goto:frameDelay=0 恒跳(同帧续跑,不消耗帧);frameDelay 计数满 fall-through;目标缺失 → 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) 0x09 wait N frames:逐帧累计,满 N 推进并复位计数",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) ip 越界(≥cmds.length)→ autoCursor 置 undefined 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x06 RandomLong 门(1360-1385) rate=0:每次掷 1..100 >= 0 恒推进(target=0 原地重掷 → ip 不动但帧消耗);rate 极大 + target≠0 → 同帧跳走",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) 0x11 stagger gate:(id+1) 奇偶与 frameNum 不匹配的帧跳过移动,匹配帧走一步",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) 0x10 无 stagger 每帧都走;到达目标后 snap + ip 推进",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) default 分支(showDialog 等):防御性 ip++ 跳过,不死循环",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) explore + needToFadeIn → 起 600ms FadeIn、清 flag/blackScreenHold;fade 中/sceneLoading → 不起",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) 无 needToFadeIn → 零动作;fadeState(非 palette)进行中 → 不起",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) event 模式:仅 frame-wait/scene-fade/camera-pan waiting 或停在 MakeScene 步时放行",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) isEventCursorAtMakeSceneStep:0x7F pan(非 0 步长)算 MakeScene;非 pan(全 0/flag 0xFFFF)不算",
+                "status": "passed"
+              }
+            ],
+            "failedTests": [
+              {
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) owner 门:triggerOwnerId 在 waiting===undefined 且脚本未开跑(startedExecution falsy)时跳 owner,其余 NPC 照跑",
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
+                "message": "AssertionError: expected 94 to be 100 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:72:27\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ]
+          }
+        },
+        "greenAfter": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-system.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stdout.txt",
+            "bytes": 7599,
+            "sha256": "a6d18cabb38d0a0b59271653a4bf2d102165dfe7441cbbb104ffd3e230bcc6cc"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 19,
+              "numPassedTests": 19,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 19
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) 全局脚本数组空 → 直接返回,NPC 不动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) sState≤0(隐藏态)与 sVanishTime≠0(临时消失)→ autoScript 不跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) owner 门:triggerOwnerId 在 waiting===undefined 且脚本未开跑(startedExecution falsy)时跳 owner,其余 NPC 照跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) owner 门豁免:startedExecution=true 或 waiting 已设 → owner autoScript 照跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickAutoScripts 前提门(1209-1252) 无 autoCursor:按 autoLabel 延迟解析到全局 ip;解析失败(label 缺)→ 保持 undefined 不跑",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end plain:park(ip 不变,每帧重读);end advance:ip++",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end reset:idleFrames=0 恒跳 resetTo;计数满后复位+推进;resetTo 不存在 → 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) end 带 callStack:弹帧回 caller(全局 ip),restore currentEventObjectId",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) goto:frameDelay=0 恒跳(同帧续跑,不消耗帧);frameDelay 计数满 fall-through;目标缺失 → 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) 0x09 wait N frames:逐帧累计,满 N 推进并复位计数",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp end/goto/wait 分支(1264-1338,1340-1350) ip 越界(≥cmds.length)→ autoCursor 置 undefined 停",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x06 RandomLong 门(1360-1385) rate=0:每次掷 1..100 >= 0 恒推进(target=0 原地重掷 → ip 不动但帧消耗);rate 极大 + target≠0 → 同帧跳走",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) 0x11 stagger gate:(id+1) 奇偶与 frameNum 不匹配的帧跳过移动,匹配帧走一步",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) 0x10 无 stagger 每帧都走;到达目标后 snap + ip 推进",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 runOneAutoOp 0x10/0x11 walk 与隔帧 stagger(1416-1443) default 分支(showDialog 等):防御性 ip++ 跳过,不死循环",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) explore + needToFadeIn → 起 600ms FadeIn、清 flag/blackScreenHold;fade 中/sceneLoading → 不起",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) 无 needToFadeIn → 零动作;fadeState(非 palette)进行中 → 不起",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) event 模式:仅 frame-wait/scene-fade/camera-pan waiting 或停在 MakeScene 步时放行",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-system.cov85.test.ts",
+                "fullName": "cov85 tickSceneAutoFadeIn 门(700-730) isEventCursorAtMakeSceneStep:0x7F pan(非 0 步长)算 MakeScene;非 pan(全 0/flag 0xFFFF)不算",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        }
+      },
+      "red": {
+        "failedFullNames": [
+          "cov85 tickAutoScripts 前提门(1209-1252) owner 门:triggerOwnerId 在 waiting===undefined 且脚本未开跑(startedExecution falsy)时跳 owner,其余 NPC 照跑"
+        ],
+        "assertionErrors": [
+          "AssertionError: expected 94 to be 100 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:72:27 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+        ]
+      },
+      "status": "VALID",
+      "reason": ""
+    },
+    {
+      "id": "MUT-06",
+      "file": "src/core/event-system.ts",
+      "line": 3549,
+      "mutation": "const px = (col ?? 0) * 32 + (h ?? 0) * 16 => const px = (col ?? 0) * 33 + (h ?? 0) * 16",
+      "shaOriginal": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "shaMutated": "1b1334b02e7063efecc344d28e13f039a4df1f49ee4aad09047dfc498cd29adf",
+      "shaRestored": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "restoredEqualsOriginal": true,
+      "execution": {
+        "greenBefore": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-opcodes.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stdout.txt",
+            "bytes": 8459,
+            "sha256": "c701a34b48745ec99f7144e4e42f42dced1b1751dfb7a0754ebc2e8323bbbcd2"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 21,
+              "numPassedTests": 21,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcodes.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 21
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:partyMembers = op0..op2 各 -1(0xffff 槽跳过)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        },
+        "red": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-opcodes.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stdout.txt",
+            "bytes": 11352,
+            "sha256": "bbbe5afcac278fb0993fc926469cc184c6f460b5dbd14d630c77dbb44dadfa9d"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stderr.txt",
+            "bytes": 586,
+            "sha256": "6495a22af4cb8ea2a41c32ab4b3b93c93f50c5883c64e750feb6055c17288150"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 21,
+              "numPassedTests": 20,
+              "numFailedTests": 1,
+              "numPendingTests": 0,
+              "success": false,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcodes.cov85.test.ts",
+                "status": "failed",
+                "assertionCount": 21
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                "status": "failed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:partyMembers = op0..op2 各 -1(0xffff 槽跳过)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                "status": "passed"
+              }
+            ],
+            "failedTests": [
+              {
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcodes.cov85.test.ts",
+                "message": "AssertionError: expected 82 to be 80 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcodes.cov85.test.ts:103:24\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              }
+            ]
+          }
+        },
+        "greenAfter": {
+          "command": [
+            "/Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.bin/vitest",
+            "run",
+            "src/core/event-opcodes.cov85.test.ts",
+            "--reporter=json",
+            "--reporter=default"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game",
+          "env": "<ENV_SNAPSHOT>",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "stdout": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stdout.txt",
+            "bytes": 8459,
+            "sha256": "99d9e08023c4068ba4d550753481237c087410fb008c26086bc05b46148145e5"
+          },
+          "stderr": {
+            "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stderr.txt",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "vitestJson": {
+            "parsed": true,
+            "missingFields": [],
+            "summary": {
+              "numTotalTests": 21,
+              "numPassedTests": 21,
+              "numFailedTests": 0,
+              "numPendingTests": 0,
+              "success": true,
+              "numRuntimeErrorTestSuites": {
+                "presentInReporter": false,
+                "valueFromReporter": null,
+                "derivedFromSuiteStatuses": 0
+              }
+            },
+            "suiteStatuses": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcodes.cov85.test.ts",
+                "status": "passed",
+                "assertionCount": 21
+              }
+            ],
+            "identitySet": [
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:partyMembers = op0..op2 各 -1(0xffff 槽跳过)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                "status": "passed"
+              },
+              {
+                "file": "src/core/event-opcodes.cov85.test.ts",
+                "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                "status": "passed"
+              }
+            ],
+            "failedTests": []
+          }
+        }
+      },
+      "red": {
+        "failedFullNames": [
+          "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动"
+        ],
+        "assertionErrors": [
+          "AssertionError: expected 82 to be 80 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-opcodes.cov85.test.ts:103:24 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+        ]
+      },
+      "status": "VALID",
+      "reason": ""
+    }
+  ]
+}

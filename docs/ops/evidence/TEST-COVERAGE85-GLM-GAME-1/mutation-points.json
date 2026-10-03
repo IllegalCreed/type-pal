@@ -1,0 +1,50 @@
+[
+  {
+    "id": "MUT-01",
+    "file": "src/core/battle/battle-opcodes.ts",
+    "line": 478,
+    "find": "enemy.e.health = Math.max(0, enemy.e.health - dmg)",
+    "replace": "enemy.e.health = Math.max(1, enemy.e.health - dmg)",
+    "testFile": "src/core/battle/battle-opcodes.cov85.test.ts"
+  },
+  {
+    "id": "MUT-02",
+    "file": "src/core/battle/battle-system.ts",
+    "line": 273,
+    "find": "      r.hp = 1\n      input.gs.PlayerRolesRuntime.rgwHP[roleId] = 1",
+    "replace": "      r.hp = 2\n      input.gs.PlayerRolesRuntime.rgwHP[roleId] = 2",
+    "testFile": "src/core/battle/battle-system.cov85.test.ts"
+  },
+  {
+    "id": "MUT-03",
+    "file": "src/core/event-opcode-player.ts",
+    "line": 197,
+    "find": "gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10)",
+    "replace": "gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 11)",
+    "testFile": "src/core/event-opcode-player.cov85.test.ts"
+  },
+  {
+    "id": "MUT-04",
+    "file": "src/core/menu/menu-driver.ts",
+    "line": 358,
+    "find": "gs.dwCash -= item.price",
+    "replace": "gs.dwCash -= item.price - 1",
+    "testFile": "src/core/menu/menu-driver.cov85.test.ts"
+  },
+  {
+    "id": "MUT-05",
+    "file": "src/core/event-system.ts",
+    "line": 1227,
+    "find": "npc.id === gs.eventCursor.triggerOwnerId &&",
+    "replace": "npc.id !== gs.eventCursor.triggerOwnerId &&",
+    "testFile": "src/core/event-system.cov85.test.ts"
+  },
+  {
+    "id": "MUT-06",
+    "file": "src/core/event-system.ts",
+    "line": 3549,
+    "find": "const px = (col ?? 0) * 32 + (h ?? 0) * 16",
+    "replace": "const px = (col ?? 0) * 33 + (h ?? 0) * 16",
+    "testFile": "src/core/event-opcodes.cov85.test.ts"
+  }
+]

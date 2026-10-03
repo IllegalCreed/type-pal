@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/battle/battle-system.cov85.test.ts > cov85 startBattle 倒地队员复活(276-277) > hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/core/battle/battle-system.cov85.test.ts:82:38
+     80|     const role = makeRole(0, { hp: 0 })
+     81|     const { gs, playerRoles } = boot({ roles: [role] })
+     82|     expect(playerRoles.roles[0]!.hp).toBe(1)
+       |                                      ^
+     83|     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(1)
+     84|     expect(gs.rgPlayerStatus[0]![4]).toBe(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

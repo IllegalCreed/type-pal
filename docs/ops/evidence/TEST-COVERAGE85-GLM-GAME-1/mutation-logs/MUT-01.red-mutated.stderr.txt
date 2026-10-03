@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/battle/battle-opcodes.cov85.test.ts > cov85 0x21 InflictDamage 全体/单体/超杀钳零 > op0=0 单体超杀:health 钳 0,显示完整算出伤害(fullDamage)
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/core/battle/battle-opcodes.cov85.test.ts:270:40
+    268|     const ctx: BattleCtx = { state, bus, target: { type: 'enemy', idx:…
+    269|     expect(dispatchBattleOpcode(0x21, [0, 999, 0], ctx).consumed).toBe…
+    270|     expect(state.enemies[0]!.e.health).toBe(0)
+       |                                        ^
+    271|     const events = damageNums(bus.drain())
+    272|     expect(events[0]).toMatchObject({ value: 999, color: 'blue' })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

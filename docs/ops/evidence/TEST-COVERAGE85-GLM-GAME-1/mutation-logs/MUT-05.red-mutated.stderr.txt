@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-system.cov85.test.ts > cov85 tickAutoScripts 前提门(1209-1252) > owner 门:triggerOwnerId 在 waiting===undefined 且脚本未开跑(startedExecution falsy)时跳 owner,其余 NPC 照跑
+AssertionError: expected 94 to be 100 // Object.is equality
+
+- Expected
++ Received
+
+- 100
++ 94
+
+ ❯ src/core/event-system.cov85.test.ts:72:27
+     70|     }
+     71|     tickAutoScripts(gs)
+     72|     expect(gs.npcs[0]!.x).toBe(100) // owner 冻结
+       |                           ^
+     73|     expect(gs.npcs[1]!.x).toBeLessThan(100) // 非 owner 走了
+     74|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

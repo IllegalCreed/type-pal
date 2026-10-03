@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-opcodes.cov85.test.ts > cov85 世界/队伍 opcode(3550+,4436-4446) > 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动
+AssertionError: expected 82 to be 80 // Object.is equality
+
+- Expected
++ Received
+
+- 80
++ 82
+
+ ❯ src/core/event-opcodes.cov85.test.ts:103:24
+    101|     const gs = freshGs()
+    102|     run1(gs, 0x46, [2, 3, 1])
+    103|     expect(gs.party.x).toBe(2 * 32 + 1 * 16)
+       |                        ^
+    104|     expect(gs.party.y).toBe(3 * 16 + 1 * 8)
+    105|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
