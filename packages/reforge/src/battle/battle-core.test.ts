@@ -208,7 +208,7 @@ describe('M4a headless 战斗核', () => {
     expect(halved).toBeLessThan(Math.max(1, calcPhysicalAttackDamage(266, 60, 2)))
   })
 
-  test('大世界护体符 carriedStatuses:建态注入实际回合数(护体 7,随战衰减);grantedStatuses 仍 9999 永久', () => {
+  test('大世界护体符 carriedStatuses:建态注入实际回合数;装备常驻状态进入独立派生层', () => {
     const s = createBattleState({
       players: [
         player('shielded', { carriedStatuses: [{ status: 'protect', turns: 7 }] }),
@@ -217,7 +217,8 @@ describe('M4a headless 战斗核', () => {
       enemies: [mkEnemy('slime')],
     })
     expect(s.players[0]!.status.protect).toBe(7) // 金刚符定时状态 = 实际回合数
-    expect(s.players[1]!.status.dualAttack).toBe(9999) // 装备常驻 = 永久大值
+    expect(s.players[1]!.status.dualAttack).toBe(0) // 装备常驻不伪装成回合计数
+    expect(s.players[1]!.grantedStatuses).toEqual(['dualAttack'])
     // 无来源的空态基线
     expect(s.players[0]!.status.dualAttack).toBe(0)
     expect(s.players[1]!.status.protect).toBe(0)
@@ -1846,7 +1847,8 @@ describe('P2 连击双打(装备授 dualAttack;仙女剑170)', () => {
       players: [player('zhao', { attackStrength: 60, grantedStatuses: ['dualAttack'] })],
       enemies: [mkEnemy('slime', { health: 9999, defense: 0, attackStrength: 0 })],
     })
-    expect(s.players[0]!.status.dualAttack).toBeGreaterThan(0) // 建态置入
+    expect(s.players[0]!.status.dualAttack).toBe(0)
+    expect(s.players[0]!.grantedStatuses).toContain('dualAttack')
     drive(s)
     expect(s.log.filter((l) => l.includes('zhao')).length).toBeGreaterThanOrEqual(2) // 两击各一条
     expect(s.log.some((l) => l.includes('连击'))).toBe(true)
@@ -3196,7 +3198,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(b.players[0]!.attackStrength).toBe(80)
   })
 
-  test('复活(0x22 全语义):还魂咒仅救死者 + 解重毒 + 清定时状态(装备 9999 哨兵保留)', () => {
+  test('复活(0x22 全语义):还魂咒仅救死者 + 解重毒 + 清临时状态(装备派生状态保留)', () => {
     const rev = mkSkill('rev', { target: 'oneAlly', effects: [{ kind: 'revive', hpPercent: 10 }] })
     const s = createBattleState({
       players: [
@@ -3210,7 +3212,8 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     const t = s.players[1]!
     t.hp = 0
     t.status.confused = 3 // 定时状态:复活应清
-    t.status.dualAttack = 9999 // 装备常驻哨兵:应保留
+    t.status.dualAttack = 5 // 临时双攻:复活应清
+    t.grantedStatuses = ['dualAttack'] // 装备常驻派生:应保留
     turn(s, rng0, (st) => {
       st.pendingActions.set(0, { kind: 'cast', skillId: 'rev', targetAllyIdx: 1 })
       st.pendingActions.set(1, { kind: 'defend' })
@@ -3218,7 +3221,8 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(t.hp).toBe(20) // 200×10%
     expect(t.poisons.length).toBe(0)
     expect(t.status.confused).toBe(0)
-    expect(t.status.dualAttack).toBeGreaterThan(0)
+    expect(t.status.dualAttack).toBe(0)
+    expect(t.grantedStatuses).toContain('dualAttack')
     expect(s.log.some((l) => l.includes('死而复生'))).toBe(true)
     // 对活人无效果
     turn(s, rng0, (st) => {
@@ -3227,6 +3231,28 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     })
     expect(t.hp).toBe(20)
     expect(s.log.some((l) => l.includes('无任何效果'))).toBe(true)
+  })
+
+  test('解状态只清临时层，不会卸掉装备授予的双攻', () => {
+    const cleanse = mkSkill('cleanse', {
+      target: 'oneAlly',
+      effects: [{ kind: 'removeStatus', statuses: ['dualAttack'] }],
+    })
+    const s = createBattleState({
+      players: [
+        player('li', { skills: ['cleanse'] }),
+        player('ling', { grantedStatuses: ['dualAttack'] }),
+      ],
+      enemies: [dummy()],
+      skills: { cleanse },
+    })
+    s.players[1]!.status.dualAttack = 3
+    turn(s, rng0, (st) => {
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'cleanse', targetAllyIdx: 1 })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(s.players[1]!.status.dualAttack).toBe(0)
+    expect(s.players[1]!.grantedStatuses).toContain('dualAttack')
   })
 
   test('物品 targetAllyIdx 路由:还魂香喂尸体复活;金创药对死人无效果', () => {

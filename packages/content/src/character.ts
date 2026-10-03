@@ -216,7 +216,7 @@ export interface CharacterInstance {
   /**
    * 大世界带入下一场战斗的临时状态(护体符/金刚符 protect 7 回合等)。
    * 大世界不自行衰减；建态时注入战斗，战后清除，从存档恢复时也主动清除。缺省 = 无。
-   * ⚠ 与装备常驻 grantedStatuses(连击，live 派生、置 9999)不同，此处不保存装备派生值。
+   * ⚠ 与装备常驻 grantedStatuses(连击，live 派生)不同，此处不保存装备派生值。
    */
   extraStatuses?: CarriedStatus[]
   /**

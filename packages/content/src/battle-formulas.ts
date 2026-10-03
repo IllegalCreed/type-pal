@@ -224,8 +224,8 @@ export function buildActionQueue(
 // ════════════════════════════════════════════════════════════════════
 
 /**
- * 战斗状态计数器（sdlpal kStatusAll = 9 项 + Slow 兼容）。全部 WORD 计数器，
- * 回合末统一 -1;>999 = 装备永久效果（战末保留）。顺序对齐 STATUS_BY_NUM（迁移器用）。
+ * 战斗内临时状态计数器（sdlpal kStatusAll = 9 项 + Slow 兼容）。全部状态在回合末统一 -1。
+ * 第二阶段装备常驻状态由 BattlePlayerState.grantedStatuses 独立派生，不进入这里。
  */
 export interface BattleStatus {
   confused: number
