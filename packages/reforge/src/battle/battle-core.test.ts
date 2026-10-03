@@ -223,6 +223,19 @@ describe('M4a headless 战斗核', () => {
     expect(s.players[0]!.status.dualAttack).toBe(0)
     expect(s.players[1]!.status.protect).toBe(0)
   })
+
+  test('initialStatuses 的可选字段：显式 undefined 不物化，有效回合正常物化', () => {
+    const s = createBattleState({
+      players: [
+        player('seeded', {
+          initialStatuses: { haste: undefined, protect: 2 },
+        }),
+      ],
+      enemies: [mkEnemy('slime')],
+    })
+    expect(s.players[0]!.status.haste).toBe(0)
+    expect(s.players[0]!.status.protect).toBe(2)
+  })
 })
 
 describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {

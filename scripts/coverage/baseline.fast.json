@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-03T12:22:30.070Z",
+  "generatedAt": "2026-10-03T13:42:13.826Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 18792,
+  "testCount": 18794,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2237,7 +2237,7 @@
       ],
       "scopeDigest": "61cae1c7643764853bb8c3615b56a1b844c2eef7ed9552d0ab7e87a1cd76152a",
       "fastTests": {
-        "testCount": 8567,
+        "testCount": 8569,
         "testFileCount": 317,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -2821,8 +2821,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-core.test.ts",
-            "testCount": 113,
-            "identityDigest": "2e6cfe940e6e914171487e1dbba8b3e932ad4e23b0e561fbfd300c4222aeb469"
+            "testCount": 115,
+            "identityDigest": "13bff5bc4c7efe63be6489460fa4e293d56049840a78216d974f0dc53efdbb3d"
           },
           {
             "file": "packages/reforge/src/battle/battle-enemy-confused.test.ts",
@@ -4145,26 +4145,26 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "0c958269c9a9d939ee5f0f95cce87f74bc4e6c27a93f784d4373abd1a92e2961",
+        "identityDigest": "27418eaa81dcbe2d1718b54e149c14aa7d4c4f92e1efb69f69dd7c36a47c708b",
         "duplicateIdentityCount": 3,
-        "executionDigest": "885d21a5169edbad0ded5a7602a2a0e06551ffc48bac883cce7ef67d17e10aa5"
+        "executionDigest": "1be8f2c540e9e9d24982d92219245f95b4e606a9566b6a7a5e2b8d7ea5ac84bf"
       },
       "metrics": {
         "statements": {
-          "covered": 15760,
-          "total": 17938
+          "covered": 15761,
+          "total": 17939
         },
         "branches": {
-          "covered": 9653,
-          "total": 12162
+          "covered": 9657,
+          "total": 12166
         },
         "functions": {
-          "covered": 2560,
-          "total": 2915
+          "covered": 2561,
+          "total": 2916
         },
         "lines": {
-          "covered": 14161,
-          "total": 15661
+          "covered": 14162,
+          "total": 15662
         }
       }
     },
@@ -9871,7 +9871,7 @@
           "total": 33513
         },
         "branches": {
-          "covered": 23861,
+          "covered": 23862,
           "total": 29058
         },
         "functions": {
@@ -9887,20 +9887,20 @@
   },
   "total": {
     "statements": {
-      "covered": 67928,
-      "total": 77310
+      "covered": 67929,
+      "total": 77311
     },
     "branches": {
-      "covered": 48765,
-      "total": 60110
+      "covered": 48770,
+      "total": 60114
     },
     "functions": {
-      "covered": 12933,
-      "total": 14708
+      "covered": 12934,
+      "total": 14709
     },
     "lines": {
-      "covered": 60835,
-      "total": 67682
+      "covered": 60836,
+      "total": 67683
     }
   }
 }
