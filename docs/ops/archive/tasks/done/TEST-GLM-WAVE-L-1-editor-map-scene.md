@@ -1,7 +1,7 @@
 # TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包
 
 Status: done
-Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
+Closed Evidence: main d8a81d4c21a32efa3c140fb5858c83465b01bc5e; GitHub Documentation 37145486289 + Coverage 37145486286 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Phase: phase2
 Capability: editor-authoring / test-coverage
 Coding Owner: GLM L（仅新增测试、专属 fixture/证据）

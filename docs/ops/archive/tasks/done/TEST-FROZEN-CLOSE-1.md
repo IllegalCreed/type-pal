@@ -1,7 +1,7 @@
 # TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口
 
 Status: done
-Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
+Closed Evidence: main d8a81d4c21a32efa3c140fb5858c83465b01bc5e; GitHub Documentation 37145486289 + Coverage 37145486286 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Owner: Codex
 Reviewer: Codex（历史独立审核与当前实跑，不冒称外部复签）
 Phase: mixed / ops
@@ -13,7 +13,7 @@ Visual Verification Timing: N/A（历史功能视觉按未变条件复用）
 用户追加[全仓测试质量审计](AUDIT-TEST-QUALITY-1.md)，要求排查低效、可合并重复和垃圾测试/反控；此项纳入当前收口目标，审计结论闭合后再最终合并。错误/过期过程材料已按授权从工作树移除，历史仅留Git，不常驻失败原件。
 
 用户冻结O/P/Q并要求通过后推送/关卡/清分支，明确批准16历史保护账与两旧输入窄修；2026-10-03又要求图中L/M/N未完则补完、完成后合并删分支，并追加完成所有已交付测试（明确含GLM、Kimi、Grok、Cursor）的审核、合并推送、分支清理和CI核验目标。Codex build allowed，唯一Owner在隔离 `codex/opq-frozen-integration-r1`；main/作者树只读直到正式合入。保留并行8efe048610fab7aa4a257a716b91ece30194eba8/content22/SAVE11。
-不增加合同、配额、旧兼容、产品改动、ignore、规则放宽或timeout。只接收现行合法的新测/专属fixture，失效合同保留Git历史，不要求作者无限改写。
+不增加合同、配额、旧兼容、产品改动、ignore或质量规则放宽。覆盖率收集 workflow 的 20 分钟宿主上限已按用户授权提高到 30 分钟，未改变测试范围或质量阈值；只接收现行合法的新测/专属fixture，失效合同保留Git历史，不要求作者无限改写。
 
 ## 固定交付
 
@@ -30,5 +30,5 @@ Kimi42b3d303de3f2178e249b4ccbabf967e0affd194两文件16例，当前新main50/50�
 
 ## 收口与退休条件
 
-全部门通过后才 main 合入/推送、关闭实际完成卡。当前本地门已通过，待 main 快进、GitHub 必需 CI 成功后，GLM六波及Kimi/Grok/Cursor本轮已交付测试分支退休前 verify 精确 tip 的可恢复 bundle、所有非依赖 ignored、无改动/在途 PR；远端完整 SHA lease 原子删除，本地比较 SHA 删除。集成候选自身另做精确 backup 后再退休。独立产品 draft 和其它产品 Owner 不在测试退休授权内；关联只读审查分支须先保存其全部证据并确认不含未接收产品实现。
-无下一位贡献者提示词，Codex连续完成；当前不是done，未删除任何作者目录。
+全部门已通过并在 main `d8a81d4c21a32efa3c140fb5858c83465b01bc5e` 收口；GitHub Documentation `37145486289` 与 Coverage ratchet `37145486286` 均成功（Coverage 用时 23m28s）。GLM六波及 Kimi/Grok/Cursor 本轮已交付测试分支已逐 tip 备份并完成远端 lease 删除、本地分支删除和精确退休树移除；集成候选另有完整 bundle `opq-integration-retirement-20261004.bundle`。独立产品 draft 和其它产品 Owner 不在测试退休授权内；关联只读审查分支已在保存证据后退休。
+无下一位贡献者提示词；Codex 已完成独立验收、有限集成、CI 核验和退休清理，卡面状态为 done。主 checkout 保留用户未提交文件，不在收口中改写。

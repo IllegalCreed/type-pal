@@ -1,7 +1,7 @@
 # TEST-GLM-WAVE-O-1 — 供应/内容守卫冻结交付收口
 
 Status: done
-Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
+Closed Evidence: main d8a81d4c21a32efa3c140fb5858c83465b01bc5e; GitHub Documentation 37145486289 + Coverage 37145486286 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Phase: mixed（content/migrate第二阶段；shared资源编码第一阶段）
 Capability: test-coverage
 Coding Owner: GLM O（作者已停止）

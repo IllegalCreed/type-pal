@@ -1,7 +1,7 @@
 # AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计
 
 Status: done
-Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
+Closed Evidence: main d8a81d4c21a32efa3c140fb5858c83465b01bc5e; GitHub Documentation 37145486289 + Coverage 37145486286 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Owner: Codex
 Reviewer: Codex
 Phase: mixed / ops
