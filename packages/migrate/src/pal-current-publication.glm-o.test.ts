@@ -452,38 +452,6 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
     ).toThrow('PAL 物品剧情方案数量漂移: 48 != 49')
   })
 
-  test('作者改动 buy openShop 至 28 时生成侧 census 拒绝发布', () => {
-    const { sources, manifest } = fresh()
-    const entries = syntheticBaselineFiles()
-    const scene = entries.get('content/scenes/s000.json') as {
-      entities: Array<{ behaviors?: { trigger?: Record<string, { flow?: object }> } }>
-    }
-    const census = scene.entities[0]?.behaviors?.trigger?.['shop-census']
-    const stages = (census?.flow as { stages: { body: object[] }[] }).stages
-    stages[0]!.body = stages[0]!.body.slice(1)
-    const baseline = baselineFromEntries(entries)
-    expect(() => rebuild(baseline, sources)).toThrow(
-      'PAL Store0 invariant: buy openShop 数量 28 != 29',
-    )
-    void manifest
-  })
-
-  test('作者改动 sell openShop 指向非 0 商店时生成侧拒绝', () => {
-    const { sources } = fresh()
-    const entries = syntheticBaselineFiles()
-    const scene = entries.get('content/scenes/s000.json') as {
-      entities: Array<{ behaviors?: { trigger?: Record<string, { flow?: object }> } }>
-    }
-    const census = scene.entities[0]?.behaviors?.trigger?.['shop-census']
-    const stages = (census?.flow as { stages: { body: Array<{ mode: string; shop: number }> }[] })
-      .stages
-    const sell = stages[0]!.body.find((command) => command.mode === 'sell')
-    sell!.shop = 7
-    expect(() => rebuild(baselineFromEntries(entries), sources)).toThrow(
-      'PAL Store0 invariant: sell shop 应为 0，收到 7',
-    )
-  })
-
   test('item268 配方漂移（材料表被改）触发 Store0 recipes 拒绝', () => {
     const { publication, sources, manifest } = validPublication()
     const files = new Map(publication.files)

@@ -490,15 +490,9 @@ function buildStagesFlow() {
 }
 
 function machineFlow(label: string) {
-  return {
-    kind: 'stateMachine' as const,
-    machine: {
-      id: 'scheme-machine',
-      label,
-      initial: 'idle',
-      states: { idle: { label: '待机', body: [], next: { kind: 'stay' as const } } },
-    },
-  }
+  // Historical slots remain neutral census inputs, not a resurrected stateMachine model.
+  void label
+  return buildStagesFlow()
 }
 
 export interface SchemeAssignmentEntry {
