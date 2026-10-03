@@ -165,7 +165,7 @@ OP_ADD_CASH、OP14及真实auto/goto/reset、tickSceneAutoFadeIn，以及现行m
 
 ## 冻结候选与独立验收（2026-10-03）
 
-候选提交：`f7a2cd17c`（隔离分支 `codex/script-governance-closeout`）。该候选包含本卡准入的三域实现与作者内容，
+最终提交：`379304503`（已 fast-forward 到 `main` 并推送）。该候选包含本卡准入的三域实现与作者内容，
 未修改 SAVE11 字段或旧存档；6012 页面和服务保持原 PID 运行，主树仍只保留用户 `.zcodeignore` 未跟踪文件。
 
 - 公共接管、距离条件、帧动画 owner/hold/首帧淡入/清层及浏览器 watchdog 已由 Root 独立复跑；Reforge 全包
