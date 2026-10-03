@@ -21,7 +21,9 @@ Visual Verification Timing: N/A
 
 ## 当前事实
 
-候选9be30a3a4a4ed5738d287e942fb70fe4ef03c5f0基于main8efe048610fab7aa4a257a716b91ece30194eba8；全仓18683通过、七包类型/静态零。必要fast伴随既有formatter合同1例已定向与受影响migrate669全包绿，不计净新。官方ratchet尚需复跑，未main/CI/退休。
+当前集成候选工作树基于 main `8efe048610fab7aa4a257a716b91ece30194eba8`，HEAD `198f74d88029e7f50b559971c6ce91e1af739fd5` 后仍有审计窄修未提交；产品源无差异。审计已完成机器清点与代表性语义复核，新增/删除均限于已证明的测试合同、fixture 或证据工具。受影响 shared 113、pal-extract 377、migrate fast 630 与 game Grok 400 例已定向实跑通过，三包 typecheck 通过；全仓最终计数仍必须从冻结树重跑，不能沿用审计前快照。官方 ratchet 曾成功生成审计中间基准，最近一次重试因宿主 forks worker 启动超时在 inventory 阶段退出，未形成业务结论；需在不扩 timeout/不降规则的前提下重试。仍未 main/CI/退休。
 已发现并撤销Q九枚历史反控的AssertionError信用，P01-C03当前也为Vitest Error，不改失败原文冒充合法红。已从候选删除1664+23个失效/过期过程材料。审计已确认删除/精简合同见[审计报告](../../testing/finite-test-intake-20261003/audit-report.md)与[机器摘要](../../testing/finite-test-intake-20261003/audit-summary.json)：2个extractor重复例、4个framebuffer重复例、5个MKF重复/误记例、7个YJ2/RLE弱重复例、1个隔离候选副本、1个FrameAnimation重复例；另修正一个unsafe typed assetBase、一个重复损坏gzip调用和调试输出。其余弱matcher/强转/慢corpus/CLI重复均未在缺少caller与oracle证据时强删。
+
+此验收口径已同步写入 [`docs/ops/agent-workflow.md`](../agent-workflow.md) 与任务模板，作为后续所有贡献者测试任务的统一标准；“全绿”不再单独构成接收条件。最终审计报告明确保留未自动裁决项，不把静态 flag 或私有覆盖百分比当作质量结论。
 
 无下一位贡献者提示词；Codex完成最终测试门、新基准、合并推送、CI与分支清理。

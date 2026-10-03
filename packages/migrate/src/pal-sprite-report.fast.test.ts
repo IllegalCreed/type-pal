@@ -11,7 +11,7 @@ import {
 // Existing proof: pal-assets.test.ts:451-465 and :548-569 already assert these exact
 // public formatter contracts after real loading. Keep those integration assertions;
 // this fast-only companion does not read ignored PAL assets or claim a net-new oracle.
-test('public sprite reports preserve the existing complete field order without asset IO', () => {
+test('world sprite report preserves the complete field order without asset IO', () => {
   expect(
     formatPalWorldSpriteReport({
       sprites: 636,
@@ -24,6 +24,9 @@ test('public sprite reports preserve the existing complete field order without a
     `[大世界精灵资源] sprites=636 bytes=1332725 frames=4133 ` +
       `malformed-tail-slots=30 tuple-digest=${PAL_WORLD_SPRITE_TUPLE_DIGEST}`,
   )
+})
+
+test('battle sprite report preserves the complete field order without asset IO', () => {
   expect(
     formatPalBattleSpriteReport({
       battleSprites: 172,

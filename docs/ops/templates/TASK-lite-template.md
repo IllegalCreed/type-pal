@@ -31,6 +31,8 @@ migration/schema/save/asset pipeline、大规模 generated rewrite 或主动改�
 -
 
 ## 验证
+
+测试任务须填写[测试质量验收](../agent-workflow.md)：逐合同原子性/判别力、合法typed输入、真实caller/oracle、旧断言排重、有效反控与隔离；不以全绿或例数独立accept，精简后重算基准。
 -
 - 剧情 / 演出视觉如适用：登记集中 E2E 入口、步骤、预期和证据路径；开发期不重复走剧情。
 

@@ -2,48 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it, vi } from 'vitest'
-import { decodeRle } from '../io/rle.js'
-import {
-  encodeIndexedPng,
-  extractCharacterSprites,
-  framesToOut,
-  parseSpriteChunk,
-} from './sprite.js'
-
-describe('sprite', () => {
-  it('encodeIndexedPng 产 PNG 字节流,以 PNG 魔数开头', () => {
-    const frame = decodeRle(new Uint8Array([0x02, 0x00, 0x02, 0x00, 0x04, 0xaa, 0xaa, 0xaa, 0xaa]))
-    const png = encodeIndexedPng(frame.width, frame.height, frame.pixels)
-    // PNG magic: 89 50 4E 47 0D 0A 1A 0A
-    expect(png[0]).toBe(0x89)
-    expect(png[1]).toBe(0x50)
-    expect(png[2]).toBe(0x4e)
-    expect(png[3]).toBe(0x47)
-  })
-
-  it('framesToOut 转 SpriteFrameOut[]', () => {
-    const frames = parseSpriteChunk(
-      new Uint8Array([
-        0x01,
-        0x00, // imagecount = 1
-        0x02,
-        0x00,
-        0x02,
-        0x00,
-        0x04,
-        0xaa,
-        0xaa,
-        0xaa,
-        0xaa, // RLE 2×2
-      ]),
-    )
-    const out = framesToOut(frames)
-    expect(out).toHaveLength(1)
-    expect(out[0]!.index).toBe(0)
-    expect(out[0]!.width).toBe(2)
-    expect(out[0]!.pngBytes[0]).toBe(0x89)
-  })
-})
+import { extractCharacterSprites } from './sprite.js'
 
 describe('extractCharacterSprites', () => {
   it('给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧', () => {

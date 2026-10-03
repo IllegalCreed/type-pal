@@ -1,6 +1,6 @@
 {
   "date": "2026-10-03",
-  "status": "audit-complete-pending-final-gates",
+  "status": "machine-census-and-confirmed-semantic-fixes-complete; final-gates-pending",
   "policy": "few-high-signal-atomic-contracts; no coverage-padding",
   "staticInventory": {
     "files": 1701,
@@ -27,6 +27,7 @@
     "pending": 0,
     "todo": 0
   },
+  "finalAuditSet": { "status": "pending-final-frozen-tree-full-run" },
   "confirmedChanges": [
     {
       "path": "packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
@@ -45,12 +46,12 @@
     },
     {
       "path": "packages/shared/src/mkf.glm-o.test.ts",
-      "removedCases": 5,
+      "removedCases": 3,
       "reason": "duplicate/inaccurate O10 candidate; mkf.boundaries is stronger"
     },
     {
       "path": "packages/shared/src/yj2-encode.glm-o.test.ts",
-      "removedCases": 7,
+      "removedCases": 6,
       "reason": "weak deterministic-only or duplicate RLE/YJ2 boundary contracts"
     },
     {
@@ -72,8 +73,23 @@
     },
     {
       "path": "packages/migrate/src/pal-sprite-report.fast.test.ts",
-      "addedCases": 1,
-      "reason": "real public formatter contract to restore protected migrate function ratio without IO padding"
+      "addedCases": 2,
+      "reason": "two atomic public formatter contracts; existing integration proof mirrored in fast scope without IO or net-new credit"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.test.ts",
+      "removedCases": 3,
+      "reason": "type-only tautologies with no command-bus execution"
+    },
+    {
+      "path": "packages/shared/src/resources.test.ts",
+      "changed": "runtime literal/type tautologies removed; schema contracts moved to compile-time expectTypeOf fixture",
+      "reason": "no production runtime caller in these smoke cases"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "removedCases": 2,
+      "reason": "PNG magic and single-frame smoke covered by pngjs runtime-resource contract"
     }
   ],
   "negativeControlDisposition": {

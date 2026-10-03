@@ -73,6 +73,8 @@ Branch: TBD
 
 ## 验收条件
 
+测试任务另核[统一质量标准](../agent-workflow.md)：原子业务合同、合法typed输入、真实caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率accept。
+
 - 功能:
 - 测试:
 - 文档:

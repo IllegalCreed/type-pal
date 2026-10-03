@@ -22,12 +22,12 @@ const proof = (approval) => ({
   fileSha256: approval.fileSha256,
 })
 
-test('窄批准账只有五条唯一文件、历史净计数下降16，运行时不能扩大', () => {
-  assert.equal(approvedTestRetirements.length, 5)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 5)
+test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
+  assert.equal(approvedTestRetirements.length, 12)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 12)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    16,
+    38,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

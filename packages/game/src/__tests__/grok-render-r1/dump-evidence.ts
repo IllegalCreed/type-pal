@@ -3,15 +3,16 @@
  * 读回重新打开文件，核对像素和 DOM 原文。不生成替代画面。
  */
 import { createHash } from 'node:crypto'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { createCanvas, loadImage } from 'canvas'
 
-const pixelDir = join(
-  dirname(fileURLToPath(import.meta.url)),
-  '../../../../../docs/testing/grok-cursor-large/grok/pixels',
-)
+// Visual readback is an execution witness, not a repository artifact.  Keep it
+// in an isolated per-process temp tree so ordinary test/coverage runs cannot
+// dirty docs/testing with generated PNGs and logs.  The assertions still write,
+// reopen, hash, decode, and compare the real bytes before returning.
+const pixelDir = mkdtempSync(join(tmpdir(), 'type-pal-grok-pixels-'))
 
 export interface RgbaCheck {
   x: number
@@ -277,7 +278,7 @@ function isJsonPrimitive(item: string): boolean {
 }
 
 function rel(id: string): string {
-  return `docs/testing/grok-cursor-large/grok/pixels/${id}.png`
+  return join(pixelDir, `${id}.png`)
 }
 
 function sha256(bytes: Buffer): string {

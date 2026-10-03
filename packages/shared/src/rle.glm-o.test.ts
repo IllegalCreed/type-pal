@@ -183,11 +183,6 @@ describe('O10 encodeSpriteChunk：上限与空容器', () => {
     expect(() => parseSpriteChunkStrict(out)).toThrow('sprite chunk 不含帧')
     expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow('sprite chunk 不含帧')
   })
-
-  test('空 frames 的 indexed profile 明确拒绝无帧容器', () => {
-    const out = encodeSpriteChunk([])
-    expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow('sprite chunk 不含帧')
-  })
 })
 
 describe('O10 decompressYj2：头部与位流轴（真实解码入口）', () => {
