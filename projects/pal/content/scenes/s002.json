@@ -1382,6 +1382,14 @@
                     },
                     {
                       "kind": "setEntityState",
+                      "state": 3,
+                      "target": {
+                        "scene": "s005",
+                        "entity": "e123"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
                       "state": 2,
                       "target": {
                         "scene": "s010",
@@ -1500,76 +1508,6 @@
                 {
                   "id": "initial",
                   "body": [
-                    {
-                      "kind": "setEntityState",
-                      "state": 2,
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
-                      "kind": "setEntityPos",
-                      "pos": {
-                        "col": 137,
-                        "height": 0,
-                        "row": 76
-                      },
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      },
-                      "channel": "trigger",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
-                    },
-                    {
-                      "kind": "setEntityTriggerActivation",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      },
-                      "selection": {
-                        "kind": "use",
-                        "value": {
-                          "on": "touch",
-                          "range": 2
-                        }
-                      }
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s004",
-                        "entity": "e83"
-                      },
-                      "channel": "trigger",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-003"
-                      }
-                    },
                     {
                       "cue": {
                         "identity": {
