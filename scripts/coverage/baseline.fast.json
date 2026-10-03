@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-03T13:42:13.826Z",
+  "generatedAt": "2026-10-03T14:52:39.008Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 18794,
+  "testCount": 18795,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3572,7 +3572,7 @@
           {
             "file": "packages/reforge/src/pal-gov3-content-world-recovery.test.ts",
             "testCount": 72,
-            "identityDigest": "4d7499b2a4007ddbdaf41fca703257520cea6024b053cfb6301d46471ae4265b"
+            "identityDigest": "205d2fe802ae44756a615b69a1b3e85065d70d70647a6bd452b7c1224983adbb"
           },
           {
             "file": "packages/reforge/src/pal-gov3-content-world-wait.test.ts",
@@ -4145,9 +4145,9 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "27418eaa81dcbe2d1718b54e149c14aa7d4c4f92e1efb69f69dd7c36a47c708b",
+        "identityDigest": "e7038ad798ab5144862ed4577da5050961928a10aa4860c5d506d6902ddd6665",
         "duplicateIdentityCount": 3,
-        "executionDigest": "1be8f2c540e9e9d24982d92219245f95b4e606a9566b6a7a5e2b8d7ea5ac84bf"
+        "executionDigest": "132939fc95cae3d8302a7f9a50fc50abcfd97ead2d58f548af8455ca4a02ce0a"
       },
       "metrics": {
         "statements": {
@@ -6381,7 +6381,7 @@
       ],
       "scopeDigest": "17a2035a760e7292c1ab49e410b06bcaad56c83e05557d927416ae1e5db09b7a",
       "fastTests": {
-        "testCount": 4599,
+        "testCount": 4600,
         "testFileCount": 579,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
@@ -7982,8 +7982,8 @@
           },
           {
             "file": "packages/editor/src/core/script-movement-preview.test.ts",
-            "testCount": 14,
-            "identityDigest": "82bada96da0e706192be7d9960b592b725f0ca3c1e59376effd61497e3652d3f"
+            "testCount": 15,
+            "identityDigest": "426eed5cce643dec46708f459d16a9877dc30d84229d375789090f8c87e095db"
           },
           {
             "file": "packages/editor/src/core/script-preview-integration.cursor-mid-1.test.ts",
@@ -9861,25 +9861,25 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "c2b03d3f2ff7b2ed7b44233d432048cf93548ef6f5c8f4f81ef70ec17952c6d5",
+        "identityDigest": "bbcb703c765710678569decb2823dbd770790bbefa51e46fa0e39d6f6030f67f",
         "duplicateIdentityCount": 8,
-        "executionDigest": "dafb1efddc2c0cc7a7814fbb3cdadf6a3162a24be221fe98645ad3dadd4157ec"
+        "executionDigest": "b81acf14ee40cf8253ec3114ea8926782d7af7bab1437d56d93540050741f4fb"
       },
       "metrics": {
         "statements": {
-          "covered": 29919,
+          "covered": 29920,
           "total": 33513
         },
         "branches": {
-          "covered": 23862,
+          "covered": 23865,
           "total": 29058
         },
         "functions": {
-          "covered": 7569,
+          "covered": 7570,
           "total": 8543
         },
         "lines": {
-          "covered": 26794,
+          "covered": 26795,
           "total": 29284
         }
       }
@@ -9887,19 +9887,19 @@
   },
   "total": {
     "statements": {
-      "covered": 67929,
+      "covered": 67930,
       "total": 77311
     },
     "branches": {
-      "covered": 48770,
+      "covered": 48773,
       "total": 60114
     },
     "functions": {
-      "covered": 12934,
+      "covered": 12935,
       "total": 14709
     },
     "lines": {
-      "covered": 60836,
+      "covered": 60837,
       "total": 67683
     }
   }
