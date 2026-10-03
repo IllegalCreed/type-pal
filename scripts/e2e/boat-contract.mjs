@@ -43,4 +43,28 @@ export function assertBoatReport(report) {
   )
   assert.equal(report.endWorld.position.sceneId, 's014')
   assert(report.endWorld.position.pos)
+  assert(report.boatMotion?.samples >= 3)
+  assert.equal(report.boatMotion.partyBoatRelative, 'zero-through-ride')
+  assert.equal(report.boatMotion.rideFacing, 'down')
+}
+
+export function assertBoatMotion(samples) {
+  assert(samples.length >= 3, 'boat motion trace too short')
+  const origin = samples[0].e116
+  const ride = samples.filter(
+    (sample) =>
+      sample.e116 &&
+      origin &&
+      Math.hypot(sample.e116[0] - origin[0], sample.e116[1] - origin[1]) > 0.01,
+  )
+  assert(ride.length >= 3, 'boat never committed a multi-sample ride')
+  for (const sample of ride) {
+    assert(sample.position && sample.e116, 'ride sample missing party/boat position')
+    assert(
+      Math.hypot(sample.position[0] - sample.e116[0], sample.position[1] - sample.e116[1]) < 0.05,
+      'party detached from boat during ride',
+    )
+    assert.equal(sample.facing, 'down', 'party facing changed during ride')
+  }
+  return { samples: ride.length, partyBoatRelative: 'zero-through-ride', rideFacing: 'down' }
 }

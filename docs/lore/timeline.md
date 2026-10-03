@@ -127,6 +127,9 @@
 实跑证据：`build/e2e/reforge-006-2026-10-03T16-08-05-182Z`、[006任务卡](../ops/archive/tasks/done/E2E-006-1-inn-doctor-and-boat-to-island.md)。
 脚本证据：[客栈 e35/e36](../../projects/pal/content/scenes/s002.json)、[张四与船只](../../projects/pal/content/scenes/s005.json)。
 
+第一阶段对照：原始 `L_1509` 的队伍走位、0x15 朝向、0x3F 骑乘和 scene15 切换，当前 Reforge 分别由 `moveParty`、`setPartyFacing`、`ride(e116)` 和 `loadScene(s014)` 表达。
+006 轨迹实测中，骑乘段队伍与船 e116 的相对坐标保持 `[0,0]`，队伍朝向保持 `down`；正式 005 存档只有李逍遥一名队员，不能把这次证据扩大成三名队员的视觉验收。
+
 本段还暴露并修正两处迁移残留：小虎子脚本不应重新激活已完成的003苗人段落；洪大夫切换张四方案后必须恢复张四 state3，
 否则码头只有行为绑定而没有可见 NPC。两处都在作者工程修复，不进入自动行为。
 
