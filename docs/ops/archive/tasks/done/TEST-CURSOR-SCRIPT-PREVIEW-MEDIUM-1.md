@@ -1,19 +1,20 @@
-# TEST-GROK-RENDER-HOST-LARGE-1 — 已交付测试有限收口
+# TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 已交付测试有限收口
 
-Status: review
-Phase: phase1
-Owner: Grok（作者交付已冻结）
+Status: done
+Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
+Phase: phase2
+Owner: Cursor（作者交付已冻结）
 Reviewer: Codex
 Capability: test-coverage / finite-closeout
 Visual Verification Timing: N/A（本次只接入测试，不改变产品或重走剧情）
-Branch: `codex/grok-render-host-large-r1`
+Branch: `codex/cursor-script-preview-medium-r1`
 
 ## 当前独立裁决
 
-固定作者提交 `f4665f7ac51b80cae5620e4c08bd62f607881f73` 已核真实Git对象。400例现行回归；46产品源byte-exact，40有效三态原证据复核。
+固定作者提交 `ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685` 已核真实Git对象。32例现行回归；2个状态机合同退出，六针当前版本新三态、指定单AssertionError、精确临时树清理已核。
 产品、旧测试、共享配置和真实数据不因本卡改动；现行main目标8efe048610fab7aa4a257a716b91ece30194eba8/content22/SAVE11，仅选择性接收新测试/专属fixture，不merge旧产品树或恢复旧兼容。
 
-[统一验收与准确机账](../../testing/finite-test-intake-20261003/README.md)、[统一收口卡](TEST-FROZEN-CLOSE-1.md)。全仓check18683已通过、七包类型与静态零；官方ratchet的migrate函数比例窄修与最终strict/推送/CI仍须完成，当前不标done、不删作者分支。
+[统一验收与准确机账](../../../../testing/finite-test-intake-20261003/README.md)、[统一收口卡](TEST-FROZEN-CLOSE-1.md)。全仓check18683已通过、七包类型与静态零；官方ratchet的migrate函数比例窄修与最终strict/推送/CI仍须完成，当前不标done、不删作者分支。
 
 用户2026-10-03要求完成全部已交付测试收口并删除错误/过期材料。本卡范围由Codex裁决为上述有限现行回归，不追原数量预算；未核语义净新不给信用，错误反控不计有效。旧提示词、失败转录、失效工具与不实回执从工作树移除，历史仅由Git保存。
 

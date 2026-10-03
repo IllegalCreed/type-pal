@@ -1,6 +1,7 @@
 # TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包
 
-Status: review
+Status: done
+Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Phase: phase2
 Capability: editor-data / test-coverage
 Coding Owner: GLM M（仅新增测试、专属 fixture/证据）
@@ -11,8 +12,8 @@ Branch: `codex/glm-wave-m-editor-data-r1`（独立工作树）
 ## 准入与前提
 
 2026-09-30 Codex 核 `build allowed`，限纯测试。
-[冻结表](../../testing/glm-next-triple/targets.json) M01–M07 为 **27 个互异生产源**，
-[只读校验](../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/N 目标零交集；
+[冻结表](../../../../testing/glm-next-triple/targets.json) M01–M07 为 **27 个互异生产源**，
+[只读校验](../../../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/N 目标零交集；
 基础提交 `f70db72236d9cac794d40a625a89fef8c29459ae`。
 本地 fast 的 1301 个未命中臂只作为排查线索，不是收益承诺。
 
@@ -23,8 +24,8 @@ Branch: `codex/glm-wave-m-editor-data-r1`（独立工作树）
 若无 caller、旧测已证或只有非法 fixture 才可达，该轴如实登记不新增；
 若观察到 schema/生成内容/产品缺陷，停对应组交 Codex，不改产品或测试 oracle 凑绿。
 
-先读 `AGENTS.md`、[`READ-FIRST`](../../phase2/READ-FIRST.md)、
-[共同协议](../../testing/glm-next-triple/README.md)、冻结表与现行旧测；
+先读 `AGENTS.md`、[`READ-FIRST`](../../../../phase2/READ-FIRST.md)、
+[共同协议](../../../../testing/glm-next-triple/README.md)、冻结表与现行旧测；
 特别排重 A 的 DataMode/表单、F 的 sprite 上传与 B 的会话测试。
 不接真实资产导入/发布、PAL 内容改写、E2E 剧情或新 UX 形态裁决。
 
@@ -122,7 +123,7 @@ check/官方 ratchet/protected fast；当前 review，未计正式收益、未�
 
 并集最终门：完整 check 10715 例及硬性静态门通过，但官方 ratchet exit1，
 migrate statements/branches/lines 比率回退；baseline 未改，protected fast 未执行。
-详见[统一记录](../../testing/glm-next-triple/codex-lm-union-review.md)。
+详见[统一记录](../../../../testing/glm-next-triple/codex-lm-union-review.md)。
 保持 review，测试未合 main、未正式结算、未清树；不把存量 migrate 问题转给 GLM M。
 
 ### 历史首轮派发提示词（已执行，非本次返工指令）

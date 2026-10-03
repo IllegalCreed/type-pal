@@ -11,22 +11,6 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| AUDIT-TEST-QUALITY-1 | [全仓测试/fixture/反控质量审计](tasks/AUDIT-TEST-QUALITY-1.md) | review | Codex / 审计结论已落卡，待最终门 | 用户要求查低效、重复与垃圾；候选检测不自动删业务轴 |
-| TEST-FROZEN-CLOSE-1 | [六波冻结测试统一收口](tasks/TEST-FROZEN-CLOSE-1.md) | review | Codex / main与CI | 本地全仓门、ratchet、strict-fast已过；待main推送/CI/退休 |
-| TEST-GROK-RENDER-HOST-LARGE-1 | [呈现/宿主大包](tasks/TEST-GROK-RENDER-HOST-LARGE-1.md) | review | Codex / 本轮统一接入 | 400定向绿、46产品源不变，已交付冻结 |
-| TEST-CURSOR-ASSET-UI-LARGE-1 | [资源叶组件大包](tasks/TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | Codex / 本轮有限收口 | 717回归现行绿；净新702估算不作为验收事实，不续配额 |
-| TEST-GROK-BOOT-RESOURCES-MEDIUM-1 | [启动资源中包](tasks/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | review | Codex / 本轮统一接入 | 19现行合同绿，三产品源不变 |
-| TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 | [恢复地址中包](tasks/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | review | Codex / 本轮统一接入 | 24现行回归绿，8旧模型合同退役不恢复兼容 |
-| TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 | [脚本预览中包](tasks/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | review | Codex / 本轮统一接入 | 32现行回归绿，2状态机合同退役 |
-| QUALITY-TEST-INPUTS-1 | [两旧测试输入窄维护](tasks/QUALITY-TEST-INPUTS-1.md) | build | Codex / 用户已批准 | 固定I06随机输入、PAL图像IO在干净CI可重建；产品/断言/门不变 |
-| TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 | [确认队列/活动权限生命周期中包](tasks/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | review | Codex / 独立接入 | 16代码accept，四针旧绿新单红/恢复绿；不作者返工、不夹O/P/Q |
-| QUALITY-OPQ-RETIREMENT-1 | [历史测试退役保护账](tasks/QUALITY-OPQ-RETIREMENT-1.md) | blocked | Codex / 两旧输入待准入 | 原16 counter闭合；新增game随机少1臂/CI头像5红，不降门 |
-| TEST-GLM-WAVE-O-1 | [供应/内容守卫冻结收口](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 470保留；原16已闭合，新strict少1随机臂/CI头像红；不作者续派 |
-| TEST-GLM-WAVE-P-1 | [Editor冻结收口](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 114保留/四反控有效；原16闭合，新增门阻塞；不作者返工 |
-| TEST-GLM-WAVE-Q-1 | [runtime/解码冻结收口](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | Codex / 两旧输入窄准入 | 175保留；原16闭合，新增门阻塞；产品draft独立，不续派 |
-| TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
-| TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
-| TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / 统一收口 | r4历史accept已核，新main53绿，旧r2台账已更正 |
 
 **当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 

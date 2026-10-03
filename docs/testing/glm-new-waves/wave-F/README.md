@@ -11,7 +11,7 @@ GLM Wave F 的回执、反控判据与隔离视觉宿主。任务卡
 |---|---|
 | [receipt.md](receipt.md) | 交付回执：12 源逐组旧证→新差异、门禁结果、四针反控记录（含自测）、视觉证据 SHA256、未证边界、候选 SHA 登记 |
 | [needle-judge.mjs](needle-judge.mjs) | 反控判据 r2：唯一注入、恰 exit1、绝对 file/精确 fullName/failed=1/executed 一致/skipped=0/timeout/exit2/产品 hash，任何路径 finally 清理临时针；`--selftest` 七场景反例自测 |
-| [browser-host/](browser-host/) | 端口 6091 隔离功能视觉宿主：`vite.config.mts` + `index.html` + `host.tsx`（CanonicalScriptBodyEditor + BattleSpriteUploader）+ `drive-f.mjs`（playwright chrome 驱动）+ `evidence-browser-f.json` |
+| [browser-host/](browser-host) | 端口 6091 隔离功能视觉宿主：`vite.config.mts` + `index.html` + `host.tsx`（CanonicalScriptBodyEditor + BattleSpriteUploader）+ `drive-f.mjs`（playwright chrome 驱动）+ `evidence-browser-f.json` |
 | [evidence/vitest-final.json](evidence/vitest-final.json) | 全部 10 个新测文件的新鲜 Vitest JSON（file/fullName/status；22/22） |
 
 ## 对应生产源与新测

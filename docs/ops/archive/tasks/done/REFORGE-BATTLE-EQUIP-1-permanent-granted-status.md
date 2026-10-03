@@ -57,7 +57,7 @@ Branch: main
 
 ## 上下文锚点
 
-- 已拍板决策 / 铁律：[`docs/phase2/READ-FIRST.md`](../../../../../docs/phase2/READ-FIRST.md) 铁律 2/4/6/11；装备派生 live 红线在 `packages/content/src/item.ts:373-463`。
+- 已拍板决策 / 铁律：[`docs/phase2/READ-FIRST.md`](../../../../phase2/READ-FIRST.md) 铁律 2/4/6/11；装备派生 live 红线在 `packages/content/src/item.ts:373-463`。
 - 代码锚点：`packages/reforge/src/battle/battle-player-input.ts:20-58`、`packages/reforge/src/battle/battle-core.ts:278-365,604-615,2144-2146`。
 - 已知坑 / 审计文档：第一阶段物品审计记录了 `<=999` 清理历史，不得把它作为第二阶段永久状态模型：`docs/phase1/plans/2026-06-02-item-audit.md:43-45`。
 - 不得重新引入：32760/9999/9000 哨兵、装备状态写回 `CharacterInstance.extraStatuses`、复活等待装备相关脚本结束。

@@ -1,6 +1,6 @@
 # 已交付测试有限收口（2026-10-03）
 
-[统一任务卡](../../ops/tasks/TEST-FROZEN-CLOSE-1.md)。用户要求全部已交付GLM/Kimi/Grok/Cursor测试审核、合并推送、CI成功与分支退休；不继续扩配额，不夹独立产品draft。本轮唯一Codex集成树，作者树未写。
+[统一任务卡](../../ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md)。用户要求全部已交付GLM/Kimi/Grok/Cursor测试审核、合并推送、CI成功与分支退休；不继续扩配额，不夹独立产品draft。本轮唯一Codex集成树，作者树未写。
 
 ## 当前版本和实跑
 

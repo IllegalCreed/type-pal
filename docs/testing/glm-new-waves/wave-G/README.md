@@ -25,7 +25,7 @@ r1 候选 `07140f7596798c7687322eba83b110fcec0d033a`；本次按 main 上
 - 12 个 `*.glm-next-wave.test.ts`（每冻结源恰一个），**45 测试全部 passed**：
   [vitest-results.json](vitest-results.json)（新鲜 file/fullName/status；r2 少 2 测 = 审查裁定移除的 screen-fx 两例）。
 - 反控 4 枚 valid + 自测 10 组：[needle-judge.mjs](needle-judge.mjs) → [needle-verdicts.json](needle-verdicts.json)。
-- 隔离 battle trial 视觉：[browser-host/](browser-host/)（vite 6092 + 真实 `runBattleTrial` +
+- 隔离 battle trial 视觉：[browser-host/](browser-host)（vite 6092 + 真实 `runBattleTrial` +
   真实 pal 工程 `httpSource('/projects/pal')` + Playwright chrome）→ 4 张截图
   （/tmp/type-pal-glm-new-wave/G/，均实际看图初审通过）+ [visual-evidence.json](visual-evidence.json)
   （URL/视口/步骤/SHA256/失败请求归因/console）。

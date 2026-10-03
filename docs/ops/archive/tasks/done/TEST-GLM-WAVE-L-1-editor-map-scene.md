@@ -1,6 +1,7 @@
 # TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包
 
-Status: review
+Status: done
+Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Phase: phase2
 Capability: editor-authoring / test-coverage
 Coding Owner: GLM L（仅新增测试、专属 fixture/证据）
@@ -11,14 +12,14 @@ Branch: `codex/glm-wave-l-editor-map-r1`（独立工作树）
 ## 准入与前提
 
 2026-09-30 Codex 核 `build allowed`，限纯测试。
-[冻结表](../../testing/glm-next-triple/targets.json) L01–L06 为 **24 个互异生产源**，
-[只读校验](../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 目标及 M/N 零交集；
+[冻结表](../../../../testing/glm-next-triple/targets.json) L01–L06 为 **24 个互异生产源**，
+[只读校验](../../../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 目标及 M/N 零交集；
 基础提交 `f70db72236d9cac794d40a625a89fef8c29459ae`。
 本地 fast 逐文件 1155 个未命中臂只是选题池，不承诺可达收益。
 
 工程前提：本卡不改变产品行为，只从当前合法作者操作观察公开 UI、命令结果、撤销/取消和资源边界。
 原版/一阶段机制真值 N/A（不测剧情、碰撞或战斗）；一阶段已有对应的可见形态仍按
-[`READ-FIRST`](../../phase2/READ-FIRST.md) 铁律 8，不能从源码臆造新形态。
+[`READ-FIRST`](../../../../phase2/READ-FIRST.md) 铁律 8，不能从源码臆造新形态。
 二阶段现行入口 `packages/editor/src/ui/App.tsx:195,2182` 调用 `MapMode`；
 各叶组件/命令以冻结表路径和现行导出为准。最强替代解释是旧测试已精确证明、
 某分支只有非法状态可达或真实缺陷尚未定夺；出现这些观察就登记
@@ -46,7 +47,7 @@ Branch: `codex/glm-wave-l-editor-map-r1`（独立工作树）
 功能视觉至少两条：地图选区/取消与精灵或印章编辑回显，记录实际浏览器 URL、
 视口、操作、截图 SHA256、console；不能看图则标未证，不能用测试 DOM 代替。
 
-验收按[共同协议](../../testing/glm-next-triple/README.md)：六组逐行
+验收按[共同协议](../../../../testing/glm-next-triple/README.md)：六组逐行
 caller→旧 fullName/断言→新证或不写理由，至少四枚有效业务反控，
 Editor 定向/相邻及全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor test`、
 `typecheck`、根 `pnpm lint` 0/0/0、docs/diff 零诊断。GLM 只推隔离候选，不合 main、
@@ -172,5 +173,5 @@ GLM 无需继续返工；下一位为 Codex，完成并集门后才能 done。
 
 并集最终门：完整 check 10715 例及硬性静态门通过，但官方 ratchet exit1，
 migrate statements/branches/lines 比率回退；baseline 未改，protected fast 未执行。
-详见[统一记录](../../testing/glm-next-triple/codex-lm-union-review.md)。
+详见[统一记录](../../../../testing/glm-next-triple/codex-lm-union-review.md)。
 保持 review，测试未合 main、未正式结算、未清树；不把存量 migrate 问题转给 GLM L。

@@ -55,7 +55,7 @@ judge 自证：对照原文件 exit0（1 条真实执行）、注入点恰 1 次
 
 ## 隔离功能视觉（端口 6086，/tmp/type-pal-glm-large-wave/）
 
-宿主：[browser-host/](browser-host/)（vite 严格端口 6086，react/@type-pal 别名指真实包源码）。
+宿主：[browser-host/](browser-host)（vite 严格端口 6086，react/@type-pal 别名指真实包源码）。
 证据 JSON：[browser-host/evidence-browser-a.json](browser-host/evidence-browser-a.json)；console 错误 0。
 
 | 条 | 截图 | SHA256 | 视口 | 步骤→预期→实际 |

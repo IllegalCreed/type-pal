@@ -10,9 +10,9 @@ N r2 counter，保持 rework。L/M 测试尚未合 main，三波均未 done 或�
 - 接收分支 `codex/glm-lmn-acceptance-r1`，基于 main `6750b9a0`；
   L/M 共 98 个不同 fullName，无产品/旧测修改，62 冻结源核验通过。
 
-详见 [L 卡](../../ops/tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md)、
-[M 卡](../../ops/tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md)、
-[N 卡](../../ops/tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md)。
+详见 [L 卡](../../ops/archive/tasks/done/TEST-GLM-WAVE-L-1-editor-map-scene.md)、
+[M 卡](../../ops/archive/tasks/done/TEST-GLM-WAVE-M-1-editor-data-assets.md)、
+[N 卡](../../ops/archive/tasks/done/TEST-GLM-WAVE-N-1-reforge-runtime-host.md)。
 
 ## 独立执行证据
 

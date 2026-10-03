@@ -5,7 +5,7 @@
 [Codex 对 4ebea2b5 的独立首轮审核](codex-review-4ebea2b5.md)：rework，候选未合 main。
 [Codex 对 1f26d421 的独立接收与正式结算](codex-accept-r2-1f26d421.md)：done，正式基线 +55 分支。
 GLM 交付记录：[evidence.md](evidence.md)（六组对照 / Vitest JSON / 质量门 / 反控
-[counter-control/](counter-control/)）。
+[counter-control/](counter-control)）。
 
 生产冻结 `aac9443bfe81799b06afdb1787d32abf7cb43e14`；只写六个新测试文件和本目录的隔离证据。
 目标 `packages/game/src/core/event-system.ts` 与 Kimi/GLM 既有六个冻结队列无源码交集。

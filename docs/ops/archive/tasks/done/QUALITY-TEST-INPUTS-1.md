@@ -1,6 +1,7 @@
 # QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性
 
-Status: build
+Status: done
+Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Owner: Codex（用户2026-10-03“修吧”明确授权）
 Reviewer: Codex
 Phase: ops / mixed
@@ -9,7 +10,7 @@ Visual Verification Timing: N/A
 
 ## 前提与有限建议
 
-[实跑与定位原件](../../testing/finite-test-intake-20261003/README.md)；O/P/Q固定83文件未改这两个旧测试。
+[实跑与定位原件](../../../../testing/finite-test-intake-20261003/README.md)；O/P/Q固定83文件未改这两个旧测试。
 
 1. 第一阶段 `packages/game/src/shell/splash-fallback.glm-next-wave.test.ts`：I06全透明仙鹤用于隔离标题像素，但没有固定 `Math.random`，生产 `splash-fallback.ts:73/231-235` 将九只仙鹤随机放在x300–600。全部在屏外时 `:155` 的opaque=false臂不执行。相同候选/136源/11278分母，strict8279，单包只读诊断8280；LCOV仅 `155,7,1` 从0变3，定位唯一文件成立。
    建议仅固定合法随机输入，让既有全透明仙鹤可靠进入屏内；不增加case、改标题业务断言、改产品或容忍覆盖回退。

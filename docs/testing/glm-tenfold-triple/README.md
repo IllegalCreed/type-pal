@@ -1,6 +1,6 @@
 # O/P/Q 冻结交付收口
 
-当前统一结果见[全部测试收口](../finite-test-intake-20261003/README.md)与[全仓质量审计](../../ops/tasks/AUDIT-TEST-QUALITY-1.md)。只接收current main/content22/SAVE11上的合法回归，不追700配额、不恢复旧接口，不相加作者覆盖率。
+当前统一结果见[全部测试收口](../finite-test-intake-20261003/README.md)与[全仓质量审计](../../ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md)。只接收current main/content22/SAVE11上的合法回归，不追700配额、不恢复旧接口，不相加作者覆盖率。
 
 固定作者：O 4568e2dbcf790fdc221ebd6b8524bd5e0423cc4d；P b2cbb41f39d59928d9a4ecbf3d1a4abfd1deba31；Q 5dbf72d78f8df9939a76407c0f17ad10455bbbb5。当前的原始执行数与语义净新不同；失效合同与错误反控信用已撤销，精确最终数量以审计实测为准。
 

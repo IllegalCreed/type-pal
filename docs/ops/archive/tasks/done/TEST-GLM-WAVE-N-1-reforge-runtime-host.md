@@ -1,6 +1,7 @@
 # TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包
 
-Status: review
+Status: done
+Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Phase: phase2
 Capability: runtime-host / test-coverage
 Coding Owner: GLM N（仅新增测试、专属 fixture/证据）
@@ -11,8 +12,8 @@ Branch: `codex/glm-wave-n-reforge-host-r1`（独立工作树）
 ## 准入与前提
 
 2026-09-30 Codex 核 `build allowed`，**只准非剧情宿主测试**。
-[冻结表](../../testing/glm-next-triple/targets.json) N01–N05 为 **11 个互异生产源**，
-[只读校验](../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/M 目标零交集；
+[冻结表](../../../../testing/glm-next-triple/targets.json) N01–N05 为 **11 个互异生产源**，
+[只读校验](../../../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/M 目标零交集；
 基础提交 `f70db72236d9cac794d40a625a89fef8c29459ae`。
 本地 fast 逐文件 1473 个未命中臂中 `main.ts` 占 1217；许多可能属于剧情/E2E、
 不可达或已有异文件断言，不承诺收益，也不为刷臂启动剧情。
@@ -20,12 +21,12 @@ Branch: `codex/glm-wave-n-reforge-host-r1`（独立工作树）
 工程前提：`packages/reforge/src/main.ts:254` 的 `bootGame` 是现行公开启动入口；
 `:50,52,55,122,195` 接 BGM/SFX、战斗准备、菜单、视频端口。
 原版/一阶段机制真值 N/A（本卡不定战斗数值、碰撞或剧情）；一阶段仅作已有
-菜单视觉形态的 UX 参考，二阶段按 [`READ-FIRST`](../../phase2/READ-FIRST.md)
+菜单视觉形态的 UX 参考，二阶段按 [`READ-FIRST`](../../../../phase2/READ-FIRST.md)
 新架构合同观察。最强替代解释是大缺口在真实路线、DOM/Canvas 表现或被旧
 `main.*.test.ts` 已证；逐项读旧断言后无法证明新的当前非剧情合同，就标
 `existing-proof/out-of-scope`，不造私有状态或跳剧情快捷入口。
 
-先读 `AGENTS.md`、`READ-FIRST`、[共同协议](../../testing/glm-next-triple/README.md)、
+先读 `AGENTS.md`、`READ-FIRST`、[共同协议](../../../../testing/glm-next-triple/README.md)、
 冻结表、`packages/reforge/src/main.*.test.ts` 及相邻资源测试。
 不得改/重跑 Codex 当前 `E2E-R4-1` 的 001/002 路线、checkpoint、内容脚本、
 场景移动和剧情演出；若 Codex 后续改变 `main.ts`，立即停受影响组请 Codex

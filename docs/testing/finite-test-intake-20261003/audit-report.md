@@ -1,6 +1,6 @@
 # 全仓测试质量审计（2026-10-03）
 
-任务卡：[AUDIT-TEST-QUALITY-1](../../ops/tasks/AUDIT-TEST-QUALITY-1.md)。本审计以保护基线 `8efe048610fab7aa4a257a716b91ece30194eba8` 与有限测试接入后的冻结候选为对象；不以测试数量或覆盖率增长作为保留理由。
+任务卡：[AUDIT-TEST-QUALITY-1](../../ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md)。本审计以保护基线 `8efe048610fab7aa4a257a716b91ece30194eba8` 与有限测试接入后的冻结候选为对象；不以测试数量或覆盖率增长作为保留理由。
 
 ## 机器清点
 

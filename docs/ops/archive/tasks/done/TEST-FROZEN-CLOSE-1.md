@@ -1,6 +1,7 @@
 # TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口
 
-Status: review
+Status: done
+Closed Evidence: main 44345a45fe562b74dd3a8ec758a8b9d6e224c56e; GitHub Documentation 37143305933 + Coverage 37143305925 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
 Owner: Codex
 Reviewer: Codex（历史独立审核与当前实跑，不冒称外部复签）
 Phase: mixed / ops
@@ -17,7 +18,7 @@ Visual Verification Timing: N/A（历史功能视觉按未变条件复用）
 ## 固定交付
 
 L69b56cc388bbd0c0b7632d7ed59154461dd0410b/Mb59f1738f56f153a3c6d80b5f7dee1bcf27f7fae/Ndbbdc9569e22249411dc680b3a50c5826edd0345，历史独立accept/反控/视觉见[原件](https://github.com/IllegalCreed/type-pal/tree/9ae1116ec01308ef29f0b08c98f29ab1898ad034/docs/testing/glm-next-triple)，仅导入42新test/fixture，不merge旧产品。当前L67/M30/N53绿；L夹具版本改官方常量，M删除消失的状态转移API一例。
-O/P/Q固定作者SHA/83文件及759旧回归账见[冻结证据](../../testing/glm-tenfold-triple/README.md)，不称759语义净新。22/11淘汰O3旧合同、P03强耦合旧stateMachine/cursorHandoff整文件、Q3旧state cursor合同；Q剩余resolver签名/消息/非oracle字段机械适配。稳定片段保留历史，不将整文件退出称所有业务unreachable；不新增替代case，最终逐身份账另存。
+O/P/Q固定作者SHA/83文件及759旧回归账见[冻结证据](../../../../testing/glm-tenfold-triple/README.md)，不称759语义净新。22/11淘汰O3旧合同、P03强耦合旧stateMachine/cursorHandoff整文件、Q3旧state cursor合同；Q剩余resolver签名/消息/非oracle字段机械适配。稳定片段保留历史，不将整文件退出称所有业务unreachable；不新增替代case，最终逐身份账另存。
 Kimi42b3d303de3f2178e249b4ccbabf967e0affd194两文件16例，当前新main50/50（含相邻34）已绿，正式接入本轮另证。
 
 ## 两旧输入与必要门

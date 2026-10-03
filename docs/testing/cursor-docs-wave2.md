@@ -188,7 +188,7 @@
 
 - 原文：链接可见文案为 `asset-pipeline.md`，href 为 `../../docs/phase2/guides/content-publication.md`。
 - 证据：目标 H1「PAL 内容导入与发布」；`:3-12` 为提取/发布/校验入口，`:4` 回链 migrate README，`:15` 把早期烘焙方案归历史 archive；全文无 engine-chrome 当前烘焙细节。问题是「标签/内容承诺与实际入口不匹配」，不是一般短标签≠H1。
-- 建议替换：`当前PAL内容导入与发布见[PAL内容导入与发布](../../docs/phase2/guides/content-publication.md)。`
+- 建议替换：`当前PAL内容导入与发布见[PAL内容导入与发布](../phase2/guides/content-publication.md)。`
 - 若确需保留 chrome 烘焙说明，另指 `docs/ops/guides/dev-servers.md:24-26` 现有维护者说明；不得把历史 asset-pipeline 或当前指南中的回链循环包装成完整烘焙文档。本轮只改回执，不改这些指南。
 
 ## C08 迁移CLI六文件

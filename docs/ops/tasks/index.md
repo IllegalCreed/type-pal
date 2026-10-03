@@ -8,27 +8,11 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计](AUDIT-TEST-QUALITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-OPQ-RETIREMENT-1 - 历史测试退役保护账窄维护](QUALITY-OPQ-RETIREMENT-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性](QUALITY-TEST-INPUTS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-ASSET-UI-LARGE-1 — 已交付测试有限收口](TEST-CURSOR-ASSET-UI-LARGE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 已交付测试有限收口](TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](TEST-FROZEN-CLOSE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-WAVE-O-1 — 供应/内容守卫冻结交付收口](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-WAVE-P-1 — Editor冻结交付收口](TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口](TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GROK-BOOT-RESOURCES-MEDIUM-1 — 已交付测试有限收口](TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GROK-RENDER-HOST-LARGE-1 — 已交付测试有限收口](TEST-GROK-RENDER-HOST-LARGE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 — 已交付测试有限收口](TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 — 已交付测试有限收口](TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -61,6 +45,7 @@
 | [ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检](../archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](../archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](../archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计](../archive/tasks/done/AUDIT-TEST-QUALITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10-1 - 混乱敌人攻击同伴](../archive/tasks/done/B10-1-enemy-confused-attack.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)](../archive/tasks/done/B10-poison-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）](../archive/tasks/done/B11-1-player-casualty-scripts.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -203,6 +188,8 @@
 | [OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债](../archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [PRE-005-DEBT-1 — 005前当前边角与验收欠账收口](../archive/tasks/done/PRE-005-DEBT-1-current-edge-closeout.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](../archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-OPQ-RETIREMENT-1 - 历史测试退役保护账窄维护](../archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性](../archive/tasks/done/QUALITY-TEST-INPUTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧](../archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R2 - 事件脚本单一模型与 unmigrated 退役](../archive/tasks/done/R2-script-single-model.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -233,10 +220,12 @@
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](../archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复](../archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CURSOR-ASSET-UI-LARGE-1 — 已交付测试有限收口](../archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测](../archive/tasks/done/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 已交付测试有限收口](../archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归](../archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](../archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -244,6 +233,7 @@
 | [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](../archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-ENV-STABILITY-1 - 检查环境隔离与宿主测试负载](../archive/tasks/done/TEST-ENV-STABILITY-1-cache-and-host-load.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](../archive/tasks/done/TEST-FROZEN-CLOSE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](../archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](../archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](../archive/tasks/done/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -262,9 +252,19 @@
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](../archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](../archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](../archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](../archive/tasks/done/TEST-GLM-WAVE-L-1-editor-map-scene.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](../archive/tasks/done/TEST-GLM-WAVE-M-1-editor-data-assets.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](../archive/tasks/done/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-WAVE-O-1 — 供应/内容守卫冻结交付收口](../archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-WAVE-P-1 — Editor冻结交付收口](../archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口](../archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GROK-BOOT-RESOURCES-MEDIUM-1 — 已交付测试有限收口](../archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-1 — 一阶段菜单与索引渲染十组候选回归](../archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归](../archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GROK-RENDER-HOST-LARGE-1 — 已交付测试有限收口](../archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1 — 已交付测试有限收口](../archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测](../archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2 — 已交付测试有限收口](../archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](../archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波](../archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](../archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -299,3 +299,4 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
+
