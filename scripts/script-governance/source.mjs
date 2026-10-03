@@ -8,6 +8,10 @@ export const digest = (value) => createHash('sha256').update(JSON.stringify(valu
 export const addressOf = (label) => (/^L_\d+$/.test(label ?? '') ? Number(label.slice(2)) : null)
 export const sceneId = (id) => `s${String(id).padStart(3, '0')}`
 
+// The extraction label table does not include trigger confirmation (0x0a).
+// A conservative source graph must still follow its refusal arm and stop linear fingerprints.
+const jumpOperand = (opcode) => (opcode === 0x0a ? 0 : JUMP_TARGET_OPERAND[opcode])
+
 export function indexSource(events, scenes, externalTables = []) {
   if (events.segments?.length !== 1 || events.segments[0].name !== 'all') {
     throw new Error('Census requires the single global all segment, not scene slices')
@@ -152,8 +156,8 @@ export function callerContexts(source) {
         follow(c)
       } else if (command.opcode === RANDOM_JUMP_OPCODE) {
         for (let offset = 1; offset <= a; offset++) follow(address + offset)
-      } else if (JUMP_TARGET_OPERAND[command.opcode] !== undefined) {
-        follow(command.operands[JUMP_TARGET_OPERAND[command.opcode]])
+      } else if (jumpOperand(command.opcode) !== undefined) {
+        follow(command.operands[jumpOperand(command.opcode)])
       }
     }
   }
@@ -171,7 +175,7 @@ const isSpeaker = (text) => /^[^\r\n]{1,30}[∶：:]\s*$/.test(text ?? '')
 const hasControl = (command) =>
   command.op === 'raw' &&
   ([0x04, 0x07, RANDOM_JUMP_OPCODE].includes(command.opcode) ||
-    (JUMP_TARGET_OPERAND[command.opcode] !== undefined && ![0x24, 0x25].includes(command.opcode)))
+    (jumpOperand(command.opcode) !== undefined && ![0x24, 0x25].includes(command.opcode)))
 
 /** A deliberately small fingerprint, not a bytecode converter or an interpreter. */
 export function sourceSegment(commands, entry, owner) {

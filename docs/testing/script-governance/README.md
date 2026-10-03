@@ -11,6 +11,9 @@
 - [购买与收费修复回执](payment-repairs.json)：8个绑定、余额不足退出、成功副作用及用户批准的确认顺序调整。
 - [统一步骤模型治理范围](unified-steps-plan.md)：公共能力缺口、显式时间与整批切换边界，已进入SCRIPT-GOV-2整体候选。
 - [统一步骤内容整理与验证记录](unified-steps-evidence.md)：147套旧机器退役、完整内容hash、自动轨迹、四交接族与共享复用证明。
+- [剩余动态后继核查](residual-dynamic-premise.md)：当前源安装链、默认后继、未匹配与多上下文的直接证据。
+- [剩余动作与节拍核查](residual-motion-premise.md)：漏动画、错误循环、复播与完整页动作分组。
+- [剩余条件与呈现核查](residual-cross-family-premise.md)：失败副作用、画面恢复、持久外观及公共接管边界。
 - [治理后的当前检查点](current-checkpoints.md)：新SAVE11的001至005正式保存读回、当前入口和原档保全。
 - [上一批SAVE10检查点](save10-checkpoints-20261002.md)：2026-10-02批次的历史回执，不作当前前驱。
 - [Codex独立验收回执](independent-review.json)：逐项核查、质量原始结果、四段报告及已保全失败，不混淆首批与全治理完成。

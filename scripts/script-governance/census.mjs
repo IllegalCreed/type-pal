@@ -29,7 +29,7 @@ export function canonicalTokens(body, owner) {
       tokens.push(`item:${command.itemId}:${command.count ?? 1}`)
     else if (command.kind === 'setEntityFrame' && command.target?.entity === `e${owner}`)
       tokens.push(`frame:${owner}:${command.frame}`)
-    else if (command.kind === 'loadScene') tokens.push(`scene:${command.sceneId}`)
+    else if (command.kind === 'loadScene') tokens.push(`scene:${command.scene}`)
   })
   return tokens
 }
