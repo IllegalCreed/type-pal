@@ -1,0 +1,7626 @@
+{
+ "total": {
+  "lines": {
+   "total": 29284,
+   "covered": 26978,
+   "skipped": 0,
+   "pct": 92.12
+  },
+  "statements": {
+   "total": 33513,
+   "covered": 30139,
+   "skipped": 0,
+   "pct": 89.93
+  },
+  "functions": {
+   "total": 8543,
+   "covered": 7628,
+   "skipped": 0,
+   "pct": 89.28
+  },
+  "branches": {
+   "total": 29058,
+   "covered": 24156,
+   "skipped": 0,
+   "pct": 83.13
+  },
+  "branchesTrue": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/main.tsx": {
+  "lines": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/play.ts": {
+  "lines": {
+   "total": 99,
+   "covered": 92,
+   "skipped": 0,
+   "pct": 92.92
+  },
+  "functions": {
+   "total": 20,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 80
+  },
+  "statements": {
+   "total": 103,
+   "covered": 94,
+   "skipped": 0,
+   "pct": 91.26
+  },
+  "branches": {
+   "total": 28,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-commands.ts": {
+  "lines": {
+   "total": 174,
+   "covered": 172,
+   "skipped": 0,
+   "pct": 98.85
+  },
+  "functions": {
+   "total": 52,
+   "covered": 52,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 213,
+   "covered": 206,
+   "skipped": 0,
+   "pct": 96.71
+  },
+  "branches": {
+   "total": 161,
+   "covered": 148,
+   "skipped": 0,
+   "pct": 91.92
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-dialogue-commands.ts": {
+  "lines": {
+   "total": 71,
+   "covered": 70,
+   "skipped": 0,
+   "pct": 98.59
+  },
+  "functions": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 82,
+   "covered": 81,
+   "skipped": 0,
+   "pct": 98.78
+  },
+  "branches": {
+   "total": 58,
+   "covered": 48,
+   "skipped": 0,
+   "pct": 82.75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-references.ts": {
+  "lines": {
+   "total": 67,
+   "covered": 65,
+   "skipped": 0,
+   "pct": 97.01
+  },
+  "functions": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 69,
+   "covered": 66,
+   "skipped": 0,
+   "pct": 95.65
+  },
+  "branches": {
+   "total": 49,
+   "covered": 45,
+   "skipped": 0,
+   "pct": 91.83
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/ambience-commands.ts": {
+  "lines": {
+   "total": 46,
+   "covered": 46,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 59,
+   "covered": 59,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 42,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 88.09
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-commands.ts": {
+  "lines": {
+   "total": 41,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 49,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 95.91
+  },
+  "branches": {
+   "total": 33,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 93.93
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-diagnostics.ts": {
+  "lines": {
+   "total": 43,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 93.02
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 51,
+   "covered": 46,
+   "skipped": 0,
+   "pct": 90.19
+  },
+  "branches": {
+   "total": 48,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 79.16
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-label-command.ts": {
+  "lines": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 21,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 95.23
+  },
+  "branches": {
+   "total": 12,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/audio-preview-session.ts": {
+  "lines": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/audio-preview.ts": {
+  "lines": {
+   "total": 176,
+   "covered": 176,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 42,
+   "covered": 42,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 202,
+   "covered": 194,
+   "skipped": 0,
+   "pct": 96.03
+  },
+  "branches": {
+   "total": 97,
+   "covered": 81,
+   "skipped": 0,
+   "pct": 83.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-command-edit.ts": {
+  "lines": {
+   "total": 133,
+   "covered": 131,
+   "skipped": 0,
+   "pct": 98.49
+  },
+  "functions": {
+   "total": 25,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 166,
+   "covered": 147,
+   "skipped": 0,
+   "pct": 88.55
+  },
+  "branches": {
+   "total": 139,
+   "covered": 119,
+   "skipped": 0,
+   "pct": 85.61
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-disk-baseline.ts": {
+  "lines": {
+   "total": 102,
+   "covered": 100,
+   "skipped": 0,
+   "pct": 98.03
+  },
+  "functions": {
+   "total": 28,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 96.42
+  },
+  "statements": {
+   "total": 109,
+   "covered": 106,
+   "skipped": 0,
+   "pct": 97.24
+  },
+  "branches": {
+   "total": 71,
+   "covered": 68,
+   "skipped": 0,
+   "pct": 95.77
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-journal.ts": {
+  "lines": {
+   "total": 393,
+   "covered": 387,
+   "skipped": 0,
+   "pct": 98.47
+  },
+  "functions": {
+   "total": 57,
+   "covered": 57,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 443,
+   "covered": 428,
+   "skipped": 0,
+   "pct": 96.61
+  },
+  "branches": {
+   "total": 297,
+   "covered": 274,
+   "skipped": 0,
+   "pct": 92.25
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-plan.ts": {
+  "lines": {
+   "total": 96,
+   "covered": 96,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 116,
+   "covered": 115,
+   "skipped": 0,
+   "pct": 99.13
+  },
+  "branches": {
+   "total": 87,
+   "covered": 86,
+   "skipped": 0,
+   "pct": 98.85
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-prefix.ts": {
+  "lines": {
+   "total": 34,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 36,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 31,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-store.ts": {
+  "lines": {
+   "total": 91,
+   "covered": 91,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 99,
+   "covered": 99,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 102,
+   "covered": 102,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-data-command-errors.ts": {
+  "lines": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-data-references.ts": {
+  "lines": {
+   "total": 78,
+   "covered": 76,
+   "skipped": 0,
+   "pct": 97.43
+  },
+  "functions": {
+   "total": 29,
+   "covered": 29,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 90,
+   "covered": 86,
+   "skipped": 0,
+   "pct": 95.55
+  },
+  "branches": {
+   "total": 90,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 91.11
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-field-commands.ts": {
+  "lines": {
+   "total": 73,
+   "covered": 73,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 28,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 94,
+   "covered": 93,
+   "skipped": 0,
+   "pct": 98.93
+  },
+  "branches": {
+   "total": 60,
+   "covered": 52,
+   "skipped": 0,
+   "pct": 86.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-commands.ts": {
+  "lines": {
+   "total": 38,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 46,
+   "covered": 46,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 27,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 96.29
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-library.ts": {
+  "lines": {
+   "total": 69,
+   "covered": 69,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 20,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 79,
+   "covered": 78,
+   "skipped": 0,
+   "pct": 98.73
+  },
+  "branches": {
+   "total": 57,
+   "covered": 54,
+   "skipped": 0,
+   "pct": 94.73
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-state.ts": {
+  "lines": {
+   "total": 44,
+   "covered": 44,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 51,
+   "covered": 51,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 42,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 88.09
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-sprite-commands.ts": {
+  "lines": {
+   "total": 181,
+   "covered": 177,
+   "skipped": 0,
+   "pct": 97.79
+  },
+  "functions": {
+   "total": 41,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 209,
+   "covered": 200,
+   "skipped": 0,
+   "pct": 95.69
+  },
+  "branches": {
+   "total": 164,
+   "covered": 147,
+   "skipped": 0,
+   "pct": 89.63
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-sprite-import.ts": {
+  "lines": {
+   "total": 27,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 33,
+   "covered": 33,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 33,
+   "covered": 33,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-trial-launch.ts": {
+  "lines": {
+   "total": 171,
+   "covered": 148,
+   "skipped": 0,
+   "pct": 86.54
+  },
+  "functions": {
+   "total": 28,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 67.85
+  },
+  "statements": {
+   "total": 193,
+   "covered": 158,
+   "skipped": 0,
+   "pct": 81.86
+  },
+  "branches": {
+   "total": 117,
+   "covered": 87,
+   "skipped": 0,
+   "pct": 74.35
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/binary-signature.ts": {
+  "lines": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/clone.ts": {
+  "lines": {
+   "total": 39,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 43,
+   "covered": 42,
+   "skipped": 0,
+   "pct": 97.67
+  },
+  "branches": {
+   "total": 28,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 96.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-asset-record.ts": {
+  "lines": {
+   "total": 29,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 96.55
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 41,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 92.68
+  },
+  "branches": {
+   "total": 44,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 93.18
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-catalog.ts": {
+  "lines": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-contract.ts": {
+  "lines": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-scene-state.ts": {
+  "lines": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 25,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 96
+  },
+  "branches": {
+   "total": 12,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/commands.ts": {
+  "lines": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/composite-command.ts": {
+  "lines": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/edit-session.ts": {
+  "lines": {
+   "total": 405,
+   "covered": 386,
+   "skipped": 0,
+   "pct": 95.3
+  },
+  "functions": {
+   "total": 98,
+   "covered": 97,
+   "skipped": 0,
+   "pct": 98.97
+  },
+  "statements": {
+   "total": 486,
+   "covered": 459,
+   "skipped": 0,
+   "pct": 94.44
+  },
+  "branches": {
+   "total": 276,
+   "covered": 241,
+   "skipped": 0,
+   "pct": 87.31
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-asset-reader.ts": {
+  "lines": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 25,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 96
+  },
+  "branches": {
+   "total": 14,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 92.85
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-asset-references.ts": {
+  "lines": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 7,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 85.71
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-contract.ts": {
+  "lines": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-core.ts": {
+  "lines": {
+   "total": 30,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 93.33
+  },
+  "functions": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 35,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 88.57
+  },
+  "branches": {
+   "total": 31,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 74.19
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-store.ts": {
+  "lines": {
+   "total": 181,
+   "covered": 175,
+   "skipped": 0,
+   "pct": 96.68
+  },
+  "functions": {
+   "total": 41,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 95.12
+  },
+  "statements": {
+   "total": 214,
+   "covered": 200,
+   "skipped": 0,
+   "pct": 93.45
+  },
+  "branches": {
+   "total": 152,
+   "covered": 130,
+   "skipped": 0,
+   "pct": 85.52
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived.worker.ts": {
+  "lines": {
+   "total": 3,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "functions": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "statements": {
+   "total": 4,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-history-coordinator.ts": {
+  "lines": {
+   "total": 113,
+   "covered": 111,
+   "skipped": 0,
+   "pct": 98.23
+  },
+  "functions": {
+   "total": 48,
+   "covered": 48,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 131,
+   "covered": 127,
+   "skipped": 0,
+   "pct": 96.94
+  },
+  "branches": {
+   "total": 54,
+   "covered": 50,
+   "skipped": 0,
+   "pct": 92.59
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-history-participant.ts": {
+  "lines": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/enemy-commands.ts": {
+  "lines": {
+   "total": 42,
+   "covered": 42,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 16,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 57,
+   "covered": 57,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 36,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 94.44
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/enemy-team-commands.ts": {
+  "lines": {
+   "total": 43,
+   "covered": 43,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 20,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 57,
+   "covered": 57,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 40,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 87.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-address-references.ts": {
+  "lines": {
+   "total": 37,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 41,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 31,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-commands.ts": {
+  "lines": {
+   "total": 102,
+   "covered": 100,
+   "skipped": 0,
+   "pct": 98.03
+  },
+  "functions": {
+   "total": 25,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 133,
+   "covered": 118,
+   "skipped": 0,
+   "pct": 88.72
+  },
+  "branches": {
+   "total": 83,
+   "covered": 67,
+   "skipped": 0,
+   "pct": 80.72
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-display.ts": {
+  "lines": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-placement.ts": {
+  "lines": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 29,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 96.55
+  },
+  "branches": {
+   "total": 30,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 93.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/export-zip.ts": {
+  "lines": {
+   "total": 47,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 56,
+   "covered": 56,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 33,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 96.96
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/file-system-access.ts": {
+  "lines": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 6,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-codec.ts": {
+  "lines": {
+   "total": 35,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 11,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "statements": {
+   "total": 41,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 92.68
+  },
+  "branches": {
+   "total": 27,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 85.18
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-codec.worker.ts": {
+  "lines": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 6,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 66.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-draft.ts": {
+  "lines": {
+   "total": 143,
+   "covered": 142,
+   "skipped": 0,
+   "pct": 99.3
+  },
+  "functions": {
+   "total": 32,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 179,
+   "covered": 169,
+   "skipped": 0,
+   "pct": 94.41
+  },
+  "branches": {
+   "total": 148,
+   "covered": 127,
+   "skipped": 0,
+   "pct": 85.81
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-images.ts": {
+  "lines": {
+   "total": 28,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 33,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 96.96
+  },
+  "branches": {
+   "total": 19,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 94.73
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-worker-client.ts": {
+  "lines": {
+   "total": 38,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 94.73
+  },
+  "functions": {
+   "total": 12,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 91.66
+  },
+  "statements": {
+   "total": 50,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 94
+  },
+  "branches": {
+   "total": 26,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 84.61
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/fsa-copy.ts": {
+  "lines": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 21,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/handle-store.ts": {
+  "lines": {
+   "total": 85,
+   "covered": 85,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 33,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 96.96
+  },
+  "statements": {
+   "total": 97,
+   "covered": 96,
+   "skipped": 0,
+   "pct": 98.96
+  },
+  "branches": {
+   "total": 39,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/hit-test.ts": {
+  "lines": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/image-import.ts": {
+  "lines": {
+   "total": 82,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 95,
+   "covered": 94,
+   "skipped": 0,
+   "pct": 98.94
+  },
+  "branches": {
+   "total": 42,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 88.09
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/isometric-brush.ts": {
+  "lines": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/isometric-fill.ts": {
+  "lines": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 26,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 88.46
+  },
+  "branches": {
+   "total": 18,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-alchemy.ts": {
+  "lines": {
+   "total": 35,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 44,
+   "covered": 42,
+   "skipped": 0,
+   "pct": 95.45
+  },
+  "branches": {
+   "total": 28,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 85.71
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-authoring.ts": {
+  "lines": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-commands.ts": {
+  "lines": {
+   "total": 66,
+   "covered": 65,
+   "skipped": 0,
+   "pct": 98.48
+  },
+  "functions": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 85,
+   "covered": 79,
+   "skipped": 0,
+   "pct": 92.94
+  },
+  "branches": {
+   "total": 42,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-references.ts": {
+  "lines": {
+   "total": 146,
+   "covered": 144,
+   "skipped": 0,
+   "pct": 98.63
+  },
+  "functions": {
+   "total": 43,
+   "covered": 43,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 155,
+   "covered": 152,
+   "skipped": 0,
+   "pct": 98.06
+  },
+  "branches": {
+   "total": 168,
+   "covered": 157,
+   "skipped": 0,
+   "pct": 93.45
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/level-up-commands.ts": {
+  "lines": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 12,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 91.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/load-play-project.ts": {
+  "lines": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/locale-commands.ts": {
+  "lines": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 15,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-asset-commands.ts": {
+  "lines": {
+   "total": 102,
+   "covered": 102,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 31,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 128,
+   "covered": 123,
+   "skipped": 0,
+   "pct": 96.09
+  },
+  "branches": {
+   "total": 78,
+   "covered": 62,
+   "skipped": 0,
+   "pct": 79.48
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-edit-commands.ts": {
+  "lines": {
+   "total": 145,
+   "covered": 144,
+   "skipped": 0,
+   "pct": 99.31
+  },
+  "functions": {
+   "total": 30,
+   "covered": 30,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 176,
+   "covered": 168,
+   "skipped": 0,
+   "pct": 95.45
+  },
+  "branches": {
+   "total": 114,
+   "covered": 95,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-patch.ts": {
+  "lines": {
+   "total": 147,
+   "covered": 146,
+   "skipped": 0,
+   "pct": 99.31
+  },
+  "functions": {
+   "total": 21,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 160,
+   "covered": 158,
+   "skipped": 0,
+   "pct": 98.75
+  },
+  "branches": {
+   "total": 161,
+   "covered": 153,
+   "skipped": 0,
+   "pct": 95.03
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-reference-facts.ts": {
+  "lines": {
+   "total": 28,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 16,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 35,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 25,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 76
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-selection.ts": {
+  "lines": {
+   "total": 235,
+   "covered": 226,
+   "skipped": 0,
+   "pct": 96.17
+  },
+  "functions": {
+   "total": 68,
+   "covered": 68,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 275,
+   "covered": 263,
+   "skipped": 0,
+   "pct": 95.63
+  },
+  "branches": {
+   "total": 228,
+   "covered": 213,
+   "skipped": 0,
+   "pct": 93.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-transform.ts": {
+  "lines": {
+   "total": 181,
+   "covered": 178,
+   "skipped": 0,
+   "pct": 98.34
+  },
+  "functions": {
+   "total": 40,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 97.5
+  },
+  "statements": {
+   "total": 201,
+   "covered": 194,
+   "skipped": 0,
+   "pct": 96.51
+  },
+  "branches": {
+   "total": 131,
+   "covered": 121,
+   "skipped": 0,
+   "pct": 92.36
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/open-actions.ts": {
+  "lines": {
+   "total": 119,
+   "covered": 119,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 134,
+   "covered": 132,
+   "skipped": 0,
+   "pct": 98.5
+  },
+  "branches": {
+   "total": 108,
+   "covered": 106,
+   "skipped": 0,
+   "pct": 98.14
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/open-local.ts": {
+  "lines": {
+   "total": 25,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 28,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 17,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 88.23
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/play-url.ts": {
+  "lines": {
+   "total": 16,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 20,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 29,
+   "covered": 29,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/play-workspace.ts": {
+  "lines": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/playback.ts": {
+  "lines": {
+   "total": 465,
+   "covered": 438,
+   "skipped": 0,
+   "pct": 94.19
+  },
+  "functions": {
+   "total": 143,
+   "covered": 126,
+   "skipped": 0,
+   "pct": 88.11
+  },
+  "statements": {
+   "total": 508,
+   "covered": 470,
+   "skipped": 0,
+   "pct": 92.51
+  },
+  "branches": {
+   "total": 290,
+   "covered": 247,
+   "skipped": 0,
+   "pct": 85.17
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/poison-commands.ts": {
+  "lines": {
+   "total": 49,
+   "covered": 49,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 70,
+   "covered": 69,
+   "skipped": 0,
+   "pct": 98.57
+  },
+  "branches": {
+   "total": 48,
+   "covered": 43,
+   "skipped": 0,
+   "pct": 89.58
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-copy-source.ts": {
+  "lines": {
+   "total": 36,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 42,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 95.23
+  },
+  "branches": {
+   "total": 20,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 85
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-diagnostics.ts": {
+  "lines": {
+   "total": 219,
+   "covered": 219,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 42,
+   "covered": 42,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 242,
+   "covered": 242,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 240,
+   "covered": 216,
+   "skipped": 0,
+   "pct": 90
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-io.ts": {
+  "lines": {
+   "total": 283,
+   "covered": 281,
+   "skipped": 0,
+   "pct": 99.29
+  },
+  "functions": {
+   "total": 54,
+   "covered": 54,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 331,
+   "covered": 329,
+   "skipped": 0,
+   "pct": 99.39
+  },
+  "branches": {
+   "total": 242,
+   "covered": 221,
+   "skipped": 0,
+   "pct": 91.32
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-leave-guard.ts": {
+  "lines": {
+   "total": 62,
+   "covered": 60,
+   "skipped": 0,
+   "pct": 96.77
+  },
+  "functions": {
+   "total": 21,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 73,
+   "covered": 71,
+   "skipped": 0,
+   "pct": 97.26
+  },
+  "branches": {
+   "total": 63,
+   "covered": 61,
+   "skipped": 0,
+   "pct": 96.82
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-name-command.ts": {
+  "lines": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-read-lock.ts": {
+  "lines": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-reference-adapters.ts": {
+  "lines": {
+   "total": 355,
+   "covered": 336,
+   "skipped": 0,
+   "pct": 94.64
+  },
+  "functions": {
+   "total": 95,
+   "covered": 95,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 373,
+   "covered": 354,
+   "skipped": 0,
+   "pct": 94.9
+  },
+  "branches": {
+   "total": 273,
+   "covered": 244,
+   "skipped": 0,
+   "pct": 89.37
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-reference.ts": {
+  "lines": {
+   "total": 390,
+   "covered": 378,
+   "skipped": 0,
+   "pct": 96.92
+  },
+  "functions": {
+   "total": 60,
+   "covered": 60,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 421,
+   "covered": 403,
+   "skipped": 0,
+   "pct": 95.72
+  },
+  "branches": {
+   "total": 374,
+   "covered": 335,
+   "skipped": 0,
+   "pct": 89.57
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/scene-commands.ts": {
+  "lines": {
+   "total": 136,
+   "covered": 136,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 41,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 168,
+   "covered": 163,
+   "skipped": 0,
+   "pct": 97.02
+  },
+  "branches": {
+   "total": 104,
+   "covered": 96,
+   "skipped": 0,
+   "pct": 92.3
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor-projection.ts": {
+  "lines": {
+   "total": 70,
+   "covered": 68,
+   "skipped": 0,
+   "pct": 97.14
+  },
+  "functions": {
+   "total": 23,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 95.65
+  },
+  "statements": {
+   "total": 82,
+   "covered": 79,
+   "skipped": 0,
+   "pct": 96.34
+  },
+  "branches": {
+   "total": 79,
+   "covered": 75,
+   "skipped": 0,
+   "pct": 94.93
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.ts": {
+  "lines": {
+   "total": 819,
+   "covered": 802,
+   "skipped": 0,
+   "pct": 97.92
+  },
+  "functions": {
+   "total": 227,
+   "covered": 224,
+   "skipped": 0,
+   "pct": 98.67
+  },
+  "statements": {
+   "total": 940,
+   "covered": 898,
+   "skipped": 0,
+   "pct": 95.53
+  },
+  "branches": {
+   "total": 533,
+   "covered": 466,
+   "skipped": 0,
+   "pct": 87.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-flow-preview.ts": {
+  "lines": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-movement-preview.ts": {
+  "lines": {
+   "total": 198,
+   "covered": 195,
+   "skipped": 0,
+   "pct": 98.48
+  },
+  "functions": {
+   "total": 23,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 215,
+   "covered": 210,
+   "skipped": 0,
+   "pct": 97.67
+  },
+  "branches": {
+   "total": 157,
+   "covered": 143,
+   "skipped": 0,
+   "pct": 91.08
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-reference-catalog.ts": {
+  "lines": {
+   "total": 23,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 15,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 25,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 14,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 92.85
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-references.ts": {
+  "lines": {
+   "total": 136,
+   "covered": 125,
+   "skipped": 0,
+   "pct": 91.91
+  },
+  "functions": {
+   "total": 17,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 94.11
+  },
+  "statements": {
+   "total": 150,
+   "covered": 136,
+   "skipped": 0,
+   "pct": 90.66
+  },
+  "branches": {
+   "total": 138,
+   "covered": 118,
+   "skipped": 0,
+   "pct": 85.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/seed-assets.ts": {
+  "lines": {
+   "total": 59,
+   "covered": 59,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 68,
+   "covered": 67,
+   "skipped": 0,
+   "pct": 98.52
+  },
+  "branches": {
+   "total": 22,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 95.45
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/seed.ts": {
+  "lines": {
+   "total": 47,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 55,
+   "covered": 55,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 22,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 95.45
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/shop-commands.ts": {
+  "lines": {
+   "total": 66,
+   "covered": 66,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 24,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 80,
+   "covered": 79,
+   "skipped": 0,
+   "pct": 98.75
+  },
+  "branches": {
+   "total": 48,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 85.41
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/skill-commands.ts": {
+  "lines": {
+   "total": 48,
+   "covered": 48,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 69,
+   "covered": 68,
+   "skipped": 0,
+   "pct": 98.55
+  },
+  "branches": {
+   "total": 30,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 93.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-actions.ts": {
+  "lines": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-assets.ts": {
+  "lines": {
+   "total": 10,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 70
+  },
+  "functions": {
+   "total": 4,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 50
+  },
+  "statements": {
+   "total": 10,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 70
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-commands.ts": {
+  "lines": {
+   "total": 211,
+   "covered": 211,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 47,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 245,
+   "covered": 241,
+   "skipped": 0,
+   "pct": 98.36
+  },
+  "branches": {
+   "total": 202,
+   "covered": 192,
+   "skipped": 0,
+   "pct": 95.04
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-commands.ts": {
+  "lines": {
+   "total": 77,
+   "covered": 76,
+   "skipped": 0,
+   "pct": 98.7
+  },
+  "functions": {
+   "total": 27,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 94,
+   "covered": 90,
+   "skipped": 0,
+   "pct": 95.74
+  },
+  "branches": {
+   "total": 57,
+   "covered": 51,
+   "skipped": 0,
+   "pct": 89.47
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-draft.ts": {
+  "lines": {
+   "total": 169,
+   "covered": 165,
+   "skipped": 0,
+   "pct": 97.63
+  },
+  "functions": {
+   "total": 72,
+   "covered": 71,
+   "skipped": 0,
+   "pct": 98.61
+  },
+  "statements": {
+   "total": 237,
+   "covered": 227,
+   "skipped": 0,
+   "pct": 95.78
+  },
+  "branches": {
+   "total": 169,
+   "covered": 154,
+   "skipped": 0,
+   "pct": 91.12
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-group-command.ts": {
+  "lines": {
+   "total": 119,
+   "covered": 116,
+   "skipped": 0,
+   "pct": 97.47
+  },
+  "functions": {
+   "total": 26,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 131,
+   "covered": 128,
+   "skipped": 0,
+   "pct": 97.7
+  },
+  "branches": {
+   "total": 79,
+   "covered": 75,
+   "skipped": 0,
+   "pct": 94.93
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-group-transform.ts": {
+  "lines": {
+   "total": 137,
+   "covered": 135,
+   "skipped": 0,
+   "pct": 98.54
+  },
+  "functions": {
+   "total": 35,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 156,
+   "covered": 151,
+   "skipped": 0,
+   "pct": 96.79
+  },
+  "branches": {
+   "total": 138,
+   "covered": 126,
+   "skipped": 0,
+   "pct": 91.3
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-lifecycle.ts": {
+  "lines": {
+   "total": 49,
+   "covered": 49,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 15,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 52,
+   "covered": 52,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 37,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-ownership.ts": {
+  "lines": {
+   "total": 100,
+   "covered": 100,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 20,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 128,
+   "covered": 126,
+   "skipped": 0,
+   "pct": 98.43
+  },
+  "branches": {
+   "total": 66,
+   "covered": 58,
+   "skipped": 0,
+   "pct": 87.87
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement-command.ts": {
+  "lines": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 19,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 94.73
+  },
+  "branches": {
+   "total": 14,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 71.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement-mutation.ts": {
+  "lines": {
+   "total": 83,
+   "covered": 81,
+   "skipped": 0,
+   "pct": 97.59
+  },
+  "functions": {
+   "total": 15,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 88,
+   "covered": 83,
+   "skipped": 0,
+   "pct": 94.31
+  },
+  "branches": {
+   "total": 73,
+   "covered": 67,
+   "skipped": 0,
+   "pct": 91.78
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement.ts": {
+  "lines": {
+   "total": 133,
+   "covered": 125,
+   "skipped": 0,
+   "pct": 93.98
+  },
+  "functions": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 148,
+   "covered": 140,
+   "skipped": 0,
+   "pct": 94.59
+  },
+  "branches": {
+   "total": 95,
+   "covered": 84,
+   "skipped": 0,
+   "pct": 88.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-template.ts": {
+  "lines": {
+   "total": 78,
+   "covered": 78,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 107,
+   "covered": 103,
+   "skipped": 0,
+   "pct": 96.26
+  },
+  "branches": {
+   "total": 45,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 91.11
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/startup-commands.ts": {
+  "lines": {
+   "total": 48,
+   "covered": 48,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 61,
+   "covered": 56,
+   "skipped": 0,
+   "pct": 91.8
+  },
+  "branches": {
+   "total": 34,
+   "covered": 29,
+   "skipped": 0,
+   "pct": 85.29
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/startup-entries.ts": {
+  "lines": {
+   "total": 5,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 20
+  },
+  "functions": {
+   "total": 3,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 66.66
+  },
+  "statements": {
+   "total": 6,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 33.33
+  },
+  "branches": {
+   "total": 2,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/static-image.ts": {
+  "lines": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/tileset-commands.ts": {
+  "lines": {
+   "total": 105,
+   "covered": 105,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 27,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 126,
+   "covered": 125,
+   "skipped": 0,
+   "pct": 99.2
+  },
+  "branches": {
+   "total": 106,
+   "covered": 95,
+   "skipped": 0,
+   "pct": 89.62
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/tileset-references.ts": {
+  "lines": {
+   "total": 118,
+   "covered": 107,
+   "skipped": 0,
+   "pct": 90.67
+  },
+  "functions": {
+   "total": 38,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 92.1
+  },
+  "statements": {
+   "total": 131,
+   "covered": 117,
+   "skipped": 0,
+   "pct": 89.31
+  },
+  "branches": {
+   "total": 122,
+   "covered": 95,
+   "skipped": 0,
+   "pct": 77.86
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/ui-review-samples.ts": {
+  "lines": {
+   "total": 27,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 34,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 15,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/video-metadata.ts": {
+  "lines": {
+   "total": 28,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 35,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 97.14
+  },
+  "branches": {
+   "total": 46,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 80.43
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/workspace-context.ts": {
+  "lines": {
+   "total": 76,
+   "covered": 76,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 21,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 90,
+   "covered": 90,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 93,
+   "covered": 93,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/workspace-persistence.ts": {
+  "lines": {
+   "total": 417,
+   "covered": 412,
+   "skipped": 0,
+   "pct": 98.8
+  },
+  "functions": {
+   "total": 58,
+   "covered": 58,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 452,
+   "covered": 443,
+   "skipped": 0,
+   "pct": 98
+  },
+  "branches": {
+   "total": 427,
+   "covered": 415,
+   "skipped": 0,
+   "pct": 97.18
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.ts": {
+  "lines": {
+   "total": 560,
+   "covered": 553,
+   "skipped": 0,
+   "pct": 98.75
+  },
+  "functions": {
+   "total": 91,
+   "covered": 90,
+   "skipped": 0,
+   "pct": 98.9
+  },
+  "statements": {
+   "total": 669,
+   "covered": 634,
+   "skipped": 0,
+   "pct": 94.76
+  },
+  "branches": {
+   "total": 615,
+   "covered": 554,
+   "skipped": 0,
+   "pct": 90.08
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-variable-commands.ts": {
+  "lines": {
+   "total": 44,
+   "covered": 44,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 53,
+   "covered": 53,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 38,
+   "covered": 33,
+   "skipped": 0,
+   "pct": 86.84
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-variable-references.ts": {
+  "lines": {
+   "total": 66,
+   "covered": 64,
+   "skipped": 0,
+   "pct": 96.96
+  },
+  "functions": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 74,
+   "covered": 72,
+   "skipped": 0,
+   "pct": 97.29
+  },
+  "branches": {
+   "total": 75,
+   "covered": 70,
+   "skipped": 0,
+   "pct": 93.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/zip.ts": {
+  "lines": {
+   "total": 77,
+   "covered": 76,
+   "skipped": 0,
+   "pct": 98.7
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 85,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 96.47
+  },
+  "branches": {
+   "total": 14,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 78.57
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/design-lab/DesignLab.tsx": {
+  "lines": {
+   "total": 144,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 18.75
+  },
+  "functions": {
+   "total": 105,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 12.38
+  },
+  "statements": {
+   "total": 160,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 16.87
+  },
+  "branches": {
+   "total": 80,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 17.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/design-lab/main.tsx": {
+  "lines": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ActorMode.tsx": {
+  "lines": {
+   "total": 232,
+   "covered": 190,
+   "skipped": 0,
+   "pct": 81.89
+  },
+  "functions": {
+   "total": 121,
+   "covered": 96,
+   "skipped": 0,
+   "pct": 79.33
+  },
+  "statements": {
+   "total": 258,
+   "covered": 206,
+   "skipped": 0,
+   "pct": 79.84
+  },
+  "branches": {
+   "total": 332,
+   "covered": 256,
+   "skipped": 0,
+   "pct": 77.1
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AmbienceScenePreview.tsx": {
+  "lines": {
+   "total": 84,
+   "covered": 80,
+   "skipped": 0,
+   "pct": 95.23
+  },
+  "functions": {
+   "total": 21,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 80.95
+  },
+  "statements": {
+   "total": 98,
+   "covered": 89,
+   "skipped": 0,
+   "pct": 90.81
+  },
+  "branches": {
+   "total": 50,
+   "covered": 45,
+   "skipped": 0,
+   "pct": 90
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AmbienceTab.tsx": {
+  "lines": {
+   "total": 202,
+   "covered": 189,
+   "skipped": 0,
+   "pct": 93.56
+  },
+  "functions": {
+   "total": 65,
+   "covered": 58,
+   "skipped": 0,
+   "pct": 89.23
+  },
+  "statements": {
+   "total": 227,
+   "covered": 206,
+   "skipped": 0,
+   "pct": 90.74
+  },
+  "branches": {
+   "total": 205,
+   "covered": 168,
+   "skipped": 0,
+   "pct": 81.95
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.tsx": {
+  "lines": {
+   "total": 1073,
+   "covered": 760,
+   "skipped": 0,
+   "pct": 70.82
+  },
+  "functions": {
+   "total": 341,
+   "covered": 200,
+   "skipped": 0,
+   "pct": 58.65
+  },
+  "statements": {
+   "total": 1199,
+   "covered": 829,
+   "skipped": 0,
+   "pct": 69.14
+  },
+  "branches": {
+   "total": 1212,
+   "covered": 860,
+   "skipped": 0,
+   "pct": 70.95
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AudioAssetWorkbench.tsx": {
+  "lines": {
+   "total": 243,
+   "covered": 229,
+   "skipped": 0,
+   "pct": 94.23
+  },
+  "functions": {
+   "total": 71,
+   "covered": 68,
+   "skipped": 0,
+   "pct": 95.77
+  },
+  "statements": {
+   "total": 271,
+   "covered": 250,
+   "skipped": 0,
+   "pct": 92.25
+  },
+  "branches": {
+   "total": 242,
+   "covered": 209,
+   "skipped": 0,
+   "pct": 86.36
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleFieldPicker.tsx": {
+  "lines": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 18,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 77.77
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleFieldTab.tsx": {
+  "lines": {
+   "total": 121,
+   "covered": 105,
+   "skipped": 0,
+   "pct": 86.77
+  },
+  "functions": {
+   "total": 38,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 97.36
+  },
+  "statements": {
+   "total": 133,
+   "covered": 111,
+   "skipped": 0,
+   "pct": 83.45
+  },
+  "branches": {
+   "total": 155,
+   "covered": 125,
+   "skipped": 0,
+   "pct": 80.64
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSimulatorForms.tsx": {
+  "lines": {
+   "total": 87,
+   "covered": 76,
+   "skipped": 0,
+   "pct": 87.35
+  },
+  "functions": {
+   "total": 62,
+   "covered": 58,
+   "skipped": 0,
+   "pct": 93.54
+  },
+  "statements": {
+   "total": 103,
+   "covered": 88,
+   "skipped": 0,
+   "pct": 85.43
+  },
+  "branches": {
+   "total": 104,
+   "covered": 78,
+   "skipped": 0,
+   "pct": 75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSimulatorWorkbench.tsx": {
+  "lines": {
+   "total": 144,
+   "covered": 131,
+   "skipped": 0,
+   "pct": 90.97
+  },
+  "functions": {
+   "total": 70,
+   "covered": 61,
+   "skipped": 0,
+   "pct": 87.14
+  },
+  "statements": {
+   "total": 154,
+   "covered": 136,
+   "skipped": 0,
+   "pct": 88.31
+  },
+  "branches": {
+   "total": 219,
+   "covered": 177,
+   "skipped": 0,
+   "pct": 80.82
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteInlinePreview.tsx": {
+  "lines": {
+   "total": 98,
+   "covered": 97,
+   "skipped": 0,
+   "pct": 98.97
+  },
+  "functions": {
+   "total": 29,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 96.55
+  },
+  "statements": {
+   "total": 120,
+   "covered": 117,
+   "skipped": 0,
+   "pct": 97.5
+  },
+  "branches": {
+   "total": 122,
+   "covered": 108,
+   "skipped": 0,
+   "pct": 88.52
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteLibrary.tsx": {
+  "lines": {
+   "total": 489,
+   "covered": 448,
+   "skipped": 0,
+   "pct": 91.61
+  },
+  "functions": {
+   "total": 129,
+   "covered": 119,
+   "skipped": 0,
+   "pct": 92.24
+  },
+  "statements": {
+   "total": 539,
+   "covered": 480,
+   "skipped": 0,
+   "pct": 89.05
+  },
+  "branches": {
+   "total": 538,
+   "covered": 451,
+   "skipped": 0,
+   "pct": 83.82
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpritePicker.tsx": {
+  "lines": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 39,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 94.87
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteUploader.tsx": {
+  "lines": {
+   "total": 62,
+   "covered": 61,
+   "skipped": 0,
+   "pct": 98.38
+  },
+  "functions": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 70,
+   "covered": 66,
+   "skipped": 0,
+   "pct": 94.28
+  },
+  "branches": {
+   "total": 51,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 78.43
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleTrialDialog.tsx": {
+  "lines": {
+   "total": 44,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 88.63
+  },
+  "functions": {
+   "total": 12,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 83.33
+  },
+  "statements": {
+   "total": 49,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 81.63
+  },
+  "branches": {
+   "total": 58,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 68.96
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CasualtyEditor.tsx": {
+  "lines": {
+   "total": 124,
+   "covered": 109,
+   "skipped": 0,
+   "pct": 87.9
+  },
+  "functions": {
+   "total": 62,
+   "covered": 54,
+   "skipped": 0,
+   "pct": 87.09
+  },
+  "statements": {
+   "total": 146,
+   "covered": 125,
+   "skipped": 0,
+   "pct": 85.61
+  },
+  "branches": {
+   "total": 101,
+   "covered": 78,
+   "skipped": 0,
+   "pct": 77.22
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CommandForm.tsx": {
+  "lines": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 33,
+   "covered": 33,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ConnectedEditorPages.tsx": {
+  "lines": {
+   "total": 38,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 19,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 94.73
+  },
+  "statements": {
+   "total": 51,
+   "covered": 50,
+   "skipped": 0,
+   "pct": 98.03
+  },
+  "branches": {
+   "total": 44,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 77.27
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CutsceneTab.tsx": {
+  "lines": {
+   "total": 248,
+   "covered": 227,
+   "skipped": 0,
+   "pct": 91.53
+  },
+  "functions": {
+   "total": 82,
+   "covered": 72,
+   "skipped": 0,
+   "pct": 87.8
+  },
+  "statements": {
+   "total": 290,
+   "covered": 249,
+   "skipped": 0,
+   "pct": 85.86
+  },
+  "branches": {
+   "total": 297,
+   "covered": 221,
+   "skipped": 0,
+   "pct": 74.41
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/DataMode.tsx": {
+  "lines": {
+   "total": 96,
+   "covered": 71,
+   "skipped": 0,
+   "pct": 73.95
+  },
+  "functions": {
+   "total": 23,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 65.21
+  },
+  "statements": {
+   "total": 101,
+   "covered": 74,
+   "skipped": 0,
+   "pct": 73.26
+  },
+  "branches": {
+   "total": 104,
+   "covered": 68,
+   "skipped": 0,
+   "pct": 65.38
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EditorAppHeader.tsx": {
+  "lines": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EditorDiagnosticsBar.tsx": {
+  "lines": {
+   "total": 11,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "functions": {
+   "total": 7,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 85.71
+  },
+  "statements": {
+   "total": 14,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 92.85
+  },
+  "branches": {
+   "total": 40,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 85
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EffectEditorCard.tsx": {
+  "lines": {
+   "total": 31,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 35,
+   "covered": 33,
+   "skipped": 0,
+   "pct": 94.28
+  },
+  "branches": {
+   "total": 30,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 86.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyAnimPreview.tsx": {
+  "lines": {
+   "total": 113,
+   "covered": 99,
+   "skipped": 0,
+   "pct": 87.61
+  },
+  "functions": {
+   "total": 38,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 81.57
+  },
+  "statements": {
+   "total": 126,
+   "covered": 108,
+   "skipped": 0,
+   "pct": 85.71
+  },
+  "branches": {
+   "total": 118,
+   "covered": 94,
+   "skipped": 0,
+   "pct": 79.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyBattleSpriteThumbnail.tsx": {
+  "lines": {
+   "total": 77,
+   "covered": 75,
+   "skipped": 0,
+   "pct": 97.4
+  },
+  "functions": {
+   "total": 15,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 93.33
+  },
+  "statements": {
+   "total": 88,
+   "covered": 80,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "branches": {
+   "total": 47,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 78.72
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyTab.tsx": {
+  "lines": {
+   "total": 227,
+   "covered": 201,
+   "skipped": 0,
+   "pct": 88.54
+  },
+  "functions": {
+   "total": 113,
+   "covered": 108,
+   "skipped": 0,
+   "pct": 95.57
+  },
+  "statements": {
+   "total": 258,
+   "covered": 222,
+   "skipped": 0,
+   "pct": 86.04
+  },
+  "branches": {
+   "total": 307,
+   "covered": 246,
+   "skipped": 0,
+   "pct": 80.13
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyTeamTab.tsx": {
+  "lines": {
+   "total": 153,
+   "covered": 145,
+   "skipped": 0,
+   "pct": 94.77
+  },
+  "functions": {
+   "total": 57,
+   "covered": 56,
+   "skipped": 0,
+   "pct": 98.24
+  },
+  "statements": {
+   "total": 183,
+   "covered": 171,
+   "skipped": 0,
+   "pct": 93.44
+  },
+  "branches": {
+   "total": 165,
+   "covered": 149,
+   "skipped": 0,
+   "pct": 90.3
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityFacingHelp.tsx": {
+  "lines": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityNameField.tsx": {
+  "lines": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 6,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 83.33
+  },
+  "branches": {
+   "total": 6,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityPageAnimationEditor.tsx": {
+  "lines": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 28,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 85.71
+  },
+  "branches": {
+   "total": 56,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 83.92
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityStateSelect.tsx": {
+  "lines": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EventLibTab.tsx": {
+  "lines": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/FireEffectPreview.tsx": {
+  "lines": {
+   "total": 99,
+   "covered": 92,
+   "skipped": 0,
+   "pct": 92.92
+  },
+  "functions": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 108,
+   "covered": 98,
+   "skipped": 0,
+   "pct": 90.74
+  },
+  "branches": {
+   "total": 72,
+   "covered": 58,
+   "skipped": 0,
+   "pct": 80.55
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/FrameAnimationEditor.tsx": {
+  "lines": {
+   "total": 445,
+   "covered": 432,
+   "skipped": 0,
+   "pct": 97.07
+  },
+  "functions": {
+   "total": 109,
+   "covered": 105,
+   "skipped": 0,
+   "pct": 96.33
+  },
+  "statements": {
+   "total": 525,
+   "covered": 486,
+   "skipped": 0,
+   "pct": 92.57
+  },
+  "branches": {
+   "total": 324,
+   "covered": 269,
+   "skipped": 0,
+   "pct": 83.02
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ImageAssetPicker.tsx": {
+  "lines": {
+   "total": 67,
+   "covered": 66,
+   "skipped": 0,
+   "pct": 98.5
+  },
+  "functions": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 79,
+   "covered": 75,
+   "skipped": 0,
+   "pct": 94.93
+  },
+  "branches": {
+   "total": 87,
+   "covered": 78,
+   "skipped": 0,
+   "pct": 89.65
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ImageTab.tsx": {
+  "lines": {
+   "total": 257,
+   "covered": 243,
+   "skipped": 0,
+   "pct": 94.55
+  },
+  "functions": {
+   "total": 65,
+   "covered": 61,
+   "skipped": 0,
+   "pct": 93.84
+  },
+  "statements": {
+   "total": 284,
+   "covered": 266,
+   "skipped": 0,
+   "pct": 93.66
+  },
+  "branches": {
+   "total": 277,
+   "covered": 240,
+   "skipped": 0,
+   "pct": 86.64
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorCanvas.tsx": {
+  "lines": {
+   "total": 17,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 76.47
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 20,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 80
+  },
+  "branches": {
+   "total": 13,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 53.84
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorSurface.tsx": {
+  "lines": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorToolbar.tsx": {
+  "lines": {
+   "total": 71,
+   "covered": 71,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 34,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 83,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 98.79
+  },
+  "branches": {
+   "total": 63,
+   "covered": 57,
+   "skipped": 0,
+   "pct": 90.47
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricViewportStatus.tsx": {
+  "lines": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemAlchemyEditors.tsx": {
+  "lines": {
+   "total": 61,
+   "covered": 57,
+   "skipped": 0,
+   "pct": 93.44
+  },
+  "functions": {
+   "total": 28,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 92.85
+  },
+  "statements": {
+   "total": 67,
+   "covered": 60,
+   "skipped": 0,
+   "pct": 89.55
+  },
+  "branches": {
+   "total": 30,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemAlchemyTab.tsx": {
+  "lines": {
+   "total": 67,
+   "covered": 56,
+   "skipped": 0,
+   "pct": 83.58
+  },
+  "functions": {
+   "total": 26,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 84.61
+  },
+  "statements": {
+   "total": 77,
+   "covered": 61,
+   "skipped": 0,
+   "pct": 79.22
+  },
+  "branches": {
+   "total": 139,
+   "covered": 109,
+   "skipped": 0,
+   "pct": 78.41
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.tsx": {
+  "lines": {
+   "total": 412,
+   "covered": 349,
+   "skipped": 0,
+   "pct": 84.7
+  },
+  "functions": {
+   "total": 167,
+   "covered": 135,
+   "skipped": 0,
+   "pct": 80.83
+  },
+  "statements": {
+   "total": 461,
+   "covered": 382,
+   "skipped": 0,
+   "pct": 82.86
+  },
+  "branches": {
+   "total": 463,
+   "covered": 387,
+   "skipped": 0,
+   "pct": 83.58
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemUseEffectEditor.tsx": {
+  "lines": {
+   "total": 329,
+   "covered": 274,
+   "skipped": 0,
+   "pct": 83.28
+  },
+  "functions": {
+   "total": 148,
+   "covered": 117,
+   "skipped": 0,
+   "pct": 79.05
+  },
+  "statements": {
+   "total": 369,
+   "covered": 307,
+   "skipped": 0,
+   "pct": 83.19
+  },
+  "branches": {
+   "total": 349,
+   "covered": 267,
+   "skipped": 0,
+   "pct": 76.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LayerStackControls.tsx": {
+  "lines": {
+   "total": 23,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 25,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 96
+  },
+  "branches": {
+   "total": 48,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 97.91
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LevelCurveEditor.tsx": {
+  "lines": {
+   "total": 136,
+   "covered": 127,
+   "skipped": 0,
+   "pct": 93.38
+  },
+  "functions": {
+   "total": 36,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 97.22
+  },
+  "statements": {
+   "total": 162,
+   "covered": 146,
+   "skipped": 0,
+   "pct": 90.12
+  },
+  "branches": {
+   "total": 91,
+   "covered": 65,
+   "skipped": 0,
+   "pct": 71.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LevelingEditor.tsx": {
+  "lines": {
+   "total": 28,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 78.57
+  },
+  "functions": {
+   "total": 20,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 75
+  },
+  "statements": {
+   "total": 35,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 74.28
+  },
+  "branches": {
+   "total": 24,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 58.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapContentSelectionPreview.tsx": {
+  "lines": {
+   "total": 56,
+   "covered": 56,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 62,
+   "covered": 62,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 41,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 95.12
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapMode.tsx": {
+  "lines": {
+   "total": 1290,
+   "covered": 1068,
+   "skipped": 0,
+   "pct": 82.79
+  },
+  "functions": {
+   "total": 223,
+   "covered": 186,
+   "skipped": 0,
+   "pct": 83.4
+  },
+  "statements": {
+   "total": 1467,
+   "covered": 1152,
+   "skipped": 0,
+   "pct": 78.52
+  },
+  "branches": {
+   "total": 1411,
+   "covered": 1011,
+   "skipped": 0,
+   "pct": 71.65
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapSelectionInspector.tsx": {
+  "lines": {
+   "total": 97,
+   "covered": 97,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 39,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 113,
+   "covered": 113,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 122,
+   "covered": 118,
+   "skipped": 0,
+   "pct": 96.72
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapStampPalette.tsx": {
+  "lines": {
+   "total": 27,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 31,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 20,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 95
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MediaAssetLifecycle.tsx": {
+  "lines": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 6,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ModuleNav.tsx": {
+  "lines": {
+   "total": 10,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "functions": {
+   "total": 6,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "statements": {
+   "total": 11,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "branches": {
+   "total": 24,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MusicPicker.tsx": {
+  "lines": {
+   "total": 44,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "functions": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 46,
+   "covered": 42,
+   "skipped": 0,
+   "pct": 91.3
+  },
+  "branches": {
+   "total": 38,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 89.47
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MusicTab.tsx": {
+  "lines": {
+   "total": 17,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 23,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/NamedIdPicker.tsx": {
+  "lines": {
+   "total": 9,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 88.88
+  },
+  "functions": {
+   "total": 7,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 85.71
+  },
+  "statements": {
+   "total": 11,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "branches": {
+   "total": 6,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 83.33
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PanelResizeHandle.tsx": {
+  "lines": {
+   "total": 64,
+   "covered": 59,
+   "skipped": 0,
+   "pct": 92.18
+  },
+  "functions": {
+   "total": 20,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 90
+  },
+  "statements": {
+   "total": 77,
+   "covered": 71,
+   "skipped": 0,
+   "pct": 92.2
+  },
+  "branches": {
+   "total": 70,
+   "covered": 62,
+   "skipped": 0,
+   "pct": 88.57
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PoisonTab.tsx": {
+  "lines": {
+   "total": 153,
+   "covered": 140,
+   "skipped": 0,
+   "pct": 91.5
+  },
+  "functions": {
+   "total": 64,
+   "covered": 59,
+   "skipped": 0,
+   "pct": 92.18
+  },
+  "statements": {
+   "total": 175,
+   "covered": 155,
+   "skipped": 0,
+   "pct": 88.57
+  },
+  "branches": {
+   "total": 142,
+   "covered": 117,
+   "skipped": 0,
+   "pct": 82.39
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PortraitEditor.tsx": {
+  "lines": {
+   "total": 64,
+   "covered": 59,
+   "skipped": 0,
+   "pct": 92.18
+  },
+  "functions": {
+   "total": 24,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 76,
+   "covered": 64,
+   "skipped": 0,
+   "pct": 84.21
+  },
+  "branches": {
+   "total": 56,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 66.07
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PreviewCanvas.tsx": {
+  "lines": {
+   "total": 289,
+   "covered": 221,
+   "skipped": 0,
+   "pct": 76.47
+  },
+  "functions": {
+   "total": 51,
+   "covered": 44,
+   "skipped": 0,
+   "pct": 86.27
+  },
+  "statements": {
+   "total": 341,
+   "covered": 245,
+   "skipped": 0,
+   "pct": 71.84
+  },
+  "branches": {
+   "total": 297,
+   "covered": 181,
+   "skipped": 0,
+   "pct": 60.94
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectAudioPreviewButton.tsx": {
+  "lines": {
+   "total": 60,
+   "covered": 59,
+   "skipped": 0,
+   "pct": 98.33
+  },
+  "functions": {
+   "total": 16,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 93.75
+  },
+  "statements": {
+   "total": 68,
+   "covered": 63,
+   "skipped": 0,
+   "pct": 92.64
+  },
+  "branches": {
+   "total": 40,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 80
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectLeaveDialog.tsx": {
+  "lines": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 20,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectPicker.tsx": {
+  "lines": {
+   "total": 41,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 97.56
+  },
+  "functions": {
+   "total": 14,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 92.85
+  },
+  "statements": {
+   "total": 46,
+   "covered": 43,
+   "skipped": 0,
+   "pct": 93.47
+  },
+  "branches": {
+   "total": 35,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 91.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectSaveDialog.tsx": {
+  "lines": {
+   "total": 11,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 81.81
+  },
+  "functions": {
+   "total": 3,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 66.66
+  },
+  "statements": {
+   "total": 13,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 84.61
+  },
+  "branches": {
+   "total": 28,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 89.28
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectWorkbenchTab.tsx": {
+  "lines": {
+   "total": 558,
+   "covered": 527,
+   "skipped": 0,
+   "pct": 94.44
+  },
+  "functions": {
+   "total": 275,
+   "covered": 251,
+   "skipped": 0,
+   "pct": 91.27
+  },
+  "statements": {
+   "total": 659,
+   "covered": 615,
+   "skipped": 0,
+   "pct": 93.32
+  },
+  "branches": {
+   "total": 671,
+   "covered": 572,
+   "skipped": 0,
+   "pct": 85.24
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SceneCanvas.tsx": {
+  "lines": {
+   "total": 261,
+   "covered": 255,
+   "skipped": 0,
+   "pct": 97.7
+  },
+  "functions": {
+   "total": 30,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 93.33
+  },
+  "statements": {
+   "total": 282,
+   "covered": 271,
+   "skipped": 0,
+   "pct": 96.09
+  },
+  "branches": {
+   "total": 214,
+   "covered": 171,
+   "skipped": 0,
+   "pct": 79.9
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SceneScriptWorkspace.tsx": {
+  "lines": {
+   "total": 96,
+   "covered": 79,
+   "skipped": 0,
+   "pct": 82.29
+  },
+  "functions": {
+   "total": 32,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 65.62
+  },
+  "statements": {
+   "total": 112,
+   "covered": 87,
+   "skipped": 0,
+   "pct": 77.67
+  },
+  "branches": {
+   "total": 146,
+   "covered": 117,
+   "skipped": 0,
+   "pct": 80.13
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptBehaviorInspector.tsx": {
+  "lines": {
+   "total": 66,
+   "covered": 62,
+   "skipped": 0,
+   "pct": 93.93
+  },
+  "functions": {
+   "total": 29,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 93.1
+  },
+  "statements": {
+   "total": 73,
+   "covered": 67,
+   "skipped": 0,
+   "pct": 91.78
+  },
+  "branches": {
+   "total": 86,
+   "covered": 72,
+   "skipped": 0,
+   "pct": 83.72
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptEditor.tsx": {
+  "lines": {
+   "total": 836,
+   "covered": 694,
+   "skipped": 0,
+   "pct": 83.01
+  },
+  "functions": {
+   "total": 329,
+   "covered": 253,
+   "skipped": 0,
+   "pct": 76.89
+  },
+  "statements": {
+   "total": 929,
+   "covered": 750,
+   "skipped": 0,
+   "pct": 80.73
+  },
+  "branches": {
+   "total": 1283,
+   "covered": 1012,
+   "skipped": 0,
+   "pct": 78.87
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptSceneHookInspector.tsx": {
+  "lines": {
+   "total": 51,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 76.47
+  },
+  "functions": {
+   "total": 22,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 72.72
+  },
+  "statements": {
+   "total": 54,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 74.07
+  },
+  "branches": {
+   "total": 56,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 66.07
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptTree.tsx": {
+  "lines": {
+   "total": 189,
+   "covered": 184,
+   "skipped": 0,
+   "pct": 97.35
+  },
+  "functions": {
+   "total": 44,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 88.63
+  },
+  "statements": {
+   "total": 200,
+   "covered": 189,
+   "skipped": 0,
+   "pct": 94.5
+  },
+  "branches": {
+   "total": 383,
+   "covered": 328,
+   "skipped": 0,
+   "pct": 85.63
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SharedScriptTab.tsx": {
+  "lines": {
+   "total": 115,
+   "covered": 111,
+   "skipped": 0,
+   "pct": 96.52
+  },
+  "functions": {
+   "total": 33,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 93.93
+  },
+  "statements": {
+   "total": 125,
+   "covered": 116,
+   "skipped": 0,
+   "pct": 92.8
+  },
+  "branches": {
+   "total": 129,
+   "covered": 103,
+   "skipped": 0,
+   "pct": 79.84
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ShopTab.tsx": {
+  "lines": {
+   "total": 107,
+   "covered": 97,
+   "skipped": 0,
+   "pct": 90.65
+  },
+  "functions": {
+   "total": 41,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 87.8
+  },
+  "statements": {
+   "total": 125,
+   "covered": 108,
+   "skipped": 0,
+   "pct": 86.4
+  },
+  "branches": {
+   "total": 156,
+   "covered": 133,
+   "skipped": 0,
+   "pct": 85.25
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillAnimationEditor.tsx": {
+  "lines": {
+   "total": 31,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 80.64
+  },
+  "functions": {
+   "total": 19,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 68.42
+  },
+  "statements": {
+   "total": 33,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 81.81
+  },
+  "branches": {
+   "total": 38,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 81.57
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillTab.tsx": {
+  "lines": {
+   "total": 285,
+   "covered": 246,
+   "skipped": 0,
+   "pct": 86.31
+  },
+  "functions": {
+   "total": 155,
+   "covered": 129,
+   "skipped": 0,
+   "pct": 83.22
+  },
+  "statements": {
+   "total": 309,
+   "covered": 262,
+   "skipped": 0,
+   "pct": 84.78
+  },
+  "branches": {
+   "total": 254,
+   "covered": 194,
+   "skipped": 0,
+   "pct": 76.37
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SoundPicker.tsx": {
+  "lines": {
+   "total": 64,
+   "covered": 64,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 20,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 70,
+   "covered": 67,
+   "skipped": 0,
+   "pct": 95.71
+  },
+  "branches": {
+   "total": 60,
+   "covered": 52,
+   "skipped": 0,
+   "pct": 86.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SoundTab.tsx": {
+  "lines": {
+   "total": 16,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteActionEditor.tsx": {
+  "lines": {
+   "total": 234,
+   "covered": 225,
+   "skipped": 0,
+   "pct": 96.15
+  },
+  "functions": {
+   "total": 91,
+   "covered": 89,
+   "skipped": 0,
+   "pct": 97.8
+  },
+  "statements": {
+   "total": 285,
+   "covered": 260,
+   "skipped": 0,
+   "pct": 91.22
+  },
+  "branches": {
+   "total": 246,
+   "covered": 213,
+   "skipped": 0,
+   "pct": 86.58
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteActionEditorDialog.tsx": {
+  "lines": {
+   "total": 142,
+   "covered": 132,
+   "skipped": 0,
+   "pct": 92.95
+  },
+  "functions": {
+   "total": 29,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 89.65
+  },
+  "statements": {
+   "total": 155,
+   "covered": 142,
+   "skipped": 0,
+   "pct": 91.61
+  },
+  "branches": {
+   "total": 135,
+   "covered": 117,
+   "skipped": 0,
+   "pct": 86.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteFrameWorkbench.tsx": {
+  "lines": {
+   "total": 123,
+   "covered": 117,
+   "skipped": 0,
+   "pct": 95.12
+  },
+  "functions": {
+   "total": 44,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "statements": {
+   "total": 140,
+   "covered": 127,
+   "skipped": 0,
+   "pct": 90.71
+  },
+  "branches": {
+   "total": 175,
+   "covered": 154,
+   "skipped": 0,
+   "pct": 88
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteFrames.tsx": {
+  "lines": {
+   "total": 25,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 28,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 96.42
+  },
+  "branches": {
+   "total": 20,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 60
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteResourceViewer.tsx": {
+  "lines": {
+   "total": 178,
+   "covered": 171,
+   "skipped": 0,
+   "pct": 96.06
+  },
+  "functions": {
+   "total": 39,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 94.87
+  },
+  "statements": {
+   "total": 198,
+   "covered": 181,
+   "skipped": 0,
+   "pct": 91.41
+  },
+  "branches": {
+   "total": 133,
+   "covered": 106,
+   "skipped": 0,
+   "pct": 79.69
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteThumb.tsx": {
+  "lines": {
+   "total": 63,
+   "covered": 57,
+   "skipped": 0,
+   "pct": 90.47
+  },
+  "functions": {
+   "total": 17,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 70.58
+  },
+  "statements": {
+   "total": 75,
+   "covered": 64,
+   "skipped": 0,
+   "pct": 85.33
+  },
+  "branches": {
+   "total": 35,
+   "covered": 29,
+   "skipped": 0,
+   "pct": 82.85
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteUploadWizard.tsx": {
+  "lines": {
+   "total": 152,
+   "covered": 150,
+   "skipped": 0,
+   "pct": 98.68
+  },
+  "functions": {
+   "total": 41,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 97.56
+  },
+  "statements": {
+   "total": 167,
+   "covered": 163,
+   "skipped": 0,
+   "pct": 97.6
+  },
+  "branches": {
+   "total": 142,
+   "covered": 124,
+   "skipped": 0,
+   "pct": 87.32
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampContentEditor.tsx": {
+  "lines": {
+   "total": 242,
+   "covered": 218,
+   "skipped": 0,
+   "pct": 90.08
+  },
+  "functions": {
+   "total": 71,
+   "covered": 60,
+   "skipped": 0,
+   "pct": 84.5
+  },
+  "statements": {
+   "total": 276,
+   "covered": 241,
+   "skipped": 0,
+   "pct": 87.31
+  },
+  "branches": {
+   "total": 219,
+   "covered": 173,
+   "skipped": 0,
+   "pct": 78.99
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampLibraryTab.tsx": {
+  "lines": {
+   "total": 226,
+   "covered": 184,
+   "skipped": 0,
+   "pct": 81.41
+  },
+  "functions": {
+   "total": 86,
+   "covered": 72,
+   "skipped": 0,
+   "pct": 83.72
+  },
+  "statements": {
+   "total": 252,
+   "covered": 206,
+   "skipped": 0,
+   "pct": 81.74
+  },
+  "branches": {
+   "total": 200,
+   "covered": 157,
+   "skipped": 0,
+   "pct": 78.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPlacementInspector.tsx": {
+  "lines": {
+   "total": 23,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 86.95
+  },
+  "functions": {
+   "total": 18,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 83.33
+  },
+  "statements": {
+   "total": 29,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 89.65
+  },
+  "branches": {
+   "total": 59,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 66.1
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPlacementSelectionInspector.tsx": {
+  "lines": {
+   "total": 75,
+   "covered": 74,
+   "skipped": 0,
+   "pct": 98.66
+  },
+  "functions": {
+   "total": 38,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 97.36
+  },
+  "statements": {
+   "total": 87,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 94.25
+  },
+  "branches": {
+   "total": 144,
+   "covered": 126,
+   "skipped": 0,
+   "pct": 87.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPreviewCanvas.tsx": {
+  "lines": {
+   "total": 153,
+   "covered": 153,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 44,
+   "covered": 44,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 184,
+   "covered": 180,
+   "skipped": 0,
+   "pct": 97.82
+  },
+  "branches": {
+   "total": 95,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 86.31
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampTemplateDialog.tsx": {
+  "lines": {
+   "total": 136,
+   "covered": 115,
+   "skipped": 0,
+   "pct": 84.55
+  },
+  "functions": {
+   "total": 55,
+   "covered": 46,
+   "skipped": 0,
+   "pct": 83.63
+  },
+  "statements": {
+   "total": 158,
+   "covered": 129,
+   "skipped": 0,
+   "pct": 81.64
+  },
+  "branches": {
+   "total": 124,
+   "covered": 102,
+   "skipped": 0,
+   "pct": 82.25
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SummonPreview.tsx": {
+  "lines": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "functions": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "statements": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "branches": {
+   "total": 6,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TilePickerGrid.tsx": {
+  "lines": {
+   "total": 23,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 24,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 34,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 91.17
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TilesetTab.tsx": {
+  "lines": {
+   "total": 294,
+   "covered": 272,
+   "skipped": 0,
+   "pct": 92.51
+  },
+  "functions": {
+   "total": 92,
+   "covered": 79,
+   "skipped": 0,
+   "pct": 85.86
+  },
+  "statements": {
+   "total": 333,
+   "covered": 293,
+   "skipped": 0,
+   "pct": 87.98
+  },
+  "branches": {
+   "total": 318,
+   "covered": 248,
+   "skipped": 0,
+   "pct": 77.98
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TrancePreview.tsx": {
+  "lines": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "functions": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "statements": {
+   "total": 1,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 0
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/VarsTab.tsx": {
+  "lines": {
+   "total": 136,
+   "covered": 118,
+   "skipped": 0,
+   "pct": 86.76
+  },
+  "functions": {
+   "total": 49,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 81.63
+  },
+  "statements": {
+   "total": 140,
+   "covered": 119,
+   "skipped": 0,
+   "pct": 85
+  },
+  "branches": {
+   "total": 171,
+   "covered": 136,
+   "skipped": 0,
+   "pct": 79.53
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/WorldSpriteLibrary.tsx": {
+  "lines": {
+   "total": 406,
+   "covered": 355,
+   "skipped": 0,
+   "pct": 87.43
+  },
+  "functions": {
+   "total": 106,
+   "covered": 96,
+   "skipped": 0,
+   "pct": 90.56
+  },
+  "statements": {
+   "total": 451,
+   "covered": 384,
+   "skipped": 0,
+   "pct": 85.14
+  },
+  "branches": {
+   "total": 503,
+   "covered": 413,
+   "skipped": 0,
+   "pct": 82.1
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/add-picker-option-presentation.tsx": {
+  "lines": {
+   "total": 22,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 95.45
+  },
+  "functions": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 22,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 95.45
+  },
+  "branches": {
+   "total": 50,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 82
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/app-command-registry.ts": {
+  "lines": {
+   "total": 15,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 19,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 94.73
+  },
+  "branches": {
+   "total": 17,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 94.11
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/app-layout-commands.ts": {
+  "lines": {
+   "total": 16,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 68.75
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 20,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 65
+  },
+  "branches": {
+   "total": 35,
+   "covered": 30,
+   "skipped": 0,
+   "pct": 85.71
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/battle-sprite-action-preview.ts": {
+  "lines": {
+   "total": 26,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 26,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 33,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 93.93
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/catalog-controls-test-utils.ts": {
+  "lines": {
+   "total": 14,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 85.71
+  },
+  "functions": {
+   "total": 7,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 71.42
+  },
+  "statements": {
+   "total": 15,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 80
+  },
+  "branches": {
+   "total": 3,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 66.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/catalog-workspace-test-utils.ts": {
+  "lines": {
+   "total": 15,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 86.66
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 15,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 86.66
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-actor.tsx": {
+  "lines": {
+   "total": 81,
+   "covered": 53,
+   "skipped": 0,
+   "pct": 65.43
+  },
+  "functions": {
+   "total": 42,
+   "covered": 29,
+   "skipped": 0,
+   "pct": 69.04
+  },
+  "statements": {
+   "total": 93,
+   "covered": 63,
+   "skipped": 0,
+   "pct": 67.74
+  },
+  "branches": {
+   "total": 71,
+   "covered": 41,
+   "skipped": 0,
+   "pct": 57.74
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-contract.ts": {
+  "lines": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 13,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-control.tsx": {
+  "lines": {
+   "total": 73,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 49.31
+  },
+  "functions": {
+   "total": 45,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 51.11
+  },
+  "statements": {
+   "total": 79,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 49.36
+  },
+  "branches": {
+   "total": 121,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 22.31
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-controls.tsx": {
+  "lines": {
+   "total": 34,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 76.47
+  },
+  "functions": {
+   "total": 22,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "statements": {
+   "total": 38,
+   "covered": 30,
+   "skipped": 0,
+   "pct": 78.94
+  },
+  "branches": {
+   "total": 33,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 66.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-dialogue.tsx": {
+  "lines": {
+   "total": 62,
+   "covered": 54,
+   "skipped": 0,
+   "pct": 87.09
+  },
+  "functions": {
+   "total": 31,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 90.32
+  },
+  "statements": {
+   "total": 66,
+   "covered": 56,
+   "skipped": 0,
+   "pct": 84.84
+  },
+  "branches": {
+   "total": 155,
+   "covered": 109,
+   "skipped": 0,
+   "pct": 70.32
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-world.tsx": {
+  "lines": {
+   "total": 135,
+   "covered": 79,
+   "skipped": 0,
+   "pct": 58.51
+  },
+  "functions": {
+   "total": 84,
+   "covered": 46,
+   "skipped": 0,
+   "pct": 54.76
+  },
+  "statements": {
+   "total": 144,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 56.94
+  },
+  "branches": {
+   "total": 160,
+   "covered": 90,
+   "skipped": 0,
+   "pct": 56.25
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/editor-navigation.ts": {
+  "lines": {
+   "total": 81,
+   "covered": 72,
+   "skipped": 0,
+   "pct": 88.88
+  },
+  "functions": {
+   "total": 45,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 86.66
+  },
+  "statements": {
+   "total": 90,
+   "covered": 79,
+   "skipped": 0,
+   "pct": 87.77
+  },
+  "branches": {
+   "total": 107,
+   "covered": 92,
+   "skipped": 0,
+   "pct": 85.98
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/editor-target.ts": {
+  "lines": {
+   "total": 55,
+   "covered": 51,
+   "skipped": 0,
+   "pct": 92.72
+  },
+  "functions": {
+   "total": 18,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 88.88
+  },
+  "statements": {
+   "total": 71,
+   "covered": 65,
+   "skipped": 0,
+   "pct": 91.54
+  },
+  "branches": {
+   "total": 85,
+   "covered": 73,
+   "skipped": 0,
+   "pct": 85.88
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/enemy-defeated-events.ts": {
+  "lines": {
+   "total": 217,
+   "covered": 193,
+   "skipped": 0,
+   "pct": 88.94
+  },
+  "functions": {
+   "total": 53,
+   "covered": 48,
+   "skipped": 0,
+   "pct": 90.56
+  },
+  "statements": {
+   "total": 245,
+   "covered": 218,
+   "skipped": 0,
+   "pct": 88.97
+  },
+  "branches": {
+   "total": 307,
+   "covered": 247,
+   "skipped": 0,
+   "pct": 80.45
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/inspector-tabs-test-utils.ts": {
+  "lines": {
+   "total": 47,
+   "covered": 47,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 51,
+   "covered": 50,
+   "skipped": 0,
+   "pct": 98.03
+  },
+  "branches": {
+   "total": 17,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 70.58
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/isometric-map-render.ts": {
+  "lines": {
+   "total": 32,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 32,
+   "covered": 32,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 30,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 86.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-pointer-gesture-session.ts": {
+  "lines": {
+   "total": 82,
+   "covered": 82,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 30,
+   "covered": 30,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 93,
+   "covered": 93,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 38,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 97.36
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-selection-overlay.ts": {
+  "lines": {
+   "total": 55,
+   "covered": 55,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 61,
+   "covered": 60,
+   "skipped": 0,
+   "pct": 98.36
+  },
+  "branches": {
+   "total": 25,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 96
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-stamp-structure-session.ts": {
+  "lines": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 50
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-transform-session.ts": {
+  "lines": {
+   "total": 38,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 16,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 44,
+   "covered": 44,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 24,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 87.5
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-workspace-view-session.ts": {
+  "lines": {
+   "total": 36,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 38,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/media-preview-viewport.ts": {
+  "lines": {
+   "total": 10,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 90
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 11,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 90.9
+  },
+  "branches": {
+   "total": 14,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 92.85
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/object-workspace-test-utils.ts": {
+  "lines": {
+   "total": 16,
+   "covered": 13,
+   "skipped": 0,
+   "pct": 81.25
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 17,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 82.35
+  },
+  "branches": {
+   "total": 9,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 88.88
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/panel-layout.ts": {
+  "lines": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 26,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 92.3
+  },
+  "branches": {
+   "total": 10,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 80
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/project-asset-roles.ts": {
+  "lines": {
+   "total": 25,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 96
+  },
+  "functions": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 26,
+   "covered": 25,
+   "skipped": 0,
+   "pct": 96.15
+  },
+  "branches": {
+   "total": 18,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 94.44
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/scene-stage.ts": {
+  "lines": {
+   "total": 227,
+   "covered": 224,
+   "skipped": 0,
+   "pct": 98.67
+  },
+  "functions": {
+   "total": 39,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 259,
+   "covered": 250,
+   "skipped": 0,
+   "pct": 96.52
+  },
+  "branches": {
+   "total": 131,
+   "covered": 113,
+   "skipped": 0,
+   "pct": 86.25
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/session-selector.ts": {
+  "lines": {
+   "total": 65,
+   "covered": 64,
+   "skipped": 0,
+   "pct": 98.46
+  },
+  "functions": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 77,
+   "covered": 73,
+   "skipped": 0,
+   "pct": 94.8
+  },
+  "branches": {
+   "total": 43,
+   "covered": 37,
+   "skipped": 0,
+   "pct": 86.04
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/stamp-placement-overlay.ts": {
+  "lines": {
+   "total": 66,
+   "covered": 66,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 68,
+   "covered": 67,
+   "skipped": 0,
+   "pct": 98.52
+  },
+  "branches": {
+   "total": 19,
+   "covered": 16,
+   "skipped": 0,
+   "pct": 84.21
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/stamp-placement-selection-overlay.ts": {
+  "lines": {
+   "total": 42,
+   "covered": 40,
+   "skipped": 0,
+   "pct": 95.23
+  },
+  "functions": {
+   "total": 13,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 84.61
+  },
+  "statements": {
+   "total": 45,
+   "covered": 42,
+   "skipped": 0,
+   "pct": 93.33
+  },
+  "branches": {
+   "total": 14,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 64.28
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-battle-trial-session.ts": {
+  "lines": {
+   "total": 66,
+   "covered": 64,
+   "skipped": 0,
+   "pct": 96.96
+  },
+  "functions": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 72,
+   "covered": 69,
+   "skipped": 0,
+   "pct": 95.83
+  },
+  "branches": {
+   "total": 29,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 82.75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-editor-navigation-session.ts": {
+  "lines": {
+   "total": 71,
+   "covered": 71,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 19,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 82,
+   "covered": 81,
+   "skipped": 0,
+   "pct": 98.78
+  },
+  "branches": {
+   "total": 44,
+   "covered": 39,
+   "skipped": 0,
+   "pct": 88.63
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-editor-project-session.ts": {
+  "lines": {
+   "total": 167,
+   "covered": 144,
+   "skipped": 0,
+   "pct": 86.22
+  },
+  "functions": {
+   "total": 22,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 81.81
+  },
+  "statements": {
+   "total": 198,
+   "covered": 161,
+   "skipped": 0,
+   "pct": 81.31
+  },
+  "branches": {
+   "total": 140,
+   "covered": 93,
+   "skipped": 0,
+   "pct": 66.42
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-project-leave-guard.ts": {
+  "lines": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 14,
+   "covered": 14,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-scene-workspace-session.ts": {
+  "lines": {
+   "total": 35,
+   "covered": 34,
+   "skipped": 0,
+   "pct": 97.14
+  },
+  "functions": {
+   "total": 8,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 87.5
+  },
+  "statements": {
+   "total": 37,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 97.29
+  },
+  "branches": {
+   "total": 22,
+   "covered": 21,
+   "skipped": 0,
+   "pct": 95.45
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/world-sprite-action-preview.ts": {
+  "lines": {
+   "total": 21,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 85.71
+  },
+  "functions": {
+   "total": 8,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 75
+  },
+  "statements": {
+   "total": 23,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 82.6
+  },
+  "branches": {
+   "total": 22,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 54.54
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/add-picker.tsx": {
+  "lines": {
+   "total": 99,
+   "covered": 96,
+   "skipped": 0,
+   "pct": 96.96
+  },
+  "functions": {
+   "total": 24,
+   "covered": 24,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 115,
+   "covered": 110,
+   "skipped": 0,
+   "pct": 95.65
+  },
+  "branches": {
+   "total": 112,
+   "covered": 106,
+   "skipped": 0,
+   "pct": 94.64
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/buttons.tsx": {
+  "lines": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 20,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/card.tsx": {
+  "lines": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 6,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 50
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/choice-controls.tsx": {
+  "lines": {
+   "total": 10,
+   "covered": 10,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 13,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 92.3
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/collection-search.ts": {
+  "lines": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 7,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/control-types.ts": {
+  "lines": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/control-utils.ts": {
+  "lines": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/controls.tsx": {
+  "lines": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/draft-input-state.ts": {
+  "lines": {
+   "total": 76,
+   "covered": 70,
+   "skipped": 0,
+   "pct": 92.1
+  },
+  "functions": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 82,
+   "covered": 74,
+   "skipped": 0,
+   "pct": 90.24
+  },
+  "branches": {
+   "total": 35,
+   "covered": 30,
+   "skipped": 0,
+   "pct": 85.71
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/draft-text-inputs.tsx": {
+  "lines": {
+   "total": 12,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 75
+  },
+  "functions": {
+   "total": 7,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 71.42
+  },
+  "statements": {
+   "total": 13,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 69.23
+  },
+  "branches": {
+   "total": 15,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 60
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/feedback.tsx": {
+  "lines": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/field-controls.tsx": {
+  "lines": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/field-layout.tsx": {
+  "lines": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 9,
+   "covered": 9,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 36,
+   "covered": 36,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/floating-layer.tsx": {
+  "lines": {
+   "total": 66,
+   "covered": 64,
+   "skipped": 0,
+   "pct": 96.96
+  },
+  "functions": {
+   "total": 9,
+   "covered": 7,
+   "skipped": 0,
+   "pct": 77.77
+  },
+  "statements": {
+   "total": 77,
+   "covered": 72,
+   "skipped": 0,
+   "pct": 93.5
+  },
+  "branches": {
+   "total": 74,
+   "covered": 68,
+   "skipped": 0,
+   "pct": 91.89
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/help-tips.tsx": {
+  "lines": {
+   "total": 55,
+   "covered": 53,
+   "skipped": 0,
+   "pct": 96.36
+  },
+  "functions": {
+   "total": 19,
+   "covered": 17,
+   "skipped": 0,
+   "pct": 89.47
+  },
+  "statements": {
+   "total": 62,
+   "covered": 58,
+   "skipped": 0,
+   "pct": 93.54
+  },
+  "branches": {
+   "total": 22,
+   "covered": 19,
+   "skipped": 0,
+   "pct": 86.36
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/icon-button.tsx": {
+  "lines": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/icons.tsx": {
+  "lines": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/index.ts": {
+  "lines": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 1,
+   "covered": 1,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 0,
+   "covered": 0,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/list-header.tsx": {
+  "lines": {
+   "total": 36,
+   "covered": 35,
+   "skipped": 0,
+   "pct": 97.22
+  },
+  "functions": {
+   "total": 11,
+   "covered": 11,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 40,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 95
+  },
+  "branches": {
+   "total": 30,
+   "covered": 26,
+   "skipped": 0,
+   "pct": 86.66
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/media.tsx": {
+  "lines": {
+   "total": 22,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 12,
+   "covered": 12,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 23,
+   "covered": 23,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 22,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 90.9
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/multi-select.tsx": {
+  "lines": {
+   "total": 48,
+   "covered": 45,
+   "skipped": 0,
+   "pct": 93.75
+  },
+  "functions": {
+   "total": 23,
+   "covered": 22,
+   "skipped": 0,
+   "pct": 95.65
+  },
+  "statements": {
+   "total": 64,
+   "covered": 58,
+   "skipped": 0,
+   "pct": 90.62
+  },
+  "branches": {
+   "total": 45,
+   "covered": 38,
+   "skipped": 0,
+   "pct": 84.44
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/native-inputs.tsx": {
+  "lines": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 4,
+   "covered": 4,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/navigation.tsx": {
+  "lines": {
+   "total": 85,
+   "covered": 71,
+   "skipped": 0,
+   "pct": 83.52
+  },
+  "functions": {
+   "total": 29,
+   "covered": 28,
+   "skipped": 0,
+   "pct": 96.55
+  },
+  "statements": {
+   "total": 109,
+   "covered": 85,
+   "skipped": 0,
+   "pct": 77.98
+  },
+  "branches": {
+   "total": 122,
+   "covered": 96,
+   "skipped": 0,
+   "pct": 78.68
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/number-inputs.tsx": {
+  "lines": {
+   "total": 129,
+   "covered": 122,
+   "skipped": 0,
+   "pct": 94.57
+  },
+  "functions": {
+   "total": 36,
+   "covered": 33,
+   "skipped": 0,
+   "pct": 91.66
+  },
+  "statements": {
+   "total": 155,
+   "covered": 143,
+   "skipped": 0,
+   "pct": 92.25
+  },
+  "branches": {
+   "total": 173,
+   "covered": 157,
+   "skipped": 0,
+   "pct": 90.75
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/overflow-text.tsx": {
+  "lines": {
+   "total": 54,
+   "covered": 52,
+   "skipped": 0,
+   "pct": 96.29
+  },
+  "functions": {
+   "total": 17,
+   "covered": 15,
+   "skipped": 0,
+   "pct": 88.23
+  },
+  "statements": {
+   "total": 63,
+   "covered": 59,
+   "skipped": 0,
+   "pct": 93.65
+  },
+  "branches": {
+   "total": 30,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 90
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/overlays.tsx": {
+  "lines": {
+   "total": 115,
+   "covered": 113,
+   "skipped": 0,
+   "pct": 98.26
+  },
+  "functions": {
+   "total": 19,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 94.73
+  },
+  "statements": {
+   "total": 136,
+   "covered": 125,
+   "skipped": 0,
+   "pct": 91.91
+  },
+  "branches": {
+   "total": 110,
+   "covered": 98,
+   "skipped": 0,
+   "pct": 89.09
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/recipes.tsx": {
+  "lines": {
+   "total": 123,
+   "covered": 123,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 52,
+   "covered": 52,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 135,
+   "covered": 135,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 310,
+   "covered": 295,
+   "skipped": 0,
+   "pct": 95.16
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/reorder.tsx": {
+  "lines": {
+   "total": 578,
+   "covered": 553,
+   "skipped": 0,
+   "pct": 95.67
+  },
+  "functions": {
+   "total": 99,
+   "covered": 97,
+   "skipped": 0,
+   "pct": 97.97
+  },
+  "statements": {
+   "total": 651,
+   "covered": 602,
+   "skipped": 0,
+   "pct": 92.47
+  },
+  "branches": {
+   "total": 535,
+   "covered": 450,
+   "skipped": 0,
+   "pct": 84.11
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/select.tsx": {
+  "lines": {
+   "total": 206,
+   "covered": 182,
+   "skipped": 0,
+   "pct": 88.34
+  },
+  "functions": {
+   "total": 47,
+   "covered": 43,
+   "skipped": 0,
+   "pct": 91.48
+  },
+  "statements": {
+   "total": 250,
+   "covered": 209,
+   "skipped": 0,
+   "pct": 83.6
+  },
+  "branches": {
+   "total": 273,
+   "covered": 223,
+   "skipped": 0,
+   "pct": 81.68
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/status-values.tsx": {
+  "lines": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 3,
+   "covered": 3,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 5,
+   "covered": 5,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/tabs.tsx": {
+  "lines": {
+   "total": 21,
+   "covered": 20,
+   "skipped": 0,
+   "pct": 95.23
+  },
+  "functions": {
+   "total": 8,
+   "covered": 8,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 30,
+   "covered": 27,
+   "skipped": 0,
+   "pct": 90
+  },
+  "branches": {
+   "total": 34,
+   "covered": 31,
+   "skipped": 0,
+   "pct": 91.17
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/text-inputs.tsx": {
+  "lines": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "functions": {
+   "total": 2,
+   "covered": 2,
+   "skipped": 0,
+   "pct": 100
+  },
+  "statements": {
+   "total": 6,
+   "covered": 6,
+   "skipped": 0,
+   "pct": 100
+  },
+  "branches": {
+   "total": 18,
+   "covered": 18,
+   "skipped": 0,
+   "pct": 100
+  }
+ },
+ "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/virtual-list.tsx": {
+  "lines": {
+   "total": 191,
+   "covered": 184,
+   "skipped": 0,
+   "pct": 96.33
+  },
+  "functions": {
+   "total": 45,
+   "covered": 43,
+   "skipped": 0,
+   "pct": 95.55
+  },
+  "statements": {
+   "total": 238,
+   "covered": 225,
+   "skipped": 0,
+   "pct": 94.53
+  },
+  "branches": {
+   "total": 191,
+   "covered": 172,
+   "skipped": 0,
+   "pct": 90.05
+  }
+ }
+}

@@ -1,0 +1,417 @@
+{
+ "suite": "editor fast (official coverage args, fresh worktree run 2026-10-04)",
+ "totalTests": 4681,
+ "passed": 4681,
+ "failed": 0,
+ "newFiles": 7,
+ "newTests": 81,
+ "allNewPassed": true,
+ "sha256": "ed5f0a255aed2493126c09e8d3fd6219252472134fcc7a9c5df5a91f62cb60a0",
+ "cases": [
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual registry 缺失族：auto 通道复制/改名与改名撞 id 精确拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual Hook 命令守卫：改名撞 id、initial 指向缺失、删除缺 registry",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual 物品命令守卫：重复/缺物品/非私有脚本槽/缺 effects",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual 战败脚本：非敌对实体拒绝，onLose=undefined 走删除臂",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 invert 未 apply",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual startBattle onLose/onFlee 与 teleportOut onFail 内命令被遍历且选择器随改名重写",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual branch else 臂内的选择器遍历",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual describe 系列标签：hostile/hook/item/shared/page/hook-initial 各分支",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual 会话守卫：discardRedo 非栈顶命令拒false、空 redo/undo false、未绑定发布拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+   "fullName": "cov85-residual 历史准备失效：prepare 后版本推进，validate 精确拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering startBattle：onLose/onFlee 递归 lowering，缺席臂不产出键",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering teleportOut：onFail 嵌套 lowering，裸 teleportOut 保持裸形态",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering setEntityTriggerActivation：inherit 丢弃，use 带/不带 range 两形",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering selectEntityBehavior/selectEntityPage/selectSceneHooks 只改选择不进演出",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering 超预算 repeat 保留作者原节点供安全图拒绝，空 repeat 直接丢弃",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering playEntityAction/mountParty 可选参：显式才透传，缺省省键",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering 条件 lowering：entitiesNear 展开 from/to，all 递归子条件",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering onEnter initial stage 的 entry：prepare 命令逐条 lowering，reveal 原样克隆",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
+   "fullName": "cov85-lowering shared callScript 在 entry prepare 中同样按兼容 self 折叠到共享 chunk",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler chance 100% 恒命中：then 臂定格帧",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler not(chance) 由 canonical 采样器按分支模式给出代表性帧序",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler any(0%,100%) 命中；all(100%,0%) 全空臂被拒为不可证",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler finishStep complete 终止整场：未截断的代表性路径",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler repeat 内 breakLoop 立即中断，只留首帧",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler 带标号 continueLoop 只回本轮循环，帧序稳定",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler loop while 0% 条件整段跳过，循环后命令仍执行",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler loop while 100% 进入后 breakLoop：#5/#6 交替到 tick 上限",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler loop until 0% 永不满足：首轮帧重复披露截断",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler setEntityFacing 跳过、animEntity 逐帧推进、wait 累计到尾帧",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler animEntity 在显式定帧后不推进可见帧",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler 帧靶不是 self、共享脚本自递归/互递归/异己 self/缺失一律拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler 共享脚本 returnScript 只结束被调方，调用方继续后续命令",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+   "fullName": "cov85-sampler confirm/startBattle(onLose)/teleportOut(onFail) 容器路由进 canonical 采样后整体保守",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/App.cov85.test.tsx",
+   "fullName": "cov85-app 敌对开战开关：成对默认体落账、关闭清空并可撤销",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/App.cov85.test.tsx",
+   "fullName": "cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/App.cov85.test.tsx",
+   "fullName": "cov85-app 场景默认入场点 col/height 部分补丁互不覆盖",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/App.cov85.test.tsx",
+   "fullName": "cov85-app 命名落点：label 清空删除键、坐标单轴提交",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 装备效果切到 '上限加成' 提交精确缺省体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 装备效果切到 '抗性' 提交精确缺省体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 装备效果切到 '常驻状态' 提交精确缺省体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 装备效果切到 '授予技能' 提交精确缺省体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 装备效果切到 '攻击全体' 提交精确缺省体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 装备效果切到 '回合回体力' 提交精确缺省体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 装备效果切到 '回合回真气' 提交精确缺省体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 使用能力摘要：八类效果行文本精确",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+   "fullName": "cov85-item 引用未就绪时删除按钮禁用并披露原因（按钮级门禁）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script '当前场景' 条件切换提交缺省条件体且保留两臂",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script '实体状态' 条件切换提交缺省条件体且保留两臂",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script '实体在场' 条件切换提交缺省条件体且保留两臂",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script '两个实体靠近' 条件切换提交缺省条件体且保留两臂",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script '面向实体' 条件切换提交缺省条件体且保留两臂",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script 循环名称首填自动派生 loop-1 id，清空名称保留已派生 id",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script selectSceneHooks 槽位：use→disabled→inherit→omit 逐态提交",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script selectSceneHooks 最后一个槽位选「不修改」时整段槽位键省略",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script 命令行呈现：'startBattle 呈现' 渲染业务标签",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script 命令行呈现：'teleportOut 呈现' 渲染业务标签",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script 命令行呈现：'callScript 带自身实体' 渲染业务标签",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script 命令行呈现：'setEntityTriggerActivation use 带范围' 渲染业务标签",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script 命令行呈现：'mountParty 带偏移' 渲染业务标签",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+   "fullName": "cov85-script 命令行呈现：'stepEntity 走一步' 渲染业务标签",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'回体力' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'回真气' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'复活' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'解状态' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'下毒' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'解毒' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'属性增益' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'即死' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'直接增减资源' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'偷窃' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'收宝' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'脱离战斗' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "'金钱伤害' 类型切换提交精确缺省效果体并可 undo",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "cov85-skill 效果参数字段：五行/数量/资源/增减/毒物/比例逐一提交",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "cov85-skill 玩家分支入场预备：勾选提交 remainingResourceDamage，取消清空",
+   "status": "passed"
+  },
+  {
+   "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+   "fullName": "cov85-skill 引用索引未就绪（stale）：删除按钮同样禁用",
+   "status": "passed"
+  }
+ ]
+}

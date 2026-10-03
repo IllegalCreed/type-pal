@@ -46,6 +46,66 @@ Capability: test-quality / coverage branch closure
 未覆盖臂 proof，以及 test/typecheck/lint/docs/diff 结果。editor branch 达到 85% 或剩余分支
 有一手不可达证明后才能交 Codex；不得合 main/标 done。
 
+## r1 交付记录（GLM，2026-10-04，branch `codex/coverage85-glm-editor-r1`，base 76475c01c）
+
+**门禁状态如实申报：editor branch 23865→24156（82.13%→83.13%，+291 edges），未达 85%。**
+剩余 544 中 508 为 v8 无源位合成分支（branchMap locations 为空、无代码位置，见
+`branch-census.json` 的 locless 统计——cov-base 与 cov-final 两次实测一致），其余为
+App/MapMode/ScriptEditor/PreviewCanvas 等文件中**仍可达**的交互臂，本人在单会话预算内未
+全部闭合。不冒充不可达、不降门；请 Codex 裁定 r2 续跑或改判。85% 数学上仍可达
+（locatable 缺口 4504）。
+
+### 新增测试（7 文件 81 例，全绿；全套 4681/4681）
+
+| 文件 | 例 | 主要合同 |
+| --- | --- | --- |
+| `src/core/world-sprite-behavior.cov85-lowering.test.ts` | 9 | startBattle onLose/onFlee、teleportOut onFail、setEntityTriggerActivation inherit/use(range±)、select* 丢弃、超预算/空 repeat、可选参透传、entitiesNear/all 条件、entry prepare/reveal 投影 |
+| `src/core/world-sprite-behavior.cov85-sampler.test.ts` | 15 | canonical 采样器 chance 0/100、not/all/any、finishStep complete、break/continue(标号)、loop while 进入/跳过、until、animEntity 覆盖帧、facing 跳过、wait 累计(4920ms=41×120)、共享脚本 return、自/互递归、异己 self、缺脚本、错靶、confirm/startBattle/teleportOut 容器路由 |
+| `src/core/script-editor.cov85-residual.test.ts` | 11 | BehaviorId/HookId/ScriptId 空/路径字符精确错误、registry 缺失族、Hook 撞 id/缺 hook、物品守卫族、战败脚本 delete 臂、共享脚本缺体/未 apply invert、onLose/onFlee/onFail/else 嵌套遍历+改名重写、describe 标签、discardRedo/空 redo/未绑定发布/历史失效 |
+| `src/ui/SkillTab.cov85.test.tsx` | 19 | 13 类效果缺省矩阵+undo、变身/召唤成功体、五行/量/资源/增减/毒 id/成功率参数、敌方施法分支白名单长度判别、玩家分支 remainingResourceDamage、stale 删除禁用 |
+| `src/ui/ItemTab.cov85.test.tsx` | 9 | 装备效果 7 类缺省矩阵+undo、使用摘要八类效果行精确文本（runSceneHook/craftRecipe/permanentStatBoost/modifyHostileAwareness/scaleCurrentHp/levelUp/placeEntityInFront）、stale 删除按钮级门禁 |
+| `src/ui/App.cov85.test.tsx` | 4 | 敌对开关成对默认体/清除/undo、hide ticks=9 与 suspend ticks=12 合法提交+remain→suspend 走缺省 15、默认入场点 col/height 部分补丁、命名落点 label 清空删键+坐标单轴 |
+| `src/ui/ScriptEditor.cov85.test.tsx` | 14 | 五类条件缺省体提交、循环名称自动 loop-N id、selectSceneHooks 三态+omit 零派发、6 类命令行呈现标签 |
+
+### 三态反控（原始绿→变异红→恢复绿；变异只动产品源，恢复后 git diff 为空）
+
+| 注入点 | 变异 | 定向红 |
+| --- | --- | --- |
+| `world-sprite-behavior.ts:844` chooseVisualChance | `percent >= 100` → `> 100` | chance-100 test RED ✓ |
+| `script-editor.ts:176` checkScriptId | 去掉 `startsWith('/')` 臂 | id 卫 test RED ✓ |
+| `ItemTab.tsx:182` defaultEquipEffect | maxPool delta 50→25 | 上限加成 test RED ✓ |
+| `SkillTab.tsx:733` 敌方白名单 | 去掉 ENEMY 过滤 | 敌方施法分支 test RED ✓（首轮存活后改为白名单长度判别，复验通过） |
+| `App.tsx:4170` hide ticks 守卫 `ticks > 0` | → `>= 0` | **存活**：DsDraftNumberInput `min=1` 在 onCommit 前已拒绝 0/-3，该守卫臂经 UI 不可达（防御层），测试已改为只断言合法提交并在此登记 |
+
+### 质量门
+
+- `pnpm --filter @type-pal/editor typecheck`：0 error（含 scripts author-check）。
+- Biome `check` 7 个新文件：0 error/0 warning（--write --unsafe 仅自动整理格式/未用导入）。
+- 产品/旧测试/共享配置/baseline/真实 PAL 数据零改动（git diff 干净，仅新增 7 测试文件+证据）。
+- 无 `as unknown as`、`@ts-expect-error`、skip/ignore、timeout 扩大；旧 kit 复用仅 import 不修改。
+- 证据：`docs/ops/tasks/evidence/coverage85-glm-editor-r1/`（vitest-fresh.json 81 例
+  file×fullName×status + 全套 sha256、branch-census.json 逐文件 miss/locless/missLines、
+  coverage-summary.json 30139/33513 stmt、24156/29058 branch、7628/8543 fn、26978/29284 line）。
+
+### 已登记的现有不可达（existing-proof，非本卡新增）
+
+- `command-form-control.tsx` branch/setEntity*/jumpScript/scriptIndex 臂：作者方言被
+  `AUTHOR_CUSTOM_COMMAND_KINDS`（command-form-contract.ts:59-73）排除出
+  `CommandFormCommand`，ScriptEditor.tsx:2004 自带 ConditionEditor 拦截 branch；
+  ControlCommandForm 唯一调用方（CommandForm default 分支）不会喂这些 kind。
+- SkillTab removeSkill / ItemTab deleteItem 的 referenceReady 错误通知臂：删除按钮
+  `disabled={!referenceReady || blockers}`（SkillTab.tsx:1121、ItemTab.tsx:1412）先行拦截。
+- `script-editor.ts` getAffectedRecordsSince 无记录臂（1173）：所有 history 提交路径都写入
+  affectedRecordsByVersion，合法 caller 无法制造版本空洞。
+- App/MapMode/ScriptEditor/PreviewCanvas 共 508 个 v8 无源位分支（locations 空）。
+
+### 下一棒建议（r2）
+
+按 locatable 缺口排序：MapMode.tsx（键盘/候选菜单/变换条/只读解释族，参照
+MapMode.test.tsx harness）→ App.tsx 剩余检查器/放置面板臂 → ScriptEditor.tsx 插入菜单
+fallbackInsertionChoice 族 → PreviewCanvas camTarget/隐藏实体/淡幕族 →
+ProjectWorkbenchTab/ActorMode/CutsceneTab/两 SpriteLibrary。
+
 ## 下一位 Agent 提示词
 
 你是 GLM，负责本卡 editor workflow。先读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、
