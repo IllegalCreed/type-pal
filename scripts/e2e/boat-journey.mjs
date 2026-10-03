@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { assertBoatReport, readBoatContract } from './boat-contract.mjs'
+import { assertBoatMotion, assertBoatReport, readBoatContract } from './boat-contract.mjs'
 import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { installErrandObserver, readErrandReforge } from './errand-observer.mjs'
 import { committedInnMoves, navigateInnRoute } from './inn-navigation.mjs'
@@ -56,6 +56,7 @@ export async function runBoatJourney() {
       let phase = 'bootstrap'
       let phaseOrder = -1
       const shown = new Set()
+      const boatMotion = []
       const snapshot = () => page.evaluate(readErrandReforge)
       const drive = () => page.evaluate((after) => window.__readErrandDrive(after), phaseOrder)
       const ready = (s) => kitchenReady(s, 'reforge')
@@ -70,13 +71,18 @@ export async function runBoatJourney() {
         phase = next
         phaseOrder = (await drive()).order
       }
-      const navigate = async (sid, destination, finished) => {
+      const navigate = async (sid, destination, finished, sample) => {
         const startOrder = (await drive()).order
+        const readWithSample = async () => {
+          const state = await snapshot()
+          sample?.(state)
+          return state
+        }
         await navigateInnRoute({
           engine: 'reforge',
           keyboard: page.keyboard,
           map: contract.maps[sceneMaps[sid]],
-          read: snapshot,
+          read: readWithSample,
           until,
           health,
           grid,
@@ -92,7 +98,7 @@ export async function runBoatJourney() {
         })
         report.route.legs.push({ phase, scene: sid, startOrder, endOrder: (await drive()).order })
       }
-      const touch = async (sid, id, finished) => {
+      const touch = async (sid, id, finished, sample) => {
         const actor = (await snapshot()).actors[id]
         assert(actor?.visible, `missing target ${sid}/${id}`)
         const [tc, tr] = actor.position
@@ -101,6 +107,7 @@ export async function runBoatJourney() {
           sid,
           (c, r) => Math.max(Math.abs(c - tc), Math.abs(r - tr)) <= range,
           finished,
+          sample,
         )
       }
       const interact = async (sid, id) => {
@@ -200,7 +207,28 @@ export async function runBoatJourney() {
         await touch('s004', 'e95', (s) => inScene(s, 's005') && ready(s))
         await interact('s005', 'e123')
         await dialogue('boat', 's005', [533, 534, 535, 536, 538, 539, 540, 542, 543, 544, 546])
-        await touch('s005', 'e116', (s) => inScene(s, 's014'))
+        await touch(
+          's005',
+          'e116',
+          (s) => inScene(s, 's014'),
+          (s) => {
+            if (s.scene !== 's005') return
+            const sample = {
+              position: s.position,
+              facing: s.facing,
+              e116: s.actors.e116?.position,
+              e117: s.actors.e117?.position,
+              e123: s.actors.e123?.position,
+              e123Visible: s.actors.e123?.visible,
+            }
+            const previous = boatMotion.at(-1)
+            if (JSON.stringify(previous) !== JSON.stringify(sample)) boatMotion.push(sample)
+          },
+        )
+        await writeFile(
+          resolve(out, '006-boat-motion.json'),
+          `${JSON.stringify(boatMotion, null, 2)}\n`,
+        )
         report.checks.island = 'passed'
         const islandState = await snapshot()
         report.endWorld = {
@@ -213,6 +241,11 @@ export async function runBoatJourney() {
             },
           },
           arrivalDialogue: islandState.runtime?.dialogue?.pageTextIds ?? [],
+        }
+        report.boatMotion = {
+          ...assertBoatMotion(boatMotion),
+          final: boatMotion.at(-1) ?? null,
+          source: '006-boat-motion.json',
         }
         report.core.status = 'passed'
         report.route.status = 'passed'

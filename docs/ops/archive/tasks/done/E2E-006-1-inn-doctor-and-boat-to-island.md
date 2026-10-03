@@ -1,6 +1,6 @@
 # E2E-006-1 — 回客栈求药与张四出海上仙灵岛
 
-Status: done
+Status: rework
 Phase: phase2
 Capability: C1 / E2E
 Coding Owner: Codex
@@ -17,8 +17,8 @@ Branch: main
 
 ## 范围
 
-- 范围内：s002/e36 小虎子、s002/e35 洪大夫、s005/e123 张四的作者方案后继；上船至 s014 的场景切换；006 E2E 检查点与剧情文档。
-- 范围外：仙灵岛上岛后水月宫/破阵；洪大夫药铺取药；第一阶段脚本；自动行为重写；parallel/join。
+- 范围内：s002/e36 小虎子、s002/e35 洪大夫、s005/e123 张四的作者方案后继；上船至 s014 的场景切换；006 E2E 检查点；第一阶段对应段落的关键 NPC 日志/UX 对照。
+- 范围外：仙灵岛上岛后水月宫/破阵；洪大夫药铺取药；修改第一阶段产品实现；自动行为重写；parallel/join。
 
 ## 前提真值门
 
@@ -70,12 +70,14 @@ Branch: main
 ## 交接日志
 
 - 2026-10-03 Codex：核清 006 原始链与当前缺口，确认 e123 `legacy-002` 已存在但未被洪大夫后继安装。Next: 补作者后继并做定向验证。
-- 2026-10-04 Codex：当前 Reforge 001→005 saves 从 SAVE11/content22 正常重建；006 实跑发现 e36 重播003、张四绑定但不可见、船只需正常走到 e116、仙灵岛首段应作为停止点，均已按真实运行修正。最终006通过，证据：`build/e2e/reforge-006-2026-10-03T16-08-05-182Z`。
+- 2026-10-04 Codex：当前 Reforge 001→005 saves 从 SAVE11/content22 正常重建；006 实跑发现 e36 重播003、张四绑定但不可见、船只需正常走到 e116、仙灵岛首段应作为停止点，均已按真实运行修正。Reforge 船段数学轨迹通过，但用户指出首帧视觉异常；当前卡转 rework，待当前一阶段 001–005/006 关键 NPC 日志与演出对照完成。
 
 ## Build / Review 收口
 
 - 修改：`projects/pal/content/scenes/s002.json`、`scripts/e2e/boat-contract.mjs`、`scripts/e2e/boat-journey.mjs`、`scripts/e2e/boat-reforge.mjs`。
 - 真实链：当前 SAVE11/content22 的 001、002、003、004 saves、005 saves 全部通过后接 006。
 - 006 断言：洪大夫自动触发；小虎子首次对白及两次复读；张四正文；e123 state3/legacy-002；正常走到 e116；载入 s014 后首段 `dlg.1886` 开始即停止。
+- 第一阶段对比：原始 `L_1509` 的 0x70 走位、0x15 朝向、0x3F 骑乘和载入 scene15，与当前 `moveParty → setPartyFacing → ride(e116) → loadScene(s014)` 对齐；006 轨迹断言队伍/船相对位移全程为零、骑乘段队伍朝向稳定为 down。
+- 三人边界：正式 005 存档当前只有李逍遥一名队员，因此本次不能冒充“三名队员”实跑；Reforge `mountParty` 会对所有后续 party member 绑定同一载具偏移，代码层已覆盖。
 - 作者工程检查：`pnpm check:content` 通过（294 场景 / 223 地图 / 1934 资源）。
-- Codex 独立验收：accept。用户产品验收：范围与停止点沿用用户 2026-10-03 定义；无新增待裁决项。
+- Codex 独立验收：rework。现有 006 只证明剧情链与船队数学绑定，尚未完成关键 NPC 状态/位置/朝向日志与第一阶段顺序对比；用户已指出截图中的船体锚点、张四抖动、划桨和李逍遥落船位置问题，不能保留 done。
