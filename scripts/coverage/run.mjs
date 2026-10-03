@@ -471,8 +471,7 @@ async function main() {
   await rm(outputRoot, { recursive: true, force: true })
 
   const packages = {}
-  const parallelEditor =
-    profile === 'fast' && process.env.TYPE_PAL_COVERAGE_PARALLEL_EDITOR === '1'
+  const parallelEditor = profile === 'fast' && process.env.TYPE_PAL_COVERAGE_PARALLEL_EDITOR === '1'
   if (parallelEditor) {
     const editor = coveragePackages.find((packageConfig) => packageConfig.id === 'editor')
     if (!editor) throw new Error('fast coverage parallel editor 配置缺失')
